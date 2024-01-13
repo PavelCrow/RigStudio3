@@ -1,0 +1,2 @@
+Set as World Object
+Connect head to selected object as world object.

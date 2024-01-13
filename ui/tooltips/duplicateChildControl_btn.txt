@@ -1,0 +1,4 @@
+Duplicate Controller as Child
+Duplicate selected controller with parent new controller to first. 
+If controller have group and joint, they will be created also. 
+Name of the new controller will be the same as selected, with increment number.

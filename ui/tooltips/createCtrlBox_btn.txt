@@ -1,0 +1,3 @@
+Create new control
+Select any control and click one of the toolbar button.
+Will be created new additional control with curtain shape.

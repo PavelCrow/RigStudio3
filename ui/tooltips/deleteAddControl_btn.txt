@@ -1,0 +1,3 @@
+Delete
+Delete currect additional control 
+with all children controls.

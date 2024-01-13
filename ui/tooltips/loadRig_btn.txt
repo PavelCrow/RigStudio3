@@ -1,0 +1,4 @@
+Templates Menu
+This is Load and Save Rig Templates menu.
+You can save full rig here and load from this menu. 
+On loading, previous rig will be removed.

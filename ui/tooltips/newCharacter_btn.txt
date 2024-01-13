@@ -1,0 +1,3 @@
+New Rig
+Click this button to create initial rig structure. 
+After this you can add modules and make another actions.

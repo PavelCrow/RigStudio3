@@ -1,0 +1,5 @@
+Add Compound Module menu
+Menu for adding compound modules to the rig.
+Compound modules it is an optional editted and 
+connected one and more basic modules to single 
+structure.

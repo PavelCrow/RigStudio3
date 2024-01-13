@@ -1,0 +1,12 @@
+Main ToolBar
+This toolbar switch different objects and states of the rig.
+
+1 - Show/Hide Posers
+2 - Show/Hide Controllers
+3 - Show/Hide Joints
+4 - Show/Hide Geometry
+5 - Joints template state  
+6 - Geometry template state 
+7 - Geometry reference state
+8 - Show/Hide Posers Axises
+9 - Show/Hide Joints Axises 

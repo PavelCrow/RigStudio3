@@ -1,0 +1,4 @@
+Module Options
+Options for cirtain type of the current module.
+Some types of the modules have some actions,
+some another have not any.

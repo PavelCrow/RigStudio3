@@ -1,0 +1,4 @@
+ver=1.0=
+description=Main rig controller.
+section=Base
+advanced=False

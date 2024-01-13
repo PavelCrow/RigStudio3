@@ -1,0 +1,3 @@
+Change targets positions
+Change target positions of the items. 
+It is affets on arrange of the attribute list.

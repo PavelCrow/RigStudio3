@@ -1,0 +1,4 @@
+Module template menu
+Menu for saving current module to template.
+Also here current module and all his child modules 
+can be saved to compound module.

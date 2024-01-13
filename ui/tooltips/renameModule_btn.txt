@@ -1,0 +1,3 @@
+Rename
+Rename current module. All module object will be renamed, 
+including controls, if they have module name in name.

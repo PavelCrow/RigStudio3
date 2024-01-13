@@ -1,0 +1,5 @@
+Controls list
+List of the all controls of the current module.
+Renaming control must be only here.
+Also here controls can be hiding. 
+Controls on symmetrical module changing aumatically.

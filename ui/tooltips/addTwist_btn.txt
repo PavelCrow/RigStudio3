@@ -1,0 +1,6 @@
+Create twist module
+Twist module with controls for bending.
+Need to select any joint before creating.
+Name of the twist going from a connected joint 
+without "joint" suffix.
+Symmetrical twists will be created automatically.

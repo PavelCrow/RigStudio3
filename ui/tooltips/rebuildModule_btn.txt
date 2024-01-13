@@ -1,0 +1,4 @@
+Rebuild Module
+This button for developing modules. 
+After clicking current button will be deleted and 
+creating again with restoring all options.

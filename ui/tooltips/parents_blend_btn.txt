@@ -1,0 +1,5 @@
+Blend Type
+Set type of the attribute as blend.
+Fot selected control will be created one blend attribute.
+Attribute is float from 0 to 1. 
+Target list must contain only two items.

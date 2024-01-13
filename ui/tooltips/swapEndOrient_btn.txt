@@ -1,0 +1,3 @@
+Swap end orient
+Swap transform of the end poser and end control. 
+Helping in rigs then arms not in T-Pose.

@@ -1,0 +1,2 @@
+Delete module
+Delete current module from rig

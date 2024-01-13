@@ -1,0 +1,3 @@
+Shape Color
+Changing color of the selected controllers. 
+Symmectrical controllers will be updated also.

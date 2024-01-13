@@ -1,0 +1,4 @@
+Make Symmetry
+Creating new symmetrical module for current module.
+For this curent module need have parent module.
+Symmetrical module visible in tree as greyed and locked module.

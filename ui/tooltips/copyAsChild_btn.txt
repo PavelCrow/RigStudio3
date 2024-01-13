@@ -1,0 +1,3 @@
+Duplicate as child
+Duplicate currect additional control and 
+parent it to currect control as child.

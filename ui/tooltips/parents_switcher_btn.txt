@@ -1,0 +1,3 @@
+Switcher Type
+Set type of the attribute as switcher.
+Fot selected control will be created one switcher attribute.

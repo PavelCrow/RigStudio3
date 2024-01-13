@@ -1,0 +1,2 @@
+Rotate Controller
+Rotate shapes of the selected controllers in cirtain axises.

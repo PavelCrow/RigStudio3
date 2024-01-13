@@ -1,0 +1,3 @@
+Delete Object Space
+Delete current object space.
+Symmetrical object space will be deleted automatically.

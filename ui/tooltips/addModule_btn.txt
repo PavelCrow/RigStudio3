@@ -1,0 +1,2 @@
+Add module menu
+Menu for adding new modules to the rig.

@@ -1,0 +1,2 @@
+Scale channel
+If checked, scale of the control will be connected to targets.

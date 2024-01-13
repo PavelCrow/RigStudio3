@@ -1,0 +1,2 @@
+Targets list
+List of the target controls, which will be move current control.

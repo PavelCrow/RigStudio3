@@ -1,0 +1,2 @@
+Save Pose
+This is save pose button. All attributes of all controls will be saved.

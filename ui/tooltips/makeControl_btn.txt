@@ -1,0 +1,4 @@
+Create
+Create new controller with specified name.
+If name field is not filled, then controller 
+will be named automatically.

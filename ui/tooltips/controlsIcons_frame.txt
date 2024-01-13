@@ -1,0 +1,3 @@
+Control Shapes
+Changing shape of the selected controls.
+Right side symmetrical controls change shape automatically.

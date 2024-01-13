@@ -1,0 +1,2 @@
+Root Object
+Object to which will be connected head if active world attribute.

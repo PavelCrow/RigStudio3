@@ -1,0 +1,4 @@
+Add Object Space
+Add object space for selected control.
+Always add it to left side module. 
+Right side will be created automatically.

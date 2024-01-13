@@ -1,0 +1,3 @@
+Toggle Middle Twist offset control
+Show/hide middle offset control. For this current module 
+must have two twist controls on the main joints.

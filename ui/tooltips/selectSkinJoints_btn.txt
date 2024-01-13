@@ -1,0 +1,2 @@
+Select Skin Joints
+Select all skin joints of the rig for skinning.

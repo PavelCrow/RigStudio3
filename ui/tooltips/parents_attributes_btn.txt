@@ -1,0 +1,4 @@
+Attributes Type
+Set type of the attribute as attributes.
+Fot selected control will be created several attributes, one on every target.
+Each attribute is a float from 0 to 1. 

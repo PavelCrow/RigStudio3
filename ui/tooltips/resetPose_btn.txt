@@ -1,0 +1,2 @@
+Reset Pose
+This button reset all controls to saved state. All attributes will be reset.

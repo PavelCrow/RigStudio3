@@ -1,0 +1,3 @@
+Snap to parent option
+Connect target poser of the parent module 
+to root poser of the current module. Two posers become as one.

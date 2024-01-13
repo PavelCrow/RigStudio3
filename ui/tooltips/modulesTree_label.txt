@@ -1,0 +1,5 @@
+Modules Tree
+Tree of the all modules of the rig.
+Hierarhy shows parent/child connections between modules.
+Crayed modules is a right sided modules and can not be eddited. 
+Always edit left side modules.

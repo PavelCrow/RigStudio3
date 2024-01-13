@@ -1,0 +1,2 @@
+Translate channel
+If checked, translate of the control will be connected to targets.

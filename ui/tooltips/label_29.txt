@@ -1,0 +1,2 @@
+New Controller
+Actions for creating new controller, not connected to rig.

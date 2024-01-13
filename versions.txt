@@ -1,0 +1,454 @@
+---Version 1.0.0---
+First release
+
+
+---Version 1.0.1---
+Core:
+Updated connection to bend module
+Modules:
+Module eyes fix
+Module spineIkFk fix
+Module bend fix
+
+---Version 1.0.2---
+Added pk_softIkNode plugin
+
+---Version 1.0.3---
+Fixed load function on some modules
+Fixed limb modules disconnect function
+Added switchParent script
+
+---Version 1.0.4---
+New Lips module
+
+---Version 1.0.5---
+Fixed autoAnkle attribute behavior in limbQuadrupped module
+After deleting full rig, main window reopens instead closing. 
+Changed start command.
+new command:
+import rigStudio
+reload(rigStudio)
+rigStudio.main.run()
+
+---Version 1.0.6---
+Fixed QuadruppedSpine module object spaces
+Now QuadruppedSpine module can be added more then once
+Added SimpleLimb module
+Fixed controls sets behavior on renaming
+Curve of the sliding pivots in Foot module now is connected in mirrored module
+Fixed detail joints twists in Lips module
+
+---Version 1.1.0---
+Ik/fk switch script for all limb and foot modules
+Updated all limb and foot modules for correct ik/fk switching
+In LimbQuadrupped module added last fk control
+Dialog window with 'character' name is not appear on creation new rig
+Added LRA Toggle of a current module feature
+Added progress bar window on template actions
+Added tuners object in head module
+Fixed limbQuadrupped module ik ankle behavior
+Fixed additional controls building from template
+Fixed twist behavior on bend module
+Fixed limbSimple module connection with foot modules
+Fixed quadruppedLimb module connection
+Fixed disconnection hand from limbB module
+Fixed sets saving behavior
+Updated rig templates
+
+---Version 2.0.0 Beta---
+New UI
+Core of the system is fully rewrited
+Remaked all modules
+New compound modules
+Many little changes
+
+---Version 2.0.1 Beta---
+Bugfixes
+New help toolip feature
+New templates
+Little ui changes
+New head module
+
+---Version 2.0.2 Beta---
+Bugfixes
+Updated Spine module
+Updated Foot module
+Updated Hand module
+Updated templates
+Updated twists
+New DynamicChain module
+
+---Version 2.0.3 Beta---
+Bugfixes
+
+---Version 2.0.4 ---
+Bugfixes
+Renamed Hand module to Fingers module
+Renamed Hand2 module to Fingers2 module
+
+---Version 2.0.5 ---
+Bugfixes in modules Chain, DynamicChain and Limb
+
+---Version 2.1 ---
+Cleared skeleton hierarchy, now skeleton has only joints.
+Skeleton has no joints in the same position.
+New simple twists, they are working faster than standard twists.
+New simple foot module
+New lips2 module
+New eyelids2 module
+Spine module can adjust any joints count
+Publish rig feature
+Many bugfixes
+
+---Version 2.1.1 ---
+Maya 2020 support
+Link to the homepage and tutorials in the help menu
+Install shelf button drag and drop script
+Bugfixes in the eye module
+
+---Version 2.2 ---
+New module Tree
+New module LimbSimple
+Set Editor
+Human Ik Transfer Tool
+Module Builder
+Parent Switch Tool
+Shelf installer
+Additional controls childs optimizing
+Updated rigs templates
+Replace module feature
+Fixed aiming of the twists
+Removed negative scale from joints of the Fingers2 module
+Removed fingers module (now it replaced by tree module)
+Finger2 module is renamed to Fingers
+Removed negative scale from joints of the additional controls
+
+---Version 2.2.1 ---
+Chain module - fixed adding additional control
+Tree module - fixed adding additional control
+Returned to previous additional controls connections because there is some problems with not default scale
+
+---Version 2.2.2 ---
+All joints with scale 1
+Add Rotate Order attribute feature
+Fixed children scale connections of the tree module
+Fixed foot module working after rig publishing
+
+---Version 2.3 ---
+Remade out joints connections on some modules on a more optimized method.
+Improved speed of the additional controls. Now can be created any controls count without performance lost.
+Create duplicates of the root out joint in the chain module has wrong joint hierarchy. Fixed.
+Joints of and controls sub children on the right side can have wrong rotations. Fixed.
+Duplicate and controls as not a child sometimes has another scale than the source. Fixed.
+If the root joint of the add control joint has not default scale, it works wrong. Fixed.
+The dynamic chain is not loading in Maya 2020. Fixed.
+The dynamic chain has wrong stretch behavior. Fixed.
+Eyelids2 module cannot connect to the eyes module in the new version. Fixed.
+Changed size of the posers and posers lines behavior.
+
+---Version 2.3.1 ---
+Lock interface after rig publishing.
+Lock mirror Additional Control if it already has mirrored add control.
+Error after deleting a rig with the spine module. Fixed.
+On publish rig, some joints are reset positions. Fixed.
+Symmetrical Dynamic joints cannot change parent to additional control. Fixed.
+For Dynamic Chain changing of the poserParent in options not works correctly on the right side. Fixed.
+For Dynamic Chain and Spine, if a mainPoser of the child module local scale has not default value, joints have offsets. Fixed.
+For Chain Dynamics, a mirrored module is not connecting to dynamic weight attribute. Fixed.
+For Tree module load template using not all chains. Fixed.
+After control renaming, it has not updating in os page. Fixed.
+A foot from Foot Module as a target has not a correct placement. Fixed.
+On creating new Additional Control his not shown in the control list of the current module. Fixed.
+If a mirror module with chains of additional controls, not all additional controls will be created with the opposite module. Fixed.
+Mirrored Additional Controls have not right axis orient. Fixed.
+If create a compound module, and another module exists with the same addControl, new addControl creating with a wrong name. Fixed.
+
+---Version 2.3.2 ---
+Unlocked interface on new rig creating.
+Sometimes module cannot disconnect from ui. Fixed.
+Eyes module - negative joints scale fix.
+Root joints of the add controls has wrong connections. Fixed
+Procedural eye pupil.
+
+---Version 2.4 ---
+Inbetween joints. 
+Opposite controls do not remove from the set. Fixed.
+Sometimes set cannot be added. Fixed.
+ChainIk module. Old DynamicChain module is removed.
+Fixed Advanced Controls behavior on some modules.
+Added global scale correction in the eyelids module.
+In Eyelids module fixed right side behavior.
+
+---Version 2.4.1 ---
+Publish rig of the chainIk module brokes joints position. Fixed.
+Point module - mirrored joint has wrong direction. Fixed.
+IkFk switch command does not work with legs. Fixed.
+
+---Version 2.4.2 ---
+Improoved footroll feature of the foot module
+Added global fingers control in the fingers module
+Foot module has incorrect orientation in custom object space. Fixed.
+
+---Version 2.4.3 ---
+Updated human template
+Knee control had wrong orientation if on object space creating used ik_foot from foot module as target. Fixed.
+
+---Version 2.4.4 ---
+Updated human template
+Foot module not publishing after last update. Fixed.
+Does not work correctly lips module after renerate detail controls. Fixed.
+Foot module ikfk seamless switch fixed.
+
+---Version 2.4.5 ---
+Twists joint not always save to template. Fixed.
+updated foot module
+updated limb module
+updated quadrupped limb
+updated ikfk switch script
+updated fingers module
+The add sdk group feature to fingers module
+
+---Version 2.4.6 ---
+Fixed loading Eyelids2 module in maya 2020
+Fixed loading Lips3 module in maya 2020
+Restored missed install.py file for creating the shelfbutton
+
+---Version 2.5 ---
+Picker
+Match Rig - generate rig from animation
+Simple twist fixes
+Some little fixes
+
+---Version 2.5.1 ---
+ChainIk module update
+
+---Version 2.5.2 ---
+ChainIk module update. Added stretch volume feature.
+Limb module stretch volume fix
+Eye ik right pupil fix
+
+---Version 2.6 ---
+Simple Twist update
+New Driver Groups Tool
+New Squash module
+fixed app.desktop() error
+
+---Version 2.6.1 ---
+Updated the Driver Groups Tool
+After publishing fk spine has the wrong pivot placement. Fixed.
+Fixed select skin joints action
+Updated AddControls generating on symmetry side.
+Updated the Chain and Tree module, now the add controls on they have right mirrored positions.
+Joints of the additional controls now have the same radius.
+
+---Version 2.6.2 ---
+Updated the Driver Groups Tool
+new Add Attribute tool
+
+---Version 2.6.3 ---
+Driver Groups Tool bugfixes
+Load modules bugfix.
+
+---Version 2.6.4 ---
+Picker Updates. Bugfixes and new features
+New Curved arm module.
+
+---Version 2.6.5 ---
+Picker Updates. 
+
+---Version 2.6.6 ---
+Fixed chainkIk opposite module creating
+
+---Version 2.6.7 ---
+Fixed spine module flipping in fk mode
+Added reset to default values script
+
+---Version 2.6.8 ---
+Picker update
+CurvedLimb module update
+
+---Version 2.6.9 ---
+Picker update. Correct Undo working.
+
+---Version 2.6.10 ---
+Fixed renaming controls on loading template if duplicates is exists 
+
+---Version 2.6.11 ---
+Control sets import/export
+
+---Version 2.6.12 ---
+Picker fixes
+Addded standalone picker tool for animators
+
+---Version 2.6.13 ---
+Added MacOS support
+
+---Version 2.6.13.1 ---
+Maya 2022 version
+
+---Version 2.6.14 ---
+Esc button do not close the picker
+
+---Version 2.6.15 ---
+New Reload button in the picker
+Now load the main interface with any root group name
+
+---Version 2.6.16 ---
+Added picker zoom feature. Ctrl and mouse scroll.
+
+---Version 2.6.17 ---
+Picker save and restore window position
+Picker refresh on selection enabled by default
+
+---Version 2.6.18 ---
+Updated Head module
+New Base template rig
+
+---Version 2.6.19 ---
+Rewrited picker pages system. Loading all pickers at once.
+
+---Version 2.6.20 ---
+Reload button in picker window save and restore window position.
+
+---Version 2.6.21 ---
+Fixed isfk switches on the picker.
+Reload button in picker window save and restore window position only on hit.
+
+---Version 2.7 ---
+New experemental limbExtraMiddle module
+New experemental limbQuadruppedExtraMiddle module
+Picker layers feathure
+Picker external feature
+Many picker updates.
+Fixed load limb template with twists
+
+---Version 2.7.1 ---
+Updated quadruppedLimb module
+Fixed twists creating for limb and qudruppedLimb modules
+
+---Version 2.7.2 ---
+Picker zoom decrising
+Picker zoom reset button
+Picker optimizing
+Module visibility feature
+Other bugfixes
+
+---Version 2.7.3 ---
+LimbQuadrupped module update
+CurvedLimb module update
+Twists bugfixes
+Picker loading bugfix
+
+---Version 2.7.4 ---
+Export script fix
+
+---Version 2.7.5 ---
+Picker bugfixes
+
+---Version 2.7.6 ---
+New EyesMP module
+
+---Version 2.7.7 ---
+Updated Limb module. Added keep zero ik control values feature.
+
+---Version 2.7.8 ---
+Picker update. Keeping mainwindow focus.
+
+---Version 2.7.9 ---
+Picker update. Slider perfomance fix.
+
+---Version 2.7.10 ---
+Picker export update. 
+Fixed adding the twists.
+Updated Limb module. Added keep zero fk control values feature.
+
+---Version 2.7.12 ---
+Pickers schemes update.
+Sliders update.
+
+---Version 2.7.13 ---
+Updated base template
+fixed foot2 to curvedLimb connection
+
+---Version 2.7.14 ---
+body template fix
+
+---Version 2.7.15 ---
+body template update
+
+---Version 2.8 ---
+Python 3 support
+
+---Version 2.8.1 ---
+Sliders moving only without modifiers
+
+---Version 2.8.2 ---
+Fix loading the ui.
+Fix addControls feature.
+
+---Version 2.8.3 ---
+Picker selections with modifiers update.
+
+---Version 2.8.4 ---
+Fixed LimbQuadrupped ik/fk switching
+
+---Version 2.8.5 ---
+Picker loading bugfix
+AddControls loading bugfix
+
+---Version 2.8.6 ---
+Picker selection with modifiers fix
+Eyes module update
+
+---Version 2.8.7 ---
+Duplicate items fix
+Fixing display controls in picker if they are joints
+Picker selection hidden icons fix
+Picker layers buttons update
+Fix picker loading in python 2
+
+---Version 2.8.8 ---
+Fix icon run script if click with sliding
+Fix exit on Esc button
+
+---Version 2.8.9 ---
+Fix icon run script if click with sliding 2
+
+---Version 2.8.10 ---
+Fix loading locked icons
+
+---Version 2.8.11 ---
+Fix utils module loading in python 2
+
+---Version 2.8.12 ---
+Edit reset script
+Selection with control now allways deselect
+Added About button in picker
+
+---Version 2.8.13 ---
+Fixed selections with ctrl
+Fix selections with sliding
+
+---Version 2.8.14 ---
+Picker: Increased perfomance of the sliders
+Picker: Undo working with sliders now is correct
+Picker: Sliders update on controls moving
+
+---Version 2.8.15 ---
+Picker: fixed selections with several characters
+
+---Version 2.8.16 ---
+Picker: if picker has only one tab, then is hiding
+Fixed picker icon running in python 3
+Fixed picker autoload script runnig
+Fixed hided icons text
+Fixed on remove layer
+Removed swapping mirrored icons 
+Removed unwanted selections on move icon
+Presets buttons for polygon icon
+
+---Version 2.8.17 ---
+Remake the standalone picker loading
+
+---Version 2.8.18 ---
+Fixed renaming bug. 

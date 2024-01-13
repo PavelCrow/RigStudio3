@@ -1,0 +1,2 @@
+Duplicate module
+Duplicate current module with all atributes and options.

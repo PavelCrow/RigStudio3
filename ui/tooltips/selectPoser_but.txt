@@ -1,0 +1,2 @@
+Select Poser
+Select main poser of the current module for transformations.

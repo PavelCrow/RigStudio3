@@ -1,0 +1,2 @@
+Group checkbox
+If checked, then new controller will be created with group.

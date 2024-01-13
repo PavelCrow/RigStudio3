@@ -1,0 +1,7 @@
+Main Tabs
+Rig - Global rig actions
+Modules - Add and edit modules
+Add controls - Add additional controls on any module
+Twists - Add "twists" controls on any joint
+ObectSpaces - Add obsject space relationships between controls
+Controllers - Edit shape and color of the controls

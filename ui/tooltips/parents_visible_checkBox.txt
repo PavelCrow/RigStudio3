@@ -1,0 +1,2 @@
+Visible checkbox
+If checked, attribute will be created hidden.

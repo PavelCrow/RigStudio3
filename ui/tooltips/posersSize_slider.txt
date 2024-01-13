@@ -1,0 +1,2 @@
+Posers and Joints sliders
+Sliders for interactivelly changing posers and joints size.

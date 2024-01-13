@@ -1,0 +1,2 @@
+Module type
+Type of the current module.

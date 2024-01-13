@@ -1,0 +1,2 @@
+Disconnect module
+Disconnect current module from parent. 

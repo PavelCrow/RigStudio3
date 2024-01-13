@@ -1,0 +1,3 @@
+Body Object
+Object to which will be connected head for orienting 
+if active bodyOrient attribute.

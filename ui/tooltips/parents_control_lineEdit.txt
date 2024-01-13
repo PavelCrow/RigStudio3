@@ -1,0 +1,2 @@
+Control name
+Name of the control, to which created currect object space.
