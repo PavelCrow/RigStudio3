@@ -1,22 +1,8 @@
 import pymel.core as pm
 
 print("main")
-
+print(__name__)
 # from . import utils
-
-print(1)
-
-a = 2
-
-print(2, a)
-
-b = a + 2
-print(3, b)
-
-c = a + b
-
-print (c)
-
 
 '''
 
