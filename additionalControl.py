@@ -2,47 +2,11 @@ import maya.cmds as cmds
 import pymel.core as pm
 import maya.OpenMaya as om
 from functools import partial
-import logging, traceback, os, imp, math, sys
 
-if sys.version[0] == "2":
-	import utils, main, controller, rigTools
-else:
-	import importlib
-	import rigStudio2.utils as utils	
-	import rigStudio2.main as main	
-	import rigStudio2.controller as controller	
-	import rigStudio2.rigTools as rigTools	
+from .import utils, main, controller, rigTools
 
-version = int(cmds.about(v=True).split(" ")[0])
-if version >= 2020:
-	from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
-else:
-	from Qt import QtWidgets, QtGui, QtCore, QtUiTools
-try: from shiboken import wrapInstance
-except: from shiboken2 import wrapInstance
-
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-logger.setLevel(logging.DEBUG)
-
-rootDebug = ""
-fileName = __name__.split('.')[0]
-rootPath = os.path.abspath(imp.find_module(fileName)[1])
-
-def debugStart(func, name="", noEnd=False):
-	if not main.configData['debug']: return
-	global rootDebug
-	rootDebug = rootDebug + ' -> ' + func
-	logger.debug(rootDebug + ' ' + name + ' -> ')	
-
-	if noEnd:
-		rootDebug = rootDebug.split(' -> ' + func)[0]	
-
-def debugEnd(func, name=""):
-	if not main.configData['debug']: return
-	global rootDebug
-	logger.debug(rootDebug + ' ' + name + " -| ")
-	rootDebug = rootDebug.split(' -> ' + func)[0]	
+from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
+from shiboken2 import wrapInstance
 
 def oneStepUndo(func):
 	def wrapper(*args, **kwargs):
@@ -53,8 +17,6 @@ def oneStepUndo(func):
 
 class AdditionalControl(controller.Control):
 	def __init__(self, name="", parent="", shape="", data={}):
-		debugStart(traceback.extract_stack()[-1][2])
-		
 		if name != "":
 			self.name = name
 			self.parent = parent
@@ -71,12 +33,8 @@ class AdditionalControl(controller.Control):
 			self.symmetrical = False
 			self.mirrored = False	
 			self.create(shape)
-		
-		debugEnd(traceback.extract_stack()[-1][2])
 
 	def create(self, shape='circle'):
-		debugStart(traceback.extract_stack()[-1][2])
-		
 		#self.name = utils.incrementNameIfExists(self.name)
 		
 		# create control
@@ -249,8 +207,6 @@ class AdditionalControl(controller.Control):
 		cmds.setAttr(p+'.axises', 0)
 		cmds.select(p)
 
-		debugEnd(traceback.extract_stack()[-1][2])	
-
 	def load(self, name):
 		self.name = name
 
@@ -265,8 +221,6 @@ class AdditionalControl(controller.Control):
 		self.deep = 0
 
 	def setParent(self, target):
-		debugStart(traceback.extract_stack()[-1][2])
-
 		old_moduleName = utils.getModuleNameFromAttr(self.name)
 		
 		par = cmds.listRelatives(self.name+"_group", p=1)[0]
@@ -319,10 +273,7 @@ class AdditionalControl(controller.Control):
 		
 		#cmds.select(self.root)
 
-		debugEnd(traceback.extract_stack()[-1][2])		
-
 	def fixJointsParents(self):
-		
 		for c in self.addControls:
 			#print c.name, c.parent
 			try:
@@ -330,10 +281,8 @@ class AdditionalControl(controller.Control):
 			except: pass
 
 	def delete(self):
-		debugStart(traceback.extract_stack()[-1][2])
-		
 		group = self.name+'_group'
-		joint = self.name+'_joint'
+		joint = self.name + '_joint'
 		poser = self.name+'_addPoser'
 		
 		try: 
@@ -343,8 +292,6 @@ class AdditionalControl(controller.Control):
 		try: 
 			cmds.delete(poser)
 		except: pass
-
-		debugEnd(traceback.extract_stack()[-1][2])		
 	
 	def getChildrenConrollers(self):
 		nodes = cmds.listRelatives(self.name)

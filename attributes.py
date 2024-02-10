@@ -4,50 +4,16 @@ import maya.OpenMaya as om
 from functools import partial
 import logging, traceback, os, imp, math, json, sys
 
-if sys.version[0] == "2":
-	import utils, main
-else:
-	import importlib
-	import rigStudio2.main as main
-	import rigStudio2.utils as utils
-	
-version = int(cmds.about(v=True).split(" ")[0])
-if version >= 2020:
-	from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
-else:
-	from Qt import QtWidgets, QtGui, QtCore, QtUiTools
-try:
-	from shiboken import wrapInstance
-except:
-	from shiboken2 import wrapInstance
+from .import utils, main
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-logger.setLevel(logging.DEBUG)
+from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
+from shiboken2 import wrapInstance
 
-rootDebug = ""
-
-fileName = __name__.split('.')[0]
-rootPath = os.path.abspath(imp.find_module(fileName)[1])
+rootPath = os.path.normpath(os.path.dirname(__file__))
 
 movedItems = []
 oldParent = None
 drag_widget = ""
-
-def debugStart(func, name="", noEnd=False):
-	if not main.configData['debug']: return
-	global rootDebug
-	rootDebug = rootDebug + ' -> ' + func
-	logger.debug(rootDebug + ' ' + name + ' -> ')	
-
-	if noEnd:
-		rootDebug = rootDebug.split(' -> ' + func)[0]	
-
-def debugEnd(func, name=""):
-	if not main.configData['debug']: return
-	global rootDebug
-	logger.debug(rootDebug + ' ' + name + " -| ")
-	rootDebug = rootDebug.split(' -> ' + func)[0]	
 
 class treeWidgetClass(QtWidgets.QTreeWidget):
 
@@ -200,8 +166,6 @@ class treeWidgetClass(QtWidgets.QTreeWidget):
 			#print name, item.isExpanded()
 			
 		self.setCurrentItem(root_item)
-		
-		debugEnd(traceback.extract_stack()[-1][2])	
 	
 	def getSetObjects(self, set):
 		
@@ -314,7 +278,6 @@ class listWidgetItemClass(QtWidgets.QListWidgetItem):
 
 
 def itemName(set_name):
-	debugStart(traceback.extract_stack()[-1][2])
 	#print "InName", set_name
 	def getSetChildsCount(set):
 		count = 0
@@ -330,8 +293,6 @@ def itemName(set_name):
 	return item_name
 
 def controlSetName(item):
-	debugStart(traceback.extract_stack()[-1][2])
-	
 	if item.text(0) == 'controlSet':
 		return 'controlSet'
 	else:
@@ -361,7 +322,6 @@ class Attributes(object):
 		return ui	
 	
 	def __init__(self, main):
-		debugStart(traceback.extract_stack()[-1][2])
 		self.main = main
 		self.win = self.loadUiWidget(rootPath+'//ui//attributesWindow.ui', parent=main.win)
 
@@ -379,20 +339,12 @@ class Attributes(object):
 		self.updateObjects()
 		
 		self.win.show()
-		
-		debugEnd(traceback.extract_stack()[-1][2])
 
 	def connect(self):
-		debugStart(traceback.extract_stack()[-1][2])
-		
 		self.listWidget.currentItemChanged.connect(self.reorder)
 		self.win.update_btn.clicked.connect(self.updateObjects)
 
-		debugEnd(traceback.extract_stack()[-1][2])
-		
 	def updateObjects(self):
-		debugStart(traceback.extract_stack()[-1][2])
-		
 		self.objects = cmds.ls(sl=1) 
 		
 		self.listWidget.clear()
@@ -472,8 +424,6 @@ class Attributes(object):
 		for a in visible_attrs_all:
 			if a not in transform_attrs:
 				self.listWidget.items_names.append(a)
-		
-		debugEnd(traceback.extract_stack()[-1][2])
 	
 	def reorder(self):
 		pass

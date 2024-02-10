@@ -1,56 +1,19 @@
 import maya.cmds as cmds
-import pymel.core as pm
-import maya.OpenMaya as om
 from functools import partial
-import logging, traceback, os, imp, math, json, sys
+import os
+import json
+from .import utils, main
 
-if sys.version[0] == "2":
-	import utils, main
-else:
-	import importlib
-	import rigStudio2.main as main
-	import rigStudio2.utils as utils
+from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
+from shiboken2 import wrapInstance
 
-version = int(cmds.about(v=True).split(" ")[0])
-if version >= 2020:
-	from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
-else:
-	from Qt import QtWidgets, QtGui, QtCore, QtUiTools
-try:
-	from shiboken import wrapInstance
-except:
-	from shiboken2 import wrapInstance
-
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-logger.setLevel(logging.DEBUG)
-
-rootDebug = ""
-
-fileName = __name__.split('.')[0]
-rootPath = os.path.abspath(imp.find_module(fileName)[1])
+rootPath = os.path.normpath(os.path.dirname(__file__))
 
 movedItems = []
 oldParent = None
 drag_widget = ""
 
-def debugStart(func, name="", noEnd=False):
-	if not main.configData['debug']: return
-	global rootDebug
-	rootDebug = rootDebug + ' -> ' + func
-	logger.debug(rootDebug + ' ' + name + ' -> ')	
-
-	if noEnd:
-		rootDebug = rootDebug.split(' -> ' + func)[0]	
-
-def debugEnd(func, name=""):
-	if not main.configData['debug']: return
-	global rootDebug
-	logger.debug(rootDebug + ' ' + name + " -| ")
-	rootDebug = rootDebug.split(' -> ' + func)[0]	
-
 class treeWidgetClass(QtWidgets.QTreeWidget):
-
 	def __init__(self, parent=None, main=None):
 		super(treeWidgetClass, self).__init__(parent)
 		self.main = main
@@ -59,9 +22,9 @@ class treeWidgetClass(QtWidgets.QTreeWidget):
 		self.items = {}
 
 		font = QtGui.QFont("MsReferenceSansSerif", 11)
-		self.setFont(font)	
+		self.setFont(font)
 
-	def dropEvent(self, event): 
+	def dropEvent(self, event):
 		parentItem = self.itemAt(event.pos())
 		newSet_name = controlSetName(parentItem)
 		currentSet_name = controlSetName(self.currentItem())
@@ -213,7 +176,6 @@ class treeWidgetClass(QtWidgets.QTreeWidget):
 		debugEnd(traceback.extract_stack()[-1][2])	
 
 	def getSetObjects(self, set):
-
 		if not cmds.objExists(set):
 			return []
 
@@ -271,7 +233,6 @@ class treeWidgetClass(QtWidgets.QTreeWidget):
 		self.setCurrentItem(i)
 
 class listWidgetClass(QtWidgets.QListWidget):
-
 	def __init__(self, parent=None):
 		super(listWidgetClass, self).__init__(parent)
 		self.setAcceptDrops(True)
@@ -291,7 +252,6 @@ class listWidgetClass(QtWidgets.QListWidget):
 
 
 def itemName(set_name):
-	debugStart(traceback.extract_stack()[-1][2])
 	#print "InName", set_name
 	def getSetChildsCount(set):
 		count = 0
@@ -307,8 +267,6 @@ def itemName(set_name):
 	return item_name
 
 def controlSetName(item):
-	debugStart(traceback.extract_stack()[-1][2])
-
 	if item.text(0) == 'controlSet':
 		return 'controlSet'
 	else:
@@ -325,7 +283,6 @@ def getSetControlsNoRecurcive(set):
 
 class Sets(object):
 	def __init__(self, win):
-		debugStart(traceback.extract_stack()[-1][2])
 		self.win = win
 		self.modules = []
 		self.moduleNames = []
@@ -354,11 +311,7 @@ class Sets(object):
 		self.connect()
 		self.update()
 
-		debugEnd(traceback.extract_stack()[-1][2])
-
 	def connect(self):
-		debugStart(traceback.extract_stack()[-1][2])
-
 		self.treeWidget.currentItemChanged.connect(self.updateCurrentSetControls)
 
 		self.win.setsAddControlSet_btn.clicked.connect(self.addControlSet)
@@ -372,12 +325,8 @@ class Sets(object):
 		debugEnd(traceback.extract_stack()[-1][2])
 
 	def update(self):
-		debugStart(traceback.extract_stack()[-1][2])
-
 		self.treeWidget.updateControlSetTree()	
 		self.setsTemplatesMenuUpdate()
-
-		debugEnd(traceback.extract_stack()[-1][2])
 
 	def controlInControlSet(self, control):
 		controls = utils.getSetObjects('controlSet')
@@ -388,8 +337,6 @@ class Sets(object):
 		return count
 
 	def updateCurrentSetControls(self):
-		debugStart(traceback.extract_stack()[-1][2])
-
 		def getSetControls(set):
 			objects = []
 			if type(cmds.sets(set, q=1)).__name__ == "NoneType":
@@ -419,13 +366,7 @@ class Sets(object):
 			#cmds.select(currentControlSet)	
 		except: pass
 
-
-
-		debugEnd(traceback.extract_stack()[-1][2])
-
 	def addControlSet(self, name=''):
-		debugStart(traceback.extract_stack()[-1][2])
-
 		if not name or name == "":
 			name, ok = QtWidgets.QInputDialog.getText(self.win, "Add Control Set", "Please enter set name", QtWidgets.QLineEdit.Normal, "")
 
@@ -444,11 +385,7 @@ class Sets(object):
 
 			self.treeWidget.addSet(set_name)
 
-		debugEnd(traceback.extract_stack()[-1][2])
-
 	def removeControlSet(self):
-		debugStart(traceback.extract_stack()[-1][2])
-
 		# get item
 		currentControlSet = self.treeWidget.getCurrentControlSet()
 		item = self.treeWidget.currentItem()
@@ -558,8 +495,6 @@ class Sets(object):
 		self.treeWidget.setCurrentItem(currentSet_item)		
 
 	def	setsTemplatesMenuUpdate(self):
-		debugStart(traceback.extract_stack()[-1][2])
-
 		menu = QtWidgets.QMenu(self.win)
 
 		saveModTepl_action = QtWidgets.QAction(self.win)
@@ -620,8 +555,6 @@ class Sets(object):
 		return sets_data		
 
 	def templActions(self, action, tName="", data=None):
-		debugStart(traceback.extract_stack()[-1][2])
-
 		if action == 'save':
 
 			name, ok = QtWidgets.QInputDialog().getText(self.win, 'Save Sets Tree Template', 'Enter name:', QtWidgets.QLineEdit.Normal, 'controlSet')
@@ -709,11 +642,7 @@ class Sets(object):
 
 			self.treeWidget.updateControlSetTree()	
 
-		debugEnd(traceback.extract_stack()[-1][2])
-
 	def setRename(self):
-		#print self.treeWidget.currentItem().text(0)
-
 		old_name = self.treeWidget.currentItem().text(0).split(" ")[0]
 		newName, ok = QtWidgets.QInputDialog().getText(self.win, 'Rename Set', 'Enter set name:', QtWidgets.QLineEdit.Normal, old_name)
 
@@ -728,4 +657,5 @@ class Sets(object):
 			cmds.rename("r"+old_name[1:]+"_controlSet", "r"+name[1:]+"_controlSet")
 		
 		self.treeWidget.updateControlSetTree()	
-		self.treeWidget.selectItem(name+"_controlSet")
+		self.treeWidget.selectItem(name + "_controlSet")
+		

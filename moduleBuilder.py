@@ -5,50 +5,16 @@ import maya.OpenMaya as om
 from functools import partial
 import logging, traceback, os, sys, imp, math, json, shutil, importlib
 
-if sys.version[0] == "2":
-	import utils, main
-else:
-	import importlib
-	import rigStudio2.main as main
-	import rigStudio2.utils as utils
-	
-version = int(cmds.about(v=True).split(" ")[0])
-if version >= 2020:
-	from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
-else:
-	from Qt import QtWidgets, QtGui, QtCore, QtUiTools
-try:
-	from shiboken import wrapInstance
-except:
-	from shiboken2 import wrapInstance
+from .import utils, main
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-logger.setLevel(logging.DEBUG)
+from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
+from shiboken2 import wrapInstance
 
-rootDebug = ""
 fileName = __name__.split('.')[0]
 rootPath = os.path.abspath(imp.find_module(fileName)[1])
 
-
-def debugStart(func, name="", noEnd=False):
-	if not main.configData['debug']: return
-	global rootDebug
-	rootDebug = rootDebug + ' -> ' + func
-	logger.debug(rootDebug + ' ' + name + ' -> ')	
-
-	if noEnd:
-		rootDebug = rootDebug.split(' -> ' + func)[0]	
-
-def debugEnd(func, name=""):
-	if not main.configData['debug']: return
-	global rootDebug
-	logger.debug(rootDebug + ' ' + name + " -| ")
-	rootDebug = rootDebug.split(' -> ' + func)[0]	
-
 class ModuleBuilder(object):
 	def __init__(self, main):
-		debugStart(traceback.extract_stack()[-1][2])
 		self.main = main
 		self.win = main.moduleBuilderWin
 
@@ -62,12 +28,8 @@ class ModuleBuilder(object):
 			self.win.comboBox.addItem(s)
 
 		self.updateCurrentModule()
-		
-		debugEnd(traceback.extract_stack()[-1][2])
 
 	def connect(self):
-		debugStart(traceback.extract_stack()[-1][2])
-
 		self.win.createNew_btn.clicked.connect(self.createNew)
 		self.win.set_btn.clicked.connect(self.setSection)
 		self.win.addInfo_btn.clicked.connect(self.show_moduleInfo)
@@ -75,8 +37,6 @@ class ModuleBuilder(object):
 		self.win.createPoser_btn.clicked.connect(self.createPoser)
 		self.win.connectPosers_btn.clicked.connect(self.connectPosers)
 		self.win.mirrorModule_btn.clicked.connect(self.mirror)
-
-		debugEnd(traceback.extract_stack()[-1][2])
 
 	def updateCurrentModule(self):
 		try:
@@ -95,8 +55,6 @@ class ModuleBuilder(object):
 		self.win.lineEdit.setText(name)
 
 	def createNew(self):
-		debugStart(traceback.extract_stack()[-1][2])
-
 		name, ok = QtWidgets.QInputDialog.getText(self.win, "Create Module", "Please enter new module name", QtWidgets.QLineEdit.Normal, "")
 
 		if ok:
@@ -197,8 +155,6 @@ class ModuleBuilder(object):
 		self.win.edit_btn.setMenu(menu)		
 				
 	def duplicate(self, sourceName):
-		debugStart(traceback.extract_stack()[-1][2])
-
 		name, ok = QtWidgets.QInputDialog.getText(self.win, "Create Module", "Please enter new module name", QtWidgets.QLineEdit.Normal, sourceName)
 
 		if ok:
@@ -249,8 +205,6 @@ class ModuleBuilder(object):
 		self.updateCurrentModule()
 
 	def edit(self, sourceName):
-		debugStart(traceback.extract_stack()[-1][2])
-
 		source_dir_path = rootPath + '//modules//' + sourceName
 
 		# open scene
@@ -316,8 +270,6 @@ class ModuleBuilder(object):
 			file.write(stringData)		
 			
 	def show_moduleInfo(self):
-		debugStart(traceback.extract_stack()[-1][2])
-		
 		if not cmds.objExists("mod"):
 			cmds.warning("This scene is not a module")
 			return
@@ -345,7 +297,7 @@ class ModuleBuilder(object):
 			self.infoWin.close()
 			
 
-		self.infoWin = self.main.loadUiWidget(rootPath+'//ui//moduleDecsriptionWindow.ui', parent=self.win)
+		self.infoWin = self.main.load_ui_widget(rootPath + '//ui//moduleDecsriptionWindow.ui', parent=self.win)
 		self.infoWin.pushButton.clicked.connect(aboutClose)
 
 		self.infoWin.lineEdit.setText(utils.readInfo(name))
@@ -353,8 +305,6 @@ class ModuleBuilder(object):
 		self.infoWin.show()	
 			
 	def rename(self):
-		debugStart(traceback.extract_stack()[-1][2])
-		
 		#if not cmds.objExists("mod"):
 			#cmds.warning("This scene is not a module")
 			#return
@@ -402,6 +352,7 @@ class ModuleBuilder(object):
 		self.updateCurrentModule()
 		
 	def createMainPoser(self):
+		#from .import utils, main
 		import rigStudio2.rigTools.posers
 		importlib.reload(rigStudio2.rigTools.posers)
 		rigStudio2.rigTools.posers.createMainPoser()

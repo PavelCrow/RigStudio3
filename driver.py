@@ -2,51 +2,20 @@ import maya.cmds as cmds
 import maya.mel as mel
 import pymel.core as pm
 from functools import partial
-import logging, traceback, os, imp, sys
+import os
+import imp
+import sys
 
-if sys.version[0] == "2":
-	import utils, main, attributes
-else:
-	import importlib
-	import rigStudio2.main as main
-	import rigStudio2.utils as utils
-	import rigStudio2.attributes as attributes
+from .import utils, main, attributes
 
-version = int(cmds.about(v=True).split(" ")[0])
-if version >= 2020:
-	from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
-else:
-	from Qt import QtWidgets, QtGui, QtCore, QtUiTools
-try:
-	from shiboken import wrapInstance
-except:
-	from shiboken2 import wrapInstance
+from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
+from shiboken2 import wrapInstance
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-logger.setLevel(logging.DEBUG)
-
-rootDebug = ""
-fileName = __name__.split('.')[0]
-rootPath = os.path.abspath(imp.find_module(fileName)[1])
+rootPath = os.path.normpath(os.path.dirname(__file__))
 
 movedItems = []
 drag_widget = ""
 
-def debugStart(func, name="", noEnd=False):
-	if not main.configData['debug']: return
-	global rootDebug
-	rootDebug = rootDebug + ' -> ' + func
-	logger.debug(rootDebug + ' ' + name + ' -> ')	
-
-	if noEnd:
-		rootDebug = rootDebug.split(' -> ' + func)[0]	
-
-def debugEnd(func, name=""):
-	if not main.configData['debug']: return
-	global rootDebug
-	logger.debug(rootDebug + ' ' + name + " -| ")
-	rootDebug = rootDebug.split(' -> ' + func)[0]	
 
 def oneStepUndo(func):
 	def wrapper(*args, **kwargs):
@@ -348,7 +317,6 @@ class Driver(object):
 		return ui	
 	
 	def __init__(self, win):
-		debugStart(traceback.extract_stack()[-1][2])
 		self.main = win
 		self.win = self.main.driverWin
 
@@ -366,13 +334,9 @@ class Driver(object):
 		#self.win.driver_addTarget_btn.setIcon(QtGui.QIcon(rootPath+'/ui/icons/os_target_plus.png'))	
 		#self.win.driver_removeTarget_btn.setIconSize(QtCore.QSize(30, 30))	
 		#self.win.driver_removeTarget_btn.setIcon(QtGui.QIcon(rootPath+'/ui/icons/os_target_minus.png'))		
-	
-		debugEnd(traceback.extract_stack()[-1][2])
-	
-	def connect(self):
-		debugStart(traceback.extract_stack()[-1][2])
 
-		self.win.driver_addDriver_btn.clicked.connect(self.addDriver)		
+	def connect(self):
+		self.win.driver_addDriver_btn.clicked.connect(self.addDriver)
 		self.win.driver_removeDriver_btn.clicked.connect(self.removeDriver)		
 		self.win.driver_addTarget_btn.clicked.connect(self.addTarget)		
 		self.win.driver_removeTarget_btn.clicked.connect(self.removeTarget)		
@@ -385,9 +349,7 @@ class Driver(object):
 		self.win.drivers_treeWidget.itemClicked.connect(self.updateDrivensPage)
 		self.win.driver_targets_listWidget.currentItemChanged.connect(self.selectDriven)
 		self.win.driver_targets_listWidget.itemClicked.connect(self.selectDriven)
-						
-		debugEnd(traceback.extract_stack()[-1][2])
-	
+
 	def addDriverItem(self, dr):#, attr):
 		item = driverItemClass(self.win.drivers_treeWidget)
 		item.setup(dr)#, attr)
@@ -401,8 +363,6 @@ class Driver(object):
 		self.win.drivers_treeWidget.setCurrentItem(item)
 	
 	def addDriver(self):
-		debugStart(traceback.extract_stack()[-1][2])
-		
 		sel = cmds.ls(sl=1)
 		if len(sel) != 1:
 			cmds.warning("Select one driver control with attribute")
@@ -439,13 +399,8 @@ class Driver(object):
 
 		# select current parent object item
 		self.selectItem(self.driver)
-	
 
-		debugEnd(traceback.extract_stack()[-1][2])
-	
 	def addTarget(self):
-		debugStart(traceback.extract_stack()[-1][2])
-		
 		sel = cmds.ls(sl=1)
 		
 		if len(sel) == 0:
@@ -463,11 +418,7 @@ class Driver(object):
 		
 		cmds.select(sel)
 
-		debugEnd(traceback.extract_stack()[-1][2])		
-	
 	def removeTarget(self):
-		debugStart(traceback.extract_stack()[-1][2])
-
 		cur_items = self.win.driver_targets_listWidget.selectedItems()
 
 		if not cur_items:
@@ -479,8 +430,6 @@ class Driver(object):
 			self.drivens[name].remove(item.text())
 			
 		self.updateDrivensPage()
-
-		debugEnd(traceback.extract_stack()[-1][2])		
 	
 	@oneStepUndo
 	def addKey(self):

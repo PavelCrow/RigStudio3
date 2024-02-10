@@ -1,22 +1,17 @@
 import maya.cmds as cmds
 import pymel.core as pm
-import os, imp, sys, math
+import os
+import sys
+import math
+import importlib
+import pickle as cPickle
 
-if sys.version[0] == "2":
-	try: # fix for loading from picker
-		import cPickle, controller, additionalControl, rigTools
-	except: pass
-else:
-	import pickle as cPickle
-	try: # fix for loading from picker
-		import importlib
-		import rigStudio2.controller as controller	
-		import rigStudio2.additionalControl as additionalControl
-		import rigStudio2.rigTools as rigTools
-	except: pass
+#import rigStudio2.controller as controller
+#import rigStudio2.additionalControl as additionalControl
+#import rigStudio2.rigTools as rigTools
 
-moduleName = __name__.split('.')[0]
-modulePath = os.path.abspath(imp.find_module(moduleName)[1])
+modulePath = os.path.normpath(os.path.dirname(__file__))
+#moduleName = __name__.split('.')[0]
 
 def pyToAttr(objAttr, data):
 	"""
@@ -189,17 +184,18 @@ def getModuleInstance(moduleName):
 	if not os.path.isdir(modulePath+"/modules/"+m_type):
 		return False	
 
-	if sys.version[0] == "2":
-		import module
-		exec('import modules.%s.%s' %(m_type,m_type))
-		exec('reload(modules.%s.%s)' %(m_type,m_type))
-		m = eval('modules.%s.%s.%s(moduleName)' %(m_type, m_type, m_typeCap))
-	else:
-		exec('import rigStudio2.modules.%s.%s' %(m_type,m_type))
-		exec('importlib.reload(rigStudio2.modules.%s.%s)' %(m_type,m_type))
-		m = eval('rigStudio2.modules.%s.%s.%s(moduleName)' %(m_type, m_type, m_typeCap))
+	exec('import rigStudio3.modules.%s.%s' % (m_type, m_type))
+	exec('importlib.reload(rigStudio3.modules.%s.%s)' % (m_type, m_type))
+	m = eval('rigStudio3.modules.%s.%s.%s(moduleName)' % (m_type, m_type, m_typeCap))
 
-	m.load()
+	m = load_module(moduleName, m_type)
+	return m
+
+def load_module(moduleName, moduleType):
+	moduleTypeCap = capitalizeName(moduleType)
+	exec('from .modules.%s import %s' % (moduleType, moduleType))  # import modules.moduleA.moduleA
+	exec('importlib.reload(%s)' % (moduleType))
+	m = eval('%s.%s(moduleName)' % (moduleType, moduleTypeCap))  # m = modules.moduleA.moduleA.ModuleA(name)
 	return m
 
 def objectIsControl(ctrl):
@@ -229,9 +225,8 @@ def getAdditionalControlInstance(name):
 	return c
 
 def getModuleFiles():
-	moduleFilesList = os.listdir(modulePath + '//modules')
+	moduleFilesList = os.listdir(os.path.join(modulePath, 'modules'))
 	moduleFiles = []
-	print (555)
 	# if file is mb file, make menu item
 	for m in moduleFilesList:
 		if m == 'incrementalSave':
@@ -535,10 +530,18 @@ def getControlNameFromInternal(module_name, internalControlName):
 
 def getInternalNameFromControl(controlName):
 	#print 22222222, controlName+".internalName"
-	if cmds.objExists(controlName+".internalName"):
-		return cmds.getAttr(controlName+".internalName")
+	if cmds.objExists(controlName + ".internalName"):
+		return cmds.getAttr(controlName + ".internalName")
 	else:
 		return ""
+	
+
+def getControlVis(controlName):
+	shape = getShape(controlName)
+	return cmds.getAttr(shape + ".v")
+
+def getControlColor(controlName):
+	return cmds.getAttr(getShape(controlName) + '.overrideColor')
 
 def renameControl(oldCtrlName, newCtrlName):
 	#print (122, oldCtrlName, newCtrlName)
@@ -715,7 +718,7 @@ def lockChannels(ctrlName, channels=['s']):
 def printInfo(message):
 	sys.stdout.write(message + '\n') 
 
-def groupExistsWarning(group):
+def groupExists(group):
 	if cmds.objExists(group):
 		cmds.warning(group+" group is exists")
 		return True
@@ -731,7 +734,7 @@ def importFile(path, name=""):
 	elif ext == "mb": 
 		type_name = "mayaBinary"
 	else:
-		print (ext)
+		print(555, ext)
 		cmds.warning("Wrong file")
 		return
 	try:

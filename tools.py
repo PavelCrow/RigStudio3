@@ -3,30 +3,15 @@ import maya.mel as mel
 import pymel.core as pm
 from functools import partial
 
-version = int(cmds.about(v=True).split(" ")[0])
-if version >= 2020:
-	from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
-else:
-	from Qt import QtWidgets, QtGui, QtCore, QtUiTools
-try: from shiboken import wrapInstance
-except: from shiboken2 import wrapInstance
+from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
+from shiboken2 import wrapInstance
 
-import os, imp, json, operator, logging, traceback, sys
+import os
 
-if sys.version[0] == "2":
-	import utils, main
-else:
-	import importlib
-	import rigStudio2.main as main
-	import rigStudio2.utils as utils
+from .import utils, main
 
-fileName = __name__.split('.')[0]
-rootPath = os.path.abspath(imp.find_module(fileName)[1])
+rootPath = os.path.normpath(os.path.dirname(__file__))
 templatesPath = rootPath+"/map/templates"
-
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-logger.setLevel(logging.DEBUG)
 
 ns = ""
 
@@ -390,7 +375,6 @@ def addControlGroup():
 		
 		
 def smf_baseRigPostScript():
-	
 	if not cmds.objExists("world"):
 		cmds.rename('main', 'char')
 		cmds.rename('root', 'main')

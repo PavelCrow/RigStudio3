@@ -2,51 +2,18 @@ import maya.cmds as cmds
 import pymel.core as pm
 import maya.OpenMaya as om
 from functools import partial
-import logging, traceback, os, imp, math, sys
+import os
 
-if sys.version[0] == "2":
-	import utils, main
-else:
-	import importlib
-	import rigStudio2.main as main
-	import rigStudio2.utils as utils
+from .import utils, main
 
-version = int(cmds.about(v=True).split(" ")[0])
-if version >= 2020:
-	from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
-else:
-	from Qt import QtWidgets, QtGui, QtCore, QtUiTools
-try: from shiboken import wrapInstance
-except: from shiboken2 import wrapInstance
+from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
+from shiboken2 import wrapInstance
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-logger.setLevel(logging.DEBUG)
-
-rootDebug = ""
-fileName = __name__.split('.')[0]
-rootPath = os.path.abspath(imp.find_module(fileName)[1])
-full = os.path.isfile(rootPath+"/full")
-
-def debugStart(func, name="", noEnd=False):
-	if not main.configData['debug']: return
-	global rootDebug
-	rootDebug = rootDebug + ' -> ' + func
-	logger.debug(rootDebug + ' ' + name + ' -> ')	
-
-	if noEnd:
-		rootDebug = rootDebug.split(' -> ' + func)[0]	
-
-def debugEnd(func, name=""):
-	if not main.configData['debug']: return
-	global rootDebug
-	logger.debug(rootDebug + ' ' + name + " -| ")
-	rootDebug = rootDebug.split(' -> ' + func)[0]	
-
+rootPath = os.path.normpath(os.path.dirname(__file__))
+full = os.path.isfile(rootPath + "/full")
 
 class Inbetweens(object):
 	def __init__(self, win):
-		debugStart(traceback.extract_stack()[-1][2])
 		self.win = win
 		self.ibs = {}
 		self.curIbName = ""
@@ -57,11 +24,7 @@ class Inbetweens(object):
 		#self.updateList()
 		self.win.ibs_options_frame.setEnabled(False)		
 
-		debugEnd(traceback.extract_stack()[-1][2])
-
 	def connect(self):
-		debugStart(traceback.extract_stack()[-1][2])
-
 		self.win.ibtw_add_btn.clicked.connect(self.add)
 		self.win.ibtw_remove_btn.clicked.connect(self.remove)
 
@@ -93,11 +56,7 @@ class Inbetweens(object):
 		self.win.ibRotWeight_left_btn.clicked.connect(partial(self.rotateWeight, "left", self.win.ibRotWeight_left_btn))
 		self.win.ibRotWeight_right_btn.clicked.connect(partial(self.rotateWeight, "right", self.win.ibRotWeight_left_btn))
 
-		debugEnd(traceback.extract_stack()[-1][2])
-
 	def loadIbsData(self):
-		debugStart(traceback.extract_stack()[-1][2])
-
 		self.ibs = {}
 
 		ibs = cmds.ls("*_ibRoot")
@@ -117,8 +76,6 @@ class Inbetweens(object):
 
 	@staticmethod	
 	def getIbData(ibRoot, module_name=""):
-		debugStart(traceback.extract_stack()[-1][2])
-		
 		ibName = ibRoot.split("__ibRoot")[0]
 		
 		data = {}
@@ -141,16 +98,10 @@ class Inbetweens(object):
 		return data
 
 	def doubleClckItem(self):
-		debugStart(traceback.extract_stack()[-1][2])
-
 		cmds.select(self.curIb['child'])
 
-		debugEnd(traceback.extract_stack()[-1][2])		
-
 	def selectItem(self):
-		debugStart(traceback.extract_stack()[-1][2])
-
-		# get current twist 
+		# get current twist
 		try:
 			self.curIbName = self.win.ibtw_childs_listWidget.currentItem().text().replace(" - ", "__")
 			self.curIb = self.ibs[self.curIbName]
@@ -161,11 +112,7 @@ class Inbetweens(object):
 		# update cur twist frame
 		self.updateFrame()
 
-		debugEnd(traceback.extract_stack()[-1][2])		
-
 	def updateList(self):
-		debugStart(traceback.extract_stack()[-1][2])
-
 		# update twists data
 		self.loadIbsData()
 
@@ -183,11 +130,7 @@ class Inbetweens(object):
 			if n.split('_')[0] == 'r':
 				item.setForeground(QtGui.QBrush(QtGui.QColor("#6C6B6B")))		
 
-		debugEnd(traceback.extract_stack()[-1][2])	
-
 	def updateFrame(self):
-		debugStart(traceback.extract_stack()[-1][2])
-		#print "UPDATE FRAME", self.curIbName
 		if self.curIbName == '':
 			self.win.ibs_options_frame.setEnabled(False)
 			self.win.parentJoint_lineEdit.setText("")		
@@ -231,9 +174,6 @@ class Inbetweens(object):
 			self.win.ibRotWeight_right_btn.setText("Add Local Weight")
 		else:
 			self.win.ibRotWeight_right_btn.setText("Remove Local Weight")
-			
-
-		debugEnd(traceback.extract_stack()[-1][2])		
 
 	def selectListItem(self, name):
 		try:
@@ -242,8 +182,6 @@ class Inbetweens(object):
 		except: pass
 
 	def add(self, data={}):
-		debugStart(traceback.extract_stack()[-1][2])
-
 		if not full:
 			QtWidgets.QMessageBox.information(self.win, "Sorry", "This feature is available in full version only.")
 			return		
@@ -428,11 +366,7 @@ class Inbetweens(object):
 		# select item in list
 		self.selectListItem(name)
 
-		debugEnd(traceback.extract_stack()[-1][2])		
-
 	def remove(self, name=""):
-		debugStart(traceback.extract_stack()[-1][2])
-
 		if self.win.ibtw_childs_listWidget.count() == 0:
 			return
 		
@@ -465,11 +399,7 @@ class Inbetweens(object):
 
 		self.updateList()
 
-		debugEnd(traceback.extract_stack()[-1][2])		
-
 	def setParent(self):
-		debugStart(traceback.extract_stack()[-1][2])
-		
 		name = self.curIbName
 		sel = cmds.ls(sl=1)
 
@@ -494,12 +424,8 @@ class Inbetweens(object):
 
 		if len(sel) > 0:
 			cmds.select(sel)
-			
-		debugEnd(traceback.extract_stack()[-1][2])	
 
 	def resetParent(self):
-		debugStart(traceback.extract_stack()[-1][2])
-		
 		name = self.curIbName
 		sel = cmds.ls(sl=1)
 
@@ -519,19 +445,13 @@ class Inbetweens(object):
 		if len(sel) > 0:
 			cmds.select(sel)
 			
-		debugEnd(traceback.extract_stack()[-1][2])	
-
 	def ib_selectRoot(self):
-		debugStart(traceback.extract_stack()[-1][2])
-
 		item_name = self.win.ibtw_childs_listWidget.currentItem().text()
 		name = item_name.replace(" - ", "__")
 
 		cmds.select(name + '__ibRoot')
 
 	def ib_selectOffsetLocators(self, side=""):
-		debugStart(traceback.extract_stack()[-1][2])
-
 		item_name = self.win.ibtw_childs_listWidget.currentItem().text()
 		name = item_name.replace(" - ", "__")
 

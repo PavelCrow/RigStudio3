@@ -1,24 +1,14 @@
 import maya.cmds as cmds
-import logging, traceback, json, os, imp, sys
+import json
+import os
 import pymel.core as pm
 
-if sys.version[0] == "2":
-	import utils
-else:
-	import importlib
-	import rigStudio2.utils as utils	
+from .import utils
 	
-fileName = __name__.split('.')[0]
-rootPath = os.path.abspath(imp.find_module(fileName)[1])
-
-logger = logging.getLogger(__name__)
-d = logging.INFO
-#d = logging.DEBUG
-logger.setLevel(d)
+rootPath = os.path.normpath(os.path.dirname(__file__))
 
 class Control(object):
 	def __init__(self):
-		logger.debug(traceback.extract_stack()[-1][2])
 		self.name = ""
 		#self.root = ""
 		self.parent = ""
@@ -28,7 +18,6 @@ class Control(object):
 		self.visible = True
 
 	def create(self, name, ctrl_type, colorId=18, tuner=True, offset=True, joint=True):
-		logger.debug(traceback.extract_stack()[-1][2])
 		#print 1111, name
 		#name = utils.incrementNameIfExists(name)
 		
@@ -193,8 +182,6 @@ class Control(object):
 			cmds.select(sel)
 		
 	def setColor(self, colorId, ctrl=""):
-		logger.debug(traceback.extract_stack()[-1][2])
-		
 		if type(colorId) == list:
 			colorId = colorId[0]		
 		
@@ -220,8 +207,6 @@ class Control(object):
 		#cmds.select(clear=1)
 
 	def toggleVisible(self, manual=False, value=False):
-		logger.debug(traceback.extract_stack()[-1][2])
-		
 		shapes = cmds.listRelatives(self.name, s=1)
 		
 		if manual:
@@ -238,8 +223,6 @@ class Control(object):
 				pass
 		
 	def getParent(self):
-		logger.debug(traceback.extract_stack()[-1][2] + ' ' + self.name)
-		
 		self.parent = ""
 		
 		if cmds.objExists(self.name+"_group"):
@@ -252,8 +235,6 @@ class Control(object):
 		return self.parent
 
 	def rename(self, in_newName):
-		logger.debug(traceback.extract_stack()[-1][2])
-		
 		sym = self.isSymmetry()
 		
 		def doRename(name, newName):
@@ -283,8 +264,6 @@ class Control(object):
 		return color		
 			
 	def getChildren(self):
-		logger.debug(traceback.extract_stack()[-1][2])
-
 		nodes = cmds.listRelatives(self.name)
 		children = []
 		for n in nodes:
@@ -348,14 +327,11 @@ class Control(object):
 			pyCmds.append(pyCmd)
 		
 		cmds.delete(temp_crv)
-		#print '\n%s' %pyCmds
-		#print '\n%s' %pyCmds
-			
+
 		return pyCmds
 	
 	def getAttrData(self):
-
-		cmds.select (self.name)
+		cmds.select(self.name)
 		attrData = {}
 		attrList = []
 		attrListKeyable = cmds.listAttr( keyable=True )
@@ -396,21 +372,18 @@ class Control(object):
 		return data
 
 	def isSymmetry(self):
-
 		if self.name.split('_')[0] == 'l':
 			if cmds.objExists(utils.getOppositeObject(self.name)):
 				return True
 		return False
 
 	def isMirrored(self):
-		
 		if self.name.split('_')[0] == 'r':
 			if cmds.objExists(utils.getOppositeObject(self.name)):
 				return True
 		return False
 	
 	def delete(self):
-		
 		if cmds.objExists(self.name+"_group"):
 			cmds.delete(self.name+"_group")
 
@@ -418,8 +391,6 @@ class Control(object):
 			cmds.delete(self.name+'_joint')
 
 	def isVisible(self):
-		logger.debug(traceback.extract_stack()[-1][2])
-		
 		shapes = cmds.listRelatives(self.name, s=1)
 		vis = cmds.getAttr(shapes[0]+'.v')
 		

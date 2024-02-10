@@ -2,21 +2,12 @@ import maya.cmds as cmds
 import maya.mel as mel
 import pymel.core as pm
 
-version = int(cmds.about(v=True).split(" ")[0])
-if version >= 2020:
-	from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
-else:
-	from rigStudio2.Qt import QtWidgets, QtGui, QtCore, QtUiTools
-	
-import os, imp, sys
+from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
+import os
+import imp
 
-if sys.version[0] == "2":
-	import rigStudio2.utils
-	#import rigStudio2.utils as utils
-	pass
-else:
-	import importlib
-	import rigStudio2.utils# as utils
+from ..import utils
+
 
 fileName = __name__.split('.')[0]
 rootPath = os.path.abspath(imp.find_module(fileName)[1])
@@ -40,10 +31,10 @@ def createMainPoser(name=""):
 	path = rootPath + '//rigTools//' + 'mainPoser.ma'		
 	
 	if name == 'mainPoser':
-		rigStudio2.utils.importFile(path)
+		utils.importFile(path)
 		cmds.select("mainPoser")
 	else:
-		rigStudio2.utils.importFile(path, name)
+		utils.importFile(path, name)
 		if cmds.objExists("mainPoser"):
 			cmds.parent(name+"_mainPoser", "mainPoser")
 		cmds.select(name+"_mainPoser")
@@ -71,7 +62,7 @@ def createPoser(name=""):
 		
 	# import
 	path = rootPath + '//rigTools//' + 'poser.ma'		
-	rigStudio2.utils.importFile(path, name)
+	utils.importFile(path, name)
 	
 	if cmds.objExists("red_rsMat"):
 		cmds.delete(name+"_red_rsMat")
@@ -109,7 +100,7 @@ def connectPosers(src=None, tgt=None, name_m=""):
 			
 	# import
 	path = rootPath + '//rigTools//' + 'line.ma'		
-	rigStudio2.utils.importFile(path, tgt.split("_poser")[0])
+	utils.importFile(path, tgt.split("_poser")[0])
 	
 	
 	line = tgt.replace("poser","line")
@@ -117,11 +108,11 @@ def connectPosers(src=None, tgt=None, name_m=""):
 	
 	cmds.parent(line+"_start_cluster_group", src)
 	cmds.parent(line+"_end_cluster_group", tgt)
-	rigStudio2.utils.resetAttrs(line+"_start_cluster_group")
-	rigStudio2.utils.resetAttrs(line+"_end_cluster_group")
+	utils.resetAttrs(line + "_start_cluster_group")
+	utils.resetAttrs(line + "_end_cluster_group")
 	
-	rigStudio2.utils.setUserAttr(src, "lineWidth", 1, type="float", lock=False, keyable=False, cb=True)
-	rigStudio2.utils.setUserAttr(tgt, "lineWidth", 1, type="float", lock=False, keyable=False, cb=True)
+	utils.setUserAttr(src, "lineWidth", 1, type="float", lock=False, keyable=False, cb=True)
+	utils.setUserAttr(tgt, "lineWidth", 1, type="float", lock=False, keyable=False, cb=True)
 	
 	cmds.connectAttr(src+".lineWidth", line+"_start_cluster.sx")
 	cmds.connectAttr(src+".lineWidth", line+"_start_cluster.sy")
@@ -151,7 +142,7 @@ def orientPosers():
 	
 	con = cmds.aimConstraint(tgt, src+"Orient", aimVector=(1,0,0), upVector=(0,1,0), worldUpType="none")[0]
 	
-	rigStudio2.utils.setUserAttr(src, "twist", 0, type="float", lock=False, keyable=True, cb=True)
+	utils.setUserAttr(src, "twist", 0, type="float", lock=False, keyable=True, cb=True)
 	cmds.connectAttr(src+".twist", con+".offsetX")
 	
 	cmds.setAttr(src+".rx", e=1, l=True, keyable=0, cb=0 )
@@ -161,7 +152,7 @@ def orientPosers():
 def createAddPoser(name, moduleName):
 	# import
 	path = rootPath + '//rigTools//' + 'poser.ma'		
-	rigStudio2.utils.importFile(path, name)
+	utils.importFile(path, name)
 	
 	if cmds.objExists("red_rsMat"):
 		cmds.delete(name+"_red_rsMat")
