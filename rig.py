@@ -27,7 +27,7 @@ class Rig:
         self.load()
 
     def load(self):
-        #print("rig load")
+        print("rig load")
         self.exists = cmds.objExists(self.root) and cmds.objExists('rig') and cmds.objExists('geo')
         if self.exists:
             self.jointsSize = cmds.getAttr(self.root + ".jointsSize")
