@@ -2646,7 +2646,7 @@ class MainWindow:
         self.moduleTemplatesMenuUpdate()
         self.modulePageUpdated = True
 
-        print(self.curModule.name)
+        # print(111, self.curModule.name)
 
     def addModule(self, moduleType, name="", options={}, updateUI=True, nodePosition=""):
 
@@ -2727,7 +2727,7 @@ class MainWindow:
         self.selectCurModMainPoser()
 
     def deleteModule(self, moduleName="", updateUI=True):
-
+        print("Delete module")
         if self.curModuleName == None:
             return
 

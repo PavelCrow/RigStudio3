@@ -181,21 +181,22 @@ def getModuleInstance(moduleName):
 	m_type = cmds.getAttr(moduleName+"_mod.moduleType")
 	m_typeCap = capitalizeName(m_type)
 
-	if not os.path.isdir(modulePath+"/modules/"+m_type):
+	if not os.path.isdir(os.path.join(modulePath, "modules", m_type)):
+		cmds.warning("Module folder is not exist "+m_type)
 		return False	
-
-	exec('import rigStudio3.modules.%s.%s' % (m_type, m_type))
-	exec('importlib.reload(rigStudio3.modules.%s.%s)' % (m_type, m_type))
-	m = eval('rigStudio3.modules.%s.%s.%s(moduleName)' % (m_type, m_type, m_typeCap))
 
 	m = load_module(moduleName, m_type)
 	return m
 
 def load_module(moduleName, moduleType):
 	moduleTypeCap = capitalizeName(moduleType)
-	exec('from .modules.%s import %s' % (moduleType, moduleType))  # import modules.moduleA.moduleA
-	exec('importlib.reload(%s)' % (moduleType))
-	m = eval('%s.%s(moduleName)' % (moduleType, moduleTypeCap))  # m = modules.moduleA.moduleA.ModuleA(name)
+
+	# importlib.import_module('rigStudio3.modules.%s.%s' % (moduleType, moduleType))
+	exec('from .modules.%s import %s' % (moduleType, moduleType)) 	# from .modules.moduleA import moduleA
+	exec('importlib.reload(%s)' % (moduleType))						# importlib.reload(moduleA)
+	m = eval('%s.%s(moduleName)' % (moduleType, moduleTypeCap))  	# m = modules.moduleA.moduleA.ModuleA(name)
+	m.load()
+	
 	return m
 
 def objectIsControl(ctrl):
