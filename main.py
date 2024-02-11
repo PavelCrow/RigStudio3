@@ -2649,34 +2649,23 @@ class MainWindow:
         # print(111, self.curModule.name)
 
     def addModule(self, moduleType, name="", options={}, updateUI=True, nodePosition=""):
-
-
         if name == "":
             name, ok = QtWidgets.QInputDialog.getText(self.win, "Add Module", "Please enter new module name",
                                                       QtWidgets.QLineEdit.Normal, moduleType)
-
             if ok:
                 if name in self.rig.modules:
                     QtWidgets.QMessageBox.information(self.win, "Warning", "This module is exist.")
                     return
-                
                 if " " in name or "-" in name or name[0].isdigit():
                     QtWidgets.QMessageBox.information(self.win, "Warning", "Wrong Name.")
                     return
             else:
                 return
 
-        m = utils.load_module(name, moduleType)
-        m.create(options)
+        m = self.rig.create_module(name, moduleType, options)
 
-        self.rig.modules[name] = m
-        self.rig.updateModuleNames()
         self.curModule = m
         self.curModuleName = name
-
-        self.rig.toggleVis_posers()
-        self.rig.toggleVis_controls()
-        self.rig.toggleVis_joints()
 
         if updateUI:
             self.updateModulesTree()

@@ -1,6 +1,6 @@
 import maya.cmds as cmds
 import os
-import imp
+import importlib
 import math
 import sys
 from . import main, utils
@@ -49,7 +49,7 @@ class Rig:
             self.name = cmds.getAttr(self.root + ".name")
 
             # load modules
-            self.get_modules()
+            self.load_modules()
 
     def create(self):
         if self.exists:
@@ -423,7 +423,7 @@ class Rig:
     def selectCurModMainPoser(self):
         cmds.select(self.main.curModuleName + "_mainPoser")
 
-    def get_modules(self):
+    def load_modules(self):
         modules_groups = cmds.listRelatives('modules') or []
         modules_files = utils.getModuleFiles()
 
@@ -437,3 +437,21 @@ class Rig:
                 
         # get ordered ModuleNames
         self.updateModuleNames()
+
+    def create_module(self, moduleName, moduleType, options):
+        moduleTypeCap = utils.capitalizeName(moduleType)
+
+        # importlib.import_module('rigStudio3.modules.%s.%s' % (moduleType, moduleType))
+        exec('from .modules.%s import %s' % (moduleType, moduleType)) 	# from .modules.moduleA import moduleA
+        exec('importlib.reload(%s)' % (moduleType))						# importlib.reload(moduleA)
+        m = eval('%s.%s(moduleName)' % (moduleType, moduleTypeCap))  	# m = modules.moduleA.moduleA.ModuleA(name)
+        m.create(options)
+
+        self.modules[moduleName] = m
+        self.updateModuleNames()
+
+        self.toggleVis_posers()
+        self.toggleVis_controls()
+        self.toggleVis_joints()
+
+        return m

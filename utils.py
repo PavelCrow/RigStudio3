@@ -185,18 +185,12 @@ def getModuleInstance(moduleName):
 		cmds.warning("Module folder is not exist "+m_type)
 		return False	
 
-	m = load_module(moduleName, m_type)
-	return m
-
-def load_module(moduleName, moduleType):
-	moduleTypeCap = capitalizeName(moduleType)
-
 	# importlib.import_module('rigStudio3.modules.%s.%s' % (moduleType, moduleType))
-	exec('from .modules.%s import %s' % (moduleType, moduleType)) 	# from .modules.moduleA import moduleA
-	exec('importlib.reload(%s)' % (moduleType))						# importlib.reload(moduleA)
-	m = eval('%s.%s(moduleName)' % (moduleType, moduleTypeCap))  	# m = modules.moduleA.moduleA.ModuleA(name)
+	exec('from .modules.%s import %s' % (m_type, m_type)) 	# from .modules.moduleA import moduleA
+	exec('importlib.reload(%s)' % (m_type))						# importlib.reload(moduleA)
+	m = eval('%s.%s(moduleName)' % (m_type, m_typeCap))  	# m = modules.moduleA.moduleA.ModuleA(name)
 	m.load()
-	
+
 	return m
 
 def objectIsControl(ctrl):
