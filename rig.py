@@ -85,13 +85,7 @@ class Rig:
         cmds.setAttr("skeleton.overrideColor", 29)
         cmds.setAttr("skeleton.template", True)
 
-        cmds.sets(n='controlSet')
-        cmds.sets(n='sets')
-        cmds.sets('controlSet', e=1, forceElement='sets')
-        cmds.sets(n='skinJointsSet')
-        cmds.sets('skinJointsSet', e=1, forceElement='sets')
-        cmds.sets(n='modules_sets')
-        cmds.sets('modules_sets', e=1, forceElement='sets')
+        utils.create_default_sets()
 
         self.exists = True
         
@@ -131,6 +125,7 @@ class Rig:
 
 
     def updateModuleNames(self):
+        return
         # get list deeps and names for sorting
         m_list = []
         for m_name in self.modules:
@@ -423,9 +418,13 @@ class Rig:
     def selectCurModMainPoser(self):
         cmds.select(self.main.curModuleName + "_mainPoser")
 
+
+
+    # Modules
+
     def load_modules(self):
         modules_groups = cmds.listRelatives('modules') or []
-        modules_files = utils.getModuleFiles()
+        self.moduleNames = []
 
         for f in modules_groups:
             if cmds.attributeQuery('moduleType', node=f, exists=True):
@@ -434,9 +433,9 @@ class Rig:
                 if not m:
                     continue
                 self.modules[moduleName] = m
+                self.moduleNames.append(m.name)
                 
-        # get ordered ModuleNames
-        self.updateModuleNames()
+        self.moduleNames.sort()
 
     def create_module(self, moduleName, moduleType, options):
         moduleTypeCap = utils.capitalizeName(moduleType)
@@ -448,7 +447,8 @@ class Rig:
         m.create(options)
 
         self.modules[moduleName] = m
-        self.updateModuleNames()
+        self.moduleNames.append(m.name)
+        self.moduleNames.sort()
 
         self.toggleVis_posers()
         self.toggleVis_controls()

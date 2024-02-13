@@ -36,11 +36,12 @@ class Module(object):
         self.root = self.name + "_mod"
 
         # import
-        template_path = rootPath + '//modules//' + self.type + '//' + self.type + '.ma'	
-        utils.importFile(template_path, self.name)		
+        template_path = os.path.join(rootPath, "modules", self.type, self.type+'.ma')
+        utils.importFile(template_path, self.name)
 
         # sets update
         cmds.sets(self.name+'_sets', e=1, forceElement='modules_sets' )
+        cmds.sets(self.name+'_nodesSet', e=1, forceElement=self.name+'_sets')
 
         def createControlSet(s):
             new_s = s.replace("moduleC", "c")
@@ -59,7 +60,7 @@ class Module(object):
 
         control_set = createControlSet(self.name+'_moduleControlSet')
         cmds.sets(control_set, e=1, forceElement='controlSet' )
-
+        
         # add types attr
         utils.setUserAttr(self.root, "moduleType", self.type)		
         controls = utils.getSetObjects(control_set)
@@ -87,7 +88,6 @@ class Module(object):
         cmds.parent(self.root, 'modules')
 
         cmds.refresh()
-
 
     def addSkinJoints(self, m_name=None):
         if not m_name:
@@ -214,31 +214,20 @@ class Module(object):
         cmds.delete(self.root)
 
         # remove another nodes
-        nodes = cmds.ls()
+        nodes = cmds.sets(self.name+"_nodesSet", q=1)
         for n in nodes:
             try:
-                if cmds.getAttr(n+".moduleName") == self.name:
-                    cmds.delete(n)
-            except: pass		
+                cmds.delete(n)
+            except: pass
 
         if not cmds.objExists('sets'):
-            cmds.sets(n='sets')
-        if not cmds.objExists('controlSet'):
-            cmds.sets(n='controlSet')	
-            cmds.sets('controlSet', e=1, forceElement='sets' )
-        if not cmds.objExists('skinJointsSet'):
-            cmds.sets(n='skinJointsSet')	
-            cmds.sets('skinJointsSet', e=1, forceElement='sets' )
-        if not cmds.objExists('modules_sets'):
-            cmds.sets(n='modules_sets')	
-            cmds.sets('modules_sets', e=1, forceElement='sets' )
-
+            utils.create_default_sets()
+            
     def load(self):
         self.root = self.name + "_mod"
         self.type = cmds.getAttr(self.root+'.moduleType')
         self.path = rootPath + '//modules//' + self.type + '//' + self.type + '.ma'	
-        self.parent = self.getParentJoint()
-        # self.joints = cmds.listRelatives(self.name + '_root_joint', allDescendents=1)
+        self.parent = self.getParent()
         self.joints = self.getJoints()
         self.additionalControls = self.getAdditionalControls()
         self.symmetrical = self.name.split('_')[0] == "l" and cmds.objExists("r"+self.name[1:]+'_mod')
@@ -777,13 +766,12 @@ class Module(object):
         if not sym:
             self.setOptions(data['optionsData'])
 
-    def getParentJoint(self):
-        if cmds.objExists(self.name + "_mod.parent"):
-            return cmds.getAttr(self.name+"_mod.parent")
-        # connectionNode_name = self.name+'_root_connector_multMat'
-        # if cmds.objExists(connectionNode_name):
-            # parent_joint = pm.PyNode(connectionNode_name).matrixIn[2].inputs()[0].replace("outJoint", "joint")
-            # return parent_joint
+    def getParent(self):
+        if cmds.objExists(self.root + ".parent"):
+            p = cmds.getAttr(self.root+".parent")
+            if not cmds.objExists(p):
+                p = None
+            return p
         else:
             return None
 

@@ -2716,7 +2716,7 @@ class MainWindow:
         self.selectCurModMainPoser()
 
     def deleteModule(self, moduleName="", updateUI=True):
-        print("Delete module")
+        # print("Delete module")
         if self.curModuleName == None:
             return
 
@@ -3190,13 +3190,13 @@ class MainWindow:
             if m_name == self.curModuleName:
                 continue
             m = self.rig.modules[m_name]
-            p = m.getParentJoint()
+            p = m.getParent()
 
             if p and moduleName in p:
                 if moduleName == p[:len(moduleName)]:  # if module name in the start of the word
                     new_p = p.replace(moduleName, newName)
                     utils.setUserAttr(m.name + "_mod", "parent", new_p)
-            m.parent = m.getParentJoint()
+            m.parent = m.getParent()
 
         ## update lines
         # l_for_del = []

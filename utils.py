@@ -236,11 +236,14 @@ def getModuleFiles():
 def getModuleSections():
 	sections = {}
 	for m in getModuleFiles():
-		with open(modulePath+'/modules/'+m+'/info.txt') as f:
+		with open(os.path.join(modulePath, 'modules', m, 'info.txt')) as f:
 			lines = f.readlines()	
-		sect = lines[2].split('\r')[0].split('=')[1]
-		try: sectionList = sections[sect]
-		except: sectionList = []
+		sect = lines[2].rstrip().split('=')[1]
+
+		if sect in sections:
+			sectionList = sections[sect]
+		else: 
+			sectionList = []
 		sectionList.append(m)
 		sections[sect] = sectionList
 
@@ -729,7 +732,6 @@ def importFile(path, name=""):
 	elif ext == "mb": 
 		type_name = "mayaBinary"
 	else:
-		print(555, ext)
 		cmds.warning("Wrong file")
 		return
 	try:
@@ -740,10 +742,15 @@ def importFile(path, name=""):
 
 	# remove namespace
 	nodes = cmds.ls('_temp_:*')
+	set_name = name+"_nodesSet"
+	cmds.sets(n=set_name)
+	cmds.sets(set_name, e=1, forceElement='controlSet' )
 	for n in nodes:
 		if cmds.objExists(n):
 			#print (n, name)
-			addModuleNameAttr(n, name)
+			# addModuleNameAttr(n, name)
+			if cmds.objectType(n) != 'objectSet':
+				cmds.sets(n, e=1, forceElement=set_name)
 			if name == "":
 				cmds.rename(n, n.replace("_temp_:", name))
 			else:
@@ -998,4 +1005,11 @@ def create_space_group(ctrl=None, sources=[], names=[]):
 	cmds.select(ctrl)
 	cmds.setAttr(ctrl+'.parent', 0)	
 
-
+def create_default_sets():
+	cmds.sets(n='controlSet')
+	cmds.sets(n='sets')
+	cmds.sets('controlSet', e=1, forceElement='sets')
+	cmds.sets(n='skinJointsSet')
+	cmds.sets('skinJointsSet', e=1, forceElement='sets')
+	cmds.sets(n='modules_sets')
+	cmds.sets('modules_sets', e=1, forceElement='sets')
