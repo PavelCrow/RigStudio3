@@ -422,7 +422,7 @@ class Rig:
 
     # Modules
 
-    def load_modules(self):
+    def load_modules(self): #
         modules_groups = cmds.listRelatives('modules') or []
         self.moduleNames = []
 
@@ -437,7 +437,7 @@ class Rig:
                 
         self.moduleNames.sort()
 
-    def create_module(self, moduleName, moduleType, options):
+    def create_module(self, moduleName, moduleType, options): #
         moduleTypeCap = utils.capitalizeName(moduleType)
 
         # importlib.import_module('rigStudio3.modules.%s.%s' % (moduleType, moduleType))

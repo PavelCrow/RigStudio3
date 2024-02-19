@@ -6,7 +6,7 @@ import math
 import importlib
 import pickle as cPickle
 
-#import rigStudio2.controller as controller
+from . import controller
 #import rigStudio2.additionalControl as additionalControl
 #import rigStudio2.rigTools as rigTools
 
@@ -177,7 +177,7 @@ def getModuleNameFromHierarhy(controlName):
 
 	return p[:-4]
 
-def getModuleInstance(moduleName):
+def getModuleInstance(moduleName): #
 	m_type = cmds.getAttr(moduleName+"_mod.moduleType")
 	m_typeCap = capitalizeName(m_type)
 
@@ -205,12 +205,13 @@ def objectIsAdditionalControl(ctrl):
 			return True
 	return False
 
-def getControlInstance(name):
+def getControlInstance(name): #
 	try:
 		c = controller.Control()
 		c.load(name)
 		return c
 	except: 
+		cmds.warning("Cannot find the control", name)
 		return False
 
 def getAdditionalControlInstance(name):
@@ -680,7 +681,7 @@ def addBindSkinJoint(checkBox):
 def scaleFromRoot():
 	pass
 
-def formatName(string):
+def formatName(string): #
 	newName = ""
 	for n in string:
 		if n.isupper() or n.isdigit():
@@ -723,7 +724,7 @@ def groupExists(group):
 	else:
 		return False
 
-def importFile(path, name=""):
+def importFile(path, name=""): #
 	# import
 	fr = cmds.currentUnit( query=True, time=True )
 	ext = path.split(".")[-1]
@@ -744,7 +745,6 @@ def importFile(path, name=""):
 	nodes = cmds.ls('_temp_:*')
 	set_name = name+"_nodesSet"
 	cmds.sets(n=set_name)
-	cmds.sets(set_name, e=1, forceElement='controlSet' )
 	for n in nodes:
 		if cmds.objExists(n):
 			#print (n, name)
@@ -1013,3 +1013,11 @@ def create_default_sets():
 	cmds.sets('skinJointsSet', e=1, forceElement='sets')
 	cmds.sets(n='modules_sets')
 	cmds.sets('modules_sets', e=1, forceElement='sets')
+
+def nameIsOk(name): #
+	if name == "" or " " in name or "-" in name or name[0].isdigit():
+		return False
+	else:
+		return True
+	
+	

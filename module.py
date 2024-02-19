@@ -77,13 +77,13 @@ class Module(object):
                 cmds.hide(self.name+o)
 
         # correct posers size
-        for p in pm.listRelatives(self.name + "_posers", allDescendents=1):
-            if p.split("_")[-1] in ['poser', 'mainPoser']:
-                try:
-                    size = p.size.get() * cmds.getAttr("main.posersSize")
-                    p.size.set(size)
-                except:
-                    print("Cannot set size attr in the poser")
+        # for p in pm.listRelatives(self.name + "_posers", allDescendents=1):
+        #     if p.split("_")[-1] in ['poser', 'mainPoser']:
+        #         try:
+        #             size = p.size.get() * cmds.getAttr("main.posersSize")
+        #             p.size.set(size)
+        #         except:
+        #             print("Cannot set size attr in the poser")
 
         cmds.parent(self.root, 'modules')
 
@@ -535,7 +535,7 @@ class Module(object):
                 else:
                     color = 0
                 controlsColorData[control] = color
-                # print "COL" , cName, color
+                # print ("COL" , cName, color)
                 # shape
                 controlInst = utils.getControlInstance(cName)
                 controlsShapeData[control] = controlInst.makePythonCommand(useInternalName=True)
@@ -590,10 +590,10 @@ class Module(object):
 
         # data['nodePosition'] = [self.node.pos().x(), self.node.pos().y()]
 
-        # print '-------------------'
+        # print( '-------------------')
         # for d in data:
-            # print d, data[d]
-        # print '-------------------'
+        #     print (d, data[d])
+        # print( '-------------------')
         return data
 
     def setData(self, data, sym=False, namingForce=False): 
@@ -919,6 +919,23 @@ class Module(object):
     def getOptions(self):
         return False
 
+    def rename(self, new_name): #
+        # rename all nodes
+        allNodes = cmds.sets(self.name+"_nodesSet", q=1)
+        allSets = utils.getSetsInSet(self.name+"_sets")
+        allNodes += allSets
+        allNodes.append(self.name + '_sets')
+
+        for o in allNodes:
+            if cmds.objExists(o):
+                length_name = len(self.name)
+                if o[:length_name] == self.name:
+                    objWithoutName = o[length_name+1:]
+                    cmds.rename(o, new_name + "_" + objWithoutName)
+
+        # rename controlSet
+        if cmds.objExists(self.name + '_controlSet'):
+            cmds.rename(self.name + '_controlSet', new_name + '_controlSet')
 
 
 

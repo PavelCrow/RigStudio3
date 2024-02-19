@@ -1685,9 +1685,6 @@ class MainWindow:
 
             print("Template file %s was deleted" % tName)
 
-
-
-
     def colorPosers(self, color, id):
         self.win.posersColor_btn.setStyleSheet("background-color: rgb" + str(color))
         self.color_menu.close()
@@ -1954,8 +1951,6 @@ class MainWindow:
             cmds.select(sel)
         # self.controls_setCustomShape()
 
-
-
     def controls_setCustomShape(self):
 
 
@@ -1977,8 +1972,6 @@ class MainWindow:
             utils.setUserAttr(ctrlName, 'customShapeCommand', customShapeCommand, type="string")
 
         self.modulePageUpdated = True
-
-
 
     def saveControlShape(self):
 
@@ -2006,8 +1999,6 @@ class MainWindow:
             f.write(json_string)
 
         self.controlShapesUpdate()
-
-
 
     def controls_rotateShape(self, axis):
 
@@ -2070,8 +2061,6 @@ class MainWindow:
                 pass
 
         self.modulePageUpdated = True
-
-
 
     def addChildControl(self):
         logger.debug(traceback.extract_stack()[-1][2])
@@ -2225,7 +2214,7 @@ class MainWindow:
 
     def rigPage_update(self):
         charExist = self.rig.exists
-        print('rigPage_update')
+        # print('rigPage_update')
 
         # if main is exists
         if charExist:
@@ -2289,12 +2278,9 @@ class MainWindow:
 
         self.ibtwClass.updateList()
 
-
     def delete_rig(self):
         self.rig.delete()
         run()
-
-
 
     def rename_rig(self):
         oldName = self.rig.name
@@ -2308,8 +2294,6 @@ class MainWindow:
 
         self.rig.rename(newName)
         self.rigPage_update()
-
-
 
     def posersSize_startUpdate(self, manual=False):
         # save init size data
@@ -2508,9 +2492,8 @@ class MainWindow:
 
         # if current module is exist, get this item and select it, or disable module page
         self.curModuleName = tempName
-        if self.curModuleName:
-            oldCurItem = self.win.modules_treeWidget.findItems(self.curModuleName, QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive, 0)[0]
-            self.win.modules_treeWidget.setCurrentItem(oldCurItem)
+
+        self.selectModuleInList(self.curModuleName)
 
         # expand modules tree
         self.win.modules_treeWidget.expandAll()
@@ -2648,18 +2631,36 @@ class MainWindow:
 
         # print(111, self.curModule.name)
 
+
+    def selectModuleInList(self, name):
+        try:
+            oldCurItem = self.win.modules_treeWidget.findItems(name, QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive, 0)[0]
+            self.win.modules_treeWidget.setCurrentItem(oldCurItem)
+        except:
+            print("Cannot find the module in list")
+
+    def inputModuleName(self, defaultValue):
+        # get new name
+        newName, ok = QtWidgets.QInputDialog().getText(self.win, 'Rename Module', 'Enter module name:',
+                                                        QtWidgets.QLineEdit.Normal, defaultValue)
+
+        if ok:
+            if not utils.nameIsOk(newName):
+                QtWidgets.QMessageBox.information(self.win, "Warning", "Wrong Name.")
+                return
+            
+            if newName in self.rig.modules:
+                QtWidgets.QMessageBox.information(self.win, "Warning", "Module with this name is exists")
+                return
+            return newName
+        else:
+            return
+
+
     def addModule(self, moduleType, name="", options={}, updateUI=True, nodePosition=""):
         if name == "":
-            name, ok = QtWidgets.QInputDialog.getText(self.win, "Add Module", "Please enter new module name",
-                                                      QtWidgets.QLineEdit.Normal, moduleType)
-            if ok:
-                if name in self.rig.modules:
-                    QtWidgets.QMessageBox.information(self.win, "Warning", "This module is exist.")
-                    return
-                if " " in name or "-" in name or name[0].isdigit():
-                    QtWidgets.QMessageBox.information(self.win, "Warning", "Wrong Name.")
-                    return
-            else:
+            name = self.inputModuleName(moduleType)
+            if not name:
                 return
 
         m = self.rig.create_module(name, moduleType, options)
@@ -2684,18 +2685,21 @@ class MainWindow:
                 return
 
         name = utils.incrementName(module.name)
-        while cmds.objExists(name + '_mod'):
+        while name in self.rig.modules:
             name = utils.incrementName(name)
-
+        
         data = module.getData()
+
+        # print(data)
+
         self.addModule(module.type, name=name, options=data['optionsData'], updateUI=True)
 
         self.curModule.setData(data)
 
         # set options
         opt = data['optionsData']
-        if opt != {}:
-            self.rebuildModule(options=opt)
+        # if opt != {}:
+        #     self.rebuildModule(options=opt)
 
         self.updateModulesTree()
         self.updateModulePage(self.curModuleName)
@@ -2704,16 +2708,16 @@ class MainWindow:
         self.addControls_updateTree()
 
         # twists
-        for twData in data['twistsData']:
-            real_data = []
-            real_data = twData
-            m_name = self.curModule.name
-            real_data['name'] = utils.getRealNameFromTemplated(m_name, twData['name'])
-            real_data['start_j'] = utils.getRealNameFromTemplated(m_name, twData['start_j'])
-            real_data['end_j'] = utils.getRealNameFromTemplated(m_name, twData['end_j'])
-            twist.Twist(self.win).twists_add(real_data)
+        # for twData in data['twistsData']:
+        #     real_data = []
+        #     real_data = twData
+        #     m_name = self.curModule.name
+        #     real_data['name'] = utils.getRealNameFromTemplated(m_name, twData['name'])
+        #     real_data['start_j'] = utils.getRealNameFromTemplated(m_name, twData['start_j'])
+        #     real_data['end_j'] = utils.getRealNameFromTemplated(m_name, twData['end_j'])
+        #     twist.Twist(self.win).twists_add(real_data)
 
-        self.selectCurModMainPoser()
+        self.rig.selectCurModMainPoser()
 
     def deleteModule(self, moduleName="", updateUI=True):
         # print("Delete module")
@@ -2945,8 +2949,6 @@ class MainWindow:
 
         self.updateModulesTree()
 
-
-
     def snapToParent(self):
 
 
@@ -2969,8 +2971,6 @@ class MainWindow:
             cmds.select(sel)
         except:
             pass
-
-
 
     def makeSymmetryModule(self, moduleName="", updateUI=True, test=False):
 
@@ -3112,41 +3112,20 @@ class MainWindow:
             self.updateModulesTree()
         # self.curParents.updateList()
 
-
-
-    def renameModule(self, newName="", moduleName=""):
-
-
+    def renameModule(self, name="", moduleName=""):
         # get new name
-        if newName == "":
-            newName, ok = QtWidgets.QInputDialog().getText(self.win, 'Rename Module', 'Enter module name:',
-                                                           QtWidgets.QLineEdit.Normal, self.curModuleName)
-
-            if ok and newName != "":
-                name = newName.replace(" ", "_")
-            else:
+        if name == "":
+            name = self.inputModuleName(self.curModuleName)
+            if not name:
                 return
-
-        else:
-            name = newName
-
-        if cmds.objExists(newName + "_mod"):
-            QtWidgets.QMessageBox.information(self.win, "Warning", "Module with this name is exists")
-            return
-
+        
         # get current module name
         if moduleName == "":
             moduleName = self.curModuleName
             module = self.curModule
         else:
             module = self.rig.modules[moduleName]
-            try:
-                newCurItem = \
-                self.win.modules_treeWidget.findItems(moduleName, QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive, 0)[
-                    0]
-                self.win.modules_treeWidget.setCurrentItem(newCurItem)
-            except:
-                pass
+            # self.selectModuleInList(moduleName)
 
         # set 'l' for symmetry module if not exists
         sym = False
@@ -3156,26 +3135,8 @@ class MainWindow:
                 name = 'l_' + name
 
         # rename all nodes
-        allNodes = cmds.ls()
-        allNodes.append(moduleName + '_sets')
-        allNodes.append(moduleName + '_moduleControlSet')
-
-        for n in allNodes:
-            if cmds.objExists(n + ".moduleName"):
-                # print (111111, n)
-                if cmds.getAttr(n + ".moduleName") == self.curModuleName:
-                    if cmds.objExists(n):
-                        utils.setUserAttr(n, 'moduleName', name)
-                    # pass on renamed controls and its groups
-                    if n[:len(self.curModuleName)] != self.curModuleName:
-                        continue
-                    objWithoutName = n[len(self.curModuleName):]
-                    if cmds.objExists(n):
-                        cmds.rename(n, name + objWithoutName)
-        # rename controlSet
-        if cmds.objExists(moduleName + '_controlSet'):
-            cmds.rename(moduleName + '_controlSet', name + '_controlSet')
-
+        self.curModule.rename(name)
+        
         # update vars
         self.curModuleName = name
         self.curModule.name = name
@@ -3194,38 +3155,11 @@ class MainWindow:
 
             if p and moduleName in p:
                 if moduleName == p[:len(moduleName)]:  # if module name in the start of the word
-                    new_p = p.replace(moduleName, newName)
+                    new_p = p.replace(moduleName, name)
                     utils.setUserAttr(m.name + "_mod", "parent", new_p)
             m.parent = m.getParent()
 
-        ## update lines
-        # l_for_del = []
-        # l_for_add = {}
-        # for l_name in self.worldScene.lines:
-        # l = self.worldScene.lines[l_name]
-        # s, sa, t, ta = l_name.split('.')
-        # if s == moduleName:
-        # s = name
-        # if t == moduleName:
-        # t = name
-        # l_name_new = s + '.' + sa + '.' + t + '.' + ta
-        # l_for_add[l_name_new] = l
-        # l_for_del.append(l_name)
-        # for l_name in l_for_del:	
-        # del self.worldScene.lines[l_name]
-        # for l_name in l_for_add:
-        # l = l_for_add[l_name]
-        # self.worldScene.lines[l_name] = l
-
-        ## update nodes
-        # node = self.worldScene.nodes[moduleName]
-        # node.name = name
-        # node.transformName = name+'_mod'
-        # del self.worldScene.nodes[moduleName]
-        # self.worldScene.nodes[name] = node
-        # node.update()
-
-        self.rig.updateModuleNames()
+        self.rig.load_modules()
 
         # update ui
         self.updateModulesTree()
@@ -3237,15 +3171,7 @@ class MainWindow:
         # rename mirrored module for manual renaming
         if sym:
             self.renameModule('r' + name[1:], 'r' + moduleName[1:])
-            try:
-                newCurItem = self.win.modules_treeWidget.findItems(utils.getOppositeObject(self.curModuleName),
-                                                                   QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive,
-                                                                   0)[0]
-                self.win.modules_treeWidget.setCurrentItem(newCurItem)
-            except:
-                pass
-
-
+            self.selectModuleInList(utils.getOppositeObject(self.curModuleName))
 
     def rebuildModule(self, options={}, moduleType=""):
 
@@ -3377,8 +3303,6 @@ class MainWindow:
         else:
             cmds.select(clear=1)
 
-
-
     def replaceModule(self, moduleType):
 
 
@@ -3494,8 +3418,6 @@ class MainWindow:
         else:
             cmds.select(clear=1)
 
-
-
     def moduleToggleLRA(self):
         self.curModule.toggleLRA()
 
@@ -3556,6 +3478,9 @@ class MainWindow:
     def updateFacePage(self):
         i = self.win.sections_listWidget.currentRow()
         self.win.face_stackedWidget.setCurrentIndex(i)
+
+
+
 
     """ Additional Controls """
 
@@ -3660,8 +3585,6 @@ class MainWindow:
 
         self.win.additionalControls_treeWidget.expandAll()
 
-
-
     def addControls_updatePage(self, nameOrItem, reset=False):
 
 
@@ -3696,14 +3619,11 @@ class MainWindow:
         # if cmds.objExists(self.curAddControlName):
         # cmds.select(self.curAddControlName)
 
-
     def addControls_selectRoot(self):
 
 
         if self.curAddControl != None:
             cmds.select(self.curAddControl.name + '_addPoser')
-
-
 
     def addControls_renameControl(self, newName="", moduleName=""):
 
@@ -3738,8 +3658,6 @@ class MainWindow:
             0]
         self.win.additionalControls_treeWidget.setCurrentItem(newCurItem)
 
-
-
     def addControls_deleteControl(self):
 
 
@@ -3766,8 +3684,6 @@ class MainWindow:
         self.win.addControl_frame.setEnabled(False)
         self.win.addControlName_lineEdit.setText("")
         self.win.addControlParent_lineEdit.setText("")
-
-
 
     def addControls_duplicate(self, child=False, inputName=None):
         if not self.curAddControlName:
@@ -4049,8 +3965,6 @@ class MainWindow:
         except:
             pass
 
-
-
     def addControls_setParent(self):
 
         sel = cmds.ls(sl=1)
@@ -4140,6 +4054,9 @@ class MainWindow:
 
         mir_mat.inputScaleX.set(v)
 
+
+
+
     """ Module Controls """
 
     def controls_switchVis(self, btn, item, sym=False):
@@ -4170,8 +4087,6 @@ class MainWindow:
 
         self.modulePageUpdated = True
 
-
-
     def controls_selectItem(self, cur, prev):
         debugStart(traceback.extract_stack()[-1][2], self.curModuleName)
         try:
@@ -4179,8 +4094,6 @@ class MainWindow:
             cmds.select(self.curControlItemName)
         except:
             self.curControlItemName = None
-
-
 
     def controls_changeName(self, item):
         if self.modulePageUpdated:
@@ -4243,6 +4156,8 @@ class MainWindow:
 
             self.modulePageUpdated = True
     
+
+
 
     """ Menu Actions """
 
@@ -4449,7 +4364,6 @@ class MainWindow:
         self.moduleBuilder = moduleBuilder.ModuleBuilder(self)
 
         self.moduleBuilderWin.show()
-
 
     def action_documentation(self):
 
