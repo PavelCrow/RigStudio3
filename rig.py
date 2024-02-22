@@ -6,9 +6,8 @@ import sys
 from . import main, utils
 
 class Rig:
-    def __init__(self, name='character'):
+    def __init__(self, name='character'): #
         self.name = name
-        self.moduleNames = []
         self.modules = {}
         self.exists = False
         self.root = "main"
@@ -26,8 +25,8 @@ class Rig:
         
         self.load()
 
-    def load(self):
-        print("rig load")
+    def load(self): #
+        # print("rig load")
         self.exists = cmds.objExists(self.root) and cmds.objExists('rig') and cmds.objExists('geo')
         if self.exists:
             self.jointsSize = cmds.getAttr(self.root + ".jointsSize")
@@ -107,7 +106,6 @@ class Rig:
             cmds.delete('sets')
 
         self.exists = False
-        self.moduleNames = []
         self.modules = {}
 
         cmds.delete("red_rsMat")
@@ -122,42 +120,6 @@ class Rig:
     def rename(self, newName):
         self.name = newName
         utils.setUserAttr("main", "name", newName)
-
-
-    def updateModuleNames(self):
-        return
-        # get list deeps and names for sorting
-        m_list = []
-        for m_name in self.modules:
-            m = self.modules[m_name]
-            # print ("MODNAME", m.name, m.parent)
-            deep = 0
-            parent = m.parent
-
-            while parent != "" and parent != None:
-                if parent.split("_")[-1] == "joint": parent = parent.replace("joint", "outJoint")
-                # print (22222, m.name, parent, utils.getModuleNameFromAttr(parent))
-                parModName = utils.getModuleNameFromAttr(parent) or ""
-                # print (1111, parent, parModName)
-                if not parModName:
-                    cmds.warning("Cannot find the parent")
-
-                try:
-                    par_mod = self.modules[parModName]
-                    parent = par_mod.parent
-                    deep += 1
-                except:
-                    parent = None
-
-            m_list.append([deep, m_name])
-        # if parent:
-        # print (555, parent, parModName)
-
-        # save sorted list
-        self.moduleNames = []
-        for deep, name in sorted(m_list):
-            self.moduleNames.append(name)
-
 
     def isTemplate(self, type):
 
@@ -304,17 +266,17 @@ class Rig:
         debugStart(traceback.extract_stack()[-1][2], True)
 
         all_joints = []
-        for m in self.moduleNames:
+        for m in self.modules:
             if cmds.objExists(m + "_skinJoints"):
                 joints = cmds.listRelatives(m + "_skinJoints", allDescendents=1, type='joint')
                 if type(joints).__name__ != "NoneType":
                     all_joints += joints
 
-    def toggleVis_posers(self, state=None):
+    def toggleVis_posers(self, state=None): #
         if not state:
             state = self.main.win.actionPosers.isChecked()
 
-        for m_name in self.moduleNames:
+        for m_name in self.modules:
             if state == 0:  # or self.rig.modules[m_name].opposite:
                 cmds.hide(m_name + '_posers')
             else:
@@ -326,7 +288,7 @@ class Rig:
         if not state:
             state = self.main.win.actionControls.isChecked()
 
-        for m in self.moduleNames:
+        for m in self.modules:
             if state == 0:
                 cmds.hide(m + '_controls')
             else:
@@ -416,7 +378,7 @@ class Rig:
                     pass            
             
     def selectCurModMainPoser(self):
-        cmds.select(self.main.curModuleName + "_mainPoser")
+        cmds.select(self.main.curModule.name + "_mainPoser")
 
 
 
@@ -424,7 +386,7 @@ class Rig:
 
     def load_modules(self): #
         modules_groups = cmds.listRelatives('modules') or []
-        self.moduleNames = []
+        self.modules = {}
 
         for f in modules_groups:
             if cmds.attributeQuery('moduleType', node=f, exists=True):
@@ -433,9 +395,6 @@ class Rig:
                 if not m:
                     continue
                 self.modules[moduleName] = m
-                self.moduleNames.append(m.name)
-                
-        self.moduleNames.sort()
 
     def create_module(self, moduleName, moduleType, options): #
         moduleTypeCap = utils.capitalizeName(moduleType)
@@ -447,8 +406,6 @@ class Rig:
         m.create(options)
 
         self.modules[moduleName] = m
-        self.moduleNames.append(m.name)
-        self.moduleNames.sort()
 
         self.toggleVis_posers()
         self.toggleVis_controls()

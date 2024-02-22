@@ -937,6 +937,8 @@ class Module(object):
         if cmds.objExists(self.name + '_controlSet'):
             cmds.rename(self.name + '_controlSet', new_name + '_controlSet')
 
+        self.name = new_name
+        self.root = self.name + "_mod"
 
 
     """ Additional Controls """
