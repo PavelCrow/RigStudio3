@@ -9,9 +9,9 @@ from shiboken2 import wrapInstance
 # script_path = rootPath + '/rigTools/pk_makeControls.mel'
 # mel.eval( 'source "' + script_path.replace('\\', '/') + '"')
 import sys
-print (sys.version)
+# print (sys.version)
 
-print("init")
+# print("init")
 
 from . import ui, main, utils, rig, module, parents, twist, tools, moduleBuilder, inbetweens, driver, template, attributes, sets
 reload(ui)

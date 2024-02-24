@@ -7,4 +7,4 @@ class Point(module.Module) :
         self.name = name
         self.type = __name__.split('.')[-1]
 
-        print("Point init")
+        # print("Point init")

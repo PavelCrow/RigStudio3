@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: root.ma
-//Last modified: Sat, Feb 24, 2024 04:12:27 PM
+//Last modified: Sat, Feb 24, 2024 04:10:23 PM
 //Codeset: 1251
 requires maya "2022";
 requires "stereoCamera" "10.0";
@@ -11,7 +11,7 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202110272215-ad32f8f1e6";
 fileInfo "osv" "Windows 10 Pro v2009 (Build: 22631)";
-fileInfo "UUID" "2E82384C-4514-7F90-F1E3-79BBC9E20804";
+fileInfo "UUID" "1025A7A1-4BC8-661E-D47C-3BBF7592A14E";
 createNode transform -n "mod";
 	rename -uid "796B45B9-43DB-82CA-C93B-1A91B6023A77";
 createNode transform -n "posers" -p "mod";
@@ -299,7 +299,7 @@ createNode nurbsCurve -n "rootShape" -p "root";
 createNode joint -n "root_ctrJoint" -p "root";
 	rename -uid "586C4655-4DE2-150C-7B24-2D9F93AF9000";
 	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr -l on -k off ".v" no;
+	setAttr -l on -k off ".v";
 	setAttr ".uoc" 1;
 	setAttr ".oc" 6;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
@@ -337,15 +337,15 @@ createNode joint -n "root_outJoint" -p "outJoints";
 createNode transform -s -n "persp";
 	rename -uid "5D24B4F0-48F4-0BBF-2883-0FB107072B31";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 4.8510638776874142 6.9567639736640041 9.2792255399525949 ;
-	setAttr ".r" -type "double3" -33.600000000020017 -332.400000000033 0 ;
+	setAttr ".t" -type "double3" 8.8427805857344932 8.2284989454940796 13.513180297820508 ;
+	setAttr ".r" -type "double3" -27.000000000010878 -326.79999999998199 3.8010161646552554e-15 ;
 	setAttr ".rp" -type "double3" -6.9388939039072284e-18 1.1102230246251563e-16 2.2204460492503131e-16 ;
 	setAttr ".rpt" -type "double3" -2.0710120022049341e-16 1.3723218949214615e-17 -2.394600998630024e-16 ;
 createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "FA06188C-40FD-4EF2-A7A8-2DBD9ED48E1A";
 	setAttr -k off ".v" no;
 	setAttr ".fl" 34.999999999999986;
-	setAttr ".coi" 12.571141505062453;
+	setAttr ".coi" 18.124825188622289;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -459,7 +459,7 @@ createNode script -n "sceneConfigurationScriptNode";
 	setAttr ".b" -type "string" "playbackOptions -min 0 -max 120 -ast 0 -aet 140 ";
 	setAttr ".st" 6;
 createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
-	rename -uid "3EFF29FF-44D9-ACA8-962F-3DBAC607A7BF";
+	rename -uid "A51CD138-44D3-45B6-C082-5A9C3E19A137";
 	setAttr -s 2 ".tgi";
 	setAttr ".tgi[0].tn" -type "string" "Untitled_1";
 	setAttr ".tgi[0].vl" -type "double2" 459.15765955880084 79.761901592451721 ;

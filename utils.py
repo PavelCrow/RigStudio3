@@ -326,9 +326,6 @@ def getModuleName(obj): #
 	path = cmds.ls(obj, l=1) or []
 	moduleName = path[0].split("rig|modules|")[-1].split("_mod|")[0]
 
-	if "_" in moduleName:
-		moduleName = None
-
 	return moduleName
 
 def capitalizeName(name):

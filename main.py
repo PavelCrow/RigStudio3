@@ -2445,10 +2445,13 @@ class MainWindow:
 
     """ Modules """
 
-    def updateModulesTree(self):
+    def updateModulesTree(self): #
         # get modules
         if not self.rig.exists:
             return
+
+        if self.curModule: cur_module_name = self.curModule.name
+        else: cur_module_name = None
 
         # clear old data
         self.win.modules_treeWidget.clear()
@@ -2487,6 +2490,10 @@ class MainWindow:
 
         # expand modules tree
         self.win.modules_treeWidget.expandAll()
+
+        # restore current module
+        if cur_module_name: 
+            self.curModule = self.rig.modules[cur_module_name]
 
     def updateModulePage(self, moduleNameOrItem, prevItem="", updateMap=False):
         if type(moduleNameOrItem).__name__ == "NoneType":
@@ -2627,7 +2634,7 @@ class MainWindow:
         except:
             print("Cannot find the module in list")
 
-    def inputModuleName(self, defaultValue):
+    def inputModuleName(self, defaultValue): #
         # get new name
         newName, ok = QtWidgets.QInputDialog().getText(self.win, 'Rename Module', 'Enter module name:',
                                                         QtWidgets.QLineEdit.Normal, defaultValue)
@@ -2664,7 +2671,7 @@ class MainWindow:
 
         return m
 
-    def duplicateModule(self, module=""):
+    def duplicateModule(self, module=""): #
 
         if not module:
             module = self.curModule
@@ -2702,7 +2709,7 @@ class MainWindow:
 
         self.rig.selectCurModMainPoser()
 
-    def deleteModule(self, moduleName="", updateUI=True):
+    def deleteModule(self, moduleName="", updateUI=True): #
         # print("Delete module")
         if self.curModule.name == None:
             return
@@ -2815,7 +2822,7 @@ class MainWindow:
         self.curParents.updateList()
         self.addControls_updateTree()
 
-    def connectModule(self, target="", moduleName="", updateUI=True):
+    def connectModule(self, target="", moduleName="", updateUI=True): #
         # get module
         if moduleName == "":
             moduleName = self.curModule.name
@@ -2856,6 +2863,7 @@ class MainWindow:
             m.disconnect()
 
         m.connect(target)
+        
         # Connect mirrored module
         # if not m.opposite:
         #     oppModule = self.rig.getMirroredModule(m)
@@ -2874,7 +2882,7 @@ class MainWindow:
         # add connection line
         # if not target_modName+'.'+target.split(target_modName+'_')[-1]+'.'+moduleName+".parent" in self.worldScene.lines:
         # self.worldScene.addLine(target_modName, target, moduleName, "parent")
-
+        
         # restore selection
         utils.restoreSelection(sel)
 

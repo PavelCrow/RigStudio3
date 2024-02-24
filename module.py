@@ -237,7 +237,7 @@ class Module(object):
         # root = self.name + "_root_poserOrient"
         root_poser = self.name + "_root_poser"
         targetType = target.split("_")[-1]
-
+        
         targetMainPoser = utils.getModuleName(target) + "_mainPoser"
         targetInit = target[:-len(targetType)] + "initLoc"
         target_joint = target[:-len(targetType)] + "joint"
