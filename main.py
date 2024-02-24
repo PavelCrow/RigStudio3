@@ -1038,7 +1038,7 @@ class MainWindow:
             p_moduleName = None
             # print "checking", module_name, '------------- '
             while m.parent != None:
-                p_moduleName = utils.getModuleNameFromAttr(m.parent)
+                p_moduleName = utils.getModuleName(m.parent)
                 if p_moduleName == parent_name:
                     return True
                 m = self.rig.modules[p_moduleName]
@@ -1930,7 +1930,7 @@ class MainWindow:
                     for s in shapes:
                         tg = cmds.createNode('transformGeometry', n=s + '_TG')
                         c_mat = cmds.createNode('composeMatrix', n=s + '_compMat')
-                        modName = utils.getModuleNameFromAttr(ctrlName)
+                        modName = utils.getModuleName(ctrlName)
                         utils.addModuleNameAttr(tg, modName)
                         utils.addModuleNameAttr(c_mat, modName)
                         cmds.setAttr(c_mat + '.inputScaleX', -1)
@@ -2455,32 +2455,30 @@ class MainWindow:
         self.win.modules_treeWidget.setColumnCount(2)
         
         if self.rig.modules:
+            # create modules items
+            items = {}
+            for name in sorted(self.rig.modules):
+                item = QtWidgets.QTreeWidgetItem([name])
+                items[name] = item
+            
             # fill modules list
             for name in sorted(self.rig.modules):
                 m = self.rig.modules[name]
-                parentModuleName = utils.getModuleNameFromAttr(m.parent)
-    
+
                 if not m.parent:
-                    item = QtWidgets.QTreeWidgetItem([name])
-    
                     #if cmds.getAttr(m.name + "_mod.v"):
                         #item.setIcon(1, QtGui.QIcon(self.rootPath + '/ui/icons/module_item_selected2.png'))
-            
-                    self.win.modules_treeWidget.addTopLevelItem(item)
-    
+                    self.win.modules_treeWidget.addTopLevelItem(items[name])
                 else:
-                    parents = self.win.modules_treeWidget.findItems(parentModuleName,
-                                                                    QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive, 0)
-                    item = QtWidgets.QTreeWidgetItem([name])
-                    if cmds.getAttr(m.name + "_mod.v"):
-                        item.setIcon(1, QtGui.QIcon(self.rootPath + '/ui/icons/module_item_selected2.png'))
-                    if parents:
-                        parent = parents[0]
-                        parent.addChild(item)
-                    else:
-                        QtWidgets.QMessageBox.information(self.win, "Warning", "Missed parent " + name)
-    
-                item.setIcon(0, QtGui.QIcon(self.rootPath + '/ui/icons/module_%s.png' % m.type))
+                    parentModuleName = utils.getModuleName(m.parent)
+                    # if cmds.getAttr(m.name + "_mod.v"):
+                    #     item.setIcon(1, QtGui.QIcon(self.rootPath + '/ui/icons/module_item_selected2.png'))
+                    parent = items[parentModuleName]
+                    parent.addChild(items[name])
+
+                # set module Icon
+                # item.setIcon(0, QtGui.QIcon(self.rootPath + '/ui/icons/module_%s.png' % m.type))
+                    
                 if m.opposite:
                     item.setForeground(0, QtGui.QBrush(QtGui.QColor("#6C6B6B")))
 
@@ -2523,7 +2521,7 @@ class MainWindow:
             self.win.moduleType_lineEdit.setText(m.type)
         self.win.moduleName_lineEdit.setText(m.name)
         self.win.parent_lineEdit.setText(m.parent)
-
+        
         # Info
         self.win.info_textEdit.setPlainText(utils.readInfo(m.type))
 
@@ -2622,7 +2620,6 @@ class MainWindow:
 
         # print(111, self.curModule.name)
 
-
     def selectModuleInList(self, name): #
         try:
             item = self.win.modules_treeWidget.findItems(name, QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive, 0)[0]
@@ -2646,7 +2643,6 @@ class MainWindow:
             return newName
         else:
             return
-
 
     def addModule(self, moduleType, name="", options={}, updateUI=True, nodePosition=""): #
         if name == "":
@@ -2682,7 +2678,7 @@ class MainWindow:
         data = module.getData()
 
         self.addModule(module.type, name=name, options=data['optionsData'], updateUI=True)
-        print(1111, self.curModule.name)
+        
         self.curModule.setData(data)
 
         # set options
@@ -2743,14 +2739,14 @@ class MainWindow:
         # disconnect children
         for m_name in self.rig.modules:
             child_m = self.rig.modules[m_name]
-            if moduleName == utils.getModuleNameFromAttr(child_m.parent):
+            if moduleName == utils.getModuleName(child_m.parent):
                 self.disconnectModule(child_m.name)
 
         # disconnect twists
         for tw in cmds.listRelatives('twists', type='transform') or []:
             t_name = tw.split("_mod")[0]
 
-            t_mod_name = utils.getModuleNameFromAttr(tw)
+            t_mod_name = utils.getModuleName(tw)
             if t_mod_name == moduleName:
                 continue
             t_data = self.twistClass.getData(t_name)
@@ -2759,7 +2755,7 @@ class MainWindow:
                 continue
 
             for j in ['start_j', 'end_j']:
-                m_name = utils.getModuleNameFromAttr(t_data[j])
+                m_name = utils.getModuleName(t_data[j])
                 if m_name == moduleName:
                     if j == 'start_j':
                         cmds.select(t_name + "_joint")
@@ -2820,15 +2816,13 @@ class MainWindow:
         self.addControls_updateTree()
 
     def connectModule(self, target="", moduleName="", updateUI=True):
-        sel = cmds.ls(sl=1)
-
         # get module
         if moduleName == "":
             moduleName = self.curModule.name
             m = self.curModule
         else:
             m = self.rig.modules[moduleName]
-
+        
         # get target
         if target == "":
             sel = cmds.ls(sl=1)
@@ -2838,9 +2832,7 @@ class MainWindow:
 
             target = sel[0]
 
-            # if cmds.attributeQuery("type", node=target, exist=1):
-            # cmds.getAttr(target+".type") in ["control", "additionalControl"]:
-            if target.split("_")[-1] not in ["poser", "mainPoser", "point", "joint", "addPoser"]:
+            if target.split("_")[-1] not in ["poser", "mainPoser", "point", "joint", "addPoser", "outJoint"]:
                 cmds.warning("Selected object is not poser or joint")
                 return
 
@@ -2852,48 +2844,45 @@ class MainWindow:
             return
 
         # get target module
-        target_modName = utils.getModuleNameFromAttr(target)
+        target_modName = utils.getModuleName(target)
         if target_modName == moduleName:
             cmds.warning("Selected target is belong current module")
             return
-        # print target, target_modName
-        target_mod = self.rig.modules[target_modName]
 
+        cmds.undoInfo(openChunk=True)
+        
         # disconnect
         if m.parent:
             m.disconnect()
 
         m.connect(target)
         # Connect mirrored module
-        if not m.opposite:
-            oppModule = self.rig.getMirroredModule(m)
+        # if not m.opposite:
+        #     oppModule = self.rig.getMirroredModule(m)
 
-            if oppModule:
-                if oppModule.parent:
-                    oppModule.disconnect()
+        #     if oppModule:
+        #         if oppModule.parent:
+        #             oppModule.disconnect()
 
-                if target.split("_")[0] == 'l':
-                    oppTarget = utils.flipSide(target)
-                    if cmds.objExists(oppTarget):
-                        oppModule.connect(oppTarget)
-                else:
-                    oppModule.connect(target)
+        #         if target.split("_")[0] == 'l':
+        #             oppTarget = utils.flipSide(target)
+        #             if cmds.objExists(oppTarget):
+        #                 oppModule.connect(oppTarget)
+        #         else:
+        #             oppModule.connect(target)
 
         # add connection line
         # if not target_modName+'.'+target.split(target_modName+'_')[-1]+'.'+moduleName+".parent" in self.worldScene.lines:
         # self.worldScene.addLine(target_modName, target, moduleName, "parent")
 
+        # restore selection
+        utils.restoreSelection(sel)
+
+        cmds.undoInfo(closeChunk=True)
+
         if updateUI:
             self.updateModulesTree()
-            self.updateModulePage(self.curModule.name)
-            # restore selection
-            if len(sel) > 0:
-                try:
-                    cmds.select(sel)
-                except:
-                    pass
-            else:
-                cmds.select(clear=1)
+            self.selectModuleInList(self.curModule.name)
 
     def disconnectModule(self, moduleName=""):
         sel = cmds.ls(sl=1)
@@ -2912,24 +2901,16 @@ class MainWindow:
         # disconnect
         m.disconnect()
 
-        # remove connection line
-        # s = self.worldScene.nodes[m.name].inputSockets["parent"]
-        # for l in s.getLines():
-        # l.remove()
-
         # delete opposite module on disconnecting 
-        if m.symmetrical:
-            oppModule = self.rig.getMirroredModule(m)
-            oppModule.disconnect()
-        # self.deleteModule(oppModule.name)
+        # if m.symmetrical:
+        #     oppModule = self.rig.getMirroredModule(m)
+        #     oppModule.disconnect()
 
         # restore selection
-        try:
-            cmds.select(sel)
-        except:
-            cmds.select(clear=1)
+        utils.restoreSelection(sel)
 
         self.updateModulesTree()
+        self.selectModuleInList(self.curModule.name)
 
     def snapToParent(self):
 
@@ -2970,7 +2951,7 @@ class MainWindow:
             return
 
         for o in cmds.listRelatives('twists') or []:
-            if utils.getModuleNameFromAttr(o) == m.name:
+            if utils.getModuleName(o) == m.name:
                 QtWidgets.QMessageBox.information(self.win, "Warning", "Remove twists on this module first")
                 return
 
@@ -3152,15 +3133,13 @@ class MainWindow:
             # self.selectModuleInList(utils.getOppositeObject(self.curModule.name))
 
     def rebuildModule(self, options={}, moduleType=""):
-
-
         sel = cmds.ls(sl=1)
 
         # get children
         children = {}
         for m_name in self.rig.modules:
             m = self.rig.modules[m_name]
-            if self.curModule.name == utils.getModuleNameFromAttr(m.parent):
+            if self.curModule.name == utils.getModuleName(m.parent):
                 children[m_name] = [m.parent, m, m.isSnapped()]
 
         # save data
@@ -3197,16 +3176,13 @@ class MainWindow:
                     for d in mData:
                         obj = mData[d]
                         if cmds.objExists(obj):
-                            if utils.getModuleNameFromAttr(obj) == self.curModule.name:
+                            if utils.getModuleName(obj) == self.curModule.name:
                                 connectedOptions.append([mod.name, d, mData[d]])
 
         # delete connected oss
         for data in connectedParentsData:
             # print "need to remove data", data
             self.curParents.os_deleteConstraint(data=data)
-
-        # save curModule name for returning to it
-        oldCurModuleName = self.curModule.name
 
         # delete module
         self.deleteModule(updateUI=False)
@@ -3289,7 +3265,7 @@ class MainWindow:
         children = {}
         for m_name in self.rig.modules:
             m = self.rig.modules[m_name]
-            if self.curModule.name == utils.getModuleNameFromAttr(m.parent):
+            if self.curModule.name == utils.getModuleName(m.parent):
                 children[m_name] = [m.parent, m, m.isSnapped()]
 
         # save data
@@ -3323,7 +3299,7 @@ class MainWindow:
                     for d in mData:
                         obj = mData[d]
                         if cmds.objExists(obj):
-                            if utils.getModuleNameFromAttr(obj) == self.curModule.name:
+                            if utils.getModuleName(obj) == self.curModule.name:
                                 connectedOptions.append([mod.name, d, mData[d]])
 
         # delete connected oss
@@ -3488,7 +3464,7 @@ class MainWindow:
                 return
 
         # get module of the target and add control to it
-        m = self.rig.modules[utils.getModuleNameFromAttr(parent)]
+        m = self.rig.modules[utils.getModuleName(parent)]
 
         m.addAdditionalControl(name, parent, shape)
 
@@ -3572,7 +3548,7 @@ class MainWindow:
         else:
             self.curAddControlName = nameOrItem
 
-        cur_m_name = utils.getModuleNameFromAttr(self.curAddControlName)
+        cur_m_name = utils.getModuleName(self.curAddControlName)
         cur_m = self.rig.modules[cur_m_name]
         self.curAddControl = cur_m.getAdditionalControlInstance(self.curAddControlName)
 
@@ -3640,7 +3616,7 @@ class MainWindow:
             # cmds.warning("Select addtional control from list")
             return
 
-        cur_m_name = utils.getModuleNameFromAttr(self.curAddControlName)
+        cur_m_name = utils.getModuleName(self.curAddControlName)
         cur_m = self.rig.modules[cur_m_name]
         curAddControl = cur_m.getAdditionalControlInstance(self.curAddControlName)
 
@@ -3664,7 +3640,7 @@ class MainWindow:
         if not self.curAddControlName:
             cmds.warning("Select addtional control from list")
             return
-        cur_m_name = utils.getModuleNameFromAttr(self.curAddControlName)
+        cur_m_name = utils.getModuleName(self.curAddControlName)
         cur_m = self.rig.modules[cur_m_name]
 
         curAddControl = cur_m.getAdditionalControlInstance(self.curAddControlName)
@@ -3700,7 +3676,7 @@ class MainWindow:
             # print source_control.name, name
 
             # get module of the target and add control to it
-            m = self.rig.modules[utils.getModuleNameFromAttr(source_control.parent)]
+            m = self.rig.modules[utils.getModuleName(source_control.parent)]
 
             # create new add control
             ctrl = m.addAdditionalControl(name, parent)
@@ -3772,13 +3748,13 @@ class MainWindow:
         sel = cmds.ls(sl=1)
 
         if curAddControl:
-            m_name = utils.getModuleNameFromAttr(curAddControl.name)
+            m_name = utils.getModuleName(curAddControl.name)
             m = self.rig.modules[m_name]
         else:
             # curAddControl = self.curModule.getAdditionalControlInstance(self.curAddControlName)
             # m = self.curModule
 
-            cur_m_name = utils.getModuleNameFromAttr(self.curAddControlName)
+            cur_m_name = utils.getModuleName(self.curAddControlName)
             m = self.rig.modules[cur_m_name]
             curAddControl = m.getAdditionalControlInstance(self.curAddControlName)
 
@@ -3958,7 +3934,7 @@ class MainWindow:
             cmds.warning("Selected target and control is the same object")
             return
 
-        m_name = utils.getModuleNameFromAttr(self.curAddControlName)
+        m_name = utils.getModuleName(self.curAddControlName)
         m = utils.getModuleInstance(m_name)
         curAddControl = m.getAdditionalControlInstance(self.curAddControlName)
         curAddControl.setParent(target)
@@ -4003,10 +3979,10 @@ class MainWindow:
         sel = cmds.ls(sl=1)
 
         if curAddControl:
-            m_name = utils.getModuleNameFromAttr(curAddControl.name)
+            m_name = utils.getModuleName(curAddControl.name)
             m = self.rig.modules[m_name]
         else:
-            cur_m_name = utils.getModuleNameFromAttr(self.curAddControlName)
+            cur_m_name = utils.getModuleName(self.curAddControlName)
             m = self.rig.modules[cur_m_name]
             curAddControl = m.getAdditionalControlInstance(self.curAddControlName)
 

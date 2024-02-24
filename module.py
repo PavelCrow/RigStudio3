@@ -21,7 +21,6 @@ class Module(object):
         self.type = ""
         self.name = ""
         self.root = ""
-        self.path = ""
         self.parent = None
         self.symmetrical = False
         self.opposite = False
@@ -226,63 +225,56 @@ class Module(object):
     def load(self):
         self.root = self.name + "_mod"
         self.type = cmds.getAttr(self.root+'.moduleType')
-        self.path = rootPath + '//modules//' + self.type + '//' + self.type + '.ma'	
         self.parent = self.getParent()
         self.joints = self.getJoints()
         self.additionalControls = self.getAdditionalControls()
         self.symmetrical = self.name.split('_')[0] == "l" and cmds.objExists("r"+self.name[1:]+'_mod')
         self.opposite = self.name.split('_')[0] == "r" and cmds.objExists("l"+self.name[1:]+'_mod')
 
-    def connect(self, target_point):
-        # print ("Connect to", target_point)
-
-        cmds.undoInfo(openChunk=True)
-
+    def connect(self, target):
+        # print ("Connect to", target)
         connector = self.name+"_root_connector"
-        root = self.name + "_root_poserOrient"
-        ext = target_point.split("_")[-1]
-        # targetPoser = target_point[:-len(ext)] + "poser"
+        # root = self.name + "_root_poserOrient"
+        root_poser = self.name + "_root_poser"
+        targetType = target.split("_")[-1]
 
-        targetMainPoser = utils.getModuleNameFromAttr(target_point) + "_mainPoser"
-        targetInit = target_point[:-len(ext)] + "initLoc"
-        target_joint = target_point[:-len(ext)] + "joint"
-        target_outJoint = target_point[:-len(ext)] + "outJoint"
-
-        # print ('-->', connector, root, targetInit, target_joint, ext)
-
+        targetMainPoser = utils.getModuleName(target) + "_mainPoser"
+        targetInit = target[:-len(targetType)] + "initLoc"
+        target_joint = target[:-len(targetType)] + "joint"
+        target_outJoint = target[:-len(targetType)] + "outJoint"
+        connector_parent = self.name + "_input"
+        # print ('-->', targetMainPoser, root_poser, targetInit, target_joint, targetType)
+        
         # save position
         initMatrix = cmds.xform(self.name+'_mainPoser', query=True, ws=True, m=True)
 
         # make connections
-        utils.connectByMatrix(self.name+'_posers', [targetMainPoser], moduleName=self.name)
-        utils.connectByMatrix(connector, [root, targetInit, target_outJoint, connector], ['worldMatrix[0]', 'worldInverseMatrix[0]', 'worldMatrix[0]', 'parentInverseMatrix[0]'], self.name)
-
+        utils.connectToOffsetParentMatrix(self.name+'_posers', [targetMainPoser])
+        utils.connectToOffsetParentMatrix(connector, [root_poser, targetInit, target_outJoint, connector_parent], ['worldMatrix[0]', 'worldInverseMatrix[0]', 'worldMatrix[0]', 'worldInverseMatrix[0]'])
+        
         self.parent = target_joint
-        utils.setUserAttr(self.name+"_mod", "parent", self.parent)
+        # utils.setUserAttr(self.name+"_mod", "parent", self.parent)
         # Symmetry Module Add Connections
-        self.connectOpposite()
+        # self.connectOpposite()
 
         # restore position
         cmds.xform(self.name+'_mainPoser', ws=True, m=initMatrix)		
 
-
-        cmds.select(target_point)
-
         # add poser connection curve
-        curve = self.name+'_connectionLine'
-        cmds.curve(d=1, p=[(0,0,0),(1,0,0)], n=curve)
-        utils.setUserAttr(curve, "moduleName", self.name)	
-        cl1 = cmds.cluster(curve+'.cv[0]', relative=1)
-        cl2 = cmds.cluster(curve+'.cv[1]', relative=1)
-        gr = cmds.group(empty=1, n=curve+'_group')
-        utils.setUserAttr(gr, "moduleName", self.name)	
-        cmds.parent(curve, cl1[1], cl2[1], gr)
-        cmds.parent(gr, self.name+'_posers')
-        cmds.hide(cl1, cl2)
-        cmds.setAttr(curve+'.overrideEnabled', 1)
-        cmds.setAttr(curve+'.overrideDisplayType', 2)
-        cmds.pointConstraint(root, cl1, mo=0)
-        cmds.pointConstraint(targetInit, cl2, mo=0)
+        # curve = self.name+'_connectionLine'
+        # cmds.curve(d=1, p=[(0,0,0),(1,0,0)], n=curve)
+        # utils.setUserAttr(curve, "moduleName", self.name)	
+        # cl1 = cmds.cluster(curve+'.cv[0]', relative=1)
+        # cl2 = cmds.cluster(curve+'.cv[1]', relative=1)
+        # gr = cmds.group(empty=1, n=curve+'_group')
+        # utils.setUserAttr(gr, "moduleName", self.name)	
+        # cmds.parent(curve, cl1[1], cl2[1], gr)
+        # cmds.parent(gr, self.name+'_posers')
+        # cmds.hide(cl1, cl2)
+        # cmds.setAttr(curve+'.overrideEnabled', 1)
+        # cmds.setAttr(curve+'.overrideDisplayType', 2)
+        # cmds.pointConstraint(root_poser, cl1, mo=0)
+        # cmds.pointConstraint(targetInit, cl2, mo=0)
 
         # reroot skin joints
         joints = cmds.listRelatives(self.name+"_outJoints") or []
@@ -292,16 +284,9 @@ class Module(object):
             root_j = j.replace("outJoint", "joint")
             cmds.parent(root_j, target_joint)
             utils.removeTransformParentJoint(root_j)
-            cmds.setAttr(root_j+".jointOrientX", 0)
-            cmds.setAttr(root_j+".jointOrientY", 0)
-            cmds.setAttr(root_j+".jointOrientZ", 0)
+            utils.resetJointOrient(root_j)
 
-        # post connection function of the target
-        target_m_name = utils.getModuleNameFromAttr(target_point)
-        target_m = utils.getModuleInstance(target_m_name)
-        target_m.childConnect(self.name)
-
-        cmds.undoInfo(closeChunk=True)
+        cmds.select(target)
 
     def connectOpposite(self):
         # opp_name = utils.getOppositeObject(self.name)
@@ -317,7 +302,7 @@ class Module(object):
         target = opp_mod.parent
 
         if target != "":
-            src_modName = utils.getModuleNameFromAttr(target)
+            src_modName = utils.getModuleName(target)
             # print 333, target, target != "", opp_mod.name
             src_side = utils.getObjectSide(src_modName)
 
@@ -381,9 +366,6 @@ class Module(object):
             cmds.setAttr(self.name+"_mod.mirror", 1)
 
         cmds.undoInfo(closeChunk=True)
-
-    def childConnect(self, child_name):
-        pass
 
     def setControlAttrs(self, data):
         for attr in data['controlsData']:
@@ -552,7 +534,7 @@ class Module(object):
         if cmds.objExists("twists"):
             tw_mods = cmds.listRelatives('twists', type='transform') or []
             for tw_mod in tw_mods:
-                moduleName = utils.getModuleNameFromAttr(tw_mod)
+                moduleName = utils.getModuleName(tw_mod)
                 if moduleName == self.name:
                     twists.append(tw_mod.split('_mod')[0])		
             for tw in twists:
@@ -767,58 +749,59 @@ class Module(object):
             self.setOptions(data['optionsData'])
 
     def getParent(self):
-        if cmds.objExists(self.root + ".parent"):
-            p = cmds.getAttr(self.root+".parent")
-            if not cmds.objExists(p):
-                p = None
-            return p
-        else:
-            return None
+        conn = cmds.listConnections(self.name+'_root_connector.offsetParentMatrix', source=1, destination=0) or []
+        if conn:
+            mm = conn[0]
+            parents = cmds.listConnections(mm+'.matrixIn[2]', source=1, destination=0) or []
+            if parents: 
+                parent = parents[0]
+                # check another connection
+                parentModule = utils.getModuleName(parent)
+                in_nodes = cmds.listConnections(self.name+'_posers.offsetParentMatrix', source=1, destination=0) or []
+                if in_nodes:
+                    if in_nodes[0] == parentModule + "_mainPoser":
+                        return parent
+        return None
 
     def disconnect(self):
-        if not self.parent:
-            return
-
         target = self.parent
+        if not target:
+            return
 
         # save init mainPoser transforms
         initMatrix = cmds.xform(self.name+'_mainPoser', query=True, ws=True, m=True)
 
-        # delete connection nodes
+        # disconnect
+        parentModule = utils.getModuleName(target)
+        cmds.disconnectAttr(parentModule+'_mainPoser.worldMatrix', self.name+"_posers.offsetParentMatrix")
+        cmds.delete(self.name+'_root_connector_multMat')
 
-        self.snapToParent(False)
-
-        inputNode = utils.getInputNode(self.name+"_posers", "tx")
-        if inputNode:
-            cmds.delete(utils.getInputNode(self.name+"_posers", "tx"))
-        inputNode = utils.getInputNode(self.name+"_root_connector", "tx")
-        if inputNode:
-            cmds.delete(utils.getInputNode(self.name+"_root_connector", "tx"))
+        # self.snapToParent(False)
 
         # delete line group
-        if cmds.objExists(self.name + "_connectionLine_group"):
-            cmds.delete(self.name + "_connectionLine_group")
+        # if cmds.objExists(self.name + "_connectionLine_group"):
+        #     cmds.delete(self.name + "_connectionLine_group")
 
         # restore main poser position
-        if not self.opposite:
-            utils.resetAttrs(self.name+"_posers")
-            utils.resetAttrs(self.name+"_root_connector")
-            cmds.xform(self.name+'_mainPoser', ws=True, m=initMatrix)
+        # if not self.opposite:
+        #     utils.resetAttrs(self.name+"_posers")
+        #     utils.resetAttrs(self.name+"_root_connector")
+        #     cmds.xform(self.name+'_mainPoser', ws=True, m=initMatrix)
 
         # update attrs
         self.parent = ""
-        utils.setUserAttr(self.name+"_mod", 'parent', '')
+        # utils.setUserAttr(self.name+"_mod", 'parent', '')
 
         # reroot skin joints
         jointsRoot = self.name+'_root_joint'
-        utils.parentIfNeeded(jointsRoot, 'skeleton')	
+        utils.parentTo(jointsRoot, 'skeleton')	
         utils.removeTransformParentJoint(jointsRoot)
         utils.resetJointOrient(jointsRoot)
 
         # fix viewport bug
-        p = cmds.listRelatives(target.replace("joint", "initLoc"), p=1)[0]
-        cmds.select(p)
-        cmds.refresh()	
+        # p = cmds.listRelatives(target.replace("joint", "initLoc"), p=1)[0]
+        # cmds.select(p)
+        # cmds.refresh()	
 
     def snapToParent(self, state):
         # print 4444, cmds.objExists('r_limbCurved_end_joint')
@@ -826,7 +809,7 @@ class Module(object):
         if self.isSnapped() == state:
             return
 
-        parentModule = utils.getModuleNameFromAttr(self.parent.replace("joint", "outJoint"))
+        parentModule = utils.getModuleName(self.parent.replace("joint", "outJoint"))
         parent_p = cmds.listRelatives(self.parent.replace("joint", "initLoc"), p=1)[0]
         if parent_p.split("_")[-1] == 'poserOrient':
             parent_p = cmds.listRelatives(parent_p, p=1)[0]
@@ -868,7 +851,7 @@ class Module(object):
                     cmds.delete(self.parent)
 
                 if cmds.objExists(parent_j_opp) and cmds.objExists(root_j_opp) and root_j_opp != root_j:
-                    utils.parentIfNeeded(root_j_opp, cmds.listRelatives(parent_j_opp,p=1)[0])
+                    utils.parentTo(root_j_opp, cmds.listRelatives(parent_j_opp,p=1)[0])
                     utils.resetJointOrient(root_j_opp)
                     cmds.delete(parent_j_opp)				
 
@@ -896,9 +879,9 @@ class Module(object):
 
                 if cmds.objExists(root_j_opp) and root_j_opp != root_j:
                     cmds.duplicate(parent_j_opp.replace("joint", "outJoint"), n=parent_j_opp)[0]
-                    utils.parentIfNeeded(parent_j_opp, utils.getOppositeObject(par.replace("outJoint", "joint")))
+                    utils.parentTo(parent_j_opp, utils.getOppositeObject(par.replace("outJoint", "joint")))
                     utils.resetJointOrient(parent_j_opp)
-                    utils.parentIfNeeded(root_j_opp, parent_j_opp)
+                    utils.parentTo(root_j_opp, parent_j_opp)
                     utils.resetJointOrient(root_j_opp)
                     utils.strightConnect(parent_j_opp.replace("_joint", "_outJoint"), parent_j_opp)
 
@@ -1087,7 +1070,7 @@ class Module(object):
         if mod_name == "":
             mod_name = self.name
 
-        src_mod = utils.getModuleNameFromAttr(src_object)
+        src_mod = utils.getModuleName(src_object)
         posers = cmds.listRelatives(mod_name+'_mainPoser', type='transform', allDescendents=1) or []
 
         closest_distance = 10000000

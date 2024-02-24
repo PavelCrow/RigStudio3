@@ -27,7 +27,7 @@ ns = ""
 # functions
 ##################################
 
-def getModuleNameFromAttr(obj):
+def getModuleName(obj):
 	if obj == None or obj == "" or not cmds.objExists(obj):
 		return ""
 
@@ -134,7 +134,7 @@ def getConnectedFootModule(control):
 	for attr in outputs:
 		if attr.split('.')[-1] == 'ikFk':
 			in_node = attr.split('.')[0]	
-			child_m_name = getModuleNameFromAttr(in_node)
+			child_m_name = getModuleName(in_node)
 			ns = getNS(control)
 			return ns + child_m_name
 	
@@ -155,7 +155,7 @@ def switchIkFk(simple=False):
 	for sel in sels:
 		ns = getNS(sel)
 		intName = getInternalNameFromControl(sel)
-		m_name = ns + getModuleNameFromAttr(sel)
+		m_name = ns + getModuleName(sel)
 		#print sel, ns, m_name, m_type, intName
 
 		# get switch control
@@ -241,7 +241,7 @@ def from_fk_to_ik(control):
 	ns = getNS(control)
 	foot_m = getConnectedFootModule(control)
 	
-	m_name = ns + getModuleNameFromAttr(control)
+	m_name = ns + getModuleName(control)
 	quad = cmds.objExists(control+".length3")
 
 	if cmds.objExists(m_name + "_a_finalJoint"):
@@ -304,7 +304,7 @@ def from_ik_to_fk(control):
 	
 	# get variables
 	ns = getNS(control)
-	m_name = ns + getModuleNameFromAttr(control)
+	m_name = ns + getModuleName(control)
 	foot_m = getConnectedFootModule(control)
 	quad = cmds.objExists(control+".length3")
 	#print 00, control, control+".lehgth3", cmds.objExists(control+".lehgth3")
@@ -397,7 +397,7 @@ def from_ik_to_fk(control):
 def snap(target, rev=True):
 	# get helper
 	ns = getNS(target)
-	m_name = ns + getModuleNameFromAttr(target)
+	m_name = ns + getModuleName(target)
 	
 	source = m_name + "_" + getInternalNameFromControl(target) + "_ikFkSwitchHelper"
 

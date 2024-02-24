@@ -244,7 +244,7 @@ class Twist(object):
 
         # add attributes to all twist nodes
         nodes = cmds.ls('_temp_:*')
-        moduleName = utils.getModuleNameFromAttr(t_name+"_joint")
+        moduleName = utils.getModuleName(t_name+"_joint")
 
         for n in nodes:
             if cmds.objExists(n):
@@ -641,7 +641,7 @@ class Twist(object):
                         cmds.warning("Select joint for attaching twist root")
                         return
                 else:
-                    m_name = utils.getModuleNameFromAttr(start_j)
+                    m_name = utils.getModuleName(start_j)
                     m = utils.getModuleInstance(m_name)
                     if m.parent:
                         parent_j = cmds.listRelatives(start_j, p=1)[0]
@@ -709,7 +709,7 @@ class Twist(object):
         if cmds.objExists("twists"):
             tw_mods = cmds.listRelatives('twists', type='transform') or []
             for tw_mod in tw_mods:
-                m_Name = utils.getModuleNameFromAttr(tw_mod)
+                m_Name = utils.getModuleName(tw_mod)
                 if m_Name == moduleName:
                     twists.append(tw_mod.split('_mod')[0])
 

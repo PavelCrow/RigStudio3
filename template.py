@@ -95,7 +95,7 @@ class Template(object):
 			p_moduleName = None
 			# print "checking", module_name, '------------- '
 			while m.parent != None:
-				p_moduleName = utils.getModuleNameFromAttr(m.parent)
+				p_moduleName = utils.getModuleName(m.parent)
 				if p_moduleName == parent_name:
 					return True
 				m = self.rig.modules[p_moduleName]

@@ -377,7 +377,7 @@ class Connections(object):
 			s_c, s_a = d.split(".")
 			item_data = {}
 			item_data["name"] = s_c
-			item_data["moduleName"] = utils.getModuleNameFromAttr(s_c)
+			item_data["moduleName"] = utils.getModuleName(s_c)
 			item_data["s_attr"] = s_a
 			item_data["targets"] = data[d][0]
 			item_data["frames"] = data[d][1]
@@ -594,7 +594,7 @@ class Connections(object):
 			
 		data = {}
 		data["name"] = c
-		data["moduleName"] = utils.getModuleNameFromAttr(c)
+		data["moduleName"] = utils.getModuleName(c)
 		data["s_attr"] = a
 		data["targets"] = []
 		data["frames"] = []

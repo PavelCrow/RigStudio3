@@ -44,7 +44,7 @@ class AdditionalControl(controller.Control):
 		utils.setUserAttr(self.name, 'type', 'additionalControl')
 		
 		# add modulename attr
-		par_moduleName = utils.getModuleNameFromAttr(self.parent)
+		par_moduleName = utils.getModuleName(self.parent)
 		
 		#print 111, self.parent, self.name+"_group"
 		for o in cmds.listRelatives(self.name+"_group", allDescendents=1):
@@ -58,7 +58,7 @@ class AdditionalControl(controller.Control):
 		cmds.setAttr(j+".segmentScaleCompensate", 0)	
 		
 		# add joint to sceleton
-		src_mod_name = utils.getModuleNameFromAttr(self.parent)
+		src_mod_name = utils.getModuleName(self.parent)
 					
 		parent_j = self.parent + '_joint'
 		
@@ -68,7 +68,7 @@ class AdditionalControl(controller.Control):
 			parent_j = con.target[0].targetParentMatrix.inputs()[0].replace("outJoint", "joint")
 		
 		if not cmds.objExists(parent_j):
-			parent_j = '%s_%s_joint' %(utils.getModuleNameFromAttr(self.name), utils.getInternalNameFromControl(self.parent))
+			parent_j = '%s_%s_joint' %(utils.getModuleName(self.name), utils.getInternalNameFromControl(self.parent))
 			#if self.name == 'l_legUpperAdd_3': print 222, parent_j, cmds.objExists(parent_j)
 			if not cmds.objExists(parent_j):
 				#if self.name == 'l_legUpperAdd_3': print 333, parent_j, utils.getClosestJoint(par_moduleName, self.parent)
@@ -221,7 +221,7 @@ class AdditionalControl(controller.Control):
 		self.deep = 0
 
 	def setParent(self, target):
-		old_moduleName = utils.getModuleNameFromAttr(self.name)
+		old_moduleName = utils.getModuleName(self.name)
 		
 		par = cmds.listRelatives(self.name+"_group", p=1)[0]
 		if par == target:
@@ -232,7 +232,7 @@ class AdditionalControl(controller.Control):
 		self.parent = target
 		
 		# add modulename attr
-		par_moduleName = utils.getModuleNameFromAttr(self.parent)
+		par_moduleName = utils.getModuleName(self.parent)
 		for o in cmds.listRelatives(self.name+"_group", allDescendents=1):
 			utils.addModuleNameAttr(o, par_moduleName)
 		utils.addModuleNameAttr(self.name+"_group", par_moduleName)		

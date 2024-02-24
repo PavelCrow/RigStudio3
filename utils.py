@@ -149,7 +149,7 @@ def getShape(name):
 	shape = cmds.listRelatives(name, s=1)[0]
 	return shape
 
-def resetAttrs(o, debug=False):
+def resetAttrs(o, debug=False): #
 	for a in [".tx", ".ty", ".tz", ".rx", ".ry", ".rz"]:
 		try:
 			cmds.setAttr(o+a, 0)
@@ -318,17 +318,16 @@ def getModuleTypeFromAttr(obj):
 
 	return moduleType
 
-def getModuleNameFromAttr(obj):
-	if obj == None:
+def getModuleName(obj): #
+	if obj == None or obj == "" or not cmds.objExists(obj):
 		return None	
 	obj = obj.replace("joint", "outJoint")
-	if obj == "" or not cmds.objExists(obj):
-		return None
 
-	moduleName = None
+	path = cmds.ls(obj, l=1) or []
+	moduleName = path[0].split("rig|modules|")[-1].split("_mod|")[0]
 
-	if cmds.attributeQuery( 'moduleName', node=obj, exists=True ):
-		moduleName = cmds.getAttr(obj+'.moduleName')
+	if "_" in moduleName:
+		moduleName = None
 
 	return moduleName
 
@@ -621,7 +620,7 @@ def selectSkinJoints():
 
 	cmds.select(joints)	
 
-def removeTransformParentJoint(jnt):
+def removeTransformParentJoint(jnt): #
 	tr = cmds.listRelatives(jnt, p=1)[0]
 	if 'transform' in tr:
 		tr_par = cmds.listRelatives(tr, p=1)[0]
@@ -674,6 +673,15 @@ def connectByMatrix(obj, targets, inputs=[], moduleName="", attrs=['t', 'r', 's'
 
 	else:
 		cmds.connectAttr(targets[0]+".worldMatrix[0]", dMat+'.inputMatrix')	
+
+def connectToOffsetParentMatrix(obj, targets, inputs=[]): #
+	if len(targets) > 1:
+		mMat = cmds.createNode('multMatrix', n=obj+"_multMat")
+		cmds.connectAttr(mMat+".matrixSum", obj+'.offsetParentMatrix')
+		for i in range(len(targets)):
+			cmds.connectAttr(targets[i]+"."+inputs[i], mMat+'.matrixIn[%s]' %(str(i)) )
+	else:
+		cmds.connectAttr(targets[0]+".worldMatrix[0]", obj+'.offsetParentMatrix')
 
 def addBindSkinJoint(checkBox):
 	rigTools.addSecondBindSkinJoint.run(checkBox.isChecked())
@@ -806,8 +814,8 @@ def getClosestJoint(mod_name, src_object):
 	for j in cmds.listRelatives("skeleton", allDescendents=1):
 		if j.split("_")[-1] == 'joint':
 
-			#print j, getModuleNameFromAttr(j)
-			if getModuleNameFromAttr(j) == mod_name:
+			#print j, getModuleName(j)
+			if getModuleName(j) == mod_name:
 				pos2 = cmds.xform(j, query=True, translation=True, worldSpace=True)
 				distance = math.sqrt( math.pow((pos1[0]-pos2[0]),2) + math.pow((pos1[1]-pos2[1]),2) + math.pow((pos1[2]-pos2[2]),2))				
 				#if src_object == 'l_leg_upper_pin': print 33333333, j, pos2, distance
@@ -895,19 +903,17 @@ def loadPos():
 				except:
 					cmds.warning ("attribute %s is connected" %(ctrl+'.'+attr))
 
-def resetJointOrient(j):
+def resetJointOrient(j): #
 	cmds.setAttr(j+".jointOrientX", 0)
 	cmds.setAttr(j+".jointOrientY", 0)
 	cmds.setAttr(j+".jointOrientZ", 0)
 
-def parentIfNeeded(child, parent):
+def parentTo(child, parent): #
 	parents = cmds.listRelatives(child, p=1) or []
-	if len(parents) == 1:
+	if parents:
 		current_par = parents[0]
-	else:
-		current_par = None
-	if parent != current_par:
-		cmds.parent(child, parent)	
+		if parent != current_par:
+			cmds.parent(child, parent)	
 
 def strightConnect(s, t):
 	cmds.connectAttr(s+".tx", t+'.tx')
@@ -1020,4 +1026,11 @@ def nameIsOk(name): #
 	else:
 		return True
 	
-	
+def restoreSelection(sel):
+	if len(sel) > 0:
+		try:
+			cmds.select(sel)
+		except:
+			pass
+	else:
+		cmds.select(clear=1)

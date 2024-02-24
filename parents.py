@@ -80,7 +80,7 @@ class Parents(object):
         self.control = self.win.parents_control_lineEdit.text()
         self.obj = self.win.parents_objects_listWidget.currentItem().text() + "_parentsGroup"
 
-        self.moduleName = utils.getModuleNameFromAttr(self.obj)
+        self.moduleName = utils.getModuleName(self.obj)
         self.curModule = self.rig.modules[self.moduleName]
 
         if self.win.parents_translate_checkBox.isChecked() and self.win.parents_rotate_checkBox.isChecked() :
@@ -127,7 +127,7 @@ class Parents(object):
         targets = []		
 
         # get dynamic data
-        moduleName = utils.getModuleNameFromAttr(obj)
+        moduleName = utils.getModuleName(obj)
 
 
         if cmds.objExists(obj):
@@ -344,14 +344,14 @@ class Parents(object):
             cmds.warning("Selected object is not control")
             return
 
-        mod_name = utils.getModuleNameFromAttr(obj)
+        mod_name = utils.getModuleName(obj)
         m = utils.getModuleInstance(mod_name)
         if m.opposite:
             cmds.warning("Select left side control")
             return
 
         def addGroup(obj):
-            mod_name = utils.getModuleNameFromAttr(obj)
+            mod_name = utils.getModuleName(obj)
             par = cmds.listRelatives(obj, p=1)[0]
             gr = cmds.group(empty=1, n=obj+"_parentsGroup")
             cmds.parent(gr, par)
@@ -448,7 +448,7 @@ class Parents(object):
 
         # add selected controls in table
         for ctrl in sels:
-            mod_name = utils.getModuleNameFromAttr(ctrl)
+            mod_name = utils.getModuleName(ctrl)
             m = utils.getModuleInstance(mod_name)
             if m.opposite:
                 cmds.warning("Select left side control")
