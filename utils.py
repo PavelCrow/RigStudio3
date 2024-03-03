@@ -86,11 +86,7 @@ def incrementName(name):
 		name += '_1'
 	return name
 
-def incrementNameIfExists(name):
-	side = ""
-	if name.split('_')[0] == "l" or name.split('_')[0] == "r":
-		side = name.split('_')[0]
-
+def incrementNameIfExists(name): #
 	suffix = name.split('_')[-1]
 	if suffix.isdigit():
 		rootName = name[:-len(suffix)-1]
@@ -98,7 +94,6 @@ def incrementNameIfExists(name):
 		suffix = ""
 		rootName = name	
 
-	#print name, suffix, rootName
 	while cmds.objExists(name):
 		suffix = name.split('_')[-1]
 		if suffix.isdigit():
@@ -340,17 +335,6 @@ def getObjectSide(moduleName):
 	else:
 		return "c"
 
-def flipSide(name):
-	try:
-		side = name.split('_')[0]
-		if side == "r":
-			return "l_"+name[2:]
-		elif side == "l":
-			return "r_"+name[2:]
-		else:
-			return name
-	except: return name
-
 def getConstraint(obj):
 	childs = cmds.listRelatives(obj)
 	for o in childs:
@@ -550,7 +534,7 @@ def renameControl(oldCtrlName, newCtrlName):
 		if parent.split('_')[-1] == 'controls':
 			return
 
-def getTemplatedNameFromReal(mod_name, control_name):
+def getTemplatedNameFromReal(mod_name, control_name): #
 	#print (122, mod_name, control_name)
 	if mod_name in control_name:
 		if control_name[:len(mod_name)] == mod_name:
@@ -559,14 +543,14 @@ def getTemplatedNameFromReal(mod_name, control_name):
 
 	return control_name
 
-def getRealNameFromTemplated(mod_name, control_name):
+def getRealNameFromTemplated(mod_name, control_name): #
 	if "MODNAME" in control_name:
-		name = mod_name + control_name.split("MODNAME")[1]
+		name = control_name.replace("MODNAME", mod_name)
 		return name
 	else:
 		return control_name
 
-def getOppositeObject(obj):
+def getOpposite(obj):
 	side = obj.split('_')[0]
 	if side == "r":
 		return "l" + obj[1:]
@@ -764,7 +748,7 @@ def importFile(path, name=""): #
 			pass
 	cmds.namespace(removeNamespace='_temp_')	
 
-def getVisibleAttrs(obj):
+def getVisibleAttrs(obj): #
 	attrList = []
 	attrListKeyable = cmds.listAttr( obj, keyable=True )
 	if type(attrListKeyable) != list :
@@ -901,9 +885,7 @@ def loadPos():
 					cmds.warning ("attribute %s is connected" %(ctrl+'.'+attr))
 
 def resetJointOrient(j): #
-	cmds.setAttr(j+".jointOrientX", 0)
-	cmds.setAttr(j+".jointOrientY", 0)
-	cmds.setAttr(j+".jointOrientZ", 0)
+	cmds.setAttr(j+".jointOrient", 0,0,0)
 
 def parentTo(child, parent): #
 	parents = cmds.listRelatives(child, p=1) or []
@@ -912,7 +894,7 @@ def parentTo(child, parent): #
 		if parent != current_par:
 			cmds.parent(child, parent)	
 
-def strightConnect(s, t):
+def connectTrandform(s, t): #
 	cmds.connectAttr(s+".tx", t+'.tx')
 	cmds.connectAttr(s+".ty", t+'.ty')
 	cmds.connectAttr(s+".tz", t+'.tz')
@@ -1023,7 +1005,7 @@ def nameIsOk(name): #
 	else:
 		return True
 	
-def restoreSelection(sel):
+def restoreSelection(sel): #
 	if len(sel) > 0:
 		try:
 			cmds.select(sel)

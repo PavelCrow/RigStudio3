@@ -390,7 +390,7 @@ class Parents(object):
 
         # add mirrored group
         if utils.objectIsSymmetrical(mod_name+"_mod"):
-            addGroup(utils.getOppositeObject(obj))
+            addGroup(utils.getOpposite(obj))
 
         self.updateList()
         #self.page_update()
@@ -427,7 +427,7 @@ class Parents(object):
 
         # delete mirrored group
         if utils.objectIsSymmetrical(curParentObj):
-            opp_obj = utils.getOppositeObject(curParentObj)
+            opp_obj = utils.getOpposite(curParentObj)
             par_gr = opp_obj + "_parentsGroup"
             if cmds.objExists(par_gr):
                 par = cmds.listRelatives(par_gr, p=1)[0]
@@ -638,11 +638,11 @@ class Parents(object):
             #data['targetModules'] = targetModules
 
         moduleName = data['moduleName']
-        sym_moduleName = utils.flipSide(moduleName)
+        sym_moduleName = utils.getOpposite(moduleName)
 
         # add parent group
         #if moduleName.split('_')[0] == 'l' and cmds.objExists(sym_moduleName+'_mod'):
-            #if not cmds.objExists(utils.getOppositeObject(self.obj)):
+            #if not cmds.objExists(utils.getOpposite(self.obj)):
                 #self.removeParentObject()		
 
         c = self.obj.split("_parentsGroup")[0]
@@ -651,7 +651,7 @@ class Parents(object):
         if not cmds.objExists(self.obj):
             cmds.select(c)
             self.addParentObject()
-        if cmds.objExists( utils.getOppositeObject(data['moduleName']+"_mod") ) and not cmds.objExists( utils.getOppositeObject(self.obj) ):
+        if cmds.objExists( utils.getOpposite(data['moduleName']+"_mod") ) and not cmds.objExists( utils.getOpposite(self.obj) ):
             self.removeParentObject(c)
             cmds.select(c)
             self.addParentObject()
@@ -694,22 +694,22 @@ class Parents(object):
             sym_niceNames = []
             sym_targetModules = []
             for n in data['niceNames']:
-                n = utils.flipSide(n)
+                n = utils.getOpposite(n)
                 sym_niceNames.append(n)
             for n in data['targetModules']:
-                n = utils.flipSide(n)
+                n = utils.getOpposite(n)
                 sym_targetModules.append(n)
 
             sym_data = {}
-            sym_data['spaceObj'] = utils.flipSide(data['spaceObj']) 
-            sym_data['control'] = utils.flipSide(data['control']) 
+            sym_data['spaceObj'] = utils.getOpposite(data['spaceObj']) 
+            sym_data['control'] = utils.getOpposite(data['control']) 
             sym_data['attrName'] = data['attrName']
             sym_data['attrVis'] = data['attrVis']
             sym_data['niceNames'] = sym_niceNames
             sym_data['intNames'] = data['intNames']
             sym_data['attrType'] = data['attrType']
             sym_data['constrType'] = data['constrType']
-            sym_data['moduleName'] = utils.flipSide(data['moduleName']) 
+            sym_data['moduleName'] = utils.getOpposite(data['moduleName']) 
             sym_data['targetModules'] = sym_targetModules
             #data['targets'] = 
 
@@ -801,8 +801,8 @@ class Parents(object):
         utils.setUserAttr(obj, "intNames", [], 'data')
 
         # delete os on mirrored module
-        if moduleName.split('_')[0] == 'l' and cmds.objExists( utils.flipSide(moduleName)+'_mod'):
-            self.os_deleteConstraint(False, utils.flipSide(obj))		
+        if moduleName.split('_')[0] == 'l' and cmds.objExists( utils.getOpposite(moduleName)+'_mod'):
+            self.os_deleteConstraint(False, utils.getOpposite(obj))		
 
         if clearTable:
             self.win.parents_tableWidget.setRowCount(0)	

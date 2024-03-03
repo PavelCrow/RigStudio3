@@ -250,7 +250,7 @@ class Control(object):
 		doRename(self.name, in_newName)
 		
 		if sym:
-			doRename(utils.getOppositeObject(self.name), utils.getOppositeObject(in_newName))
+			doRename(utils.getOpposite(self.name), utils.getOpposite(in_newName))
 			
 		self.name = in_newName
 		utils.setUserAttr(in_newName, 'internalName', in_newName)
@@ -373,13 +373,13 @@ class Control(object):
 
 	def isSymmetry(self):
 		if self.name.split('_')[0] == 'l':
-			if cmds.objExists(utils.getOppositeObject(self.name)):
+			if cmds.objExists(utils.getOpposite(self.name)):
 				return True
 		return False
 
 	def isMirrored(self):
 		if self.name.split('_')[0] == 'r':
-			if cmds.objExists(utils.getOppositeObject(self.name)):
+			if cmds.objExists(utils.getOpposite(self.name)):
 				return True
 		return False
 	

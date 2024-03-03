@@ -1,12 +1,13 @@
 import maya.cmds as cmds
+import pymel.core as pm
 import maya.OpenMayaUI as OpenMayaUI
-import os, sys, importlib, json
+import os, sys, json
 from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
 from shiboken2 import wrapInstance
 
 from functools import partial
 
-from .import utils, parents, twist, inbetweens, rig, tools
+from .import utils, parents, twist, inbetweens, rig, tools, template
 from .ui.action import ActionClass as Action
 from .ui.groupLabel import GroupLabel
 
@@ -121,6 +122,8 @@ class MainWindow:
 
         self.rig = rig.Rig()
         self.rig.main = self
+        self.template = template.Template()
+        self.template.main = self
         self.curParents = parents.Parents(self.win, self.rig)
         
         self.rigPage_update()
@@ -713,7 +716,7 @@ class MainWindow:
         saveModTepl_action = QtWidgets.QAction(self.win)
         saveModTepl_action.setText("Save Template")
         menu.addAction(saveModTepl_action)
-        saveModTepl_action.triggered.connect(partial(self.template_actions, 'save'))
+        saveModTepl_action.triggered.connect(self.template.save)
 
         saveCompModTepl_action = QtWidgets.QAction(self.win)
         saveCompModTepl_action.setText("Save as Compound Module")
@@ -727,7 +730,7 @@ class MainWindow:
         menu.addSeparator()
 
         def getTemplateFiles():
-            templfilesList = os.listdir(self.rootPath + '/templates/modules')
+            templfilesList = os.listdir(os.path.join(self.rootPath, 'templates', 'modules'))
             templFiles = []
             # if file is template file for current module, add it to list
             for f in templfilesList:
@@ -902,7 +905,7 @@ class MainWindow:
         # add mirrored controls
         for cData in mData['additionalControlsData']:
             if cData['mirrored']:
-                c = utils.getControlInstance(utils.getOppositeObject(cData['name']))
+                c = utils.getControlInstance(utils.getOpposite(cData['name']))
                 self.addControls_mirrorControl(c)
 
         # hide "hidden" controls
@@ -1920,7 +1923,7 @@ class MainWindow:
             control = utils.getControlInstance(ctrlName)
             control.replaceShape(shapeCreateCommand)
 
-            opp_ctrlName = utils.getOppositeObject(ctrlName)
+            opp_ctrlName = utils.getOpposite(ctrlName)
             if ctrlName.split('_')[0] == 'l' and cmds.objExists(opp_ctrlName):
                 opp_control = utils.getControlInstance(opp_ctrlName)
                 opp_control.replaceShape(shapeCreateCommand)
@@ -1937,14 +1940,14 @@ class MainWindow:
 
                         cmds.connectAttr(s + '.worldSpace[0]', tg + '.inputGeometry')
                         cmds.connectAttr(c_mat + '.outputMatrix', tg + '.transform')
-                        cmds.connectAttr(tg + '.outputGeometry', utils.getOppositeObject(s) + '.create')
+                        cmds.connectAttr(tg + '.outputGeometry', utils.getOpposite(s) + '.create')
 
             # else:
             # shapes = cmds.listRelatives(ctrlName, s=1)
             # for s in shapes:
             # try:	
-            # cmds.connectAttr(s+'.worldSpace[0]', utils.getOppositeObject(s)+'.create')
-            # except: cmds.warning(" MISS CONTROL SHAPE " + utils.getOppositeObject(s))				
+            # cmds.connectAttr(s+'.worldSpace[0]', utils.getOpposite(s)+'.create')
+            # except: cmds.warning(" MISS CONTROL SHAPE " + utils.getOpposite(s))				
 
         if len(sel) != 0:
             cmds.select(sel)
@@ -2052,7 +2055,7 @@ class MainWindow:
                 control = utils.getControlInstance(ctrl)
                 control.setColor(colorId)
                 if ctrl.split('_')[0] == 'l':
-                    opp_ctrl = utils.getOppositeObject(ctrl)
+                    opp_ctrl = utils.getOpposite(ctrl)
                     if cmds.objExists(opp_ctrl):
                         opp_control = utils.getControlInstance(opp_ctrl)
                         opp_control.setColor(colorId)
@@ -2467,7 +2470,6 @@ class MainWindow:
             # fill modules list
             for name in sorted(self.rig.modules):
                 m = self.rig.modules[name]
-
                 if not m.parent:
                     #if cmds.getAttr(m.name + "_mod.v"):
                         #item.setIcon(1, QtGui.QIcon(self.rootPath + '/ui/icons/module_item_selected2.png'))
@@ -2522,7 +2524,7 @@ class MainWindow:
         m = self.curModule
 
         # update attrs
-        if self.curModule.opposite:
+        if m.opposite:
             self.win.moduleType_lineEdit.setText(m.type + " (Mirrored)")
         else:
             self.win.moduleType_lineEdit.setText(m.type)
@@ -2533,14 +2535,14 @@ class MainWindow:
         self.win.info_textEdit.setPlainText(utils.readInfo(m.type))
 
         # mirror
-        self.win.center_frame.setEnabled(not self.curModule.opposite)
+        self.win.center_frame.setEnabled(not m.opposite)
 
-        self.win.makeSymmetryModule_btn.setEnabled(not self.curModule.symmetrical)
+        self.win.makeSymmetryModule_btn.setEnabled(not m.symmetrical)
 
         # attach end poser
-        self.win.snapToParent_checkBox.setChecked(self.curModule.isSnapped())
+        self.win.snapToParent_checkBox.setChecked(m.isSnapped())
 
-        if self.curModule.parent == None or self.curModule.parent == "":
+        if m.parent == None or m.parent == "":
             self.win.snapToParent_checkBox.setEnabled(False)
             self.win.disconnectModule_btn.setEnabled(False)
         else:
@@ -2548,7 +2550,7 @@ class MainWindow:
             self.win.disconnectModule_btn.setEnabled(True)
 
         # controls
-        controls = sorted(self.curModule.getControls())
+        controls = sorted(m.getControls())
         self.win.controls_tableWidget.setRowCount(0)
 
         def get_duplicates(array):
@@ -2686,6 +2688,9 @@ class MainWindow:
 
         self.addModule(module.type, name=name, options=data['optionsData'], updateUI=True)
         
+        if data["parent"]:
+            self.connectModule(target=data["parent"])
+
         self.curModule.setData(data)
 
         # set options
@@ -2831,6 +2836,7 @@ class MainWindow:
             m = self.rig.modules[moduleName]
         
         # get target
+        sel = None
         if target == "":
             sel = cmds.ls(sl=1)
             if len(sel) != 1:
@@ -2873,7 +2879,7 @@ class MainWindow:
         #             oppModule.disconnect()
 
         #         if target.split("_")[0] == 'l':
-        #             oppTarget = utils.flipSide(target)
+        #             oppTarget = utils.getOpposite(target)
         #             if cmds.objExists(oppTarget):
         #                 oppModule.connect(oppTarget)
         #         else:
@@ -2884,7 +2890,7 @@ class MainWindow:
         # self.worldScene.addLine(target_modName, target, moduleName, "parent")
         
         # restore selection
-        utils.restoreSelection(sel)
+        if sel: utils.restoreSelection(sel)
 
         cmds.undoInfo(closeChunk=True)
 
@@ -2943,9 +2949,7 @@ class MainWindow:
         except:
             pass
 
-    def makeSymmetryModule(self, moduleName="", updateUI=True, test=False):
-
-
+    def makeSymmetryModule(self, moduleName="", updateUI=True):
         if moduleName != "":
             m = self.rig.modules[moduleName]
         else:
@@ -2970,7 +2974,7 @@ class MainWindow:
         l_new_name = m.name
         if side != "l":
             l_new_name = "l_" + m.name
-        newModuleName = utils.flipSide(l_new_name)
+        newModuleName = utils.getOpposite(l_new_name)
 
         if cmds.objExists(newModuleName + "_mod"):
             QtWidgets.QMessageBox.information(self.win, "Warning", "Module %s is exists" % newModuleName)
@@ -2979,7 +2983,7 @@ class MainWindow:
         # set names
         if side != "l":
             self.renameModule("l_" + m.name)
-        newModuleName = utils.flipSide(m.name)
+        newModuleName = utils.getOpposite(m.name)
 
         # get data
         data = m.getData()
@@ -2992,15 +2996,16 @@ class MainWindow:
         opp_m = self.addModule(m.type, newModuleName, data['optionsData'], updateUI=updateUI)
         # cmds.hide(newModuleName+'_posers')
         opp_m.setData(data, sym=True, namingForce=True)
-        opp_m.opposite = True
-
+        
         # conntect to parent
-        if parent == '':
-            opp_m.connectOpposite()
-        else:
-            if utils.getObjectSide(parent) == "l" and cmds.objExists(utils.flipSide(parent)):
-                parent = utils.flipSide(parent)
-            self.connectModule(target=parent, moduleName=newModuleName, updateUI=False)
+        # if parent == '':
+        # opp_m.connectOpposite()
+        target = utils.getOpposite(m.parent)
+        opp_m.connect(target, opposite=True)
+        # else:
+        #     if utils.getObjectSide(parent) == "l" and cmds.objExists(utils.getOpposite(parent)):
+        #         parent = utils.getOpposite(parent)
+        #     self.connectModule(target=parent, moduleName=newModuleName, updateUI=False)
 
         # add twists
         for twData in data['twistsData']:
@@ -3025,7 +3030,7 @@ class MainWindow:
         poserShapes = utils.getSetObjects(newModuleName + '_poserShapesForConnectSet')
         controls += poserShapes
         for c in controls:
-            l_control = utils.getControlInstance(utils.getOppositeObject(c))
+            l_control = utils.getControlInstance(utils.getOpposite(c))
             r_control = utils.getControlInstance(c)
             # print "REPLACE SHAPE", c
             # print "REPLACE SHAPE", c, pm.PyNode(c).worldSpace[0].outputs()
@@ -3044,16 +3049,16 @@ class MainWindow:
                     utils.addModuleNameAttr(c_mat, newModuleName)
                     cmds.setAttr(c_mat + '.inputScaleX', -1)
 
-                    cmds.connectAttr(utils.getOppositeObject(s) + '.worldSpace[0]', tg + '.inputGeometry')
+                    cmds.connectAttr(utils.getOpposite(s) + '.worldSpace[0]', tg + '.inputGeometry')
                     cmds.connectAttr(c_mat + '.outputMatrix', tg + '.transform')
                     cmds.connectAttr(tg + '.outputGeometry', s + '.create', f=1)
 
             else:
                 # print "111", c, shapes
                 for s in shapes:
-                    # print utils.getOppositeObject(s), s
-                    if not cmds.isConnected(utils.getOppositeObject(s) + '.worldSpace[0]', s + '.create'):
-                        cmds.connectAttr(utils.getOppositeObject(s) + '.worldSpace[0]', s + '.create', f=1)
+                    # print utils.getOpposite(s), s
+                    if not cmds.isConnected(utils.getOpposite(s) + '.worldSpace[0]', s + '.create'):
+                        cmds.connectAttr(utils.getOpposite(s) + '.worldSpace[0]', s + '.create', f=1)
 
             for s in shapes:
                 v = cmds.getAttr("l" + s[1:] + '.v')
@@ -3065,7 +3070,7 @@ class MainWindow:
         if updateUI:
             # select left module in modules tree 
             try:
-                newCurItem = self.win.modules_treeWidget.findItems(utils.getOppositeObject(newModuleName),
+                newCurItem = self.win.modules_treeWidget.findItems(utils.getOpposite(newModuleName),
                                                                    QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive,
                                                                    0)[0]
                 self.win.modules_treeWidget.setCurrentItem(newCurItem)
@@ -3138,7 +3143,7 @@ class MainWindow:
         # rename mirrored module for manual renaming
         if sym:
             self.renameModule('r' + name[1:], 'r' + moduleName[1:])
-            # self.selectModuleInList(utils.getOppositeObject(self.curModule.name))
+            # self.selectModuleInList(utils.getOpposite(self.curModule.name))
 
     def rebuildModule(self, options={}, moduleType=""):
         sel = cmds.ls(sl=1)
@@ -3256,13 +3261,9 @@ class MainWindow:
         # self.curModule.node.switch_joints(False)
 
         # reselect
-        if len(sel) > 0:
-            try:
-                cmds.select(sel)
-            except:
-                cmds.select(clear=1)
-        else:
-            cmds.select(clear=1)
+        utils.restoreSelection(sel)
+
+        self.selectModuleInList(self.curModule.name)
 
     def replaceModule(self, moduleType):
 
@@ -3388,7 +3389,7 @@ class MainWindow:
 
         cmds.setAttr(self.curModule.name + "_mod.v", not state)
 
-        opp_mod = utils.getOppositeObject(self.curModule.name + "_mod")
+        opp_mod = utils.getOpposite(self.curModule.name + "_mod")
         if cmds.objExists(opp_mod):
             cmds.setAttr(opp_mod + ".v", not state)
 
@@ -3423,7 +3424,7 @@ class MainWindow:
                 cmds.setAttr(m_name + "_mod.v", 0)
             cmds.setAttr(self.curModule.name + "_mod.v", 1)
 
-        # opp_mod = utils.getOppositeObject(self.curModule.name+"_mod")
+        # opp_mod = utils.getOpposite(self.curModule.name+"_mod")
         # if cmds.objExists(opp_mod):
         # cmds.setAttr(opp_mod+".v", not state)
 
@@ -3632,9 +3633,9 @@ class MainWindow:
         if curAddControl.symmetrical:
             opp_module = self.rig.getMirroredModule(cur_m)
             if opp_module:
-                oppAddControl = opp_module.getAdditionalControlInstance(utils.getOppositeObject(self.curAddControlName))
+                oppAddControl = opp_module.getAdditionalControlInstance(utils.getOpposite(self.curAddControlName))
             else:
-                oppAddControl = cur_m.getAdditionalControlInstance(utils.getOppositeObject(self.curAddControlName))
+                oppAddControl = cur_m.getAdditionalControlInstance(utils.getOpposite(self.curAddControlName))
             oppAddControl.delete()
         curAddControl.delete()
 
@@ -3655,7 +3656,7 @@ class MainWindow:
 
         # if curAddControl.symmetrical:
         # opp_module = self.rig.getMirroredModule(self.curModule)
-        # oppAddControl = opp_module.getAdditionalControlInstance(utils.getOppositeObject(self.curAddControlName))
+        # oppAddControl = opp_module.getAdditionalControlInstance(utils.getOpposite(self.curAddControlName))
         # oppAddControl.delete()
 
         # print curAddControl.parent, curAddControl.mirrored, curAddControl.symmetrical
@@ -3767,7 +3768,7 @@ class MainWindow:
             curAddControl = m.getAdditionalControlInstance(self.curAddControlName)
 
         # get parent symmetry add control
-        opp_par = utils.getOppositeObject(curAddControl.parent)
+        opp_par = utils.getOpposite(curAddControl.parent)
         if curAddControl.parent == opp_par:
             commonParent = True
         else:
@@ -3798,10 +3799,10 @@ class MainWindow:
 
         # set opp data
         # print 00000, data['name'], data['root'], data['parent']
-        data['name'] = utils.getOppositeObject(data['name'])
-        # data['root'] = utils.getOppositeObject(data['root'])
-        data['parent'] = utils.getOppositeObject(data['parent'])
-        data['poserParent'] = utils.getOppositeObject(data['poserParent'])
+        data['name'] = utils.getOpposite(data['name'])
+        # data['root'] = utils.getOpposite(data['root'])
+        data['parent'] = utils.getOpposite(data['parent'])
+        data['poserParent'] = utils.getOpposite(data['poserParent'])
         # print 111111, data['name'], data['root'], data['parent'], data['poserParent']
 
         # add opp add control
@@ -3902,7 +3903,7 @@ class MainWindow:
         curveShapes = cmds.listRelatives(mirroredControl.name, children=True, path=True, type='nurbsCurve')
 
         for c in curveShapes:
-            opp_c = utils.getOppositeObject(c)
+            opp_c = utils.getOpposite(c)
             if not cmds.isConnected(opp_c + ".worldSpace[0]", c + ".create"):
                 cmds.connectAttr(opp_c + ".worldSpace[0]", c + ".create")
 
@@ -3911,7 +3912,7 @@ class MainWindow:
 
         # select left control in addControls tree
         try:
-            newCurItem = self.win.additionalControls_treeWidget.findItems(utils.getOppositeObject(mirroredControl.name),
+            newCurItem = self.win.additionalControls_treeWidget.findItems(utils.getOpposite(mirroredControl.name),
                                                                           QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive,
                                                                           0)[0]
             self.win.additionalControls_treeWidget.setCurrentItem(newCurItem)
@@ -3957,10 +3958,10 @@ class MainWindow:
 
         # for opposite control
         if curAddControl.symmetrical:
-            oppAddControl = utils.getAdditionalControlInstance(utils.getOppositeObject(self.curAddControlName))
-            oppAddControl.setParent(utils.getOppositeObject(target))
+            oppAddControl = utils.getAdditionalControlInstance(utils.getOpposite(self.curAddControlName))
+            oppAddControl.setParent(utils.getOpposite(target))
             oppositeControl_name = oppAddControl.name
-            oppositeTarget_name = utils.getOppositeObject(target)
+            oppositeTarget_name = utils.getOpposite(target)
 
             # parent addPoser
             if utils.objectIsAdditionalControl(target):
@@ -3994,7 +3995,7 @@ class MainWindow:
             m = self.rig.modules[cur_m_name]
             curAddControl = m.getAdditionalControlInstance(self.curAddControlName)
 
-        opp_control = utils.getOppositeObject(curAddControl.name)
+        opp_control = utils.getOpposite(curAddControl.name)
 
         if not cmds.objExists(opp_control) or curAddControl.name == opp_control:
             cmds.warning("Opposite parent is not exists")
@@ -4040,7 +4041,7 @@ class MainWindow:
             item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsEditable)
 
         if self.curModule.symmetrical:
-            ctrl = utils.getOppositeObject(ctrl)
+            ctrl = utils.getOpposite(ctrl)
             control = utils.getControlInstance(ctrl)
             control.toggleVisible(manual=True, value=vis)
 
@@ -4093,7 +4094,7 @@ class MainWindow:
 
             # rename mirrored moudule control
             if self.curModule.symmetrical:
-                utils.renameControl(utils.getOppositeObject(oldCtrlName), utils.getOppositeObject(newCtrlName))
+                utils.renameControl(utils.getOpposite(oldCtrlName), utils.getOpposite(newCtrlName))
 
             # update current name in table
             item.setText(newCtrlName)

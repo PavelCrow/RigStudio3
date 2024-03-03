@@ -1,16 +1,35 @@
 import maya.cmds as cmds
 import maya.mel as mel
 from . import utils
+from PySide2 import QtWidgets, QtCore
+import os, json
 
 
 class Template(object):
 	def __init__(self):
+		self.main = None
+		self.rootPath = os.path.normpath(os.path.dirname(__file__))
 
-		#self.type = type
-		#self.name = name
-		pass
-		
-		
+	def save(self):
+		m = self.main.curModule
+		name, ok = QtWidgets.QInputDialog().getText(self.main.win, 'Save Module Template', 'Enter template name:',
+													QtWidgets.QLineEdit.Normal, m.name)
+
+		if not ok or not utils.nameIsOk(name):
+			return
+
+		mData = m.getData()
+
+		fullPath = os.path.join(self.rootPath, 'templates', 'modules', m.type + '_' + name + ".tmpl")
+		print("Saved to:", fullPath)
+		# format data 
+		json_string = json.dumps(mData, indent=4)
+		# save data to file					
+		with open(fullPath, 'w') as f:
+			f.write(json_string)
+
+		self.main.moduleTemplatesMenuUpdate()
+	
 	def template_actions(self, action, tName="", forceData=None):
 
 		sel = cmds.ls(sl=1)
@@ -115,30 +134,7 @@ class Template(object):
 						cmds.setAttr(c.name + "." + a, keyable=0, lock=1)
 
 		if action == 'save':
-			name, ok = QtWidgets.QInputDialog().getText(self.win, 'Save Module Template', 'Enter template name:',
-			                                            QtWidgets.QLineEdit.Normal, self.curModuleName)
-
-			if ok and name != "":
-				name = name.replace(" ", "_")
-			else:
-				return
-
-			mData = self.curModule.getData()
-
-			fullPath = self.rootPath + '/templates/modules/' + self.curModule.type + '_' + name + ".tmpl"
-			print("Saved to:", fullPath)
-			# format data 
-			json_string = json.dumps(mData, indent=4)
-			# save data to file					
-			with open(fullPath, 'w') as f:
-				f.write(json_string)
-
-			self.moduleTemplatesMenuUpdate()
-
-			try:
-				cmds.select(sel)
-			except:
-				cmds.select(clear=1)
+			pass
 
 		elif action == 'load':
 			# read data

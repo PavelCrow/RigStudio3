@@ -55,8 +55,8 @@ class treeWidgetClass(QtWidgets.QTreeWidget):
 			# move opposite set
 			if cmds.objExists("r" + set_child[1:]):
 				opp_set_child = "r" + set_child[1:]
-				opp_newSet_name = utils.getOppositeObject(newSet_name)
-				set_oldParent = utils.getOppositeObject(set_oldParent)
+				opp_newSet_name = utils.getOpposite(newSet_name)
+				set_oldParent = utils.getOpposite(set_oldParent)
 								
 				cmds.sets(opp_set_child, e=1, add=opp_newSet_name)		
 				cmds.sets(opp_set_child, e=1, rm=set_oldParent)				
@@ -73,10 +73,10 @@ class treeWidgetClass(QtWidgets.QTreeWidget):
 					cmds.sets(control, e=1, rm=currentSet_name)	
 
 				if utils.objectIsSymmetrical(control):
-					opp_control = utils.getOppositeObject(control)		
-					opp_newSet_name = utils.getOppositeObject(newSet_name)	
+					opp_control = utils.getOpposite(control)		
+					opp_newSet_name = utils.getOpposite(newSet_name)	
 					opp_newSet_controls = getSetControlsNoRecurcive(opp_newSet_name)
-					opp_currentSet_name = utils.getOppositeObject(currentSet_name)	
+					opp_currentSet_name = utils.getOpposite(currentSet_name)	
 					if opp_control not in opp_newSet_controls:
 						cmds.sets(opp_control, e=1, add=opp_newSet_name)		
 						cmds.sets(opp_control, e=1, rm=opp_currentSet_name)						
@@ -195,13 +195,13 @@ class treeWidgetClass(QtWidgets.QTreeWidget):
 
 		# add opposide set
 		if set_name.split("_")[0] == "l":
-			opp_set = utils.getOppositeObject(set_name)
+			opp_set = utils.getOpposite(set_name)
 			cmds.sets(n=opp_set)
 			cmds.setAttr(opp_set+".annotation", "gControlSet", type="string")
 
 			par = self.getCurrentControlSet()
 			if par.split("_")[0] == "l": 
-				par = utils.getOppositeObject(par)
+				par = utils.getOpposite(par)
 			cmds.sets(opp_set, e=1, add=par)			
 
 		# update tree
@@ -440,7 +440,7 @@ class Sets(object):
 		remove(item_name_)
 
 		# remove opposite set
-		opp_currentControlSet = utils.getOppositeObject(currentControlSet)
+		opp_currentControlSet = utils.getOpposite(currentControlSet)
 
 		if cmds.objExists(opp_currentControlSet):
 			opp_item_name_ = itemName(opp_currentControlSet)
@@ -462,10 +462,10 @@ class Sets(object):
 		set_name = controlSetName(self.treeWidget.currentItem())
 		cmds.sets(sel, e=1, add=set_name)	
 		
-		opp_set_name = utils.getOppositeObject(set_name)
+		opp_set_name = utils.getOpposite(set_name)
 		opp_sel = []
 		for c in sel:
-			opp_c = utils.getOppositeObject(c)
+			opp_c = utils.getOpposite(c)
 			if opp_c != c:
 				opp_sel.append(opp_c)
 		cmds.sets(opp_sel, e=1, add=opp_set_name)	
@@ -485,8 +485,8 @@ class Sets(object):
 			
 			# add opposide set
 			if set_name.split("_")[0] == "l" and o.text().split("_")[0] == "l":
-				opp_set = utils.getOppositeObject(set_name)
-				opp_o = utils.getOppositeObject(o.text())
+				opp_set = utils.getOpposite(set_name)
+				opp_o = utils.getOpposite(o.text())
 				cmds.sets(opp_o, e=1, rm=opp_set)			
 
 		# update sets tree

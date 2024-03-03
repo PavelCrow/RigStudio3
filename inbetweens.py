@@ -319,12 +319,12 @@ class Inbetweens(object):
 			pm.parent(par_l, parent_j)
 			pm.orientConstraint(par_l, root, mo=1)
 
-		if child_j.split('_')[0] == 'l' and cmds.objExists(utils.getOppositeObject(child_j)):
+		if child_j.split('_')[0] == 'l' and cmds.objExists(utils.getOpposite(child_j)):
 			opp_name = ("r" + name[1:]).replace("__l_", "__r_")
 			if not cmds.objExists(opp_name+"__ibRoot"):
 				opp_data = {}
-				opp_data["child"] = utils.getOppositeObject(child_j)
-				opp_data["parent"] = utils.getOppositeObject(parent_j)
+				opp_data["child"] = utils.getOpposite(child_j)
+				opp_data["parent"] = utils.getOpposite(parent_j)
 				
 				self.add(opp_data)
 				
@@ -538,7 +538,7 @@ class Inbetweens(object):
 		v = cmds.getAttr(name+"__ibChild.v")
 		cmds.setAttr(name+"__ibChild.v", not v)
 		
-		opp = utils.getOppositeObject(name+"__ibChild").replace("_l_", "_r_")
+		opp = utils.getOpposite(name+"__ibChild").replace("_l_", "_r_")
 		#print cmds.objExists(opp), opp
 		if cmds.objExists(opp):
 			cmds.setAttr(opp+".v", not v)

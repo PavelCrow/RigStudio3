@@ -16,7 +16,7 @@ rootPath = os.path.normpath(os.path.dirname(__file__))
 
 
 class Module(object):
-    def __init__(self):
+    def __init__(self): #
         self.main = None
         self.type = ""
         self.name = ""
@@ -25,10 +25,9 @@ class Module(object):
         self.symmetrical = False
         self.opposite = False
         self.joints = []
-        self.node = None
         self.additionalControls = []
 
-    def connectSignals(self, mainInstance, w):
+    def connectSignals(self, mainInstance, w): #
         pass
 
     def create(self, options={}):
@@ -109,9 +108,9 @@ class Module(object):
 
         # connect joints and delete all except joints
         for o in allJoints:
-            if "_volume_" in o.name():
-                pm.delete(o)
-                continue
+            # if "_volume_" in o.name():
+            #     pm.delete(o)
+            #     continue
 
             # delete if not joint or have not a joint
             if pm.objectType(o) != 'joint':
@@ -127,7 +126,7 @@ class Module(object):
             # connect
             srcName = o.name().split('|')[-1]
             o.rename(srcName.replace('outJoint', 'joint').replace('outRootJoint', 'rootJoint').replace('outGroup', 'group'))
-            utils.strightConnect(srcName, o.name())
+            utils.connectTrandform(srcName, o.name())
 
             # correct scale joint
             # if utils.objectIsOpposite(m_name+"_mod"):
@@ -142,6 +141,7 @@ class Module(object):
             if not cmds.objExists(m_name+"_mainPoser_decomposeMatrix"):
                 root_dec = cmds.createNode('decomposeMatrix', n=m_name+"_mainPoser_decomposeMatrix")
                 cmds.connectAttr(m_name+"_mainPoser.worldMatrix[0]", root_dec+".inputMatrix")
+                # cmds.warning("Module has not mainPoser_decomposeMatrix and was created")
             else:
                 root_dec = m_name+"_mainPoser_decomposeMatrix"
 
@@ -162,7 +162,8 @@ class Module(object):
                 r = o.radius.get() * cmds.getAttr("main.jointsSize")
                 o.radius.set(r)
                 if o.name() == m_name +"_root_joint":
-                    utils.resetJointOrient(o.name())
+                    # utils.resetJointOrient(o.name())
+                    cmds.setAttr(o.name()+".jointOrient", 0,0,0)
 
         # connect root joints
         joints_ = cmds.listRelatives(outJoints_grp) or []
@@ -215,23 +216,28 @@ class Module(object):
         # remove another nodes
         nodes = cmds.sets(self.name+"_nodesSet", q=1)
         for n in nodes:
-            try:
+            if cmds.objExists(n):
                 cmds.delete(n)
-            except: pass
 
         if not cmds.objExists('sets'):
             utils.create_default_sets()
-            
-    def load(self):
+    
+    def isSymmetrical(self): # 
+        return self.name.split('_')[0] == "l" and cmds.objExists("r"+self.name[1:]+'_mod')
+    
+    def isOpposite(self): #
+        return self.name.split('_')[0] == "r" and cmds.objExists("l"+self.name[1:]+'_mod')
+
+    def load(self): #
         self.root = self.name + "_mod"
         self.type = cmds.getAttr(self.root+'.moduleType')
         self.parent = self.getParent()
         self.joints = self.getJoints()
         self.additionalControls = self.getAdditionalControls()
-        self.symmetrical = self.name.split('_')[0] == "l" and cmds.objExists("r"+self.name[1:]+'_mod')
-        self.opposite = self.name.split('_')[0] == "r" and cmds.objExists("l"+self.name[1:]+'_mod')
+        self.symmetrical = self.isSymmetrical()
+        self.opposite = self.isOpposite()
 
-    def connect(self, target):
+    def connect(self, target, opposite=False):
         # print ("Connect to", target)
         connector = self.name+"_root_connector"
         # root = self.name + "_root_poserOrient"
@@ -243,7 +249,6 @@ class Module(object):
         target_joint = target[:-len(targetType)] + "joint"
         target_outJoint = target[:-len(targetType)] + "outJoint"
         connector_parent = self.name + "_input"
-        # print ('-->', targetMainPoser, root_poser, targetInit, target_joint, targetType)
         
         # save position
         initMatrix = cmds.xform(self.name+'_mainPoser', query=True, ws=True, m=True)
@@ -286,17 +291,34 @@ class Module(object):
             utils.removeTransformParentJoint(root_j)
             utils.resetJointOrient(root_j)
 
+        if opposite:
+            self.opposite = True
+            opp_name = utils.getOpposite(self.name)
+            opp_mod = utils.getModuleInstance(opp_name)
+
+            compMat = cmds.createNode('composeMatrix', n=self.name+"_mainPoser_compMat")
+            cmds.setAttr(compMat+".inputScaleX", -1)
+
+            cmds.setAttr(self.name+'_mainPoser.sx', lock=0)
+            cmds.setAttr(self.name+'_mainPoser.sy', lock=0)
+            cmds.setAttr(self.name+'_mainPoser.sz', lock=0)
+            utils.connectByMatrix(self.name+'_mainPoser', [opp_name+"_mainPoser", compMat, self.name+"_mainPoser" ], ['worldMatrix[0]', 'outputMatrix', 'parentInverseMatrix[0]'], self.name)
+            
+            # set mirror attribute if exists
+            if cmds.objExists(self.name+"_mod.mirror"):
+                cmds.setAttr(self.name+"_mod.mirror", 1)
+
         cmds.select(target)
 
     def connectOpposite(self):
-        # opp_name = utils.getOppositeObject(self.name)
+        # opp_name = utils.getOpposite(self.name)
         side = utils.getObjectSide(self.name)
         if side != 'r':# or not cmds.objExists(opp_name+'_mod'):
             return
 
         cmds.undoInfo(openChunk=True)
 
-        mirror_moduleName = utils.getOppositeObject(self.name)
+        mirror_moduleName = utils.getOpposite(self.name)
         opp_mod = utils.getModuleInstance(mirror_moduleName)
 
         target = opp_mod.parent
@@ -316,7 +338,6 @@ class Module(object):
             # if parent module is central 
             else:
                 compMat = cmds.createNode('composeMatrix', n=self.name+"_mainPoser_compMat")
-                utils.addModuleNameAttr(compMat, self.name)
                 cmds.setAttr(compMat+".inputScaleX", -1)
 
                 cmds.setAttr(self.name+'_mainPoser.sx', lock=0)
@@ -336,7 +357,6 @@ class Module(object):
         # connect sym posers
         tgt_posers = cmds.listRelatives(self.name+'_posers', type='transform', allDescendents=1)
         for t_p in tgt_posers:
-
             if t_p.split("_")[-1] in ['poser', 'mainPoser']:
                 s_p = t_p.replace(self.name, mirror_moduleName)
 
@@ -360,11 +380,24 @@ class Module(object):
 
             elif t_p.split("_")[-1] == 'mainPoser':
                 cmds.hide(t_p+"Shape")
+        
+        self.parent = utils.getOpposite(target)
+        self.opposite = True
+
+        # reroot skin joints
+        joints = cmds.listRelatives(self.name+"_outJoints") or []
+        for j in joints:
+            if cmds.objectType(j) != 'joint':
+                continue
+            root_j = j.replace("outJoint", "joint")
+            cmds.parent(root_j, target.replace("outJoint", "joint"))
+            utils.removeTransformParentJoint(root_j)
+            utils.resetJointOrient(root_j)
 
         # set mirror attribute if exists
         if cmds.objExists(self.name+"_mod.mirror"):
             cmds.setAttr(self.name+"_mod.mirror", 1)
-
+        
         cmds.undoInfo(closeChunk=True)
 
     def setControlAttrs(self, data):
@@ -403,7 +436,7 @@ class Module(object):
 
         return posers_sorted	
 
-    def getParents(self):
+    def getParentGroups(self): #
         parents = []
 
         control_set = self.name+'_moduleControlSet'
@@ -429,36 +462,33 @@ class Module(object):
 
         # parents
         par_list = []
-        parentsObjs = self.getParents()
+        parentsObjs = self.getParentGroups()
         for p in parentsObjs:
             pData = parents.Parents.getDataFromNode(p)
             par_list.append(pData)
         data['parents'] = par_list
 
         # posers data
-        posersMatrixData = {}
-        # posersSizeData = {}
+        # posersMatrixData = {}
         posersAttrsData = {}
-        posersParentData = {}
+        # posersParentData = {}
         posers = cmds.listRelatives(self.name+'_posers', allDescendents=1)
         for p in posers:
             if p.split("_")[-1] == 'poser' or p.split("_")[-1] == 'mainPoser':
                 p_name = utils.getTemplatedNameFromReal(self.name, p)
-                # p_name = p.split(self.name)[1][1:]
-                posersMatrixData[p_name] = cmds.xform(p, q=1, m=1, ws=1)
-                # posersSizeData[p_name] = cmds.getAttr(p+'.size')
+                # posersMatrixData[p_name] = cmds.xform(p, q=1, m=1, ws=1)
 
                 attrs_data = {}
                 for attr in utils.getVisibleAttrs(p):
                     value = cmds.getAttr(p + "." + attr)
                     attrs_data[attr] = value
                 posersAttrsData[p_name] = attrs_data
-
-                posersParentData[p_name] = utils.getTemplatedNameFromReal(self.name, cmds.listRelatives(p, p=1)[0])
+                
+                # posersParentData[p_name] = utils.getTemplatedNameFromReal(self.name, cmds.listRelatives(p, p=1)[0])
 
         data['posersAttrsData'] = posersAttrsData
-        data['posersParentData'] = posersParentData
-        data['posersMatrixData'] = posersMatrixData
+        # data['posersParentData'] = posersParentData
+        # data['posersMatrixData'] = posersMatrixData
         # data['posersSizeData'] = posersSizeData
 
         # module options data
@@ -490,18 +520,7 @@ class Module(object):
             controlsNamesData[control] = utils.getTemplatedNameFromReal(self.name, cName)
 
             # attributes
-            attrList = []
-            attrListKeyable = cmds.listAttr(cName, keyable=True )
-            if type(attrListKeyable) != list :
-                attrListKeyable = []
-            attrListNonkeyable = cmds.listAttr(cName, channelBox = True )
-            if type(attrListNonkeyable) != list :
-                attrListNonkeyable = []
-            attrList = attrListKeyable + attrListNonkeyable
-            for attr in attrList:
-                # miss main compound attributes
-                if attr.split('.')[-1] == 'translate' or attr.split('.')[-1] == 'rotate' or attr.split('.')[-1] == 'scale':
-                    continue				
+            for attr in utils.getVisibleAttrs(cName):
                 attrVar = cmds.getAttr(cName + "." + attr)
                 controlsData[(control + "." + attr)] = attrVar
 
@@ -517,7 +536,6 @@ class Module(object):
                 else:
                     color = 0
                 controlsColorData[control] = color
-                # print ("COL" , cName, color)
                 # shape
                 controlInst = utils.getControlInstance(cName)
                 controlsShapeData[control] = controlInst.makePythonCommand(useInternalName=True)
@@ -579,38 +597,32 @@ class Module(object):
         return data
 
     def setData(self, data, sym=False, namingForce=False): 
-        def getRealNameFromData(name):
-            if "MODNAME" in name:
-                real_name = name.replace("MODNAME", self.name)
-                return real_name 
-            else:
-                return name
-
         if not sym:
+            pass
             # at first to set root main poser
-            for p in data['posersMatrixData']:
-                if p == "MODNAME_mainPoser":
-                    mat = data['posersMatrixData'][p]
-                    p_name = utils.getRealNameFromTemplated(self.name, p)
-                    cmds.xform(p_name, m=mat, ws=1)
+            # for p in data['posersMatrixData']:
+            #     if p == "MODNAME_mainPoser":
+            #         mat = data['posersMatrixData'][p]
+            #         p_name = utils.getRealNameFromTemplated(self.name, p)
+            #         cmds.xform(p_name, m=mat, ws=1)
                     # print "set ", p
 
             # second to set another main posers
-            for p in data['posersMatrixData']:
-                if p.split("_")[-1] == 'mainPoser':	
-                    mat = data['posersMatrixData'][p]
-                    p_name = utils.getRealNameFromTemplated(self.name, p)
-                    if cmds.objExists(p_name):
-                        cmds.xform(p_name, m=mat, ws=1)
+            # for p in data['posersMatrixData']:
+            #     if p.split("_")[-1] == 'mainPoser':	
+            #         mat = data['posersMatrixData'][p]
+            #         p_name = utils.getRealNameFromTemplated(self.name, p)
+            #         if cmds.objExists(p_name):
+            #             cmds.xform(p_name, m=mat, ws=1)
                     # print "set 2 ", p
 
         # set posers parent
-        for p in sorted(data['posersParentData']):
-            p_name = utils.getRealNameFromTemplated(self.name, p)
-            parent = utils.getRealNameFromTemplated(self.name, data['posersParentData'][p])
-            if cmds.objExists(p_name):
-                if parent != cmds.listRelatives(p_name, p=1)[0]:
-                    cmds.parent(p_name, parent)
+        # for p in sorted(data['posersParentData']):
+        #     p_name = utils.getRealNameFromTemplated(self.name, p)
+        #     parent = utils.getRealNameFromTemplated(self.name, data['posersParentData'][p])
+        #     if cmds.objExists(p_name):
+        #         if parent != cmds.listRelatives(p_name, p=1)[0]:
+        #             cmds.parent(p_name, parent)
 
         if not sym:
             # set posers positions and size
@@ -620,9 +632,9 @@ class Module(object):
                 p_name = utils.getRealNameFromTemplated(self.name, p)				
 
                 if cmds.objExists(p_name):
-                    if p.split("_")[-1] == 'mainPoser':
-                        cmds.setAttr(p_name+'.size', attrData["size"])
-                        continue
+                    # if p.split("_")[-1] == 'mainPoser':
+                    #     cmds.setAttr(p_name+'.size', attrData["size"])
+                    #     continue
 
                     for attr in attrData:
                         value = attrData[attr]
@@ -631,9 +643,9 @@ class Module(object):
                             cmds.setAttr(p_name+'.'+attr, value)
                         except: pass #print p_name+'.'+attr, "is locked"
 
-                    for a in ["translateX", "translateY", "translateZ", "rotateX", "rotateY", "rotateZ"]:
-                        if a not in attrData:
-                            cmds.setAttr(p_name+"."+a, l=1, k=0, cb=0)	
+                    # for a in ["translateX", "translateY", "translateZ", "rotateX", "rotateY", "rotateZ"]:
+                    #     if a not in attrData:
+                    #         cmds.setAttr(p_name+"."+a, l=1, k=0, cb=0)	
 
         # set control names
         # print "SET Control Names ----------------", self.name
@@ -650,7 +662,7 @@ class Module(object):
                 savedName_templated = data['controlsNamesData'][int_name]
                 savedName = utils.getRealNameFromTemplated(self.name, savedName_templated)
                 if sym and not "MODNAME" in savedName_templated:
-                    savedName = utils.getOppositeObject(savedName)
+                    savedName = utils.getOpposite(savedName)
 
                 # print "READ", sym, self.name, "-----", cName, int_name, savedName_templated, savedName
                 if cName != savedName:
@@ -666,7 +678,7 @@ class Module(object):
             for ctrl in data['controlsShapeData']:
                 # print ctrl, "---- > " , data['controlsShapeData'][ctrl]
                 ctrlName = data['controlsNamesData'][ctrl]
-                ctrlName = getRealNameFromData(ctrlName)
+                ctrlName = utils.getRealNameFromTemplated(self.name, ctrlName)
                 # print ctrl, "---- > " , ctrlName
                 if not cmds.objExists(ctrlName):
                     continue
@@ -719,7 +731,7 @@ class Module(object):
                 savedName_templated = data['controlsNamesData'][intName]
                 savedName = utils.getRealNameFromTemplated(self.name, savedName_templated)
                 if sym and not "MODNAME" in savedName_templated:
-                    savedName = utils.getOppositeObject(savedName)
+                    savedName = utils.getOpposite(savedName)
 
                 shapes = cmds.listRelatives(cName, s=1)
 
@@ -748,7 +760,7 @@ class Module(object):
         if not sym:
             self.setOptions(data['optionsData'])
 
-    def getParent(self):
+    def getParent(self): #
         conn = cmds.listConnections(self.name+'_root_connector.offsetParentMatrix', source=1, destination=0) or []
         if conn:
             mm = conn[0]
@@ -804,7 +816,6 @@ class Module(object):
         # cmds.refresh()	
 
     def snapToParent(self, state):
-        # print 4444, cmds.objExists('r_limbCurved_end_joint')
         # return if already snapped
         if self.isSnapped() == state:
             return
@@ -814,8 +825,8 @@ class Module(object):
         if parent_p.split("_")[-1] == 'poserOrient':
             parent_p = cmds.listRelatives(parent_p, p=1)[0]
         root_j = self.name+"_root_joint"
-        root_j_opp = utils.getOppositeObject(self.name+"_root_joint")
-        parent_j_opp = utils.getOppositeObject(self.parent)
+        root_j_opp = utils.getOpposite(self.name+"_root_joint")
+        parent_j_opp = utils.getOpposite(self.parent)
 
         # move and hide/unhide poser
         if not self.opposite:
@@ -872,20 +883,21 @@ class Module(object):
                 cmds.parent(root_j, self.parent)
                 utils.resetJointOrient(root_j)
                 utils.removeTransformParentJoint(root_j)
-                utils.strightConnect(self.parent.replace("_joint", "_outJoint"), self.parent)
+                utils.connectTrandform(self.parent.replace("_joint", "_outJoint"), self.parent)
 
                 cmds.disconnectAttr(self.name+"_root_poser.size", parent_p+".size")
                 cmds.disconnectAttr(self.name+"_root_poser.lineWidth", parent_p+".lineWidth")
 
                 if cmds.objExists(root_j_opp) and root_j_opp != root_j:
                     cmds.duplicate(parent_j_opp.replace("joint", "outJoint"), n=parent_j_opp)[0]
-                    utils.parentTo(parent_j_opp, utils.getOppositeObject(par.replace("outJoint", "joint")))
+                    utils.parentTo(parent_j_opp, utils.getOpposite(par.replace("outJoint", "joint")))
                     utils.resetJointOrient(parent_j_opp)
                     utils.parentTo(root_j_opp, parent_j_opp)
                     utils.resetJointOrient(root_j_opp)
-                    utils.strightConnect(parent_j_opp.replace("_joint", "_outJoint"), parent_j_opp)
+                    utils.connectTrandform(parent_j_opp.replace("_joint", "_outJoint"), parent_j_opp)
 
     def isSnapped(self):
+        return False
         # print 22, self.parent
         if self.parent and self.parent != "":
             # print (123, self.parent)
@@ -1042,7 +1054,7 @@ class Module(object):
 
         if self.symmetrical:
             for j in module_joints:
-                cmds.setAttr(utils.getOppositeObject(j)+'.displayLocalAxis', v)	
+                cmds.setAttr(utils.getOpposite(j)+'.displayLocalAxis', v)	
 
     def toggle_posersAxises(self, state=None):
         if state == None:

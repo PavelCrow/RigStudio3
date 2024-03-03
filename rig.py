@@ -412,3 +412,25 @@ class Rig:
         self.toggleVis_joints()
 
         return m
+    
+    def getMirroredModule(self, module):
+        moduleName = module.name
+        side = utils.getObjectSide(moduleName)
+
+        if side == 'l' or side == "r": 
+            for m_name in self.modules:
+                if m_name == utils.getOpposite(moduleName):
+                    m = self.modules[m_name]
+                    return m
+
+        return False
+
+    def getModuleChildren(self, name):
+        children = []
+        for m_name in self.modules:
+            m = self.modules[m_name]
+            mPar_name = utils.getModuleNameFromAttr(m.parent)
+            if mPar_name == name:
+                children.append(m.name)
+        #print children
+        return children

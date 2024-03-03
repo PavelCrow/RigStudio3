@@ -467,17 +467,17 @@ class Twist(object):
         # create twist on mirrored joint
         if mirror:
             if t_name.split('_')[0] == 'l':
-                if cmds.objExists(utils.getOppositeObject(t_name+"_joint")):
+                if cmds.objExists(utils.getOpposite(t_name+"_joint")):
                     if data == {}:
                         data = self.getData(t_name)
                     reverseData = data
-                    reverseData['name'] = utils.getOppositeObject(t_name)
-                    reverseData['start_j'] = utils.getOppositeObject(start_j)
-                    reverseData['end_j'] = utils.getOppositeObject(end_j)
+                    reverseData['name'] = utils.getOpposite(t_name)
+                    reverseData['start_j'] = utils.getOpposite(start_j)
+                    reverseData['end_j'] = utils.getOpposite(end_j)
                     self.twists_add(reverseData, setHelpers=False, advanced=advanced)
                     # connect control shapes
                     if cmds.objExists(moduleName+'_mod.mirror'):
-                        mirrorShape = cmds.getAttr(utils.getOppositeObject(moduleName+'_mod.mirror'))
+                        mirrorShape = cmds.getAttr(utils.getOpposite(moduleName+'_mod.mirror'))
                     else:
                         mirrorShape = False
                     controls = utils.getSetObjects(t_name+'_twist_moduleControlSet')
@@ -495,17 +495,17 @@ class Twist(object):
 
                                     cmds.connectAttr(s+'.worldSpace[0]', tg+'.inputGeometry')
                                     cmds.connectAttr(c_mat+'.outputMatrix', tg+'.transform')
-                                    cmds.connectAttr(tg+'.outputGeometry', utils.getOppositeObject(s)+'.create')
+                                    cmds.connectAttr(tg+'.outputGeometry', utils.getOpposite(s)+'.create')
                                 else:
-                                    cmds.connectAttr(s+'.worldSpace[0]', utils.getOppositeObject(s)+'.create')
+                                    cmds.connectAttr(s+'.worldSpace[0]', utils.getOpposite(s)+'.create')
 
                         else:						
                             shapes = cmds.listRelatives(c, s=1)
                             #print "1", c, shapes
                             for s in shapes:
                                 try:	
-                                    cmds.connectAttr(s+'.worldSpace[0]', utils.getOppositeObject(s)+'.create')
-                                except: cmds.warning(" MISS CONTROL SHAPE " + utils.getOppositeObject(s))						
+                                    cmds.connectAttr(s+'.worldSpace[0]', utils.getOpposite(s)+'.create')
+                                except: cmds.warning(" MISS CONTROL SHAPE " + utils.getOpposite(s))						
                     if aligned:
                         con = self.getAlignedConstraint()
                         cmds.setAttr(con+".aimVectorX", -1)
@@ -588,7 +588,7 @@ class Twist(object):
 
         # remove twist on mirrored joint
         if item_name.split('_')[0] == 'l':
-            oppName = utils.getOppositeObject(item_name)
+            oppName = utils.getOpposite(item_name)
             if cmds.objExists(oppName + '_mod'):
                 self.twists_remove(oppName)
 
@@ -616,7 +616,7 @@ class Twist(object):
         self.twists_add(data)
 
         #if self.curTwistName.split('_')[0] == 'l':
-            #oppName = utils.getOppositeObject(self.curTwistName)
+            #oppName = utils.getOpposite(self.curTwistName)
             #if cmds.objExists(oppName + '_mod'):
                 #self.twists_add(data)
 
@@ -693,9 +693,9 @@ class Twist(object):
 
         # attach opposite twist
         if name.split('_')[0] == 'l':
-            oppName = utils.getOppositeObject(name)
+            oppName = utils.getOpposite(name)
             if cmds.objExists(oppName + '_mod'):
-                attach(oppName,  utils.getOppositeObject(sel[0]))		
+                attach(oppName,  utils.getOpposite(sel[0]))		
 
         self.updateFrame()
 
@@ -838,12 +838,12 @@ class Twist(object):
         objects.append(self.curTwistName+'_joint_root_connectorLoc')
         objects.append(self.curTwistName+'_joint_start_connectorLoc')
 
-        if cmds.objExists(utils.getOppositeObject(self.curTwistName+'_joint_end_connectorLoc')):
-            objects.append(utils.getOppositeObject(self.curTwistName+'_joint_end_connectorLoc'))
-        if cmds.objExists(utils.getOppositeObject(self.curTwistName+'_joint_root_connectorLoc')):
-            objects.append(utils.getOppositeObject(self.curTwistName+'_joint_root_connectorLoc'))
-        if cmds.objExists(utils.getOppositeObject(self.curTwistName+'_joint_start_connectorLoc')):
-            objects.append(utils.getOppositeObject(self.curTwistName+'_joint_start_connectorLoc'))
+        if cmds.objExists(utils.getOpposite(self.curTwistName+'_joint_end_connectorLoc')):
+            objects.append(utils.getOpposite(self.curTwistName+'_joint_end_connectorLoc'))
+        if cmds.objExists(utils.getOpposite(self.curTwistName+'_joint_root_connectorLoc')):
+            objects.append(utils.getOpposite(self.curTwistName+'_joint_root_connectorLoc'))
+        if cmds.objExists(utils.getOpposite(self.curTwistName+'_joint_start_connectorLoc')):
+            objects.append(utils.getOpposite(self.curTwistName+'_joint_start_connectorLoc'))
 
         cmds.select(objects)
 
@@ -885,7 +885,7 @@ class Twist(object):
                         cmds.setAttr(con+".aimVectorX", -1)
                         cmds.setAttr(con+".offsetY", 180)						
                     else:
-                        con = utils.getOppositeObject(con)
+                        con = utils.getOpposite(con)
                         if con:
                             cmds.delete(con)
                             cmds.setAttr(opp_name + "_root_connectorLoc.r", 0,180,0)				

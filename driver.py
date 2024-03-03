@@ -393,7 +393,7 @@ class Driver(object):
 		# add item
 		self.addDriverItem(self.driver)#, self.attr)
 		
-		opp_driver = utils.getOppositeObject(self.driver)
+		opp_driver = utils.getOpposite(self.driver)
 		if cmds.objExists(opp_driver) and self.driver != opp_driver:
 			self.addDriverItem(opp_driver)#, self.attr)
 
@@ -503,14 +503,14 @@ class Driver(object):
 			self.updateKeybar()
 			
 		# Mirror
-		opp = utils.getOppositeObject(self.driver+"."+self.attr)
+		opp = utils.getOpposite(self.driver+"."+self.attr)
 		if cmds.objExists(opp) and opp != self.driver+"."+self.attr:
 			for t in self.targets:
-				if not cmds.objExists(utils.getOppositeObject(t)):
+				if not cmds.objExists(utils.getOpposite(t)):
 					return
 			
 			# update driver
-			driver = utils.getOppositeObject(self.driver)
+			driver = utils.getOpposite(self.driver)
 			v = cmds.getAttr(self.driver+'.'+self.attr)
 			cmds.setAttr(driver+'.'+self.attr, v)
 					
@@ -520,11 +520,11 @@ class Driver(object):
 					p = cmds.listRelatives(t, p=1)[0]
 					v = cmds.getAttr(p+'.'+a)
 					try:
-						cmds.setAttr(utils.getOppositeObject(t)+'.'+a, v)
+						cmds.setAttr(utils.getOpposite(t)+'.'+a, v)
 					except: 
-						print ('Cannot set attribute', utils.getOppositeObject(t)+'.'+a)
+						print ('Cannot set attribute', utils.getOpposite(t)+'.'+a)
 
-				t = utils.getOppositeObject(t)
+				t = utils.getOpposite(t)
 				dn_a_list = cmds.listAttr(t, k=1) or []
 				gr = "%s__%s__%s__drivenGroup"% (driver, self.attr, t)
 				
@@ -594,7 +594,7 @@ class Driver(object):
 					cmds.cutKey(gr, index=(num,num))
 					
 					# Mirror
-					opp_gr = "%s__%s__%s__drivenGroup"% (utils.getOppositeObject(self.driver), self.attr, utils.getOppositeObject(t))
+					opp_gr = "%s__%s__%s__drivenGroup"% (utils.getOpposite(self.driver), self.attr, utils.getOpposite(t))
 					if cmds.objExists(opp_gr) and opp_gr != gr:
 						cmds.cutKey(opp_gr, index=(num,num))						
 						
@@ -614,7 +614,7 @@ class Driver(object):
 		for dn in pm.ls("*drivenGroup"):
 			if dr+"__"+attr in dn.name():
 				dns.append(dn)
-				opp_dn = utils.getOppositeObject(dn).replace("_l_","_r_")
+				opp_dn = utils.getOpposite(dn).replace("_l_","_r_")
 				if cmds.objExists(opp_dn) and opp_dn != dn:
 					opp_dns.append(opp_dn)
 
@@ -665,7 +665,7 @@ class Driver(object):
 	def goToKey(self, v):
 		cmds.setAttr(self.driver+'.'+self.attr, v)
 		
-		opp_driver = utils.getOppositeObject(self.driver)
+		opp_driver = utils.getOpposite(self.driver)
 		if cmds.objExists(opp_driver) and opp_driver != self.driver:
 			cmds.setAttr(opp_driver+'.'+self.attr, v)
 		

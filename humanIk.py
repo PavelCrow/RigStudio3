@@ -150,56 +150,56 @@ class HumanIk(object):
 		# shoulders
 		l_j = getRootJoint(self.win.clav_comboBox.currentText(), "root")
 		if l_j:
-			r_j = utils.getOppositeObject(l_j)
+			r_j = utils.getOpposite(l_j)
 			mel.eval('setCharacterObject("%s","Character1",18,0);' %l_j)
 			mel.eval('setCharacterObject("%s","Character1",19,0);' %r_j)
 		
 		# arms
 		l_j = getRootJoint(self.win.arm_comboBox.currentText(), "root")
 		if l_j:
-			r_j = utils.getOppositeObject(l_j)
+			r_j = utils.getOpposite(l_j)
 			mel.eval('setCharacterObject("%s","Character1",9,0);' %l_j)
 			mel.eval('setCharacterObject("%s","Character1",12,0);' %r_j)
 		
 		# elbow
 		l_j = getRootJoint(self.win.arm_comboBox.currentText(), "middle")
 		if l_j:
-			r_j = utils.getOppositeObject(l_j)
+			r_j = utils.getOpposite(l_j)
 			mel.eval('setCharacterObject("%s","Character1",10,0);' %l_j)
 			mel.eval('setCharacterObject("%s","Character1",13,0);' %r_j)
 		
 		# hand
 		l_j = getRootJoint(self.win.hand_comboBox.currentText(), "root")
 		if l_j:
-			r_j = utils.getOppositeObject(l_j)
+			r_j = utils.getOpposite(l_j)
 			mel.eval('setCharacterObject("%s","Character1",11,0);' %l_j)
 			mel.eval('setCharacterObject("%s","Character1",14,0);' %r_j)
 			
 		# leg
 		l_j = getRootJoint(self.win.leg_comboBox.currentText(), "root")
 		if l_j:
-			r_j = utils.getOppositeObject(l_j)
+			r_j = utils.getOpposite(l_j)
 			mel.eval('setCharacterObject("%s","Character1",2,0);' %l_j)
 			mel.eval('setCharacterObject("%s","Character1",5,0);' %r_j)
 		
 		# knee
 		l_j = getRootJoint(self.win.leg_comboBox.currentText(), "middle")
 		if l_j:
-			r_j = utils.getOppositeObject(l_j)
+			r_j = utils.getOpposite(l_j)
 			mel.eval('setCharacterObject("%s","Character1",3,0);' %l_j)
 			mel.eval('setCharacterObject("%s","Character1",6,0);' %r_j)
 		
 		# foot
 		l_j = getRootJoint(self.win.foot_comboBox.currentText(), "root")
 		if l_j:
-			r_j = utils.getOppositeObject(l_j)
+			r_j = utils.getOpposite(l_j)
 			mel.eval('setCharacterObject("%s","Character1",4,0);' %l_j)
 			mel.eval('setCharacterObject("%s","Character1",7,0);' %r_j)
 		
 		# toe
 		l_j = getRootJoint(self.win.foot_comboBox.currentText(), "toe")
 		if l_j:
-			r_j = utils.getOppositeObject(l_j)
+			r_j = utils.getOpposite(l_j)
 			mel.eval('setCharacterObject("%s","Character1",16,0);' %l_j)
 			mel.eval('setCharacterObject("%s","Character1",17,0);' %r_j)
 		
@@ -234,7 +234,7 @@ class HumanIk(object):
 		
 		# clavicle
 		l_c = utils.getControlNameFromInternal(self.win.clav_comboBox.currentText(), "root")
-		r_c = utils.getOppositeObject(l_c)
+		r_c = utils.getOpposite(l_c)
 		if cmds.objExists(l_c):
 			cmds.select(l_c)
 			mel.eval('hikCustomRigAssignEffector 18')		
@@ -243,14 +243,14 @@ class HumanIk(object):
 		
 		# arm_fk
 		l_c = utils.getControlNameFromInternal(self.win.arm_comboBox.currentText(), "fk_a")
-		r_c = utils.getOppositeObject(l_c)
+		r_c = utils.getOpposite(l_c)
 		if cmds.objExists(l_c):
 			cmds.select(l_c)
 			mel.eval('hikCustomRigAssignEffector 9')		
 			cmds.select(r_c)
 			mel.eval('hikCustomRigAssignEffector 12')		
 		l_c = utils.getControlNameFromInternal(self.win.arm_comboBox.currentText(), "fk_b")
-		r_c = utils.getOppositeObject(l_c)
+		r_c = utils.getOpposite(l_c)
 		if cmds.objExists(l_c):
 			cmds.setAttr(l_c+".rx", l=False, k=True)
 			cmds.setAttr(l_c+".rz", l=False, k=True)
@@ -261,7 +261,7 @@ class HumanIk(object):
 			cmds.select(r_c)
 			mel.eval('hikCustomRigAssignEffector 13')		
 		l_c = utils.getControlNameFromInternal(self.win.arm_comboBox.currentText(), "fk_end")
-		r_c = utils.getOppositeObject(l_c)
+		r_c = utils.getOpposite(l_c)
 		if cmds.objExists(l_c):
 			cmds.select(l_c)
 			mel.eval('hikCustomRigAssignEffector 11')		
@@ -270,7 +270,7 @@ class HumanIk(object):
 		
 		# knee_ik
 		l_c = utils.getControlNameFromInternal(self.win.leg_comboBox.currentText(), "ik_aim")
-		r_c = utils.getOppositeObject(l_c)
+		r_c = utils.getOpposite(l_c)
 		if cmds.objExists(l_c):
 			cmds.select(l_c)
 			mel.eval('hikCustomRigAssignEffector 3')		
@@ -279,7 +279,7 @@ class HumanIk(object):
 			
 		# foot_ik
 		l_c = utils.getControlNameFromInternal(self.win.foot_comboBox.currentText(), "foot")
-		r_c = utils.getOppositeObject(l_c)
+		r_c = utils.getOpposite(l_c)
 		if cmds.objExists(l_c):
 			cmds.select(l_c)
 			mel.eval('hikCustomRigAssignEffector 4')		

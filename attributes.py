@@ -66,10 +66,10 @@ class treeWidgetClass(QtWidgets.QTreeWidget):
 					cmds.sets(control, e=1, rm=currentSet_name)	
 					
 				if utils.objectIsSymmetrical(control):
-					opp_control = utils.getOppositeObject(control)		
-					opp_newSet_name = utils.getOppositeObject(newSet_name)	
+					opp_control = utils.getOpposite(control)		
+					opp_newSet_name = utils.getOpposite(newSet_name)	
 					opp_newSet_controls = getSetControlsNoRecurcive(opp_newSet_name)
-					opp_currentSet_name = utils.getOppositeObject(currentSet_name)	
+					opp_currentSet_name = utils.getOpposite(currentSet_name)	
 					if opp_control not in opp_newSet_controls:
 						cmds.sets(opp_control, e=1, add=opp_newSet_name)		
 						cmds.sets(opp_control, e=1, rm=opp_currentSet_name)						
@@ -188,13 +188,13 @@ class treeWidgetClass(QtWidgets.QTreeWidget):
 		
 		# add opposide set
 		if set_name.split("_")[0] == "l":
-			opp_set = utils.getOppositeObject(set_name)
+			opp_set = utils.getOpposite(set_name)
 			cmds.sets(n=opp_set)
 			cmds.setAttr(opp_set+".annotation", "gControlSet", type="string")
 			
 			par = self.getCurrentControlSet()
 			if par.split("_")[0] == "l": 
-				par = utils.getOppositeObject(par)
+				par = utils.getOpposite(par)
 			cmds.sets(opp_set, e=1, add=par)			
 			
 		# update tree
@@ -557,8 +557,8 @@ class AddAttribute(object):
 			cmds.setAttr(obj+'.'+name, e=1, l=locked)
 			
 		add(self.obj)
-		if cmds.objExists(utils.getOppositeObject(self.obj)):
-			add(utils.getOppositeObject(self.obj))
+		if cmds.objExists(utils.getOpposite(self.obj)):
+			add(utils.getOpposite(self.obj))
 
 		try:
 			self.main.addAttribute(name)
