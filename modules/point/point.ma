@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: point.ma
-//Last modified: Sun, Mar 03, 2024 12:34:51 PM
+//Last modified: Sun, Mar 03, 2024 12:59:07 PM
 //Codeset: 1251
 requires maya "2022";
 requires "stereoCamera" "10.0";
@@ -11,7 +11,7 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202110272215-ad32f8f1e6";
 fileInfo "osv" "Windows 10 Pro v2009 (Build: 22631)";
-fileInfo "UUID" "0CA78E82-47C2-4EDB-F365-C3B296C504C0";
+fileInfo "UUID" "30133EB5-4E96-3C8C-5AE2-FC8175A38E0C";
 createNode transform -n "mod";
 	rename -uid "796B45B9-43DB-82CA-C93B-1A91B6023A77";
 	addAttr -ci true -sn "mirror" -ln "mirror" -min 0 -max 1 -at "bool";
@@ -243,6 +243,7 @@ createNode bifrostGraphShape -n "posers_bifrostGraphShape" -p "posers_bifrostGra
 		+ "                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n                        \"x\": \"1f\",\n                        \"y\": \"1f\",\n                        \"z\": \"-1f\"\n                    }\n                },\n                {\n                    \"valueName\": \"value3.value\",\n                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n                        \"x\": \"1f\",\n                        \"y\": \"1f\",\n                        \"z\": \"1f\"\n                    }\n                },\n                {\n                    \"valueName\": \"value4.value\",\n                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n                        \"x\": \"-1f\",\n                        \"y\": \"-1f\",\n                        \"z\": \"1f\"\n                    }\n                },\n                {\n                    \"valueName\": \"value5.value\",\n                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n                        \"x\": \"-1f\",\n                        \"y\": \"-1f\",\n"
 		+ "                        \"z\": \"-1f\"\n                    }\n                },\n                {\n                    \"valueName\": \"value6.value\",\n                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n                        \"x\": \"1f\",\n                        \"y\": \"-1f\",\n                        \"z\": \"-1f\"\n                    }\n                },\n                {\n                    \"valueName\": \"value7.value\",\n                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n                        \"x\": \"1f\",\n                        \"y\": \"-1f\",\n                        \"z\": \"1f\"\n                    }\n                },\n                {\n                    \"valueName\": \"value8.value\",\n                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n                        \"x\": \"-1f\",\n                        \"y\": \"-1f\",\n                        \"z\": \"1f\"\n                    }\n                }\n            ],\n            \"reservedNodeNames\": [\n                {\n                    \"name\": \"input\"\n"
 		+ "                },\n                {\n                    \"name\": \"output\"\n                }\n            ]\n        }\n    ]\n}\n");
+	setAttr ".dirtyFlag" yes;
 	setAttr -k on ".global_scale" 1;
 	setAttr -k on ".width" 0.10000000149011612;
 	setAttr -k on ".poser_color" -type "float3" 0 1 0 ;
@@ -326,15 +327,15 @@ createNode joint -n "root_outJoint" -p "outJoints";
 createNode transform -s -n "persp";
 	rename -uid "5D24B4F0-48F4-0BBF-2883-0FB107072B31";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 12.818317487237501 7.8487968930419809 -5.8386238735985243 ;
-	setAttr ".r" -type "double3" -29.399999999965704 -245.19999999996347 0 ;
+	setAttr ".t" -type "double3" 27.903746051038809 13.525663758345893 -1.6901823027064533 ;
+	setAttr ".r" -type "double3" -22.799999999965149 -265.59999999996268 -2.5444437451708134e-14 ;
 	setAttr ".rp" -type "double3" -6.9388939039072284e-18 1.1102230246251563e-16 2.2204460492503131e-16 ;
 	setAttr ".rpt" -type "double3" -2.0710120022049341e-16 1.3723218949214615e-17 -2.394600998630024e-16 ;
 createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "FA06188C-40FD-4EF2-A7A8-2DBD9ED48E1A";
 	setAttr -k off ".v" no;
 	setAttr ".fl" 34.999999999999986;
-	setAttr ".coi" 16.124227128934546;
+	setAttr ".coi" 31.098186320327088;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -437,7 +438,7 @@ createNode poseInterpolatorManager -n "poseInterpolatorManager";
 createNode objectSet -n "controlJointsSet";
 	rename -uid "0DD2C7D4-42D4-5B17-9A99-048670486878";
 	setAttr ".ihi" 0;
-createNode multiplyDivide -n "multiplyDivide1";
+createNode multiplyDivide -n "size_multiplyDivide";
 	rename -uid "6E7D770B-40F8-7736-8F57-758A20381435";
 createNode makeNurbSphere -n "makeNurbSphere1";
 	rename -uid "4DB49BAA-4AFF-D2AA-7FEB-42B04108499D";
@@ -455,7 +456,7 @@ createNode script -n "sceneConfigurationScriptNode";
 	setAttr ".b" -type "string" "playbackOptions -min 0 -max 120 -ast 0 -aet 140 ";
 	setAttr ".st" 6;
 createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
-	rename -uid "62B21302-4FBA-64BC-AC92-B9AA817CE356";
+	rename -uid "542732DC-41CA-8ECE-45C0-E5BB02CDADC8";
 	setAttr -s 2 ".tgi";
 	setAttr ".tgi[0].tn" -type "string" "Untitled_1";
 	setAttr ".tgi[0].vl" -type "double2" -1435.7142286641283 -1714.2219434615442 ;
@@ -483,33 +484,27 @@ createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
 	setAttr ".tgi[0].ni[6].y" 943.16876220703125;
 	setAttr ".tgi[0].ni[6].nvs" 18305;
 	setAttr ".tgi[1].tn" -type "string" "Untitled_2";
-	setAttr ".tgi[1].vl" -type "double2" -782.99228798486558 -682.6636392704861 ;
-	setAttr ".tgi[1].vh" -type "double2" 563.66870702966082 568.3014117490012 ;
-	setAttr -s 8 ".tgi[1].ni";
-	setAttr ".tgi[1].ni[0].x" -642.43804931640625;
-	setAttr ".tgi[1].ni[0].y" -46.602787017822266;
+	setAttr ".tgi[1].vl" -type "double2" -1649.2994229169485 -953.00901249868002 ;
+	setAttr ".tgi[1].vh" -type "double2" -465.06861563381796 147.06840693813191 ;
+	setAttr -s 6 ".tgi[1].ni";
+	setAttr ".tgi[1].ni[0].x" -1694.83935546875;
+	setAttr ".tgi[1].ni[0].y" -382.2601318359375;
 	setAttr ".tgi[1].ni[0].nvs" 18305;
-	setAttr ".tgi[1].ni[1].x" -217.29173278808594;
-	setAttr ".tgi[1].ni[1].y" -205.86703491210938;
+	setAttr ".tgi[1].ni[1].x" -1071.4285888671875;
+	setAttr ".tgi[1].ni[1].y" -330;
 	setAttr ".tgi[1].ni[1].nvs" 18304;
-	setAttr ".tgi[1].ni[2].x" -34.285713195800781;
-	setAttr ".tgi[1].ni[2].y" 142.85714721679688;
-	setAttr ".tgi[1].ni[2].nvs" 18304;
-	setAttr ".tgi[1].ni[3].x" -341.42855834960938;
-	setAttr ".tgi[1].ni[3].y" 142.85714721679688;
+	setAttr ".tgi[1].ni[2].x" -1710.0478515625;
+	setAttr ".tgi[1].ni[2].y" -151.05284118652344;
+	setAttr ".tgi[1].ni[2].nvs" 18305;
+	setAttr ".tgi[1].ni[3].x" -1001.5374145507812;
+	setAttr ".tgi[1].ni[3].y" -106.44140625;
 	setAttr ".tgi[1].ni[3].nvs" 18304;
-	setAttr ".tgi[1].ni[4].x" -1324.6466064453125;
-	setAttr ".tgi[1].ni[4].y" 174.9066162109375;
-	setAttr ".tgi[1].ni[4].nvs" 18305;
-	setAttr ".tgi[1].ni[5].x" 272.85714721679688;
-	setAttr ".tgi[1].ni[5].y" 142.85714721679688;
-	setAttr ".tgi[1].ni[5].nvs" 18304;
-	setAttr ".tgi[1].ni[6].x" -648.5714111328125;
-	setAttr ".tgi[1].ni[6].y" 142.85714721679688;
-	setAttr ".tgi[1].ni[6].nvs" 18304;
-	setAttr ".tgi[1].ni[7].x" -963.39007568359375;
-	setAttr ".tgi[1].ni[7].y" 105.75765991210938;
-	setAttr ".tgi[1].ni[7].nvs" 18305;
+	setAttr ".tgi[1].ni[4].x" -764.28570556640625;
+	setAttr ".tgi[1].ni[4].y" -352.85714721679688;
+	setAttr ".tgi[1].ni[4].nvs" 18304;
+	setAttr ".tgi[1].ni[5].x" -1381.6131591796875;
+	setAttr ".tgi[1].ni[5].y" -246.67817687988281;
+	setAttr ".tgi[1].ni[5].nvs" 18305;
 select -ne :time1;
 	setAttr -av -k on ".cch";
 	setAttr -av -k on ".ihi";
@@ -805,7 +800,7 @@ connectAttr "root_poser.sx" "root_poser.sy" -l on;
 connectAttr "root_poser.sx" "root_poser.sz" -l on;
 connectAttr "makeNurbSphere1.os" "root_poserShape.cr";
 connectAttr "mirror_condition.ocr" "root_initLoc.sx";
-connectAttr "multiplyDivide1.oy" "posers_bifrostGraphShape.mainPoser_size";
+connectAttr "size_multiplyDivide.oy" "posers_bifrostGraphShape.mainPoser_size";
 connectAttr "root_poser.wm" "input.opm";
 connectAttr "root_connector.wm" "root_group.opm";
 connectAttr "root_ctrJoint_decomposeMatrix.osx" "outJoints.sx";
@@ -836,12 +831,12 @@ connectAttr "negate.o" "mirror_condition_2.cfr";
 connectAttr "root_ctrJoint_decomposeMatrix.osz" "mirror_condition_2.ctr";
 connectAttr "root_ctrJoint_decomposeMatrix.osz" "negate.i1";
 connectAttr "root_ctrJoint.iog" "controlJointsSet.dsm" -na;
-connectAttr "root_poser.radius" "multiplyDivide1.i1x";
-connectAttr "mainPoser.size" "multiplyDivide1.i1y";
-connectAttr "mainPoser.globalSize" "multiplyDivide1.i2x";
-connectAttr "mainPoser.globalSize" "multiplyDivide1.i2y";
-connectAttr "multiplyDivide1.ox" "makeNurbSphere1.r";
-connectAttr "multiplyDivide1.msg" "hyperShadePrimaryNodeEditorSavedTabsInfo.tgi[0].ni[0].dn"
+connectAttr "root_poser.radius" "size_multiplyDivide.i1x";
+connectAttr "mainPoser.size" "size_multiplyDivide.i1y";
+connectAttr "mainPoser.globalSize" "size_multiplyDivide.i2x";
+connectAttr "mainPoser.globalSize" "size_multiplyDivide.i2y";
+connectAttr "size_multiplyDivide.ox" "makeNurbSphere1.r";
+connectAttr "size_multiplyDivide.msg" "hyperShadePrimaryNodeEditorSavedTabsInfo.tgi[0].ni[0].dn"
 		;
 connectAttr "outJoints.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn";
 connectAttr "root_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn";
@@ -853,17 +848,13 @@ connectAttr "root_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[4].dn";
 connectAttr "root_ctrJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn";
 connectAttr "root_decomposeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[6].dn"
 		;
-connectAttr "root_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn";
-connectAttr "root_initLocShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn"
+connectAttr "mainPoser.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn";
+connectAttr "makeNurbSphere1.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn";
+connectAttr "root_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn";
+connectAttr "posers_bifrostGraphShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn"
 		;
-connectAttr "root_decomposeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn"
-		;
-connectAttr "root_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn";
-connectAttr "mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn";
-connectAttr "root_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn";
-connectAttr "mirror_composeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[6].dn"
-		;
-connectAttr "mirror_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[7].dn"
+connectAttr "root_poserShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn";
+connectAttr "size_multiplyDivide.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn"
 		;
 connectAttr "root_decomposeMatrix.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "mirror_condition.msg" ":defaultRenderUtilityList1.u" -na;
@@ -872,7 +863,7 @@ connectAttr "root_ctrJoint_decomposeMatrix.msg" ":defaultRenderUtilityList1.u" -
 		;
 connectAttr "mirror_condition_2.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "negate.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multiplyDivide1.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "size_multiplyDivide.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "defaultRenderLayer.msg" ":defaultRenderingList1.r" -na;
 connectAttr "posers_bifrostGraphShape.iog" ":initialShadingGroup.dsm" -na;
 // End of point.ma

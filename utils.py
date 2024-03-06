@@ -326,7 +326,7 @@ def getModuleName(obj): #
 def capitalizeName(name):
 	return	name[0].capitalize() + name[1:]
 
-def getObjectSide(moduleName):
+def getObjectSide(moduleName): #
 	side = moduleName.split('_')[0]
 	if side == "r":
 		return "r"
@@ -559,6 +559,13 @@ def getOpposite(obj):
 	else:
 		return obj	
 
+def getOppositeIfExists(obj):
+	new_obj = getOpposite(obj)
+	if cmds.objExists(new_obj):
+		return new_obj
+	else:
+		return obj	
+
 def delete(o):
 	if cmds.objExists(o):
 		cmds.delete(o)	
@@ -612,9 +619,10 @@ def removeTransformParentJoint(jnt): #
 
 # Tools
 def connectByMatrix(obj, targets, inputs=[], moduleName="", attrs=['t', 'r', 's']):
-	tgt = targets[0]
+	m_name = getModuleName(obj)
 
 	dMat = cmds.createNode('decomposeMatrix', n=obj+"_decMat")
+	addToModuleSet(dMat, m_name)
 	if 't' in attrs:
 		if not cmds.getAttr(obj+'.translateX', lock=1):
 			cmds.connectAttr(dMat+".outputTranslateX", obj+'.translateX', f=1)			
@@ -637,15 +645,11 @@ def connectByMatrix(obj, targets, inputs=[], moduleName="", attrs=['t', 'r', 's'
 		if not cmds.getAttr(obj+'.scaleZ', lock=1):
 			cmds.connectAttr(dMat+".outputScaleZ", obj+'.scaleZ', f=1)		
 
-	if moduleName != "":
-		addModuleNameAttr(dMat, moduleName)
-
 	if len(targets) > 1:
 		mMat = cmds.createNode('multMatrix', n=obj+"_multMat")
-		cmds.connectAttr(mMat+".matrixSum", dMat+'.inputMatrix')
+		addToModuleSet(mMat, m_name)
 
-		if moduleName != "":
-			addModuleNameAttr(mMat, moduleName)
+		cmds.connectAttr(mMat+".matrixSum", dMat+'.inputMatrix')
 
 		for i in range(len(targets)):
 			cmds.connectAttr(targets[i]+"."+inputs[i], mMat+'.matrixIn[%s]' %(str(i)) )
@@ -656,13 +660,18 @@ def connectByMatrix(obj, targets, inputs=[], moduleName="", attrs=['t', 'r', 's'
 		cmds.connectAttr(targets[0]+".worldMatrix[0]", dMat+'.inputMatrix')	
 
 def connectToOffsetParentMatrix(obj, targets, inputs=[]): #
+	m_name = getModuleName(obj)
 	if len(targets) > 1:
 		mMat = cmds.createNode('multMatrix', n=obj+"_multMat")
+		addToModuleSet(mMat, m_name)
 		cmds.connectAttr(mMat+".matrixSum", obj+'.offsetParentMatrix')
 		for i in range(len(targets)):
 			cmds.connectAttr(targets[i]+"."+inputs[i], mMat+'.matrixIn[%s]' %(str(i)) )
 	else:
 		cmds.connectAttr(targets[0]+".worldMatrix[0]", obj+'.offsetParentMatrix')
+
+def addToModuleSet(node, module_name):
+	cmds.sets(node, e=1, forceElement=module_name+'_nodesSet')
 
 def addBindSkinJoint(checkBox):
 	rigTools.addSecondBindSkinJoint.run(checkBox.isChecked())
@@ -895,15 +904,10 @@ def parentTo(child, parent): #
 			cmds.parent(child, parent)	
 
 def connectTrandform(s, t): #
-	cmds.connectAttr(s+".tx", t+'.tx')
-	cmds.connectAttr(s+".ty", t+'.ty')
-	cmds.connectAttr(s+".tz", t+'.tz')
-	cmds.connectAttr(s+".rx", t+'.rx')
-	cmds.connectAttr(s+".ry", t+'.ry')
-	cmds.connectAttr(s+".rz", t+'.rz')
-	cmds.connectAttr(s+".sx", t+'.sx')
-	cmds.connectAttr(s+".sy", t+'.sy')
-	cmds.connectAttr(s+".sz", t+'.sz')	
+	for a in ['tx', 'ty', 'tz', 'rx', 'ry', 'rz', 'sx', 'sy', 'sz']:
+		try:
+			cmds.connectAttr(s+"."+a, t+'.'+a)
+		except: pass
 
 def readInfo(name):
 	path = modulePath + '/modules/' + name

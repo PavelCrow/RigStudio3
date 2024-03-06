@@ -429,7 +429,7 @@ class Rig:
         children = []
         for m_name in self.modules:
             m = self.modules[m_name]
-            mPar_name = utils.getModuleNameFromAttr(m.parent)
+            mPar_name = utils.getModuleName(m.parent)
             if mPar_name == name:
                 children.append(m.name)
         #print children

@@ -66,6 +66,8 @@ class Module(object):
             utils.setUserAttr(c, "type", "control")
             utils.setUserAttr(c, "internalName", c.replace(self.name+"_", ""))
 
+        cmds.parent(self.root, 'modules')
+
         self.addSkinJoints()
 
         self.joints = self.getJoints()
@@ -82,8 +84,6 @@ class Module(object):
         #             p.size.set(size)
         #         except:
         #             print("Cannot set size attr in the poser")
-
-        cmds.parent(self.root, 'modules')
 
         cmds.refresh()
 
@@ -102,16 +102,10 @@ class Module(object):
         cmds.showHidden(joints_grp)
         cmds.duplicate(joints_grp, n=outJoints_grp)
         allJoints = pm.listRelatives(outJoints_grp, allDescendents=1)
-        # utils.setUserAttr(outJoints_grp, "moduleName", m_name)	
-        # utils.setUserAttr(outJoints_grp, "moduleType", self.type)			
         cmds.hide(joints_grp)
 
         # connect joints and delete all except joints
         for o in allJoints:
-            # if "_volume_" in o.name():
-            #     pm.delete(o)
-            #     continue
-
             # delete if not joint or have not a joint
             if pm.objectType(o) != 'joint':
                 childs = pm.listRelatives(o, allDescendents=1)
@@ -128,16 +122,6 @@ class Module(object):
             o.rename(srcName.replace('outJoint', 'joint').replace('outRootJoint', 'rootJoint').replace('outGroup', 'group'))
             utils.connectTrandform(srcName, o.name())
 
-            # correct scale joint
-            # if utils.objectIsOpposite(m_name+"_mod"):
-                # mult_s = cmds.createNode('multMatrix', n=m_name+"_globalScale_multMatrix")
-                # comp = cmds.createNode('composeMatrix', n=m_name+"_globalScale_composeMatrix")
-                # cmds.setAttr(comp+".inputScaleX", -1)
-                # cmds.connectAttr(m_name+"_mainPoser.worldMatrix", mult_s+".matrixIn[0]")
-                # cmds.connectAttr(comp+".outputMatrix", mult_s+".matrixIn[1]")
-                # root_dec = cmds.createNode('decomposeMatrix', n=m_name+"_globalScale_decomposeMatrix")
-                # cmds.connectAttr(mult_s+".matrixSum", root_dec+".inputMatrix")
-            # else:	
             if not cmds.objExists(m_name+"_mainPoser_decomposeMatrix"):
                 root_dec = cmds.createNode('decomposeMatrix', n=m_name+"_mainPoser_decomposeMatrix")
                 cmds.connectAttr(m_name+"_mainPoser.worldMatrix[0]", root_dec+".inputMatrix")
@@ -145,14 +129,16 @@ class Module(object):
             else:
                 root_dec = m_name+"_mainPoser_decomposeMatrix"
 
-            mult = cmds.createNode('multiplyDivide', n=o+"_invScale_multiplyDivide")
-            cmds.connectAttr(srcName+".t", mult+".input1")
-            cmds.connectAttr(root_dec+".outputScaleX", mult+".input2X") # set absolute scale
-            cmds.connectAttr(root_dec+".outputScaleX", mult+".input2Y")
-            cmds.connectAttr(root_dec+".outputScaleX", mult+".input2Z")
-            cmds.connectAttr(mult+".outputX", o+".tx", f=1)
-            cmds.connectAttr(mult+".outputY", o+".ty", f=1)
-            cmds.connectAttr(mult+".outputZ", o+".tz", f=1)
+            # print(111, o)
+            # mult = cmds.createNode('multiplyDivide', n=o+"_invScale_multiplyDivide")
+            # print(222, mult)
+            # cmds.connectAttr(srcName+".t", mult+".input1")
+            # cmds.connectAttr(root_dec+".outputScaleX", mult+".input2X") # set absolute scale
+            # cmds.connectAttr(root_dec+".outputScaleX", mult+".input2Y")
+            # cmds.connectAttr(root_dec+".outputScaleX", mult+".input2Z")
+            # cmds.connectAttr(mult+".outputX", o+".tx", f=1)
+            # cmds.connectAttr(mult+".outputY", o+".ty", f=1)
+            # cmds.connectAttr(mult+".outputZ", o+".tz", f=1)
 
             # correct joint size
             if o.split("_")[-1] == 'joint':
@@ -257,29 +243,24 @@ class Module(object):
         utils.connectToOffsetParentMatrix(self.name+'_posers', [targetMainPoser])
         utils.connectToOffsetParentMatrix(connector, [root_poser, targetInit, target_outJoint, connector_parent], ['worldMatrix[0]', 'worldInverseMatrix[0]', 'worldMatrix[0]', 'worldInverseMatrix[0]'])
         
-        self.parent = target_joint
-        # utils.setUserAttr(self.name+"_mod", "parent", self.parent)
-        # Symmetry Module Add Connections
-        # self.connectOpposite()
+        self.parent = target_outJoint
 
         # restore position
         cmds.xform(self.name+'_mainPoser', ws=True, m=initMatrix)		
 
         # add poser connection curve
-        # curve = self.name+'_connectionLine'
-        # cmds.curve(d=1, p=[(0,0,0),(1,0,0)], n=curve)
-        # utils.setUserAttr(curve, "moduleName", self.name)	
-        # cl1 = cmds.cluster(curve+'.cv[0]', relative=1)
-        # cl2 = cmds.cluster(curve+'.cv[1]', relative=1)
-        # gr = cmds.group(empty=1, n=curve+'_group')
-        # utils.setUserAttr(gr, "moduleName", self.name)	
-        # cmds.parent(curve, cl1[1], cl2[1], gr)
-        # cmds.parent(gr, self.name+'_posers')
-        # cmds.hide(cl1, cl2)
-        # cmds.setAttr(curve+'.overrideEnabled', 1)
-        # cmds.setAttr(curve+'.overrideDisplayType', 2)
-        # cmds.pointConstraint(root_poser, cl1, mo=0)
-        # cmds.pointConstraint(targetInit, cl2, mo=0)
+        curve = self.name+'_connectionLine'
+        cmds.curve(d=1, p=[(0,0,0),(1,0,0)], n=curve)
+        cl1 = cmds.cluster(curve+'.cv[0]', relative=1)
+        cl2 = cmds.cluster(curve+'.cv[1]', relative=1)
+        gr = cmds.group(empty=1, n=curve+'_group')
+        cmds.parent(curve, cl1[1], cl2[1], gr)
+        cmds.parent(gr, self.name+'_posers')
+        cmds.hide(cl1, cl2)
+        cmds.setAttr(curve+'.overrideEnabled', 1)
+        cmds.setAttr(curve+'.overrideDisplayType', 2)
+        cmds.pointConstraint(root_poser, cl1, mo=0)
+        cmds.pointConstraint(targetInit, cl2, mo=0)
 
         # reroot skin joints
         joints = cmds.listRelatives(self.name+"_outJoints") or []
@@ -296,6 +277,7 @@ class Module(object):
             opp_name = utils.getOpposite(self.name)
             opp_mod = utils.getModuleInstance(opp_name)
 
+            # connect main poser
             compMat = cmds.createNode('composeMatrix', n=self.name+"_mainPoser_compMat")
             cmds.setAttr(compMat+".inputScaleX", -1)
 
@@ -304,11 +286,40 @@ class Module(object):
             cmds.setAttr(self.name+'_mainPoser.sz', lock=0)
             utils.connectByMatrix(self.name+'_mainPoser', [opp_name+"_mainPoser", compMat, self.name+"_mainPoser" ], ['worldMatrix[0]', 'outputMatrix', 'parentInverseMatrix[0]'], self.name)
             
+            # connect posers
+            for p in self.getPosers():
+                utils.connectTrandform(utils.getOpposite(p), p)
+
             # set mirror attribute if exists
             if cmds.objExists(self.name+"_mod.mirror"):
                 cmds.setAttr(self.name+"_mod.mirror", 1)
 
         cmds.select(target)
+
+    def disconnect(self):
+        target = self.parent
+        if not target:
+            return
+
+        # disconnect
+        parentModule = utils.getModuleName(target)
+        cmds.disconnectAttr(parentModule+'_mainPoser.worldMatrix', self.name+"_posers.offsetParentMatrix")
+        cmds.delete(self.name+'_root_connector_multMat')
+
+        # self.snapToParent(False)
+
+        # delete line group
+        if cmds.objExists(self.name + "_connectionLine_group"):
+            cmds.delete(self.name + "_connectionLine_group")
+
+        # update attrs
+        self.parent = ""
+
+        # reroot skin joints
+        jointsRoot = self.name+'_root_joint'
+        utils.parentTo(jointsRoot, 'skeleton')	
+        utils.removeTransformParentJoint(jointsRoot)
+        utils.resetJointOrient(jointsRoot)
 
     def connectOpposite(self):
         # opp_name = utils.getOpposite(self.name)
@@ -774,46 +785,6 @@ class Module(object):
                     if in_nodes[0] == parentModule + "_mainPoser":
                         return parent
         return None
-
-    def disconnect(self):
-        target = self.parent
-        if not target:
-            return
-
-        # save init mainPoser transforms
-        initMatrix = cmds.xform(self.name+'_mainPoser', query=True, ws=True, m=True)
-
-        # disconnect
-        parentModule = utils.getModuleName(target)
-        cmds.disconnectAttr(parentModule+'_mainPoser.worldMatrix', self.name+"_posers.offsetParentMatrix")
-        cmds.delete(self.name+'_root_connector_multMat')
-
-        # self.snapToParent(False)
-
-        # delete line group
-        # if cmds.objExists(self.name + "_connectionLine_group"):
-        #     cmds.delete(self.name + "_connectionLine_group")
-
-        # restore main poser position
-        # if not self.opposite:
-        #     utils.resetAttrs(self.name+"_posers")
-        #     utils.resetAttrs(self.name+"_root_connector")
-        #     cmds.xform(self.name+'_mainPoser', ws=True, m=initMatrix)
-
-        # update attrs
-        self.parent = ""
-        # utils.setUserAttr(self.name+"_mod", 'parent', '')
-
-        # reroot skin joints
-        jointsRoot = self.name+'_root_joint'
-        utils.parentTo(jointsRoot, 'skeleton')	
-        utils.removeTransformParentJoint(jointsRoot)
-        utils.resetJointOrient(jointsRoot)
-
-        # fix viewport bug
-        # p = cmds.listRelatives(target.replace("joint", "initLoc"), p=1)[0]
-        # cmds.select(p)
-        # cmds.refresh()	
 
     def snapToParent(self, state):
         # return if already snapped

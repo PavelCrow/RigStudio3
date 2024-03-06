@@ -29,6 +29,84 @@ class Template(object):
 			f.write(json_string)
 
 		self.main.moduleTemplatesMenuUpdate()
+
+	def load(self, templateName=None, moduleName=None):
+		sel = cmds.ls(sl=1)
+
+		if not moduleName:
+			moduleName = self.main.curModule.name
+			m = self.main.curModule
+
+		# read data
+		with open(self.rootPath + '/templates/modules/' + self.curModule.type + '_' + templateName + '.tmpl', mode='r') as f:
+			mData = json.load(f)
+
+		# skip if any add control is exists
+		# curAddControlsNames = []
+		# for c in m.additionalControls:
+		# 	curAddControlsNames.append(c.name)
+
+		# remove opposite module
+		# sym = False
+		# if m.symmetrical:
+		# 	cur_m = m
+		# 	sym = True
+		# 	oppMod = self.rig.getMirroredModule(m)
+		# 	self.deleteModule(oppMod.name)
+
+		# 	self.curModule = cur_m
+		# 	oldCurItem = \
+		# 		self.win.modules_treeWidget.findItems(cur_m.name, QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive,
+		# 											0)[0]
+		# 	self.win.modules_treeWidget.setCurrentItem(oldCurItem)
+		# 	self.curModule.symmetrical = False
+
+		# remove twists
+		# twists = self.twistClass.getTwists(m.name)
+		# for tw in twists:
+		# 	self.twistClass.twists_remove(tw)
+
+		# # remove add controls
+		# for c in m.additionalControls:
+		# 	c.delete()
+
+		# set module paraneters
+		m.setData(mData)
+
+		# set options
+		opt = mData['optionsData']
+		if opt != {}:
+			self.rebuildModule(options=opt)
+
+		m.setData(mData)
+
+		self.updateModulesTree()
+		self.updateModulePage(m.name)
+
+		# make symmetry module if needed
+		# if sym:
+		# 	self.makeSymmetryModule()
+
+		# self.setAddControlsData(mData, m.name)
+		# self.addControls_updateTree()
+
+		# twists
+		# for twData in mData['twistsData']:
+		# 	real_data = []
+		# 	real_data = twData
+		# 	m_name = self.curModule.name
+		# 	real_data['name'] = utils.getRealNameFromTemplated(m_name, twData['name'])
+		# 	real_data['start_j'] = utils.getRealNameFromTemplated(m_name, twData['start_j'])
+		# 	real_data['end_j'] = utils.getRealNameFromTemplated(m_name, twData['end_j'])
+		# 	twist.Twist(self.win).twists_add(real_data)
+
+		# self.twistClass.updateList()
+
+		try:
+			cmds.select(sel)
+		except:
+			cmds.select(clear=1)
+
 	
 	def template_actions(self, action, tName="", forceData=None):
 
@@ -228,6 +306,7 @@ class Template(object):
 
 				try:
 					cmds.select(sel)
+					print(333, sel)
 				except:
 					cmds.select(clear=1)
 

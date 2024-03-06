@@ -16,7 +16,6 @@ def get_maya_window():
     if ptr is not None:
         return wrapInstance(int(ptr), QtWidgets.QWidget)
 
-
 def load_ui_widget(uifilename, parent=get_maya_window()):
     loader = QtUiTools.QUiLoader()
     uifile = QtCore.QFile(uifilename)
@@ -748,7 +747,7 @@ class MainWindow:
         for t in templateNames:
             t_action = QtWidgets.QAction(self.win)
             t_action.setText(t)
-            t_action.triggered.connect(partial(self.template_actions, 'load', t))
+            t_action.triggered.connect(partial(self.template.load, t))
             menu.addAction(t_action)
 
         if len(templateNames) > 0:
@@ -2466,10 +2465,13 @@ class MainWindow:
             for name in sorted(self.rig.modules):
                 item = QtWidgets.QTreeWidgetItem([name])
                 items[name] = item
+                m = self.rig.modules[name]
             
             # fill modules list
             for name in sorted(self.rig.modules):
                 m = self.rig.modules[name]
+                item = items[name]
+
                 if not m.parent:
                     #if cmds.getAttr(m.name + "_mod.v"):
                         #item.setIcon(1, QtGui.QIcon(self.rootPath + '/ui/icons/module_item_selected2.png'))
@@ -2483,9 +2485,10 @@ class MainWindow:
 
                 # set module Icon
                 # item.setIcon(0, QtGui.QIcon(self.rootPath + '/ui/icons/module_%s.png' % m.type))
-                    
+                
                 if m.opposite:
                     item.setForeground(0, QtGui.QBrush(QtGui.QColor("#6C6B6B")))
+
 
         # if self.curModule: 
         #     self.selectModuleInList(self.curModule.name)
@@ -2627,7 +2630,11 @@ class MainWindow:
         self.moduleTemplatesMenuUpdate()
         self.modulePageUpdated = True
 
-        # print(111, self.curModule.name)
+        # print("Upadte module page ----------------------")
+        # print("name", self.curModule.name)
+        # print("symmetrical", self.curModule.symmetrical)
+        # print("opposite", self.curModule.opposite)
+        # print("parent", self.curModule.parent)
 
     def selectModuleInList(self, name): #
         try:
@@ -2718,13 +2725,19 @@ class MainWindow:
         # print("Delete module")
         if self.curModule.name == None:
             return
-
+        
         # get vars
         if moduleName == "":
             moduleName = self.curModule.name
             m = self.curModule
         else:
             m = self.rig.modules[moduleName]
+
+        # children delete
+        children = self.rig.getModuleChildren(m.name)
+        if children:
+            for child in children:
+                self.deleteModule(child)
 
         # save os data which current module is connected
         parentedControls = []
@@ -2749,10 +2762,10 @@ class MainWindow:
             self.curParents.os_deleteConstraint(data=os_data)
 
         # disconnect children
-        for m_name in self.rig.modules:
-            child_m = self.rig.modules[m_name]
-            if moduleName == utils.getModuleName(child_m.parent):
-                self.disconnectModule(child_m.name)
+        # for m_name in self.rig.modules:
+        #     child_m = self.rig.modules[m_name]
+        #     if moduleName == utils.getModuleName(child_m.parent):
+        #         self.disconnectModule(child_m.name)
 
         # disconnect twists
         for tw in cmds.listRelatives('twists', type='transform') or []:
@@ -2950,14 +2963,15 @@ class MainWindow:
             pass
 
     def makeSymmetryModule(self, moduleName="", updateUI=True):
+        
         if moduleName != "":
             m = self.rig.modules[moduleName]
         else:
             m = self.curModule
-
+        
         parent = m.parent
         addControls = m.getAdditionalControls()
-
+        
         if not parent:
             QtWidgets.QMessageBox.information(self.win, "Warning", "Set parent first")
             return
@@ -2972,6 +2986,7 @@ class MainWindow:
         # set names
         side = utils.getObjectSide(m.name)
         l_new_name = m.name
+
         if side != "l":
             l_new_name = "l_" + m.name
         newModuleName = utils.getOpposite(l_new_name)
@@ -2982,25 +2997,26 @@ class MainWindow:
 
         # set names
         if side != "l":
-            self.renameModule("l_" + m.name)
+            self.renameModule("l_" + m.name, m.name)
         newModuleName = utils.getOpposite(m.name)
 
         # get data
         data = m.getData()
+
+        # set module as symmetry ans save to data
         m.symmetrical = True
+        self.rig.modules[m.name] = m
 
         m.snapToParent(False)
 
-        # print "!!!!", data['optionsData']
         # add new module
         opp_m = self.addModule(m.type, newModuleName, data['optionsData'], updateUI=updateUI)
-        # cmds.hide(newModuleName+'_posers')
         opp_m.setData(data, sym=True, namingForce=True)
         
         # conntect to parent
         # if parent == '':
         # opp_m.connectOpposite()
-        target = utils.getOpposite(m.parent)
+        target = utils.getOppositeIfExists(m.parent)
         opp_m.connect(target, opposite=True)
         # else:
         #     if utils.getObjectSide(parent) == "l" and cmds.objExists(utils.getOpposite(parent)):
@@ -3078,15 +3094,23 @@ class MainWindow:
                 pass
 
         # update joint position (maya bug)
-        v = cmds.getAttr(oldModule.name + '_root_poser.tx')
-        try:  # if attribute is not connected
-            cmds.setAttr(oldModule.name + '_root_poser.tx', v)
-        except:
-            pass
+        # v = cmds.getAttr(oldModule.name + '_root_poser.tx')
+        # try:  # if attribute is not connected
+        #     cmds.setAttr(oldModule.name + '_root_poser.tx', v)
+        # except:
+        #     pass
+            
+        # children symmetry
+        children = self.rig.getModuleChildren(m.name)
+        if children:
+            for child in children:
+                self.makeSymmetryModule(child)     
 
         if updateUI:
             self.updateModulesTree()
         # self.curParents.updateList()
+            
+        # print("Make Symmetry End", m.name)
 
     def renameModule(self, name="", moduleName=""):
         # get new name
@@ -3110,7 +3134,7 @@ class MainWindow:
                 name = 'l_' + name
 
         # rename all nodes
-        self.curModule.rename(name)
+        module.rename(name)
 
         # update modules
         self.rig.load_modules()
