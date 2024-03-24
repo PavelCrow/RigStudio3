@@ -1,0 +1,223 @@
+import maya.cmds as cmds
+import logging, traceback, math, sys
+from functools import partial
+
+from ... import utils, module
+
+class Limb(module.Module) :
+	def __init__(self, name):
+		super(self.__class__, self).__init__()
+
+		self.name = name
+		self.type = __name__.split('.')[-1]
+		self.unic = False
+		self.widget = None
+		self.keepZeroAttributes = False
+
+	def connect(self, target, opposite=False):
+		super(self.__class__, self).connect(target, opposite)
+
+	def delete(self):
+		cmds.delete(self.name+'_rootEnd_vectorNormalized')
+		cmds.delete(self.name+'_cosAngle_bewtweenVectors')
+		cmds.delete(self.name+'_middleOut_vectorNormalized')
+
+		super(self.__class__, self).delete()
+			
+	def connectSignals(self, mainInstance, w):
+		module = mainInstance.curModule
+		opp_module = mainInstance.rig.getMirroredModule(module)
+		w.swapEndOrient_btn.clicked.connect(partial(self.swapEndPose, mainInstance, opp_module))
+		w.addMiddleTwistOffsetControl_btn.clicked.connect(self.addMiddleTwistOffsetControl)
+		w.aimDistance_spinBox.valueChanged.connect(self.update_aim_distance)
+
+	def updateOptionsPage(self, w):
+		w.aimDistance_spinBox.setValue(cmds.getAttr(self.name+"_mod.aim_offset"))
+		self.widget = w
+		
+	def setMirrored(self):
+		# fix joint positions (Update)
+		oppModuleName = utils.getOppositeObject(self.name)
+		cmds.setAttr(oppModuleName+'_ik_hand.tx', 0)
+		super(self.__class__, self).setMirrored()
+
+	def swapEndPose(self, mainInstance, opp_module):
+		l_fk_ctrl = utils.getControlNameFromInternal(self.name, 'fk_end')
+		l_ik_ctrl = utils.getControlNameFromInternal(self.name, 'ik_end')
+		l_ik_loc = self.name + "_end_pose_loc"
+		if opp_module:
+			r_fk_ctrl = utils.getControlNameFromInternal(opp_module.name, 'fk_end')
+			r_ik_ctrl = utils.getControlNameFromInternal(opp_module.name, 'ik_end')			
+
+		childs = mainInstance.rig.getModuleChildren(self.name)
+		if len(childs) == 0:
+			cmds.warning("Selected module have not child module")
+			return
+		
+		child_name = childs[0]
+		child_poser = child_name + '_mainPoser'
+		
+		rot_local = cmds.xform(l_ik_ctrl, q=1, ro=1)
+		
+		offset_gr = l_ik_ctrl+"_offset_group"
+		offset_fk_gr = l_fk_ctrl+"_offset_group"
+
+		if (-0.01 < rot_local[0] < 0.01 and -0.01 < rot_local[1] < 0.01 and -0.01 < rot_local[2] < 0.01) and not cmds.objExists(offset_gr):
+			r = cmds.xform(child_poser, q=1, ro=1, ws=1)
+			cmds.xform(child_poser, ro=[0.0, 0.0, 0.0], ws=1)
+			cmds.xform(l_ik_ctrl, ro=r, ws=1)
+			cmds.xform(l_fk_ctrl, ro=r, ws=1)
+			cmds.xform(l_ik_ctrl, ro=r, ws=1)
+
+			if opp_module:
+				cmds.setAttr(r_fk_ctrl+'.rx', r[0])
+				cmds.setAttr(r_fk_ctrl+'.ry', r[1])
+				cmds.setAttr(r_fk_ctrl+'.rz', r[2])
+				cmds.setAttr(r_ik_ctrl+'.rx', r[0])
+				cmds.setAttr(r_ik_ctrl+'.ry', -r[1])
+				cmds.setAttr(r_ik_ctrl+'.rz', -r[2])
+
+			if self.widget.keepZeroAttributes_checkBox.isChecked():
+				cmds.group(empty=1, n=offset_gr)
+				cmds.group(empty=1, n=offset_fk_gr)
+				cmds.parent(offset_gr, l_ik_ctrl)
+				cmds.parent(offset_fk_gr, l_fk_ctrl)
+				utils.resetAttrs(offset_gr)
+				utils.resetAttrs(offset_fk_gr)
+				cmds.parent(offset_gr, cmds.listRelatives(l_ik_ctrl, p=1)[0])
+				cmds.parent(offset_fk_gr, cmds.listRelatives(l_fk_ctrl, p=1)[0])
+				cmds.parent(l_ik_ctrl, offset_gr)
+				cmds.parent(l_fk_ctrl, offset_fk_gr)
+
+				if opp_module:
+					offset_gr = r_ik_ctrl+"_offset_group"
+					cmds.group(empty=1, n=offset_gr)
+					cmds.parent(offset_gr, r_ik_ctrl)
+					utils.resetAttrs(offset_gr)
+					cmds.parent(offset_gr, cmds.listRelatives(r_ik_ctrl, p=1)[0])
+					cmds.parent(r_ik_ctrl, offset_gr)
+
+					offset_gr = r_fk_ctrl+"_offset_group"
+					cmds.group(empty=1, n=offset_gr)
+					cmds.parent(offset_gr, r_fk_ctrl)
+					utils.resetAttrs(offset_gr)
+					cmds.parent(offset_gr, cmds.listRelatives(r_fk_ctrl, p=1)[0])
+					cmds.parent(r_fk_ctrl, offset_gr)
+
+		else:
+			r = cmds.xform(l_ik_ctrl, q=1, ro=1, ws=1)
+			cmds.xform(l_ik_ctrl, ro=[0.0, 0.0, 0.0], ws=1)
+			cmds.xform(l_fk_ctrl, ro=[0.0, 0.0, 0.0], ws=1)
+			cmds.xform(l_ik_ctrl, ro=[0.0, 0.0, 0.0], ws=1)
+			cmds.xform(child_poser, ro=r, ws=1)
+
+			if opp_module:
+				cmds.setAttr(r_fk_ctrl+'.rx', 0)
+				cmds.setAttr(r_fk_ctrl+'.ry', 0)
+				cmds.setAttr(r_fk_ctrl+'.rz', 0)
+				cmds.setAttr(r_ik_ctrl+'.rx', 0)
+				cmds.setAttr(r_ik_ctrl+'.ry', 0)
+				cmds.setAttr(r_ik_ctrl+'.rz', 0)
+
+			if cmds.objExists(offset_gr):
+				cmds.parent(l_ik_ctrl, cmds.listRelatives(offset_gr, p=1)[0])
+				utils.resetAttrs(l_ik_ctrl)
+				cmds.delete(offset_gr)
+				cmds.parent(l_fk_ctrl, cmds.listRelatives(offset_fk_gr, p=1)[0])
+				utils.resetAttrs(l_fk_ctrl)
+				cmds.delete(offset_fk_gr)
+
+				offset_gr = r_ik_ctrl+"_offset_group"
+				if cmds.objExists(offset_gr):
+					cmds.parent(r_ik_ctrl, cmds.listRelatives(offset_gr, p=1)[0])
+					utils.resetAttrs(r_ik_ctrl)
+					cmds.delete(offset_gr)
+
+				offset_gr = r_fk_ctrl+"_offset_group"
+				if cmds.objExists(offset_gr):
+					cmds.parent(r_fk_ctrl, cmds.listRelatives(offset_gr, p=1)[0])
+					utils.resetAttrs(r_fk_ctrl)
+					cmds.delete(offset_gr)
+
+	def addMiddleTwistOffsetControl(self):
+		if self.name.split("_")[0] == 'r':
+			return
+
+		opp_name = utils.getOppositeObject(self.name)
+
+		tw_joints = []
+		for o in cmds.listRelatives('twists') or []:
+			tw_joints.append(o.split("_mod")[0])		
+
+		# root connections
+		if cmds.objExists(self.name+'_root_twist_0_joint'):	
+			tw_js = cmds.listRelatives(self.name+'_root_twist_0_joint', allDescendents=1) + [self.name+'_root_twist_0_joint']
+			if not cmds.isConnected(self.name+'_root_volume_outJoint.s', tw_js[0]+'.s'):
+				
+				if self.name+"_root" in tw_joints:
+					
+					# connect twist to control
+					c = self.name+"_middleOffset"
+					c_ins = utils.getControlInstance(c)
+		
+					if cmds.listRelatives(self.name+"_root_end_connectorLoc", p=1)[0] != c:
+						cmds.parent(self.name+"_root_end_connectorLoc", c)
+						if self.symmetrical:
+							cmds.parent(opp_name+"_root_end_connectorLoc", utils.getOppositeObject(c))
+					
+					# connect volume joints		
+					for j in tw_js:
+						cmds.connectAttr(self.name+'_root_volume_outJoint.s', j+'.s', f=1)			
+					
+					if self.symmetrical:
+						j_root = utils.getOppositeObject(self.name+'_root_twist_0_joint')
+						tw_js = cmds.listRelatives(j_root, allDescendents=1) + [j_root]
+						for j in tw_js:
+							cmds.connectAttr(utils.getOppositeObject(self.name+'_root_volume_outJoint.s'), j+'.s', f=1)					
+							
+						cmds.showHidden(utils.getOppositeObject(self.name+'_middleOffset'))
+							
+					cmds.showHidden(self.name+'_middleOffset')
+
+		# middle connections			
+		if cmds.objExists(self.name+'_middle_twist_0_joint'):	
+			tw_js = cmds.listRelatives(self.name+'_middle_twist_0_joint', allDescendents=1) + [self.name+'_middle_twist_0_joint']
+			if not cmds.isConnected(self.name+'_middle_volume_outJoint.s', tw_js[0]+'.s'):					
+				
+				if self.name+"_middle" in tw_joints:
+					
+					# connect twist to control
+					c = self.name+"_middleOffset"
+					c_ins = utils.getControlInstance(c)					
+					
+					if cmds.listRelatives(self.name+"_middle_root_connectorLoc", p=1)[0] != c:
+						cmds.parent(self.name+"_middle_root_connectorLoc", c)
+						if self.symmetrical:
+							cmds.parent(opp_name+"_middle_root_connectorLoc", utils.getOppositeObject(c))
+		
+					# connect volume joints		
+					for j in tw_js:
+						cmds.connectAttr(self.name+'_middle_volume_outJoint.s', j+'.s', f=1)		
+
+					if self.symmetrical:
+						j_root = utils.getOppositeObject(self.name+'_middle_twist_0_joint')	
+						tw_js = cmds.listRelatives(j_root, allDescendents=1) + [j_root]
+						for j in tw_js:
+							cmds.connectAttr(utils.getOppositeObject(self.name+'_middle_volume_outJoint.s'), j+'.s', f=1)
+
+	def update_aim_distance(self):
+		# print(4444, self.widget)
+		try: # fix error "C++ object already deleted"
+			if not self.widget:
+				return
+			cmds.setAttr(self.name+"_mod.aim_offset", self.widget.aimDistance_spinBox.value())
+			
+			opp_mod = utils.getOpposite(self.name+"_mod")
+			if utils.objectIsOpposite(opp_mod) and cmds.objExists(opp_mod):
+				cmds.setAttr(opp_mod+".aim_offset", self.widget.aimDistance_spinBox.value())
+		except:
+			pass
+			
+
+	def bake(self):
+		super(self.__class__, self).bake(addObjects=[self.name+"_ik_connector"])

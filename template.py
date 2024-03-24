@@ -36,9 +36,12 @@ class Template(object):
 		if not moduleName:
 			moduleName = self.main.curModule.name
 			m = self.main.curModule
+		else:
+			m = self.main.rig.modules[moduleName]
 
 		# read data
-		with open(self.rootPath + '/templates/modules/' + self.curModule.type + '_' + templateName + '.tmpl', mode='r') as f:
+		path = os.path.join(self.rootPath,'templates', 'modules', m.type + '_' + templateName + '.tmpl')
+		with open(path, mode='r') as f:
 			mData = json.load(f)
 
 		# skip if any add control is exists
@@ -80,8 +83,8 @@ class Template(object):
 
 		m.setData(mData)
 
-		self.updateModulesTree()
-		self.updateModulePage(m.name)
+		self.main.updateModulesTree()
+		self.main.updateModulePage(m.name)
 
 		# make symmetry module if needed
 		# if sym:
@@ -102,11 +105,20 @@ class Template(object):
 
 		# self.twistClass.updateList()
 
+		self.main.selectModuleInList(m.name)
+
 		try:
 			cmds.select(sel)
 		except:
 			cmds.select(clear=1)
 
+	def delete(self, templateName):
+		m = self.main.rig.modules[templateName]
+		path = os.path.join(self.rootPath,'templates', 'modules', m.type + '_' + templateName + '.tmpl')
+		os.remove(path)
+		self.main.moduleTemplatesMenuUpdate()
+
+		print("Template file %s was deleted" % path)
 	
 	def template_actions(self, action, tName="", forceData=None):
 
@@ -177,15 +189,15 @@ class Template(object):
 
 		def loadParents(mData):
 			# make oss
-			for snapped in mData['parents']:
-				if snapped:
+			for seamless in mData['parents']:
+				if seamless:
 					for d in mData['parents']:
 						self.curParents.os_makeConstraint(d)
 
-		def snapToParentsEnd(mData):
+		def snapParentsEnd(mData):
 			# make oss
-			if mData['snapped']:
-				self.curModule.snapToParent(True)
+			if mData['seamless']:
+				self.curModule.seamless(True)
 
 		def haveParent(parent_name, module_name):
 			m = self.rig.modules[module_name]
@@ -206,8 +218,8 @@ class Template(object):
 				intName = utils.getInternalNameFromControl(c.name)
 				default_attrs = utils.getVisibleAttrs(c.name)
 				for a in default_attrs:
-					if intName + "." + a in mData['controlsData']:
-						cmds.setAttr(c.name + "." + a, mData['controlsData'][intName + "." + a])
+					if intName + "." + a in mData['controlsAttrData']:
+						cmds.setAttr(c.name + "." + a, mData['controlsAttrData'][intName + "." + a])
 					else:
 						cmds.setAttr(c.name + "." + a, keyable=0, lock=1)
 
@@ -485,7 +497,7 @@ class Template(object):
 				cmds.progressBar(progressControl, e=1, progress=0)
 				for mData in modulesData:
 					self.curModule = mData[0]
-					snapToParentsEnd(mData[1])
+					snapParentsEnd(mData[1])
 					cmds.progressBar(progressControl, edit=True, step=1)
 				cmds.progressBar(progressControl2, edit=True, step=1)
 

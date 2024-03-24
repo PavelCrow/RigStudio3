@@ -272,61 +272,13 @@ class Control(object):
 		
 		return children
 
-	def makePythonCommand(self, useInternalName=False):
+	def controlShapeToCommand(self, useInternalName=False):
 		name = self.name
 		
 		if useInternalName:
-			intName = cmds.getAttr(name + ".internalName")
-		else:
-			intName = name
+			name = cmds.getAttr(name + ".internalName")
 		
-		temp_crv = cmds.duplicate(name)[0]
-		parent = cmds.listRelatives( temp_crv, parent=True ) or []
-		if parent != []:
-			cmds.parent(temp_crv, world=1)
-		utils.resetAttrs(temp_crv)
-		
-		curveShapes = cmds.listRelatives(temp_crv, children = True, path= True, type = 'nurbsCurve')
-		
-		# save shapes
-		pyCmds = []
-		for curveShape in curveShapes:
-			#curveInfo    
-			infoNode = cmds.createNode('curveInfo')
-			cmds.connectAttr("%s.worldSpace[0]" %curveShape, "%s.inputCurve" %infoNode, force = True)
-	
-			#Find the knot values and get the numSpans,degree,form, and CVs
-			knots = list(cmds.getAttr('%s.knots' %infoNode)[0])
-			numSpans = cmds.getAttr('%s.spans' %curveShape)
-			degree = cmds.getAttr('%s.degree' %curveShape)
-			form = cmds.getAttr('%s.form' %curveShape)
-			nucmdsVs = numSpans + degree
-			cmds.delete(infoNode)
-	
-			if form == 2:
-				nucmdsVs -= degree
-	
-			cVs = cmds.ls('%s.cv[0:%d]' %(curveShape, (nucmdsVs-1)), flatten = True)        
-			
-			#For each cv get it's world position
-			cvArray = [cmds.xform(cv, q = True, ws = True, translation = True) for cv in cVs]
-	
-			if form == 2:
-				cvArray.append(cvArray[0])
-				cvArray.append(cvArray[1])
-				cvArray.append(cvArray[2])
-	
-				pyCmd = 'cmds.curve(name = "%s", per = True, d= %s,p= %s, k = %s)' %(intName, degree, cvArray, knots)
-	
-			if degree == 1 and form !=2:
-				pyCmd = 'cmds.curve(name = "%s", d= 1,p= %s)' %(intName, cvArray)
-	
-			if degree >=2 and form !=2:     
-				pyCmd = 'cmds.curve(name = "%s", d= %s,p= %s, k = %s)' %(intName, degree, cvArray, knots)
-			#print curveShape
-			pyCmds.append(pyCmd)
-		
-		cmds.delete(temp_crv)
+		pyCmds = utils.curveShapeToCommand(name)
 
 		return pyCmds
 	
@@ -361,7 +313,7 @@ class Control(object):
 		data['deep'] = self.deep
 		data['pos'] = cmds.xform(p, q=1, m=1, ws=1)
 		data['colorId'] = self.getColor()
-		data['shape'] = self.makePythonCommand()	
+		data['shape'] = self.controlShapeToCommand()	
 		
 		attrs_data = {}
 		for attr in utils.getVisibleAttrs(p):

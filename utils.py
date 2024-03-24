@@ -514,7 +514,6 @@ def getInternalNameFromControl(controlName):
 	else:
 		return ""
 	
-
 def getControlVis(controlName):
 	shape = getShape(controlName)
 	return cmds.getAttr(shape + ".v")
@@ -904,8 +903,14 @@ def parentTo(child, parent): #
 			cmds.parent(child, parent)	
 
 def connectTrandform(s, t): #
-	for a in ['tx', 'ty', 'tz', 'rx', 'ry', 'rz', 'sx', 'sy', 'sz']:
+	for a in ['translateX', 'translateY', 'translateZ', 'rotateX', 'rotateY', 'rotateZ', 'scaleX', 'scaleY', 'scaleZ']:
 		try:
+			# if exists the same connections, pass it
+			if cmds.connectionInfo(t+"."+a, isDestination=True):
+				in_node = cmds.connectionInfo(t+"."+a, sourceFromDestination=True)
+				if in_node == s+'.'+a:
+					continue
+				
 			cmds.connectAttr(s+"."+a, t+'.'+a)
 		except: pass
 
@@ -1017,3 +1022,52 @@ def restoreSelection(sel): #
 			pass
 	else:
 		cmds.select(clear=1)
+
+def curveShapeToCommand(name): #
+	temp_crv = cmds.duplicate(name)[0]
+	parent = cmds.listRelatives( temp_crv, parent=True ) or []
+	if parent != []:
+		cmds.parent(temp_crv, world=1)
+	resetAttrs(temp_crv)
+	
+	curveShapes = cmds.listRelatives(temp_crv, children = True, path= True, type = 'nurbsCurve')
+	
+	# save shapes
+	pyCmds = []
+	for curveShape in curveShapes:
+		#curveInfo    
+		infoNode = cmds.createNode('curveInfo')
+		cmds.connectAttr("%s.worldSpace[0]" %curveShape, "%s.inputCurve" %infoNode, force = True)
+
+		#Find the knot values and get the numSpans,degree,form, and CVs
+		knots = list(cmds.getAttr('%s.knots' %infoNode)[0])
+		numSpans = cmds.getAttr('%s.spans' %curveShape)
+		degree = cmds.getAttr('%s.degree' %curveShape)
+		form = cmds.getAttr('%s.form' %curveShape)
+		nucmdsVs = numSpans + degree
+		cmds.delete(infoNode)
+
+		if form == 2:
+			nucmdsVs -= degree
+
+		cVs = cmds.ls('%s.cv[0:%d]' %(curveShape, (nucmdsVs-1)), flatten = True)        
+		
+		#For each cv get it's world position
+		cvArray = [cmds.xform(cv, q = True, ws = True, translation = True) for cv in cVs]
+
+		if form == 2:
+			cvArray.append(cvArray[0])
+			cvArray.append(cvArray[1])
+			cvArray.append(cvArray[2])
+			pyCmd = 'cmds.curve(name = "%s", per = True, d= %s,p= %s, k = %s)' %(name, degree, cvArray, knots)
+		elif degree == 1 and form !=2:
+			pyCmd = 'cmds.curve(name = "%s", d= 1,p= %s)' %(name, cvArray)
+		elif degree >=2 and form !=2:     
+			pyCmd = 'cmds.curve(name = "%s", d= %s,p= %s, k = %s)' %(name, degree, cvArray, knots)
+		
+		#print curveShape
+		pyCmds.append(pyCmd)
+	
+	cmds.delete(temp_crv)
+
+	return pyCmds

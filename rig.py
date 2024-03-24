@@ -6,12 +6,12 @@ import sys
 from . import main, utils
 
 class Rig:
-    def __init__(self, name='character'): #
+    def __init__(self, main, name='character'): #
         self.name = name
         self.modules = {}
         self.exists = False
         self.root = "main"
-        self.main = None
+        self.main = main
         self.jointsSize = 1
         self.posersSize = 1
         self.jointsAxises = False
@@ -387,13 +387,15 @@ class Rig:
     def load_modules(self): #
         modules_groups = cmds.listRelatives('modules') or []
         self.modules = {}
-
+        
         for f in modules_groups:
             if cmds.attributeQuery('moduleType', node=f, exists=True):
                 moduleName = f[:-4]
                 m = utils.getModuleInstance(moduleName)
                 if not m:
                     continue
+                m.main = self.main
+
                 self.modules[moduleName] = m
 
     def create_module(self, moduleName, moduleType, options): #
@@ -404,6 +406,7 @@ class Rig:
         exec('importlib.reload(%s)' % (moduleType))						# importlib.reload(moduleA)
         m = eval('%s.%s(moduleName)' % (moduleType, moduleTypeCap))  	# m = modules.moduleA.moduleA.ModuleA(name)
         m.create(options)
+        m.main = self.main
 
         self.modules[moduleName] = m
 

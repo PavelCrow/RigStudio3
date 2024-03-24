@@ -17,7 +17,7 @@
    <bool>false</bool>
   </property>
   <property name="windowTitle">
-   <string>Rig Studio 2</string>
+   <string>Rig Studio 3</string>
   </property>
   <property name="autoFillBackground">
    <bool>false</bool>
@@ -39,7 +39,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="rig_tab">
        <attribute name="title">
@@ -880,7 +880,7 @@
                <enum>QTabWidget::Rounded</enum>
               </property>
               <property name="currentIndex">
-               <number>2</number>
+               <number>0</number>
               </property>
               <property name="iconSize">
                <size>
@@ -1533,17 +1533,7 @@
                              </property>
                             </widget>
                            </item>
-                          </layout>
-                         </item>
-                         <item>
-                          <layout class="QGridLayout" name="gridLayout_2">
-                           <property name="horizontalSpacing">
-                            <number>6</number>
-                           </property>
-                           <property name="verticalSpacing">
-                            <number>2</number>
-                           </property>
-                           <item row="0" column="2">
+                           <item>
                             <widget class="QPushButton" name="disconnectModule_btn">
                              <property name="sizePolicy">
                               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1553,14 +1543,14 @@
                              </property>
                              <property name="minimumSize">
                               <size>
-                               <width>80</width>
-                               <height>0</height>
+                               <width>0</width>
+                               <height>30</height>
                               </size>
                              </property>
                              <property name="maximumSize">
                               <size>
                                <width>80</width>
-                               <height>20</height>
+                               <height>30</height>
                               </size>
                              </property>
                              <property name="text">
@@ -1571,10 +1561,20 @@
                              </property>
                             </widget>
                            </item>
+                          </layout>
+                         </item>
+                         <item>
+                          <layout class="QGridLayout" name="gridLayout_2">
+                           <property name="horizontalSpacing">
+                            <number>6</number>
+                           </property>
+                           <property name="verticalSpacing">
+                            <number>2</number>
+                           </property>
                            <item row="0" column="0">
                             <widget class="QLabel" name="label_24">
                              <property name="text">
-                              <string>Parent</string>
+                              <string>Parent Joint</string>
                              </property>
                             </widget>
                            </item>
@@ -1588,17 +1588,17 @@
                              </property>
                             </widget>
                            </item>
+                           <item row="0" column="2">
+                            <widget class="QCheckBox" name="seamless_checkBox">
+                             <property name="layoutDirection">
+                              <enum>Qt::LeftToRight</enum>
+                             </property>
+                             <property name="text">
+                              <string>Seamless</string>
+                             </property>
+                            </widget>
+                           </item>
                           </layout>
-                         </item>
-                         <item>
-                          <widget class="QCheckBox" name="snapToParent_checkBox">
-                           <property name="layoutDirection">
-                            <enum>Qt::LeftToRight</enum>
-                           </property>
-                           <property name="text">
-                            <string>Snap to parent</string>
-                           </property>
-                          </widget>
                          </item>
                         </layout>
                        </widget>
@@ -10129,7 +10129,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>842</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuRig">

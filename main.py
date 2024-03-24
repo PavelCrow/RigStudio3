@@ -61,7 +61,6 @@ class MainWindow:
                 self.moduleOption_widgets[m] = w
 
         # public variables
-        self.rig = None
         self.curModule = None
         self.curControlItemName = None
         self.curAddControlName = None
@@ -119,8 +118,7 @@ class MainWindow:
 
         self.initUi()
 
-        self.rig = rig.Rig()
-        self.rig.main = self
+        self.rig = rig.Rig(self)
         self.template = template.Template()
         self.template.main = self
         self.curParents = parents.Parents(self.win, self.rig)
@@ -630,7 +628,7 @@ class MainWindow:
         self.win.delete_btn.clicked.connect(self.deleteModule)
         self.win.duplicateModule_btn.clicked.connect(self.duplicateModule)
         self.win.renameModule_btn.clicked.connect(self.renameModule)
-        self.win.snapToParent_checkBox.clicked.connect(self.snapToParent)
+        self.win.seamless_checkBox.clicked.connect(self.makeSeamless)
         self.win.modules_treeWidget.currentItemChanged.connect(self.updateModulePage)
         self.win.modules_treeWidget.itemDoubleClicked.connect(self.rig.selectCurModMainPoser)
         # self.win.test_btn.clicked.connect(partial(self.makeSymmetryModule, test=1))
@@ -756,7 +754,7 @@ class MainWindow:
             for t in templateNames:
                 m_action = QtWidgets.QAction(self.win)
                 m_action.setText("Delete " + utils.formatName(t.split(".")[0].split("/")[-1]))
-                m_action.triggered.connect(partial(self.template_actions, "delete", t))
+                m_action.triggered.connect(partial(self.template.delete, t))
                 delete_menu.addAction(m_action)
 
         # add menu to button
@@ -932,8 +930,8 @@ class MainWindow:
             intName = utils.getInternalNameFromControl(c.name)
             default_attrs = utils.getVisibleAttrs(c.name)
             for a in default_attrs:
-                if intName + "." + a in mData['controlsData']:
-                    cmds.setAttr(c.name + "." + a, mData['controlsData'][intName + "." + a])
+                if intName + "." + a in mData['controlsAttrData']:
+                    cmds.setAttr(c.name + "." + a, mData['controlsAttrData'][intName + "." + a])
                 else:
                     cmds.setAttr(c.name + "." + a, keyable=0, lock=1)
 
@@ -1025,15 +1023,15 @@ class MainWindow:
 
         def loadParents(mData):
             # make oss
-            for snapped in mData['parents']:
-                if snapped:
+            for seamless in mData['parents']:
+                if seamless:
                     for d in mData['parents']:
                         self.curParents.os_makeConstraint(d)
 
-        def snapToParentsEnd(mData):
+        def snapParentsEnd(mData):
             # make oss
-            if mData['snapped']:
-                self.curModule.snapToParent(True)
+            if mData['seamless']:
+                self.curModule.seamless(True)
 
         def haveParent(parent_name, module_name):
             m = self.rig.modules[module_name]
@@ -1054,8 +1052,8 @@ class MainWindow:
                 intName = utils.getInternalNameFromControl(c.name)
                 default_attrs = utils.getVisibleAttrs(c.name)
                 for a in default_attrs:
-                    if intName + "." + a in mData['controlsData']:
-                        cmds.setAttr(c.name + "." + a, mData['controlsData'][intName + "." + a])
+                    if intName + "." + a in mData['controlsAttrData']:
+                        cmds.setAttr(c.name + "." + a, mData['controlsAttrData'][intName + "." + a])
                     else:
                         cmds.setAttr(c.name + "." + a, keyable=0, lock=1)
 
@@ -1355,7 +1353,7 @@ class MainWindow:
                 cmds.progressBar(progressControl, e=1, progress=0)
                 for mData in modulesData:
                     self.curModule = mData[0]
-                    snapToParentsEnd(mData[1])
+                    snapParentsEnd(mData[1])
                     cmds.progressBar(progressControl, edit=True, step=1)
                 cmds.progressBar(progressControl2, edit=True, step=1)
 
@@ -1969,13 +1967,12 @@ class MainWindow:
 
             utils.setUserAttr(ctrlName, 'customShape', 1, type="bool")
 
-            customShapeCommand = control.makePythonCommand()
+            customShapeCommand = control.controlShapeToCommand()
             utils.setUserAttr(ctrlName, 'customShapeCommand', customShapeCommand, type="string")
 
         self.modulePageUpdated = True
 
     def saveControlShape(self):
-
 
         sel = cmds.ls(sl=1)
         if len(sel) != 1:
@@ -1991,7 +1988,7 @@ class MainWindow:
             return
 
         control = utils.getControlInstance(sel[0])
-        cmd = control.makePythonCommand()
+        cmd = control.controlShapeToCommand()
 
         self.controlShapes_data[name] = cmd
 
@@ -2471,7 +2468,7 @@ class MainWindow:
             for name in sorted(self.rig.modules):
                 m = self.rig.modules[name]
                 item = items[name]
-
+                
                 if not m.parent:
                     #if cmds.getAttr(m.name + "_mod.v"):
                         #item.setIcon(1, QtGui.QIcon(self.rootPath + '/ui/icons/module_item_selected2.png'))
@@ -2543,13 +2540,13 @@ class MainWindow:
         self.win.makeSymmetryModule_btn.setEnabled(not m.symmetrical)
 
         # attach end poser
-        self.win.snapToParent_checkBox.setChecked(m.isSnapped())
+        self.win.seamless_checkBox.setChecked(m.isSeamless())
 
         if m.parent == None or m.parent == "":
-            self.win.snapToParent_checkBox.setEnabled(False)
+            self.win.seamless_checkBox.setEnabled(False)
             self.win.disconnectModule_btn.setEnabled(False)
         else:
-            self.win.snapToParent_checkBox.setEnabled(True)
+            self.win.seamless_checkBox.setEnabled(True)
             self.win.disconnectModule_btn.setEnabled(True)
 
         # controls
@@ -2687,6 +2684,9 @@ class MainWindow:
             if not self.curModule:
                 return
 
+        # turn off seamles if several childs
+        module.makeSeamless(False)
+
         name = utils.incrementName(module.name)
         while name in self.rig.modules:
             name = utils.incrementName(name)
@@ -2726,6 +2726,8 @@ class MainWindow:
         if self.curModule.name == None:
             return
         
+        cmds.undoInfo(openChunk=True)
+
         # get vars
         if moduleName == "":
             moduleName = self.curModule.name
@@ -2733,98 +2735,81 @@ class MainWindow:
         else:
             m = self.rig.modules[moduleName]
 
+        # turn off seamless 
+        if m.seamless:
+            m.makeSeamless(False)
+
         # children delete
         children = self.rig.getModuleChildren(m.name)
         if children:
             for child in children:
                 self.deleteModule(child)
-
+        
         # save os data which current module is connected
-        parentedControls = []
-        # for m_name in modules:
-        for m_name in self.rig.modules:
-            mod = self.rig.modules[m_name]
-            parented = mod.getControlsParents()
-            for c in parented:
-                parentedControls.append(c)
-
-        os_update_data = []
-        for c in parentedControls:
-            obj = c + "_parentsGroup"
-            os_data = self.curParents.getDataFromNode(obj)
-            for t_mName in os_data['targetModules']:
-                if t_mName == moduleName:
-                    if os_data not in os_update_data:
-                        os_update_data.append(os_data)
-
-        # delete os 
-        for os_data in os_update_data:
-            self.curParents.os_deleteConstraint(data=os_data)
-
-        # disconnect children
+        # parentedControls = []
+        # # for m_name in modules:
         # for m_name in self.rig.modules:
-        #     child_m = self.rig.modules[m_name]
-        #     if moduleName == utils.getModuleName(child_m.parent):
-        #         self.disconnectModule(child_m.name)
+        #     mod = self.rig.modules[m_name]
+        #     parented = mod.getControlsParents()
+        #     for c in parented:
+        #         parentedControls.append(c)
+
+        # os_update_data = []
+        # for c in parentedControls:
+        #     obj = c + "_parentsGroup"
+        #     os_data = self.curParents.getDataFromNode(obj)
+        #     for t_mName in os_data['targetModules']:
+        #         if t_mName == moduleName:
+        #             if os_data not in os_update_data:
+        #                 os_update_data.append(os_data)
+
+        # # delete os 
+        # for os_data in os_update_data:
+        #     self.curParents.os_deleteConstraint(data=os_data)
 
         # disconnect twists
-        for tw in cmds.listRelatives('twists', type='transform') or []:
-            t_name = tw.split("_mod")[0]
+        # for tw in cmds.listRelatives('twists', type='transform') or []:
+        #     t_name = tw.split("_mod")[0]
 
-            t_mod_name = utils.getModuleName(tw)
-            if t_mod_name == moduleName:
-                continue
-            t_data = self.twistClass.getData(t_name)
+        #     t_mod_name = utils.getModuleName(tw)
+        #     if t_mod_name == moduleName:
+        #         continue
+        #     t_data = self.twistClass.getData(t_name)
 
-            if not t_data:
-                continue
+        #     if not t_data:
+        #         continue
 
-            for j in ['start_j', 'end_j']:
-                m_name = utils.getModuleName(t_data[j])
-                if m_name == moduleName:
-                    if j == 'start_j':
-                        cmds.select(t_name + "_joint")
-                        cmds.parent(t_name + "_start_connectorLoc", t_name + "_root_connector")
-                    elif j == 'end_j':
-                        for possible_end_joint in cmds.listRelatives(t_name + "_joint"):
-                            if cmds.objectType(possible_end_joint) == "joint":
-                                cmds.parent(t_name + "_end_connectorLoc", possible_end_joint)
+        #     for j in ['start_j', 'end_j']:
+        #         m_name = utils.getModuleName(t_data[j])
+        #         if m_name == moduleName:
+        #             if j == 'start_j':
+        #                 cmds.select(t_name + "_joint")
+        #                 cmds.parent(t_name + "_start_connectorLoc", t_name + "_root_connector")
+        #             elif j == 'end_j':
+        #                 for possible_end_joint in cmds.listRelatives(t_name + "_joint"):
+        #                     if cmds.objectType(possible_end_joint) == "joint":
+        #                         cmds.parent(t_name + "_end_connectorLoc", possible_end_joint)
 
         # remove mirrored module
         if m.symmetrical:
             oppModule = self.rig.getMirroredModule(m)
             self.deleteModule(oppModule.name, updateUI=False)
-
-        # save snapping state and disable it
-        opp = m.opposite
-        if m.opposite:
-            leftModule = self.rig.getMirroredModule(m)
-            snapped = leftModule.isSnapped()
-            if snapped:
-                leftModule.snapToParent(False)
         
-        # remove module from data list
-        del self.rig.modules[moduleName]
-
         # disconnect
         if m.parent:
             m.disconnect()
 
-        if m.opposite:
-            opp_m = self.rig.getMirroredModule(m)
-            opp_m.symmetrical = False
-
         # delete
         m.delete()
 
-        # restore snapping in left side
-        if opp:
-            if snapped:
-                leftModule.snapToParent(True)
+        cmds.undoInfo(closeChunk=True)
+
+        # remove module from data list
+        del self.rig.modules[moduleName]
 
         # restore os 
-        for os_data in os_update_data:
-            self.curParents.os_makeConstraint(os_data)
+        # for os_data in os_update_data:
+        #     self.curParents.os_makeConstraint(os_data)
 
         # update current module
         if len(self.rig.modules) > 0:
@@ -2858,8 +2843,8 @@ class MainWindow:
 
             target = sel[0]
 
-            if target.split("_")[-1] not in ["poser", "mainPoser", "point", "joint", "addPoser", "outJoint"]:
-                cmds.warning("Selected object is not poser or joint")
+            if target.split("_")[-1] not in ["poser", "mainPoser", "addPoser"]:
+                cmds.warning("Selected object is not poser")
                 return
 
         # replace mainPoser on root poser
@@ -2877,6 +2862,10 @@ class MainWindow:
 
         cmds.undoInfo(openChunk=True)
         
+        # turn off seamless
+        if m.seamless:
+            m.makeSeamless(False)
+
         # disconnect
         if m.parent:
             m.disconnect()
@@ -2884,24 +2873,20 @@ class MainWindow:
         m.connect(target)
         
         # Connect mirrored module
-        # if not m.opposite:
-        #     oppModule = self.rig.getMirroredModule(m)
+        if not m.opposite:
+            oppModule = self.rig.getMirroredModule(m)
 
-        #     if oppModule:
-        #         if oppModule.parent:
-        #             oppModule.disconnect()
+            if oppModule:
+                if oppModule.parent:
+                    oppModule.disconnect()
 
-        #         if target.split("_")[0] == 'l':
-        #             oppTarget = utils.getOpposite(target)
-        #             if cmds.objExists(oppTarget):
-        #                 oppModule.connect(oppTarget)
-        #         else:
-        #             oppModule.connect(target)
+                if utils.getObjectSide(target) == 'l':
+                    oppTarget = utils.getOpposite(target)
+                    if cmds.objExists(oppTarget):
+                        oppModule.connect(oppTarget, opposite=True)
+                else:
+                    oppModule.connect(target, opposite=True)
 
-        # add connection line
-        # if not target_modName+'.'+target.split(target_modName+'_')[-1]+'.'+moduleName+".parent" in self.worldScene.lines:
-        # self.worldScene.addLine(target_modName, target, moduleName, "parent")
-        
         # restore selection
         if sel: utils.restoreSelection(sel)
 
@@ -2921,74 +2906,68 @@ class MainWindow:
         else:
             m = self.rig.modules[moduleName]
 
-        # if m.symmetrical: 
-        # QtWidgets.QMessageBox.information(self.win, "Warning", "Symmetrical module cannot be disconnected. Remove opposide side first or connect module to another parent.")
-        # return
+        cmds.undoInfo(openChunk=True)
+
+        # turn off seamless 
+        if m.seamless:
+            m.makeSeamless(False)
 
         # disconnect
+        if m.symmetrical:
+            opp_m_name = utils.getOpposite(m.name)
+            opp_m = self.rig.modules[opp_m_name]
+            opp_m.disconnect()
         m.disconnect()
-
-        # delete opposite module on disconnecting 
-        # if m.symmetrical:
-        #     oppModule = self.rig.getMirroredModule(m)
-        #     oppModule.disconnect()
 
         # restore selection
         utils.restoreSelection(sel)
 
+        cmds.undoInfo(closeChunk=True)
+
         self.updateModulesTree()
         self.selectModuleInList(self.curModule.name)
 
-    def snapToParent(self):
-
-
-        if not self.curModule.parent:
-            return
-
-        sel = cmds.ls(sl=1)
+    def makeSeamless(self):
+        sel = cmds.ls(sl=1) or []
+        
+        cmds.undoInfo(openChunk=True)
 
         # attach
-        state = self.win.snapToParent_checkBox.isChecked()
-        self.curModule.snapToParent(state)
-
-        # attach for mirrored module
-        # oppModule = self.rig.getMirroredModule(self.curModule)
-        # if oppModule:
-        # oppModule.snapToParent(state)
+        state = self.win.seamless_checkBox.isChecked()
+        self.curModule.makeSeamless(state)
 
         # restore selection
-        try:
-            cmds.select(sel)
-        except:
-            pass
+        utils.restoreSelection(sel)
+
+        cmds.undoInfo(closeChunk=True)
 
     def makeSymmetryModule(self, moduleName="", updateUI=True):
         
         if moduleName != "":
-            m = self.rig.modules[moduleName]
+            module = self.rig.modules[moduleName]
         else:
-            m = self.curModule
+            module = self.curModule
         
-        parent = m.parent
-        addControls = m.getAdditionalControls()
+        parent = module.parent
+        addControls = module.getAdditionalControls()
         
         if not parent:
             QtWidgets.QMessageBox.information(self.win, "Warning", "Set parent first")
             return
 
         for o in cmds.listRelatives('twists') or []:
-            if utils.getModuleName(o) == m.name:
+            if utils.getModuleName(o) == module.name:
                 QtWidgets.QMessageBox.information(self.win, "Warning", "Remove twists on this module first")
                 return
 
-        oldModule = m
+        oldModule = module
 
         # set names
-        side = utils.getObjectSide(m.name)
-        l_new_name = m.name
+        side = utils.getObjectSide(module.name)
+        l_new_name = module.name
 
         if side != "l":
-            l_new_name = "l_" + m.name
+            l_new_name = "l_" + module.name
         newModuleName = utils.getOpposite(l_new_name)
 
         if cmds.objExists(newModuleName + "_mod"):
@@ -2997,40 +2976,36 @@ class MainWindow:
 
         # set names
         if side != "l":
-            self.renameModule("l_" + m.name, m.name)
-        newModuleName = utils.getOpposite(m.name)
+            self.renameModule("l_" + module.name, module.name)
+        newModuleName = utils.getOpposite(module.name)
 
         # get data
-        data = m.getData()
+        data = module.getData()
 
-        # set module as symmetry ans save to data
-        m.symmetrical = True
-        self.rig.modules[m.name] = m
+        # temporaly turn off seamless
+        if module.seamless:
+            module.makeSeamless(False)
 
-        m.snapToParent(False)
+        # set module as symmetry and save to data
+        module.symmetrical = True
+        self.rig.modules[module.name] = module
 
         # add new module
-        opp_m = self.addModule(m.type, newModuleName, data['optionsData'], updateUI=updateUI)
-        opp_m.setData(data, sym=True, namingForce=True)
+        opp_m = self.addModule(module.type, newModuleName, data['optionsData'], updateUI=updateUI)
         
         # conntect to parent
-        # if parent == '':
-        # opp_m.connectOpposite()
-        target = utils.getOppositeIfExists(m.parent)
+        target = utils.getOppositeIfExists(module.parent)
         opp_m.connect(target, opposite=True)
-        # else:
-        #     if utils.getObjectSide(parent) == "l" and cmds.objExists(utils.getOpposite(parent)):
-        #         parent = utils.getOpposite(parent)
-        #     self.connectModule(target=parent, moduleName=newModuleName, updateUI=False)
 
         # add twists
-        for twData in data['twistsData']:
-            name = utils.getRealNameFromTemplated(oldModule.name, twData['name'])
-            self.twistClass.twists_remove(name)
-            tw = self.twistClass.twists_add(twData, oldModule.name)
+        # for twData in data['twistsData']:
+        #     name = utils.getRealNameFromTemplated(oldModule.name, twData['name'])
+        #     self.twistClass.twists_remove(name)
+        #     tw = self.twistClass.twists_add(twData, oldModule.name)
 
-        if data['snapped']:
-            m.snapToParent(True)
+        if data['seamless']:
+            module.makeSeamless(True)
+
         # add os
         for d in data['parents']:
             if len(d['intNames']) > 0:
@@ -3052,7 +3027,7 @@ class MainWindow:
             # print "REPLACE SHAPE", c, pm.PyNode(c).worldSpace[0].outputs()
             if len(pm.PyNode(c).worldSpace[0].outputs()) == 0:
                 # print "---- RECreate SHAPE", l_control.name
-                shape_cmd = l_control.makePythonCommand()
+                shape_cmd = l_control.controlShapeToCommand()
                 r_control.replaceShape(shape_cmd)
             shapes = cmds.listRelatives(c, s=1)
 
@@ -3101,7 +3076,7 @@ class MainWindow:
         #     pass
             
         # children symmetry
-        children = self.rig.getModuleChildren(m.name)
+        children = self.rig.getModuleChildren(module.name)
         if children:
             for child in children:
                 self.makeSymmetryModule(child)     
@@ -3110,7 +3085,7 @@ class MainWindow:
             self.updateModulesTree()
         # self.curParents.updateList()
             
-        # print("Make Symmetry End", m.name)
+        self.selectModuleInList(module.name)
 
     def renameModule(self, name="", moduleName=""):
         # get new name
@@ -3119,6 +3094,8 @@ class MainWindow:
             if not name:
                 return
         
+        cmds.undoInfo(openChunk=True)
+
         # get current module name
         if moduleName == "":
             moduleName = self.curModule.name
@@ -3138,9 +3115,6 @@ class MainWindow:
 
         # update modules
         self.rig.load_modules()
-
-        # del self.rig.modules[moduleName]
-        # self.rig.modules[name] = self.curModule
 
         # # update parents
         # for m_name in self.rig.modules:
@@ -3167,18 +3141,20 @@ class MainWindow:
         # rename mirrored module for manual renaming
         if sym:
             self.renameModule('r' + name[1:], 'r' + moduleName[1:])
-            # self.selectModuleInList(utils.getOpposite(self.curModule.name))
+            self.selectModuleInList(utils.getOpposite(self.curModule.name))
+
+        cmds.undoInfo(closeChunk=True)
 
     def rebuildModule(self, options={}, moduleType=""):
         sel = cmds.ls(sl=1)
 
         # get children
         children = {}
-        for m_name in self.rig.modules:
+        for m_name in self.rig.getModuleChildren(self.curModule.name):
             m = self.rig.modules[m_name]
-            if self.curModule.name == utils.getModuleName(m.parent):
-                children[m_name] = [m.parent, m, m.isSnapped()]
-
+            children[m_name] = [m.parent, m, m.isSeamless()]
+            self.disconnectModule(m_name)
+        
         # save data
         curModuleData = self.curModule.getData()
         m_name = self.curModule.name
@@ -3186,6 +3162,10 @@ class MainWindow:
         if moduleType != "":
             curModuleData['type'] = moduleType
 
+        # turn off seamless 
+        if self.curModule.seamless:
+            self.curModule.makeSeamless(False)
+        
         # get oss data from every module
         connectedParentsData = []
         for mod_name in self.rig.modules:
@@ -3230,59 +3210,42 @@ class MainWindow:
 
         self.addModule(curModuleData['type'], m_name, options,
                        updateUI=False)  # , nodePosition=curModuleData['nodePosition'])
-
+        
         # connect module root
         if curModuleData['parent']:
             parent = utils.getRealNameFromTemplated(m_name, curModuleData['parent'])
             self.connectModule(parent, updateUI=False)
-
-        # set snapParent attribute
-        if curModuleData['snapped']:
-            self.curModule.snapToParent(True)
+       
+        # set seamless attribute
+        if curModuleData['seamless']:
+            self.curModule.makeSeamless(True)
 
         # set module paraneters
-        # hier = self.win.actionPosers_Hierarhy.isChecked()
-        # self.action_posersHierarhy(False)
         self.curModule.setData(curModuleData)
-        # self.action_posersHierarhy(hier)
 
         self.setAddControlsData(curModuleData)
 
-        # make symmetry module if needed
+        # make symmetry module if needed and seamless inside it
         if curModuleData['symmetrical']:
             self.makeSymmetryModule()
-
+        
         # reconnect children
         for m_name in children:
             if utils.getObjectSide(m_name) != 'r':
                 self.connectModule(children[m_name][0], m_name)
-                # snapping
-                if children[m_name][2]:
-                    m = children[m_name][1]
-                    m.snapToParent(True)
-
-        # make parents
-        for data in curModuleData['parents']:
-            if len(data['intNames']) > 0:
-                self.curParents.os_makeConstraint(data)
 
         # remake parents in modules, where exists targets from current module
         for data in connectedParentsData:
             self.curParents.os_makeConstraint(data)
 
         # twists
-        for twData in curModuleData['twistsData']:
-            twist.Twist(self.win).twists_add(twData, self.curModule.name)
+        # for twData in curModuleData['twistsData']:
+        #     twist.Twist(self.win).twists_add(twData, self.curModule.name)
 
         # set to old seleted mudule and update ui
         self.curModule = self.rig.modules[self.curModule.name]
         self.updateModulesTree()
         self.addControls_updateTree()
-
-        # self.curModule.node.switch_joints(True)
-
-        # if not self.curModule.node.jointsOn:
-        # self.curModule.node.switch_joints(False)
 
         # reselect
         utils.restoreSelection(sel)
@@ -3299,7 +3262,7 @@ class MainWindow:
         for m_name in self.rig.modules:
             m = self.rig.modules[m_name]
             if self.curModule.name == utils.getModuleName(m.parent):
-                children[m_name] = [m.parent, m, m.isSnapped()]
+                children[m_name] = [m.parent, m, m.isSeamless()]
 
         # save data
         curModuleData = self.curModule.getData()
@@ -3354,9 +3317,9 @@ class MainWindow:
             parent = utils.getRealNameFromTemplated(m_name, curModuleData['parent'])
             self.connectModule(parent, updateUI=False)
 
-        # set snapParent attribute
-        if curModuleData['snapped']:
-            self.curModule.snapToParent(True)
+        # set seamless attribute
+        if curModuleData['seamless']:
+            self.curModule.seamless(True)
 
         # set module paraneters
         self.curModule.setData(curModuleData)
@@ -3374,7 +3337,7 @@ class MainWindow:
                 # snapping
                 if children[m_name][2]:
                     m = children[m_name][1]
-                    m.snapToParent(True)
+                    m.seamless(True)
 
         # make parents
         for data in curModuleData['parents']:
@@ -3698,7 +3661,7 @@ class MainWindow:
 
         def duplicate(source_control, parent):
             pos = cmds.xform(source_control.name, q=1, m=1, ws=1)
-            shape_cmd = source_control.makePythonCommand()
+            shape_cmd = source_control.controlShapeToCommand()
             source_p = source_control.name + '_addPoser'
             p = self.curAddControlName + '_addPoser'
 
