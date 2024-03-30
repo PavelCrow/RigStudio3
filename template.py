@@ -5,12 +5,13 @@ from PySide2 import QtWidgets, QtCore
 import os, json
 
 
+
 class Template(object):
 	def __init__(self):
 		self.main = None
 		self.rootPath = os.path.normpath(os.path.dirname(__file__))
 
-	def save(self):
+	def module_save(self):
 		m = self.main.curModule
 		name, ok = QtWidgets.QInputDialog().getText(self.main.win, 'Save Module Template', 'Enter template name:',
 													QtWidgets.QLineEdit.Normal, m.name)
@@ -30,7 +31,7 @@ class Template(object):
 
 		self.main.moduleTemplatesMenuUpdate()
 
-	def load(self, templateName=None, moduleName=None):
+	def module_load(self, templateName=None, moduleName=None):
 		sel = cmds.ls(sl=1)
 
 		if not moduleName:
@@ -77,11 +78,11 @@ class Template(object):
 		m.setData(mData)
 
 		# set options
-		opt = mData['optionsData']
-		if opt != {}:
-			self.rebuildModule(options=opt)
+		# opt = mData['optionsData']
+		# if opt != {}:
+		# 	self.rebuildModule(options=opt)
 
-		m.setData(mData)
+		# m.setData(mData)
 
 		self.main.updateModulesTree()
 		self.main.updateModulePage(m.name)
@@ -112,7 +113,7 @@ class Template(object):
 		except:
 			cmds.select(clear=1)
 
-	def delete(self, templateName):
+	def module_delete(self, templateName):
 		m = self.main.rig.modules[templateName]
 		path = os.path.join(self.rootPath,'templates', 'modules', m.type + '_' + templateName + '.tmpl')
 		os.remove(path)
@@ -120,96 +121,181 @@ class Template(object):
 
 		print("Template file %s was deleted" % path)
 	
-	def template_actions(self, action, tName="", forceData=None):
+	def rig_save(self):
+		data = {}
+		modulesData = []
 
-		sel = cmds.ls(sl=1)
+		t_name, ok = QtWidgets.QInputDialog().getText(self.main.win, 'Save Rig Template', 'Enter template name:',
+														QtWidgets.QLineEdit.Normal, self.main.rig.name)
+		
+		if not ok:
+			return
+		
+		if not utils.nameIsOk(t_name):
+			QtWidgets.QMessageBox.information(self.main.win, "Warning", "Wrong Name.")
+			return
 
-		print_main_messages = 0
-		renamedModules = {}
+		if len(self.main.rig.modules) == 0:
+			cmds.warning("No modules")
+			return
 
-		def incrementData(mData):
-			add_data = mData['additionalControlsData']
-			print("------------------------", mData['name'])
-			# print d["name"]
-			# print d["parent"]
-			# print "------------------------", mData['name']
-			# for d in mData["twistsData"]:
-			# for dd in d:
-			# print dd, d[dd]
+		# create progress window
+		window = cmds.window(t='Save modules')
+		cmds.columnLayout()
+		if len(self.main.rig.modules) > 1:
+			progressControl = cmds.progressBar(maxValue=len(self.main.rig.modules) - 1, width=300)
+		else:
+			progressControl = cmds.progressBar(maxValue=1, width=300)
+		cmds.showWindow(window)
 
-			new_names = []
-			for data in add_data:
-				name = data['name']
-				if cmds.objExists(name):
-					new_name = utils.incrementNameIfExists(name)
-					while new_name in new_names:
-						new_name = utils.incrementName(new_name)
-					data["name"] = new_name
-					new_names.append(new_name)
+		for name in self.main.rig.modules:
+			m = self.main.rig.modules[name]
 
-			# print mData["parents"]
+			mData = m.getData()
+			modulesData.append(mData)
 
-			##print "Need to REPLACE", name, new_name, new_names
-			# for d in add_data:
-			# par = d["parent"]
-			# if par == name:
-			##print "REPLACE", name, new_name
-			# d["parent"] = new_name
+			cmds.progressBar(progressControl, edit=True, step=1)
 
-			# twData = mData["twistsData"]
-			# for tw_d in twData:
-			# print "AAAAAAAAAAAAAAAAAAAAAA"
-			# s_j = tw_d["start_j"]
-			# e_j = tw_d["end_j"]
-			# if s_j.split("_joint")[0] == name:
-			# tw_d["start_j"] = new_name + "_joint"
-			# if e_j.split("_joint")[0] == name:
-			# tw_d["end_j"] = new_name + "_joint"	
+		# delete progress window
+		cmds.deleteUI(window)
+
+		data['type'] = 'rs_rig'
+		data['name'] = self.main.rig.name
+		data['modulesData'] = modulesData
+		# data['sets'] = self.sets.getData()
+
+		fullPath = os.path.join(self.rootPath, 'templates', 'rigs', t_name + ".tmpl")
+		print(fullPath)
+		# format data 
+		json_string = json.dumps(data, indent=4)
+		# save data to file					
+		with open(fullPath, 'w') as f:
+			f.write(json_string)
+
+		self.main.rigTemplatesMenuUpdate()
+
+	def rig_load(self, tName):
+		# read data
+		with open(os.path.join(self.rootPath, 'templates', 'rigs', tName + '.tmpl'), mode='r') as f:
+			data = json.load(f)
+
+		# delete rig
+		try:
+			self.main.rig.delete()
+		except:
 			pass
 
-		def connectToParent(mData):
+		# create rig
+		rigName = self.main.rig.name
+		self.main.rig.create()
+		self.main.rig.rename(rigName)
 
-			if mData['parent'] != None:
-				if mData['name'] in renamedModules:
-					mod_name = renamedModules[mData['name']]
-				# print "old ", mData['name'], "new", mod_name
-				else:
-					mod_name = mData['name']
+		# create modules
+		self.load_modules(data, load='rig')
 
-				old_par_mod_name = mData['parent'].split("_")[0]
-				if old_par_mod_name in renamedModules:
-					newParMod_name = renamedModules[old_par_mod_name]
-					parent = utils.getRealNameFromDataName(mData['parent'], newParMod_name)
-				else:
-					parent = mData['parent']
+		self.main.rigPage_update()
 
-				if parent:
-					# print 'connect', mod_name, ' to ', parent
-					self.connectModule(parent, mod_name, updateUI=False)
-
-		def loadParents(mData):
-			# make oss
-			for seamless in mData['parents']:
-				if seamless:
-					for d in mData['parents']:
-						self.curParents.os_makeConstraint(d)
-
-		def snapParentsEnd(mData):
-			# make oss
-			if mData['seamless']:
-				self.curModule.seamless(True)
-
+	def	compound_save(self):
 		def haveParent(parent_name, module_name):
-			m = self.rig.modules[module_name]
+			m = self.main.rig.modules[module_name]
 			p_moduleName = None
-			# print "checking", module_name, '------------- '
 			while m.parent != None:
 				p_moduleName = utils.getModuleName(m.parent)
 				if p_moduleName == parent_name:
 					return True
-				m = self.rig.modules[p_moduleName]
-
+				m = self.main.rig.modules[p_moduleName]
 			return False
+
+		t_name = QtWidgets.QFileDialog.getSaveFileName(self.main.win, "Save compound module",
+														os.path.join(self.rootPath,'templates','compoundModules'), "*.ctmpl")[0]
+
+		if t_name == "":
+			return
+
+		data = {}
+		modulesData = []
+
+		if len(self.main.rig.modules) == 0:
+			cmds.warning("No modules")
+			return
+
+		# collect data for current module and his children
+		for name in self.main.rig.modules:
+			m = self.main.rig.modules[name]
+
+			# print name, m.parent
+			if haveParent(self.main.curModule.name, m.name) or name == self.main.curModule.name:
+				mData = m.getData()
+				modulesData.append(mData)
+		
+		data['type'] = 'compound_module'
+		data['name'] = os.path.basename(t_name).split(".")[0]
+		data['modulesData'] = modulesData
+
+		# format data 
+		json_string = json.dumps(data, indent=4)
+		# save data to file					
+		with open(t_name, 'w') as f:
+			f.write(json_string)
+		print(t_name)
+
+		self.main.compoundModuleMenuUpdate()
+
+	def compound_load(self, path):
+		# read data
+		with open(os.path.join(self.rootPath, 'templates', 'rigs', path), mode='r') as f:
+			data = json.load(f)
+
+		def incrementIfExists(name): 
+			suffix = name.split('_')[-1]
+			if suffix.isdigit():
+				rootName = name[:-len(suffix)-1]
+			else:
+				suffix = ""
+				rootName = name	
+
+			while cmds.objExists(name+"_mod"):
+				suffix = name.split('_')[-1]
+				if suffix.isdigit():
+					name = rootName + '_' + str( int(suffix) + 1 )
+				else:
+					name += '_1'
+
+			return name
+
+		for mData in data['modulesData']:
+			name = mData["name"]
+			if cmds.objExists(name+"_mod"):
+				# get new name
+				new_name = incrementIfExists(name)
+				# rename parents
+				for mData_ in data['modulesData']:
+					if mData_["parent"]:
+						if name+"_" == mData_["parent"][:len(name)+1]: 
+							mData_["parent"] = new_name + mData_["parent"][len(name):] 
+				# rename name
+				mData["name"] = new_name
+
+		# create modules
+		self.load_modules(data, load='rig')
+
+		self.main.updateModulesTree()
+
+	def load_modules(self, data, load):
+		
+		modulesData = []
+
+		def create_modules():
+			# create modules
+			if print_main_messages: print(
+				" -------------------------------- LOAD MODULES ------------------------------------------------ ")
+			for mData in data['modulesData']:
+				if not mData['opposite']:
+					m = self.main.addModule(mData['type'], name=mData['name'], options=mData['optionsData'],
+										updateUI=False)
+					modulesData.append([m, mData])
+				cmds.progressBar(progressControl, edit=True, step=1)
+			cmds.progressBar(progressControl2, edit=True, step=1)
 
 		def setAddAttributes(mData):
 			# set attributes
@@ -223,608 +309,162 @@ class Template(object):
 					else:
 						cmds.setAttr(c.name + "." + a, keyable=0, lock=1)
 
-		if action == 'save':
-			pass
-
-		elif action == 'load':
-			# read data
-			with open(self.rootPath + '/templates/modules/' + self.curModule.type + '_' + tName + '.tmpl', mode='r') as f:
-				mData = json.load(f)
-
-				# skip if any add control is exists
-				curAddControlsNames = []
-				for c in self.curModule.additionalControls:
-					curAddControlsNames.append(c.name)
-
-				# for m in mData['additionalControlsData']:
-				# if cmds.objExists(m['name']) and m['name'] not in curAddControlsNames:
-				# QtWidgets.QMessageBox.information(self.win, "Warning", 'Object with name "%s" is exist.' %m['name'])
-				# return		
-
-				# skip if module name is exists
-				# if mData['name'] in self.rig.moduleNames and mData['name'] != self.curModuleName:
-				# QtWidgets.QMessageBox.information(self.win, "Warning", 'Module name "%s" is exist.' %mData['name'])
-				# return
-
-				# turn off hierarhy connections
-				# hierarhy_state = self.win.actionPosers_Hierarhy.isChecked()
-				# self.action_posersHierarhy(False)	
-
-				# rename for use template names
-				# oldName = self.curModuleName
-				# if mData['name'] != self.curModuleName:
-				# self.renameModule(mData['name'])
-
-				# remove opposite module
-				sym = False
-				if self.curModule.symmetrical:
-					cur_m = self.curModule
-					sym = True
-					oppMod = self.rig.getMirroredModule(self.curModule)
-					self.deleteModule(oppMod.name)
-
-					self.curModule = cur_m
-					oldCurItem = \
-					    self.win.modules_treeWidget.findItems(cur_m.name, QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive,
-					                                      0)[0]
-					self.win.modules_treeWidget.setCurrentItem(oldCurItem)
-					self.curModule.symmetrical = False
-
-				# remove twists
-				twists = self.twistClass.getTwists(self.curModuleName)
-				for tw in twists:
-					self.twistClass.twists_remove(tw)
-
-				# remove add controls
-				for c in self.curModule.additionalControls:
-					c.delete()
-
-				# set module paraneters
-				self.curModule.setData(mData)
-
-				# set options
-				opt = mData['optionsData']
-				if opt != {}:
-					self.rebuildModule(options=opt)
-
-				self.curModule.setData(mData)
-				# rename to original name
-				# self.renameModule(oldName)
-
-				self.updateModulesTree()
-				self.updateModulePage(self.curModuleName)
-
-				# make symmetry module if needed
-				if sym:
-					self.makeSymmetryModule()
-
-				self.setAddControlsData(mData, self.curModuleName)
-				self.addControls_updateTree()
-
-				# twists
-				for twData in mData['twistsData']:
-					real_data = []
-					real_data = twData
-					m_name = self.curModule.name
-					real_data['name'] = utils.getRealNameFromTemplated(m_name, twData['name'])
-					real_data['start_j'] = utils.getRealNameFromTemplated(m_name, twData['start_j'])
-					real_data['end_j'] = utils.getRealNameFromTemplated(m_name, twData['end_j'])
-					twist.Twist(self.win).twists_add(real_data)
-
-				self.twistClass.updateList()
-
-				# restore hierarhy connections
-				# self.action_posersHierarhy(hierarhy_state)
-
-				try:
-					cmds.select(sel)
-					print(333, sel)
-				except:
-					cmds.select(clear=1)
-
-		elif action == 'rig_save':
-
-			if not full:
-				QtWidgets.QMessageBox.information(self.win, "Sorry", "This feature is available in full version only.")
-				return
-			print(full)
-			data = {}
-			modulesData = []
-
-			t_name, ok = QtWidgets.QInputDialog().getText(self.win, 'Save Rig Template', 'Enter template name:',
-			                                              QtWidgets.QLineEdit.Normal, self.rig.name)
-
-			if ok and t_name != "":
-				t_name = t_name.replace(" ", "_")
-			else:
-				return
-
-			if len(self.rig.moduleNames) == 0:
-				cmds.warning("No modules")
-				return
-
-			# create progress window
-			window = cmds.window(t='Save modules')
-			cmds.columnLayout()
-			if len(self.rig.moduleNames) > 1:
-				progressControl = cmds.progressBar(maxValue=len(self.rig.moduleNames) - 1, width=300)
-			else:
-				progressControl = cmds.progressBar(maxValue=1, width=300)
-			cmds.showWindow(window)
-
-			for name in self.rig.moduleNames:
-				m = self.rig.modules[name]
-
-				mData = m.getData()
-				modulesData.append(mData)
-
+		def connect_modules(modulesData):
+			if print_main_messages: print(
+				" -------------------------------- CONNECT MODULES ------------------------------------------------ ")
+			# load modules data
+			cmds.window(window, e=1, t='Load modules data')
+			cmds.progressBar(progressControl, e=1, maxValue=len(modulesData), progress=0)
+			for mDataList in modulesData:
+				mod, mData = mDataList
+				mData = mDataList[1]
+				if not mData['opposite']:
+					if mData['parent'] != None:
+						mod_name = mData['name']
+						parent = mData['parent']
+						self.main.connectModule(parent, mod_name, updateUI=False)
 				cmds.progressBar(progressControl, edit=True, step=1)
+			cmds.progressBar(progressControl2, edit=True, step=1)
 
-			# delete progress window
-			cmds.deleteUI(window)
+		def set_modules(modulesData, load="all"):
+			if print_main_messages: print(
+				" -------------------------------- SET MODULES ------------------------------------------------ ")
+			# load modules data
+			cmds.window(window, e=1, t='Load modules data')
+			cmds.progressBar(progressControl, e=1, maxValue=len(modulesData), progress=0)
+			for mData in modulesData:
+				mod = mData[0]
+				mod.setData(mData[1], sym=False, namingForce=True, load=load)
+				cmds.progressBar(progressControl, edit=True, step=1)
+			cmds.progressBar(progressControl2, edit=True, step=1)
 
-			data['type'] = 'rs_rig'
-			data['name'] = self.rig.name
-			data['modulesData'] = modulesData
-			# data['sets'] = self.sets.getData()
+		def mirror_modules(modulesData):
+			if print_main_messages: print(
+				" -------------------------------- MIRROR MODULES ------------------------------------------------ ")
+			# save all modules which needed to mirror
+			mirrored_names = []
+			for mData in data['modulesData']:
+				if mData['symmetrical']:
+					mirrored_names.append(mData["name"])
 
-			fullPath = self.rootPath + '/templates/rigs/' + t_name + ".tmpl"
-			print(fullPath)
-			# format data 
-			json_string = json.dumps(data, indent=4)
-			# save data to file					
-			with open(fullPath, 'w') as f:
-				f.write(json_string)
-
-			self.rigTemplatesMenuUpdate()
-
-		elif action == 'rig_load':
-			# read data
-			with open(self.rootPath + '/templates/rigs/' + tName + '.tmpl', mode='r') as f:
-				data = json.load(f)
-
-				if forceData:
-					data = forceData
-
-				# create progress window
-				window = cmds.window(t='Import modules')
-				cmds.columnLayout()
-				if len(data['modulesData']) > 1:
-					progressControl2 = cmds.progressBar(maxValue=8, width=300)
-					progressControl = cmds.progressBar(maxValue=len(data['modulesData']) - 1, width=300)
-				else:
-					progressControl2 = cmds.progressBar(maxValue=1, width=300)
-					progressControl = cmds.progressBar(maxValue=1, width=300)
-				cmds.showWindow(window)
-
-				try:
-					self.rig.delete()
-				except:
-					pass
-
-				self.twistClass.twists = {}
-				self.win.twists_listWidget.clear()
-
-				rigName = self.rig.name
-				self.create_rig(data['name'])
-
-				# create modules
-				if print_main_messages: print(
-				    " -------------------------------- LOAD MODULES ------------------------------------------------ ")
-				modulesData = []
-				mirroredModulesData = []
-				for mData in data['modulesData']:
-					if mData['opposite']:
-						mirroredModulesData.append([m, mData])
-					else:
-						m = self.addModule(mData['type'], name=mData['name'], options=mData['optionsData'],
-						                   updateUI=False)
-						for p in mData['posersMatrixData']:
-							if p == "MODNAME_mainPoser":
-								mat = mData['posersMatrixData'][p]
-								p_name = utils.getRealNameFromTemplated(m.name, p)
-								cmds.xform(p_name, m=mat, ws=1)
-						modulesData.append([m, mData])
+			cmds.window(window, e=1, t='Create mirror modules')
+			cmds.progressBar(progressControl, e=1, maxValue=len(modulesData), progress=0)
+			for mData in data['modulesData']:
+				if mData['symmetrical']:
+					# mirror only module which not child another mirrored module
+					p_moduleName = utils.getModuleName(mData["parent"])
+					if p_moduleName not in mirrored_names:
+						self.main.makeSymmetryModule(mData['name'], updateUI=False)
 					cmds.progressBar(progressControl, edit=True, step=1)
-				# moduleLoad(mData)
-				cmds.progressBar(progressControl2, edit=True, step=1)
-
-				# turn off hierarhy connections
-				# hierarhy_state = self.win.actionPosers_Hierarhy.isChecked()
-				# self.action_posersHierarhy(False)					
-
-				if print_main_messages: print(
-				    " -------------------------------- SET MODULES ------------------------------------------------ ")
-				# load modules data
-				cmds.window(window, e=1, t='Load modules data')
-				cmds.progressBar(progressControl, e=1, maxValue=len(modulesData), progress=0)
-				for mData in modulesData:
-					self.curModule = mData[0]
-					# print 22222, self.curModule.name
-					self.curModule.setData(mData[1], sym=False, namingForce=True)
-					cmds.progressBar(progressControl, edit=True, step=1)
-				cmds.progressBar(progressControl2, edit=True, step=1)
-
-				if print_main_messages: print(
-				    " -------------------------------- SET ADD CONTROLS DATA ------------------------------------------------ ")
-				# load modules data
-				cmds.window(window, e=1, t='Load add controls data')
-				cmds.progressBar(progressControl, e=1, maxValue=len(modulesData), progress=0)
-				for mData in data['modulesData']:
-					self.setAddControlsData(mData)
-					cmds.progressBar(progressControl, edit=True, step=1)
-				cmds.progressBar(progressControl2, edit=True, step=1)
-
-				if print_main_messages: print(
-				    " -------------------------------- CONNECT MODULES ------------------------------------------------ ")
-				# load modules data
-				cmds.window(window, e=1, t='Load modules data')
-				cmds.progressBar(progressControl, e=1, maxValue=len(modulesData), progress=0)
-				for mData in modulesData:
-					self.curModule = mData[0]
-					connectToParent(mData[1])
-					cmds.progressBar(progressControl, edit=True, step=1)
-				cmds.progressBar(progressControl2, edit=True, step=1)
-
-				if print_main_messages: print(
-				    " -------------------------------- MIRROR MODULES ------------------------------------------------ ")
-				cmds.window(window, e=1, t='Create mirror modules')
-				cmds.progressBar(progressControl, e=1, maxValue=len(modulesData), progress=0)
-				for mData in data['modulesData']:
-					if mData['symmetrical']:
-						# print 1000, mData['name']
-						# if mData['name'] != "l_leg":
-						# continue
-						self.makeSymmetryModule(mData['name'], updateUI=False)
-						cmds.progressBar(progressControl, edit=True, step=1)
-				cmds.progressBar(progressControl2, edit=True, step=1)
-
-				if print_main_messages: print(
-				    " -------------------------------- SET Parents DATA ------------------------------------------------ ")
-				# load oss data
-				cmds.window(window, e=1, t='Load parents data')
-				cmds.progressBar(progressControl, e=1, progress=0)
-				for mData in modulesData:
-					self.curModule = mData[0]
-					loadParents(mData[1])
-					cmds.progressBar(progressControl, edit=True, step=1)
-				cmds.progressBar(progressControl2, edit=True, step=1)
-
-				if print_main_messages: print(
-				    " -------------------------------- Snap To Parents End Joint DATA ------------------------------------------------ ")
-				# load oss data
-				cmds.window(window, e=1, t='Load snap to parents ends data')
-				cmds.progressBar(progressControl, e=1, progress=0)
-				for mData in modulesData:
-					self.curModule = mData[0]
-					snapParentsEnd(mData[1])
-					cmds.progressBar(progressControl, edit=True, step=1)
-				cmds.progressBar(progressControl2, edit=True, step=1)
-
-				# restore hierarhy connections
-				# self.action_posersHierarhy(hierarhy_state)
-
-				# update joints placement
-				cmds.refresh()
-
-				if print_main_messages: print(
-				    " -------------------------------- TWISTS ------------------------------------------------ ")
-				cmds.window(window, e=1, t='Load twists data')
-				cmds.progressBar(progressControl, e=1, progress=0)
-
-				# for mData in data['modulesData']:	
-				for mData in modulesData:
-					m = mData[0]
-					for twData in mData[1]['twistsData']:
-						# print "Rig load ADD TWIST Start ------------" , twData['name']
-						real_data = []
-						real_data = twData
-						m_name = m.name
-						real_data['name'] = utils.getRealNameFromTemplated(m_name, twData['name'])
-						real_data['start_j'] = utils.getRealNameFromTemplated(m_name, twData['start_j'])
-						real_data['end_j'] = utils.getRealNameFromTemplated(m_name, twData['end_j'])
-						# print real_data['name'], real_data['start_j']
-						self.twistClass.twists_add(real_data)
-					cmds.progressBar(progressControl, edit=True, step=1)
-				cmds.progressBar(progressControl2, edit=True, step=1)
-
-				if print_main_messages: print(
-				    " -------------------------------- SET ATTRIBUTES ------------------------------------------------ ")
-				# load modules data
-				cmds.window(window, e=1, t='Load modules data')
-				cmds.progressBar(progressControl, e=1, maxValue=len(modulesData), progress=0)
-				for mData in modulesData:
-					self.curModule = mData[0]
-					setAddAttributes(mData[1])
-					cmds.progressBar(progressControl, edit=True, step=1)
-				cmds.progressBar(progressControl2, edit=True, step=1)
-
-				if print_main_messages: print(
-				    " -------------------------------- END ------------------------------------------------ ")
-
-				# delete progress window
-				cmds.deleteUI(window)
-
-				# sets
-				# self.sets.templActions('clear')
-				# self.sets.templActions('load', data=data['sets'])
-
-				cmds.select(clear=1)
-
-			# fix joints placement (update)
-			for m_name in self.rig.modules:
-				m = self.rig.modules[m_name]
-				# if m.type == 'bend':
-				# cmds.setAttr(m_name+'_0_skinJoint.tz', 0)
-
-				c = utils.getControlNameFromInternal(m_name, 'posCtrl')
-				if c != None and cmds.objExists(c):
-					cmds.setAttr(c + '.tx', 0)
-				# break
-
-			# return rig name
-			self.rig.rename(rigName)
-			self.rigPage_update()
-
-			# update ui
-			self.updateModulePage(self.curModuleName)
-
-			cmds.select(clear=1)
-
-		elif action == 'compound_save':
-
-			if not full:
-				QtWidgets.QMessageBox.information(self.win, "Sorry", "This feature is available in full version only.")
-				return
-
-			t_name = QtWidgets.QFileDialog.getSaveFileName(self.win, "Save compound module",
-			                                               self.rootPath + '/templates/compoundModules', "*.ctmpl")[0]
-
-			if t_name == "":
-				return
-
-			data = {}
-			modulesData = []
-
-			if len(self.rig.moduleNames) == 0:
-				cmds.warning("No modules")
-				return
-
-			# create progress window
-			# window = cmds.window(t='Save modules')
-			# cmds.columnLayout()
-			# progressControl = cmds.progressBar(maxValue=len(self.rig.moduleNames)-1, width=300)		
-			# cmds.showWindow( window )
-
-			# collect data for current module and his children
-			for name in self.rig.moduleNames:
-				m = self.rig.modules[name]
-
-				# print name, m.parent
-				if haveParent(self.curModuleName, m.name) or name == self.curModuleName:
-					mData = m.getData()
-					modulesData.append(mData)
-
-				# cmds.progressBar(progressControl, edit=True, step=1)
-
-			# delete progress window
-			# cmds.deleteUI(window)
-
-			data['type'] = 'compound_module'
-			data['name'] = self.curModuleName
-			data['modulesData'] = modulesData
-			# data['sets'] = self.sets.getData()
-
-			# print t_name
-			# format data 
-			json_string = json.dumps(data, indent=4)
-			# save data to file					
-			with open(t_name, 'w') as f:
-				f.write(json_string)
-
-			self.compoundModuleMenuUpdate()
-
-		elif action == 'compound_load':
-			# read data
-			with open(tName, mode='r') as f:
-				data = json.load(f)
-
-				# for mData in data['modulesData']:
-				# incrementData(mData)
-				# return				
-
-				# create progress window
-				window = cmds.window(t='Import modules')
-				cmds.columnLayout()
-				if len(data['modulesData']) > 1:
-					progressControl = cmds.progressBar(maxValue=len(data['modulesData']) - 1, width=300)
-				else:
-					progressControl = cmds.progressBar(maxValue=1, width=300)
-				cmds.showWindow(window)
-
-				# self.twistClass.twists = {}
-				# self.win.twists_listWidget.clear()
-
-				# create modules
-				if print_main_messages:    print(
-				    " -------------------------------- LOAD MODULES ------------------------------------------------ ")
-				modulesData = []
-				root_module_name = None
-				mirroredModulesData = []
-				for mData in data['modulesData']:
-					if mData['opposite']:
-						mirroredModulesData.append([m, mData])
-					else:
-						name = mData['name']
-						old_name = name
-						while cmds.objExists(name + '_mod'):
-							name = utils.incrementName(name)
-						new_name = name
-						renamedModules[old_name] = new_name
-						m = self.addModule(mData['type'], name=name, options=mData['optionsData'])
-						modulesData.append([m, mData])
-						# correct moduleName in data
-						mData["name"] = new_name
-
-						if mData['parent'] == None:
-							root_module_name = name
-
-					cmds.progressBar(progressControl, edit=True, step=1)
-				# moduleLoad(mData)
-
-				# turn off hierarhy connections
-				# hierarhy_state = self.win.actionPosers_Hierarhy.isChecked()
-				# self.action_posersHierarhy(False)					
-
-				if print_main_messages: print(
-				    " -------------------------------- SET ADD CONTROLS DATA ------------------------------------------------ ")
-				# load modules data
-				cmds.window(window, e=1, t='Load add controls data')
-				cmds.progressBar(progressControl, e=1, maxValue=len(modulesData), progress=0)
-				for mData in modulesData:
-					self.setAddControlsData(mData[1])
-					cmds.progressBar(progressControl, edit=True, step=1)
-
-				if print_main_messages: print(
-				    " -------------------------------- SET MODULES ------------------------------------------------ ")
-				# load modules data
-				cmds.window(window, e=1, t='Load modules data')
-				cmds.progressBar(progressControl, e=1, maxValue=len(modulesData), progress=0)
-				for mData in modulesData:
-					self.curModule = mData[0]
-					connectToParent(mData[1])
-					self.curModule.setData(mData[1])
-					cmds.progressBar(progressControl, edit=True, step=1)
-
-				if print_main_messages: print(
-				    " -------------------------------- MIRROR MODULES ------------------------------------------------ ")
-				for mData in data['modulesData']:
-					if mData['symmetrical']:
-						# print 000, mData['name']
-						self.makeSymmetryModule(mData['name'])
-
-				if print_main_messages: print(
-				    " -------------------------------- SET Parents DATA ------------------------------------------------ ")
-				# load oss data
-				cmds.window(window, e=1, t='Load parents data')
-				cmds.progressBar(progressControl, e=1, progress=0)
-				for mData in modulesData:
-					m = mData[0]
-					os_data = mData[1]["parents"]
-					for d in os_data:
-						# print " ------------------------"
-						if d["moduleName"] in renamedModules:
-							new_name = renamedModules[d["moduleName"]]
-							# print "!!!", d["moduleName"], new_name
-							d["moduleName"] = new_name
-						# for t in d["targetModules"]:
-						for i, t in enumerate(d["targetModules"]):
-							if t in renamedModules:
-								new_name = renamedModules[t]
-								# print "!!!", t, new_name
-								d["targetModules"][i] = new_name
-					# for dd in d:
-					# print dd, d[dd]
-					loadParents(mData[1])
-					cmds.progressBar(progressControl, edit=True, step=1)
-
-				if print_main_messages: print(
-				    " -------------------------------- Last SET Data MODULES ------------------------------------------------ ")
-				# load modules data
-				cmds.window(window, e=1, t='Load modules data')
-				cmds.progressBar(progressControl, e=1, maxValue=len(modulesData), progress=0)
-				for mData in modulesData:
-					self.curModule = mData[0]
-					self.curModule.setData(mData[1])
-
-				if print_main_messages: print(
-				    " -------------------------------- END ------------------------------------------------ ")
-
-				# restore hierarhy connections
-				# self.action_posersHierarhy(hierarhy_state)
-
-				# update joints placement
-				cmds.refresh()
-
-				cmds.window(window, e=1, t='Load twists data')
-				cmds.progressBar(progressControl, e=1, progress=0)
-
-				# add twists !!!!!!!!!!!!!!!!! NEED TO ADD SET TWISTS CONTROLS ATTR
-				for mData in modulesData:
-					m = mData[0]
-					for twData in mData[1]['twistsData']:
-						# print "Rig load ADD TWIST Start ------------" , twData['name']
-						real_data = []
-						real_data = twData
-						m_name = m.name
-						real_data['name'] = utils.getRealNameFromTemplated(m_name, twData['name'])
-						real_data['start_j'] = utils.getRealNameFromTemplated(m_name, twData['start_j'])
-						real_data['end_j'] = utils.getRealNameFromTemplated(m_name, twData['end_j'])
-						# print real_data['name'], real_data['start_j']
-						self.twistClass.twists_add(real_data)
-
-					# for mData in data['modulesData']:	
-					# for twData in mData['twistsData']:
-					# print "Rig load ADD TWIST Start ------------" , twData['name']
-					# tw = self.twistClass.twists_add(twData, mirror=False)		
-					# print "Rig load ADD TWIST End" 
-					cmds.progressBar(progressControl, edit=True, step=1)
-
-				# delete progress window
-				cmds.deleteUI(window)
-
-				# sets
-				# self.sets.templActions('clear')
-				# self.sets.templActions('load', data=data['sets'])
-
-				if root_module_name:
-					cmds.select(root_module_name + "_mainPoser")
-
-			# fix joints placement (update)
-			for m_name in self.rig.modules:
-				m = self.rig.modules[m_name]
-				# if m.type == 'bend':
-				# cmds.setAttr(m_name+'_0_skinJoint.tz', 0)
-
-				c = utils.getControlNameFromInternal(m_name, 'posCtrl')
-				if c != None and cmds.objExists(c):
-					cmds.setAttr(c + '.tx', 0)
-				# break
-
-			# update ui
-			self.updateModulesTree()
-			self.updateModulePage(self.curModuleName)
-			self.addControls_updateTree()
-
-		elif action == 'compound_delete':
-			# print tName
-			os.remove(tName)
-			self.compoundModuleMenuUpdate()
-
-			print("Template file %s was deleted" % tName)
-
-		elif action == 'delete':
-			path = self.rootPath + '/templates/modules/' + self.curModule.type + '_' + tName + '.tmpl'
-			os.remove(path)
-			self.moduleTemplatesMenuUpdate()
-
-			print("Template file %s was deleted" % tName)
-
-		elif action == 'delete_rig':
-			path = self.rootPath + '/templates/rigs/' + tName + '.tmpl'
-			os.remove(path)
-			self.rigTemplatesMenuUpdate()
-
-			print("Template file %s was deleted" % tName)
-
-		elif action == 'delete_shape':
-			del self.controlShapes_data[tName]
-
-			json_string = json.dumps(self.controlShapes_data, indent=4)
-			with open(self.rootPath + '/controlShapes.cmds', 'w') as f:
-				f.write(json_string)
-
-			self.controlShapesUpdate()
-
-			print("Template file %s was deleted" % tName)
-
+			cmds.progressBar(progressControl2, edit=True, step=1)
+
+		print_main_messages = True
+
+		# create progress window
+		window = cmds.window(t='Import modules')
+		cmds.columnLayout()
+		if len(data['modulesData']) > 1:
+			progressControl2 = cmds.progressBar(maxValue=8, width=300)
+			progressControl = cmds.progressBar(maxValue=len(data['modulesData']) - 1, width=300)
+		else:
+			progressControl2 = cmds.progressBar(maxValue=1, width=300)
+			progressControl = cmds.progressBar(maxValue=1, width=300)
+		cmds.showWindow(window)
+
+		# self.main.twistClass.twists = {}
+		# self.main.win.twists_listWidget.clear()
+
+		create_modules()
+		connect_modules(modulesData)
+		set_modules(modulesData)
+		if load == 'rig': mirror_modules(modulesData)
+
+
+
+
+
+		# if print_main_messages: print(
+		# 	" -------------------------------- SET ADD CONTROLS DATA ------------------------------------------------ ")
+		# # load modules data
+		# cmds.window(window, e=1, t='Load add controls data')
+		# cmds.progressBar(progressControl, e=1, maxValue=len(modulesData), progress=0)
+		# for mData in data['modulesData']:
+		# 	self.main.setAddControlsData(mData)
+		# 	cmds.progressBar(progressControl, edit=True, step=1)
+		# cmds.progressBar(progressControl2, edit=True, step=1)
+
+
+
+		# if print_main_messages: print(
+		# 	" -------------------------------- SET Parents DATA ------------------------------------------------ ")
+		# # load oss data
+		# cmds.window(window, e=1, t='Load parents data')
+		# cmds.progressBar(progressControl, e=1, progress=0)
+		# for mData in modulesData:
+		# 	self.main.curModule = mData[0]
+		# 	loadParents(mData[1])
+		# 	cmds.progressBar(progressControl, edit=True, step=1)
+		# cmds.progressBar(progressControl2, edit=True, step=1)
+
+		# if print_main_messages: print(
+		# 	" -------------------------------- Snap To Parents End Joint DATA ------------------------------------------------ ")
+		# # load oss data
+		# cmds.window(window, e=1, t='Load snap to parents ends data')
+		# cmds.progressBar(progressControl, e=1, progress=0)
+		# for mData in modulesData:
+		# 	self.main.curModule = mData[0]
+		# 	snapParentsEnd(mData[1])
+		# 	cmds.progressBar(progressControl, edit=True, step=1)
+		# cmds.progressBar(progressControl2, edit=True, step=1)
+
+		# update joints placement
+		cmds.refresh()
+
+		# if print_main_messages: print(
+		# 	" -------------------------------- TWISTS ------------------------------------------------ ")
+		# cmds.window(window, e=1, t='Load twists data')
+		# cmds.progressBar(progressControl, e=1, progress=0)
+
+		# for mData in modulesData:
+		# 	m = mData[0]
+		# 	for twData in mData[1]['twistsData']:
+		# 		# print "Rig load ADD TWIST Start ------------" , twData['name']
+		# 		real_data = []
+		# 		real_data = twData
+		# 		m_name = m.name
+		# 		real_data['name'] = utils.getRealNameFromTemplated(m_name, twData['name'])
+		# 		real_data['start_j'] = utils.getRealNameFromTemplated(m_name, twData['start_j'])
+		# 		real_data['end_j'] = utils.getRealNameFromTemplated(m_name, twData['end_j'])
+		# 		# print real_data['name'], real_data['start_j']
+		# 		self.main.twistClass.twists_add(real_data)
+		# 	cmds.progressBar(progressControl, edit=True, step=1)
+		# cmds.progressBar(progressControl2, edit=True, step=1)
+
+		# if print_main_messages: print(
+		# 	" -------------------------------- SET ATTRIBUTES ------------------------------------------------ ")
+		# # load modules data
+		# cmds.window(window, e=1, t='Load modules data')
+		# cmds.progressBar(progressControl, e=1, maxValue=len(modulesData), progress=0)
+		# for mData in modulesData:
+		# 	self.main.curModule = mData[0]
+		# 	setAddAttributes(mData[1])
+		# 	cmds.progressBar(progressControl, edit=True, step=1)
+		# cmds.progressBar(progressControl2, edit=True, step=1)
+
+		# if print_main_messages: print(
+		# 	" -------------------------------- END ------------------------------------------------ ")
+
+		# delete progress window
+		cmds.deleteUI(window)
+
+		# fix joints placement (update)
+		# for m_name in self.main.rig.modules:
+		# 	m = self.main.rig.modules[m_name]
+		# 	c = utils.getControlNameFromInternal(m_name, 'posCtrl')
+		# 	if c != None and cmds.objExists(c):
+		# 		cmds.setAttr(c + '.tx', 0)
+
+		cmds.select(clear=1)
+		
+		# update ui
+		self.main.updateModulePage(self.main.curModule.name)

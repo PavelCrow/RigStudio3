@@ -449,12 +449,6 @@ class Module(object):
                     controlsShapeData[control] = utils.curveShapeToCommand(cName)
 
             return controlsAttrData, controlsNamesData, controlsVisData, controlsColorData, controlsShapeData
-    
-        def getOptionsData():
-            if cmds.objExists(self.name+'_mod.options'):
-                return utils.attrToPy(self.name+'_mod.options')
-            else:
-                return {}
 
         def getAddControlsData():
             addCtrlsData = []
@@ -476,9 +470,12 @@ class Module(object):
 
             return addCtrlsData
         
+        # parent_module_name = utils.getModuleName(self.parent)
+
         data = {}
         data['name'] = self.name
         data['type'] = self.type
+        # data['parent'] = utils.getTemplatedNameFromReal(parent_module_name, self.parent)
         data['parent'] = self.parent
         data['symmetrical'] = self.symmetrical
         data['opposite'] = self.opposite
@@ -486,7 +483,7 @@ class Module(object):
         data['parents'] = getOSParents()
         data['posersAttrsData'] = getPosersAttrData()
         data['posersShapeData'] = getPosersShapesData()
-        data['optionsData'] = getOptionsData()
+        data['optionsData'] = self.getOptions()
         controlsData = getControlsShapeData()
         data['controlsAttrData'] = controlsData[0]	
         data['controlsNamesData'] = controlsData[1]	
@@ -495,62 +492,64 @@ class Module(object):
         data['controlsShapeData'] = controlsData[4]	
         data['additionalControlsData'] = getAddControlsData()	
 
-        print( '-------------------')
+        # print( '-------------------')
         # for d in data:
         #     print (d, data[d])
-        print (111111, data["optionsData"])
-        print( '-------------------')
+        # print (111111, data["optionsData"])
+        # print( '-------------------')
         return data
 
-    def setData(self, data, sym=False, namingForce=False): 
-        # set posers positions and size
-        if not sym:
-            for p in sorted(data['posersAttrsData']):
-                attrData = data['posersAttrsData'][p]
-                p_name = utils.getRealNameFromTemplated(self.name, p)				
-                if cmds.objExists(p_name):
-                    for attr in attrData:
-                        value = attrData[attr]
-                        try:
-                            cmds.setAttr(p_name+'.'+attr, value)
-                        except: print ("Skipped setting attr", p_name+'.'+attr)
-
+    def setData(self, data, sym=False, namingForce=False, load="all"): 
+        # set posers
+        if load == "posers" or load == "all":
+            if not sym:
+                for p in sorted(data['posersAttrsData']):
+                    attrData = data['posersAttrsData'][p]
+                    p_name = utils.getRealNameFromTemplated(self.name, p)				
+                    if cmds.objExists(p_name):
+                        for attr in attrData:
+                            value = attrData[attr]
+                            try:
+                                cmds.setAttr(p_name+'.'+attr, value)
+                            except: print ("Skipped setting attr", p_name+'.'+attr)
 
         # set control names
-        controlNames = utils.getSetObjects(self.name+'_moduleControlSet')
-        controls = []
-        for cName in controlNames:
-            controls.append(pm.PyNode(cName))
-        for c in controls:
-            cName = c.name()
-            int_name = utils.getInternalNameFromControl(cName)
-            try:
-                savedName_templated = data['controlsNamesData'][int_name]
-                savedName = utils.getRealNameFromTemplated(self.name, savedName_templated)
-                if sym and not "MODNAME" in savedName_templated:
-                    savedName = utils.getOpposite(savedName)
-                if cName != savedName:
-                    if not namingForce: # if not need to increment name
-                        if cmds.objExists(savedName):
-                            savedName = utils.incrementNameIfExists(savedName)				
-                    utils.renameControl(cName, savedName)
-            except: print ("Skipped setting control name", int_name)
+        if load == "controlNames" or load == "all":
+            controlNames = utils.getSetObjects(self.name+'_moduleControlSet')
+            controls = []
+            for cName in controlNames:
+                controls.append(pm.PyNode(cName))
+            for c in controls:
+                cName = c.name()
+                int_name = utils.getInternalNameFromControl(cName)
+                try:
+                    savedName_templated = data['controlsNamesData'][int_name]
+                    savedName = utils.getRealNameFromTemplated(self.name, savedName_templated)
+                    if sym and not "MODNAME" in savedName_templated:
+                        savedName = utils.getOpposite(savedName)
+                    if cName != savedName:
+                        if not namingForce: # if not need to increment name
+                            if cmds.objExists(savedName):
+                                savedName = utils.incrementNameIfExists(savedName)				
+                        utils.renameControl(cName, savedName)
+                except: print ("Skipped setting control name", int_name)
 
         # set controls shapes
-        if not sym:
-            for ctrl in data['controlsShapeData']:
-                # print ctrl, "---- > " , data['controlsShapeData'][ctrl]
-                ctrlName = data['controlsNamesData'][ctrl]
-                ctrlName = utils.getRealNameFromTemplated(self.name, ctrlName)
-                # print ctrl, "---- > " , ctrlName
-                if not cmds.objExists(ctrlName):
-                    continue
-                cmd = data['controlsShapeData'][ctrl]
-                utils.setUserAttr(ctrlName, 'customShapeCommand', cmd, type="string")
-                # print ctrlName, data['controlsShapeData'][ctrl]
-                control = utils.getControlInstance(ctrlName)
-                if control:
-                    control.replaceShape(cmd)
+        if load == "controlShapes" or load == "all":
+            if not sym:
+                for ctrl in data['controlsShapeData']:
+                    # print ctrl, "---- > " , data['controlsShapeData'][ctrl]
+                    ctrlName = data['controlsNamesData'][ctrl]
+                    ctrlName = utils.getRealNameFromTemplated(self.name, ctrlName)
+                    # print ctrl, "---- > " , ctrlName
+                    if not cmds.objExists(ctrlName):
+                        continue
+                    cmd = data['controlsShapeData'][ctrl]
+                    utils.setUserAttr(ctrlName, 'customShapeCommand', cmd, type="string")
+                    # print ctrlName, data['controlsShapeData'][ctrl]
+                    control = utils.getControlInstance(ctrlName)
+                    if control:
+                        control.replaceShape(cmd)
 
             # set posers shapes
             if 'posersShapeData' in data:
@@ -586,41 +585,45 @@ class Module(object):
                             poser.getShape().worldSpace[0] >> node.inputCurve
 
         # controls visibility and color
-        controlNames = utils.getSetObjects(self.name+'_moduleControlSet')
-        for cName in controlNames:
-            try:
-                intName = utils.getInternalNameFromControl(cName)
-                savedName_templated = data['controlsNamesData'][intName]
-                savedName = utils.getRealNameFromTemplated(self.name, savedName_templated)
-                if sym and not "MODNAME" in savedName_templated:
-                    savedName = utils.getOpposite(savedName)
+        if load == "controlVis" or load == "all":
+            controlNames = utils.getSetObjects(self.name+'_moduleControlSet')
+            for cName in controlNames:
+                try:
+                    intName = utils.getInternalNameFromControl(cName)
+                    savedName_templated = data['controlsNamesData'][intName]
+                    savedName = utils.getRealNameFromTemplated(self.name, savedName_templated)
+                    if sym and not "MODNAME" in savedName_templated:
+                        savedName = utils.getOpposite(savedName)
 
-                shapes = cmds.listRelatives(cName, s=1)
+                    shapes = cmds.listRelatives(cName, s=1)
 
-                for s in shapes:
-                    try:
-                        cmds.setAttr(s+'.v', data['controlsVisData'][intName])		
-                    except: pass
+                    for s in shapes:
+                        try:
+                            cmds.setAttr(s+'.v', data['controlsVisData'][intName])		
+                        except: pass
 
-                    if data['controlsColorData'][intName]:
-                        cmds.setAttr(s+".overrideEnabled", 1)
-                    else:
-                        cmds.setAttr(s+".overrideEnabled", 1)
-                    cmds.setAttr(s+'.overrideColor', data['controlsColorData'][intName])				
-                # except: pass
+                        if data['controlsColorData'][intName]:
+                            cmds.setAttr(s+".overrideEnabled", 1)
+                        else:
+                            cmds.setAttr(s+".overrideEnabled", 1)
+                        cmds.setAttr(s+'.overrideColor', data['controlsColorData'][intName])				
+                    # except: pass
 
-                # attributes
-                default_attrs = utils.getVisibleAttrs(cName)
-                for a in default_attrs:
-                    if intName+"."+a in data['controlsAttrData']:
-                        cmds.setAttr(cName+"."+a, data['controlsAttrData'][intName+"."+a])
-                    else:
-                        cmds.setAttr(cName+"."+a, keyable=0, lock=1)
+                    # attributes
+                    default_attrs = utils.getVisibleAttrs(cName)
+                    for a in default_attrs:
+                        if intName+"."+a in data['controlsAttrData']:
+                            cmds.setAttr(cName+"."+a, data['controlsAttrData'][intName+"."+a])
+                        else:
+                            cmds.setAttr(cName+"."+a, keyable=0, lock=1)
 
-            except: pass # control is not exists in saved data
+                except: pass # control is not exists in saved data
 
-        if not sym:
-            self.setOptions(data['optionsData'])
+        # set options
+        if load == "options" or load == "all":
+            if not sym:
+                self.makeSeamless(data["seamless"])
+                self.setOptions(data['optionsData'])
 
     def setMirroredNames():
         pass

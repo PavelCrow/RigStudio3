@@ -50,9 +50,9 @@ class Rig:
             # load modules
             self.load_modules()
 
-    def create(self):
+    def create(self): #
         if self.exists:
-            pm.warning("Rig is already exists")
+            cmds.warning("Rig is already exists")
             return
         
         # create main group
@@ -90,34 +90,24 @@ class Rig:
         
         self.main.rigPage_update()
 
-    def delete(self):
+    def delete(self): #
         for m_name in self.modules:
             m = self.modules[m_name]
             m.delete()
 
         cmds.delete("main")
 
-        allNodes = cmds.ls()
-        for n in allNodes:
-            if cmds.objExists(n + ".moduleName"):
-                cmds.delete(n)
-
-        if cmds.objExists('sets'):
-            cmds.delete('sets')
+        # delete all sets
+        for set in cmds.ls(type="objectSet"):
+            if set not in ['defaultLightSet', 'defaultObjectSet', 'initialParticleSE', 'initialShadingGroup']:
+                if cmds.objExists(set): 
+                    cmds.delete(set)
 
         self.exists = False
         self.modules = {}
+        self.main.curModule = None
 
-        cmds.delete("red_rsMat")
-        cmds.delete("green_rsMat")
-        cmds.delete("black_rsMat")
-        cmds.delete("blue_rsMat")
-        cmds.delete("red_rsSG")
-        cmds.delete("green_rsSG")
-        cmds.delete("black_rsSG")
-        cmds.delete("blue_rsSG")
-
-    def rename(self, newName):
+    def rename(self, newName): #
         self.name = newName
         utils.setUserAttr("main", "name", newName)
 

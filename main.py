@@ -116,15 +116,13 @@ class MainWindow:
         self.moveMode = False
         self.full = True# full
 
-        self.initUi()
-
         self.rig = rig.Rig(self)
         self.template = template.Template()
         self.template.main = self
         self.curParents = parents.Parents(self.win, self.rig)
-        
+
+        self.initUi()
         self.rigPage_update()
-        
         self.connectSignals()
         
         #
@@ -177,7 +175,7 @@ class MainWindow:
 
             # templates menu
             self.compoundModules_menu = QtWidgets.QMenu(self.win)
-            # self.compoundModuleMenuUpdate()
+            self.compoundModuleMenuUpdate()
             self.win.addTemplate_btn.setMenu(self.compoundModules_menu)
 
             # replace menu
@@ -487,12 +485,12 @@ class MainWindow:
         saveRigTepl_action = QtWidgets.QAction(self.win)
         saveRigTepl_action.setText("Save Template")
         menu.addAction(saveRigTepl_action)
-        saveRigTepl_action.triggered.connect(partial(self.template_actions, 'rig_save'))
+        saveRigTepl_action.triggered.connect(self.template.rig_save)
 
         menu.addSeparator()
 
         def getTemplateFiles():
-            templfilesList = os.listdir(self.rootPath + '/templates/rigs')
+            templfilesList = os.listdir(os.path.join(self.rootPath, 'templates', 'rigs'))
             templFiles = []
             # if file is template file, make menu item
             for f in templfilesList:
@@ -508,7 +506,7 @@ class MainWindow:
             # read data
             t_action = QtWidgets.QAction(self.win)
             t_action.setText(t)
-            t_action.triggered.connect(partial(self.template_actions, 'rig_load', t))
+            t_action.triggered.connect(partial(self.template.rig_load, t))
             menu.addAction(t_action)
 
         if len(templateNames) > 0:
@@ -706,23 +704,18 @@ class MainWindow:
     """ UI """
 
     def moduleTemplatesMenuUpdate(self):
-
         # Set Module Template Menu --------------------------------------------------
         menu = QtWidgets.QMenu(self.win)
 
         saveModTepl_action = QtWidgets.QAction(self.win)
         saveModTepl_action.setText("Save Template")
         menu.addAction(saveModTepl_action)
-        saveModTepl_action.triggered.connect(self.template.save)
+        saveModTepl_action.triggered.connect(self.template.module_save)
 
         saveCompModTepl_action = QtWidgets.QAction(self.win)
         saveCompModTepl_action.setText("Save as Compound Module")
         menu.addAction(saveCompModTepl_action)
-        saveCompModTepl_action.triggered.connect(partial(self.template_actions, 'compound_save'))
-
-        # resetModTepl_action = QtWidgets.QAction(self.win)
-        # resetModTepl_action.setText("Reset to Default")
-        # menu.addAction(resetModTepl_action)	
+        saveCompModTepl_action.triggered.connect(partial(self.template.compound_save))
 
         menu.addSeparator()
 
@@ -745,7 +738,7 @@ class MainWindow:
         for t in templateNames:
             t_action = QtWidgets.QAction(self.win)
             t_action.setText(t)
-            t_action.triggered.connect(partial(self.template.load, t))
+            t_action.triggered.connect(partial(self.template.module_load, t))
             menu.addAction(t_action)
 
         if len(templateNames) > 0:
@@ -754,7 +747,7 @@ class MainWindow:
             for t in templateNames:
                 m_action = QtWidgets.QAction(self.win)
                 m_action.setText("Delete " + utils.formatName(t.split(".")[0].split("/")[-1]))
-                m_action.triggered.connect(partial(self.template.delete, t))
+                m_action.triggered.connect(partial(self.template.module_delete, t))
                 delete_menu.addAction(m_action)
 
         # add menu to button
@@ -762,24 +755,24 @@ class MainWindow:
 
     def compoundModuleMenuUpdate(self):
         self.compoundModules_menu.clear()
-        m_path = self.rootPath + '/templates/compoundModules'
+        m_path = os.path.join(self.rootPath, 'templates', 'compoundModules')
         t_files = os.listdir(m_path)
 
         templates = {}
         templates["root"] = []
         templates_folders = []
         for f in t_files:
+            p = os.path.join(m_path,f)
             if '.' not in f and f[0] != '_':
                 templates_folders.append(f)
-
             if f.split('.')[-1] == "ctmpl":
-                templates["root"].append(m_path + '/' + f)
+                templates["root"].append(os.path.join(m_path,f))
 
         for folder in templates_folders:
             templates[folder] = []
-            for f in os.listdir(m_path + '/' + folder):
+            for f in os.listdir(os.path.join(m_path, folder)):
                 if f.split('.')[-1] == "ctmpl":
-                    templates[folder].append(m_path + '/' + folder + '/' + f)
+                    templates[folder].append(os.path.join(m_path, folder, f))
 
         for t in templates:
             if t == "root":
@@ -787,16 +780,14 @@ class MainWindow:
             sub_menu = self.compoundModules_menu.addMenu('&%s' % t)
             for f in templates[t]:
                 m_action = QtWidgets.QAction(self.win)
-                # text = utils.formatName(f.split(".")[0].split("/")[-1])
-                # m_action = ButtonAction(self.win, text)
-                m_action.setText(utils.formatName(f.split(".")[0].split("/")[-1]))
-                m_action.triggered.connect(partial(self.template_actions, "compound_load", f))
+                m_action.setText(os.path.basename(f.split(".")[0]))
+                m_action.triggered.connect(partial(self.template.compound_load, f))
                 sub_menu.addAction(m_action)
 
         for f in templates["root"]:
             m_action = QtWidgets.QAction(self.win)
-            m_action.setText(utils.formatName(f.split(".")[0].split("/")[-1]))
-            m_action.triggered.connect(partial(self.template_actions, "compound_load", f))
+            m_action.setText(os.path.basename(f.split(".")[0]))
+            m_action.triggered.connect(partial(self.template.compound_load, f))
             self.compoundModules_menu.addAction(m_action)
 
         self.compoundModules_menu.addSeparator()
@@ -806,7 +797,7 @@ class MainWindow:
             sub_menu = delete_menu.addMenu('&%s' % t)
             for f in templates[t]:
                 m_action = QtWidgets.QAction(self.win)
-                m_action.setText("Delete " + utils.formatName(f.split(".")[0].split("/")[-1]))
+                m_action.setText("Delete " + os.path.basename(f.split(".")[0]))
                 m_action.triggered.connect(partial(self.template_actions, "compound_delete", f))
                 sub_menu.addAction(m_action)
 
@@ -2278,7 +2269,9 @@ class MainWindow:
 
     def delete_rig(self):
         self.rig.delete()
-        run()
+
+        import rigStudio3
+        rigStudio3.run()
 
     def rename_rig(self):
         oldName = self.rig.name
@@ -2612,11 +2605,13 @@ class MainWindow:
             item.setBackground(color)
 
         # modules options widgets
+        # delete temp button
         for x in range(self.win.options_lay.count()):
             w = self.win.options_lay.itemAt(x).widget()
             w.deleteLater()
+        # get widget path
         path = os.path.join(self.rootPath, "modules", m.type, m.type + "_widget.ui")
-
+        # create the widget
         if os.path.exists(path):
             w = load_ui_widget(path)
             w.delete_frame.deleteLater()
@@ -2657,7 +2652,7 @@ class MainWindow:
         else:
             return
 
-    def addModule(self, moduleType, name="", options={}, updateUI=True, nodePosition=""): #
+    def addModule(self, moduleType, name="", options={}, updateUI=True): #
         if name == "":
             name = self.inputModuleName(moduleType)
             if not name:
@@ -2790,11 +2785,16 @@ class MainWindow:
         #                     if cmds.objectType(possible_end_joint) == "joint":
         #                         cmds.parent(t_name + "_end_connectorLoc", possible_end_joint)
 
+        # set mirrored module as not symmetrical
+        if m.opposite:
+            oppModule = self.rig.getMirroredModule(m)
+            oppModule.symmetrical = False
+
         # remove mirrored module
         if m.symmetrical:
             oppModule = self.rig.getMirroredModule(m)
             self.deleteModule(oppModule.name, updateUI=False)
-        
+       
         # disconnect
         if m.parent:
             m.disconnect()
@@ -2970,9 +2970,17 @@ class MainWindow:
             l_new_name = "l_" + module.name
         newModuleName = utils.getOpposite(l_new_name)
 
+        # exit if new side named module is exists
         if cmds.objExists(newModuleName + "_mod"):
             QtWidgets.QMessageBox.information(self.win, "Warning", "Module %s is exists" % newModuleName)
             return
+
+        # exit if already has mirrored modules in children
+        childern_modules = self.rig.getModuleChildren(module.name)
+        for child in childern_modules:
+            if self.rig.modules[child].symmetrical:
+                QtWidgets.QMessageBox.information(self.win, "Warning", "Module %s alredy has mirrored children" % newModuleName)
+                return
 
         # set names
         if side != "l":

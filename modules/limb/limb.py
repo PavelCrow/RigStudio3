@@ -24,10 +24,10 @@ class Limb(module.Module) :
 
 		super(self.__class__, self).delete()
 			
-	def connectSignals(self, mainInstance, w):
-		module = mainInstance.curModule
-		opp_module = mainInstance.rig.getMirroredModule(module)
-		w.swapEndOrient_btn.clicked.connect(partial(self.swapEndPose, mainInstance, opp_module))
+	def connectSignals(self, main, w):
+		module = main.curModule
+		opp_module = main.rig.getMirroredModule(module)
+		w.swapEndOrient_btn.clicked.connect(partial(self.swapEndPose, main, opp_module))
 		w.addMiddleTwistOffsetControl_btn.clicked.connect(self.addMiddleTwistOffsetControl)
 		w.aimDistance_spinBox.valueChanged.connect(self.update_aim_distance)
 
@@ -41,7 +41,7 @@ class Limb(module.Module) :
 		cmds.setAttr(oppModuleName+'_ik_hand.tx', 0)
 		super(self.__class__, self).setMirrored()
 
-	def swapEndPose(self, mainInstance, opp_module):
+	def swapEndPose(self, main, opp_module):
 		l_fk_ctrl = utils.getControlNameFromInternal(self.name, 'fk_end')
 		l_ik_ctrl = utils.getControlNameFromInternal(self.name, 'ik_end')
 		l_ik_loc = self.name + "_end_pose_loc"
@@ -49,7 +49,7 @@ class Limb(module.Module) :
 			r_fk_ctrl = utils.getControlNameFromInternal(opp_module.name, 'fk_end')
 			r_ik_ctrl = utils.getControlNameFromInternal(opp_module.name, 'ik_end')			
 
-		childs = mainInstance.rig.getModuleChildren(self.name)
+		childs = main.rig.getModuleChildren(self.name)
 		if len(childs) == 0:
 			cmds.warning("Selected module have not child module")
 			return
@@ -205,19 +205,39 @@ class Limb(module.Module) :
 						for j in tw_js:
 							cmds.connectAttr(utils.getOppositeObject(self.name+'_middle_volume_outJoint.s'), j+'.s', f=1)
 
-	def update_aim_distance(self):
-		# print(4444, self.widget)
-		try: # fix error "C++ object already deleted"
-			if not self.widget:
-				return
-			cmds.setAttr(self.name+"_mod.aim_offset", self.widget.aimDistance_spinBox.value())
-			
-			opp_mod = utils.getOpposite(self.name+"_mod")
-			if utils.objectIsOpposite(opp_mod) and cmds.objExists(opp_mod):
-				cmds.setAttr(opp_mod+".aim_offset", self.widget.aimDistance_spinBox.value())
-		except:
-			pass
-			
+	def update_aim_distance(self, v=None):
+		def setValue(v):
+			cmds.setAttr(self.name+"_mod.aim_offset", v)
+			if self.symmetrical:
+				opp_mod = utils.getOpposite(self.name+"_mod")
+				cmds.setAttr(opp_mod+".aim_offset", v)
+
+		if v:
+			setValue(v)
+		else:
+			try: # fix error "C++ object already deleted"
+				if not self.widget:
+					return
+				if not v:
+					v = self.widget.aimDistance_spinBox.value()
+					setValue(v)
+			except:
+				pass
 
 	def bake(self):
 		super(self.__class__, self).bake(addObjects=[self.name+"_ik_connector"])
+
+	def getData(self):
+		data = super(self.__class__, self).getData()
+		optionsData = self.getOptions()
+		data['optionsData'] = optionsData	
+
+		return data	
+	
+	def getOptions(self):
+		optionsData = {}
+		optionsData['aimDistance'] = cmds.getAttr(self.name+"_mod.aim_offset")
+		return optionsData
+	
+	def setOptions(self, optionsData):
+		self.update_aim_distance(optionsData['aimDistance'])

@@ -787,8 +787,7 @@ def objectIsOpposite(obj):
 			return True
 	return False
 
-def getRealNameFromDataName(obj_name, module_name):
-	#print 1, obj_name, module_name
+def getRealNameFromData(obj_name, module_name):
 	if "MODNAME" in obj_name:
 		real_name = obj_name.replace("MODNAME", module_name)
 		return real_name 
