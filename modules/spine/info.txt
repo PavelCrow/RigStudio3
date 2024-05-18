@@ -1,0 +1,4 @@
+ver=1.0=
+description=Spine rig with ik spline system. Variable joints count.
+section=Body
+advanced=False

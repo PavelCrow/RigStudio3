@@ -10,102 +10,57 @@ rootPath = os.path.normpath(os.path.dirname(__file__))
 class Control(object):
 	def __init__(self):
 		self.name = ""
-		#self.root = ""
 		self.parent = ""
 		self.deep = 0
-		self.mirrored = False
+		self.opposite = False
 		self.colorId = 0
 		self.visible = True
 
-	def create(self, name, ctrl_type, colorId=18, tuner=True, offset=True, joint=True):
-		#print 1111, name
-		#name = utils.incrementNameIfExists(name)
+	def create(self, name, shape, colorId=18, offset=True, joint=True): #
+		name = cmds.circle(n=name)[0]
+		cmds.DeleteHistory()
 		
-		#exec(self.curvesCommand_list[ctrl_type])
-		pm.mel.eval("source pk_makeControls")
-		if ctrl_type == 'circle':
-			command = "pk_makeCircle(\"%s\", \"y\")" %name
-			pm.mel.eval(command)
-		elif ctrl_type == 'square':
-			
-			with open(rootPath + '/controlShapes.cmds', mode='r') as f:
-				controlShapes_data = json.load(f)		
-				command = controlShapes_data['square']
-				eval(command)
-				
-		elif ctrl_type == 'box':
-			command = "pk_makeCube(\"%s\")" %name
-			pm.mel.eval(command)
-		elif ctrl_type == 'sphere':
-			command = "pk_makeSphere(\"%s\")" %name
-			pm.mel.eval(command)
+		if shape == "circle":
+			cmd = 'cmds.curve(name = "_ctrl_temp_", per = True, d= 3,p= [[0.78220172572844116, 4.7896041985043591e-17, -0.78220172572844004], [-1.2620422609855989e-16, 6.7735232159239798e-17, -1.1062002890368023], [-0.78220172572844016, 4.7896041985043647e-17, -0.78220172572844016], [-1.1062002890368023, 1.9539677860741656e-32, -3.2011531745708022e-16], [-0.7822017257284406, -4.7896041985043622e-17, 0.78220172572844016], [-3.3331973582254345e-16, -6.7735232159239823e-17, 1.1062002890368023], [0.78220172572844004, -4.7896041985043665e-17, 0.78220172572844038], [1.1062002890368023, -3.6469023143475602e-32, 5.9457618450434596e-16], [0.78220172572844116, 4.7896041985043591e-17, -0.78220172572844004], [-1.2620422609855989e-16, 6.7735232159239798e-17, -1.1062002890368023], [-0.78220172572844016, 4.7896041985043647e-17, -0.78220172572844016]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])'
+		elif shape == "square":
+			cmd = 'cmds.curve(name = "_ctrl_temp_", d= 1,p= [[-1.0, 0.0, -1.0], [1.0, 0.0, -1.0], [1.0, 0.0, 1.0], [-1.0, 0.0, 1.0], [-1.0, 0.0, -1.0]])'
+		elif shape == "sphere":
+			cmd = 'cmds.curve(name = "_ctrl_temp_", d= 1,p= [[0.0, 1.002749026262481, 0.0], [0.0, 0.92641977038338208, 0.38373500561720547], [0.0, 0.70905085571338344, 0.70905085571338344], [0.0, 0.38373500561720547, 0.92641977038338208], [0.0, 0.0, 1.002749026262481], [0.0, -0.38373500561720547, 0.92641977038338208], [0.0, -0.70905085571338344, 0.70905085571338344], [0.0, -0.92641977038338208, 0.38373500561720547], [0.0, -1.002749026262481, 0.0], [0.0, -0.92641977038338208, -0.38373500561720547], [0.0, -0.70905085571338344, -0.70905085571338344], [0.0, -0.38373500561720547, -0.92641977038338208], [0.0, 0.0, -1.002749026262481], [0.0, 0.38373500561720547, -0.92641977038338208], [0.0, 0.70905085571338344, -0.70905085571338344], [0.0, 0.92641977038338208, -0.38373500561720547], [0.0, 1.002749026262481, 0.0], [0.38373500561720547, 0.92641977038338208, 0.0], [0.70905085571338344, 0.70905085571338344, 0.0], [0.92641977038338208, 0.38373500561720547, 0.0], [1.002749026262481, 0.0, 0.0], [0.92641977038338208, -0.38373500561720547, 0.0], [0.70905085571338344, -0.70905085571338344, 0.0], [0.38373500561720547, -0.92641977038338208, 0.0], [0.0, -1.002749026262481, 0.0], [-0.38373500561720547, -0.92641977038338208, 0.0], [-0.70905085571338344, -0.70905085571338344, 0.0], [-0.92641977038338208, -0.38373500561720547, 0.0], [-1.002749026262481, 0.0, 0.0], [-0.92641977038338208, 0.38373500561720547, 0.0], [-0.70905085571338344, 0.70905085571338344, 0.0], [-0.38373500561720547, 0.92641977038338208, 0.0], [0.0, 1.002749026262481, 0.0], [0.0, 0.92641977038338208, -0.38373500561720547], [0.0, 0.70905085571338344, -0.70905085571338344], [0.0, 0.38373500561720547, -0.92641977038338208], [0.0, 0.0, -1.002749026262481], [-0.38373500561720547, 0.0, -0.92641977038338208], [-0.70905085571338344, 0.0, -0.70905085571338344], [-0.92641977038338208, 0.0, -0.38373500561720547], [-1.002749026262481, 0.0, 0.0], [-0.92641977038338208, 0.0, 0.38373500561720547], [-0.70905085571338344, 0.0, 0.70905085571338344], [-0.38373500561720547, 0.0, 0.92641977038338208], [0.0, 0.0, 1.002749026262481], [0.38373500561720547, 0.0, 0.92641977038338208], [0.70905085571338344, 0.0, 0.70905085571338344], [0.92641977038338208, 0.0, 0.38373500561720547], [1.002749026262481, 0.0, 0.0], [0.92641977038338208, 0.0, -0.38373500561720547], [0.70905085571338344, 0.0, -0.70905085571338344], [0.38373500561720547, 0.0, -0.92641977038338208], [0.0, 0.0, -1.002749026262481]])'
+		elif shape == "box":
+			cmd = 'cmds.curve(name = "_ctrl_temp_", d= 1,p= [[-1.0, 1.0, 1.0], [-1.0, 1.0, -1.0], [1.0, 1.0, -1.0], [1.0, 1.0, 1.0], [-1.0, 1.0, 1.0], [-1.0, -1.0, 1.0], [-1.0, -1.0, -1.0], [-1.0, 1.0, -1.0], [-1.0, 1.0, 1.0], [-1.0, -1.0, 1.0], [1.0, -1.0, 1.0], [1.0, 1.0, 1.0], [1.0, 1.0, -1.0], [1.0, -1.0, -1.0], [1.0, -1.0, 1.0], [1.0, -1.0, -1.0], [-1.0, -1.0, -1.0]])'
+		else: # circle
+			cmd = 'cmds.curve(name = "_ctrl_temp_", per = True, d= 3,p= [[0.78220172572844116, 4.7896041985043591e-17, -0.78220172572844004], [-1.2620422609855989e-16, 6.7735232159239798e-17, -1.1062002890368023], [-0.78220172572844016, 4.7896041985043647e-17, -0.78220172572844016], [-1.1062002890368023, 1.9539677860741656e-32, -3.2011531745708022e-16], [-0.7822017257284406, -4.7896041985043622e-17, 0.78220172572844016], [-3.3331973582254345e-16, -6.7735232159239823e-17, 1.1062002890368023], [0.78220172572844004, -4.7896041985043665e-17, 0.78220172572844038], [1.1062002890368023, -3.6469023143475602e-32, 5.9457618450434596e-16], [0.78220172572844116, 4.7896041985043591e-17, -0.78220172572844004], [-1.2620422609855989e-16, 6.7735232159239798e-17, -1.1062002890368023], [-0.78220172572844016, 4.7896041985043647e-17, -0.78220172572844016]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])'
 
-		else:
-			command = "pk_makeCircle(\"%s\", \"y\")" %name
-			pm.mel.eval(command)
-		
-		pm.mel.eval('makeIdentity -apply true -t 0 -r 0 -s 1 -n 0;')				
+		self.setShape(cmd)
 
-		ctrl = cmds.ls(sl=1)[0]
-		ctrl = cmds.rename(ctrl, name)
-		utils.setUserAttr(ctrl, 'internalName', name)
+		utils.setUserAttr(name, 'internalName', name)
 		utils.fixShapeName(name)
 
 		self.name = name
 		
-		if tuner:
-			cmds.select(ctrl)
-			tuner_loc = cmds.spaceLocator(n=name+'_tuner')
-			cmds.parent(ctrl, tuner_loc)
-		
 		if offset:
-			cmds.select(ctrl)
-			offset_grp = cmds.group(n=name+'_group')
-			cmds.select(ctrl)
+			cmds.select(name)
+			cmds.group(n=name+'_group')
 		
 		if joint:
-			j = cmds.joint(n=name+'_outJoint')
-			
-		# get root
-		#self.getRoot()
-		
-		#cmds.select(self.root)
+			cmds.select(name)
+			cmds.joint(n=name+'_outJoint')
+
 		self.setColor(colorId)
-		
-		
-	
+
 	def select(self):
 		cmds.select(self.name)
 	
 	def load(self, name):
 		self.name = name
-		#self.root = name
-		
+
 		# get color id
 		sh = cmds.listRelatives(self.name, s=1)[0]
 		self.colorId = cmds.getAttr(sh+".overrideColor")
-		#self.getRoot()
 		self.getParent()
-		self.mirrored = self.isMirrored()
-		
-	#def getRoot(self):
-		
-		#self.root = self.name
-		
-		#parents = cmds.listRelatives(self.name, parent=1) or []
-		#if len(parents) > 0:
-			#par = parents[0]
-			#if par == self.name + '_group':
-				#self.root = par
-		
-		#parents = cmds.listRelatives(self.root, parent=1) or []
-		#if len(parents) > 0:
-			#par = parents[0]
-			#if par == self.name + '_tuner':
-				#self.root = par		
+		self.opposite = self.isOpposite()
 						
-	def replaceShape(self, command):
-		#print len(command), command
+	def setShape(self, command):
 		sel = cmds.ls(sl=1)
 		
 		ctrl = pm.PyNode(self.name)
@@ -115,16 +70,12 @@ class Control(object):
 		vis_conns = []
 		for s in ctrl_shapes:
 			conns = cmds.listConnections(s.name(), plugs=1, connections=1, s=1, d=0) or []
-			#if len(conns) > 0 and cmds.objectType(conns[1]) == 'transformGeometry':
-				#return
 			vis_conns.append(conns)
 			
 		# save output connections (transformGeometry)
 		out_conns = []
 		for s in ctrl_shapes:
 			conns = cmds.listConnections(s.name(), plugs=1, connections=1, s=0, d=1) or []
-			#if len(conns) > 0 and cmds.objectType(conns[1]) == 'transformGeometry':
-				#return
 			out_conns.append(conns)
 		
 		pm.delete(ctrl_shapes)		
@@ -135,7 +86,6 @@ class Control(object):
 		
 		if type(command).__name__ == "list":
 			for com in command:
-				#print com
 				exec(com)
 				c = cmds.ls(sl=1)[0]
 				crvs.append(c)
@@ -194,18 +144,6 @@ class Control(object):
 				
 		self.colorId = colorId
 
-	#def getColor(self, ctrl=""): # unused
-		#logger.debug(traceback.extract_stack()[-1][2])
-		
-		#sh = cmds.listRelatives(ctrl, s=1)[0]
-		#if cmds.getAttr(sh+".overrideEnabled"):
-			
-		#cmds.setAttr(sh+".overrideColor", colorId)
-		#if colorId == 0:
-			#cmds.setAttr(sh+".overrideEnabled", 0)
-		
-		#cmds.select(clear=1)
-
 	def toggleVisible(self, manual=False, value=False):
 		shapes = cmds.listRelatives(self.name, s=1)
 		
@@ -222,16 +160,15 @@ class Control(object):
 			except:
 				pass
 		
-	def getParent(self):
+	def getParent(self): #
 		self.parent = ""
-		
-		if cmds.objExists(self.name+"_group"):
-			parents = cmds.listRelatives(self.name+"_group", parent=1)
-			self.parent = parents[0]
-			
-		#if len(parents) == 0: # twists control have not parent
-
-		
+		if utils.objectIsAdditionalControl(self.name):
+			if cmds.objExists(self.name+"_group"):
+				parents = cmds.listRelatives(self.name+"_group", parent=1)
+				self.parent = parents[0]
+				mod_name = utils.getModuleName(self.name)
+				if self.parent == mod_name+"_controls":
+					self.parent = cmds.connectionInfo(self.name+"_group_multMat.matrixIn[2]", sourceFromDestination=True).split(".")[0]
 		return self.parent
 
 	def rename(self, in_newName):
@@ -241,12 +178,10 @@ class Control(object):
 			allNodes = cmds.ls()
 			for n in ['tuner', 'group', 'joint', "decMat", 'outJoint', 'addPoser', 'poser_cluster', 'poserOrient', "addPoser_catcher", "poser_clusterHandle", "poser_locShape",
 			          'poser_axis_x', 'poser_axis_y', 'poser_axis_z', 'tuner_decMat', 'tuner_multMat', 'initLoc', 'controlInitLoc', 'group_decMat', 'group_multMat']:
-				#print name+'_'+n, cmds.objExists(name+'_'+n)
 				if cmds.objExists(name+'_'+n):
 					cmds.rename(name+'_'+n, newName+'_'+n)
 			cmds.rename(name, newName)
 				
-		#print self.name, in_newName
 		doRename(self.name, in_newName)
 		
 		if sym:
@@ -293,7 +228,6 @@ class Control(object):
 		if type(attrListNonkeyable) != list :
 			attrListNonkeyable = []
 		attrList = attrListKeyable + attrListNonkeyable
-		#print attrListKeyable
 		for attr in attrList:
 			attrVar = cmds.getAttr(self.name + "." + attr)
 			attrData[(self.name + "." + attr)] = attrVar
@@ -305,11 +239,10 @@ class Control(object):
 		p = self.name+"_addPoser"
 
 		data['name'] = self.name			
-		#data['root'] = self.root
 		data['poser'] = p
 		data['parent'] = self.getParent()
 		data['poserParent'] = cmds.listRelatives(p, p=1)[0]
-		data['mirrored'] = self.mirrored
+		data['opposite'] = self.opposite
 		data['deep'] = self.deep
 		data['pos'] = cmds.xform(p, q=1, m=1, ws=1)
 		data['colorId'] = self.getColor()
@@ -329,8 +262,8 @@ class Control(object):
 				return True
 		return False
 
-	def isMirrored(self):
-		if self.name.split('_')[0] == 'r':
+	def isOpposite(self):
+		if utils.getObjectSide(self.name) == 'r':
 			if cmds.objExists(utils.getOpposite(self.name)):
 				return True
 		return False
@@ -347,3 +280,5 @@ class Control(object):
 		vis = cmds.getAttr(shapes[0]+'.v')
 		
 		return vis
+	
+

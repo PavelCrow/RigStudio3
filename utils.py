@@ -6,8 +6,7 @@ import math
 import importlib
 import pickle as cPickle
 
-from . import controller
-#import rigStudio2.additionalControl as additionalControl
+from . import controller, additionalControl
 #import rigStudio2.rigTools as rigTools
 
 modulePath = os.path.normpath(os.path.dirname(__file__))
@@ -144,7 +143,7 @@ def getShape(name):
 	shape = cmds.listRelatives(name, s=1)[0]
 	return shape
 
-def resetAttrs(o, debug=False): #
+def resetAttrs(o, debug=False, matrix=False): #
 	for a in [".tx", ".ty", ".tz", ".rx", ".ry", ".rz"]:
 		try:
 			cmds.setAttr(o+a, 0)
@@ -161,6 +160,9 @@ def resetAttrs(o, debug=False): #
 				cmds.setAttr(o+a, 0)
 			except: pass		
 	except: pass		
+
+	if matrix:
+		cmds.setAttr(o+'.offsetParentMatrix', [1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0], type="matrix")
 
 def getModuleNameFromHierarhy(controlName):
 	p = cmds.listRelatives(controlName, parent=1)[0]
@@ -206,7 +208,7 @@ def getControlInstance(name): #
 		c.load(name)
 		return c
 	except: 
-		cmds.warning("Cannot find the control", name)
+		cmds.warning("Cannot load the control", name)
 		return False
 
 def getAdditionalControlInstance(name):
@@ -284,7 +286,8 @@ def setUserAttr(obj, attrName, value, type="string", lock=True, keyable=False, c
 	elif type == "data":
 		pyToAttr(obj+'.'+attrName, value)		
 
-	cmds.setAttr(obj+"."+attrName, e=1, l=lock, cb=cb )
+	cmds.setAttr(obj+"."+attrName, e=1, l=lock )
+	if not keyable: cmds.setAttr(obj+"."+attrName, e=1, cb=cb )
 
 def addModuleNameAttr(obj, moduleName):
 	#print (33333, obj, moduleName)
@@ -316,9 +319,9 @@ def getModuleTypeFromAttr(obj):
 def getModuleName(obj): #
 	if obj == None or obj == "" or not cmds.objExists(obj):
 		return None	
-	obj = obj.replace("joint", "outJoint")
+	j = obj.replace("joint", "outJoint")
 
-	path = cmds.ls(obj, l=1) or []
+	path = cmds.ls(j, l=1) or []
 	moduleName = path[0].split("rig|modules|")[-1].split("_mod|")[0]
 
 	return moduleName
@@ -617,11 +620,15 @@ def removeTransformParentJoint(jnt): #
 
 
 # Tools
-def connectByMatrix(obj, targets, inputs=[], moduleName="", attrs=['t', 'r', 's']):
-	m_name = getModuleName(obj)
-
+def connectByMatrix(obj, targets, inputs=[], useDM=True, attrs=['t', 'r', 's'], module_name=None, set=None): 
+	if module_name:
+		m_name = module_name
+	else:
+		m_name = getModuleName(obj)
 	dMat = cmds.createNode('decomposeMatrix', n=obj+"_decMat")
 	addToModuleSet(dMat, m_name)
+	if set: cmds.sets(dMat, e=1, forceElement=set)
+	
 	if 't' in attrs:
 		if not cmds.getAttr(obj+'.translateX', lock=1):
 			cmds.connectAttr(dMat+".outputTranslateX", obj+'.translateX', f=1)			
@@ -647,6 +654,7 @@ def connectByMatrix(obj, targets, inputs=[], moduleName="", attrs=['t', 'r', 's'
 	if len(targets) > 1:
 		mMat = cmds.createNode('multMatrix', n=obj+"_multMat")
 		addToModuleSet(mMat, m_name)
+		if set: cmds.sets(mMat, e=1, forceElement=set)
 
 		cmds.connectAttr(mMat+".matrixSum", dMat+'.inputMatrix')
 
@@ -658,16 +666,42 @@ def connectByMatrix(obj, targets, inputs=[], moduleName="", attrs=['t', 'r', 's'
 	else:
 		cmds.connectAttr(targets[0]+".worldMatrix[0]", dMat+'.inputMatrix')	
 
-def connectToOffsetParentMatrix(obj, targets, inputs=[]): #
+def connectToOffsetParentMatrix(obj, targets, inputs=[], set=None): #
 	m_name = getModuleName(obj)
 	if len(targets) > 1:
 		mMat = cmds.createNode('multMatrix', n=obj+"_multMat")
 		addToModuleSet(mMat, m_name)
+		if set:
+			cmds.sets(mMat, e=1, forceElement=set)
 		cmds.connectAttr(mMat+".matrixSum", obj+'.offsetParentMatrix')
 		for i in range(len(targets)):
 			cmds.connectAttr(targets[i]+"."+inputs[i], mMat+'.matrixIn[%s]' %(str(i)) )
 	else:
 		cmds.connectAttr(targets[0]+".worldMatrix[0]", obj+'.offsetParentMatrix')
+
+def aimToOffsetParentMatrix(obj, input, primary, secondary, attrs=[], set=None): #
+	m_name = getModuleName(obj)
+	par = cmds.listRelatives(obj, p=1)[0]
+	aimMat = cmds.createNode('aimMatrix', n=obj+"_aimMat")
+	mMat = cmds.createNode('multMatrix', n=obj+"_aimMultMat")
+	addToModuleSet(mMat, m_name)
+	addToModuleSet(aimMat, m_name)
+	
+	if attrs:
+		cmds.connectAttr(input+"."+attrs[0], aimMat+'.inputMatrix')
+		cmds.connectAttr(primary+"."+attrs[1], aimMat+'.primaryTargetMatrix')
+		cmds.connectAttr(secondary+"."+attrs[2], aimMat+'.secondaryTargetMatrix')
+	else:
+		cmds.connectAttr(input+".worldMatrix[0]", aimMat+'.inputMatrix')
+		cmds.connectAttr(primary+".worldMatrix[0]", aimMat+'.primaryTargetMatrix')
+		cmds.connectAttr(secondary+".worldMatrix[0]", aimMat+'.secondaryTargetMatrix')
+	cmds.connectAttr(aimMat+".outputMatrix", mMat+'.matrixIn[0]')
+	cmds.connectAttr(par+".worldInverseMatrix[0]", mMat+'.matrixIn[1]')
+	cmds.connectAttr(mMat+".matrixSum", obj+'.offsetParentMatrix')
+	
+	if set:
+		cmds.sets(aimMat, e=1, forceElement=set)
+		cmds.sets(mMat, e=1, forceElement=set)
 
 def addToModuleSet(node, module_name):
 	cmds.sets(node, e=1, forceElement=module_name+'_nodesSet')
@@ -744,8 +778,6 @@ def importFile(path, name=""): #
 	cmds.sets(n=set_name)
 	for n in nodes:
 		if cmds.objExists(n):
-			#print (n, name)
-			# addModuleNameAttr(n, name)
 			if cmds.objectType(n) != 'objectSet':
 				cmds.sets(n, e=1, forceElement=set_name)
 			if name == "":
@@ -1034,11 +1066,11 @@ def curveShapeToCommand(name): #
 	# save shapes
 	pyCmds = []
 	for curveShape in curveShapes:
-		#curveInfo    
+		# curveInfo    
 		infoNode = cmds.createNode('curveInfo')
 		cmds.connectAttr("%s.worldSpace[0]" %curveShape, "%s.inputCurve" %infoNode, force = True)
 
-		#Find the knot values and get the numSpans,degree,form, and CVs
+		# Find the knot values and get the numSpans,degree,form, and CVs
 		knots = list(cmds.getAttr('%s.knots' %infoNode)[0])
 		numSpans = cmds.getAttr('%s.spans' %curveShape)
 		degree = cmds.getAttr('%s.degree' %curveShape)
@@ -1051,7 +1083,7 @@ def curveShapeToCommand(name): #
 
 		cVs = cmds.ls('%s.cv[0:%d]' %(curveShape, (nucmdsVs-1)), flatten = True)        
 		
-		#For each cv get it's world position
+		# For each cv get it's world position
 		cvArray = [cmds.xform(cv, q = True, ws = True, translation = True) for cv in cVs]
 
 		if form == 2:
@@ -1064,9 +1096,15 @@ def curveShapeToCommand(name): #
 		elif degree >=2 and form !=2:     
 			pyCmd = 'cmds.curve(name = "%s", d= %s,p= %s, k = %s)' %(name, degree, cvArray, knots)
 		
-		#print curveShape
 		pyCmds.append(pyCmd)
 	
 	cmds.delete(temp_crv)
 
 	return pyCmds
+
+def oneStepUndo(func):
+	def wrapper(*args, **kwargs):
+		cmds.undoInfo(openChunk=True)
+		func(*args, **kwargs)
+		cmds.undoInfo(closeChunk=True)
+	return wrapper	

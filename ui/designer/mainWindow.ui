@@ -39,7 +39,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="rig_tab">
        <attribute name="title">
@@ -4508,18 +4508,46 @@
               </widget>
              </item>
              <item>
-              <widget class="QSpinBox" name="twistsJointsCount_spinBox">
-               <property name="frame">
+              <widget class="QLineEdit" name="twistsJointsCount_lineEdit">
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="readOnly">
                 <bool>true</bool>
                </property>
-               <property name="accelerated">
-                <bool>false</bool>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="changeJointsCount_btn">
+               <property name="minimumSize">
+                <size>
+                 <width>60</width>
+                 <height>0</height>
+                </size>
                </property>
-               <property name="minimum">
-                <number>1</number>
+               <property name="maximumSize">
+                <size>
+                 <width>80</width>
+                 <height>20</height>
+                </size>
                </property>
-               <property name="maximum">
-                <number>100</number>
+               <property name="baseSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>set..</string>
                </property>
               </widget>
              </item>
@@ -4601,6 +4629,13 @@
                    <property name="spacing">
                     <number>2</number>
                    </property>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="label_40">
+                     <property name="text">
+                      <string>End Orient Target</string>
+                     </property>
+                    </widget>
+                   </item>
                    <item row="0" column="1">
                     <widget class="QLineEdit" name="twistRootJoint_lineEdit">
                      <property name="minimumSize">
@@ -4617,18 +4652,31 @@
                    <item row="0" column="0">
                     <widget class="QLabel" name="label_12">
                      <property name="text">
-                      <string>Root Joint</string>
+                      <string>Target</string>
                      </property>
                     </widget>
                    </item>
                    <item row="1" column="0">
                     <widget class="QLabel" name="label_15">
                      <property name="text">
-                      <string>End Joint</string>
+                      <string>Root Orient Target</string>
                      </property>
                     </widget>
                    </item>
                    <item row="1" column="1">
+                    <widget class="QLineEdit" name="twistRootOrientJoint_lineEdit">
+                     <property name="minimumSize">
+                      <size>
+                       <width>50</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="readOnly">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="1">
                     <widget class="QLineEdit" name="twistEndJoint_lineEdit">
                      <property name="minimumSize">
                       <size>
@@ -4642,25 +4690,6 @@
                     </widget>
                    </item>
                    <item row="1" column="2">
-                    <widget class="QPushButton" name="twist_attachEnd_btn">
-                     <property name="minimumSize">
-                      <size>
-                       <width>60</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>80</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>attach</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="0" column="2">
                     <widget class="QPushButton" name="twist_attachRoot_btn">
                      <property name="minimumSize">
                       <size>
@@ -4678,6 +4707,25 @@
                       <size>
                        <width>0</width>
                        <height>0</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>attach</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="2">
+                    <widget class="QPushButton" name="twist_attachEnd_btn">
+                     <property name="minimumSize">
+                      <size>
+                       <width>60</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>80</width>
+                       <height>20</height>
                       </size>
                      </property>
                      <property name="text">
@@ -4704,23 +4752,49 @@
                   </spacer>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="twist_attachRootToParent_btn">
-                   <property name="minimumSize">
-                    <size>
-                     <width>60</width>
-                     <height>0</height>
-                    </size>
+                  <layout class="QHBoxLayout" name="horizontalLayout_14">
+                   <property name="spacing">
+                    <number>2</number>
                    </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>800000</width>
-                     <height>25</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>Attach Root to Parent Module</string>
-                   </property>
-                  </widget>
+                   <item>
+                    <widget class="QPushButton" name="twist_attachRootToParent_btn">
+                     <property name="minimumSize">
+                      <size>
+                       <width>60</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>800000</width>
+                       <height>25</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>Attach Root to Parent Module</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="twist_attachEndToChild_btn">
+                     <property name="minimumSize">
+                      <size>
+                       <width>60</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>800000</width>
+                       <height>25</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>Attach End to Child Module</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
                  </item>
                  <item>
                   <widget class="QPushButton" name="twist_reset_btn">
@@ -4741,64 +4815,10 @@
                    </property>
                   </widget>
                  </item>
-                 <item>
-                  <widget class="QCheckBox" name="alignToChild_checkBox">
-                   <property name="text">
-                    <string>Align to Child</string>
-                   </property>
-                  </widget>
-                 </item>
                 </layout>
                </widget>
               </item>
              </layout>
-            </widget>
-           </item>
-           <item>
-            <spacer name="verticalSpacer_8">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeType">
-              <enum>QSizePolicy::Fixed</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>5</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QPushButton" name="rebuildTwist_btn">
-             <property name="enabled">
-              <bool>true</bool>
-             </property>
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>40</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>100000</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Rebuild with new options</string>
-             </property>
-             <property name="checkable">
-              <bool>false</bool>
-             </property>
             </widget>
            </item>
            <item>

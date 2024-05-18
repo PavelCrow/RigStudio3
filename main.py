@@ -117,18 +117,18 @@ class MainWindow:
         self.full = True# full
 
         self.rig = rig.Rig(self)
-        self.template = template.Template()
-        self.template.main = self
+        self.templateClass = template.Template()
+        self.templateClass.main = self
         self.curParents = parents.Parents(self.win, self.rig)
 
         self.initUi()
         self.rigPage_update()
         self.connectSignals()
+
+        self.addControls_updateTree()
         
-        #
         # self.curParents.rig = self.rig
         # self.curParents.updateList()
-        # self.addControls_updateTree()
         #
         # # color buttons
         # for i, color in enumerate(self.color_list):
@@ -244,10 +244,10 @@ class MainWindow:
             ### g.off = False
             ### g.mousePressEvent(1)
 
-            g = GroupLabel(self.win.twistConnections_label, self.win.twistConnections_groupFrame,
-                           self.win.verticalLayout_10, self.win)
-            g.off = False
-            g.mousePressEvent(1)
+            # g = GroupLabel(self.win.twistConnections_label, self.win.twistConnections_groupFrame,
+            #                self.win.verticalLayout_10, self.win)
+            # g.off = False
+            # g.mousePressEvent(1)
 
             g = GroupLabel(self.win.ibInfo_label, self.win.ibInfo_groupFrame, self.win.verticalLayout_83, self.win)
             g.off = False
@@ -479,13 +479,17 @@ class MainWindow:
         self.win.tabWidget.setCurrentIndex(0)
         self.win.tabWidget.setCurrentIndex(0)
 
+        self.win.addControl_frame.setEnabled(False)
+        self.win.addControlName_lineEdit.setText("")
+        self.win.addControlParent_lineEdit.setText("")
+
     def rigTemplatesMenuUpdate(self):
         menu = QtWidgets.QMenu(self.win)
 
         saveRigTepl_action = QtWidgets.QAction(self.win)
         saveRigTepl_action.setText("Save Template")
         menu.addAction(saveRigTepl_action)
-        saveRigTepl_action.triggered.connect(self.template.rig_save)
+        saveRigTepl_action.triggered.connect(self.templateClass.rig_save)
 
         menu.addSeparator()
 
@@ -506,7 +510,7 @@ class MainWindow:
             # read data
             t_action = QtWidgets.QAction(self.win)
             t_action.setText(t)
-            t_action.triggered.connect(partial(self.template.rig_load, t))
+            t_action.triggered.connect(partial(self.templateClass.rig_load, t))
             menu.addAction(t_action)
 
         if len(templateNames) > 0:
@@ -710,12 +714,12 @@ class MainWindow:
         saveModTepl_action = QtWidgets.QAction(self.win)
         saveModTepl_action.setText("Save Template")
         menu.addAction(saveModTepl_action)
-        saveModTepl_action.triggered.connect(self.template.module_save)
+        saveModTepl_action.triggered.connect(self.templateClass.module_save)
 
         saveCompModTepl_action = QtWidgets.QAction(self.win)
         saveCompModTepl_action.setText("Save as Compound Module")
         menu.addAction(saveCompModTepl_action)
-        saveCompModTepl_action.triggered.connect(partial(self.template.compound_save))
+        saveCompModTepl_action.triggered.connect(partial(self.templateClass.compound_save))
 
         menu.addSeparator()
 
@@ -738,7 +742,7 @@ class MainWindow:
         for t in templateNames:
             t_action = QtWidgets.QAction(self.win)
             t_action.setText(t)
-            t_action.triggered.connect(partial(self.template.module_load, t))
+            t_action.triggered.connect(partial(self.templateClass.module_load, t))
             menu.addAction(t_action)
 
         if len(templateNames) > 0:
@@ -747,7 +751,7 @@ class MainWindow:
             for t in templateNames:
                 m_action = QtWidgets.QAction(self.win)
                 m_action.setText("Delete " + utils.formatName(t.split(".")[0].split("/")[-1]))
-                m_action.triggered.connect(partial(self.template.module_delete, t))
+                m_action.triggered.connect(partial(self.templateClass.module_delete, t))
                 delete_menu.addAction(m_action)
 
         # add menu to button
@@ -781,13 +785,13 @@ class MainWindow:
             for f in templates[t]:
                 m_action = QtWidgets.QAction(self.win)
                 m_action.setText(os.path.basename(f.split(".")[0]))
-                m_action.triggered.connect(partial(self.template.compound_load, f))
+                m_action.triggered.connect(partial(self.templateClass.compound_load, f))
                 sub_menu.addAction(m_action)
 
         for f in templates["root"]:
             m_action = QtWidgets.QAction(self.win)
             m_action.setText(os.path.basename(f.split(".")[0]))
-            m_action.triggered.connect(partial(self.template.compound_load, f))
+            m_action.triggered.connect(partial(self.templateClass.compound_load, f))
             self.compoundModules_menu.addAction(m_action)
 
         self.compoundModules_menu.addSeparator()
@@ -800,131 +804,6 @@ class MainWindow:
                 m_action.setText("Delete " + os.path.basename(f.split(".")[0]))
                 m_action.triggered.connect(partial(self.template_actions, "compound_delete", f))
                 sub_menu.addAction(m_action)
-
-    def setAddControlsData(self, mData, curMod_name=""):
-        # increment data
-        datas = mData['additionalControlsData']
-        # for d in datas:
-        # print "------------------------", mData['name']
-        # print d["name"]
-        # print d["parent"]
-        # print "------------------------", mData['name']
-        # for d in mData["twistsData"]:
-        # for dd in d:
-        # print dd, d[dd]
-
-        new_names = []
-        for data in datas:
-            name = data['name']
-            if cmds.objExists(name):
-                new_name = utils.incrementNameIfExists(name)
-                while new_name in new_names:
-                    new_name = utils.incrementName(new_name)
-                data["name"] = new_name
-                new_names.append(new_name)
-                # print "Need to REPLACE", name, new_name, new_names
-                for d in datas:
-                    par = d["parent"]
-                    if par == name:
-                        # print "REPLACE", name, new_name
-                        d["parent"] = new_name
-
-                        twData = mData["twistsData"]
-                        for tw_d in twData:
-                            s_j = tw_d["start_j"]
-                            e_j = tw_d["end_j"]
-                            if s_j.split("_joint")[0] == name:
-                                tw_d["start_j"] = new_name + "_joint"
-                            if e_j.split("_joint")[0] == name:
-                                tw_d["end_j"] = new_name + "_joint"
-
-                    # print twData
-
-        # print "-------NEW----------"				
-        # for d in datas:
-        # print "------------------------", mData['name']
-        # print d["name"]
-        # print d["parent"]
-
-        if curMod_name:
-            m_name = curMod_name  # for load module 
-        else:
-            m_name = mData['name']  # for load full rig
-        # print m_name
-        # add addCtrls without mirrored controls
-        for cData in mData['additionalControlsData']:
-            if not cData['mirrored']:
-                m = self.rig.modules[m_name]
-                # print 000, m_name
-                # mod_name = utils.getRealNameFromTemplated(mData["name"], cData["parent"])
-                par = utils.getRealNameFromTemplated(m_name, cData["parent"])
-                # print "------------------------- - - - ---- -", mData["name"], cData["parent"], par
-                m.addAdditionalControl(cData['name'], par, shape='circle')
-        # print "ADD Control", cData['name'], cData['mirrored']
-        # self.addControlsUtils.fixJointsParents()
-        for cData in mData['additionalControlsData']:
-            if not cData['mirrored']:
-                par = utils.getRealNameFromTemplated(m_name, cData["poserParent"])
-                # print m_name, cData["poserParent"], par
-                p = utils.getRealNameFromTemplated(m_name, cData['name'] + "_addPoser")
-                if cmds.listRelatives(p, p=1)[0] != par:
-                    cmds.parent(p, par)
-                cmds.xform(p, m=cData['pos'], ws=1)
-
-                attrData = cData['poserAttrsData']
-                for attr in attrData:
-                    value = attrData[attr]
-                    # print attr, value
-                    try:
-                        cmds.setAttr(p + '.' + attr, value)
-                    except:
-                        pass  # print p+'.'+attr, "is locked"
-
-                for a in ["translateX", "translateY", "translateZ", "rotateX", "rotateY", "rotateZ"]:
-                    if a not in attrData:
-                        cmds.setAttr(p + "." + a, l=1, k=0, cb=0)
-
-        for cData in mData['additionalControlsData']:
-            if not cData['mirrored']:
-                c = utils.getControlInstance(cData['name'])
-                c.replaceShape(cData['shape'])
-                c.setColor(cData['colorId'])
-
-        # add mirrored controls
-        for cData in mData['additionalControlsData']:
-            if cData['mirrored']:
-                c = utils.getControlInstance(utils.getOpposite(cData['name']))
-                self.addControls_mirrorControl(c)
-
-        # hide "hidden" controls
-        # print "------------------------"
-        for cData in mData['additionalControlsData']:
-            if not cData['mirrored']:
-                for c_int_name in mData['controlsVisData']:
-                    # print 1111, c_int_name
-                    c_name = utils.getControlNameFromInternal(m_name, c_int_name)
-                    # print 444, c_int_name, c_name, mData['controlsVisData'], mData['controlsVisData'][c_int_name]
-                    if not mData['controlsVisData'][c_int_name]:
-                        c = utils.getControlInstance(c_name)
-                        # print 444, c_int_name, c_name, mData['controlsVisData'], c
-                        if c:
-                            c.toggleVisible(manual=True, value=False)
-                        else:
-                            print("!!!!!!", c_name)
-
-        # set attributes
-        for cData in mData['additionalControlsData']:
-            # print 333, cData
-            c = utils.getControlInstance(cData['name'])
-            if not c:
-                continue
-            intName = utils.getInternalNameFromControl(c.name)
-            default_attrs = utils.getVisibleAttrs(c.name)
-            for a in default_attrs:
-                if intName + "." + a in mData['controlsAttrData']:
-                    cmds.setAttr(c.name + "." + a, mData['controlsAttrData'][intName + "." + a])
-                else:
-                    cmds.setAttr(c.name + "." + a, keyable=0, lock=1)
 
     def incrementData(self, moduleName, input_data):
         datas = input_data['additionalControlsData']
@@ -1893,12 +1772,8 @@ class MainWindow:
     """ Controllers Tab """
 
     def controls_setShape(self, shapeCreateCommand):
-
-
         sel = cmds.ls(sl=1)
-        if len(sel) != 0:
-            controls = sel
-        else:
+        if len(sel) == 0:
             cmds.warning("Select controls")
             return
 
@@ -1909,12 +1784,12 @@ class MainWindow:
                 ctrlName = ctrlName.split('_group')[0]
 
             control = utils.getControlInstance(ctrlName)
-            control.replaceShape(shapeCreateCommand)
+            control.setShape(shapeCreateCommand)
 
             opp_ctrlName = utils.getOpposite(ctrlName)
             if ctrlName.split('_')[0] == 'l' and cmds.objExists(opp_ctrlName):
                 opp_control = utils.getControlInstance(opp_ctrlName)
-                opp_control.replaceShape(shapeCreateCommand)
+                opp_control.setShape(shapeCreateCommand)
 
                 if cmds.objExists(ctrlName + '.mirrorShape') and cmds.getAttr(ctrlName + '.mirrorShape') == True:
                     shapes = cmds.listRelatives(ctrlName, s=1)
@@ -1929,17 +1804,10 @@ class MainWindow:
                         cmds.connectAttr(s + '.worldSpace[0]', tg + '.inputGeometry')
                         cmds.connectAttr(c_mat + '.outputMatrix', tg + '.transform')
                         cmds.connectAttr(tg + '.outputGeometry', utils.getOpposite(s) + '.create')
-
-            # else:
-            # shapes = cmds.listRelatives(ctrlName, s=1)
-            # for s in shapes:
-            # try:	
-            # cmds.connectAttr(s+'.worldSpace[0]', utils.getOpposite(s)+'.create')
-            # except: cmds.warning(" MISS CONTROL SHAPE " + utils.getOpposite(s))				
+	
 
         if len(sel) != 0:
             cmds.select(sel)
-        # self.controls_setCustomShape()
 
     def controls_setCustomShape(self):
 
@@ -2682,10 +2550,12 @@ class MainWindow:
         # turn off seamles if several childs
         module.makeSeamless(False)
 
+        # rename
         name = utils.incrementName(module.name)
         while name in self.rig.modules:
             name = utils.incrementName(name)
         
+        # add module
         data = module.getData()
 
         self.addModule(module.type, name=name, options=data['optionsData'], updateUI=True)
@@ -2700,7 +2570,7 @@ class MainWindow:
         # if opt != {}:
         #     self.rebuildModule(options=opt)
         self.updateModulePage(self.curModule.name)
-        self.setAddControlsData(data, self.curModule.name)
+        self.curModule.setAddControlsData(data, self.curModule.name)
         self.addControls_updateTree()
 
 
@@ -2738,7 +2608,8 @@ class MainWindow:
         children = self.rig.getModuleChildren(m.name)
         if children:
             for child in children:
-                self.deleteModule(child)
+                if child in self.rig.modules: # child could be already deleted if it is opposite
+                    self.deleteModule(child)
         
         # save os data which current module is connected
         # parentedControls = []
@@ -3036,7 +2907,7 @@ class MainWindow:
             if len(pm.PyNode(c).worldSpace[0].outputs()) == 0:
                 # print "---- RECreate SHAPE", l_control.name
                 shape_cmd = l_control.controlShapeToCommand()
-                r_control.replaceShape(shape_cmd)
+                r_control.setShape(shape_cmd)
             shapes = cmds.listRelatives(c, s=1)
 
             if cmds.objExists(c + '.mirrorShape') and cmds.getAttr(c + '.mirrorShape') == True:
@@ -3231,7 +3102,7 @@ class MainWindow:
         # set module paraneters
         self.curModule.setData(curModuleData)
 
-        self.setAddControlsData(curModuleData)
+        self.curModule.setAddControlsData(curModuleData)
 
         # make symmetry module if needed and seamless inside it
         if curModuleData['symmetrical']:
@@ -3332,7 +3203,7 @@ class MainWindow:
         # set module paraneters
         self.curModule.setData(curModuleData)
 
-        self.setAddControlsData(curModuleData)
+        self.curModule.setAddControlsData(curModuleData)
 
         # make symmetry module if needed
         if curModuleData['symmetrical']:
@@ -3444,105 +3315,76 @@ class MainWindow:
         sel = cmds.ls(sl=1)
 
         if len(sel) != 1:
-            cmds.warning("Select one control")
+            cmds.warning("Select one control or joint")
             return
 
         parent = sel[0]
-        if not utils.objectIsControl(parent) and not utils.objectIsAdditionalControl(parent):
-            cmds.warning("Select one control")
+        if not utils.objectIsControl(parent) and not utils.objectIsAdditionalControl(parent) and parent.split("_")[-1] != "joint" :
+            cmds.warning("Select one control or joint")
             return
+
+        # if parent.split("_")[-1] == "joint":
+        #     joint = parent
+        # else:
+        #     joint = parent + "_joint"
+        # if not cmds.objExists(joint):
+        #     cmds.warning("Only control with a joint can use")
+        #     return
 
         if name == "":
             name, ok = QtWidgets.QInputDialog().getText(self.win, 'Create Additional Control', 'Enter control name:',
                                                         QtWidgets.QLineEdit.Normal, 'ctrl')
 
-            # remove spaces
-            if ok and name != "":
-                if " " in name or "-" in name or name[0].isdigit():
-                    QtWidgets.QMessageBox.information(self.win, "Warning", "Wrong Name.")
-                    return
-                if cmds.objExists(name):
-                    QtWidgets.QMessageBox.information(self.win, "Warning", "Object with this name is exist.")
-                    return
-            else:
+            if not utils.nameIsOk(name):
+                QtWidgets.QMessageBox.information(self.win, "Warning", "Wrong Name.")
+                return
+            if cmds.objExists(name):
+                QtWidgets.QMessageBox.information(self.win, "Warning", "Object with this name is exist.")
                 return
 
         # get module of the target and add control to it
-        m = self.rig.modules[utils.getModuleName(parent)]
+        mod = self.rig.modules[utils.getModuleName(parent)]
 
-        m.addAdditionalControl(name, parent, shape)
+        mod.addAdditionalControl(name, parent, shape)
 
-        self.curModule = m
+        self.curModule = mod
 
         self.addControls_updateTree()
         self.updateModulePage(self.curModule.name)
 
         # select item
-        item = \
-        self.win.additionalControls_treeWidget.findItems(name, QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive, 0)[0]
+        item = self.win.additionalControls_treeWidget.findItems(name, QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive, 0)[0]
         self.win.additionalControls_treeWidget.setCurrentItem(item)
 
     def addControls_updateTree(self):
-
-
         # clear old data
         self.win.additionalControls_treeWidget.clear()
-        # self.curModule.getAdditionalControls()
-        # print self.curModule.getAdditionalControls()
-
-        # if self.curModule.additionalControls == []: return
-
-        # update and sort add controls list
-        # self.curModule.getAdditionalControls()
 
         # fill modules list widget
         for m_name in self.rig.modules:
-            m = self.rig.modules[m_name]
-            for c in m.getAdditionalControls():
+            mod = self.rig.modules[m_name]
+            for c in mod.getAdditionalControls():
                 name = c.name
-                # print name, c.parent
-                if c.parent == "":
-                    item = QtWidgets.QTreeWidgetItem([name])
-                    self.win.additionalControls_treeWidget.addTopLevelItem(item)
 
-                elif int(c.deep) == 0:
-                    parents = self.win.additionalControls_treeWidget.findItems(c.parent,
-                                                                               QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive,
-                                                                               0) or []
-                    if len(parents) > 0:
-                        parent_item = parents[0]
-                    else:
-                        parent_item = QtWidgets.QTreeWidgetItem([c.parent])
-                        self.win.additionalControls_treeWidget.addTopLevelItem(parent_item)
-                        parent_item.setForeground(0, QtGui.QBrush(QtGui.QColor("#6C6B6B")))
-
-                    item = QtWidgets.QTreeWidgetItem([name])
-                    parent_item.addChild(item)
-
+                parents = self.win.additionalControls_treeWidget.findItems(c.parent,
+                                                                            QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive,
+                                                                            0) or []
+                if len(parents) > 0:
+                    parent_item = parents[0]
                 else:
-                    parents = self.win.additionalControls_treeWidget.findItems(c.parent,
-                                                                               QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive,
-                                                                               0) or []
-                    if len(parents) > 0:
-                        parent = parents[0]
-                        item = QtWidgets.QTreeWidgetItem([name])
-                        parent.addChild(item)
+                    parent_item = QtWidgets.QTreeWidgetItem([c.parent])
+                    self.win.additionalControls_treeWidget.addTopLevelItem(parent_item)
+                    parent_item.setForeground(0, QtGui.QBrush(QtGui.QColor("#6C6B6B")))
 
-                if c.isMirrored():
+                item = QtWidgets.QTreeWidgetItem([name])
+                parent_item.addChild(item)
+
+                if c.isOpposite():
                     item.setForeground(0, QtGui.QBrush(QtGui.QColor("#6C6B6B")))
-
-        # if current module is exist, get this item and select it, or disable module page
-        # self.curAddControlName = tempName
-        # try:
-        # oldCurItem = self.win.additionalControls_treeWidget.findItems(self.curAddControlName,QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive, 0)[0]
-        # self.win.additionalControls_treeWidget.setCurrentItem(oldCurItem)
-        # except: pass #self.win.module_frame.setEnabled(False)
 
         self.win.additionalControls_treeWidget.expandAll()
 
     def addControls_updatePage(self, nameOrItem, reset=False):
-
-
         if type(nameOrItem).__name__ == "NoneType":
             return
 
@@ -3561,7 +3403,7 @@ class MainWindow:
             self.win.addControl_frame.setEnabled(False)
             self.win.addControlName_lineEdit.setText("")
             self.win.addControlParent_lineEdit.setText("")
-        elif self.curAddControl.isMirrored():
+        elif self.curAddControl.isOpposite():
             self.win.addControl_frame.setEnabled(False)
             self.win.addControlName_lineEdit.setText(self.curAddControl.name)
             self.win.addControlParent_lineEdit.setText(self.curAddControl.parent)
@@ -3574,9 +3416,9 @@ class MainWindow:
         # if cmds.objExists(self.curAddControlName):
         # cmds.select(self.curAddControlName)
 
+
+
     def addControls_selectRoot(self):
-
-
         if self.curAddControl != None:
             cmds.select(self.curAddControl.name + '_addPoser')
 
@@ -3613,18 +3455,15 @@ class MainWindow:
             0]
         self.win.additionalControls_treeWidget.setCurrentItem(newCurItem)
 
-    def addControls_deleteControl(self):
-
-
+    def addControls_deleteControl(self): #
         if not self.curAddControlName:
             # cmds.warning("Select addtional control from list")
             return
-
+        
         cur_m_name = utils.getModuleName(self.curAddControlName)
         cur_m = self.rig.modules[cur_m_name]
         curAddControl = cur_m.getAdditionalControlInstance(self.curAddControlName)
-
-        # curAddControl = self.curModule.getAdditionalControlInstance(self.curAddControlName)
+        
         if curAddControl.symmetrical:
             opp_module = self.rig.getMirroredModule(cur_m)
             if opp_module:
@@ -3634,13 +3473,13 @@ class MainWindow:
             oppAddControl.delete()
         curAddControl.delete()
 
+        self.curAddControl = None
         self.addControls_updateTree()
-        self.updateModulePage(self.curModule.name)
-        self.win.addControl_frame.setEnabled(False)
-        self.win.addControlName_lineEdit.setText("")
-        self.win.addControlParent_lineEdit.setText("")
 
-    def addControls_duplicate(self, child=False, inputName=None):
+    def addControls_duplicate(self, child=False, controlName=None, parent=None): #
+        if controlName:
+            self.curAddControlName = controlName
+        
         if not self.curAddControlName:
             cmds.warning("Select addtional control from list")
             return
@@ -3648,16 +3487,10 @@ class MainWindow:
         cur_m = self.rig.modules[cur_m_name]
 
         curAddControl = cur_m.getAdditionalControlInstance(self.curAddControlName)
-
-        # if curAddControl.symmetrical:
-        # opp_module = self.rig.getMirroredModule(self.curModule)
-        # oppAddControl = opp_module.getAdditionalControlInstance(utils.getOpposite(self.curAddControlName))
-        # oppAddControl.delete()
-
-        # print curAddControl.parent, curAddControl.mirrored, curAddControl.symmetrical
+        children = curAddControl.getChildren()
 
         def getChildren(ctrl):
-            children = ctrl.getChildrenConrollers()
+            children = ctrl.getChildren()
             all_children = children
             for child_name in children:
                 child = cur_m.getAdditionalControlInstance(child_name)
@@ -3668,26 +3501,25 @@ class MainWindow:
             return children
 
         def duplicate(source_control, parent):
+            # print("Duplicate", source_control.name, parent)
             pos = cmds.xform(source_control.name, q=1, m=1, ws=1)
             shape_cmd = source_control.controlShapeToCommand()
             source_p = source_control.name + '_addPoser'
             p = self.curAddControlName + '_addPoser'
 
-            if inputName:
-                name = inputName
-            else:
-                name = utils.incrementNameIfExists(source_control.name)
-            # print source_control.name, name
+            # if controlName:
+            #     name = controlName
+            # else:
+            name = utils.incrementNameIfExists(source_control.name)
 
             # get module of the target and add control to it
-            m = self.rig.modules[utils.getModuleName(source_control.parent)]
+            mod = self.rig.modules[utils.getModuleName(source_control.parent)]
 
             # create new add control
-            ctrl = m.addAdditionalControl(name, parent)
-
-            ctrl.replaceShape(shape_cmd)
+            ctrl = mod.addAdditionalControl(name, parent)
+            
+            ctrl.setShape(shape_cmd)
             ctrl.setColor(source_control.colorId)
-            # ctrl.setParent(parent)
 
             self.curAddControlName = ctrl.name
 
@@ -3696,8 +3528,8 @@ class MainWindow:
                 if cmds.listRelatives(ctrl.name + "_addPoser", p=1)[0] != parent + "_addPoser":
                     cmds.parent(ctrl.name + "_addPoser", parent + "_addPoser")
             else:
-                if cmds.listRelatives(ctrl.name + "_addPoser", p=1)[0] != m.name + "_mainPoser":
-                    cmds.parent(ctrl.name + "_addPoser", m.name + "_mainPoser")
+                if cmds.listRelatives(ctrl.name + "_addPoser", p=1)[0] != mod.name + "_mainPoser":
+                    cmds.parent(ctrl.name + "_addPoser", mod.name + "_mainPoser")
 
             # set position
             cmds.xform(self.curAddControlName + '_addPoser', m=pos, ws=1)
@@ -3715,59 +3547,49 @@ class MainWindow:
 
             return ctrl
 
-        controls = []
-        controls.append(self.curAddControlName)
-        controls += getChildren(curAddControl)
-
-        if len(controls) > 1:
-            child = False
-
-        new_controls = []
-        for i, c_name in enumerate(controls):
-            c = cur_m.getAdditionalControlInstance(c_name)
-            # print c, c.parent		
-            if i == 0:
-                # print c.name, c.parent
-                if child:
-                    new_c = duplicate(c, c.name)
-                    cmds.setAttr(new_c.name + "_addPoser.s", 1, 1, 1)
-                else:
-                    new_c = duplicate(c, c.parent)
+        if parent:
+            new_c = duplicate(curAddControl, parent)
+        else:
+            if child:
+                new_c = duplicate(curAddControl, curAddControl.name)
             else:
-                # print c.name, new_controls[i-1]
-                new_c = duplicate(c, new_controls[i - 1])
-            cmds.setAttr(new_c.name + "_joint.radius", cmds.getAttr(c.name + "_joint.radius"))
-            new_controls.append(new_c.name)
+                new_c = duplicate(curAddControl, curAddControl.parent)
+        
+        # children 
+        if children:
+            for child in children:
+                child_control = utils.getAdditionalControlInstance(child)
+                if not child_control.opposite:
+                    # make child
+                    c = self.addControls_duplicate(controlName=child, parent=new_c.name)
+                    # child symmetry
+                    if child_control.symmetrical:
+                        self.addControls_mirrorControl(c)
 
         self.addControls_updateTree()
-        self.updateModulePage(self.curModule.name)
 
         # select item
-        self.curAddControlName = new_controls[0]
+        self.curAddControlName = new_c.name
         item = self.win.additionalControls_treeWidget.findItems(self.curAddControlName,
                                                                 QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive, 0)[0]
         self.win.additionalControls_treeWidget.setCurrentItem(item)
 
-    def addControls_mirrorControl(self, curAddControl=None):
+        cmds.select(self.curAddControlName+"_addPoser")
+
+    def addControls_mirrorControl(self, curAddControl=None): #
         sel = cmds.ls(sl=1)
 
         if curAddControl:
             m_name = utils.getModuleName(curAddControl.name)
-            m = self.rig.modules[m_name]
+            mod = self.rig.modules[m_name]
         else:
-            # curAddControl = self.curModule.getAdditionalControlInstance(self.curAddControlName)
-            # m = self.curModule
-
             cur_m_name = utils.getModuleName(self.curAddControlName)
-            m = self.rig.modules[cur_m_name]
-            curAddControl = m.getAdditionalControlInstance(self.curAddControlName)
+            mod = self.rig.modules[cur_m_name]
+            curAddControl = mod.getAdditionalControlInstance(self.curAddControlName)
 
         # get parent symmetry add control
         opp_par = utils.getOpposite(curAddControl.parent)
-        if curAddControl.parent == opp_par:
-            commonParent = True
-        else:
-            commonParent = False
+        commonParent = curAddControl.parent == opp_par
 
         if not cmds.objExists(opp_par):
             cmds.warning("Opposite parent is not exists")
@@ -3779,7 +3601,7 @@ class MainWindow:
             while cmds.objExists(newName):
                 newName = utils.incrementName(newName)
 
-            for c in m.additionalControls:
+            for c in mod.additionalControls:
                 if c != curAddControl:
                     if c.parent == curAddControl.name:
                         c.parent = newName
@@ -3788,31 +3610,22 @@ class MainWindow:
 
         # get cur addControl data 
         data = curAddControl.getData()
-        # source_root = data['root']
-
-        parentIsMirroredControl = data['parent'].split("_")[0] == 'l' and cmds.objExists("r" + data['parent'][1:])
 
         # set opp data
-        # print 00000, data['name'], data['root'], data['parent']
         data['name'] = utils.getOpposite(data['name'])
-        # data['root'] = utils.getOpposite(data['root'])
         data['parent'] = utils.getOpposite(data['parent'])
         data['poserParent'] = utils.getOpposite(data['poserParent'])
-        # print 111111, data['name'], data['root'], data['parent'], data['poserParent']
 
         # add opp add control
-        mirrored_module = self.rig.getMirroredModule(m)
+        mirrored_module = self.rig.getMirroredModule(mod)
 
         if mirrored_module:
             mirroredControl = mirrored_module.addAdditionalControl(data=data)
 
             # set shape
-            mirroredControl.replaceShape(data['shape'])
+            mirroredControl.setShape(data['shape'])
 
             # connect posers
-            # comp = cmds.createNode('composeMatrix', n=mirroredControl.root+'_compMat')
-            # cmds.setAttr(comp+'.inputScaleX', -1)
-            # utils.connectByMatrix(mirroredControl.name+'_addPoser', [curAddControl.name+'_addPoser', curAddControl.name+'_addPoser', comp], ['worldMatrix[0]', 'parentInverseMatrix[0]', 'outputMatrix'])
             try:
                 cmds.connectAttr(curAddControl.name + '_addPoser.tx', mirroredControl.name + '_addPoser.tx')
             except:
@@ -3850,45 +3663,24 @@ class MainWindow:
             except:
                 pass
 
-        # if not commonParent:
-        # cmds.connectAttr(curAddControl.name+'_group.tx', mirroredControl.name+'_group.tx', f=1)
-        # cmds.connectAttr(curAddControl.name+'_group.ty', mirroredControl.name+'_group.ty', f=1)
-        # cmds.connectAttr(curAddControl.name+'_group.tz', mirroredControl.name+'_group.tz', f=1)
-        # cmds.connectAttr(curAddControl.name+'_group.rx', mirroredControl.name+'_group.rx', f=1)
-        # cmds.connectAttr(curAddControl.name+'_group.ry', mirroredControl.name+'_group.ry', f=1)
-        # cmds.connectAttr(curAddControl.name+'_group.rz', mirroredControl.name+'_group.rz', f=1)
-        # cmds.connectAttr(curAddControl.name+'_group.sx', mirroredControl.name+'_group.sx', f=1)
-        # cmds.connectAttr(curAddControl.name+'_group.sy', mirroredControl.name+'_group.sy', f=1)
-        # cmds.connectAttr(curAddControl.name+'_group.sz', mirroredControl.name+'_group.sz', f=1)
         else:
-            mirroredControl = m.addAdditionalControl(data=data)
+            mirroredControl = mod.addAdditionalControl(data=data)
             # set shape
-            mirroredControl.replaceShape(data['shape'])
+            mirroredControl.setShape(data['shape'])
 
             # connect opposite poser
             comp = cmds.createNode('composeMatrix', n=curAddControl.name + '_mirror_compMat')
+
+            # if parent common
             if commonParent:
                 cmds.setAttr(comp + '.inputScaleX', -1)
-            comp2 = cmds.createNode('composeMatrix', n=curAddControl.name + '_pre_mirror_compMat')
-            if parentIsMirroredControl and m.symmetrical:
-                cmds.setAttr(comp2 + '.inputScaleX', -1)
-            # print 111, comp, cmds.getAttr(comp+'.inputScaleX')
-            utils.connectByMatrix(mirroredControl.name + '_addPoser', [comp2, curAddControl.name + '_addPoser', comp],
-                                  ['outputMatrix', 'matrix', 'outputMatrix'], m.name)
+            # if not parent common and parent is mirrored and addControl
+            elif utils.objectIsAdditionalControl(opp_par):
+                cmds.setAttr(comp + '.inputScaleZ', -1)
 
-        # if cmds.getAttr(mirroredControl.name+'_addPoser.sz') < 0:
-        # mult = cmds.createNode("multDoubleLinear", n=mirroredControl.name+'_addPoserPositiveScaleMult')
-        # cmds.setAttr(mult+".input2", -1)
-        # cmds.connectAttr(mirroredControl.name+'_addPoser_decMat.outputScaleZ', mult+".input1")
-        # cmds.connectAttr(mult+".output", mirroredControl.name+'_addPoser.sz', f=1)
-
-        # set mirror attr 
-        # if utils.objectIsAdditionalControl(data['parent']):
-        # if parentIsMirroredControl:
-        # cmds.setAttr(curAddControl.name+"_mirror_compMat.inputScaleX", 1)	
-
-        # else:
-        # cmds.setAttr(curAddControl.name+"_mirror_compMat.inputScaleX", -1)				
+            utils.connectByMatrix(mirroredControl.name + '_addPoser', [curAddControl.name + '_addPoser', comp],
+                                  ['matrix', 'outputMatrix'], mod.name)
+	
 
         cmds.hide(mirroredControl.name + '_addPoser')
 
@@ -3902,8 +3694,14 @@ class MainWindow:
             if not cmds.isConnected(opp_c + ".worldSpace[0]", c + ".create"):
                 cmds.connectAttr(opp_c + ".worldSpace[0]", c + ".create")
 
+        # children symmetry
+        children = curAddControl.getChildren()
+        if children:
+            for child in children:
+                child_control = utils.getAdditionalControlInstance(child)
+                self.addControls_mirrorControl(child_control)
+
         self.addControls_updateTree()
-        self.updateModulePage(self.curModule.name)
 
         # select left control in addControls tree
         try:

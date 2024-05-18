@@ -36,12 +36,12 @@ class Template(object):
 
 		if not moduleName:
 			moduleName = self.main.curModule.name
-			m = self.main.curModule
+			mod = self.main.curModule
 		else:
-			m = self.main.rig.modules[moduleName]
+			mod = self.main.rig.modules[moduleName]
 
 		# read data
-		path = os.path.join(self.rootPath,'templates', 'modules', m.type + '_' + templateName + '.tmpl')
+		path = os.path.join(self.rootPath,'templates', 'modules', mod.type + '_' + templateName + '.tmpl')
 		with open(path, mode='r') as f:
 			mData = json.load(f)
 
@@ -75,7 +75,7 @@ class Template(object):
 		# 	c.delete()
 
 		# set module paraneters
-		m.setData(mData)
+		mod.setData(mData)
 
 		# set options
 		# opt = mData['optionsData']
@@ -85,14 +85,15 @@ class Template(object):
 		# m.setData(mData)
 
 		self.main.updateModulesTree()
-		self.main.updateModulePage(m.name)
+		self.main.updateModulePage(mod.name)
 
 		# make symmetry module if needed
 		# if sym:
 		# 	self.makeSymmetryModule()
 
-		# self.setAddControlsData(mData, m.name)
-		# self.addControls_updateTree()
+		mod.deleteAllAdditionalControls()
+		mod.setAddControlsData(mData, mod.name)
+		self.main.addControls_updateTree()
 
 		# twists
 		# for twData in mData['twistsData']:
@@ -106,7 +107,7 @@ class Template(object):
 
 		# self.twistClass.updateList()
 
-		self.main.selectModuleInList(m.name)
+		self.main.selectModuleInList(mod.name)
 
 		try:
 			cmds.select(sel)
@@ -286,14 +287,17 @@ class Template(object):
 		modulesData = []
 
 		def create_modules():
-			# create modules
+			# create modules with add controls
 			if print_main_messages: print(
 				" -------------------------------- LOAD MODULES ------------------------------------------------ ")
 			for mData in data['modulesData']:
 				if not mData['opposite']:
-					m = self.main.addModule(mData['type'], name=mData['name'], options=mData['optionsData'],
+					mod = self.main.addModule(mData['type'], name=mData['name'], options=mData['optionsData'],
 										updateUI=False)
-					modulesData.append([m, mData])
+					modulesData.append([mod, mData])
+					
+					mod.setAddControlsData(mData, mod.name)
+
 				cmds.progressBar(progressControl, edit=True, step=1)
 			cmds.progressBar(progressControl2, edit=True, step=1)
 
@@ -358,6 +362,29 @@ class Template(object):
 					cmds.progressBar(progressControl, edit=True, step=1)
 			cmds.progressBar(progressControl2, edit=True, step=1)
 
+		def create_twists(modulesData):
+			if print_main_messages: print(" -------------------------------- TWISTS ------------------------------------------------ ")
+			
+			cmds.window(window, e=1, t='Load twists data')
+			cmds.progressBar(progressControl, e=1, progress=0)
+
+			for mData in modulesData:
+				m = mData[0]
+				for twData in mData[1]['twistsData']:
+					# print "Rig load ADD TWIST Start ------------" , twData['name']
+					real_data = []
+					real_data = twData
+					m_name = m.name
+					real_data['name'] = utils.getRealNameFromTemplated(m_name, twData['name'])
+					real_data['target'] = utils.getRealNameFromTemplated(m_name, twData['target'])
+					real_data['rootOrientTarget'] = utils.getRealNameFromTemplated(m_name, twData['rootOrientTarget'])
+					real_data['endOrientTarget'] = utils.getRealNameFromTemplated(m_name, twData['endOrientTarget'])
+					real_data['jointsCount'] = utils.getRealNameFromTemplated(m_name, twData['jointsCount'])
+					# print real_data['name'], real_data['start_j']
+					self.main.twistClass.twists_add(real_data)
+				cmds.progressBar(progressControl, edit=True, step=1)
+			cmds.progressBar(progressControl2, edit=True, step=1)
+
 		print_main_messages = True
 
 		# create progress window
@@ -378,21 +405,7 @@ class Template(object):
 		connect_modules(modulesData)
 		set_modules(modulesData)
 		if load == 'rig': mirror_modules(modulesData)
-
-
-
-
-
-		# if print_main_messages: print(
-		# 	" -------------------------------- SET ADD CONTROLS DATA ------------------------------------------------ ")
-		# # load modules data
-		# cmds.window(window, e=1, t='Load add controls data')
-		# cmds.progressBar(progressControl, e=1, maxValue=len(modulesData), progress=0)
-		# for mData in data['modulesData']:
-		# 	self.main.setAddControlsData(mData)
-		# 	cmds.progressBar(progressControl, edit=True, step=1)
-		# cmds.progressBar(progressControl2, edit=True, step=1)
-
+		# create_twists(modulesData)
 
 
 		# if print_main_messages: print(
@@ -420,25 +433,7 @@ class Template(object):
 		# update joints placement
 		cmds.refresh()
 
-		# if print_main_messages: print(
-		# 	" -------------------------------- TWISTS ------------------------------------------------ ")
-		# cmds.window(window, e=1, t='Load twists data')
-		# cmds.progressBar(progressControl, e=1, progress=0)
 
-		# for mData in modulesData:
-		# 	m = mData[0]
-		# 	for twData in mData[1]['twistsData']:
-		# 		# print "Rig load ADD TWIST Start ------------" , twData['name']
-		# 		real_data = []
-		# 		real_data = twData
-		# 		m_name = m.name
-		# 		real_data['name'] = utils.getRealNameFromTemplated(m_name, twData['name'])
-		# 		real_data['start_j'] = utils.getRealNameFromTemplated(m_name, twData['start_j'])
-		# 		real_data['end_j'] = utils.getRealNameFromTemplated(m_name, twData['end_j'])
-		# 		# print real_data['name'], real_data['start_j']
-		# 		self.main.twistClass.twists_add(real_data)
-		# 	cmds.progressBar(progressControl, edit=True, step=1)
-		# cmds.progressBar(progressControl2, edit=True, step=1)
 
 		# if print_main_messages: print(
 		# 	" -------------------------------- SET ATTRIBUTES ------------------------------------------------ ")

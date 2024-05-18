@@ -233,13 +233,17 @@ class Module(object):
         # root = self.name + "_root_poserOrient"
         root_poser = self.name + "_root_poser"
         targetType = target.split("_")[-1]
-        
+
         target_module_name = utils.getModuleName(target)
         targetMainPoser = target_module_name + "_mainPoser"
         target_poser = target[:-len(targetType)] + "poser"
+        target_add_poser = target[:-len(targetType)] + "addPoser"
         target_joint = target[:-len(targetType)] + "joint"
         target_outJoint = target[:-len(targetType)] + "outJoint"
+        target_initLoc = target[:-len(targetType)] + "initLoc"
         connector_parent = cmds.listRelatives(connector, p=1)[0]
+        if cmds.objExists(target_add_poser):
+            target_poser = target_add_poser
         
         # save position
         initMatrix = cmds.xform(self.name+'_mainPoser', query=True, ws=True, m=True)
@@ -256,9 +260,9 @@ class Module(object):
             if cmds.objExists(target_module_name+"_mirror_condition"):
                 cmds.connectAttr(target_module_name+"_mirror_condition.outColorR", mirror_compMat1+".inputScaleX")
 
-            utils.connectToOffsetParentMatrix(connector, [root_poser, target_poser, mirror_compMat1, target_outJoint, connector_parent], ['worldMatrix[0]', 'worldInverseMatrix[0]', 'outputMatrix', 'worldMatrix[0]', 'worldInverseMatrix[0]'])
+            utils.connectToOffsetParentMatrix(connector, [root_poser, target_initLoc, mirror_compMat1, target_outJoint, connector_parent], ['worldMatrix[0]', 'worldInverseMatrix[0]', 'outputMatrix', 'worldMatrix[0]', 'worldInverseMatrix[0]'])
         else:
-            utils.connectToOffsetParentMatrix(connector, [root_poser, target_poser, target_outJoint, connector_parent], ['worldMatrix[0]', 'worldInverseMatrix[0]', 'worldMatrix[0]', 'worldInverseMatrix[0]'])
+            utils.connectToOffsetParentMatrix(connector, [root_poser, target_initLoc, target_outJoint, connector_parent], ['worldMatrix[0]', 'worldInverseMatrix[0]', 'worldMatrix[0]', 'worldInverseMatrix[0]'])
         
         self.parent = target_outJoint
 
@@ -326,6 +330,10 @@ class Module(object):
         parentModule = utils.getModuleName(target)
         cmds.disconnectAttr(parentModule+'_mainPoser.worldMatrix', self.name+"_posers.offsetParentMatrix")
         cmds.delete(self.name+'_root_connector_multMat')
+
+        # reset connector matrix
+        def_mat = [1,0,0,0,1,0,0,0,0,0,1,0,0,0,0,1]
+        cmds.setAttr(self.name+'_root_connector.offsetParentMatrix', def_mat, type = "matrix")
 
         # delete line group
         if cmds.objExists(self.name + "_connectionLine_group"):
@@ -470,12 +478,25 @@ class Module(object):
 
             return addCtrlsData
         
-        # parent_module_name = utils.getModuleName(self.parent)
+        def getTwistsData():
+            # get twists data
+            twistsData = []
+            twists = []
+            if cmds.objExists("twists"):
+                tw_mods = cmds.listRelatives('twists', type='transform') or []
+                for tw_mod in tw_mods:
+                    tw_joint = tw_mod[:-4] + "_joint"
+                    moduleName = utils.getModuleName(tw_joint)
+                    if moduleName == self.name:
+                        twists.append(tw_mod[:-4])
+                for tw in twists:
+                    twData = twist.Twist.getData(tw, self.name)
+                    twistsData.append(twData)
+            return twistsData
 
         data = {}
         data['name'] = self.name
         data['type'] = self.type
-        # data['parent'] = utils.getTemplatedNameFromReal(parent_module_name, self.parent)
         data['parent'] = self.parent
         data['symmetrical'] = self.symmetrical
         data['opposite'] = self.opposite
@@ -491,11 +512,12 @@ class Module(object):
         data['controlsColorData'] = controlsData[3]	
         data['controlsShapeData'] = controlsData[4]	
         data['additionalControlsData'] = getAddControlsData()	
+        data['twistsData'] = getTwistsData()	
 
         # print( '-------------------')
         # for d in data:
         #     print (d, data[d])
-        # print (111111, data["optionsData"])
+        # print (111111, data["twistsData"])
         # print( '-------------------')
         return data
 
@@ -549,7 +571,7 @@ class Module(object):
                     # print ctrlName, data['controlsShapeData'][ctrl]
                     control = utils.getControlInstance(ctrlName)
                     if control:
-                        control.replaceShape(cmd)
+                        control.setShape(cmd)
 
             # set posers shapes
             if 'posersShapeData' in data:
@@ -575,7 +597,7 @@ class Module(object):
                             pm.disconnectAttr(poser.getShape().worldSpace[0], node.inputCurve)
 
                     # set shape
-                    control.replaceShape(cmd)
+                    control.setShape(cmd)
 
                     # restore shape connections
                     for node in out_nodes:
@@ -600,14 +622,13 @@ class Module(object):
                     for s in shapes:
                         try:
                             cmds.setAttr(s+'.v', data['controlsVisData'][intName])		
-                        except: pass
+                        except: cmds.warning(s+" shape cannot change visibility")
 
                         if data['controlsColorData'][intName]:
                             cmds.setAttr(s+".overrideEnabled", 1)
                         else:
                             cmds.setAttr(s+".overrideEnabled", 1)
                         cmds.setAttr(s+'.overrideColor', data['controlsColorData'][intName])				
-                    # except: pass
 
                     # attributes
                     default_attrs = utils.getVisibleAttrs(cName)
@@ -617,12 +638,12 @@ class Module(object):
                         else:
                             cmds.setAttr(cName+"."+a, keyable=0, lock=1)
 
-                except: pass # control is not exists in saved data
+                except: cmds.warning(cName+" control is not exists in saved data")
 
         # set options
         if load == "options" or load == "all":
             if not sym:
-                self.makeSeamless(data["seamless"])
+                if data["seamless"]: self.makeSeamless(True)
                 self.setOptions(data['optionsData'])
 
     def setMirroredNames():
@@ -650,7 +671,7 @@ class Module(object):
                         return parent
         return None
 
-    def makeSeamless(self, state):
+    def makeSeamless(self, state): #
         if not self.parent:
             cmds.warning("Has not parent")
             return
@@ -802,16 +823,19 @@ class Module(object):
                     utils.resetJointOrient(root_j_opp)
                     utils.connectTrandform(parent_j_opp.replace("_joint", "_outJoint"), parent_j_opp)
 
-    def isSeamless(self):
+    def isSeamless(self): #
         if not self.parent:
             return False
         parent_p = self.parent.replace("outJoint", "poser")
+        parent_add_p = self.parent.replace("outJoint", "addPoser")
+        if cmds.objExists(parent_add_p):
+            parent_p = parent_add_p
         return not cmds.getAttr(parent_p+'.lodVisibility')
 
     def setOptions(self, options):
         pass
 
-    def getOptions(self):
+    def getOptions(self): #
         return False
 
     def rename(self, new_name): #
@@ -837,14 +861,12 @@ class Module(object):
 
 
     """ Additional Controls """
-
+    # @ utils.oneStepUndo
     def addAdditionalControl(self, name="", parent="", shape="", data={}):
         if name == "":
             ctrl = additionalControl.AdditionalControl(data=data)
             name = data["name"]
         else:
-            # name = utils.incrementNameIfExists(name)
-            # print 333, name, parent, shape
             ctrl = additionalControl.AdditionalControl(name, parent, shape)
 
         if cmds.objExists(self.name+'_controlSet'):
@@ -861,83 +883,142 @@ class Module(object):
                 return c
         return None
 
-    def getAdditionalControls(self):
+    def getAdditionalControls(self): #
+        # get additional controls
         additionalControls = []
-
         controls = utils.getSetObjects(self.name+'_moduleControlSet')
         for c_name in controls:
-            if cmds.objExists(c_name+'.type'):
-                if cmds.getAttr(c_name+'.type') == 'additionalControl':
-                    c = utils.getAdditionalControlInstance(c_name)
-                    additionalControls.append(c)
+            if utils.objectIsAdditionalControl(c_name):
+                c = utils.getAdditionalControlInstance(c_name)
+                additionalControls.append(c)
 
-        unsorted_list = []
+        # get list of the all add controls
+        unsorted_list_raw = []
         for c in additionalControls:
-            unsorted_list.append(c)
-            # print 111, self.name, c.name	
-        def getChildren(obj):
-            childs = []
-            for c in additionalControls:
-                # print " - ", obj, c.name, c.parent
-                if c.parent == obj:
-                    childs.append(c)
-            return childs
+            unsorted_list_raw.append((c.name, c))
 
-        check_controls = []
-        for c in controls:
-            # print c
-            if cmds.objExists(c_name+'.type'):
-                try:
-                    if cmds.getAttr(c+'.type') == 'control':
-                        # print self.name, c
-                        for ch in getChildren(c):
-                            # print self.name, c, ch.name
-                            ch.deep = 0
-                            unsorted_list.remove(ch)
-                            check_controls.append(ch)
-                except:
-                    pass
-        # print "------", self.name, check_controls, unsorted_list
-        # for o in unsorted_list:
-            # print 111, o.name
-        # for o in check_controls:
-            # print 222, o.name
-        # update deep attribute
-        deep = 1
-        i = 0
-        while len(unsorted_list) > 0 and i < 10:
-            i += 1
-            # print self.name, i
-            check_list = []
-            for root_c in check_controls:
-                childs = getChildren(root_c.name)
-
-                for ch in childs:
-                    ch.deep = deep
-                    check_list.append(ch)
-                    unsorted_list.remove(ch)
-            deep += 1
-            check_controls = check_list
-        if i == 10:
-            cmds.warning("Additional controls wrong counting")
-
-        # sort by deep
-        sorted_list_raw = []
-        for c in additionalControls:
-            sorted_list_raw.append((c.deep, c.name, c))
-
-        sorted_list_raw.sort(
-            key = lambda l: (l[0], l[1])
-        )		
-
-        # save sorted list
+        # get sorted list by name
         sorted_controls = []
-        for deep, c_name, c in sorted(sorted_list_raw):
-            # print deep, c.name
+        for c_name, c in sorted(unsorted_list_raw):
             sorted_controls.append(c)
 
         self.additionalControls = sorted_controls
         return sorted_controls
+
+    def deleteAllAdditionalControls(self): #
+        # get additional controls
+        additionalControls = []
+        controls = utils.getSetObjects(self.name+'_moduleControlSet')
+        for c_name in controls:
+            if utils.objectIsAdditionalControl(c_name):
+                c = utils.getAdditionalControlInstance(c_name)
+                additionalControls.append(c)
+        
+        for c in additionalControls:
+            if cmds.objExists(c.name):
+                c.delete()
+
+    def setAddControlsData(self, mData, curMod_name=""):
+        # increment names
+        datas = mData['additionalControlsData']
+        new_names = []
+        for data in datas:
+            name = data['name']
+            if cmds.objExists(name):
+                new_name = utils.incrementNameIfExists(name)
+                while new_name in new_names:
+                    new_name = utils.incrementName(new_name)
+                data["name"] = new_name
+                new_names.append(new_name)
+                for d in datas:
+                    par = d["parent"]
+                    if par == name:
+                        d["parent"] = new_name
+                        # edit twist data
+                        twData = mData["twistsData"]
+                        for tw_d in twData:
+                            s_j = tw_d["start_j"]
+                            e_j = tw_d["end_j"]
+                            if s_j.split("_joint")[0] == name:
+                                tw_d["start_j"] = new_name + "_joint"
+                            if e_j.split("_joint")[0] == name:
+                                tw_d["end_j"] = new_name + "_joint"
+
+        if curMod_name:
+            m_name = curMod_name  # for load module 
+        else:
+            m_name = mData['name']  # for load full rig
+        
+        # add not mirrored addCtrls 
+        for cData in mData['additionalControlsData']:
+            if not cData['opposite']:
+                m = self.main.rig.modules[m_name]
+                par = utils.getRealNameFromTemplated(m_name, cData["parent"])
+                m.addAdditionalControl(cData['name'], par, shape='circle')
+        
+        # set posers
+        for cData in mData['additionalControlsData']:
+            if not cData['opposite']:
+                par = utils.getRealNameFromTemplated(m_name, cData["poserParent"])
+                p = utils.getRealNameFromTemplated(m_name, cData['name'] + "_addPoser")
+                if cmds.listRelatives(p, p=1)[0] != par:
+                    cmds.parent(p, par)
+                cmds.xform(p, m=cData['pos'], ws=1)
+
+                attrData = cData['poserAttrsData']
+                for attr in attrData:
+                    value = attrData[attr]
+                    try:
+                        cmds.setAttr(p + '.' + attr, value)
+                    except:
+                        cmds.warning(p+'.'+attr+ " is locked")
+
+                for a in ["translateX", "translateY", "translateZ", "rotateX", "rotateY", "rotateZ"]:
+                    if a not in attrData:
+                        cmds.setAttr(p + "." + a, l=1, k=0, cb=0)
+
+        # set shapes and colors
+        for cData in mData['additionalControlsData']:
+            if not cData['opposite']:
+                c = utils.getControlInstance(cData['name'])
+                c.setShape(cData['shape'])
+                c.setColor(cData['colorId'])
+
+        # add opposite controls
+        for cData in mData['additionalControlsData']:
+            if cData['opposite']:
+                c = utils.getControlInstance(utils.getOpposite(cData['name']))
+                self.main.addControls_mirrorControl(c)
+
+        # hide "hidden" controls
+        for cData in mData['additionalControlsData']:
+            if not cData['opposite']:
+                for c_int_name in mData['controlsVisData']:
+                    c_name = utils.getControlNameFromInternal(m_name, c_int_name)
+                    if not mData['controlsVisData'][c_int_name]:
+                        c = utils.getControlInstance(c_name)
+                        # if c:
+                        c.toggleVisible(manual=True, value=False)
+                        # else:
+                        #     print("!!!!!!", c_name)
+
+        # set attributes
+        for cData in mData['additionalControlsData']:
+            c = utils.getControlInstance(cData['name'])
+            if not c:
+                cmds.warning("Missed add controls in "+cData['name'])
+            intName = utils.getInternalNameFromControl(c.name)
+            default_attrs = utils.getVisibleAttrs(c.name)
+            for a in default_attrs:
+                if intName + "." + a in mData['controlsAttrData']:
+                    cmds.setAttr(c.name + "." + a, mData['controlsAttrData'][intName + "." + a])
+                else:
+                    cmds.setAttr(c.name + "." + a, keyable=0, lock=1)
+
+
+
+
+
 
     def toggleLRA(self, v="None"):
         module_joints = []
