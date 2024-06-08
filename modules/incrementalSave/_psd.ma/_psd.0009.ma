@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: _psd.ma
-//Last modified: Sat, Jun 08, 2024 08:42:32 AM
+//Last modified: Thu, Jun 06, 2024 06:29:06 PM
 //Codeset: 1251
 requires maya "2022";
 requires "stereoCamera" "10.0";
@@ -10,19 +10,19 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202303271415-baa69b5798";
 fileInfo "osv" "Windows 10 Pro v2009 (Build: 22631)";
-fileInfo "UUID" "0BD09E54-48A1-11B9-42BB-C0A976D140CB";
+fileInfo "UUID" "62AF061F-4308-5593-6865-2884C3B17BD8";
 createNode transform -s -n "persp";
 	rename -uid "12625692-4388-0DE0-526F-648BA60293AC";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 11.246189092597021 5.617355169826026 10.164660400756189 ;
-	setAttr ".r" -type "double3" -21.000000000001666 46.000000000001265 2.2892941456690639e-15 ;
+	setAttr ".t" -type "double3" 4.0398138131117678 5.3671955021518905 6.7018392243365943 ;
+	setAttr ".r" -type "double3" -37.800000000001297 22.400000000000936 0 ;
 createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "88863B48-4A38-68D5-AA0E-F382CF10485A";
 	setAttr -k off ".v" no;
 	setAttr ".fl" 34.999999999999993;
 	setAttr ".ncp" 1;
 	setAttr ".fcp" 50000;
-	setAttr ".coi" 14.295471450755404;
+	setAttr ".coi" 7.9504373377233346;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -105,7 +105,7 @@ createNode locator -n "aimShape" -p "aim";
 createNode transform -n "target_y" -p "root";
 	rename -uid "6029C53E-4A0C-F9E4-19C1-30B9FF6376EE";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 0 2.2246526612400834 0 ;
+	setAttr ".t" -type "double3" 0.030041805689422496 2.2246526612400834 -0.066694285343451121 ;
 	setAttr ".s" -type "double3" 0.99999999994371802 0.9999999999994712 0.99999998713959815 ;
 createNode locator -n "target_yShape" -p "target_y";
 	rename -uid "08530CAD-4352-72FD-D59F-E19328B64D0C";
@@ -113,7 +113,7 @@ createNode locator -n "target_yShape" -p "target_y";
 createNode transform -n "target_z" -p "root";
 	rename -uid "0E3BB1D1-4D72-0C80-8560-28ACE19F3CE7";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" -3.1086244689504383e-15 0 3.3996398186045038 ;
+	setAttr ".t" -type "double3" -3.1086244689504383e-15 -0.051713606437467252 3.3996398186045038 ;
 	setAttr ".s" -type "double3" 0.99999999994371802 0.9999999999994712 0.99999998713959815 ;
 createNode locator -n "target_zShape" -p "target_z";
 	rename -uid "8B2CBBB2-4388-FC51-D54B-349C92141168";
@@ -130,7 +130,7 @@ createNode joint -n "outJoint_y_1" -p "joints_group";
 	addAttr -ci true -sn "slideMin" -ln "slideMin" -at "double";
 	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
 	addAttr -ci true -sn "slideMax" -ln "slideMax" -at "double";
-	setAttr ".t" -type "double3" 0 1 8.8817841970012523e-16 ;
+	setAttr ".t" -type "double3" 0 1.0687406063079834 8.8817841970012523e-16 ;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
 	setAttr ".bps" -type "matrix" 0 1.6154459791819042 0.062188599127851796 0 -1.6166425497049333 0 0 0
@@ -278,19 +278,19 @@ createNode condition -n "z_2_pos_condition";
 	rename -uid "2BEF2420-4C6E-3682-CF68-A7BCEBCE23D7";
 	setAttr ".op" 3;
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "37535AD1-43AF-84D3-D89B-179D159FAE39";
+	rename -uid "2F55D2D3-43B4-5D38-289C-FFBFA1F8453C";
 	setAttr -s 2 ".lnk";
 	setAttr -s 2 ".slnk";
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "8F36BF29-456F-5530-3653-1E8F595B03FF";
+	rename -uid "D22B2C6F-4C00-09AC-6348-DEA367820249";
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "3F83BC21-42C8-71BB-8FDD-09A2490688E7";
+	rename -uid "64D03A18-4606-5178-DC43-8B8D5205F514";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "F1176323-4F23-056B-2C0C-EBBFEBDCDAFD";
+	rename -uid "353BF5DB-4D2A-229C-0EFD-BBA6D1797E6B";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "CD17A982-4CB0-BAB9-8D95-94B73D6225C9";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "12F8A98C-4545-71D4-D947-DB97DFA885F4";
+	rename -uid "6347EC29-4071-D848-AD4C-13B4ED5AFD7D";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "00408454-4693-FD3D-F3DB-9D87DABC095E";
 	setAttr ".g" yes;
@@ -303,46 +303,46 @@ createNode pairBlend -n "pairBlend";
 	setAttr ".w" 0.5;
 	setAttr ".ri" 1;
 createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
-	rename -uid "0C863743-46E1-AE81-F926-BEBA42C2F19C";
+	rename -uid "23B3C33A-457D-A5E1-D594-4B9A0D102079";
 	setAttr ".tgi[0].tn" -type "string" "Untitled_1";
-	setAttr ".tgi[0].vl" -type "double2" -1049.9999582767502 -15535.118430308905 ;
-	setAttr ".tgi[0].vh" -type "double2" 171.42856461661236 -14219.64229210504 ;
+	setAttr ".tgi[0].vl" -type "double2" -1051.1904344199213 -15533.927954165734 ;
+	setAttr ".tgi[0].vh" -type "double2" 171.42856461661236 -14218.451815961869 ;
 	setAttr -s 12 ".tgi[0].ni";
-	setAttr ".tgi[0].ni[0].x" 107.59243011474609;
-	setAttr ".tgi[0].ni[0].y" -14582.7568359375;
+	setAttr ".tgi[0].ni[0].x" -540.3992919921875;
+	setAttr ".tgi[0].ni[0].y" -14641.1826171875;
 	setAttr ".tgi[0].ni[0].nvs" 18304;
-	setAttr ".tgi[0].ni[1].x" -529.56524658203125;
-	setAttr ".tgi[0].ni[1].y" -14429.005859375;
+	setAttr ".tgi[0].ni[1].x" 422.31289672851562;
+	setAttr ".tgi[0].ni[1].y" -14762.576171875;
 	setAttr ".tgi[0].ni[1].nvs" 18304;
-	setAttr ".tgi[0].ni[2].x" -197.14285278320312;
-	setAttr ".tgi[0].ni[2].y" -14505.7138671875;
+	setAttr ".tgi[0].ni[2].x" 107.59243011474609;
+	setAttr ".tgi[0].ni[2].y" -14582.7568359375;
 	setAttr ".tgi[0].ni[2].nvs" 18304;
-	setAttr ".tgi[0].ni[3].x" -873.68829345703125;
-	setAttr ".tgi[0].ni[3].y" -14335.669921875;
+	setAttr ".tgi[0].ni[3].x" -529.56524658203125;
+	setAttr ".tgi[0].ni[3].y" -14429.005859375;
 	setAttr ".tgi[0].ni[3].nvs" 18304;
-	setAttr ".tgi[0].ni[4].x" 422.31289672851562;
-	setAttr ".tgi[0].ni[4].y" -14864.0048828125;
+	setAttr ".tgi[0].ni[4].x" 417.14285278320312;
+	setAttr ".tgi[0].ni[4].y" -14534.2861328125;
 	setAttr ".tgi[0].ni[4].nvs" 18304;
-	setAttr ".tgi[0].ni[5].x" 778.4560546875;
-	setAttr ".tgi[0].ni[5].y" -14257.57421875;
-	setAttr ".tgi[0].ni[5].nvs" 18305;
-	setAttr ".tgi[0].ni[6].x" -867.66937255859375;
-	setAttr ".tgi[0].ni[6].y" -14728.7255859375;
+	setAttr ".tgi[0].ni[5].x" -895.3564453125;
+	setAttr ".tgi[0].ni[5].y" -14538.216796875;
+	setAttr ".tgi[0].ni[5].nvs" 18304;
+	setAttr ".tgi[0].ni[6].x" -873.68829345703125;
+	setAttr ".tgi[0].ni[6].y" -14335.669921875;
 	setAttr ".tgi[0].ni[6].nvs" 18304;
-	setAttr ".tgi[0].ni[7].x" 417.14285278320312;
-	setAttr ".tgi[0].ni[7].y" -14534.2861328125;
+	setAttr ".tgi[0].ni[7].x" 422.31289672851562;
+	setAttr ".tgi[0].ni[7].y" -14864.0048828125;
 	setAttr ".tgi[0].ni[7].nvs" 18304;
-	setAttr ".tgi[0].ni[8].x" -895.3564453125;
-	setAttr ".tgi[0].ni[8].y" -14538.216796875;
+	setAttr ".tgi[0].ni[8].x" -867.66937255859375;
+	setAttr ".tgi[0].ni[8].y" -14728.7255859375;
 	setAttr ".tgi[0].ni[8].nvs" 18304;
 	setAttr ".tgi[0].ni[9].x" 422.31289672851562;
-	setAttr ".tgi[0].ni[9].y" -14762.576171875;
+	setAttr ".tgi[0].ni[9].y" -14661.1474609375;
 	setAttr ".tgi[0].ni[9].nvs" 18304;
-	setAttr ".tgi[0].ni[10].x" 422.31289672851562;
-	setAttr ".tgi[0].ni[10].y" -14661.1474609375;
-	setAttr ".tgi[0].ni[10].nvs" 18304;
-	setAttr ".tgi[0].ni[11].x" -540.3992919921875;
-	setAttr ".tgi[0].ni[11].y" -14641.1826171875;
+	setAttr ".tgi[0].ni[10].x" 778.4560546875;
+	setAttr ".tgi[0].ni[10].y" -14257.57421875;
+	setAttr ".tgi[0].ni[10].nvs" 18305;
+	setAttr ".tgi[0].ni[11].x" -197.14285278320312;
+	setAttr ".tgi[0].ni[11].y" -14505.7138671875;
 	setAttr ".tgi[0].ni[11].nvs" 18304;
 select -ne :time1;
 	setAttr -av -k on ".cch";
@@ -805,24 +805,24 @@ relationship "shadowLink" ":lightLinker1" ":initialParticleSE.message" ":default
 connectAttr "layerManager.dli[0]" "defaultLayer.id";
 connectAttr "renderLayerManager.rlmi[0]" "defaultRenderLayer.rlid";
 connectAttr "target.r" "pairBlend.ir1";
-connectAttr "y_unitConversion.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn"
+connectAttr "y_plusMinusAverage.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn"
 		;
-connectAttr "aim_plusMinusAverage.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
+connectAttr "y_1_pos_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
 		;
-connectAttr "y_angleBetween.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn";
-connectAttr "aimShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn";
-connectAttr "y_1_angles_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[4].dn"
+connectAttr "y_unitConversion.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn"
 		;
-connectAttr "outJoint_y_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn";
-connectAttr "target_yShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[6].dn";
-connectAttr "y_1_setRange.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[7].dn";
-connectAttr "targetShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[8].dn";
-connectAttr "y_1_pos_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[9].dn"
+connectAttr "aim_plusMinusAverage.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn"
 		;
-connectAttr "y_1_slide_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[10].dn"
+connectAttr "y_1_setRange.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[4].dn";
+connectAttr "targetShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn";
+connectAttr "aimShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[6].dn";
+connectAttr "y_1_angles_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[7].dn"
 		;
-connectAttr "y_plusMinusAverage.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[11].dn"
+connectAttr "target_yShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[8].dn";
+connectAttr "y_1_slide_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[9].dn"
 		;
+connectAttr "outJoint_y_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[10].dn";
+connectAttr "y_angleBetween.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[11].dn";
 connectAttr "y_angleBetween.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "y_plusMinusAverage.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "aim_plusMinusAverage.msg" ":defaultRenderUtilityList1.u" -na;

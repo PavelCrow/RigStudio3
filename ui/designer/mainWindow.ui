@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>842</width>
-    <height>959</height>
+    <width>696</width>
+    <height>929</height>
    </rect>
   </property>
   <property name="acceptDrops">
@@ -39,7 +39,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="rig_tab">
        <attribute name="title">
@@ -4801,19 +4801,45 @@
                    <property name="minimumSize">
                     <size>
                      <width>60</width>
-                     <height>0</height>
+                     <height>40</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
                      <width>800000</width>
-                     <height>25</height>
+                     <height>40</height>
                     </size>
                    </property>
                    <property name="text">
                     <string>Reset</string>
                    </property>
                   </widget>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_43">
+                   <property name="spacing">
+                    <number>2</number>
+                   </property>
+                   <item>
+                    <widget class="QPushButton" name="twistToggleOffsetLocators_btn">
+                     <property name="minimumSize">
+                      <size>
+                       <width>60</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>800000</width>
+                       <height>25</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>Show/Hide End Offset Locators</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
                  </item>
                 </layout>
                </widget>
@@ -4843,7 +4869,7 @@
        <attribute name="title">
         <string>Inbetweens</string>
        </attribute>
-       <layout class="QHBoxLayout" name="horizontalLayout_39" stretch="1,0">
+       <layout class="QHBoxLayout" name="horizontalLayout_39" stretch="1,1">
         <item>
          <widget class="QFrame" name="os_frame_2">
           <property name="minimumSize">
@@ -4930,7 +4956,38 @@
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_8">
                 <item>
-                 <widget class="QToolButton" name="ibtw_add_btn">
+                 <widget class="QToolButton" name="ibtw_addWorld_btn">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>60</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>+</string>
+                  </property>
+                  <property name="checkable">
+                   <bool>false</bool>
+                  </property>
+                  <property name="popupMode">
+                   <enum>QToolButton::InstantPopup</enum>
+                  </property>
+                  <property name="toolButtonStyle">
+                   <enum>Qt::ToolButtonIconOnly</enum>
+                  </property>
+                  <property name="autoRaise">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QToolButton" name="ibtw_addLocal_btn">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                     <horstretch>0</horstretch>
@@ -5053,7 +5110,7 @@
           <property name="frameShadow">
            <enum>QFrame::Plain</enum>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_80" stretch="0,0,0,0">
+          <layout class="QVBoxLayout" name="verticalLayout_80" stretch="0,0">
            <property name="spacing">
             <number>6</number>
            </property>
@@ -5069,178 +5126,6 @@
            <property name="bottomMargin">
             <number>0</number>
            </property>
-           <item>
-            <widget class="QFrame" name="frame_30">
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Plain</enum>
-             </property>
-             <layout class="QVBoxLayout" name="verticalLayout_81" stretch="0,0,0">
-              <property name="spacing">
-               <number>4</number>
-              </property>
-              <property name="leftMargin">
-               <number>2</number>
-              </property>
-              <property name="topMargin">
-               <number>2</number>
-              </property>
-              <property name="rightMargin">
-               <number>2</number>
-              </property>
-              <property name="bottomMargin">
-               <number>2</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="pose_label_12">
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>16</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>Offset</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_48">
-                <property name="spacing">
-                 <number>2</number>
-                </property>
-                <item>
-                 <spacer name="horizontalSpacer_30">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="ib_selectOffsetLocators_btn">
-                  <property name="text">
-                   <string>Select Offset Locators</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="pose_label_14">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>16</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>:</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="ib_selectOffsetLocatorsR_btn">
-                  <property name="minimumSize">
-                   <size>
-                    <width>30</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>30</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>R</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="ib_selectOffsetLocatorsL_btn">
-                  <property name="minimumSize">
-                   <size>
-                    <width>30</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>30</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>L</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer_31">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
-                 <widget class="QToolButton" name="ib_switchOffsetLocators_btn">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>10000</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>Show/Hide</string>
-                  </property>
-                  <property name="autoRaise">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <widget class="Line" name="line_14">
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>10</height>
-                 </size>
-                </property>
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
            <item>
             <widget class="QFrame" name="frame_31">
              <property name="frameShape">
@@ -5282,27 +5167,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_37">
-                <property name="text">
-                 <string>Local calculation works only with a default parent joint</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_41">
-                <item>
-                 <spacer name="horizontalSpacer_29">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
+               <layout class="QHBoxLayout" name="horizontalLayout_41" stretch="0,0,0,1">
                 <item>
                  <widget class="QLabel" name="label_36">
                   <property name="text">
@@ -5334,33 +5199,24 @@
                  </widget>
                 </item>
                 <item>
-                 <spacer name="horizontalSpacer_28">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                 <widget class="QPushButton" name="ib_switch_btn">
+                  <property name="text">
+                   <string>Switch</string>
                   </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
+                 </widget>
                 </item>
                </layout>
               </item>
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_47">
-                <property name="spacing">
-                 <number>2</number>
-                </property>
-                <item>
+               <layout class="QGridLayout" name="gridLayout_14">
+                <item row="0" column="0">
                  <widget class="QLabel" name="label_35">
                   <property name="text">
                    <string>Parent Joint</string>
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="0" column="1">
                  <widget class="QLineEdit" name="parentJoint_lineEdit">
                   <property name="minimumSize">
                    <size>
@@ -5373,8 +5229,11 @@
                   </property>
                  </widget>
                 </item>
-                <item>
+                <item row="0" column="2">
                  <widget class="QPushButton" name="ibtw_setParent_btn">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
                   <property name="minimumSize">
                    <size>
                     <width>40</width>
@@ -5398,8 +5257,18 @@
                   </property>
                  </widget>
                 </item>
-                <item>
-                 <widget class="QPushButton" name="ibtw_resetParent_btn">
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_41">
+                  <property name="text">
+                   <string>Child Joint</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="2">
+                 <widget class="QPushButton" name="ibtw_setChild_btn">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
                   <property name="minimumSize">
                    <size>
                     <width>40</width>
@@ -5419,331 +5288,52 @@
                    </size>
                   </property>
                   <property name="text">
-                   <string>reset</string>
+                   <string>set</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLineEdit" name="childJoint_lineEdit">
+                  <property name="minimumSize">
+                   <size>
+                    <width>50</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="readOnly">
+                   <bool>true</bool>
                   </property>
                  </widget>
                 </item>
                </layout>
               </item>
               <item>
-               <widget class="QPushButton" name="inbetweenJoints_image_btn">
+               <widget class="QPushButton" name="ib_selecteOffsetLocator_btn">
                 <property name="text">
-                 <string/>
-                </property>
-                <property name="flat">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QFrame" name="frame_32">
-             <property name="layoutDirection">
-              <enum>Qt::LeftToRight</enum>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Plain</enum>
-             </property>
-             <layout class="QVBoxLayout" name="verticalLayout_83" stretch="0,0">
-              <property name="spacing">
-               <number>4</number>
-              </property>
-              <property name="leftMargin">
-               <number>2</number>
-              </property>
-              <property name="topMargin">
-               <number>2</number>
-              </property>
-              <property name="rightMargin">
-               <number>2</number>
-              </property>
-              <property name="bottomMargin">
-               <number>10</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="ibInfo_label">
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>16</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>Inbetween Joints</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <string>Select Offset Locator</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QFrame" name="ibInfo_groupFrame">
-                <layout class="QVBoxLayout" name="verticalLayout_60">
-                 <property name="spacing">
-                  <number>4</number>
-                 </property>
-                 <property name="leftMargin">
-                  <number>2</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>2</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>2</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_49" stretch="0">
-                   <property name="spacing">
-                    <number>2</number>
-                   </property>
-                   <item>
-                    <widget class="QPushButton" name="ib_selectRoot_btn">
-                     <property name="text">
-                      <string>Select and edit global rotate weight</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <layout class="QGridLayout" name="gridLayout_10" rowstretch="0,0,0,0" columnstretch="0,0,0,0,0">
-                   <property name="horizontalSpacing">
-                    <number>10</number>
-                   </property>
-                   <property name="verticalSpacing">
-                    <number>2</number>
-                   </property>
-                   <item row="1" column="2">
-                    <widget class="QPushButton" name="ibSelectBackJoint_btn">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>16777215</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>Select and edit</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="3" column="0">
-                    <widget class="QLabel" name="label_32">
-                     <property name="text">
-                      <string>Right</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="2" column="1">
-                    <widget class="QCheckBox" name="ib_left_checkBox">
-                     <property name="text">
-                      <string/>
-                     </property>
-                     <property name="checked">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="2" column="0">
-                    <widget class="QLabel" name="label_33">
-                     <property name="text">
-                      <string>Left</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="2" column="4">
-                    <widget class="QPushButton" name="ibRotWeight_left_btn">
-                     <property name="maximumSize">
-                      <size>
-                       <width>16777215</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>Remove Local Weight</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="0" column="0">
-                    <widget class="QLabel" name="label_38">
-                     <property name="text">
-                      <string>Front</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="0" column="3">
-                    <spacer name="horizontalSpacer_36">
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>40</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                   <item row="1" column="4">
-                    <widget class="QPushButton" name="ibRotWeight_back_btn">
-                     <property name="maximumSize">
-                      <size>
-                       <width>16777215</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>Add Local Weight</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="1" column="0">
-                    <widget class="QLabel" name="label_39">
-                     <property name="text">
-                      <string>Back</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="1" column="1">
-                    <widget class="QCheckBox" name="ib_back_checkBox">
-                     <property name="text">
-                      <string/>
-                     </property>
-                     <property name="checked">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="3" column="1">
-                    <widget class="QCheckBox" name="ib_right_checkBox">
-                     <property name="text">
-                      <string/>
-                     </property>
-                     <property name="checked">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="0" column="4">
-                    <widget class="QPushButton" name="ibRotWeight_front_btn">
-                     <property name="maximumSize">
-                      <size>
-                       <width>16777215</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>Add Local Weight</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="0" column="2">
-                    <widget class="QPushButton" name="ibSelectFrontJoint_btn">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>16777215</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>Select and edit</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="2" column="2">
-                    <widget class="QPushButton" name="ibSelectLeftJoint_btn">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>16777215</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>Select and edit</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="0" column="1">
-                    <widget class="QCheckBox" name="ib_front_checkBox">
-                     <property name="text">
-                      <string/>
-                     </property>
-                     <property name="checked">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="3" column="2">
-                    <widget class="QPushButton" name="ibSelectRightJoint_btn">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>16777215</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>Select and edit</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="3" column="4">
-                    <widget class="QPushButton" name="ibRotWeight_right_btn">
-                     <property name="maximumSize">
-                      <size>
-                       <width>16777215</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>Remove Local Weight</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="rotateWeightImage_btn">
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="flat">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
+               <layout class="QHBoxLayout" name="horizontalLayout_49" stretch="0,0">
+                <property name="spacing">
+                 <number>2</number>
+                </property>
+                <item>
+                 <widget class="QPushButton" name="ib_addYJoint_btn">
+                  <property name="text">
+                   <string>Add Y Joint</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="ib_addZJoint_btn">
+                  <property name="text">
+                   <string>Add Z Joint</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
              </layout>
             </widget>
@@ -10148,7 +9738,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>842</width>
+     <width>696</width>
      <height>22</height>
     </rect>
    </property>

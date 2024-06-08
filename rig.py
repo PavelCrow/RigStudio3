@@ -3,7 +3,7 @@ import os
 import importlib
 import math
 import sys
-from . import main, utils
+from . import main, utils, inbetweens
 
 class Rig:
     def __init__(self, main, name='character'): #
@@ -360,13 +360,18 @@ class Rig:
 
         joints = cmds.listRelatives('skeleton', allDescendents=1, type='joint') or []
 
+        tw_mods = cmds.listRelatives('twists') or []
+        for tw_mod in tw_mods:
+            tw_name = tw_mod[:-4]
+            joints += cmds.listRelatives(tw_name+"_joints")
+
         if len(joints) > 0:
             for j in joints:
                 try:
                     cmds.setAttr(j + '.displayLocalAxis', state)
                 except:
                     pass            
-            
+                    
     def selectCurModMainPoser(self):
         cmds.select(self.main.curModule.name + "_mainPoser")
 
@@ -427,3 +432,16 @@ class Rig:
                 children.append(m.name)
         #print children
         return children
+    
+    def getIbtwsData(self):
+        # get twists data
+        ibtwsData = []
+        roots = cmds.ls("*_ibtw_root")
+        for root in roots:
+            if utils.getObjectSide(root) == "r" and cmds.objExists(utils.getOpposite(root)):
+                continue
+            print(3333, root)
+            ibtw = root.split("_ibtw_root")[0]
+            ibtwData = self.main.ibtwClass.getData(ibtw)
+            ibtwsData.append(ibtwData)
+        return ibtwsData

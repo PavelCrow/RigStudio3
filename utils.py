@@ -546,7 +546,7 @@ def getTemplatedNameFromReal(mod_name, control_name): #
 	return control_name
 
 def getRealNameFromTemplated(mod_name, control_name): #
-	if "MODNAME" in control_name:
+	if isinstance(control_name, str) and "MODNAME" in control_name:
 		name = control_name.replace("MODNAME", mod_name)
 		return name
 	else:
@@ -804,7 +804,7 @@ def getVisibleAttrs(obj): #
 
 	return attrList
 
-def objectIsSymmetrical(obj):
+def isSymmetrical(obj):
 	if obj.split("_")[0] == "l":
 		if cmds.objExists("r"+obj[1:]):
 			return True

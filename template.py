@@ -163,6 +163,7 @@ class Template(object):
 		data['type'] = 'rs_rig'
 		data['name'] = self.main.rig.name
 		data['modulesData'] = modulesData
+		data['ibtwsData'] = self.main.rig.getIbtwsData()
 		# data['sets'] = self.sets.getData()
 
 		fullPath = os.path.join(self.rootPath, 'templates', 'rigs', t_name + ".tmpl")
@@ -238,7 +239,6 @@ class Template(object):
 		# save data to file					
 		with open(t_name, 'w') as f:
 			f.write(json_string)
-		print(t_name)
 
 		self.main.compoundModuleMenuUpdate()
 
@@ -376,12 +376,32 @@ class Template(object):
 					real_data = twData
 					m_name = m.name
 					real_data['name'] = utils.getRealNameFromTemplated(m_name, twData['name'])
-					real_data['target'] = utils.getRealNameFromTemplated(m_name, twData['target'])
-					real_data['rootOrientTarget'] = utils.getRealNameFromTemplated(m_name, twData['rootOrientTarget'])
-					real_data['endOrientTarget'] = utils.getRealNameFromTemplated(m_name, twData['endOrientTarget'])
+					target = real_data['target'] = utils.getRealNameFromTemplated(m_name, twData['target'])
+					endTarget = real_data['endTarget'] = utils.getRealNameFromTemplated(m_name, twData['endTarget'])
+					rootOrientTarget = real_data['rootOrientTarget'] = utils.getRealNameFromTemplated(m_name, twData['rootOrientTarget'])
+					endOrientTarget = real_data['endOrientTarget'] = utils.getRealNameFromTemplated(m_name, twData['endOrientTarget'])
 					real_data['jointsCount'] = utils.getRealNameFromTemplated(m_name, twData['jointsCount'])
-					# print real_data['name'], real_data['start_j']
+
 					self.main.twistClass.twists_add(real_data)
+
+					if rootOrientTarget != target:
+						self.main.twistClass.attach("root", rootOrientTarget)
+
+					if endOrientTarget != endTarget:
+						self.main.twistClass.attach("end", endOrientTarget)
+
+				cmds.progressBar(progressControl, edit=True, step=1)
+			cmds.progressBar(progressControl2, edit=True, step=1)
+
+		def create_ibtws(ibtwsData):
+			if print_main_messages: print(" -------------------------------- INBETWEENS ------------------------------------------------ ")
+			
+			cmds.window(window, e=1, t='Load inbetweens data')
+			cmds.progressBar(progressControl, e=1, progress=0)
+
+			for ibtwData in ibtwsData:
+				self.main.ibtwClass.add(ibtwData)
+
 				cmds.progressBar(progressControl, edit=True, step=1)
 			cmds.progressBar(progressControl2, edit=True, step=1)
 
@@ -405,7 +425,8 @@ class Template(object):
 		connect_modules(modulesData)
 		set_modules(modulesData)
 		if load == 'rig': mirror_modules(modulesData)
-		# create_twists(modulesData)
+		create_twists(modulesData)
+		create_ibtws(data["ibtwsData"])
 
 
 		# if print_main_messages: print(

@@ -72,7 +72,7 @@ class treeWidgetClass(QtWidgets.QTreeWidget):
 					cmds.sets(control, e=1, add=newSet_name)		
 					cmds.sets(control, e=1, rm=currentSet_name)	
 
-				if utils.objectIsSymmetrical(control):
+				if utils.isSymmetrical(control):
 					opp_control = utils.getOpposite(control)		
 					opp_newSet_name = utils.getOpposite(newSet_name)	
 					opp_newSet_controls = getSetControlsNoRecurcive(opp_newSet_name)

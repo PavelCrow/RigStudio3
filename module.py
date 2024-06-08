@@ -493,7 +493,7 @@ class Module(object):
                     twData = twist.Twist.getData(tw, self.name)
                     twistsData.append(twData)
             return twistsData
-
+        
         data = {}
         data['name'] = self.name
         data['type'] = self.type
@@ -705,8 +705,9 @@ class Module(object):
             pp_j = cmds.listRelatives(p_j, p=1)[0]
             cmds.parent(self_root_j, pp_j)
 
-            # move the useless joint to output group
+            # move the useless joint to output group and hide it
             cmds.parent(p_j, parentModule_name+"_output")
+            cmds.hide(p_j)
 
             # hide poser
             cmds.setAttr(parent_p+'.lodVisibility', 0)
@@ -715,6 +716,7 @@ class Module(object):
                 cmds.parent(utils.getOpposite(self_root_j), utils.getOpposite(pp_j))
                 if parent_module.symmetrical:
                     cmds.parent(utils.getOpposite(p_j), utils.getOpposite(parentModule_name+"_output"))
+                    cmds.hide(utils.getOpposite(p_j))
 
         else:
             if not self.isSeamless():
@@ -747,81 +749,20 @@ class Module(object):
             # restore poser visibity
             cmds.setAttr(parent_p+'.lodVisibility', 1)
 
+            # show root joint in skeleton
+            cmds.showHidden(parent_j)
+
             # restore root joint
             cmds.parent(self_root_j, parent_j)
 
             if self.symmetrical:
                 cmds.parent(utils.getOpposite(self_root_j), utils.getOpposite(parent_j))
+                cmds.showHidden(utils.getOpposite(parent_j))
 
-        return
-
-        # move and hide/unhide poser
-        if not self.opposite:
-            if state:
-                # create additional nodes
-                mMat = cmds.createNode('multMatrix', n=self.name+"_parentSnap_multMat")
-                dMat = cmds.createNode('decomposeMatrix', n=self.name+"_parentSnap_decMat")		
-
-                # set new nodes attrs
-                utils.addModuleNameAttr(mMat, self.name)		
-                utils.addModuleNameAttr(dMat, self.name)
-
-                # make connections
-                cmds.connectAttr(self.name+"_root_poser.worldMatrix[0]", mMat+'.matrixIn[0]')
-                cmds.connectAttr(parentModule+"_mainPoser.worldInverseMatrix[0]", mMat+'.matrixIn[1]')
-                cmds.connectAttr(mMat+".matrixSum", dMat+'.inputMatrix')
-                cmds.connectAttr(dMat+".outputTranslateX", parent_p+'.translateX', f=1)
-                cmds.connectAttr(dMat+".outputTranslateY", parent_p+'.translateY', f=1)
-                cmds.connectAttr(dMat+".outputTranslateZ", parent_p+'.translateZ', f=1)
-                # cmds.connectAttr(self.name+"_root_poser.lineWidth", parent_p+'.lineWidth', f=1)
-                # cmds.connectAttr(self.name+"_root_poser.size", parent_p+'.size', f=1)
-
-                cmds.hide(parent_p)
-
-                cmds.connectAttr(self.name+"_root_poser.size", parent_p+".size")		
-                cmds.connectAttr(self.name+"_root_poser.lineWidth", parent_p+".lineWidth")
-
-                # change joints hierarchy
-                if cmds.objExists(self.parent):
-                    cmds.parent(root_j, cmds.listRelatives(self.parent,p=1)[0])
-                    utils.resetJointOrient(root_j)
-                    utils.removeTransformParentJoint(root_j)
-                    cmds.delete(self.parent)
-
-                if cmds.objExists(parent_j_opp) and cmds.objExists(root_j_opp) and root_j_opp != root_j:
-                    utils.parentTo(root_j_opp, cmds.listRelatives(parent_j_opp,p=1)[0])
-                    utils.resetJointOrient(root_j_opp)
-                    cmds.delete(parent_j_opp)				
-
-            else:
-                if cmds.objExists(self.name+'_parentSnap_decMat'):
-                    cmds.delete(self.name+'_parentSnap_decMat')
-                # cmds.disconnectAttr(self.name+"_root_poser.lineWidth", parent_p+'.lineWidth')
-                # cmds.disconnectAttr(self.name+"_root_poser.size", parent_p+'.size')
-                cmds.showHidden(parent_p)
-
-                # change joints hierarchy
-                cmds.duplicate(self.parent.replace("joint", "outJoint"), n=self.parent)[0]
-                pm.delete(pm.listRelatives(self.parent))
-                par = cmds.listRelatives(self.parent.replace("joint", "outJoint"), p=1)[0]
-                cmds.parent(self.parent, par.replace("outJoint", "joint"))
-                utils.resetJointOrient(self.parent)
-                utils.removeTransformParentJoint(self.parent)
-                cmds.parent(root_j, self.parent)
-                utils.resetJointOrient(root_j)
-                utils.removeTransformParentJoint(root_j)
-                utils.connectTrandform(self.parent.replace("_joint", "_outJoint"), self.parent)
-
-                cmds.disconnectAttr(self.name+"_root_poser.size", parent_p+".size")
-                cmds.disconnectAttr(self.name+"_root_poser.lineWidth", parent_p+".lineWidth")
-
-                if cmds.objExists(root_j_opp) and root_j_opp != root_j:
-                    cmds.duplicate(parent_j_opp.replace("joint", "outJoint"), n=parent_j_opp)[0]
-                    utils.parentTo(parent_j_opp, utils.getOpposite(par.replace("outJoint", "joint")))
-                    utils.resetJointOrient(parent_j_opp)
-                    utils.parentTo(root_j_opp, parent_j_opp)
-                    utils.resetJointOrient(root_j_opp)
-                    utils.connectTrandform(parent_j_opp.replace("_joint", "_outJoint"), parent_j_opp)
+        # reset joint orients
+        utils.resetJointOrient(self_root_j)
+        if self.symmetrical:
+            utils.resetJointOrient(utils.getOpposite(self_root_j))
 
     def isSeamless(self): #
         if not self.parent:

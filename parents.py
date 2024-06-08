@@ -389,7 +389,7 @@ class Parents(object):
         #self.win.parents_control_lineEdit.setText(self.control)
 
         # add mirrored group
-        if utils.objectIsSymmetrical(mod_name+"_mod"):
+        if utils.isSymmetrical(mod_name+"_mod"):
             addGroup(utils.getOpposite(obj))
 
         self.updateList()
@@ -426,7 +426,7 @@ class Parents(object):
         cmds.delete(par_gr)
 
         # delete mirrored group
-        if utils.objectIsSymmetrical(curParentObj):
+        if utils.isSymmetrical(curParentObj):
             opp_obj = utils.getOpposite(curParentObj)
             par_gr = opp_obj + "_parentsGroup"
             if cmds.objExists(par_gr):

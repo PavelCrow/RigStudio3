@@ -249,10 +249,6 @@ class MainWindow:
             # g.off = False
             # g.mousePressEvent(1)
 
-            g = GroupLabel(self.win.ibInfo_label, self.win.ibInfo_groupFrame, self.win.verticalLayout_83, self.win)
-            g.off = False
-            g.mousePressEvent(1)
-
             g = GroupLabel(self.win.smf_label, self.win.smf_groupFrame, self.win.verticalLayout_97, self.win)
             g.off = False
             g.mousePressEvent(1)
@@ -396,17 +392,10 @@ class MainWindow:
             self.win.removeTwist_btn.setIconSize(QtCore.QSize(24, 20))
 
             # Inbetweens
-            self.win.inbetweenJoints_image_btn.setIcon(QtGui.QIcon(self.rootPath + '/ui/images/inbetweenJoints.png'))
-            self.win.inbetweenJoints_image_btn.setIconSize(QtCore.QSize(300, 160))
-            # self.win.inbetweenJoints_image_btn.setAutoRaise(False)
-            self.win.rotateWeightImage_btn.setIcon(QtGui.QIcon(self.rootPath + '/ui/images/inbetweenJoints2.png'))
-            self.win.rotateWeightImage_btn.setIconSize(QtCore.QSize(300, 154))
-
-            self.win.ib_switchOffsetLocators_btn.setIcon(QtGui.QIcon(self.rootPath + '/ui/icons/lamp.png'))
-            self.win.ib_switchOffsetLocators_btn.setIconSize(QtCore.QSize(24, 20))
-
-            self.win.ibtw_add_btn.setIcon(QtGui.QIcon(self.rootPath + '/ui/icons/ib_plus.png'))
-            self.win.ibtw_add_btn.setIconSize(QtCore.QSize(30, 20))
+            self.win.ibtw_addLocal_btn.setIcon(QtGui.QIcon(self.rootPath + '/ui/icons/ib_plusL.png'))
+            self.win.ibtw_addLocal_btn.setIconSize(QtCore.QSize(30, 20))
+            self.win.ibtw_addWorld_btn.setIcon(QtGui.QIcon(self.rootPath + '/ui/icons/ib_plusW.png'))
+            self.win.ibtw_addWorld_btn.setIconSize(QtCore.QSize(30, 20))
             self.win.ibtw_remove_btn.setIcon(QtGui.QIcon(self.rootPath + '/ui/icons/delete.png'))
             self.win.ibtw_remove_btn.setIconSize(QtCore.QSize(24, 20))
 
@@ -2634,27 +2623,35 @@ class MainWindow:
         #     self.curParents.os_deleteConstraint(data=os_data)
 
         # disconnect twists
-        # for tw in cmds.listRelatives('twists', type='transform') or []:
-        #     t_name = tw.split("_mod")[0]
+        for tw in cmds.listRelatives('twists', type='transform') or []:
+            t_name = tw.split("_mod")[0]
+            j = t_name + "_joint"
+            t_mod_name = utils.getModuleName(j)
+            
+            # delete twist in current module
+            if t_mod_name == moduleName:
+                cmds.delete(tw)
+                continue
+            
+            t_data = self.twistClass.getData(t_name)
 
-        #     t_mod_name = utils.getModuleName(tw)
-        #     if t_mod_name == moduleName:
-        #         continue
-        #     t_data = self.twistClass.getData(t_name)
+            if not t_data:
+                continue
 
-        #     if not t_data:
-        #         continue
+            # reset 
+            for socket in ['rootOrientTarget', 'endOrientTarget']:
+                m_name = utils.getModuleName(t_data[socket])
+                if m_name == moduleName:
+                    if socket == 'rootOrientTarget':
+                        self.twistClass.reset(resetRootOnly=True, t_name=t_name)
+                    elif socket == 'endOrientTarget':
+                        self.twistClass.reset(resetEndOnly=True, t_name=t_name)
 
-        #     for j in ['start_j', 'end_j']:
-        #         m_name = utils.getModuleName(t_data[j])
-        #         if m_name == moduleName:
-        #             if j == 'start_j':
-        #                 cmds.select(t_name + "_joint")
-        #                 cmds.parent(t_name + "_start_connectorLoc", t_name + "_root_connector")
-        #             elif j == 'end_j':
-        #                 for possible_end_joint in cmds.listRelatives(t_name + "_joint"):
-        #                     if cmds.objectType(possible_end_joint) == "joint":
-        #                         cmds.parent(t_name + "_end_connectorLoc", possible_end_joint)
+            # delete if cannot reset
+            for socket in ['target', 'endTarget']:
+                m_name = utils.getModuleName(t_data[socket])
+                if m_name == moduleName:
+                    self.twistClass.twists_remove(t_name)
 
         # set mirrored module as not symmetrical
         if m.opposite:
