@@ -452,3 +452,16 @@ Remake the standalone picker loading
 
 ---Version 2.8.18 ---
 Fixed renaming bug. 
+
+
+------------------------------------------------------------------------
+------------------------------- Version 3 ------------------------------
+------------------------------------------------------------------------
+
+---Version 3.0.00
+New ibtws
+New twists
+New Add controls
+Rewrited base code
+Faster rigs after generating
+Limb, Point, Root, Spine, Foot, Fingers modules
