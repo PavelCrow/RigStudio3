@@ -13,49 +13,27 @@ rootPath = os.path.normpath(os.path.dirname(__file__))
 full = os.path.isfile(rootPath + "/full")
 
 class Inbetweens(object):
-	def __init__(self, win):
+	def __init__(self, win): #
 		self.win = win
-		self.ibs = {}
 		self.curIbName = ""
 		self.curIb = {}
 
 		self.connect()
 
-		#self.updateList()
 		self.win.ibs_options_frame.setEnabled(False)		
 
-	def connect(self):
+	def connect(self): #
 		self.win.ibtw_addWorld_btn.clicked.connect(partial(self.add, local=False))
 		self.win.ibtw_addLocal_btn.clicked.connect(partial(self.add, local=True))
 		self.win.ibtw_remove_btn.clicked.connect(self.remove)
 		self.win.ibtw_childs_listWidget.itemSelectionChanged.connect(self.selectItem)
 		self.win.ibtw_childs_listWidget.itemDoubleClicked.connect(self.doubleClckItem)		
-		self.win.ibtw_setParent_btn.clicked.connect(partial(self.setParent))
-		self.win.ib_selecteOffsetLocator_btn.clicked.connect(self.selectOffsetLocator)
+		self.win.ib_selectOffsetLocator_btn.clicked.connect(self.selectOffsetLocator)
 		self.win.ib_addYJoint_btn.clicked.connect(partial(self.addJoint, "y"))
 		self.win.ib_addZJoint_btn.clicked.connect(partial(self.addJoint, "z"))
-
-	def loadIbsData(self): #
-		self.ibs = {}
-
-		ibs = cmds.ls("*_ibtw_root")
-		
-		for root in ibs:
-			ib_data = {}
-			name = root.split("_ibtw_")[0]
-			child_j = name + "_outJoint"
-			if self.isLocal(name):
-				parent_j = cmds.listRelatives(child_j, p=1)[0]
-			else:
-				parent_j = cmds.listRelatives(root, p=1)[0]
-			
-			ib_data['child_j'] = child_j
-			ib_data['parent_j'] = parent_j
-			ib_data['name'] = name
-
-			self.ibs[name] = ib_data
-
-		return self.ibs
+		self.win.ib_flippedX_checkBox.clicked.connect(partial(self.setFlipped, dir="x"))
+		self.win.ib_flippedY_checkBox.clicked.connect(partial(self.setFlipped, dir="y"))
+		self.win.ib_flippedZ_checkBox.clicked.connect(partial(self.setFlipped, dir="z"))
 
 	def doubleClckItem(self): #
 		cmds.select(self.curIb['name']+"_ibtw_root" )
@@ -64,7 +42,7 @@ class Inbetweens(object):
 		# get current twist
 		try:
 			self.curIbName = self.win.ibtw_childs_listWidget.currentItem().text()
-			self.curIb = self.ibs[self.curIbName]
+			self.curIb = self.getData(self.curIbName)
 		except:
 			self.curIbName = ''
 			self.curIb = {}
@@ -74,11 +52,11 @@ class Inbetweens(object):
 
 	def updateList(self): #
 		# update twists data
-		self.loadIbsData()
-
+		ibs = cmds.ls("*_ibtw_root")
 		ib_names = []
-		for t in self.ibs:
-			ib_names.append(t)
+		for root in ibs:
+			name = root.split("_ibtw_")[0]
+			ib_names.append(name)
 
 		ib_names = sorted(ib_names)
 
@@ -97,16 +75,37 @@ class Inbetweens(object):
 		else:
 			if not cmds.objExists(self.curIbName+"_ibtw_root"):
 				return
+			
+			is_symmetrical = utils.isSymmetrical(self.curIbName+"_ibtw_root")
+
+			# data = self.getData(self.curIbName)
 			self.win.ibs_options_frame.setEnabled(True)
 			self.win.parentJoint_lineEdit.setText(self.curIb['parent_j'])	
 			self.win.childJoint_lineEdit.setText(self.curIb['child_j'])	
 			
-			if self.curIb['parent_j'] == cmds.listRelatives(self.curIb['child_j'], p=1)[0]:
+			if self.isLocal(self.curIbName):
 				self.win.local_rbtn.setChecked(True)
 				self.win.world_rbtn.setChecked(False)
+				self.win.ib_flippedX_checkBox.setVisible(False)
+				self.win.ib_flippedX_checkBox.setEnabled(False)
+				self.win.ib_flippedY_checkBox.setVisible(False)
+				self.win.ib_flippedY_checkBox.setEnabled(False)
+				self.win.ib_flippedZ_checkBox.setVisible(False)
+				self.win.ib_flippedZ_checkBox.setEnabled(False)
 			else:
 				self.win.world_rbtn.setChecked(True)
 				self.win.local_rbtn.setChecked(False)
+				
+				self.win.ib_flippedX_checkBox.setVisible(True)
+				self.win.ib_flippedX_checkBox.setChecked(self.curIb['flippedX'])
+				self.win.ib_flippedY_checkBox.setVisible(True)
+				self.win.ib_flippedY_checkBox.setChecked(self.curIb['flippedY'])
+				self.win.ib_flippedZ_checkBox.setVisible(True)
+				self.win.ib_flippedZ_checkBox.setChecked(self.curIb['flippedZ'])
+
+				self.win.ib_flippedX_checkBox.setEnabled(is_symmetrical)
+				self.win.ib_flippedY_checkBox.setEnabled(is_symmetrical)
+				self.win.ib_flippedZ_checkBox.setEnabled(is_symmetrical)
 
 		if self.curIbName.split('_')[0] == 'r':
 			self.win.ibs_options_frame.setEnabled(False)
@@ -141,10 +140,11 @@ class Inbetweens(object):
 		else:
 			child_j = data["child_j"]
 			parent_j = data["parent_j"]
+			local = data["local"]
 		
-		name = child_j.split("_joint")[0].split("_outJoint")[0] + "_ibtw"
+		name = child_j.split("_joint")[0].split("_outJoint")[0].split("_twJoint")[0]
 
-		if cmds.objExists(name+"_root"):
+		if cmds.objExists(name+"_ibtw_root"):
 			QtWidgets.QMessageBox.information(self.win, "Warning", "Inbetween in this joint already exists.")
 			return
 
@@ -153,103 +153,231 @@ class Inbetweens(object):
 			path = os.path.join(rootPath, 'modules', '_psdLocal.ma')
 		else:
 			path = os.path.join(rootPath, 'modules', '_psd.ma')
-		print("Load inbetween file", path)
+		# print("Load inbetween file", path)
 		cmds.file(path, pr=1, i=1, type="mayaAscii", namespace='_temp_', ra=True, mergeNamespacesOnClash=False,options="v=0;")
 
 		# rename and add all twist nodes to module set
-		set = cmds.sets(name=name+'NodesSet')
+		set = cmds.sets(name=name+'_ibtwNodesSet')
 		nodes = cmds.ls('_temp_:*')
 		moduleName = utils.getModuleName(child_j)
 		for n in nodes:
 			if cmds.objExists(n):
 				cmds.sets(n, e=1, forceElement=set)
-				cmds.rename(n, n.replace("_temp_:", name+"_"))
+				cmds.rename(n, n.replace("_temp_:", name+"_ibtw_"))
 		utils.addToModuleSet(set, moduleName)
 		cmds.namespace(removeNamespace='_temp_')
 
 		# attach to hierarhy
-		root = name+"_root"
+		root = name+"_ibtw_root"
 		out_child_j = child_j.replace("joint", "outJoint")
 		out_parent_j = parent_j.replace("joint", "outJoint")
-		out_child_initLoc = out_child_j.replace("outJoint", "initLoc")
 		out_parent_initLoc = out_parent_j.replace("outJoint", "initLoc")
 		
 		if local:
 			cmds.parent(root, out_child_j)
 			utils.resetAttrs(root)
-			cmds.connectAttr(out_child_j+'.r', name+"_input_pairBlend.inRotate1", f=1)
-			cmds.delete(name+"_joint_1")
+			cmds.connectAttr(out_child_j+'.r', name+"_ibtw_input_pairBlend.inRotate1", f=1)
+			cmds.delete(name+"_ibtw_joint_1")
 		else:
 			cmds.parent(root, out_parent_j)
 			utils.resetAttrs(root)
-			offset_loc = cmds.spaceLocator(n=name+"_ibtwOffsetLoc")[0]
-			cmds.sets(offset_loc, e=1, forceElement=set)
-			cmds.parent(offset_loc, out_parent_initLoc)
-			utils.resetAttrs(offset_loc)
 
-			utils.connectByMatrix(root, [offset_loc, out_parent_initLoc], ["worldMatrix[0]", "worldInverseMatrix[0]"], attrs=['t', 'r'], set=set)
-			utils.connectByMatrix(name+"_target", [out_child_j, root], ["worldMatrix[0]", "worldInverseMatrix[0]"], attrs=['r'], set=set)
-			cmds.connectAttr(name+"_target_decMat.outputTranslate", name+"_joints_group.t")
+			parent_offset_loc = cmds.spaceLocator(n=name+"_ibtw_parent_offsetLoc")[0]
+			cmds.sets(parent_offset_loc, e=1, forceElement=set)
+			cmds.parent(parent_offset_loc, out_parent_j)
+			utils.resetAttrs(parent_offset_loc)
 
-		cmds.ShowSelectedObjects()
+			child_offset_loc = cmds.spaceLocator(n=name+"_ibtw_child_offsetLoc")[0]
+			cmds.sets(child_offset_loc, e=1, forceElement=set)
+			cmds.parent(child_offset_loc, out_child_j)
+			utils.resetAttrs(child_offset_loc)
+			
+			utils.connectByMatrix(name+"_ibtw_target", [child_offset_loc, parent_offset_loc], ["worldMatrix[0]", "worldInverseMatrix[0]"], attrs=['r'], set=set, module_name=moduleName)
+			utils.connectByMatrix(name+"_ibtw_joints_group", [child_offset_loc, parent_offset_loc], ["worldMatrix[0]", "worldInverseMatrix[0]"], attrs=['t'], set=set, module_name=moduleName)
+
+			cmds.connectAttr(parent_offset_loc+".t", root+".t")
+			cmds.connectAttr(parent_offset_loc+".r", root+".r")
+
+			cmds.hide(parent_offset_loc, child_offset_loc)
+		
+		# remove init joints
+		cmds.delete(name+"_ibtw_outJoint_y_1")
+		cmds.delete(name+"_ibtw_outJoint_y_2")
+		cmds.delete(name+"_ibtw_outJoint_z_1")
+		cmds.delete(name+"_ibtw_outJoint_z_2")
 
 		# connect opp joints
 		def connectOppJoint(name, side):
 			opp_name = utils.getOpposite(name)
 			
 			if local:
-				mult = cmds.createNode('multiplyDivide', n="%s_%s_angle_multiplyDivide" %(name,side) )
+				mult = cmds.createNode('multiplyDivide', n="%s_ibtw_%s_angle_multiplyDivide" %(name,side) )
 				cmds.sets(mult, e=1, forceElement=set)
 				cmds.setAttr(mult+".input2X", -1)
 				cmds.setAttr(mult+".input2Y", -1)
-				cmds.connectAttr("%s_outJoint_%s.angleMax" %(name,side), mult+".input1X")
-				cmds.connectAttr("%s_outJoint_%s.angleMin" %(name,side), mult+".input1Y")
-				cmds.connectAttr( mult+".outputX", "%s_outJoint_%s.angleMax" %(opp_name,side))
-				cmds.connectAttr( mult+".outputY", "%s_outJoint_%s.angleMin" %(opp_name,side))
+				cmds.connectAttr("%s_ibtw_outJoint_%s.angleMax" %(name,side), mult+".input1X")
+				cmds.connectAttr("%s_ibtw_outJoint_%s.angleMin" %(name,side), mult+".input1Y")
+				cmds.connectAttr( mult+".outputX", "%s_ibtw_outJoint_%s.angleMax" %(opp_name,side))
+				cmds.connectAttr( mult+".outputY", "%s_ibtw_outJoint_%s.angleMin" %(opp_name,side))
 			else:
-				cmds.setAttr(opp_name+"_aim.tx", -3)
-				cmds.connectAttr("%s_outJoint_%s.angleMax" %(name,side), "%s_outJoint_%s.angleMax" %(opp_name,side))
-				cmds.connectAttr("%s_outJoint_%s.angleMin" %(name,side), "%s_outJoint_%s.angleMin" %(opp_name,side))
+				cmds.setAttr(opp_name+"_ibtw_aim.tx", -3)
+				cmds.connectAttr("%s_ibtw_outJoint_%s.angleMax" %(name,side), "%s_ibtw_outJoint_%s.angleMax" %(opp_name,side))
+				cmds.connectAttr("%s_ibtw_outJoint_%s.angleMin" %(name,side), "%s_ibtw_outJoint_%s.angleMin" %(opp_name,side))
 			
-			mult = cmds.createNode('multiplyDivide', n="%s_%s_slide_multiplyDivide" %(name,side) )
+			mult = cmds.createNode('multiplyDivide', n="%s_ibtw_%s_slide_multiplyDivide" %(name,side) )
 			cmds.sets(mult, e=1, forceElement=set)
 			cmds.setAttr(mult+".input2X", -1)
 			cmds.setAttr(mult+".input2Y", -1)
-			cmds.connectAttr("%s_outJoint_%s.slideMax" %(name,side), mult+".input1X")
-			cmds.connectAttr("%s_outJoint_%s.slideMin" %(name,side), mult+".input1Y")
-			cmds.connectAttr( mult+".outputX", "%s_outJoint_%s.slideMax" %(opp_name,side))
-			cmds.connectAttr( mult+".outputY", "%s_outJoint_%s.slideMin" %(opp_name,side))
+			cmds.connectAttr("%s_ibtw_outJoint_%s.slideMax" %(name,side), mult+".input1X")
+			cmds.connectAttr("%s_ibtw_outJoint_%s.slideMin" %(name,side), mult+".input1Y")
+			cmds.connectAttr( mult+".outputX", "%s_ibtw_outJoint_%s.slideMax" %(opp_name,side))
+			cmds.connectAttr( mult+".outputY", "%s_ibtw_outJoint_%s.slideMin" %(opp_name,side))
 
-			cmds.connectAttr("%s_outJoint_%s.posMax" %(name,side), "%s_outJoint_%s.posMax" %(opp_name,side))
-			cmds.connectAttr("%s_outJoint_%s.posMin" %(name,side), "%s_outJoint_%s.posMin" %(opp_name,side))
+			cmds.connectAttr("%s_ibtw_outJoint_%s.posMax" %(name,side), "%s_ibtw_outJoint_%s.posMax" %(opp_name,side))
+			cmds.connectAttr("%s_ibtw_outJoint_%s.posMin" %(name,side), "%s_ibtw_outJoint_%s.posMin" %(opp_name,side))
 
 		# opposite
 		if utils.isSymmetrical(child_j) and utils.getObjectSide(child_j) == "l":
-			cmds.select(utils.getOpposite(parent_j), utils.getOpposite(child_j))
-			self.add(local=local)
-			
-			connectOppJoint(name, "y_1")
-			connectOppJoint(name, "y_2")
-			connectOppJoint(name, "z_1")
-			connectOppJoint(name, "z_2")
+			if data:
+				opp_data = data.copy()
+				opp_data['child_j'] = utils.getOpposite(child_j)
+				opp_data['parent_j'] = utils.getOpposite(parent_j)
+				self.add(data=opp_data, local=local)
+			else:
+				cmds.select(utils.getOpposite(parent_j), utils.getOpposite(child_j))
+				self.add(local=local)
 
-			if not local:
-				opp_name = utils.getOpposite(name)
+			opp_name = utils.getOpposite(name)
 
-				mult = cmds.createNode('multiplyDivide', n=opp_name+"_reverseOffset_multiplyDivide")
+			if local:
+				mult = cmds.createNode('multiplyDivide', n=opp_name+"_ibtw_reverseParentOffset_multiplyDivide")
 				cmds.sets(mult, e=1, forceElement=set)
-				cmds.setAttr(mult+".input2X", -1)
-				cmds.setAttr(mult+".input2Y", -1)
-				
-				cmds.connectAttr(name+"_ibtwOffsetLoc.r", mult+".input1")
-				cmds.connectAttr(mult+".output", opp_name+"_ibtwOffsetLoc.r")
+				cmds.connectAttr(name+"_ibtw_offsetLoc.r", mult+".input1")
+				cmds.connectAttr(mult+".output", opp_name+"_ibtw_offsetLoc.r")
 
-				cmds.setAttr(opp_name+"_root.sx", -1)
+				cmds.setAttr(mult+".input2Y", -1)
+				cmds.setAttr(mult+".input2Z", -1)
+			else:
+				opp_offsetLoc = opp_name+"_ibtw_parent_offsetLoc"
+				opp_root = utils.getOpposite(root)
+				gr = cmds.group(empty=1, name=opp_offsetLoc+"_mirrorGroup")
+				cmds.sets(gr, e=1, forceElement=set)
+				cmds.parent(gr, utils.getOpposite(out_parent_j))
+				utils.resetAttrs(gr)
+				cmds.parent(opp_offsetLoc, gr)
+				utils.resetAttrs(opp_offsetLoc)
+				# cmds.setAttr(gr+".sx", -1)
+				cmds.connectAttr(name+"_ibtw_parent_offsetLoc.r", opp_offsetLoc+".r")
+				cmds.parent(opp_root, gr)
+				utils.resetAttrs(opp_root)
+
+				opp_offsetLoc = opp_name+"_ibtw_child_offsetLoc"
+				gr = cmds.group(empty=1, name=opp_offsetLoc+"_mirrorGroup")
+				cmds.sets(gr, e=1, forceElement=set)
+				cmds.parent(gr, utils.getOpposite(out_child_j))
+				utils.resetAttrs(gr)
+				cmds.parent(opp_offsetLoc, gr)
+				utils.resetAttrs(opp_offsetLoc)
+				cmds.setAttr(gr+".sx", -1)
+				cmds.connectAttr(name+"_ibtw_child_offsetLoc.r", opp_offsetLoc+".r")
+				
+				cmds.connectAttr(name+"_ibtw_target_y.t", opp_name+"_ibtw_target_y.t")
+				cmds.connectAttr(name+"_ibtw_target_z.t", opp_name+"_ibtw_target_z.t")
+
+
+		# add joints
+		if (utils.isSymmetrical(child_j) and utils.getObjectSide(child_j) == "l") or not utils.isSymmetrical(child_j):
+			if not data:
+				jointsData = {}
+				if local:
+					jointsData['angleMin'] = 0
+					jointsData['angleMax'] = -30
+					jointsData['posMin'] = 1
+					jointsData['posMax'] = 5
+					jointsData['slideMin'] = 0
+					jointsData['slideMax'] = 0
+					self.addJoint("y", name, jointsData)
+
+					jointsData['angleMax'] = 30
+					jointsData['posMin'] = -1
+					jointsData['posMax'] = -5
+					self.addJoint("y", name, jointsData)
+
+					jointsData['angleMax'] = 30
+					jointsData['posMin'] = 1
+					jointsData['posMax'] = 5
+					self.addJoint("z", name, jointsData)
+
+					jointsData['angleMax'] = -30
+					jointsData['posMin'] = -1
+					jointsData['posMax'] = -5
+					self.addJoint("z", name, jointsData)
+				else:
+					jointsData['angleMin'] = 90
+					jointsData['angleMax'] = 45
+					jointsData['posMin'] = 1
+					jointsData['posMax'] = 5
+					jointsData['slideMin'] = 0
+					jointsData['slideMax'] = 0
+					self.addJoint("y", name, jointsData)
+
+					jointsData['angleMax'] = 135
+					jointsData['posMin'] = -1
+					jointsData['posMax'] = -5
+					self.addJoint("y", name, jointsData)
+
+					jointsData['angleMax'] = 45
+					jointsData['posMin'] = 1
+					jointsData['posMax'] = 5
+					self.addJoint("z", name, jointsData)
+
+					jointsData['angleMax'] = 135
+					jointsData['posMin'] = -1
+					jointsData['posMax'] = -5
+					self.addJoint("z", name, jointsData)
+			else:
+				jointsData = data["jointsData"]
+				for j_data in jointsData:
+					side = j_data["name"].split("_")[-2]
+					self.addJoint(side, name, j_data)
+			
+				if data["local"]:
+					cmds.setAttr(name+"_ibtw_offsetLoc.rx", data["offset"][0][0])
+					cmds.setAttr(name+"_ibtw_offsetLoc.ry", data["offset"][0][1])
+					cmds.setAttr(name+"_ibtw_offsetLoc.rz", data["offset"][0][2])
+				else:
+					cmds.setAttr(name+"_ibtw_parent_offsetLoc.rx", data["parentOffset"][0][0])
+					cmds.setAttr(name+"_ibtw_parent_offsetLoc.ry", data["parentOffset"][0][1])
+					cmds.setAttr(name+"_ibtw_parent_offsetLoc.rz", data["parentOffset"][0][2])
+					cmds.setAttr(name+"_ibtw_child_offsetLoc.rx", data["childOffset"][0][0])
+					cmds.setAttr(name+"_ibtw_child_offsetLoc.ry", data["childOffset"][0][1])
+					cmds.setAttr(name+"_ibtw_child_offsetLoc.rz", data["childOffset"][0][2])
+					cmds.setAttr(name+"_ibtw_target_y.tx", data["targetYPos"][0][0])
+					cmds.setAttr(name+"_ibtw_target_y.ty", data["targetYPos"][0][1])
+					cmds.setAttr(name+"_ibtw_target_y.tz", data["targetYPos"][0][2])
+					cmds.setAttr(name+"_ibtw_target_z.tx", data["targetZPos"][0][0])
+					cmds.setAttr(name+"_ibtw_target_z.ty", data["targetZPos"][0][1])
+					cmds.setAttr(name+"_ibtw_target_z.tz", data["targetZPos"][0][2])
+			
+				if data["flippedX"]:
+					self.setFlipped(name, state=True, dir="x")
+				if data["flippedY"]:
+					self.setFlipped(name, state=True, dir="y")
+				if data["flippedZ"]:
+					self.setFlipped(name, state=True, dir="z")
+
+		# module override
+		mod = utils.getModuleInstance(moduleName)
+		mod.ibtwOverride(name)
+		
+		cmds.select(root)
+		cmds.ShowSelectedObjects()
+		cmds.hide(name+"_ibtw_rootShape")
 
 		self.updateList()
 
 		# select item in list
-		self.selectListItem(name.replace("_ibtw", ""))
+		self.selectListItem(name)
 
 		cmds.select(clear=1)
 
@@ -275,99 +403,27 @@ class Inbetweens(object):
 			self.remove(opp_name)
 
 		self.updateList()
-
-	def setParent(self):
-		name = self.curIbName
-		sel = cmds.ls(sl=1)
-
-		if len(sel) != 1:
-			cmds.warning(' Select one joint as parent')
-			return			
-
-		parent = sel[0]
-		child = self.curIb['child']
-		
-		self.remove(self.curIbName)
-		
-		data = {}
-		data["child"] = child
-		data["parent"] = parent
-
-		self.add(data)
-		
-		self.selectListItem(self.curIbName)
-
-		self.updateFrame()
-
-		if len(sel) > 0:
-			cmds.select(sel)
-			
-	def selectJoint(self, side):
-		item_name = self.win.ibtw_childs_listWidget.currentItem().text()
-		name = item_name.replace(" - ", "__")		
-		
-		cmds.select("%s__%s__ibJoint" %(name, side) )
-			
-	def switchJoint(self, side, w):
-		item_name = self.win.ibtw_childs_listWidget.currentItem().text()
-		name = item_name.replace(" - ", "__")		
-		
-		v = w.isChecked()
-		
-		cmds.setAttr("%s__%s__ibJoint.visibility" %(name, side), v)
 			
 	def isLocal(self, name): #
 		return not cmds.objExists(name+"_ibtw_joints_group")
-			
-	def rotateWeight(self, side, w):
-		item_name = self.win.ibtw_childs_listWidget.currentItem().text()
-		name = item_name.replace(" - ", "__")		
-		
-		def run(name):
-			gr = pm.PyNode("%s__%s__rotWeightGroup" %(name,side) )
-			drv = pm.PyNode(name+"__ibDriver") 
-			off_gr = pm.PyNode("%s__%s__rotWeightGroup" %(name,side))
-			j = pm.PyNode("%s__%s__ibJoint" %(name,side))
-			
-			if not self.isLocal(name, side):
-				pm.parent(off_gr, pm.PyNode(name+"__ibRoot") )
-	
-				pb = pm.createNode('pairBlend', n="%s__%s__ibPairBlend" %(name,side) )
-				drv.r >> pb.inRotate1
-				pb.weight.set(0.5)
-				pb.rotInterpolation.set(1)
-				pb.outRotate >> gr.r
-				
-				pm.addAttr(j, ln="rotationWeight", k=1, dv=0.5, minValue=0, maxValue=1)
-				rev = pm.createNode( 'reverse', n="%s__%s__ibRotationWeightRev" %(name,side) )
-				j.rotationWeight >> rev.inputX
-				rev.outputX >> pb.weight
-				
-				if name.split("_")[0] == "r":
-					pm.connectAttr("l"+j.name()[1:].replace("_r_", "_l_")+".rotationWeight", j.rotationWeight)
-				
-			else:
-				pm.parent(off_gr, pm.PyNode(name+"__ibRotationOffsetGroup") )
-				pb = pm.PyNode("%s__%s__ibPairBlend" %(name,side)) 
-				pm.delete(pb)
-				pm.disconnectAttr(drv.r, off_gr.r)
-				off_gr.r.set(0,0,0)
-				j.rotationWeight.delete()
-				
-		run(name)
-		
-		opp_name = ("r" + name[1:]).replace("__l_", "__r_")
-		if cmds.objExists(opp_name+"__ibRoot"):
-			run(opp_name)
-			
-			
-		self.updateFrame()
 		
 	def selectOffsetLocator(self): #
 		name = self.win.ibtw_childs_listWidget.currentItem().text()
-		offset_loc = name + "_ibtw_ibtwOffsetLoc"
-		v = cmds.getAttr(offset_loc+".v")
-		cmds.select(offset_loc)
+		offset_locs = [name+"_ibtw_offsetLoc", name+"_ibtw_parent_offsetLoc", name+"_ibtw_child_offsetLoc", name+"_ibtw_target_y", name+"_ibtw_target_z", name+"_ibtw_aim"]
+
+		if self.isLocal(name):
+			v = not cmds.getAttr(name+"_ibtw_offsetLoc.v")
+		else:
+			v = not cmds.getAttr(name+"_ibtw_target_y.v")
+
+		if v:
+			cmds.select(clear=1)
+
+		for l in offset_locs:
+			if cmds.objExists(l):
+				cmds.setAttr(l+".v", v)
+				if v:
+					cmds.select(l, add=1)
 
 	def getData(self, name): #
 		root = name+"_ibtw_root"
@@ -377,13 +433,30 @@ class Inbetweens(object):
 
 		data = {}
 		data["name"] = name
+		data["flippedX"] = False
+		data["flippedY"] = False
+		data["flippedZ"] = False
+		data["local"] = self.isLocal(name)
 
 		if self.isLocal(name):
 			data["child_j"] = child_j = cmds.listRelatives(root, p=1)[0]
 			data["parent_j"] = cmds.listRelatives(child_j, p=1)[0]
+			
+			data["offset"] = cmds.getAttr(name+"_ibtw_offsetLoc.r")
 		else:
-			mm = pm.PyNode(name+"_ibtw_multMat")
-			data["child_j"], data["parent_j"] = mm.matrixIn.inputs()
+			data["child_j"] = cmds.listRelatives(name+"_ibtw_child_offsetLoc", p=1)[0]
+			data["parent_j"] = cmds.listRelatives(name+"_ibtw_parent_offsetLoc", p=1)[0]
+
+			data["parentOffset"] = cmds.getAttr(name+"_ibtw_parent_offsetLoc.r")
+			data["childOffset"] = cmds.getAttr(name+"_ibtw_child_offsetLoc.r")
+			data["targetYPos"] = cmds.getAttr(name+"_ibtw_target_y.t")
+			data["targetZPos"] = cmds.getAttr(name+"_ibtw_target_z.t")
+
+			if utils.isSymmetrical(root):
+				opp_name = utils.getOpposite(name)
+				data["flippedX"] = cmds.getAttr(opp_name+"_ibtw_parent_offsetLoc_mirrorGroup.sx") == -1
+				data["flippedY"] = cmds.getAttr(opp_name+"_ibtw_parent_offsetLoc_mirrorGroup.sy") == -1
+				data["flippedZ"] = cmds.getAttr(opp_name+"_ibtw_parent_offsetLoc_mirrorGroup.sz") == -1
 
 		jointsData = []
 		joints = cmds.ls(name+"*_ibtw_outJoint_*")
@@ -397,30 +470,57 @@ class Inbetweens(object):
 			jData["slideMin"] = cmds.getAttr(j+".slideMin")
 			jData["slideMax"] = cmds.getAttr(j+".slideMax")
 			jointsData.append(jData)
+
 		data["jointsData"] = jointsData
 
-		print("--------------------")
-		print(data["name"])
-		print(data["child_j"])
-		print(data["parent_j"])
-		print(data["jointsData"])
+
+
+		# print("--------------------")
+		# print(data["name"])
+		# print(data["child_j"])
+		# print(data["parent_j"])
+		# print(data["jointsData"])
 
 		return data
 	
-	def addJoint(self, side, name=None):
+	def addJoint(self, side, name=None, data=None): #
 		if not name:
 			name = self.curIbName
 		j_name = utils.incrementNameIfExists(name+"_ibtw_outJoint_%s_1" %side)
-		j = pm.duplicate(name+"_ibtw_outJoint_%s_1" %side, n=j_name)[0]
-		j.driverAngle.unlock()
 		local = self.isLocal(name)
+
+		if local:
+			cmds.select(name+"_ibtw_root")
+		else:
+			cmds.select(name+"_ibtw_joints_group")
+		j = pm.joint(n=j_name)
+		pm.addAttr(j, ln="driverAngle", at="double", k=1)
+		pm.addAttr(j, ln="angleMin", at="double", k=1, dv=0)
+		pm.addAttr(j, ln="angleMax", at="double", k=1, dv=45)
+		pm.addAttr(j, ln="posMin", at="double", k=1, dv=1)
+		pm.addAttr(j, ln="posMax", at="double", k=1, dv=5)
+		pm.addAttr(j, ln="slideMin", at="double", k=1)
+		pm.addAttr(j, ln="slideMax", at="double", k=1)
+
+		if data:
+			j.angleMin.set(data['angleMin'])
+			j.angleMax.set(data['angleMax'])
+			j.posMin.set(data['posMin'])
+			j.posMax.set(data['posMax'])
+			j.slideMin.set(data['slideMin'])
+			j.slideMax.set(data['slideMax'])
+
+		if side == "y":
+			j.angleMax.set(j.angleMax.get()*-1)
+
+		
 		set = name + '_ibtwNodesSet'
 
 		uc = pm.PyNode(name+"_ibtw_%s_unitConversion" %side)
-		sr = pm.createNode("setRange", n=j_name+"_setRange")
-		cond1 = pm.createNode("condition", n=j_name+"_pos_condition")
-		cond2 = pm.createNode("condition", n=j_name+"_slide_condition")
-		cond3 = pm.createNode("condition", n=j_name+"_angles_condition")
+		sr = pm.createNode("setRange", n=j_name.replace("outJoint", "setRange"))
+		cond1 = pm.createNode("condition", n=j_name.replace("outJoint", "pos_condition"))
+		cond2 = pm.createNode("condition", n=j_name.replace("outJoint", "slide_condition"))
+		cond3 = pm.createNode("condition", n=j_name.replace("outJoint", "angles_condition"))
 		cmds.sets(cond1.name(), e=1, forceElement=set)
 		cmds.sets(cond2.name(), e=1, forceElement=set)
 		cmds.sets(cond3.name(), e=1, forceElement=set)
@@ -480,7 +580,7 @@ class Inbetweens(object):
 
 			opp_j_name = utils.getOpposite(j_name)
 			
-			mult = cmds.createNode('multiplyDivide', n=j_name+"_slide_multiplyDivide")
+			mult = cmds.createNode('multiplyDivide', n=j_name.replace("outJoint", "slide_multiplyDivide"))
 			cmds.sets(mult, e=1, forceElement=set)
 			cmds.setAttr(mult+".input2X", -1)
 			cmds.setAttr(mult+".input2Y", -1)
@@ -493,7 +593,7 @@ class Inbetweens(object):
 			cmds.connectAttr(j_name+".posMin", opp_j_name+".posMin")
 
 			if local:
-				mult = cmds.createNode('multiplyDivide', n=j_name+"_angle_multiplyDivide")
+				mult = cmds.createNode('multiplyDivide', n=j_name.replace("outJoint", "angle_multiplyDivide"))
 				cmds.sets(mult, e=1, forceElement=set)
 				cmds.setAttr(mult+".input2X", -1)
 				cmds.setAttr(mult+".input2Y", -1)
@@ -506,3 +606,54 @@ class Inbetweens(object):
 				cmds.connectAttr(j_name+".angleMin", opp_j_name+".angleMin")
 
 		pm.select(j)
+
+	def selectFirstJoints(self, side):
+		name = self.curIbName
+		opp_name = utils.getOpposite(name)
+		cmds.select(name+"_ibtw_outJoint_%s_1" %side, opp_name+"_ibtw_outJoint_%s_1" %side)
+
+	def setFlipped(self, name=None, dir="x", state=None, solo=True):
+		
+		if not state:
+			if dir == "x":
+				state = self.win.ib_flippedX_checkBox.isChecked()
+			elif dir == "y":
+				state = self.win.ib_flippedY_checkBox.isChecked()
+			elif dir == "z":
+				state = self.win.ib_flippedZ_checkBox.isChecked()
+		
+		if state:
+			v = -1
+		else:
+			v = 1
+
+		if not name:
+			name = self.curIbName
+			
+		opp_name = utils.getOpposite(name)
+		if dir == "x":
+			cmds.setAttr(opp_name+"_ibtw_parent_offsetLoc_mirrorGroup.sx", v)
+			self.curIb["flippedX"] = state
+		elif dir == "y":
+			cmds.setAttr(opp_name+"_ibtw_parent_offsetLoc_mirrorGroup.sy", v)
+			self.curIb["flippedZ"] = state
+		elif dir == "z":
+			cmds.setAttr(opp_name+"_ibtw_parent_offsetLoc_mirrorGroup.sz", v)
+			self.curIb["flippedZ"] = state
+			
+		if state and solo:
+			if dir == "x":
+				self.win.ib_flippedY_checkBox.setChecked(False)
+				self.win.ib_flippedZ_checkBox.setChecked(False)
+				self.setFlipped(name, dir="y", state=None, solo=False)
+				self.setFlipped(name, dir="z", state=None, solo=False)
+			elif dir == "y":
+				self.win.ib_flippedX_checkBox.setChecked(False)
+				self.win.ib_flippedZ_checkBox.setChecked(False)
+				self.setFlipped(name, dir="x", state=None, solo=False)
+				self.setFlipped(name, dir="z", state=None, solo=False)
+			elif dir == "z":
+				self.win.ib_flippedX_checkBox.setChecked(False)
+				self.win.ib_flippedY_checkBox.setChecked(False)
+				self.setFlipped(name, dir="x", state=None, solo=False)
+				self.setFlipped(name, dir="y", state=None, solo=False)

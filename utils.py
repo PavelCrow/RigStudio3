@@ -321,8 +321,15 @@ def getModuleName(obj): #
 		return None	
 	j = obj.replace("joint", "outJoint")
 
+	# for twist joints
+	if obj.split("_")[-1] == "twJoint":
+		p = cmds.listRelatives(obj, p=1)[0]
+		j = p.replace("joints", "outJoint")
+
 	path = cmds.ls(j, l=1) or []
 	moduleName = path[0].split("rig|modules|")[-1].split("_mod|")[0]
+
+
 
 	return moduleName
 
@@ -500,10 +507,9 @@ def setMirrorAttrControl():
 
 def getControlNameFromInternal(module_name, internalControlName):
 	ctrls = getSetObjects(module_name+'_moduleControlSet')
-	#print "!!!!!!!!!!!!!!",  module_name, ctrls
 	for c in ctrls:
 		int_name = cmds.getAttr(c+".internalName")
-		#print "-----", c, int_name, internalControlName, int_name == internalControlName
+		# print ("-----", c, int_name)
 		if int_name == internalControlName:
 			#print "RETURN", internalControlName, "->>>", c
 			return c
@@ -704,10 +710,11 @@ def aimToOffsetParentMatrix(obj, input, primary, secondary, attrs=[], set=None):
 		cmds.sets(mMat, e=1, forceElement=set)
 
 def addToModuleSet(node, module_name):
-	cmds.sets(node, e=1, forceElement=module_name+'_nodesSet')
+	if cmds.objExists(module_name+'_nodesSet'):
+		cmds.sets(node, e=1, forceElement=module_name+'_nodesSet')
 
-def addBindSkinJoint(checkBox):
-	rigTools.addSecondBindSkinJoint.run(checkBox.isChecked())
+# def addBindSkinJoint(checkBox):
+# 	rigTools.addSecondBindSkinJoint.run(checkBox.isChecked())
 
 def scaleFromRoot():
 	pass

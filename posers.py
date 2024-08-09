@@ -165,6 +165,11 @@ def createAddPoser(name, moduleName): #
 	cmds.connectAttr(p+'.sx', p+'.sz')
 	cmds.setAttr(p+'.sz', l=True)
 	cmds.setAttr(p+'.sy', l=True)
+	
+	mns = cmds.createNode("makeNurbSphere", n=name+"_makeNurbSphere")
+	cmds.connectAttr(p+'.size', mns+".radius")
+	cmds.connectAttr(mns+".outputSurface", name+"_addPoserShape.create")
+	cmds.setAttr(p+'.size', 0.3)
 
 	# create initLoc
 	l = cmds.spaceLocator(n=name+"_initLoc")[0]

@@ -1,18 +1,19 @@
 //Maya ASCII 2022 scene
 //Name: spine.ma
-//Last modified: Sun, Apr 07, 2024 08:11:45 AM
+//Last modified: Mon, Jun 24, 2024 05:10:09 PM
 //Codeset: 1251
 requires maya "2022";
+requires -nodeType "sweepMeshCreator" -dataType "sweepMeshData" -dataType "sweepProfileData"
+		 "sweep" "1.0";
 requires "stereoCamera" "10.0";
 requires -nodeType "quatToEuler" "quatNodes" "1.0";
-requires -nodeType "bifrostGraphShape" -dataType "bifData" "bifrostGraph" "2.6.0.0-202212071624-fbc8dae";
 currentUnit -l centimeter -a degree -t pal;
 fileInfo "application" "maya";
 fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202303271415-baa69b5798";
 fileInfo "osv" "Windows 10 Pro v2009 (Build: 22631)";
-fileInfo "UUID" "801A7AD8-4197-EA83-2BF0-D28688512972";
+fileInfo "UUID" "91A2471A-4E65-71AB-F93E-B8B33821BEB3";
 createNode transform -n "mod";
 	rename -uid "C55DD497-492A-4EC0-E01E-33B4860B4331";
 	addAttr -ci true -sn "version" -ln "version" -dt "string";
@@ -39,34 +40,13 @@ createNode transform -n "mainPoser" -p "posers";
 	setAttr -l on ".moduleName" -type "string" "foot";
 	setAttr -l on ".moduleType" -type "string" "foot";
 	setAttr -k on ".globalSize" 0.5;
-	setAttr -k on ".lineWidth";
+	setAttr -k on ".lineWidth" 0.25000000000000006;
 createNode nurbsCurve -n "mainPoserShape" -p "mainPoser";
 	rename -uid "614CBDC8-482E-9E0B-B323-52B491A42A82";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 10;
-	setAttr -s 16 ".cp";
-	setAttr ".cc" -type "nurbsCurve" 
-		1 15 0 no 3
-		16 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-		16
-		-0.5 0.5 0.5
-		-0.5 0.5 -0.5
-		0.5 0.5 -0.5
-		0.5 0.5 0.5
-		-0.5 0.5 0.5
-		-0.5 -0.5 0.5
-		-0.5 -0.5 -0.5
-		0.5 -0.5 -0.5
-		0.5 -0.5 0.5
-		-0.5 -0.5 0.5
-		0.5 -0.5 0.5
-		0.5 0.5 0.5
-		0.5 0.5 -0.5
-		0.5 -0.5 -0.5
-		-0.5 -0.5 -0.5
-		-0.5 0.5 -0.5
-		;
+	setAttr ".tw" yes;
 createNode transform -n "root_poser" -p "mainPoser";
 	rename -uid "78831538-4AA5-F232-D568-D49EA125F78E";
 	addAttr -ci true -sn "size" -ln "size" -dv 1 -min 0 -at "double";
@@ -81,7 +61,7 @@ createNode transform -n "root_poser" -p "mainPoser";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
 	setAttr -k on ".size";
-createNode nurbsSurface -n "root_poserNurbsShape" -p "root_poser";
+createNode nurbsSurface -n "root_poserShape" -p "root_poser";
 	rename -uid "B8152D5C-41DF-8F03-5349-97A094AAD2BB";
 	setAttr -k off ".v";
 	setAttr ".ovc" 10;
@@ -104,66 +84,26 @@ createNode locator -n "root_poserOrientShape" -p "root_poserOrient";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 14;
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "pelvis_controlInitLoc" -p "root_poser";
+createNode transform -n "pelvis_initLoc" -p "root_poser";
 	rename -uid "D7712AAC-4DC7-AAB7-80DC-B0B582264D80";
-createNode locator -n "pelvis_controlInitLocShape" -p "pelvis_controlInitLoc";
+createNode locator -n "pelvis_initLocShape" -p "pelvis_initLoc";
 	rename -uid "5BCD1925-4A68-E2AB-2908-619874F3FD44";
 	setAttr -k off ".v" no;
 	setAttr ".ove" yes;
 	setAttr ".ovc" 14;
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "hips_controlInitLoc" -p "root_poser";
+createNode transform -n "hips_initLoc" -p "root_poser";
 	rename -uid "65913067-474C-9608-6DC3-D39ABE43DFE2";
-createNode locator -n "hips_controlInitLocShape" -p "hips_controlInitLoc";
+createNode locator -n "hips_initLocShape" -p "hips_initLoc";
 	rename -uid "80A881BE-4B26-113B-C0B8-C19184C08036";
 	setAttr -k off ".v" no;
 	setAttr ".ove" yes;
 	setAttr ".ovc" 14;
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "spineRoot_controlInitLoc" -p "root_poser";
+createNode transform -n "spineRoot_initLoc" -p "root_poser";
 	rename -uid "C033FD8D-4EF1-0427-387E-C2B544CA335F";
-createNode locator -n "spineRoot_controlInitLocShape" -p "spineRoot_controlInitLoc";
+createNode locator -n "spineRoot_initLocShape" -p "spineRoot_initLoc";
 	rename -uid "B04084BF-47DC-5D56-B509-899E049D7695";
-	setAttr -k off ".v" no;
-	setAttr ".ove" yes;
-	setAttr ".ovc" 14;
-	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "fk_1_controlInitLoc" -p "root_poser";
-	rename -uid "47F95F57-4F74-022A-2F83-108FDEEADF76";
-createNode locator -n "fk_1_controlInitLocShape" -p "fk_1_controlInitLoc";
-	rename -uid "06C7542B-4045-168C-5C6B-AAA4D0A1EE77";
-	setAttr -k off ".v" no;
-	setAttr ".ove" yes;
-	setAttr ".ovc" 14;
-	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "fk_2_controlInitLoc" -p "fk_1_controlInitLoc";
-	rename -uid "BF4055A4-4A25-3F88-F689-C4BB848712E4";
-createNode locator -n "fk_2_controlInitLocShape" -p "fk_2_controlInitLoc";
-	rename -uid "392B4E32-4DCC-2579-8A13-89A611502181";
-	setAttr -k off ".v" no;
-	setAttr ".ove" yes;
-	setAttr ".ovc" 14;
-	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "fk_3_controlInitLoc" -p "fk_2_controlInitLoc";
-	rename -uid "BAA4C6C0-41E2-C819-F986-05A6698F8ED4";
-createNode locator -n "fk_3_controlInitLocShape" -p "fk_3_controlInitLoc";
-	rename -uid "BF05D547-4FC6-0972-8F09-01AC771E996A";
-	setAttr -k off ".v" no;
-	setAttr ".ove" yes;
-	setAttr ".ovc" 14;
-	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "stomach_controlInitLoc" -p "fk_2_controlInitLoc";
-	rename -uid "98B1C58E-47DD-3D8E-0217-159362F02352";
-createNode locator -n "stomach_controlInitLocShape" -p "stomach_controlInitLoc";
-	rename -uid "F455289A-4EF5-85F5-408C-7CA89CC6095F";
-	setAttr -k off ".v" no;
-	setAttr ".ove" yes;
-	setAttr ".ovc" 14;
-	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "fk_hips_controlInitLoc" -p "root_poser";
-	rename -uid "D0CE061C-4C48-24BB-5A3B-348837984597";
-createNode locator -n "fk_hips_controlInitLocShape" -p "fk_hips_controlInitLoc";
-	rename -uid "C6CD11DC-4C46-1FB5-985B-F8A4ACAEDF39";
 	setAttr -k off ".v" no;
 	setAttr ".ove" yes;
 	setAttr ".ovc" 14;
@@ -171,13 +111,50 @@ createNode locator -n "fk_hips_controlInitLocShape" -p "fk_hips_controlInitLoc";
 createNode transform -n "root_initLoc" -p "root_poser";
 	rename -uid "16404241-45F9-7DBC-D9C4-CCAA0F0FC98B";
 	setAttr ".t" -type "double3" -9.3074452277290208e-16 0 2.3268613069322532e-16 ;
-	setAttr ".r" -type "double3" 90 -6.3611093629270335e-15 89.999999999999986 ;
+	setAttr ".r" -type "double3" 0 -1.5902773407317592e-15 89.999999999999986 ;
 createNode locator -n "root_initLocShape" -p "root_initLoc";
 	rename -uid "02A2318E-4BE9-3F22-8EDE-CCBF9B63DB00";
 	setAttr -k off ".v" no;
 	setAttr ".ove" yes;
 	setAttr ".ovc" 14;
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
+createNode transform -n "fk_1_initLoc" -p "root_poser";
+	rename -uid "47F95F57-4F74-022A-2F83-108FDEEADF76";
+createNode locator -n "fk_1_initLocShape" -p "fk_1_initLoc";
+	rename -uid "06C7542B-4045-168C-5C6B-AAA4D0A1EE77";
+	setAttr -k off ".v" no;
+	setAttr ".ove" yes;
+	setAttr ".ovc" 14;
+	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
+createNode transform -n "fk_2_initLoc" -p "fk_1_initLoc";
+	rename -uid "BF4055A4-4A25-3F88-F689-C4BB848712E4";
+createNode locator -n "fk_2_initLocShape" -p "fk_2_initLoc";
+	rename -uid "392B4E32-4DCC-2579-8A13-89A611502181";
+	setAttr -k off ".v" no;
+	setAttr ".ove" yes;
+	setAttr ".ovc" 14;
+	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
+createNode transform -n "fk_3_initLoc" -p "fk_2_initLoc";
+	rename -uid "BAA4C6C0-41E2-C819-F986-05A6698F8ED4";
+createNode locator -n "fk_3_initLocShape" -p "fk_3_initLoc";
+	rename -uid "BF05D547-4FC6-0972-8F09-01AC771E996A";
+	setAttr -k off ".v" no;
+	setAttr ".ove" yes;
+	setAttr ".ovc" 14;
+	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
+createNode transform -n "stomach_initLoc" -p "fk_2_initLoc";
+	rename -uid "98B1C58E-47DD-3D8E-0217-159362F02352";
+createNode locator -n "stomach_initLocShape" -p "stomach_initLoc";
+	rename -uid "F455289A-4EF5-85F5-408C-7CA89CC6095F";
+	setAttr -k off ".v" no;
+	setAttr ".ove" yes;
+	setAttr ".ovc" 14;
+	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
+createNode transform -n "fk_hips_initLoc" -p "fk_1_initLoc";
+	rename -uid "CE2D08D0-423C-0CD6-E4E9-B09F917C14FE";
+createNode locator -n "fk_hips_initLocShape" -p "fk_hips_initLoc";
+	rename -uid "93EB5877-4BD8-15CF-24A4-BFA6ECB32CCB";
+	setAttr -k off ".v";
 createNode transform -n "end_poser" -p "mainPoser";
 	rename -uid "AC069D1D-44EF-2B2E-E383-1889779A1712";
 	addAttr -ci true -sn "size" -ln "size" -dv 1 -min 0 -at "double";
@@ -193,7 +170,7 @@ createNode transform -n "end_poser" -p "mainPoser";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
 	setAttr -k on ".size";
-createNode nurbsSurface -n "end_poserNurbsShape" -p "end_poser";
+createNode nurbsSurface -n "end_poserShape" -p "end_poser";
 	rename -uid "9497663A-461B-0B37-25AD-E591C4342D59";
 	setAttr -k off ".v";
 	setAttr ".ovc" 10;
@@ -251,7 +228,7 @@ createNode transform -n "local_1_poser" -p "local_1_poser_group";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
 	setAttr -k on ".size" 0.5;
-createNode nurbsSurface -n "local_1_poserNurbsShape" -p "local_1_poser";
+createNode nurbsSurface -n "local_1_poserShape" -p "local_1_poser";
 	rename -uid "E3B915F4-4B8F-3B6B-A685-49BA55E971CD";
 	setAttr -k off ".v";
 	setAttr ".ovc" 10;
@@ -310,7 +287,7 @@ createNode transform -n "local_2_poser" -p "local_2_poser_group";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
 	setAttr -k on ".size" 0.5;
-createNode nurbsSurface -n "local_2_poserNurbsShape" -p "local_2_poser";
+createNode nurbsSurface -n "local_2_poserShape" -p "local_2_poser";
 	rename -uid "F7DBAD21-43EF-A9FC-4F14-078060C3F6FE";
 	setAttr -k off ".v";
 	setAttr ".ovc" 10;
@@ -369,7 +346,7 @@ createNode transform -n "local_3_poser" -p "local_3_poser_group";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
 	setAttr -k on ".size" 0.5;
-createNode nurbsSurface -n "local_3_poserNurbsShape" -p "local_3_poser";
+createNode nurbsSurface -n "local_3_poserShape" -p "local_3_poser";
 	rename -uid "F84AA972-421A-6D58-45E6-D8929EBDFB4E";
 	setAttr -k off ".v";
 	setAttr ".ovc" 10;
@@ -430,7 +407,7 @@ createNode transform -n "local_4_poser" -p "local_4_poser_group";
 	setAttr -l on -k off ".sz";
 	setAttr -k on ".size" 0.5;
 	setAttr -l on ".moduleName" -type "string" "spine_4";
-createNode nurbsSurface -n "local_4_poserNurbsShape" -p "local_4_poser";
+createNode nurbsSurface -n "local_4_poserShape" -p "local_4_poser";
 	rename -uid "3C00D815-440E-25AD-4770-9CB369100226";
 	setAttr -k off ".v";
 	setAttr ".ovc" 10;
@@ -493,7 +470,7 @@ createNode transform -n "local_5_poser" -p "local_5_poser_group";
 	setAttr -l on -k off ".sz";
 	setAttr -k on ".size" 0.5;
 	setAttr -l on ".moduleName" -type "string" "spine_5";
-createNode nurbsSurface -n "local_5_poserNurbsShape" -p "local_5_poser";
+createNode nurbsSurface -n "local_5_poserShape" -p "local_5_poser";
 	rename -uid "B6738A0D-4797-4C64-97CB-B5BD2E4687EA";
 	setAttr -k off ".v";
 	setAttr ".ovc" 10;
@@ -1065,83 +1042,6 @@ createNode pointConstraint -n "end_initLoc_pointConstraint1" -p "end_initLoc";
 	setAttr -k on ".w0";
 createNode transform -n "fk_initLocs" -p "init_locators_group";
 	rename -uid "B60CD6F6-47D7-2B0D-80DB-54B0792E1981";
-createNode transform -n "fk_3_initLoc" -p "fk_initLocs";
-	rename -uid "EDD7F632-4139-C9E5-9D68-7C9CA247F8BB";
-createNode locator -n "fk_3_initLocShape" -p "fk_3_initLoc";
-	rename -uid "47842E16-4402-9BDD-07B1-FEAB3CDF10F9";
-	setAttr -k off ".v";
-createNode pointConstraint -n "fk_bone_3_pivot_loc_pointConstraint1" -p "fk_3_initLoc";
-	rename -uid "B1A4EEBF-4D71-FAA4-0EE0-77937F1BFAFF";
-	addAttr -ci true -k true -sn "w0" -ln "spine_5_poserW0" -dv 1 -min 0 -at "double";
-	addAttr -ci true -k true -sn "w1" -ln "spine_4_poserW1" -dv 1 -min 0 -at "double";
-	setAttr -k on ".nds";
-	setAttr -k off ".v";
-	setAttr -k off ".tx";
-	setAttr -k off ".ty";
-	setAttr -k off ".tz";
-	setAttr -k off ".rx";
-	setAttr -k off ".ry";
-	setAttr -k off ".rz";
-	setAttr -k off ".sx";
-	setAttr -k off ".sy";
-	setAttr -k off ".sz";
-	setAttr ".erp" yes;
-	setAttr -s 2 ".tg";
-	setAttr ".rst" -type "double3" -1.0630563755019979 3.7469295993560832 0 ;
-	setAttr -k on ".w0";
-	setAttr -k on ".w1";
-createNode transform -n "fk_2_initLoc" -p "fk_initLocs";
-	rename -uid "15CE6A9B-461D-9823-762F-F5BCFDAA73C1";
-createNode locator -n "fk_2_initLocShape" -p "fk_2_initLoc";
-	rename -uid "C38C8C42-40E5-8605-FB23-6B85983371CE";
-	setAttr -k off ".v";
-createNode pointConstraint -n "fk_bone_2_pivot_loc_pointConstraint1" -p "fk_2_initLoc";
-	rename -uid "7A2A9F9D-4432-C9E1-D308-F4AD6B9EAEE0";
-	addAttr -ci true -k true -sn "w0" -ln "spine_3_poserW0" -dv 1 -min 0 -at "double";
-	setAttr -k on ".nds";
-	setAttr -k off ".v";
-	setAttr -k off ".tx";
-	setAttr -k off ".ty";
-	setAttr -k off ".tz";
-	setAttr -k off ".rx";
-	setAttr -k off ".ry";
-	setAttr -k off ".rz";
-	setAttr -k off ".sx";
-	setAttr -k off ".sy";
-	setAttr -k off ".sz";
-	setAttr ".erp" yes;
-	setAttr ".rst" -type "double3" -0.24791713074799823 2.4190361422505613 -0.47774230836951315 ;
-	setAttr -k on ".w0";
-createNode transform -n "fk_1_initLoc" -p "fk_initLocs";
-	rename -uid "2EAD8FE4-4CF0-00D4-020B-12B3DDB14AE3";
-createNode locator -n "fk_1_initLocShape" -p "fk_1_initLoc";
-	rename -uid "DCAA9340-4D3A-C748-76C0-A09F771FEAA1";
-	setAttr -k off ".v";
-createNode pointConstraint -n "fk_bone_1_pivot_loc_pointConstraint1" -p "fk_1_initLoc";
-	rename -uid "42A82F3B-4275-1BA5-E1D0-1586E5A8E80C";
-	addAttr -ci true -k true -sn "w0" -ln "spine_1_poserW0" -dv 1 -min 0 -at "double";
-	addAttr -ci true -k true -sn "w1" -ln "spine_2_poserW1" -dv 1 -min 0 -at "double";
-	setAttr -k on ".nds";
-	setAttr -k off ".v";
-	setAttr -k off ".tx";
-	setAttr -k off ".ty";
-	setAttr -k off ".tz";
-	setAttr -k off ".rx";
-	setAttr -k off ".ry";
-	setAttr -k off ".rz";
-	setAttr -k off ".sx";
-	setAttr -k off ".sy";
-	setAttr -k off ".sz";
-	setAttr ".erp" yes;
-	setAttr -s 2 ".tg";
-	setAttr ".rst" -type "double3" -0.12455673472268948 1.2153546717236443 -0.24002384099012977 ;
-	setAttr -k on ".w0";
-	setAttr -k on ".w1";
-createNode transform -n "fk_hips_initLoc" -p "fk_1_initLoc";
-	rename -uid "CE2D08D0-423C-0CD6-E4E9-B09F917C14FE";
-createNode locator -n "fk_hips_initLocShape" -p "fk_hips_initLoc";
-	rename -uid "93EB5877-4BD8-15CF-24A4-BFA6ECB32CCB";
-	setAttr -k off ".v";
 createNode transform -n "ik_initLocs" -p "init_locators_group";
 	rename -uid "3812ACB2-49C8-B1BD-B61F-FAB06ACF6D4B";
 createNode transform -n "chest_initLoc" -p "ik_initLocs";
@@ -1152,7 +1052,7 @@ createNode locator -n "chest_initLocShape" -p "chest_initLoc";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 14;
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode pointConstraint -n "chest_controlInitLoc_pointConstraint1" -p "chest_initLoc";
+createNode pointConstraint -n "chest_initLoc_pointConstraint1" -p "chest_initLoc";
 	rename -uid "0FE61E6C-4A17-B2BB-3B8C-598E7D9A1F6C";
 	addAttr -dcb 0 -ci true -k true -sn "w0" -ln "end_poserW0" -dv 1 -min 0 -at "double";
 	setAttr -k on ".nds";
@@ -1169,265 +1069,75 @@ createNode pointConstraint -n "chest_controlInitLoc_pointConstraint1" -p "chest_
 	setAttr ".erp" yes;
 	setAttr ".rst" -type "double3" 0 10 0 ;
 	setAttr -k on ".w0";
-createNode transform -n "hips_initLoc" -p "ik_initLocs";
-	rename -uid "EEDC7F6C-4D37-E7ED-4100-25A087CA84A8";
-createNode locator -n "hips_initLocShape" -p "hips_initLoc";
-	rename -uid "30C10AA5-4260-00F4-A32E-DAAF7D1D0389";
-	setAttr -k off ".v" no;
-	setAttr ".ove" yes;
-	setAttr ".ovc" 14;
-	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode pointConstraint -n "hips_initLoc_pointConstraint1" -p "hips_initLoc";
-	rename -uid "218E609C-46B4-461D-7891-51A01469BE9A";
-	addAttr -dcb 0 -ci true -k true -sn "w0" -ln "root_poserW0" -dv 1 -min 0 -at "double";
-	setAttr -k on ".nds";
+createNode nurbsCurve -n "mainPoserShapeOrig" -p "mainPoser";
+	rename -uid "9B2D96AC-4D05-A115-CAAE-CE80AFB3502C";
 	setAttr -k off ".v";
-	setAttr -k off ".tx";
-	setAttr -k off ".ty";
-	setAttr -k off ".tz";
-	setAttr -k off ".rx";
-	setAttr -k off ".ry";
-	setAttr -k off ".rz";
-	setAttr -k off ".sx";
-	setAttr -k off ".sy";
-	setAttr -k off ".sz";
-	setAttr ".erp" yes;
-	setAttr -k on ".w0";
-createNode transform -n "stomach_initLoc" -p "ik_initLocs";
-	rename -uid "16578896-42B5-2879-3D46-C5AE482AE9DE";
-createNode locator -n "stomach_initLocShape" -p "stomach_initLoc";
-	rename -uid "F8F7FA70-408A-D4CD-ED67-74B744CCE170";
+	setAttr ".io" yes;
+	setAttr ".cc" -type "nurbsCurve" 
+		1 15 0 no 3
+		16 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+		16
+		-1 1 1
+		-1 1 -1
+		1 1 -1
+		1 1 1
+		-1 1 1
+		-1 -1 1
+		-1 -1 -1
+		1 -1 -1
+		1 -1 1
+		-1 -1 1
+		1 -1 1
+		1 1 1
+		1 1 -1
+		1 -1 -1
+		-1 -1 -1
+		-1 1 -1
+		;
+createNode transform -n "posers_curve" -p "posers";
+	rename -uid "D46962ED-4D10-D0AB-3440-199D7552E6DD";
+	setAttr ".it" no;
+createNode nurbsCurve -n "posers_curveShape" -p "posers_curve";
+	rename -uid "1FE366E7-4628-C737-4F1F-5989EB87EBAA";
 	setAttr -k off ".v";
-	setAttr ".ove" yes;
-	setAttr ".ovc" 14;
-	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode parentConstraint -n "stomach_initLoc_parentConstraint1" -p "stomach_initLoc";
-	rename -uid "9549761E-4AFA-061F-47A8-88BC4056AF98";
-	addAttr -dcb 0 -ci true -k true -sn "w0" -ln "local_3_initLocW0" -dv 1 -min 0 -at "double";
-	setAttr -k on ".nds";
-	setAttr -k off ".v";
-	setAttr -k off ".tx";
-	setAttr -k off ".ty";
-	setAttr -k off ".tz";
-	setAttr -k off ".rx";
-	setAttr -k off ".ry";
-	setAttr -k off ".rz";
-	setAttr -k off ".sx";
-	setAttr -k off ".sy";
-	setAttr -k off ".sz";
-	setAttr ".erp" yes;
-	setAttr ".tg[0].tot" -type "double3" 8.8817841970012523e-16 6.075719171686498e-17 
-		6.7762635780344027e-20 ;
-	setAttr ".lr" -type "double3" 0.020728219025700358 0.00049200473983908072 90.000492004739812 ;
-	setAttr ".rst" -type "double3" 8.8817841970012523e-16 2.2204460492503052e-16 -1.9721522630525295e-31 ;
-	setAttr ".rsrr" -type "double3" 179.99999999999719 -0.00094175550718539195 0 ;
-	setAttr -k on ".w0";
-createNode transform -n "pelvis_initLoc" -p "init_locators_group";
-	rename -uid "2DE4650D-4CEF-4FB0-6799-1E9D4742A26F";
-createNode locator -n "pelvis_initLocShape" -p "pelvis_initLoc";
-	rename -uid "041BC603-47DC-D2AC-7CC9-A99710AAE410";
-	setAttr -k off ".v" no;
-	setAttr ".ove" yes;
-	setAttr ".ovc" 14;
-	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode pointConstraint -n "pelvis_initLoc_pointConstraint1" -p "pelvis_initLoc";
-	rename -uid "AC369D10-415F-A01B-4F5F-EB910A963AF7";
-	addAttr -dcb 0 -ci true -k true -sn "w0" -ln "root_poserW0" -dv 1 -min 0 -at "double";
-	setAttr -k on ".nds";
-	setAttr -k off ".v";
-	setAttr -k off ".tx";
-	setAttr -k off ".ty";
-	setAttr -k off ".tz";
-	setAttr -k off ".rx";
-	setAttr -k off ".ry";
-	setAttr -k off ".rz";
-	setAttr -k off ".sx";
-	setAttr -k off ".sy";
-	setAttr -k off ".sz";
-	setAttr ".erp" yes;
-	setAttr -k on ".w0";
-createNode transform -n "spineRoot_initLoc" -p "pelvis_initLoc";
-	rename -uid "641AF0ED-4A00-FB56-13E0-C58F4971CD30";
-createNode locator -n "spineRoot_initLocShape" -p "spineRoot_initLoc";
-	rename -uid "82D71579-4DE2-A0FA-198C-26BED52DA93C";
-	setAttr -k off ".v" no;
-	setAttr ".ove" yes;
-	setAttr ".ovc" 14;
-	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "posers_bifrostGraph" -p "posers";
-	rename -uid "D62B0F5F-40FC-D37C-CB4B-2DB81B1E9275";
+	setAttr -s 7 ".cp";
+	setAttr ".cc" -type "nurbsCurve" 
+		1 6 0 no 3
+		7 0 0.16666666666666666 0.33333333333333331 0.5 0.66666666666666663 0.83333333333333337
+		 1
+		7
+		-9.3074452277290208e-16 0 2.3268613069322532e-16
+		0 1.700073869342563 0
+		0 3.2998324958123955 0
+		0 5 0
+		0 6.700167504187605 0
+		0 8.2999950200029886 0
+		0 10 0
+		;
+createNode transform -n "posers_sweep" -p "posers";
+	rename -uid "18BA2864-4437-9A02-364D-3EA471B797F7";
 	setAttr ".ovdt" 2;
 	setAttr ".ove" yes;
-	setAttr ".t" -type "double3" 0 0 0.019101227463072856 ;
+	setAttr ".ovc" 1;
 	setAttr ".it" no;
-createNode bifrostGraphShape -n "posers_bifrostGraphShape" -p "posers_bifrostGraph";
-	rename -uid "4EC29107-46EF-D4B3-F139-E1AD28BADE80";
-	addAttr -r false -ci true -k true -m -sn "posers" -ln "posers" -at "fltMatrix";
-	addAttr -r false -ci true -k true -sn "global_scale" -ln "global_scale" -at "float";
-	addAttr -r false -ci true -k true -m -sn "lines" -ln "lines" -at "compound" -nc 
-		1;
-	addAttr -r false -ci true -k true -m -sn "lines_A" -ln "lines_A" -at "fltMatrix" 
-		-p "lines";
-	addAttr -w false -ci true -sn "Core__Graph__terminal__final" -ln "Core__Graph__terminal__final" 
-		-ct "terminal_node_output_attribute" -dt "bifData";
-	addAttr -w false -ci true -sn "Core__Graph__terminal__proxy" -ln "Core__Graph__terminal__proxy" 
-		-ct "terminal_node_output_attribute" -dt "bifData";
-	addAttr -w false -ci true -sn "Core__Graph__terminal__diagnostic" -ln "Core__Graph__terminal__diagnostic" 
-		-ct "terminal_node_output_attribute" -dt "bifData";
-	addAttr -r false -ci true -k true -sn "width" -ln "width" -at "float";
-	addAttr -r false -ci true -k true -sn "poser_color" -ln "poser_color" -at "float3" 
-		-nc 3;
-	addAttr -r false -ci true -k true -sn "poser_colorx" -ln "poser_colorx" -at "float" 
-		-p "poser_color";
-	addAttr -r false -ci true -k true -sn "poser_colory" -ln "poser_colory" -at "float" 
-		-p "poser_color";
-	addAttr -r false -ci true -k true -sn "poser_colorz" -ln "poser_colorz" -at "float" 
-		-p "poser_color";
-	addAttr -w false -ci true -m -sn "out_cubeShape_vectors" -ln "out_cubeShape_vectors" 
-		-at "float3" -nc 3;
-	addAttr -w false -ci true -sn "out_cubeShape_vectorsx" -ln "out_cubeShape_vectorsx" 
-		-at "float" -p "out_cubeShape_vectors";
-	addAttr -w false -ci true -sn "out_cubeShape_vectorsy" -ln "out_cubeShape_vectorsy" 
-		-at "float" -p "out_cubeShape_vectors";
-	addAttr -w false -ci true -sn "out_cubeShape_vectorsz" -ln "out_cubeShape_vectorsz" 
-		-at "float" -p "out_cubeShape_vectors";
-	addAttr -r false -ci true -k true -sn "mainPoser_size" -ln "mainPoser_size" -at "float";
-	addAttr -r false -ci true -k true -m -sn "radius" -ln "radius" -at "float";
+createNode mesh -n "posers_sweepShape" -p "posers_sweep";
+	rename -uid "EFCEE35C-4FE6-E39C-CA97-E091A962A90A";
 	setAttr -k off ".v";
+	setAttr ".vir" yes;
+	setAttr ".vif" yes;
+	setAttr ".uvst[0].uvsn" -type "string" "map1";
+	setAttr ".cuvs" -type "string" "map1";
+	setAttr ".dcc" -type "string" "Ambient+Diffuse";
 	setAttr ".covm[0]"  0 1 1;
 	setAttr ".cdvm[0]"  0 1 1;
-	setAttr ".sc" -type "string" (
-		"{\n    \"header\": {\n        \"metadata\": [\n            {\n                \"metaName\": \"adskFileFormatVersion\",\n                \"metaValue\": \"100L\"\n            }\n        ]\n    },\n    \"namespaces\": [],\n    \"types\": [],\n    \"compounds\": [\n        {\n            \"name\": \"posers_bifrostGraphShape\",\n            \"metadata\": [\n                {\n                    \"metaName\": \"io_nodes\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"io_inodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"input\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n"
-		+ "                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"posers\"\n                                                },\n                                                {\n                                                    \"metaName\": \"global_scale\"\n                                                },\n                                                {\n                                                    \"metaName\": \"lines\"\n                                                },\n                                                {\n                                                    \"metaName\": \"width\"\n                                                },\n                                                {\n                                                    \"metaName\": \"poser_color\"\n                                                },\n                                                {\n                                                    \"metaName\": \"mainPoser_size\"\n"
-		+ "                                                },\n                                                {\n                                                    \"metaName\": \"radius\"\n                                                }\n                                            ]\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-1453.85 -665.804\"\n                                        }\n                                    ]\n                                }\n                            ]\n                        },\n                        {\n                            \"metaName\": \"io_onodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"output\",\n                                    \"metadata\": [\n                                        {\n"
-		+ "                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-396.725 -1392.24\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"out_cubeShape_vectors\"\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                }\n"
-		+ "                            ]\n                        }\n                    ]\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Math,multiply\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"output\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Geometry::Properties,set_geo_property\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Hyuu::Utility,color_constant\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,MJCG::Geometry::Strands,update_strands_orientations\"\n"
-		+ "                },\n                {\n                    \"metaName\": \"ViewportRect\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"-1547.04 -968.999 1253 1408.84\"\n                },\n                {\n                    \"metaName\": \"internal\",\n                    \"metaValue\": \"true\"\n                }\n            ],\n            \"ports\": [\n                {\n                    \"portName\": \"posers\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<Math::float4x4>\"\n                },\n                {\n                    \"portName\": \"global_scale\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"lines\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<array<Math::float4x4>>\"\n                },\n                {\n                    \"portName\": \"width\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n"
-		+ "                },\n                {\n                    \"portName\": \"poser_color\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float3\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"UIWidget\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"ColorPicker\"\n                        }\n                    ]\n                },\n                {\n                    \"portName\": \"out_cubeShape_vectors\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"array<Math::float3>\"\n                },\n                {\n                    \"portName\": \"mainPoser_size\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"radius\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<float>\"\n                }\n            ],\n            \"compounds\": [\n"
-		+ "                {\n                    \"name\": \"for_each_spheres\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"icon\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"<NATIVE>../icons/LoopForEach.svg\"\n                        },\n                        {\n                            \"metaName\": \"io_nodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"io_inodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"input\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n"
-		+ "                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"-1482.4 -501.737\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"max_iterations\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"current_index\"\n                                                        },\n                                                        {\n"
-		+ "                                                            \"metaName\": \"posers\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"global_radius\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"radius\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"color\"\n                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                },\n                                {\n"
-		+ "                                    \"metaName\": \"io_onodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"output\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"708.247 468.451\"\n                                                }\n                                            ]\n                                        }\n                                    ]\n"
-		+ "                                }\n                            ]\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Array,build_array\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Geometry::Points,construct_points\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Graph,terminal\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Math,multiply\"\n                        },\n"
-		+ "                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Math,add\"\n                        },\n                        {\n                            \"metaName\": \"ViewportRect\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-212.962 -791.996 1702.63 1364.58\"\n                        }\n                    ],\n                    \"ports\": [\n                        {\n                            \"portName\": \"max_iterations\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"long\",\n                            \"portIterationLimit\": \"true\"\n                        },\n                        {\n                            \"portName\": \"current_index\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"long\",\n                            \"portIterationCounter\": \"true\"\n"
-		+ "                        },\n                        {\n                            \"portName\": \"posers\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<Math::float4x4>\"\n                        },\n                        {\n                            \"portName\": \"global_radius\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"float\"\n                        },\n                        {\n                            \"portName\": \"radius\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<float>\"\n                        },\n                        {\n                            \"portName\": \"color\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float3\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"UIWidget\",\n                                    \"metaType\": \"string\",\n"
-		+ "                                    \"metaValue\": \"ColorPicker\"\n                                }\n                            ]\n                        }\n                    ],\n                    \"compoundNodes\": [\n                        {\n                            \"nodeName\": \"matrix_to_SRT\",\n                            \"nodeType\": \"Core::Math::matrix_to_SRT\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-459.612 -145.064\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"set_point_position\",\n"
-		+ "                            \"nodeType\": \"Geometry::Properties::set_point_position\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"535.616 -520.934\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"create_mesh_sphere\",\n                            \"nodeType\": \"Modeling::Primitive::create_mesh_sphere\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n"
-		+ "                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"PortExpandedState\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"Dimensions\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"1\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-404.149 -667.731\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"get_from_array\",\n                            \"nodeType\": \"Core::Array::get_from_array\",\n"
-		+ "                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-959.858 -96.8663\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"get_point_position\",\n                            \"nodeType\": \"Geometry::Properties::get_point_position\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n"
-		+ "                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-30.5 -452\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"add\",\n                            \"nodeType\": \"Core::Math::add\",\n                            \"multiInPortNames\": [\n                                \"point_position\",\n                                \"translation\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n"
-		+ "                                    \"metaValue\": \"227.162 -295.769\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"get_from_array1\",\n                            \"nodeType\": \"Core::Array::get_from_array\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-1058.77 -616.974\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"multiply\",\n                            \"nodeType\": \"Core::Math::multiply\",\n"
-		+ "                            \"multiInPortNames\": [\n                                \"value\",\n                                \"global_radius\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-736.856 -493.716\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"assign_material\",\n                            \"nodeType\": \"Rendering::Materials::assign_material\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n"
-		+ "                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"169.5 -868\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"constant_surface_mat\",\n                            \"nodeType\": \"Rendering::Materials::constant_surface_mat\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n"
-		+ "                                    \"metaValue\": \"-389.5 -983\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"terminal\",\n                            \"nodeType\": \"Core::Graph::terminal\",\n                            \"fanInPortNames\": {\n                                \"final\": [],\n                                \"proxy\": [],\n                                \"diagnostic\": [\n                                    \"out_geometry\",\n                                    \"diagnostic_geo\"\n                                ]\n                            },\n                            \"terminalStates\": [\n                                {\n                                    \"name\": \"Core::Graph::terminal::diagnostic\",\n                                    \"enabled\": \"true\"\n                                }\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n"
-		+ "                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"PortExpandedState\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"diagnostic\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"1\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"1121.12 -663.546\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"construct_points\",\n"
-		+ "                            \"nodeType\": \"Geometry::Points::construct_points\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"128.727 98.6737\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"point_scope\",\n                            \"nodeType\": \"Diagnostic::Display::point_scope\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n"
-		+ "                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"468.865 74.2421\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"build_array\",\n                            \"nodeType\": \"Core::Array::build_array\",\n                            \"multiInPortNames\": [\n                                \"translation\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n"
-		+ "                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-172.204 114.993\"\n                                }\n                            ]\n                        }\n                    ],\n                    \"connections\": [\n                        {\n                            \"source\": \".posers\",\n                            \"target\": \"get_from_array.array\"\n                        },\n                        {\n                            \"source\": \".current_index\",\n                            \"target\": \"get_from_array.index\"\n                        },\n                        {\n                            \"source\": \"create_mesh_sphere.sphere_mesh\",\n                            \"target\": \"get_point_position.geometry\"\n                        },\n                        {\n                            \"source\": \"get_point_position.point_position\",\n                            \"target\": \"add.first.point_position\"\n                        },\n                        {\n                            \"source\": \"matrix_to_SRT.translation\",\n"
-		+ "                            \"target\": \"add.first.translation\"\n                        },\n                        {\n                            \"source\": \"add.output\",\n                            \"target\": \"set_point_position.positions\"\n                        },\n                        {\n                            \"source\": \"get_from_array.value\",\n                            \"target\": \"matrix_to_SRT.transform\"\n                        },\n                        {\n                            \"source\": \".current_index\",\n                            \"target\": \"get_from_array1.index\"\n                        },\n                        {\n                            \"source\": \".radius\",\n                            \"target\": \"get_from_array1.array\"\n                        },\n                        {\n                            \"source\": \"get_from_array1.value\",\n                            \"target\": \"multiply.first.value\"\n                        },\n                        {\n                            \"source\": \".global_radius\",\n"
-		+ "                            \"target\": \"multiply.first.global_radius\"\n                        },\n                        {\n                            \"source\": \"multiply.output\",\n                            \"target\": \"create_mesh_sphere.radius\"\n                        },\n                        {\n                            \"source\": \"constant_surface_mat.material_definition\",\n                            \"target\": \"assign_material.surface_material\"\n                        },\n                        {\n                            \"source\": \"create_mesh_sphere.sphere_mesh\",\n                            \"target\": \"assign_material.geometry\"\n                        },\n                        {\n                            \"source\": \"assign_material.out_geometry\",\n                            \"target\": \"set_point_position.geometry\"\n                        },\n                        {\n                            \"source\": \"set_point_position.out_geometry\",\n                            \"target\": \"terminal.diagnostic.out_geometry\"\n"
-		+ "                        },\n                        {\n                            \"source\": \".color\",\n                            \"target\": \"constant_surface_mat.color\"\n                        },\n                        {\n                            \"source\": \"point_scope.diagnostic_geo\",\n                            \"target\": \"terminal.diagnostic.diagnostic_geo\"\n                        },\n                        {\n                            \"source\": \"construct_points.points\",\n                            \"target\": \"point_scope.point_geo\"\n                        },\n                        {\n                            \"source\": \"matrix_to_SRT.translation\",\n                            \"target\": \"build_array.first.translation\"\n                        },\n                        {\n                            \"source\": \"build_array.array\",\n                            \"target\": \"construct_points.point_position\"\n                        }\n                    ],\n                    \"values\": [\n                        {\n"
-		+ "                            \"valueName\": \"create_mesh_sphere.radius\",\n                            \"valueType\": \"float\",\n                            \"value\": \"1f\"\n                        },\n                        {\n                            \"valueName\": \"create_mesh_sphere.height_segments\",\n                            \"valueType\": \"int\",\n                            \"value\": \"14L\"\n                        },\n                        {\n                            \"valueName\": \"create_mesh_sphere.axis_segments\",\n                            \"valueType\": \"int\",\n                            \"value\": \"20L\"\n                        },\n                        {\n                            \"valueName\": \"create_mesh_sphere.position\",\n                            \"valueType\": \"Math::float3\",\n                            \"value\": {\n                                \"x\": \"0f\",\n                                \"y\": \"0f\",\n                                \"z\": \"0f\"\n                            }\n                        },\n                        {\n"
-		+ "                            \"valueName\": \"create_mesh_sphere.up_axis\",\n                            \"valueType\": \"Math::float3\",\n                            \"value\": {\n                                \"x\": \"0f\",\n                                \"y\": \"1f\",\n                                \"z\": \"0f\"\n                            }\n                        },\n                        {\n                            \"valueName\": \"create_mesh_sphere.base_to_pivot\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"assign_material.geometry\",\n                            \"valueType\": \"Object\",\n                            \"value\": {}\n                        },\n                        {\n                            \"valueName\": \"assign_material.set_surface\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"true\"\n                        },\n                        {\n"
-		+ "                            \"valueName\": \"assign_material.set_displacement\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"true\"\n                        },\n                        {\n                            \"valueName\": \"assign_material.set_volume\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"true\"\n                        },\n                        {\n                            \"valueName\": \"constant_surface_mat.name\",\n                            \"valueType\": \"string\",\n                            \"value\": \"\"\n                        },\n                        {\n                            \"valueName\": \"constant_surface_mat.color\",\n                            \"valueType\": \"Math::float3\",\n                            \"value\": {\n                                \"x\": \"0f\",\n                                \"y\": \"1f\",\n                                \"z\": \"0f\"\n                            }\n                        },\n                        {\n"
-		+ "                            \"valueName\": \"constant_surface_mat.transparency\",\n                            \"valueType\": \"Math::float3\",\n                            \"value\": {\n                                \"x\": \"0f\",\n                                \"y\": \"0f\",\n                                \"z\": \"0f\"\n                            }\n                        },\n                        {\n                            \"valueName\": \"point_scope.shape\",\n                            \"valueType\": \"Geometry::PointShapes\",\n                            \"value\": \"Disk\"\n                        },\n                        {\n                            \"valueName\": \"point_scope.default_size\",\n                            \"valueType\": \"float\",\n                            \"value\": \"0.605300009f\"\n                        },\n                        {\n                            \"valueName\": \"point_scope.cull_by_scalar_property\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        },\n"
-		+ "                        {\n                            \"valueName\": \"point_scope.cull_property\",\n                            \"valueType\": \"string\",\n                            \"value\": \"point_age\"\n                        },\n                        {\n                            \"valueName\": \"point_scope.keep_max_value\",\n                            \"valueType\": \"float\",\n                            \"value\": \"3f\"\n                        },\n                        {\n                            \"valueName\": \"point_scope.invert_range\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"point_scope.coloring_property\",\n                            \"valueType\": \"string\",\n                            \"value\": \"point_normal\"\n                        },\n                        {\n                            \"valueName\": \"point_scope.coloring_mode\",\n                            \"valueType\": \"Diagnostic::ColoringMode\",\n"
-		+ "                            \"value\": \"ColoredProperty\"\n                        },\n                        {\n                            \"valueName\": \"point_scope.color\",\n                            \"valueType\": \"Math::float3\",\n                            \"value\": {\n                                \"x\": \"1f\",\n                                \"y\": \"1f\",\n                                \"z\": \"1f\"\n                            }\n                        },\n                        {\n                            \"valueName\": \"point_scope.heatmap_R\",\n                            \"valueType\": \"Math::FCurve\",\n                            \"value\": {\n                                \"version\": \"1\",\n                                \"preExtrapolation\": \"0\",\n                                \"postExtrapolation\": \"0\",\n                                \"points\": [\n                                    {\n                                        \"point\": {\n                                            \"locked\": \"1\",\n                                            \"interpolation\": \"2\",\n"
-		+ "                                            \"pcn\": {\n                                                \"xp\": \"-0.40000000000000002\",\n                                                \"yp\": \"0.10000000000000001\",\n                                                \"x\": \"0\",\n                                                \"y\": \"0.10000000000000001\",\n                                                \"xn\": \"0.40000000000000002\",\n                                                \"yn\": \"0.10000000000000001\"\n                                            }\n                                        }\n                                    },\n                                    {\n                                        \"point\": {\n                                            \"locked\": \"1\",\n                                            \"interpolation\": \"2\",\n                                            \"pcn\": {\n                                                \"xp\": \"9.5999999999999996\",\n                                                \"yp\": \"1\",\n                                                \"x\": \"10\",\n"
-		+ "                                                \"y\": \"1\",\n                                                \"xn\": \"10.4\",\n                                                \"yn\": \"1\"\n                                            }\n                                        }\n                                    }\n                                ]\n                            }\n                        },\n                        {\n                            \"valueName\": \"point_scope.heatmap_G\",\n                            \"valueType\": \"Math::FCurve\",\n                            \"value\": {\n                                \"version\": \"1\",\n                                \"preExtrapolation\": \"0\",\n                                \"postExtrapolation\": \"0\",\n                                \"points\": [\n                                    {\n                                        \"point\": {\n                                            \"locked\": \"1\",\n                                            \"interpolation\": \"2\",\n                                            \"pcn\": {\n"
-		+ "                                                \"xp\": \"-1.3999999999999999\",\n                                                \"yp\": \"0\",\n                                                \"x\": \"-1\",\n                                                \"y\": \"0\",\n                                                \"xn\": \"-0.59999999999999998\",\n                                                \"yn\": \"0\"\n                                            }\n                                        }\n                                    },\n                                    {\n                                        \"point\": {\n                                            \"locked\": \"1\",\n                                            \"interpolation\": \"2\",\n                                            \"pcn\": {\n                                                \"xp\": \"4.7000000000000002\",\n                                                \"yp\": \"1\",\n                                                \"x\": \"5\",\n                                                \"y\": \"1\",\n"
-		+ "                                                \"xn\": \"5.2999999999999998\",\n                                                \"yn\": \"1\"\n                                            }\n                                        }\n                                    },\n                                    {\n                                        \"point\": {\n                                            \"locked\": \"1\",\n                                            \"interpolation\": \"2\",\n                                            \"pcn\": {\n                                                \"xp\": \"9.5999999999999996\",\n                                                \"yp\": \"0\",\n                                                \"x\": \"10\",\n                                                \"y\": \"0\",\n                                                \"xn\": \"10.4\",\n                                                \"yn\": \"0\"\n                                            }\n                                        }\n                                    }\n"
-		+ "                                ]\n                            }\n                        },\n                        {\n                            \"valueName\": \"point_scope.heatmap_B\",\n                            \"valueType\": \"Math::FCurve\",\n                            \"value\": {\n                                \"version\": \"1\",\n                                \"preExtrapolation\": \"0\",\n                                \"postExtrapolation\": \"0\",\n                                \"points\": [\n                                    {\n                                        \"point\": {\n                                            \"locked\": \"1\",\n                                            \"interpolation\": \"2\",\n                                            \"pcn\": {\n                                                \"xp\": \"-0.40000000000000002\",\n                                                \"yp\": \"1\",\n                                                \"x\": \"0\",\n                                                \"y\": \"1\",\n                                                \"xn\": \"0.40000000000000002\",\n"
-		+ "                                                \"yn\": \"1\"\n                                            }\n                                        }\n                                    },\n                                    {\n                                        \"point\": {\n                                            \"locked\": \"1\",\n                                            \"interpolation\": \"2\",\n                                            \"pcn\": {\n                                                \"xp\": \"9.5999999999999996\",\n                                                \"yp\": \"0.10000000000000001\",\n                                                \"x\": \"10\",\n                                                \"y\": \"0.10000000000000001\",\n                                                \"xn\": \"10.4\",\n                                                \"yn\": \"0.10000000000000001\"\n                                            }\n                                        }\n                                    }\n                                ]\n"
-		+ "                            }\n                        },\n                        {\n                            \"valueName\": \"point_scope.arrow_property\",\n                            \"valueType\": \"string\",\n                            \"value\": \"point_velocity\"\n                        },\n                        {\n                            \"valueName\": \"point_scope.normalize_arrow\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"point_scope.enable_arrows\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"point_scope.length_scale\",\n                            \"valueType\": \"float\",\n                            \"value\": \"1f\"\n                        }\n                    ],\n                    \"reservedNodeNames\": [\n                        {\n"
-		+ "                            \"name\": \"input\"\n                        },\n                        {\n                            \"name\": \"output\"\n                        }\n                    ],\n                    \"forEachCompound\": {\n                        \"ports\": []\n                    }\n                },\n                {\n                    \"name\": \"for_each_lines\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"icon\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"<NATIVE>../icons/LoopForEach.svg\"\n                        },\n                        {\n                            \"metaName\": \"io_nodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"io_inodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"input\",\n                                            \"metadata\": [\n"
-		+ "                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"-537.464 -123.034\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"max_iterations\"\n                                                        },\n"
-		+ "                                                        {\n                                                            \"metaName\": \"current_index\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"lines\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"width\"\n                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"io_onodes\"\n                                }\n                            ]\n                        },\n"
-		+ "                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"output\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Math,subtract\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Array,array_size\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Array,get_from_array\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n"
-		+ "                            \"metaValue\": \"BifrostGraph,Core::Iterators,for_each\"\n                        },\n                        {\n                            \"metaName\": \"ViewportRect\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-433.443 -950.509 1338.59 1903.2\"\n                        }\n                    ],\n                    \"ports\": [\n                        {\n                            \"portName\": \"max_iterations\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"long\",\n                            \"portIterationLimit\": \"true\"\n                        },\n                        {\n                            \"portName\": \"current_index\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"long\",\n                            \"portIterationCounter\": \"true\"\n                        },\n                        {\n                            \"portName\": \"lines\",\n                            \"portDirection\": \"input\",\n"
-		+ "                            \"portType\": \"array<array<Math::float4x4>>\"\n                        },\n                        {\n                            \"portName\": \"width\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"float\"\n                        }\n                    ],\n                    \"compounds\": [\n                        {\n                            \"name\": \"for_each1\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"icon\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"<NATIVE>../icons/LoopForEach.svg\"\n                                },\n                                {\n                                    \"metaName\": \"io_nodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"io_inodes\",\n                                            \"metadata\": [\n"
-		+ "                                                {\n                                                    \"metaName\": \"input\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"DisplayMode\",\n                                                            \"metaType\": \"string\",\n                                                            \"metaValue\": \"2\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"LayoutPos\",\n                                                            \"metaType\": \"string\",\n                                                            \"metaValue\": \"-1513.15 -146.055\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"io_ports\",\n"
-		+ "                                                            \"metadata\": [\n                                                                {\n                                                                    \"metaName\": \"max_iterations\"\n                                                                },\n                                                                {\n                                                                    \"metaName\": \"current_index\"\n                                                                },\n                                                                {\n                                                                    \"metaName\": \"lines\"\n                                                                },\n                                                                {\n                                                                    \"metaName\": \"width\"\n                                                                }\n                                                            ]\n"
-		+ "                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        },\n                                        {\n                                            \"metaName\": \"io_onodes\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"_recentNode_\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"output\"\n                                },\n                                {\n                                    \"metaName\": \"_recentNode_\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"BifrostGraph,Core::Logic,equal\"\n                                },\n                                {\n"
-		+ "                                    \"metaName\": \"_recentNode_\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"BifrostGraph,Core::Logic,if\"\n                                },\n                                {\n                                    \"metaName\": \"_recentNode_\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"BifrostGraph,Core::Math,add\"\n                                },\n                                {\n                                    \"metaName\": \"_recentNode_\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"BifrostGraph,Core::Math,subtract\"\n                                },\n                                {\n                                    \"metaName\": \"ViewportRect\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-1721.11 -1861.15 4044.02 3977.09\"\n                                }\n"
-		+ "                            ],\n                            \"ports\": [\n                                {\n                                    \"portName\": \"max_iterations\",\n                                    \"portDirection\": \"input\",\n                                    \"portType\": \"long\",\n                                    \"portIterationLimit\": \"true\"\n                                },\n                                {\n                                    \"portName\": \"current_index\",\n                                    \"portDirection\": \"input\",\n                                    \"portType\": \"long\",\n                                    \"portIterationCounter\": \"true\"\n                                },\n                                {\n                                    \"portName\": \"lines\",\n                                    \"portDirection\": \"input\",\n                                    \"portType\": \"array<Math::float4x4>\"\n                                },\n                                {\n                                    \"portName\": \"width\",\n"
-		+ "                                    \"portDirection\": \"input\",\n                                    \"portType\": \"float\"\n                                }\n                            ],\n                            \"compoundNodes\": [\n                                {\n                                    \"nodeName\": \"matrix_to_SRT\",\n                                    \"nodeType\": \"Core::Math::matrix_to_SRT\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-106.902 -269.444\"\n                                        }\n"
-		+ "                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"get_from_array\",\n                                    \"nodeType\": \"Core::Array::get_from_array\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-415.492 -224.3\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"get_from_array1\",\n"
-		+ "                                    \"nodeType\": \"Core::Array::get_from_array\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-519.19 199.71\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"matrix_to_SRT1\",\n                                    \"nodeType\": \"Core::Math::matrix_to_SRT\",\n                                    \"metadata\": [\n                                        {\n"
-		+ "                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-137.167 126.444\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"construct_strands\",\n                                    \"nodeType\": \"Geometry::Strands::construct_strands\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n"
-		+ "                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"781.262 -266.167\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"build_array\",\n                                    \"nodeType\": \"Core::Array::build_array\",\n                                    \"multiInPortNames\": [\n                                        \"translation\",\n                                        \"translation1\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n"
-		+ "                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"475.582 -244.595\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"terminal\",\n                                    \"nodeType\": \"Core::Graph::terminal\",\n                                    \"fanInPortNames\": {\n                                        \"final\": [],\n                                        \"proxy\": [],\n                                        \"diagnostic\": [\n                                            \"strands\"\n                                        ]\n                                    },\n                                    \"terminalStates\": [\n"
-		+ "                                        {\n                                            \"name\": \"Core::Graph::terminal::final\",\n                                            \"enabled\": \"true\"\n                                        },\n                                        {\n                                            \"name\": \"Core::Graph::terminal::proxy\",\n                                            \"enabled\": \"true\"\n                                        },\n                                        {\n                                            \"name\": \"Core::Graph::terminal::diagnostic\",\n                                            \"enabled\": \"true\"\n                                        }\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n"
-		+ "                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"1705.02 -352.893\"\n                                        },\n                                        {\n                                            \"metaName\": \"PortExpandedState\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"diagnostic\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"1\"\n                                                },\n                                                {\n                                                    \"metaName\": \"proxy\",\n                                                    \"metaType\": \"string\",\n"
-		+ "                                                    \"metaValue\": \"0\"\n                                                },\n                                                {\n                                                    \"metaName\": \"final\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"1\"\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"set_strands_shape\",\n                                    \"nodeType\": \"Geometry::Strands::set_strands_shape\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n"
-		+ "                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"1160.08 -156.428\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"assign_material1\",\n                                    \"nodeType\": \"Rendering::Materials::assign_material\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n"
-		+ "                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"1409.5 -458\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"constant_surface_mat1\",\n                                    \"nodeType\": \"Rendering::Materials::constant_surface_mat\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"949.5 -621\"\n"
-		+ "                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"value\",\n                                    \"valueType\": \"long\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-1400.86 -601.446\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"add\",\n"
-		+ "                                    \"nodeType\": \"Core::Math::add\",\n                                    \"multiInPortNames\": [\n                                        \"current_index\",\n                                        \"output1\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-1054.25 -602.655\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"if\",\n"
-		+ "                                    \"nodeType\": \"Core::Logic::if\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-725.206 -528.358\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"equal\",\n                                    \"nodeType\": \"Core::Logic::equal\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n"
-		+ "                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-1027.56 -333.247\"\n                                        }\n                                    ]\n                                }\n                            ],\n                            \"connections\": [\n                                {\n                                    \"source\": \"matrix_to_SRT.translation\",\n                                    \"target\": \"build_array.first.translation\"\n                                },\n                                {\n                                    \"source\": \"get_from_array.value\",\n                                    \"target\": \"matrix_to_SRT.transform\"\n                                },\n"
-		+ "                                {\n                                    \"source\": \"get_from_array1.value\",\n                                    \"target\": \"matrix_to_SRT1.transform\"\n                                },\n                                {\n                                    \"source\": \"matrix_to_SRT1.translation\",\n                                    \"target\": \"build_array.first.translation1\"\n                                },\n                                {\n                                    \"source\": \"construct_strands.strands\",\n                                    \"target\": \"set_strands_shape.strands\"\n                                },\n                                {\n                                    \"source\": \"build_array.array\",\n                                    \"target\": \"construct_strands.point_position\"\n                                },\n                                {\n                                    \"source\": \"set_strands_shape.out_strands\",\n                                    \"target\": \"assign_material1.geometry\"\n"
-		+ "                                },\n                                {\n                                    \"source\": \"assign_material1.out_geometry\",\n                                    \"target\": \"terminal.diagnostic.strands\"\n                                },\n                                {\n                                    \"source\": \"constant_surface_mat1.material_definition\",\n                                    \"target\": \"assign_material1.surface_material\"\n                                },\n                                {\n                                    \"source\": \"value.output\",\n                                    \"target\": \"add.first.output1\"\n                                },\n                                {\n                                    \"source\": \".current_index\",\n                                    \"target\": \"add.first.current_index\"\n                                },\n                                {\n                                    \"source\": \".lines\",\n                                    \"target\": \"get_from_array.array\"\n"
-		+ "                                },\n                                {\n                                    \"source\": \".lines\",\n                                    \"target\": \"get_from_array1.array\"\n                                },\n                                {\n                                    \"source\": \".current_index\",\n                                    \"target\": \"get_from_array1.index\"\n                                },\n                                {\n                                    \"source\": \"equal.output\",\n                                    \"target\": \"if.condition\"\n                                },\n                                {\n                                    \"source\": \"if.output\",\n                                    \"target\": \"get_from_array.index\"\n                                },\n                                {\n                                    \"source\": \".max_iterations\",\n                                    \"target\": \"equal.first\"\n                                },\n                                {\n"
-		+ "                                    \"source\": \".current_index\",\n                                    \"target\": \"equal.second\"\n                                },\n                                {\n                                    \"source\": \"add.output\",\n                                    \"target\": \"if.false_case\"\n                                },\n                                {\n                                    \"source\": \".width\",\n                                    \"target\": \"set_strands_shape.default_size\"\n                                }\n                            ],\n                            \"values\": [\n                                {\n                                    \"valueName\": \"get_from_array.index\",\n                                    \"valueType\": \"long\",\n                                    \"value\": \"2\"\n                                },\n                                {\n                                    \"valueName\": \"get_from_array1.index\",\n                                    \"valueType\": \"long\",\n"
-		+ "                                    \"value\": \"1\"\n                                },\n                                {\n                                    \"valueName\": \"set_strands_shape.strands\",\n                                    \"valueType\": \"Object\",\n                                    \"value\": {}\n                                },\n                                {\n                                    \"valueName\": \"set_strands_shape.shape\",\n                                    \"valueType\": \"Geometry::StrandShapes\",\n                                    \"value\": \"Ribbon\"\n                                },\n                                {\n                                    \"valueName\": \"set_strands_shape.screen_aligned\",\n                                    \"valueType\": \"bool\",\n                                    \"value\": \"true\"\n                                },\n                                {\n                                    \"valueName\": \"set_strands_shape.default_size\",\n                                    \"valueType\": \"float\",\n"
-		+ "                                    \"value\": \"0.0513599999f\"\n                                },\n                                {\n                                    \"valueName\": \"assign_material1.geometry\",\n                                    \"valueType\": \"Object\",\n                                    \"value\": {}\n                                },\n                                {\n                                    \"valueName\": \"assign_material1.set_surface\",\n                                    \"valueType\": \"bool\",\n                                    \"value\": \"true\"\n                                },\n                                {\n                                    \"valueName\": \"assign_material1.set_displacement\",\n                                    \"valueType\": \"bool\",\n                                    \"value\": \"true\"\n                                },\n                                {\n                                    \"valueName\": \"assign_material1.set_volume\",\n                                    \"valueType\": \"bool\",\n"
-		+ "                                    \"value\": \"true\"\n                                },\n                                {\n                                    \"valueName\": \"constant_surface_mat1.name\",\n                                    \"valueType\": \"string\",\n                                    \"value\": \"\"\n                                },\n                                {\n                                    \"valueName\": \"constant_surface_mat1.color\",\n                                    \"valueType\": \"Math::float3\",\n                                    \"value\": {\n                                        \"x\": \"0f\",\n                                        \"y\": \"0f\",\n                                        \"z\": \"0f\"\n                                    }\n                                },\n                                {\n                                    \"valueName\": \"constant_surface_mat1.transparency\",\n                                    \"valueType\": \"Math::float3\",\n                                    \"value\": {\n"
-		+ "                                        \"x\": \"0f\",\n                                        \"y\": \"0f\",\n                                        \"z\": \"0f\"\n                                    }\n                                },\n                                {\n                                    \"valueName\": \"value.value\",\n                                    \"valueType\": \"long\",\n                                    \"value\": \"1\"\n                                }\n                            ],\n                            \"reservedNodeNames\": [\n                                {\n                                    \"name\": \"input\"\n                                }\n                            ],\n                            \"forEachCompound\": {\n                                \"ports\": []\n                            }\n                        }\n                    ],\n                    \"compoundNodes\": [\n                        {\n                            \"nodeName\": \"for_each1\",\n                            \"nodeType\": \"for_each1\",\n"
-		+ "                            \"terminalStates\": [\n                                {\n                                    \"name\": \"Core::Graph::terminal::final\",\n                                    \"enabled\": \"true\"\n                                },\n                                {\n                                    \"name\": \"Core::Graph::terminal::proxy\",\n                                    \"enabled\": \"true\"\n                                },\n                                {\n                                    \"name\": \"Core::Graph::terminal::diagnostic\",\n                                    \"enabled\": \"true\"\n                                }\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n"
-		+ "                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"744.984 39.2217\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"get_from_array\",\n                            \"nodeType\": \"Core::Array::get_from_array\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-11.3225 106.339\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"array_size\",\n"
-		+ "                            \"nodeType\": \"Core::Array::array_size\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"120.155 -157.583\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"subtract\",\n                            \"nodeType\": \"Core::Math::subtract\",\n                            \"multiInPortNames\": [\n                                \"size\",\n                                \"output1\"\n                            ],\n                            \"metadata\": [\n                                {\n"
-		+ "                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"431.506 -419.527\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"value\",\n                            \"valueType\": \"long\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n"
-		+ "                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"99 -530\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"get_from_array1\",\n                            \"nodeType\": \"Core::Array::get_from_array\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-171.047 -237.573\"\n                                }\n                            ]\n                        }\n                    ],\n                    \"connections\": [\n                        {\n"
-		+ "                            \"source\": \".lines\",\n                            \"target\": \"get_from_array.array\"\n                        },\n                        {\n                            \"source\": \".current_index\",\n                            \"target\": \"get_from_array.index\"\n                        },\n                        {\n                            \"source\": \"get_from_array.value\",\n                            \"target\": \"for_each1.lines\"\n                        },\n                        {\n                            \"source\": \"array_size.size\",\n                            \"target\": \"subtract.first.size\"\n                        },\n                        {\n                            \"source\": \"value.output\",\n                            \"target\": \"subtract.first.output1\"\n                        },\n                        {\n                            \"source\": \"subtract.output\",\n                            \"target\": \"for_each1.max_iterations\"\n                        },\n                        {\n                            \"source\": \".current_index\",\n"
-		+ "                            \"target\": \"get_from_array1.index\"\n                        },\n                        {\n                            \"source\": \".lines\",\n                            \"target\": \"get_from_array1.array\"\n                        },\n                        {\n                            \"source\": \"get_from_array1.value\",\n                            \"target\": \"array_size.array\"\n                        },\n                        {\n                            \"source\": \".width\",\n                            \"target\": \"for_each1.width\"\n                        }\n                    ],\n                    \"values\": [\n                        {\n                            \"valueName\": \"for_each1.max_iterations\",\n                            \"valueType\": \"long\",\n                            \"value\": \"10\"\n                        },\n                        {\n                            \"valueName\": \"for_each1.width\",\n                            \"valueType\": \"float\",\n                            \"value\": \"0.0513599999f\"\n"
-		+ "                        },\n                        {\n                            \"valueName\": \"value.value\",\n                            \"valueType\": \"long\",\n                            \"value\": \"1\"\n                        }\n                    ],\n                    \"reservedNodeNames\": [\n                        {\n                            \"name\": \"input\"\n                        }\n                    ],\n                    \"forEachCompound\": {\n                        \"ports\": []\n                    }\n                }\n            ],\n            \"compoundNodes\": [\n                {\n                    \"nodeName\": \"for_each_spheres\",\n                    \"nodeType\": \"for_each_spheres\",\n                    \"terminalStates\": [\n                        {\n                            \"name\": \"Core::Graph::terminal::diagnostic\",\n                            \"enabled\": \"true\"\n                        }\n                    ],\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n"
-		+ "                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-458.589 -821.788\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"array_size\",\n                    \"nodeType\": \"Core::Array::array_size\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-863.669 -530.265\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"array_size1\",\n"
-		+ "                    \"nodeType\": \"Core::Array::array_size\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-889.462 158.508\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"for_each_lines\",\n                    \"nodeType\": \"for_each_lines\",\n                    \"terminalStates\": [\n                        {\n                            \"name\": \"Core::Graph::terminal::diagnostic\",\n                            \"enabled\": \"true\"\n                        }\n                    ],\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n"
-		+ "                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-454.137 -13.3945\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"value\",\n                    \"valueType\": \"Math::float3\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n"
-		+ "                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1552.35 -2526\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"value1\",\n                    \"valueType\": \"Math::float3\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n"
-		+ "                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1514.85 -2733.26\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"build_array\",\n                    \"nodeType\": \"Core::Array::build_array\",\n                    \"multiInPortNames\": [\n                        \"output\",\n                        \"output1\",\n                        \"output3\",\n"
-		+ "                        \"output5\",\n                        \"output7\",\n                        \"output9\",\n                        \"output11\",\n                        \"output14\",\n                        \"output15\",\n                        \"output17\",\n                        \"output20\",\n                        \"output21\",\n                        \"output23\",\n                        \"output26\",\n                        \"output28\",\n                        \"output29\"\n                    ],\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"1\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1126.85 -2063.34\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"construct_strands\",\n"
-		+ "                    \"nodeType\": \"Geometry::Strands::construct_strands\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-621.046 -2324.55\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"terminal\",\n                    \"nodeType\": \"Core::Graph::terminal\",\n                    \"fanInPortNames\": {\n                        \"final\": [],\n                        \"proxy\": [],\n                        \"diagnostic\": [\n                            \"diagnostic_geo\",\n                            \"out_strands\"\n                        ]\n                    },\n                    \"terminalStates\": [\n                        {\n"
-		+ "                            \"name\": \"Core::Graph::terminal::diagnostic\",\n                            \"enabled\": \"false\"\n                        }\n                    ],\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"PortExpandedState\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"diagnostic\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"1\"\n                                }\n                            ]\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"480.829 -2212.33\"\n                        }\n"
-		+ "                    ]\n                },\n                {\n                    \"nodeName\": \"construct_points\",\n                    \"nodeType\": \"Geometry::Points::construct_points\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-615.888 -1979.58\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"point_scope\",\n                    \"nodeType\": \"Diagnostic::Display::point_scope\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n"
-		+ "                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-321.002 -2005.18\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"set_strands_shape\",\n                    \"nodeType\": \"Geometry::Strands::set_strands_shape\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-25.4666 -2404.51\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"set_geo_property\",\n                    \"nodeType\": \"Geometry::Properties::set_geo_property\",\n"
-		+ "                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-316.175 -2376.76\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"value2\",\n                    \"valueType\": \"Math::float3\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n"
-		+ "                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1568.72 -2350.42\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"value3\",\n                    \"valueType\": \"Math::float3\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n"
-		+ "                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1552.36 -2213\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"value4\",\n                    \"valueType\": \"Math::float3\",\n"
-		+ "                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1555.18 -2031.33\"\n"
-		+ "                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"value5\",\n                    \"valueType\": \"Math::float3\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n"
-		+ "                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1534.78 -1838.68\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"value6\",\n                    \"valueType\": \"Math::float3\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n"
-		+ "                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1577.95 -1618.86\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"value7\",\n                    \"valueType\": \"Math::float3\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n"
-		+ "                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1583.58 -1435.43\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"value8\",\n                    \"valueType\": \"Math::float3\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n"
-		+ "                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1561.94 -1240.57\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"multiply\",\n                    \"nodeType\": \"Core::Math::multiply\",\n"
-		+ "                    \"multiInPortNames\": [\n                        \"array\",\n                        \"port\"\n                    ],\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-779.393 -1522.57\"\n                        }\n                    ]\n                }\n            ],\n            \"connections\": [\n                {\n                    \"source\": \".posers\",\n                    \"target\": \"for_each_spheres.posers\"\n                },\n                {\n                    \"source\": \".posers\",\n                    \"target\": \"array_size.array\"\n                },\n                {\n                    \"source\": \"array_size.size\",\n                    \"target\": \"for_each_spheres.max_iterations\"\n"
-		+ "                },\n                {\n                    \"source\": \".global_scale\",\n                    \"target\": \"for_each_spheres.global_radius\"\n                },\n                {\n                    \"source\": \".lines\",\n                    \"target\": \"array_size1.array\"\n                },\n                {\n                    \"source\": \".lines\",\n                    \"target\": \"for_each_lines.lines\"\n                },\n                {\n                    \"source\": \"array_size1.size\",\n                    \"target\": \"for_each_lines.max_iterations\"\n                },\n                {\n                    \"source\": \".width\",\n                    \"target\": \"for_each_lines.width\"\n                },\n                {\n                    \"source\": \".poser_color\",\n                    \"target\": \"for_each_spheres.color\"\n                },\n                {\n                    \"source\": \"build_array.array\",\n                    \"target\": \"construct_strands.point_position\"\n                },\n                {\n                    \"source\": \"build_array.array\",\n"
-		+ "                    \"target\": \"construct_points.point_position\"\n                },\n                {\n                    \"source\": \"construct_points.points\",\n                    \"target\": \"point_scope.point_geo\"\n                },\n                {\n                    \"source\": \"point_scope.diagnostic_geo\",\n                    \"target\": \"terminal.diagnostic.diagnostic_geo\"\n                },\n                {\n                    \"source\": \"set_strands_shape.out_strands\",\n                    \"target\": \"terminal.diagnostic.out_strands\"\n                },\n                {\n                    \"source\": \"construct_strands.strands\",\n                    \"target\": \"set_geo_property.geometry\"\n                },\n                {\n                    \"source\": \"set_geo_property.out_geometry\",\n                    \"target\": \"set_strands_shape.strands\"\n                },\n                {\n                    \"source\": \"value1.output\",\n                    \"target\": \"build_array.first.output\"\n                },\n                {\n"
-		+ "                    \"source\": \"value.output\",\n                    \"target\": \"build_array.first.output1\"\n                },\n                {\n                    \"source\": \"value2.output\",\n                    \"target\": \"build_array.first.output3\"\n                },\n                {\n                    \"source\": \"value3.output\",\n                    \"target\": \"build_array.first.output5\"\n                },\n                {\n                    \"source\": \"value1.output\",\n                    \"target\": \"build_array.first.output7\"\n                },\n                {\n                    \"source\": \"value4.output\",\n                    \"target\": \"build_array.first.output9\"\n                },\n                {\n                    \"source\": \"value5.output\",\n                    \"target\": \"build_array.first.output11\"\n                },\n                {\n                    \"source\": \"value6.output\",\n                    \"target\": \"build_array.first.output14\"\n                },\n                {\n                    \"source\": \"value7.output\",\n"
-		+ "                    \"target\": \"build_array.first.output15\"\n                },\n                {\n                    \"source\": \"value8.output\",\n                    \"target\": \"build_array.first.output17\"\n                },\n                {\n                    \"source\": \"value7.output\",\n                    \"target\": \"build_array.first.output20\"\n                },\n                {\n                    \"source\": \"value3.output\",\n                    \"target\": \"build_array.first.output21\"\n                },\n                {\n                    \"source\": \"value2.output\",\n                    \"target\": \"build_array.first.output23\"\n                },\n                {\n                    \"source\": \"value6.output\",\n                    \"target\": \"build_array.first.output26\"\n                },\n                {\n                    \"source\": \"value5.output\",\n                    \"target\": \"build_array.first.output28\"\n                },\n                {\n                    \"source\": \"value.output\",\n                    \"target\": \"build_array.first.output29\"\n"
-		+ "                },\n                {\n                    \"source\": \"build_array.array\",\n                    \"target\": \"multiply.first.array\"\n                },\n                {\n                    \"source\": \"multiply.output\",\n                    \"target\": \".out_cubeShape_vectors\"\n                },\n                {\n                    \"source\": \".mainPoser_size\",\n                    \"target\": \"multiply.first.port\"\n                },\n                {\n                    \"source\": \".radius\",\n                    \"target\": \"for_each_spheres.radius\"\n                }\n            ],\n            \"values\": [\n                {\n                    \"valueName\": \"for_each_spheres.max_iterations\",\n                    \"valueType\": \"long\",\n                    \"value\": \"0\"\n                },\n                {\n                    \"valueName\": \"for_each_spheres.global_radius\",\n                    \"valueType\": \"float\",\n                    \"value\": \"1f\"\n                },\n                {\n                    \"valueName\": \"for_each_spheres.radius\",\n"
-		+ "                    \"valueType\": \"array<float>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"for_each_spheres.color\",\n                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n                        \"x\": \"0f\",\n                        \"y\": \"1f\",\n                        \"z\": \"0f\"\n                    }\n                },\n                {\n                    \"valueName\": \"for_each_lines.max_iterations\",\n                    \"valueType\": \"long\",\n                    \"value\": \"10\"\n                },\n                {\n                    \"valueName\": \"for_each_lines.lines\",\n                    \"valueType\": \"array<array<Math::float4x4>>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"for_each_lines.width\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0.0513599999f\"\n                },\n                {\n                    \"valueName\": \"value.value\",\n                    \"valueType\": \"Math::float3\",\n"
-		+ "                    \"value\": {\n                        \"x\": \"-1f\",\n                        \"y\": \"1f\",\n                        \"z\": \"-1f\"\n                    }\n                },\n                {\n                    \"valueName\": \"value1.value\",\n                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n                        \"x\": \"-1f\",\n                        \"y\": \"1f\",\n                        \"z\": \"1f\"\n                    }\n                },\n                {\n                    \"valueName\": \"point_scope.default_size\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0.0469999984f\"\n                },\n                {\n                    \"valueName\": \"set_strands_shape.shape\",\n                    \"valueType\": \"Geometry::StrandShapes\",\n                    \"value\": \"Ribbon\"\n                },\n                {\n                    \"valueName\": \"set_strands_shape.screen_aligned\",\n                    \"valueType\": \"bool\",\n                    \"value\": \"true\"\n                },\n"
-		+ "                {\n                    \"valueName\": \"set_strands_shape.default_size\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0.0188200008f\"\n                },\n                {\n                    \"valueName\": \"set_geo_property.property\",\n                    \"valueType\": \"string\",\n                    \"value\": \"color\"\n                },\n                {\n                    \"valueName\": \"set_geo_property.default\",\n                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n                        \"x\": \"0f\",\n                        \"y\": \"0f\",\n                        \"z\": \"0f\"\n                    }\n                },\n                {\n                    \"valueName\": \"set_geo_property.data\",\n                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n                        \"x\": \"0f\",\n                        \"y\": \"0f\",\n                        \"z\": \"0f\"\n                    }\n                },\n                {\n                    \"valueName\": \"value2.value\",\n"
-		+ "                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n                        \"x\": \"1f\",\n                        \"y\": \"1f\",\n                        \"z\": \"-1f\"\n                    }\n                },\n                {\n                    \"valueName\": \"value3.value\",\n                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n                        \"x\": \"1f\",\n                        \"y\": \"1f\",\n                        \"z\": \"1f\"\n                    }\n                },\n                {\n                    \"valueName\": \"value4.value\",\n                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n                        \"x\": \"-1f\",\n                        \"y\": \"-1f\",\n                        \"z\": \"1f\"\n                    }\n                },\n                {\n                    \"valueName\": \"value5.value\",\n                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n                        \"x\": \"-1f\",\n                        \"y\": \"-1f\",\n"
-		+ "                        \"z\": \"-1f\"\n                    }\n                },\n                {\n                    \"valueName\": \"value6.value\",\n                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n                        \"x\": \"1f\",\n                        \"y\": \"-1f\",\n                        \"z\": \"-1f\"\n                    }\n                },\n                {\n                    \"valueName\": \"value7.value\",\n                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n                        \"x\": \"1f\",\n                        \"y\": \"-1f\",\n                        \"z\": \"1f\"\n                    }\n                },\n                {\n                    \"valueName\": \"value8.value\",\n                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n                        \"x\": \"-1f\",\n                        \"y\": \"-1f\",\n                        \"z\": \"1f\"\n                    }\n                }\n            ],\n            \"reservedNodeNames\": [\n                {\n                    \"name\": \"input\"\n"
-		+ "                },\n                {\n                    \"name\": \"output\"\n                }\n            ]\n        }\n    ]\n}\n");
-	setAttr -k on ".global_scale" 1;
-	setAttr -s 7 ".lines[0].lines_A";
-	setAttr -k on ".lines[0].lines_A[0]";
-	setAttr -k on ".lines[0].lines_A[1]";
-	setAttr -k on ".lines[0].lines_A[2]";
-	setAttr -k on ".lines[0].lines_A[3]";
-	setAttr -k on ".lines[0].lines_A[4]";
-	setAttr -k on ".lines[0].lines_A[5]";
-	setAttr -k on ".lines[0].lines_A[6]";
-	setAttr -k on ".lines[0].lines_A";
-	setAttr -k on ".lines";
-	setAttr -k on ".width";
-	setAttr -k on ".poser_color" -type "float3" 0 1 0 ;
-	setAttr -s 16 ".out_cubeShape_vectors";
-	setAttr -k on ".mainPoser_size";
+createNode transform -n "mainPoser_clusterHandle" -p "posers";
+	rename -uid "DCA498E1-414C-693B-00EF-0389956FA07B";
+	setAttr ".v" no;
+	setAttr ".it" no;
+createNode clusterHandle -n "mainPoser_clusterHandleShape" -p "mainPoser_clusterHandle";
+	rename -uid "71EEDD18-40BC-FB2E-3BCD-3B9DB1D173C0";
+	setAttr ".ihi" 0;
+	setAttr -k off ".v";
 createNode transform -n "input" -p "mod";
 	rename -uid "68D3520E-4F1E-D9EE-8942-C7B90B60D32A";
 	setAttr ".v" no;
@@ -1453,7 +1163,6 @@ createNode transform -n "pelvis" -p "pelvis_group";
 	addAttr -ci true -sn "rotateXMirror" -ln "rotateXMirror" -min 0 -max 1 -at "bool";
 	addAttr -ci true -sn "rotateYMirror" -ln "rotateYMirror" -min 0 -max 1 -at "bool";
 	addAttr -ci true -sn "rotateZMirror" -ln "rotateZMirror" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
 	addAttr -ci true -sn "controls" -ln "controls" -min 0 -max 2 -en "Fk:Ik:Both" -at "enum";
 	addAttr -ci true -sn "squash" -ln "squash" -dv 1 -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "localControls" -ln "localControls" -min 0 -max 1 -at "bool";
@@ -1466,7 +1175,6 @@ createNode transform -n "pelvis" -p "pelvis_group";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
 	setAttr ".rotateZMirror" yes;
-	setAttr -l on ".internalName" -type "string" "pelvis";
 	setAttr -cb on ".controls" 2;
 	setAttr -k on ".squash";
 	setAttr -cb on ".localControls" yes;
@@ -2386,6 +2094,7 @@ createNode pointConstraint -n "stomach_orient_pointConstraint1" -p "stomach_orie
 	setAttr -k on ".w1";
 createNode transform -n "system" -p "mod";
 	rename -uid "425C5BC8-4007-736D-CDC0-C2870A98A214";
+	setAttr ".v" no;
 createNode transform -n "bend_crv" -p "system";
 	rename -uid "2954B667-4E30-F3E9-B645-8CB913133A9E";
 createNode nurbsCurve -n "bend_crvShape" -p "bend_crv";
@@ -2778,8 +2487,8 @@ createNode joint -n "end_outJoint" -p "outJoints";
 createNode transform -s -n "persp";
 	rename -uid "742B74BF-4D6B-9A22-954F-B78DD4DB06E5";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 10.107254596546603 12.181784364447516 17.683768893988297 ;
-	setAttr ".r" -type "double3" -22.799999999995681 -329.9999999999838 0 ;
+	setAttr ".t" -type "double3" -4.9395378013374849 11.474855054894062 25.893963960480782 ;
+	setAttr ".r" -type "double3" -13.800000000013124 -370.7999999999904 2.0236918217557984e-16 ;
 	setAttr ".rp" -type "double3" -3.3306690738754696e-16 -4.4408920985006262e-16 -1.7763568394002505e-15 ;
 	setAttr ".rpt" -type "double3" -6.7928001781737458e-16 -1.7125212621107998e-16 3.3031043487526458e-16 ;
 createNode camera -s -n "perspShape" -p "persp";
@@ -2787,11 +2496,11 @@ createNode camera -s -n "perspShape" -p "persp";
 	setAttr -k off ".v";
 	setAttr ".rnd" no;
 	setAttr ".cap" -type "double2" 1.41732 0.94488 ;
-	setAttr ".coi" 21.262008546449426;
+	setAttr ".coi" 27.144431312137865;
 	setAttr ".imn" -type "string" "persp1";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
-	setAttr ".tp" -type "double3" 0 8.2999950200029886 0 ;
+	setAttr ".tp" -type "double3" 0 4.9999999999999973 4.4408920985006262e-16 ;
 	setAttr ".hc" -type "string" "viewSet -p %camera";
 createNode transform -s -n "top";
 	rename -uid "0CEE38C4-4E21-853D-1E5F-FC8B81451B34";
@@ -2853,15 +2562,15 @@ createNode objectSet -n "ik_moduleControlSet";
 	setAttr -s 3 ".dsm";
 	setAttr ".an" -type "string" "gControlSet";
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "44181E26-4A95-933B-B63E-D29196677570";
-	setAttr -s 24 ".lnk";
-	setAttr -s 24 ".slnk";
+	rename -uid "EEE15855-4317-127A-4F6B-92A1883B08A3";
+	setAttr -s 25 ".lnk";
+	setAttr -s 25 ".slnk";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "46901804-4174-7F9C-D4B3-A2A16E88F00A";
+	rename -uid "F5AC3916-49E4-DDD4-925B-3396CB3CC84C";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "B1DB931A-42AC-3765-6A0C-0E9123FB8239";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "F181CD68-42E8-C2C2-98CE-6B84DC49AC42";
+	rename -uid "C6418EF0-4A98-BDB3-B631-69892B48E455";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "86635CA8-42FC-A04E-4E62-638EF51ABD39";
 	setAttr ".g" yes;
@@ -2872,7 +2581,6 @@ createNode script -n "sceneConfigurationScriptNode";
 createNode objectSet -n "sets";
 	rename -uid "0D4B12C4-429B-7034-133D-8CB6D334ACB9";
 	setAttr ".ihi" 0;
-	setAttr -s 2 ".dnsm";
 createNode decomposeMatrix -n "root_poser_decMat";
 	rename -uid "72BFC704-4325-F685-B85D-92B28CDC87CE";
 createNode objectSet -n "moduleControlSet";
@@ -2907,35 +2615,24 @@ createNode objectSet -n "fk_moduleControlSet";
 	rename -uid "15B90130-40AF-BDBC-076A-028E1FDAAF76";
 	setAttr ".ihi" 0;
 	setAttr -s 4 ".dsm";
-createNode surfaceShader -n "red_rsMat";
-	rename -uid "4595DE8C-4791-0F10-BBAD-81B7AD62F31B";
-	setAttr ".oc" -type "float3" 0.63 0.22995001 0.22995001 ;
 createNode shadingEngine -n "red_rsSG";
 	rename -uid "187C9389-47A6-D501-D574-6F8451DAEC5D";
 	setAttr ".ihi" 0;
 	setAttr ".ro" yes;
 createNode materialInfo -n "root_materialInfo1";
 	rename -uid "EB20ACB9-45A0-F960-D9C1-8080E1CA3F06";
-createNode surfaceShader -n "green_rsMat";
-	rename -uid "DCF4AE0E-4663-3F39-6411-D8A845F91996";
-	setAttr ".oc" -type "float3" 0.230864 0.61400002 0.230864 ;
 createNode shadingEngine -n "green_rsSG";
 	rename -uid "3D80EE44-4C01-0912-0EEF-38876338CB6F";
 	setAttr ".ihi" 0;
 	setAttr ".ro" yes;
 createNode materialInfo -n "root_materialInfo2";
 	rename -uid "C487490D-4264-4070-6DC7-7A88513ECA25";
-createNode surfaceShader -n "blue_rsMat";
-	rename -uid "E7CBE223-43E4-4CDF-AAE7-728EFCA98D5D";
-	setAttr ".oc" -type "float3" 0.24190001 0.24190001 0.58999997 ;
 createNode shadingEngine -n "blue_rsSG";
 	rename -uid "D5970EF1-42B8-0118-4795-9996A634B86B";
 	setAttr ".ihi" 0;
 	setAttr ".ro" yes;
 createNode materialInfo -n "root_materialInfo3";
 	rename -uid "73A61BB9-46FA-65AD-5E50-84BC5C5BA4C8";
-createNode surfaceShader -n "black_rsMat";
-	rename -uid "75DC3DC7-4156-74CB-B5A6-A4B7E7008C1F";
 createNode shadingEngine -n "black_rsSG";
 	rename -uid "EA1DEF5B-43CA-D55B-3730-33881A4A5520";
 	setAttr ".ihi" 0;
@@ -3627,19 +3324,16 @@ createNode multMatrix -n "multMatrix70";
 	rename -uid "0F14F30F-4BEE-CC31-13B8-21A2132D820E";
 createNode multMatrix -n "multMatrix71";
 	rename -uid "C50413DC-4EB8-68A7-8A20-54B6793C99E9";
-	setAttr -s 2 ".i";
 createNode decomposeMatrix -n "decomposeMatrix91";
 	rename -uid "C39D0374-429A-74D6-9099-86A50A6742B9";
 createNode multMatrix -n "multMatrix72";
 	rename -uid "A6E40297-43AF-9468-B412-16BE8A2F016D";
-	setAttr -s 2 ".i";
 createNode decomposeMatrix -n "decomposeMatrix92";
 	rename -uid "35B9A3F7-48D0-5AD8-90FF-9D9B75EA2569";
 createNode decomposeMatrix -n "decomposeMatrix93";
 	rename -uid "91FAA934-4F51-D8F0-65C1-EB8747DAF8BF";
 createNode multMatrix -n "multMatrix73";
 	rename -uid "D82C3CB5-4987-313E-CA06-1BA5548B7EC7";
-	setAttr -s 2 ".i";
 createNode objectSet -n "local_moduleControlSet";
 	rename -uid "B9149EDE-47BC-5686-13D4-FAB45BFDFBB7";
 	setAttr ".ihi" 0;
@@ -3776,10 +3470,6 @@ createNode multMatrix -n "end_multMatrix1";
 	setAttr -s 2 ".i";
 createNode decomposeMatrix -n "end_decomposeMatrix1";
 	rename -uid "92EBAE6E-4704-1AA4-E0C9-64BE2485CDC5";
-createNode objectSet -n "outJointsSet";
-	rename -uid "C696E233-481B-D1CA-DE33-2BABD4BA61B0";
-	setAttr ".ihi" 0;
-	setAttr -s 8 ".dsm";
 createNode distanceBetween -n "distanceBetween3";
 	rename -uid "A520ED76-4237-F99E-1B68-D3B2F46E1F40";
 createNode multiplyDivide -n "multiplyDivide1856";
@@ -3800,9 +3490,9 @@ createNode quatToEuler -n "quatToEuler1";
 createNode quatToEuler -n "quatToEuler2";
 	rename -uid "B6413183-48DD-EA41-0FE0-4184DB6868AC";
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "E786C9F3-475E-F184-74E8-3A99C2770786";
+	rename -uid "E3F7DA66-4407-857E-00B5-7F9F34D443CD";
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "3DACD3BB-45F8-EBED-5102-F3BEC8BBADAC";
+	rename -uid "2BB73A23-4668-B455-72D7-409CA10FD23F";
 createNode makeNurbSphere -n "makeNurbSphere1";
 	rename -uid "8DBE1D78-4612-053F-6D5F-088A4D6E19AF";
 	setAttr ".ax" -type "double3" 0 1 0 ;
@@ -3850,47 +3540,215 @@ createNode nodeGraphEditorInfo -n "hyperShadePrimaryNodeEditorSavedTabsInfo";
 	setAttr ".tgi[0].ni[0].x" 1441.4285888671875;
 	setAttr ".tgi[0].ni[0].y" 120;
 	setAttr ".tgi[0].ni[0].nvs" 1923;
+createNode shadingEngine -n "blinn1SG";
+	rename -uid "757796D9-442E-B442-1B72-5888DCF18746";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+createNode materialInfo -n "materialInfo1";
+	rename -uid "F030C738-4C56-D5E5-E77E-1BBB2CAC0EAD";
+createNode sweepMeshCreator -n "sweepMeshCreator1";
+	rename -uid "B3BD5320-45EB-ADD9-39D6-8AADDF9D2C96";
+	setAttr ".profileRectWidth" 2;
+	setAttr ".profileRectHeight" 2;
+	setAttr ".profileRectCornerRadius" 0.4;
+	setAttr ".profileWaveAmplitude" 0.25;
+	setAttr -s 2 ".taperCurve[0:1]"  0 1 1 1 1 1;
+	setAttr ".interpolationMode" 2;
+	setAttr ".interpolationSteps" 1;
+	setAttr ".interpolationDistance" 3;
+createNode cluster -n "mainPoser_clusterHandleCluster";
+	rename -uid "C893E999-4901-2165-1997-BE9B69AEABFA";
+	setAttr ".gm[0]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1;
 createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
-	rename -uid "21AD845B-4964-8E42-8592-E4BC25D35CD8";
-	setAttr -s 2 ".tgi";
+	rename -uid "FB3C1B36-4E2D-8423-108B-33B8698D2D7B";
+	setAttr -s 3 ".tgi";
 	setAttr ".tgi[0].tn" -type "string" "Untitled_1";
-	setAttr ".tgi[0].vl" -type "double2" -173.67215427105003 -520.23807456569159 ;
-	setAttr ".tgi[0].vh" -type "double2" 4301.0529426446246 691.6666391823037 ;
+	setAttr ".tgi[0].vl" -type "double2" 404.99082639795301 -286.90475050419263 ;
+	setAttr ".tgi[0].vh" -type "double2" 4567.6280236269749 840.47615707866748 ;
+	setAttr -s 14 ".tgi[0].ni";
+	setAttr ".tgi[0].ni[0].x" 1675.7142333984375;
+	setAttr ".tgi[0].ni[0].y" 515.71429443359375;
+	setAttr ".tgi[0].ni[0].nvs" 18304;
+	setAttr ".tgi[0].ni[1].x" 1675.7142333984375;
+	setAttr ".tgi[0].ni[1].y" 212.85714721679688;
+	setAttr ".tgi[0].ni[1].nvs" 18304;
+	setAttr ".tgi[0].ni[2].x" 2391.681396484375;
+	setAttr ".tgi[0].ni[2].y" 610.26629638671875;
+	setAttr ".tgi[0].ni[2].nvs" 18304;
+	setAttr ".tgi[0].ni[3].x" 1675.7142333984375;
+	setAttr ".tgi[0].ni[3].y" 414.28570556640625;
+	setAttr ".tgi[0].ni[3].nvs" 18304;
+	setAttr ".tgi[0].ni[4].x" 1675.7142333984375;
+	setAttr ".tgi[0].ni[4].y" 111.42857360839844;
+	setAttr ".tgi[0].ni[4].nvs" 18304;
+	setAttr ".tgi[0].ni[5].x" 2597.142822265625;
+	setAttr ".tgi[0].ni[5].y" 427.14285278320312;
+	setAttr ".tgi[0].ni[5].nvs" 18304;
+	setAttr ".tgi[0].ni[6].x" 1675.7142333984375;
+	setAttr ".tgi[0].ni[6].y" 618.5714111328125;
+	setAttr ".tgi[0].ni[6].nvs" 18304;
+	setAttr ".tgi[0].ni[7].x" 2170.2529296875;
+	setAttr ".tgi[0].ni[7].y" 610.26629638671875;
+	setAttr ".tgi[0].ni[7].nvs" 18304;
+	setAttr ".tgi[0].ni[8].x" 1675.7142333984375;
+	setAttr ".tgi[0].ni[8].y" 314.28570556640625;
+	setAttr ".tgi[0].ni[8].nvs" 18304;
+	setAttr ".tgi[0].ni[9].x" 2457.117919921875;
+	setAttr ".tgi[0].ni[9].y" 525.63507080078125;
+	setAttr ".tgi[0].ni[9].nvs" 18304;
+	setAttr ".tgi[0].ni[10].x" 1982.857177734375;
+	setAttr ".tgi[0].ni[10].y" 477.14285278320312;
+	setAttr ".tgi[0].ni[10].nvs" 18305;
+	setAttr ".tgi[0].ni[11].x" 2130;
+	setAttr ".tgi[0].ni[11].y" -255.71427917480469;
+	setAttr ".tgi[0].ni[11].nvs" 18304;
+	setAttr ".tgi[0].ni[12].x" 2290;
+	setAttr ".tgi[0].ni[12].y" 427.14285278320312;
+	setAttr ".tgi[0].ni[12].nvs" 18304;
+	setAttr ".tgi[0].ni[13].x" 1675.7142333984375;
+	setAttr ".tgi[0].ni[13].y" 8.5714282989501953;
+	setAttr ".tgi[0].ni[13].nvs" 18304;
 	setAttr ".tgi[1].tn" -type "string" "Untitled_2";
-	setAttr ".tgi[1].vl" -type "double2" 3816.8122999463831 -1250.8702829870942 ;
-	setAttr ".tgi[1].vh" -type "double2" 4726.8963080326594 -322.29888046139553 ;
-	setAttr -s 4 ".tgi[1].ni";
-	setAttr ".tgi[1].ni[0].x" 4014.28564453125;
-	setAttr ".tgi[1].ni[0].y" -702.85711669921875;
+	setAttr ".tgi[1].vl" -type "double2" 1965.5218999191552 -1054.761862849434 ;
+	setAttr ".tgi[1].vh" -type "double2" 6238.0492026716456 102.38094831269898 ;
+	setAttr -s 13 ".tgi[1].ni";
+	setAttr ".tgi[1].ni[0].x" 4024.28564453125;
+	setAttr ".tgi[1].ni[0].y" -528.5714111328125;
 	setAttr ".tgi[1].ni[0].nvs" 18304;
-	setAttr ".tgi[1].ni[1].x" 3866.386474609375;
-	setAttr ".tgi[1].ni[1].y" -508.57144165039062;
-	setAttr ".tgi[1].ni[1].nvs" 18304;
-	setAttr ".tgi[1].ni[2].x" 4146.21826171875;
-	setAttr ".tgi[1].ni[2].y" -752.60504150390625;
+	setAttr ".tgi[1].ni[1].x" 3580.6298828125;
+	setAttr ".tgi[1].ni[1].y" -573.798583984375;
+	setAttr ".tgi[1].ni[1].nvs" 18305;
+	setAttr ".tgi[1].ni[2].x" 4026.9052734375;
+	setAttr ".tgi[1].ni[2].y" -292.96917724609375;
 	setAttr ".tgi[1].ni[2].nvs" 18304;
-	setAttr ".tgi[1].ni[3].x" 4335.71435546875;
-	setAttr ".tgi[1].ni[3].y" -702.85711669921875;
+	setAttr ".tgi[1].ni[3].x" 4451.78857421875;
+	setAttr ".tgi[1].ni[3].y" 488.58316040039062;
 	setAttr ".tgi[1].ni[3].nvs" 18304;
+	setAttr ".tgi[1].ni[4].x" 3559.408935546875;
+	setAttr ".tgi[1].ni[4].y" -248.46830749511719;
+	setAttr ".tgi[1].ni[4].nvs" 18305;
+	setAttr ".tgi[1].ni[5].x" 4575.57373046875;
+	setAttr ".tgi[1].ni[5].y" -189.52278137207031;
+	setAttr ".tgi[1].ni[5].nvs" 18304;
+	setAttr ".tgi[1].ni[6].x" 4024.28564453125;
+	setAttr ".tgi[1].ni[6].y" -947.14288330078125;
+	setAttr ".tgi[1].ni[6].nvs" 18304;
+	setAttr ".tgi[1].ni[7].x" 3900.26416015625;
+	setAttr ".tgi[1].ni[7].y" -184.45307922363281;
+	setAttr ".tgi[1].ni[7].nvs" 18305;
+	setAttr ".tgi[1].ni[8].x" 4292.521484375;
+	setAttr ".tgi[1].ni[8].y" -17.320112228393555;
+	setAttr ".tgi[1].ni[8].nvs" 18305;
+	setAttr ".tgi[1].ni[9].x" 4824.5634765625;
+	setAttr ".tgi[1].ni[9].y" -630.22406005859375;
+	setAttr ".tgi[1].ni[9].nvs" 18304;
+	setAttr ".tgi[1].ni[10].x" 4024.28564453125;
+	setAttr ".tgi[1].ni[10].y" -1048.5714111328125;
+	setAttr ".tgi[1].ni[10].nvs" 18304;
+	setAttr ".tgi[1].ni[11].x" 4024.28564453125;
+	setAttr ".tgi[1].ni[11].y" -845.71429443359375;
+	setAttr ".tgi[1].ni[11].nvs" 18304;
+	setAttr ".tgi[1].ni[12].x" 4024.28564453125;
+	setAttr ".tgi[1].ni[12].y" -630;
+	setAttr ".tgi[1].ni[12].nvs" 18304;
+	setAttr ".tgi[2].tn" -type "string" "Untitled_3";
+	setAttr ".tgi[2].vl" -type "double2" -1001.1193751470149 -1417.1444678357132 ;
+	setAttr ".tgi[2].vh" -type "double2" 102.24193844234915 -219.4880321616001 ;
+	setAttr -s 4 ".tgi[2].ni";
+	setAttr ".tgi[2].ni[0].x" -887.14288330078125;
+	setAttr ".tgi[2].ni[0].y" -698.5714111328125;
+	setAttr ".tgi[2].ni[0].nvs" 18304;
+	setAttr ".tgi[2].ni[1].x" -580;
+	setAttr ".tgi[2].ni[1].y" -857.14288330078125;
+	setAttr ".tgi[2].ni[1].nvs" 18304;
+	setAttr ".tgi[2].ni[2].x" -222.85714721679688;
+	setAttr ".tgi[2].ni[2].y" -784.28570556640625;
+	setAttr ".tgi[2].ni[2].nvs" 18304;
+	setAttr ".tgi[2].ni[3].x" -580;
+	setAttr ".tgi[2].ni[3].y" -698.5714111328125;
+	setAttr ".tgi[2].ni[3].nvs" 18304;
 select -ne :time1;
 	setAttr -av -k on ".cch";
+	setAttr -k on ".fzn";
 	setAttr -av -k on ".ihi";
 	setAttr -av -k on ".nds";
 	setAttr -cb on ".bnm";
 	setAttr -k on ".o" 0;
 	setAttr -av ".unw";
-	setAttr -k on ".etw";
-	setAttr -k on ".tps";
+	setAttr -av -k on ".etw";
+	setAttr -av -k on ".tps";
 	setAttr -av -k on ".tms";
 select -ne :hardwareRenderingGlobals;
-	setAttr ".etmr" no;
-	setAttr ".tmr" 4096;
-select -ne :renderPartition;
-	setAttr -k on ".cch";
-	setAttr -k on ".ihi";
-	setAttr -k on ".nds";
+	setAttr -av -k on ".cch";
+	setAttr -k on ".fzn";
+	setAttr -av -k on ".ihi";
+	setAttr -av -k on ".nds";
 	setAttr -cb on ".bnm";
-	setAttr -s 24 ".st";
+	setAttr -k on ".rm";
+	setAttr -k on ".lm";
+	setAttr -k on ".hom";
+	setAttr -k on ".hodm";
+	setAttr -k on ".xry";
+	setAttr -k on ".jxr";
+	setAttr -k on ".sslt";
+	setAttr -k on ".cbr";
+	setAttr -k on ".bbr";
+	setAttr -k on ".mhl";
+	setAttr -k on ".cons";
+	setAttr -k on ".vac";
+	setAttr -k on ".hwi";
+	setAttr -k on ".csvd";
+	setAttr -av ".ta";
+	setAttr -av ".tq";
+	setAttr -k on ".ts";
+	setAttr -av ".etmr" no;
+	setAttr -av ".tmr" 4096;
+	setAttr -av ".aoon";
+	setAttr -av ".aoam";
+	setAttr -av ".aora";
+	setAttr -k on ".aofr";
+	setAttr -av ".aosm";
+	setAttr -k on ".hff";
+	setAttr -av -k on ".hfd";
+	setAttr -av -k on ".hfs";
+	setAttr -av -k on ".hfe";
+	setAttr -av ".hfc";
+	setAttr -av -k on ".hfcr";
+	setAttr -av -k on ".hfcg";
+	setAttr -av -k on ".hfcb";
+	setAttr -av -k on ".hfa";
+	setAttr -av ".mbe";
+	setAttr -k on ".mbt";
+	setAttr -av -k on ".mbsof";
+	setAttr -k on ".mbsc";
+	setAttr -k on ".mbc";
+	setAttr -k on ".mbfa";
+	setAttr -k on ".mbftb";
+	setAttr -k on ".mbftg";
+	setAttr -k on ".mbftr";
+	setAttr -k on ".mbfta";
+	setAttr -k on ".mbfe";
+	setAttr -k on ".mbme";
+	setAttr -k on ".mbcsx";
+	setAttr -k on ".mbcsy";
+	setAttr -k on ".mbasx";
+	setAttr -k on ".mbasy";
+	setAttr -k on ".blen";
+	setAttr -k on ".blth";
+	setAttr -k on ".blfr";
+	setAttr -k on ".blfa";
+	setAttr -k on ".blat";
+	setAttr -av ".msaa";
+	setAttr -av ".aasc";
+	setAttr -k on ".aasq";
+	setAttr -k on ".laa";
+	setAttr -k on ".rtfm";
+select -ne :renderPartition;
+	setAttr -av -k on ".cch";
+	setAttr -k on ".ihi";
+	setAttr -av -k on ".nds";
+	setAttr -cb on ".bnm";
+	setAttr -s 25 ".st";
 	setAttr -k on ".an";
 	setAttr -k on ".pt";
 select -ne :renderGlobalsList1;
@@ -3903,7 +3761,7 @@ select -ne :defaultShaderList1;
 	setAttr -k on ".ihi";
 	setAttr -k on ".nds";
 	setAttr -cb on ".bnm";
-	setAttr -s 9 ".s";
+	setAttr -s 5 ".s";
 select -ne :postProcessList1;
 	setAttr -k on ".cch";
 	setAttr -k on ".ihi";
@@ -3913,7 +3771,7 @@ select -ne :postProcessList1;
 select -ne :defaultRenderUtilityList1;
 	setAttr -k on ".cch";
 	setAttr -cb on ".ihi";
-	setAttr -k on ".nds";
+	setAttr -av -k on ".nds";
 	setAttr -cb on ".bnm";
 	setAttr -s 62 ".u";
 select -ne :defaultRenderingList1;
@@ -3921,12 +3779,17 @@ select -ne :defaultRenderingList1;
 	setAttr -s 2 ".r";
 select -ne :initialShadingGroup;
 	setAttr -av -k on ".cch";
+	setAttr -k on ".fzn";
 	setAttr -k on ".ihi";
 	setAttr -av -k on ".nds";
 	setAttr -cb on ".bnm";
-	setAttr -s 3 ".dsm";
+	setAttr -k on ".bbx";
+	setAttr -k on ".vwm";
+	setAttr -k on ".tpv";
+	setAttr -k on ".uit";
+	setAttr -s 2 ".dsm";
 	setAttr -k on ".mwc";
-	setAttr -k on ".an";
+	setAttr -av -k on ".an";
 	setAttr -k on ".il";
 	setAttr -k on ".vo";
 	setAttr -k on ".eo";
@@ -3939,7 +3802,7 @@ select -ne :initialParticleSE;
 	setAttr -av -k on ".nds";
 	setAttr -cb on ".bnm";
 	setAttr -k on ".mwc";
-	setAttr -k on ".an";
+	setAttr -av -k on ".an";
 	setAttr -k on ".il";
 	setAttr -k on ".vo";
 	setAttr -k on ".eo";
@@ -3952,110 +3815,119 @@ select -ne :defaultRenderGlobals;
 	setAttr -cb on ".ihi";
 	setAttr -av -k on ".nds";
 	setAttr -cb on ".bnm";
-	setAttr -k on ".macc";
-	setAttr -k on ".macd";
-	setAttr -k on ".macq";
-	setAttr ".mcfr" 25;
+	setAttr -av -k on ".macc";
+	setAttr -av -k on ".macd";
+	setAttr -av -k on ".macq";
+	setAttr -av -k on ".mcfr" 25;
 	setAttr -cb on ".ifg";
-	setAttr -k on ".clip";
-	setAttr -k on ".edm";
-	setAttr -k on ".edl";
-	setAttr -cb on ".ren";
+	setAttr -av -k on ".clip";
+	setAttr -av -k on ".edm";
+	setAttr -av -k on ".edl";
+	setAttr -av -cb on ".ren";
 	setAttr -av -k on ".esr";
-	setAttr -k on ".ors";
+	setAttr -av -k on ".ors";
 	setAttr -cb on ".sdf";
 	setAttr -av -k on ".outf";
-	setAttr -cb on ".imfkey";
-	setAttr -k on ".gama";
-	setAttr -k on ".an";
+	setAttr -av -cb on ".imfkey";
+	setAttr -av -k on ".gama";
+	setAttr -av -k on ".exrc";
+	setAttr -av -k on ".expt";
+	setAttr -av -k on ".an";
 	setAttr -cb on ".ar";
-	setAttr ".fs" 1;
-	setAttr ".ef" 10;
+	setAttr -av -k on ".fs" 1;
+	setAttr -av -k on ".ef" 10;
 	setAttr -av -k on ".bfs";
-	setAttr -cb on ".me";
+	setAttr -av -cb on ".me";
 	setAttr -cb on ".se";
-	setAttr -k on ".be";
-	setAttr -cb on ".ep" 1;
-	setAttr -k on ".fec";
+	setAttr -av -k on ".be";
+	setAttr -av -cb on ".ep" 1;
+	setAttr -av -k on ".fec";
 	setAttr -av -k on ".ofc";
 	setAttr -cb on ".ofe";
 	setAttr -cb on ".efe";
 	setAttr -cb on ".oft";
 	setAttr -cb on ".umfn";
 	setAttr -cb on ".ufe";
-	setAttr -cb on ".pff";
-	setAttr -cb on ".peie";
-	setAttr -cb on ".ifp";
-	setAttr -k on ".comp";
-	setAttr -k on ".cth";
-	setAttr -k on ".soll";
-	setAttr -cb on ".sosl";
-	setAttr -k on ".rd";
-	setAttr -k on ".lp";
+	setAttr -av -cb on ".pff";
+	setAttr -av -cb on ".peie";
+	setAttr -av -cb on ".ifp";
+	setAttr -k on ".rv";
+	setAttr -av -k on ".comp";
+	setAttr -av -k on ".cth";
+	setAttr -av -k on ".soll";
+	setAttr -av -cb on ".sosl";
+	setAttr -av -k on ".rd";
+	setAttr -av -k on ".lp";
 	setAttr -av -k on ".sp";
-	setAttr -k on ".shs";
+	setAttr -av -k on ".shs";
 	setAttr -av -k on ".lpr";
 	setAttr -cb on ".gv";
 	setAttr -cb on ".sv";
-	setAttr -k on ".mm";
-	setAttr -k on ".npu";
-	setAttr -k on ".itf";
-	setAttr -k on ".shp";
+	setAttr -av -k on ".mm";
+	setAttr -av -k on ".npu";
+	setAttr -av -k on ".itf";
+	setAttr -av -k on ".shp";
 	setAttr -cb on ".isp";
-	setAttr -k on ".uf";
-	setAttr -k on ".oi";
-	setAttr -k on ".rut";
-	setAttr -k on ".mb";
+	setAttr -av -k on ".uf";
+	setAttr -av -k on ".oi";
+	setAttr -av -k on ".rut";
+	setAttr -av -k on ".mot";
+	setAttr -av -k on ".mb";
 	setAttr -av -k on ".mbf";
-	setAttr -k on ".afp";
-	setAttr -k on ".pfb";
-	setAttr -k on ".pram";
-	setAttr -k on ".poam";
-	setAttr -k on ".prlm";
-	setAttr -k on ".polm";
-	setAttr -cb on ".prm";
-	setAttr -cb on ".pom";
+	setAttr -av -k on ".mbso";
+	setAttr -av -k on ".mbsc";
+	setAttr -av -k on ".afp";
+	setAttr -av -k on ".pfb";
+	setAttr -av -k on ".pram";
+	setAttr -av -k on ".poam";
+	setAttr -av -k on ".prlm";
+	setAttr -av -k on ".polm";
+	setAttr -av -cb on ".prm";
+	setAttr -av -cb on ".pom";
 	setAttr -cb on ".pfrm";
 	setAttr -cb on ".pfom";
 	setAttr -av -k on ".bll";
 	setAttr -av -k on ".bls";
 	setAttr -av -k on ".smv";
-	setAttr -k on ".ubc";
-	setAttr -k on ".mbc";
+	setAttr -av -k on ".ubc";
+	setAttr -av -k on ".mbc";
 	setAttr -cb on ".mbt";
-	setAttr -k on ".udbx";
-	setAttr -k on ".smc";
-	setAttr -k on ".kmv";
+	setAttr -av -k on ".udbx";
+	setAttr -av -k on ".smc";
+	setAttr -av -k on ".kmv";
 	setAttr -cb on ".isl";
 	setAttr -cb on ".ism";
 	setAttr -cb on ".imb";
-	setAttr -k on ".rlen";
+	setAttr -av -k on ".rlen";
 	setAttr -av -k on ".frts";
-	setAttr -k on ".tlwd";
-	setAttr -k on ".tlht";
-	setAttr -k on ".jfc";
+	setAttr -av -k on ".tlwd";
+	setAttr -av -k on ".tlht";
+	setAttr -av -k on ".jfc";
 	setAttr -cb on ".rsb";
-	setAttr -k on ".ope";
-	setAttr -k on ".oppf";
+	setAttr -av -k on ".ope";
+	setAttr -av -k on ".oppf";
+	setAttr -av -k on ".rcp";
+	setAttr -av -k on ".icp";
+	setAttr -av -k on ".ocp";
 	setAttr -cb on ".hbl";
 	setAttr ".dss" -type "string" "lambert1";
 select -ne :defaultResolution;
 	setAttr -av -k on ".cch";
-	setAttr -k on ".ihi";
+	setAttr -av -k on ".ihi";
 	setAttr -av -k on ".nds";
 	setAttr -k on ".bnm";
-	setAttr -av ".w" 640;
-	setAttr -av ".h" 480;
+	setAttr -av -k on ".w" 640;
+	setAttr -av -k on ".h" 480;
 	setAttr -av ".pa" 1;
 	setAttr -av -k on ".al";
-	setAttr -av ".dar" 1.3333332538604736;
+	setAttr -av -k on ".dar" 1.3333332538604736;
 	setAttr -av -k on ".ldar";
-	setAttr -k on ".dpi";
+	setAttr -av -k on ".dpi";
 	setAttr -av -k on ".off";
 	setAttr -av -k on ".fld";
 	setAttr -av -k on ".zsl";
-	setAttr -k on ".isu";
-	setAttr -k on ".pdu";
+	setAttr -av -k on ".isu";
+	setAttr -av -k on ".pdu";
 select -ne :defaultLightSet;
 	setAttr -k on ".cch";
 	setAttr -k on ".ihi";
@@ -4093,34 +3965,34 @@ select -ne :defaultColorMgtGlobals;
 	setAttr ".otn" -type "string" "ACES 1.0 SDR-video (sRGB)";
 	setAttr ".potn" -type "string" "ACES 1.0 SDR-video (sRGB)";
 select -ne :hardwareRenderGlobals;
-	setAttr -k on ".cch";
+	setAttr -av -k on ".cch";
 	setAttr -cb on ".ihi";
-	setAttr -k on ".nds";
+	setAttr -av -k on ".nds";
 	setAttr -cb on ".bnm";
-	setAttr ".ctrs" 256;
+	setAttr -av ".ctrs" 256;
 	setAttr -av ".btrs" 512;
-	setAttr -k off ".fbfm";
-	setAttr -k off -cb on ".ehql";
-	setAttr -k off -cb on ".eams";
-	setAttr -k off ".eeaa";
-	setAttr -k off ".engm";
-	setAttr -k off ".mes";
-	setAttr -k off ".emb";
-	setAttr -av -k off ".mbbf";
-	setAttr -k off ".mbs";
-	setAttr -k off ".trm";
-	setAttr -k off -cb on ".tshc";
-	setAttr -k off ".enpt";
-	setAttr -k off ".clmt";
-	setAttr -k off -cb on ".tcov";
-	setAttr -k off -cb on ".lith";
-	setAttr -k off -cb on ".sobc";
-	setAttr -k off -cb on ".cuth";
-	setAttr -k off -cb on ".hgcd";
-	setAttr -k off -cb on ".hgci";
-	setAttr -k off -cb on ".mgcs";
-	setAttr -k off ".twa";
-	setAttr -k off ".twz";
+	setAttr -av -k off -cb on ".fbfm";
+	setAttr -av -k off -cb on ".ehql";
+	setAttr -av -k off -cb on ".eams";
+	setAttr -av -k off -cb on ".eeaa";
+	setAttr -av -k off -cb on ".engm";
+	setAttr -av -k off -cb on ".mes";
+	setAttr -av -k off -cb on ".emb";
+	setAttr -av -k off -cb on ".mbbf";
+	setAttr -av -k off -cb on ".mbs";
+	setAttr -av -k off -cb on ".trm";
+	setAttr -av -k off -cb on ".tshc";
+	setAttr -av -k off -cb on ".enpt";
+	setAttr -av -k off -cb on ".clmt";
+	setAttr -av -k off -cb on ".tcov";
+	setAttr -av -k off -cb on ".lith";
+	setAttr -av -k off -cb on ".sobc";
+	setAttr -av -k off -cb on ".cuth";
+	setAttr -av -k off -cb on ".hgcd";
+	setAttr -av -k off -cb on ".hgci";
+	setAttr -av -k off -cb on ".mgcs";
+	setAttr -av -k off -cb on ".twa";
+	setAttr -av -k off -cb on ".twz";
 	setAttr -k on ".hwcc";
 	setAttr -k on ".hwdp";
 	setAttr -k on ".hwql";
@@ -4132,43 +4004,12 @@ select -ne :hardwareRenderGlobals;
 	setAttr -k on ".hwel";
 connectAttr "mainPoser.sx" "mainPoser.sy" -l on;
 connectAttr "mainPoser.sx" "mainPoser.sz" -l on;
-connectAttr "posers_bifrostGraphShape.out_cubeShape_vectors[0]" "mainPoserShape.cp[0]"
-		;
-connectAttr "posers_bifrostGraphShape.out_cubeShape_vectors[1]" "mainPoserShape.cp[1]"
-		;
-connectAttr "posers_bifrostGraphShape.out_cubeShape_vectors[2]" "mainPoserShape.cp[2]"
-		;
-connectAttr "posers_bifrostGraphShape.out_cubeShape_vectors[3]" "mainPoserShape.cp[3]"
-		;
-connectAttr "posers_bifrostGraphShape.out_cubeShape_vectors[4]" "mainPoserShape.cp[4]"
-		;
-connectAttr "posers_bifrostGraphShape.out_cubeShape_vectors[5]" "mainPoserShape.cp[5]"
-		;
-connectAttr "posers_bifrostGraphShape.out_cubeShape_vectors[6]" "mainPoserShape.cp[6]"
-		;
-connectAttr "posers_bifrostGraphShape.out_cubeShape_vectors[7]" "mainPoserShape.cp[7]"
-		;
-connectAttr "posers_bifrostGraphShape.out_cubeShape_vectors[8]" "mainPoserShape.cp[8]"
-		;
-connectAttr "posers_bifrostGraphShape.out_cubeShape_vectors[9]" "mainPoserShape.cp[9]"
-		;
-connectAttr "posers_bifrostGraphShape.out_cubeShape_vectors[10]" "mainPoserShape.cp[10]"
-		;
-connectAttr "posers_bifrostGraphShape.out_cubeShape_vectors[11]" "mainPoserShape.cp[11]"
-		;
-connectAttr "posers_bifrostGraphShape.out_cubeShape_vectors[12]" "mainPoserShape.cp[12]"
-		;
-connectAttr "posers_bifrostGraphShape.out_cubeShape_vectors[13]" "mainPoserShape.cp[13]"
-		;
-connectAttr "posers_bifrostGraphShape.out_cubeShape_vectors[14]" "mainPoserShape.cp[14]"
-		;
-connectAttr "posers_bifrostGraphShape.out_cubeShape_vectors[15]" "mainPoserShape.cp[15]"
-		;
-connectAttr "makeNurbSphere7.os" "root_poserNurbsShape.cr";
-connectAttr "parts_multiplyDivide.ox" "fk_1_controlInitLoc.ty";
-connectAttr "parts_multiplyDivide.ox" "fk_2_controlInitLoc.ty";
-connectAttr "parts_multiplyDivide.ox" "fk_3_controlInitLoc.ty";
-connectAttr "makeNurbSphere1.os" "end_poserNurbsShape.cr";
+connectAttr "mainPoser_clusterHandleCluster.og[0]" "mainPoserShape.cr";
+connectAttr "makeNurbSphere7.os" "root_poserShape.cr";
+connectAttr "parts_multiplyDivide.ox" "fk_1_initLoc.ty";
+connectAttr "parts_multiplyDivide.ox" "fk_2_initLoc.ty";
+connectAttr "parts_multiplyDivide.ox" "fk_3_initLoc.ty";
+connectAttr "makeNurbSphere1.os" "end_poserShape.cr";
 connectAttr "end_poserOrient_aimConstraint1.crx" "end_poserOrient.rx";
 connectAttr "end_poserOrient_aimConstraint1.cry" "end_poserOrient.ry";
 connectAttr "end_poserOrient_aimConstraint1.crz" "end_poserOrient.rz";
@@ -4188,7 +4029,7 @@ connectAttr "local_1_poser_group_pointConstraint1.ctx" "local_1_poser_group.tx";
 connectAttr "local_1_poser_group_pointConstraint1.cty" "local_1_poser_group.ty";
 connectAttr "local_1_poser_group_pointConstraint1.ctz" "local_1_poser_group.tz";
 connectAttr "end_poserOrient.r" "local_1_poser_group.r";
-connectAttr "makeNurbSphere6.os" "local_1_poserNurbsShape.cr";
+connectAttr "makeNurbSphere6.os" "local_1_poserShape.cr";
 connectAttr "local_1_poser_group.pim" "local_1_poser_group_pointConstraint1.cpim"
 		;
 connectAttr "local_1_poser_group.rp" "local_1_poser_group_pointConstraint1.crp";
@@ -4210,7 +4051,7 @@ connectAttr "local_2_poser_group_pointConstraint1.ctx" "local_2_poser_group.tx";
 connectAttr "local_2_poser_group_pointConstraint1.cty" "local_2_poser_group.ty";
 connectAttr "local_2_poser_group_pointConstraint1.ctz" "local_2_poser_group.tz";
 connectAttr "end_poserOrient.r" "local_2_poser_group.r";
-connectAttr "makeNurbSphere5.os" "local_2_poserNurbsShape.cr";
+connectAttr "makeNurbSphere5.os" "local_2_poserShape.cr";
 connectAttr "local_2_poser_group.pim" "local_2_poser_group_pointConstraint1.cpim"
 		;
 connectAttr "local_2_poser_group.rp" "local_2_poser_group_pointConstraint1.crp";
@@ -4232,7 +4073,7 @@ connectAttr "local_3_poser_group_pointConstraint1.ctx" "local_3_poser_group.tx";
 connectAttr "local_3_poser_group_pointConstraint1.cty" "local_3_poser_group.ty";
 connectAttr "local_3_poser_group_pointConstraint1.ctz" "local_3_poser_group.tz";
 connectAttr "end_poserOrient.r" "local_3_poser_group.r";
-connectAttr "makeNurbSphere4.os" "local_3_poserNurbsShape.cr";
+connectAttr "makeNurbSphere4.os" "local_3_poserShape.cr";
 connectAttr "local_3_poser_group.pim" "local_3_poser_group_pointConstraint1.cpim"
 		;
 connectAttr "local_3_poser_group.rp" "local_3_poser_group_pointConstraint1.crp";
@@ -4254,7 +4095,7 @@ connectAttr "local_4_poser_group_pointConstraint1.ctx" "local_4_poser_group.tx";
 connectAttr "local_4_poser_group_pointConstraint1.cty" "local_4_poser_group.ty";
 connectAttr "local_4_poser_group_pointConstraint1.ctz" "local_4_poser_group.tz";
 connectAttr "end_poserOrient.r" "local_4_poser_group.r";
-connectAttr "makeNurbSphere3.os" "local_4_poserNurbsShape.cr";
+connectAttr "makeNurbSphere3.os" "local_4_poserShape.cr";
 connectAttr "local_4_poser_group.pim" "local_4_poser_group_pointConstraint1.cpim"
 		;
 connectAttr "local_4_poser_group.rp" "local_4_poser_group_pointConstraint1.crp";
@@ -4276,7 +4117,7 @@ connectAttr "local_5_poser_group_pointConstraint1.ctx" "local_5_poser_group.tx";
 connectAttr "local_5_poser_group_pointConstraint1.cty" "local_5_poser_group.ty";
 connectAttr "local_5_poser_group_pointConstraint1.ctz" "local_5_poser_group.tz";
 connectAttr "end_poserOrient.r" "local_5_poser_group.r";
-connectAttr "makeNurbSphere2.os" "local_5_poserNurbsShape.cr";
+connectAttr "makeNurbSphere2.os" "local_5_poserShape.cr";
 connectAttr "local_5_poser_group.pim" "local_5_poser_group_pointConstraint1.cpim"
 		;
 connectAttr "local_5_poser_group.rp" "local_5_poser_group_pointConstraint1.crp";
@@ -4518,123 +4359,29 @@ connectAttr "end_poser.rpt" "end_initLoc_pointConstraint1.tg[0].trt";
 connectAttr "end_poser.pm" "end_initLoc_pointConstraint1.tg[0].tpm";
 connectAttr "end_initLoc_pointConstraint1.w0" "end_initLoc_pointConstraint1.tg[0].tw"
 		;
-connectAttr "fk_bone_3_pivot_loc_pointConstraint1.ctx" "fk_3_initLoc.tx";
-connectAttr "fk_bone_3_pivot_loc_pointConstraint1.cty" "fk_3_initLoc.ty";
-connectAttr "fk_bone_3_pivot_loc_pointConstraint1.ctz" "fk_3_initLoc.tz";
-connectAttr "fk_3_initLoc.pim" "fk_bone_3_pivot_loc_pointConstraint1.cpim";
-connectAttr "fk_3_initLoc.rp" "fk_bone_3_pivot_loc_pointConstraint1.crp";
-connectAttr "fk_3_initLoc.rpt" "fk_bone_3_pivot_loc_pointConstraint1.crt";
-connectAttr "local_5_poser.t" "fk_bone_3_pivot_loc_pointConstraint1.tg[0].tt";
-connectAttr "local_5_poser.rp" "fk_bone_3_pivot_loc_pointConstraint1.tg[0].trp";
-connectAttr "local_5_poser.rpt" "fk_bone_3_pivot_loc_pointConstraint1.tg[0].trt"
+connectAttr "chest_initLoc_pointConstraint1.ctx" "chest_initLoc.tx";
+connectAttr "chest_initLoc_pointConstraint1.cty" "chest_initLoc.ty";
+connectAttr "chest_initLoc_pointConstraint1.ctz" "chest_initLoc.tz";
+connectAttr "chest_initLoc.pim" "chest_initLoc_pointConstraint1.cpim";
+connectAttr "chest_initLoc.rp" "chest_initLoc_pointConstraint1.crp";
+connectAttr "chest_initLoc.rpt" "chest_initLoc_pointConstraint1.crt";
+connectAttr "end_poser.t" "chest_initLoc_pointConstraint1.tg[0].tt";
+connectAttr "end_poser.rp" "chest_initLoc_pointConstraint1.tg[0].trp";
+connectAttr "end_poser.rpt" "chest_initLoc_pointConstraint1.tg[0].trt";
+connectAttr "end_poser.pm" "chest_initLoc_pointConstraint1.tg[0].tpm";
+connectAttr "chest_initLoc_pointConstraint1.w0" "chest_initLoc_pointConstraint1.tg[0].tw"
 		;
-connectAttr "local_5_poser.pm" "fk_bone_3_pivot_loc_pointConstraint1.tg[0].tpm";
-connectAttr "fk_bone_3_pivot_loc_pointConstraint1.w0" "fk_bone_3_pivot_loc_pointConstraint1.tg[0].tw"
-		;
-connectAttr "local_4_poser.t" "fk_bone_3_pivot_loc_pointConstraint1.tg[1].tt";
-connectAttr "local_4_poser.rp" "fk_bone_3_pivot_loc_pointConstraint1.tg[1].trp";
-connectAttr "local_4_poser.rpt" "fk_bone_3_pivot_loc_pointConstraint1.tg[1].trt"
-		;
-connectAttr "local_4_poser.pm" "fk_bone_3_pivot_loc_pointConstraint1.tg[1].tpm";
-connectAttr "fk_bone_3_pivot_loc_pointConstraint1.w1" "fk_bone_3_pivot_loc_pointConstraint1.tg[1].tw"
-		;
-connectAttr "fk_bone_2_pivot_loc_pointConstraint1.ctx" "fk_2_initLoc.tx";
-connectAttr "fk_bone_2_pivot_loc_pointConstraint1.cty" "fk_2_initLoc.ty";
-connectAttr "fk_bone_2_pivot_loc_pointConstraint1.ctz" "fk_2_initLoc.tz";
-connectAttr "fk_2_initLoc.pim" "fk_bone_2_pivot_loc_pointConstraint1.cpim";
-connectAttr "fk_2_initLoc.rp" "fk_bone_2_pivot_loc_pointConstraint1.crp";
-connectAttr "fk_2_initLoc.rpt" "fk_bone_2_pivot_loc_pointConstraint1.crt";
-connectAttr "local_3_poser.t" "fk_bone_2_pivot_loc_pointConstraint1.tg[0].tt";
-connectAttr "local_3_poser.rp" "fk_bone_2_pivot_loc_pointConstraint1.tg[0].trp";
-connectAttr "local_3_poser.rpt" "fk_bone_2_pivot_loc_pointConstraint1.tg[0].trt"
-		;
-connectAttr "local_3_poser.pm" "fk_bone_2_pivot_loc_pointConstraint1.tg[0].tpm";
-connectAttr "fk_bone_2_pivot_loc_pointConstraint1.w0" "fk_bone_2_pivot_loc_pointConstraint1.tg[0].tw"
-		;
-connectAttr "fk_bone_1_pivot_loc_pointConstraint1.ctx" "fk_1_initLoc.tx";
-connectAttr "fk_bone_1_pivot_loc_pointConstraint1.cty" "fk_1_initLoc.ty";
-connectAttr "fk_bone_1_pivot_loc_pointConstraint1.ctz" "fk_1_initLoc.tz";
-connectAttr "fk_1_initLoc.pim" "fk_bone_1_pivot_loc_pointConstraint1.cpim";
-connectAttr "fk_1_initLoc.rp" "fk_bone_1_pivot_loc_pointConstraint1.crp";
-connectAttr "fk_1_initLoc.rpt" "fk_bone_1_pivot_loc_pointConstraint1.crt";
-connectAttr "local_1_poser.t" "fk_bone_1_pivot_loc_pointConstraint1.tg[0].tt";
-connectAttr "local_1_poser.rp" "fk_bone_1_pivot_loc_pointConstraint1.tg[0].trp";
-connectAttr "local_1_poser.rpt" "fk_bone_1_pivot_loc_pointConstraint1.tg[0].trt"
-		;
-connectAttr "local_1_poser.pm" "fk_bone_1_pivot_loc_pointConstraint1.tg[0].tpm";
-connectAttr "fk_bone_1_pivot_loc_pointConstraint1.w0" "fk_bone_1_pivot_loc_pointConstraint1.tg[0].tw"
-		;
-connectAttr "local_2_poser.t" "fk_bone_1_pivot_loc_pointConstraint1.tg[1].tt";
-connectAttr "local_2_poser.rp" "fk_bone_1_pivot_loc_pointConstraint1.tg[1].trp";
-connectAttr "local_2_poser.rpt" "fk_bone_1_pivot_loc_pointConstraint1.tg[1].trt"
-		;
-connectAttr "local_2_poser.pm" "fk_bone_1_pivot_loc_pointConstraint1.tg[1].tpm";
-connectAttr "fk_bone_1_pivot_loc_pointConstraint1.w1" "fk_bone_1_pivot_loc_pointConstraint1.tg[1].tw"
-		;
-connectAttr "chest_controlInitLoc_pointConstraint1.ctx" "chest_initLoc.tx";
-connectAttr "chest_controlInitLoc_pointConstraint1.cty" "chest_initLoc.ty";
-connectAttr "chest_controlInitLoc_pointConstraint1.ctz" "chest_initLoc.tz";
-connectAttr "chest_initLoc.pim" "chest_controlInitLoc_pointConstraint1.cpim";
-connectAttr "chest_initLoc.rp" "chest_controlInitLoc_pointConstraint1.crp";
-connectAttr "chest_initLoc.rpt" "chest_controlInitLoc_pointConstraint1.crt";
-connectAttr "end_poser.t" "chest_controlInitLoc_pointConstraint1.tg[0].tt";
-connectAttr "end_poser.rp" "chest_controlInitLoc_pointConstraint1.tg[0].trp";
-connectAttr "end_poser.rpt" "chest_controlInitLoc_pointConstraint1.tg[0].trt";
-connectAttr "end_poser.pm" "chest_controlInitLoc_pointConstraint1.tg[0].tpm";
-connectAttr "chest_controlInitLoc_pointConstraint1.w0" "chest_controlInitLoc_pointConstraint1.tg[0].tw"
-		;
-connectAttr "hips_initLoc_pointConstraint1.ctx" "hips_initLoc.tx";
-connectAttr "hips_initLoc_pointConstraint1.cty" "hips_initLoc.ty";
-connectAttr "hips_initLoc_pointConstraint1.ctz" "hips_initLoc.tz";
-connectAttr "hips_initLoc.pim" "hips_initLoc_pointConstraint1.cpim";
-connectAttr "hips_initLoc.rp" "hips_initLoc_pointConstraint1.crp";
-connectAttr "hips_initLoc.rpt" "hips_initLoc_pointConstraint1.crt";
-connectAttr "root_poser.t" "hips_initLoc_pointConstraint1.tg[0].tt";
-connectAttr "root_poser.rp" "hips_initLoc_pointConstraint1.tg[0].trp";
-connectAttr "root_poser.rpt" "hips_initLoc_pointConstraint1.tg[0].trt";
-connectAttr "root_poser.pm" "hips_initLoc_pointConstraint1.tg[0].tpm";
-connectAttr "hips_initLoc_pointConstraint1.w0" "hips_initLoc_pointConstraint1.tg[0].tw"
-		;
-connectAttr "stomach_initLoc_parentConstraint1.ctx" "stomach_initLoc.tx";
-connectAttr "stomach_initLoc_parentConstraint1.cty" "stomach_initLoc.ty";
-connectAttr "stomach_initLoc_parentConstraint1.ctz" "stomach_initLoc.tz";
-connectAttr "stomach_initLoc_parentConstraint1.crx" "stomach_initLoc.rx";
-connectAttr "stomach_initLoc_parentConstraint1.cry" "stomach_initLoc.ry";
-connectAttr "stomach_initLoc_parentConstraint1.crz" "stomach_initLoc.rz";
-connectAttr "stomach_initLoc.ro" "stomach_initLoc_parentConstraint1.cro";
-connectAttr "stomach_initLoc.pim" "stomach_initLoc_parentConstraint1.cpim";
-connectAttr "stomach_initLoc.rp" "stomach_initLoc_parentConstraint1.crp";
-connectAttr "stomach_initLoc.rpt" "stomach_initLoc_parentConstraint1.crt";
-connectAttr "local_3_initLoc.t" "stomach_initLoc_parentConstraint1.tg[0].tt";
-connectAttr "local_3_initLoc.rp" "stomach_initLoc_parentConstraint1.tg[0].trp";
-connectAttr "local_3_initLoc.rpt" "stomach_initLoc_parentConstraint1.tg[0].trt";
-connectAttr "local_3_initLoc.r" "stomach_initLoc_parentConstraint1.tg[0].tr";
-connectAttr "local_3_initLoc.ro" "stomach_initLoc_parentConstraint1.tg[0].tro";
-connectAttr "local_3_initLoc.s" "stomach_initLoc_parentConstraint1.tg[0].ts";
-connectAttr "local_3_initLoc.pm" "stomach_initLoc_parentConstraint1.tg[0].tpm";
-connectAttr "stomach_initLoc_parentConstraint1.w0" "stomach_initLoc_parentConstraint1.tg[0].tw"
-		;
-connectAttr "pelvis_initLoc_pointConstraint1.ctx" "pelvis_initLoc.tx";
-connectAttr "pelvis_initLoc_pointConstraint1.cty" "pelvis_initLoc.ty";
-connectAttr "pelvis_initLoc_pointConstraint1.ctz" "pelvis_initLoc.tz";
-connectAttr "pelvis_initLoc.pim" "pelvis_initLoc_pointConstraint1.cpim";
-connectAttr "pelvis_initLoc.rp" "pelvis_initLoc_pointConstraint1.crp";
-connectAttr "pelvis_initLoc.rpt" "pelvis_initLoc_pointConstraint1.crt";
-connectAttr "root_poser.t" "pelvis_initLoc_pointConstraint1.tg[0].tt";
-connectAttr "root_poser.rp" "pelvis_initLoc_pointConstraint1.tg[0].trp";
-connectAttr "root_poser.rpt" "pelvis_initLoc_pointConstraint1.tg[0].trt";
-connectAttr "root_poser.pm" "pelvis_initLoc_pointConstraint1.tg[0].tpm";
-connectAttr "pelvis_initLoc_pointConstraint1.w0" "pelvis_initLoc_pointConstraint1.tg[0].tw"
-		;
-connectAttr "size_multiplyDivide2.oy" "posers_bifrostGraphShape.mainPoser_size";
-connectAttr "root_poser.wm" "posers_bifrostGraphShape.lines[0].lines_A[0]";
-connectAttr "local_1_poser.wm" "posers_bifrostGraphShape.lines[0].lines_A[1]";
-connectAttr "local_2_poser.wm" "posers_bifrostGraphShape.lines[0].lines_A[2]";
-connectAttr "local_3_poser.wm" "posers_bifrostGraphShape.lines[0].lines_A[3]";
-connectAttr "local_4_poser.wm" "posers_bifrostGraphShape.lines[0].lines_A[4]";
-connectAttr "local_5_poser.wm" "posers_bifrostGraphShape.lines[0].lines_A[5]";
-connectAttr "end_poser.wm" "posers_bifrostGraphShape.lines[0].lines_A[6]";
-connectAttr "mainPoser.lineWidth" "posers_bifrostGraphShape.width";
+connectAttr "root_initLocShape.wp" "posers_curveShape.cp[0]";
+connectAttr "local_1_poserOrientShape.wp" "posers_curveShape.cp[1]";
+connectAttr "local_2_poserOrientShape.wp" "posers_curveShape.cp[2]";
+connectAttr "local_3_poserOrientShape.wp" "posers_curveShape.cp[3]";
+connectAttr "local_4_poserOrientShape.wp" "posers_curveShape.cp[4]";
+connectAttr "local_5_poserOrientShape.wp" "posers_curveShape.cp[5]";
+connectAttr "end_poserOrientShape.wp" "posers_curveShape.cp[6]";
+connectAttr "sweepMeshCreator1.outMeshArray[0]" "posers_sweepShape.i";
+connectAttr "size_multiplyDivide2.oy" "mainPoser_clusterHandle.sx";
+connectAttr "size_multiplyDivide2.oy" "mainPoser_clusterHandle.sy";
+connectAttr "size_multiplyDivide2.oy" "mainPoser_clusterHandle.sz";
 connectAttr "root_poser_decMat.otx" "input.tx";
 connectAttr "root_poser_decMat.oty" "input.ty";
 connectAttr "root_poser_decMat.otz" "input.tz";
@@ -5131,6 +4878,7 @@ relationship "link" ":lightLinker1" "spine_5_surfaceShader1SG1.message" ":defaul
 relationship "link" ":lightLinker1" "end_surfaceShader1SG.message" ":defaultLightSet.message";
 relationship "link" ":lightLinker1" "end_surfaceShader1SG1.message" ":defaultLightSet.message";
 relationship "link" ":lightLinker1" "end_surfaceShader1SG2.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "blinn1SG.message" ":defaultLightSet.message";
 relationship "shadowLink" ":lightLinker1" ":initialShadingGroup.message" ":defaultLightSet.message";
 relationship "shadowLink" ":lightLinker1" ":initialParticleSE.message" ":defaultLightSet.message";
 relationship "shadowLink" ":lightLinker1" "red_rsSG.message" ":defaultLightSet.message";
@@ -5155,10 +4903,10 @@ relationship "shadowLink" ":lightLinker1" "spine_5_surfaceShader1SG1.message" ":
 relationship "shadowLink" ":lightLinker1" "end_surfaceShader1SG.message" ":defaultLightSet.message";
 relationship "shadowLink" ":lightLinker1" "end_surfaceShader1SG1.message" ":defaultLightSet.message";
 relationship "shadowLink" ":lightLinker1" "end_surfaceShader1SG2.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "blinn1SG.message" ":defaultLightSet.message";
 connectAttr "layerManager.dli[0]" "defaultLayer.id";
 connectAttr "renderLayerManager.rlmi[0]" "defaultRenderLayer.rlid";
 connectAttr "moduleControlSet.msg" "sets.dnsm" -na;
-connectAttr "outJointsSet.msg" "sets.dnsm" -na;
 connectAttr "root_poser.wm" "root_poser_decMat.imat";
 connectAttr "spineRoot.iog" "moduleControlSet.dsm" -na;
 connectAttr "pelvis.iog" "moduleControlSet.dsm" -na;
@@ -5180,22 +4928,10 @@ connectAttr "fk_3.iog" "fk_moduleControlSet.dsm" -na;
 connectAttr "fk_2.iog" "fk_moduleControlSet.dsm" -na;
 connectAttr "fk_1.iog" "fk_moduleControlSet.dsm" -na;
 connectAttr "fk_hips.iog" "fk_moduleControlSet.dsm" -na;
-connectAttr "red_rsMat.oc" "red_rsSG.ss";
 connectAttr "red_rsSG.msg" "root_materialInfo1.sg";
-connectAttr "red_rsMat.msg" "root_materialInfo1.m";
-connectAttr "red_rsMat.msg" "root_materialInfo1.t" -na;
-connectAttr "green_rsMat.oc" "green_rsSG.ss";
 connectAttr "green_rsSG.msg" "root_materialInfo2.sg";
-connectAttr "green_rsMat.msg" "root_materialInfo2.m";
-connectAttr "green_rsMat.msg" "root_materialInfo2.t" -na;
-connectAttr "blue_rsMat.oc" "blue_rsSG.ss";
 connectAttr "blue_rsSG.msg" "root_materialInfo3.sg";
-connectAttr "blue_rsMat.msg" "root_materialInfo3.m";
-connectAttr "blue_rsMat.msg" "root_materialInfo3.t" -na;
-connectAttr "black_rsMat.oc" "black_rsSG.ss";
 connectAttr "black_rsSG.msg" "spine_1_materialInfo7.sg";
-connectAttr "black_rsMat.msg" "spine_1_materialInfo7.m";
-connectAttr "black_rsMat.msg" "spine_1_materialInfo7.t" -na;
 connectAttr "multiplyDivide1853.ox" "multiplyDivide1846.i2x";
 connectAttr "curveInfo3.al" "multiplyDivide1846.i1x";
 connectAttr "squash_blendTwoAttr.const" "squash_blendTwoAttr.i[0]";
@@ -5456,14 +5192,11 @@ connectAttr "end_surfaceShader1SG.msg" "end_materialInfo1.sg";
 connectAttr "end_surfaceShader1SG1.msg" "end_materialInfo2.sg";
 connectAttr "end_surfaceShader1SG2.msg" "end_materialInfo3.sg";
 connectAttr "local_4.wm" "multMatrix70.i[0]";
-connectAttr "fk_1_initLoc.wm" "multMatrix71.i[0]";
 connectAttr "fk_bone_1_group_pos.wim" "multMatrix71.i[1]";
 connectAttr "multMatrix71.o" "decomposeMatrix91.imat";
-connectAttr "fk_2_initLoc.wm" "multMatrix72.i[0]";
 connectAttr "fk_bone_2_group_pos.wim" "multMatrix72.i[1]";
 connectAttr "multMatrix72.o" "decomposeMatrix92.imat";
 connectAttr "multMatrix73.o" "decomposeMatrix93.imat";
-connectAttr "fk_3_initLoc.wm" "multMatrix73.i[0]";
 connectAttr "fk_bone_3_group_pos.wim" "multMatrix73.i[1]";
 connectAttr "local_5.iog" "local_moduleControlSet.dsm" -na;
 connectAttr "local_4.iog" "local_moduleControlSet.dsm" -na;
@@ -5527,14 +5260,6 @@ connectAttr "bindPose7.m[3]" "bindPose7.p[10]";
 connectAttr "mainPoser.wm" "end_multMatrix1.i[0]";
 connectAttr "root_poser.wim" "end_multMatrix1.i[1]";
 connectAttr "end_multMatrix1.o" "end_decomposeMatrix1.imat";
-connectAttr "end_outJoint.iog" "outJointsSet.dsm" -na;
-connectAttr "root_outJoint.iog" "outJointsSet.dsm" -na;
-connectAttr "local_1_outJoint.iog" "outJointsSet.dsm" -na;
-connectAttr "local_2_outJoint.iog" "outJointsSet.dsm" -na;
-connectAttr "local_3_outJoint.iog" "outJointsSet.dsm" -na;
-connectAttr "local_4_outJoint.iog" "outJointsSet.dsm" -na;
-connectAttr "local_5_outJoint.iog" "outJointsSet.dsm" -na;
-connectAttr "local_end_outJoint.iog" "outJointsSet.dsm" -na;
 connectAttr "end_poser.t" "distanceBetween3.p1";
 connectAttr "root_poser.t" "distanceBetween3.p2";
 connectAttr "plusMinusAverage1.o3" "multiplyDivide1856.i1";
@@ -5569,16 +5294,66 @@ connectAttr "root_connector.wm" "root_connector_decMat.imat";
 connectAttr "renderLayerManager1.rlmi[0]" "defaultRenderLayer1.rlid";
 connectAttr "root_poser.size" "size_multiplyDivide2.i1x";
 connectAttr "mainPoser.size" "size_multiplyDivide2.i1y";
+connectAttr "mainPoser.lineWidth" "size_multiplyDivide2.i1z";
 connectAttr "mainPoser.globalSize" "size_multiplyDivide2.i2x";
 connectAttr "mainPoser.globalSize" "size_multiplyDivide2.i2y";
+connectAttr "mainPoser.globalSize" "size_multiplyDivide2.i2z";
 connectAttr "size_multiplyDivide2.ox" "makeNurbSphere7.r";
 connectAttr "size_multiplyDivide2.msg" "hyperShadePrimaryNodeEditorSavedTabsInfo.tgi[0].ni[0].dn"
 		;
-connectAttr "decomposeMatrix90.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn"
+connectAttr "posers_sweepShape.iog" "blinn1SG.dsm" -na;
+connectAttr "blinn1SG.msg" "materialInfo1.sg";
+connectAttr "posers_curveShape.ws" "sweepMeshCreator1.inCurveArray[0]";
+connectAttr "size_multiplyDivide2.oz" "sweepMeshCreator1.scaleProfileX";
+connectAttr "mainPoserShapeOrig.ws" "mainPoser_clusterHandleCluster.ip[0].ig";
+connectAttr "mainPoserShapeOrig.l" "mainPoser_clusterHandleCluster.orggeom[0]";
+connectAttr "mainPoser_clusterHandle.wm" "mainPoser_clusterHandleCluster.ma";
+connectAttr "mainPoser_clusterHandleShape.x" "mainPoser_clusterHandleCluster.x";
+connectAttr "local_1_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn"
 		;
-connectAttr "bendJoint_1_out.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn";
-connectAttr "root_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn";
-connectAttr "multMatrix69.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn";
+connectAttr "local_4_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
+		;
+connectAttr "root_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn";
+connectAttr "local_2_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn"
+		;
+connectAttr "local_5_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[4].dn"
+		;
+connectAttr "posers_sweepShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn"
+		;
+connectAttr "root_initLocShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[6].dn"
+		;
+connectAttr "root_poserShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[7].dn";
+connectAttr "local_3_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[8].dn"
+		;
+connectAttr "root_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[9].dn";
+connectAttr "posers_curveShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[10].dn"
+		;
+connectAttr "posers_curve.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[11].dn";
+connectAttr "sweepMeshCreator1.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[12].dn"
+		;
+connectAttr "end_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[13].dn"
+		;
+connectAttr "local_1_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn";
+connectAttr "root_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn";
+connectAttr "local_5_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn";
+connectAttr "posers_sweep.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn";
+connectAttr "mainPoser.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn";
+connectAttr "posers_sweepShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn"
+		;
+connectAttr "local_4_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[6].dn";
+connectAttr "size_multiplyDivide2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[7].dn"
+		;
+connectAttr "sweepMeshCreator1.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[8].dn"
+		;
+connectAttr "mainPoserShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[9].dn";
+connectAttr "local_2_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[10].dn";
+connectAttr "end_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[11].dn";
+connectAttr "local_3_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[12].dn";
+connectAttr "local_3_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn";
+connectAttr "local_4_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn";
+connectAttr "local_3_initLoc_aimConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn"
+		;
+connectAttr "local_3_foll.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn";
 connectAttr "red_rsSG.pa" ":renderPartition.st" -na;
 connectAttr "green_rsSG.pa" ":renderPartition.st" -na;
 connectAttr "blue_rsSG.pa" ":renderPartition.st" -na;
@@ -5601,10 +5376,7 @@ connectAttr "spine_5_surfaceShader1SG1.pa" ":renderPartition.st" -na;
 connectAttr "end_surfaceShader1SG.pa" ":renderPartition.st" -na;
 connectAttr "end_surfaceShader1SG1.pa" ":renderPartition.st" -na;
 connectAttr "end_surfaceShader1SG2.pa" ":renderPartition.st" -na;
-connectAttr "red_rsMat.msg" ":defaultShaderList1.s" -na;
-connectAttr "green_rsMat.msg" ":defaultShaderList1.s" -na;
-connectAttr "blue_rsMat.msg" ":defaultShaderList1.s" -na;
-connectAttr "black_rsMat.msg" ":defaultShaderList1.s" -na;
+connectAttr "blinn1SG.pa" ":renderPartition.st" -na;
 connectAttr "chest_group_decomposeMatrix.msg" ":defaultRenderUtilityList1.u" -na
 		;
 connectAttr "parts_multiplyDivide.msg" ":defaultRenderUtilityList1.u" -na;
@@ -5675,5 +5447,4 @@ connectAttr "defaultRenderLayer.msg" ":defaultRenderingList1.r" -na;
 connectAttr "defaultRenderLayer1.msg" ":defaultRenderingList1.r" -na;
 connectAttr "bend_surfShape.iog" ":initialShadingGroup.dsm" -na;
 connectAttr "init_surfShape.iog" ":initialShadingGroup.dsm" -na;
-connectAttr "posers_bifrostGraphShape.iog" ":initialShadingGroup.dsm" -na;
 // End of spine.ma

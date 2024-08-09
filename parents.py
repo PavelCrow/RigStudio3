@@ -599,7 +599,6 @@ class Parents(object):
 
     def os_makeConstraint(self, inputData={}):
         sel = cmds.ls(sl=1)
-
         # get input data from ui
         if not inputData or inputData == {}:
             if len(self.targets) == 0:
@@ -909,27 +908,27 @@ class Parents(object):
             cmds.hide(t_gr)
 
             #t_ctrlInitLoc = n + "_controlInitLoc"
-            t_ctrlInitLoc = "%s_%s_controlInitLoc" %(targetModules[i], intName)			
+            t_ctrlInitLoc = "%s_%s_initLoc" %(targetModules[i], intName)			
             t_ctrlInitLocExists = cmds.objExists(t_ctrlInitLoc)
-            #print 1111111, t_ctrlInitLoc, t_ctrlInitLocExists
+            
             #if m.opposite:
                 #print "!!!", m.opposite, t
                 #cmds.setAttr(t+'.rx', 180)
 
             if not t_ctrlInitLocExists:
-
-                m = utils.getModuleInstance(targetModules[i])
-                t_ctrlInitLoc = m.getClosestInitLoc(n)
+                cmds.warning("Missed Init Loc!", t_ctrlInitLoc)
+                # m = utils.getModuleInstance(targetModules[i])
+                # t_ctrlInitLoc = m.getClosestInitLoc(n)
 
             mMat = utils.connectByMatrix(t_gr, [ctrlInitLoc, t_ctrlInitLoc], ['worldMatrix[0]', 'worldInverseMatrix[0]'], moduleName)
 
-            if not t_ctrlInitLocExists:
-                # mirror corrections
-                if m.opposite:
-                    compMat = cmds.createNode('composeMatrix', n=n+"_compMat")
-                    if m.opposite:
-                        cmds.setAttr(compMat+'.inputScaleX', -1)
-                    cmds.connectAttr(compMat+'.outputMatrix', mMat+'.matrixIn[2]')
+            # if not t_ctrlInitLocExists:
+            #     # mirror corrections
+            #     if m.opposite:
+            #         compMat = cmds.createNode('composeMatrix', n=n+"_compMat")
+            #         if m.opposite:
+            #             cmds.setAttr(compMat+'.inputScaleX', -1)
+            #         cmds.connectAttr(compMat+'.outputMatrix', mMat+'.matrixIn[2]')
 
         # create constraint
         if constrType == 'parentConstraint':

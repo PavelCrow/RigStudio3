@@ -13,39 +13,34 @@ class Spine(module.Module) :
 		
 		self.jointsCount = 5
 
-	def connect(self, target):
+	def connect(self, target): #
 		super(self.__class__, self).connect(target)
 		
 		# create offset rotate root for quadrupped spine (posers is strighten in horizontal)
-		if cmds.getAttr(self.name + "_end_poser.tz") > cmds.getAttr(self.name + "_end_poser.ty"):
-			l = cmds.duplicate(self.name+"_root_initLoc", n=self.name+"_root_poserOrient_offset")[0]
-			utils.resetAttrs(l)
+		# if cmds.getAttr(self.name + "_end_poser.tz") > cmds.getAttr(self.name + "_end_poser.ty"):
+		# 	l = cmds.duplicate(self.name+"_root_initLoc", n=self.name+"_root_poserOrient_offset")[0]
+		# 	utils.resetAttrs(l)
 			
-			cmds.connectAttr(l+".worldMatrix[0]", self.name+"_root_connector_multMat.matrixIn[0]", f=1)
+		# 	cmds.connectAttr(l+".worldMatrix[0]", self.name+"_root_connector_multMat.matrixIn[0]", f=1)
 	
-	def connectSignals(self, mainInstance, w):
+	def connectSignals(self, mainInstance, w): #
 		module = mainInstance.curModule
 		w.rebuild_btn.clicked.connect(partial(self.rebuildWithNewOptions, mainInstance, w))
 	
-	def updateOptionsPage(self, widget):
+	def updateOptionsPage(self, widget): #
 		self.jointsCount = self.getOptions()['jointsCount']
 		
 		widget.jointsCount_spinBox.setValue(self.jointsCount)
 
-	def getOptions(self):
-		jointsCount = 0
-		for j in cmds.listRelatives(self.name+'_outJoints', allDescendents=1, type='joint' ):
-			if not "squash" in j:
-				jointsCount += 1
-		
-		self.jointsCount = jointsCount - 3
+	def getOptions(self): #
+		self.jointsCount = len(cmds.listRelatives(self.name+'_bendJoints'))
 
 		optionsData = {}
 		optionsData['jointsCount'] = self.jointsCount
 
 		return optionsData	
 
-	def getData(self):
+	def getData(self): #
 		data = super(self.__class__, self).getData()
 		
 		self.jointsCount = self.getOptions()['jointsCount']
@@ -53,15 +48,15 @@ class Spine(module.Module) :
 
 		return data	
 
-	def setData(self, data, sym=False, namingForce=False):
-		super(self.__class__, self).setData(data, sym, namingForce)
-		
-		try:
-			if self.jointsCount != data["jointsCount"]:
-				self.rebuildJoints(data["jointsCount"])
-		except: print ("NO DATA")
+	def setData(self, data, sym=False, namingForce=False, load="all"): #
+		super(self.__class__, self).setData(data, sym, namingForce, load)
+		# print (234, data["jointsCount"], self.jointsCount)
+		# try:
+		if self.jointsCount != data["jointsCount"]:
+			self.rebuildJoints(data["jointsCount"])
+		# except: print ("NO DATA")
 
-	def rebuildWithNewOptions(self, mainInstance, widget):
+	def rebuildWithNewOptions(self, mainInstance, widget): #
 		self.rebuildJoints(widget.jointsCount_spinBox.value())
 	
 	def rebuildJoints(self, count):

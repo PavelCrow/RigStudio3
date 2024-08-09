@@ -1,6 +1,6 @@
 import maya.cmds as cmds
 import maya.mel as mel
-from . import utils
+from . import utils, parents
 from PySide2 import QtWidgets, QtCore
 import os, json
 
@@ -10,6 +10,7 @@ class Template(object):
 	def __init__(self):
 		self.main = None
 		self.rootPath = os.path.normpath(os.path.dirname(__file__))
+		
 
 	def module_save(self):
 		m = self.main.curModule
@@ -295,8 +296,16 @@ class Template(object):
 					mod = self.main.addModule(mData['type'], name=mData['name'], options=mData['optionsData'],
 										updateUI=False)
 					modulesData.append([mod, mData])
-					
-					mod.setAddControlsData(mData, mod.name)
+
+				cmds.progressBar(progressControl, edit=True, step=1)
+			cmds.progressBar(progressControl2, edit=True, step=1)
+
+		def create_addControls():
+			if print_main_messages: print(
+				" -------------------------------- LOAD ADD CONTROLS ------------------------------------------------ ")
+			for d in modulesData:
+				mod, mData = d
+				mod.setAddControlsData(mData, mod.name)
 
 				cmds.progressBar(progressControl, edit=True, step=1)
 			cmds.progressBar(progressControl2, edit=True, step=1)
@@ -405,6 +414,13 @@ class Template(object):
 				cmds.progressBar(progressControl, edit=True, step=1)
 			cmds.progressBar(progressControl2, edit=True, step=1)
 
+		def create_oss(modulesData):
+			self.par_class = parents.Parents(self.main.win, self.main.rig)
+			for data in modulesData:
+				mData = data[1]
+				for d in mData['parents']:
+					self.par_class.os_makeConstraint(d)
+
 		print_main_messages = True
 
 		# create progress window
@@ -422,12 +438,13 @@ class Template(object):
 		# self.main.win.twists_listWidget.clear()
 
 		create_modules()
+		create_addControls()
 		connect_modules(modulesData)
 		set_modules(modulesData)
 		if load == 'rig': mirror_modules(modulesData)
 		create_twists(modulesData)
 		create_ibtws(data["ibtwsData"])
-
+		create_oss(modulesData)
 
 		# if print_main_messages: print(
 		# 	" -------------------------------- SET Parents DATA ------------------------------------------------ ")
@@ -484,3 +501,4 @@ class Template(object):
 		
 		# update ui
 		self.main.updateModulePage(self.main.curModule.name)
+		self.main.addControls_updateTree()

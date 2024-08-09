@@ -440,7 +440,6 @@ class Rig:
         for root in roots:
             if utils.getObjectSide(root) == "r" and cmds.objExists(utils.getOpposite(root)):
                 continue
-            print(3333, root)
             ibtw = root.split("_ibtw_root")[0]
             ibtwData = self.main.ibtwClass.getData(ibtw)
             ibtwsData.append(ibtwData)

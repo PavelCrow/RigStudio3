@@ -12,7 +12,6 @@ class Limb(module.Module) :
 		self.type = __name__.split('.')[-1]
 		self.unic = False
 		self.widget = None
-		self.keepZeroAttributes = False
 
 	def connect(self, target, opposite=False):
 		super(self.__class__, self).connect(target, opposite)
@@ -241,3 +240,15 @@ class Limb(module.Module) :
 	
 	def setOptions(self, optionsData):
 		self.update_aim_distance(optionsData['aimDistance'])
+	
+	def twistOverride(self, t_name):
+		# make elbow offset movable
+		if t_name == self.name+"_root":
+			cmds.parent(t_name+'_end_connectorLoc', self.name+'_middleOffset')
+			cmds.setAttr(t_name+'_end_connectorLoc.sx', -1)
+		elif t_name == self.name+"_middle":
+			cmds.parent(t_name+'_rootUpLoc', self.name+'_middleOffset')
+
+	def ibtwOverride(self, name):
+		if name == self.name + "_middle_twist_0" :
+			cmds.connectAttr(self.name+"_middleOffset.worldMatrix[0]", self.name+"_middle_twist_0_ibtw_joints_group_multMat.matrixIn[0]", f=1)

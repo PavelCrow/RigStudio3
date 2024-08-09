@@ -5110,7 +5110,7 @@
           <property name="frameShadow">
            <enum>QFrame::Plain</enum>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_80" stretch="0,0">
+          <layout class="QVBoxLayout" name="verticalLayout_80" stretch="0">
            <property name="spacing">
             <number>6</number>
            </property>
@@ -5134,7 +5134,7 @@
              <property name="frameShadow">
               <enum>QFrame::Plain</enum>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_82" stretch="0,0,0,0,0">
+             <layout class="QVBoxLayout" name="verticalLayout_82" stretch="0,0,0,0,0,0,0,0">
               <property name="spacing">
                <number>4</number>
               </property>
@@ -5159,7 +5159,7 @@
                  </size>
                 </property>
                 <property name="text">
-                 <string>Parent Joint</string>
+                 <string>Joints</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -5200,6 +5200,9 @@
                 </item>
                 <item>
                  <widget class="QPushButton" name="ib_switch_btn">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
                   <property name="text">
                    <string>Switch</string>
                   </property>
@@ -5308,9 +5311,9 @@
                </layout>
               </item>
               <item>
-               <widget class="QPushButton" name="ib_selecteOffsetLocator_btn">
+               <widget class="QPushButton" name="ib_selectOffsetLocator_btn">
                 <property name="text">
-                 <string>Select Offset Locator</string>
+                 <string>Show Offset Locators</string>
                 </property>
                </widget>
               </item>
@@ -5335,21 +5338,69 @@
                 </item>
                </layout>
               </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_47" stretch="0,1,1,1">
+                <item>
+                 <widget class="QLabel" name="label_32">
+                  <property name="text">
+                   <string>Symmetry: </string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="ib_flippedX_checkBox">
+                  <property name="text">
+                   <string>SyFlipped X</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="ib_flippedY_checkBox">
+                  <property name="text">
+                   <string>Flipped Y</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="ib_flippedZ_checkBox">
+                  <property name="text">
+                   <string>Flipped Z</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_8">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>5</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_16">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
              </layout>
             </widget>
-           </item>
-           <item>
-            <spacer name="verticalSpacer_16">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
            </item>
           </layout>
          </widget>

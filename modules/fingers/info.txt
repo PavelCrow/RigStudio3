@@ -1,0 +1,4 @@
+ver=1.0=
+description=Rig of the humanoid hand fingers with controllers on every fingers falangs and extra controls for hand bending.
+section=Body
+advanced=False
