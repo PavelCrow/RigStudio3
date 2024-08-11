@@ -473,3 +473,6 @@ New Head module
 ChainIk module from RS2
 New SpineQuadripped module
 Locked Skeleton group
+
+---Version 3.0.02
+human, humanAdvanced and quadrupped templates
