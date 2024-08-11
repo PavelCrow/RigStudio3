@@ -1,4 +1,0 @@
-ver=1.0=
-description=Description
-section=Custom
-advanced=False

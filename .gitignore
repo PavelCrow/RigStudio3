@@ -1,0 +1,9 @@
+# *.py[cod]
+# *$py.class
+# share/python-wheels/
+
+
+__pycache__/
+.vscode/
+incrementalSave
+rigStudio3.code-workspace

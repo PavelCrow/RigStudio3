@@ -1,4 +1,4 @@
 ver=1.0=
 description=Description
-section=Custom
+section=Body
 advanced=False
