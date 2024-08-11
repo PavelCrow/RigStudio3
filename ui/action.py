@@ -1,6 +1,17 @@
-from PySide2 import QtWidgets
+import maya.cmds as cmds
+version = int(cmds.about(v=True).split(" ")[0])
+if version <= 2024:
+    from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
+    from shiboken2 import wrapInstance
+    action_class = QtWidgets.QAction
+else:
+    from PySide6 import QtWidgets, QtGui, QtCore, QtUiTools
+    from shiboken6 import wrapInstance
+    action_class = QtGui.QAction
 
-class ActionClass(QtWidgets.QAction):
+# class ActionClass(QtWidgets.QAction):
+
+class ActionClass(action_class):
     def __init__(self, win=None):
         super().__init__(win)
 

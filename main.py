@@ -2,8 +2,14 @@ import maya.cmds as cmds
 import pymel.core as pm
 import maya.OpenMayaUI as OpenMayaUI
 import os, sys, json
-from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
-from shiboken2 import wrapInstance
+
+version = int(cmds.about(v=True).split(" ")[0])
+if version <= 2024:
+    from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
+    from shiboken2 import wrapInstance
+else:
+    from PySide6 import QtWidgets, QtGui, QtCore, QtUiTools
+    from shiboken6 import wrapInstance
 
 from functools import partial
 
@@ -2516,7 +2522,7 @@ class MainWindow:
                 return
 
         m = self.rig.create_module(name, moduleType, options)
-
+        
         self.curModule = m
         
         if updateUI:
@@ -2896,6 +2902,7 @@ class MainWindow:
         controls = utils.getSetObjects(newModuleName + '_moduleControlSet')
         poserShapes = utils.getSetObjects(newModuleName + '_poserShapesForConnectSet')
         controls += poserShapes
+
         for c in controls:
             l_control = utils.getControlInstance(utils.getOpposite(c))
             r_control = utils.getControlInstance(c)
@@ -4041,7 +4048,7 @@ class MainWindow:
         def aboutClose():
             self.aboutWin.close()
 
-        self.aboutWin = self.loadUiWidget(self.aboutUiFilePath, parent=self.win)
+        self.aboutWin = load_ui_widget(self.aboutUiFilePath, parent=self.win)
         self.aboutWin.pushButton.clicked.connect(aboutClose)
 
         # get version
@@ -4076,7 +4083,7 @@ class MainWindow:
         except:
             pass
 
-        setsWin = self.loadUiWidget(self.setsUiFilePath, parent=self.win)
+        setsWin = load_ui_widget(self.setsUiFilePath, parent=self.win)
         self.sets = sets.Sets(setsWin)
 
         setsWin.show()
@@ -4093,7 +4100,7 @@ class MainWindow:
         except:
             pass
 
-        self.humanIkWin = self.loadUiWidget(self.humanIkUiFilePath, parent=self.win)
+        self.humanIkWin = load_ui_widget(self.humanIkUiFilePath, parent=self.win)
         # self.setsWin.pushButton.clicked.connect(aboutClose)
         self.humanIk = humanIk.HumanIk(self)
 
@@ -4119,7 +4126,7 @@ class MainWindow:
         except:
             pass
 
-        self.moduleBuilderWin = self.loadUiWidget(self.moduleBuilderUiFilePath, parent=self.win)
+        self.moduleBuilderWin = load_ui_widget(self.moduleBuilderUiFilePath, parent=self.win)
         self.moduleBuilder = moduleBuilder.ModuleBuilder(self)
 
         self.moduleBuilderWin.show()
@@ -4182,7 +4189,7 @@ class MainWindow:
         except:
             pass
 
-        self.driverWin = self.loadUiWidget(self.driverUiFilePath, parent=self.win)
+        self.driverWin = load_ui_widget(self.driverUiFilePath, parent=self.win)
         self.driver = driver.Driver(self)
         self.driverWin.show()
 

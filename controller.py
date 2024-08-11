@@ -1,4 +1,5 @@
 import maya.cmds as cmds
+import maya.mel as mel
 import json
 import os
 import pymel.core as pm
@@ -31,12 +32,17 @@ class Control(object):
 		else: # circle
 			cmd = 'cmds.curve(name = "_ctrl_temp_", per = True, d= 3,p= [[0.78220172572844116, 4.7896041985043591e-17, -0.78220172572844004], [-1.2620422609855989e-16, 6.7735232159239798e-17, -1.1062002890368023], [-0.78220172572844016, 4.7896041985043647e-17, -0.78220172572844016], [-1.1062002890368023, 1.9539677860741656e-32, -3.2011531745708022e-16], [-0.7822017257284406, -4.7896041985043622e-17, 0.78220172572844016], [-3.3331973582254345e-16, -6.7735232159239823e-17, 1.1062002890368023], [0.78220172572844004, -4.7896041985043665e-17, 0.78220172572844038], [1.1062002890368023, -3.6469023143475602e-32, 5.9457618450434596e-16], [0.78220172572844116, 4.7896041985043591e-17, -0.78220172572844004], [-1.2620422609855989e-16, 6.7735232159239798e-17, -1.1062002890368023], [-0.78220172572844016, 4.7896041985043647e-17, -0.78220172572844016]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])'
 
+		self.name = name
+
 		self.setShape(cmd)
 
 		utils.setUserAttr(name, 'internalName', name)
 		utils.fixShapeName(name)
 
-		self.name = name
+		# set tag as controller
+		cmds.select(name)
+		mel.eval("TagAsController")
+		cmds.select(clear=1)
 		
 		if offset:
 			cmds.select(name)
@@ -47,6 +53,8 @@ class Control(object):
 			cmds.joint(n=name+'_outJoint')
 
 		self.setColor(colorId)
+
+
 
 	def select(self):
 		cmds.select(self.name)
@@ -62,7 +70,6 @@ class Control(object):
 						
 	def setShape(self, command):
 		sel = cmds.ls(sl=1)
-		
 		ctrl = pm.PyNode(self.name)
 		ctrl_shapes = pm.listRelatives(ctrl, s=1)
 		

@@ -66,7 +66,12 @@ class Module(object):
         for c in controls:
             utils.setUserAttr(c, "type", "control")
             utils.setUserAttr(c, "internalName", c.replace(self.name+"_", ""))
-
+        
+        # set tag as controller
+        cmds.select(control_set)
+        mel.eval("TagAsController")
+        cmds.select(clear=1)
+        
         cmds.parent(self.root, 'modules')
 
         self.addSkinJoints()
@@ -292,7 +297,7 @@ class Module(object):
             cmds.parent(root_j, target_joint)
             utils.removeTransformParentJoint(root_j)
             utils.resetJointOrient(root_j)
-
+        
         if opposite:
             self.opposite = True
             opp_name = utils.getOpposite(self.name)
@@ -528,6 +533,9 @@ class Module(object):
                     if cmds.objExists(p_name):
                         for attr in attrData:
                             value = attrData[attr]
+                            if not cmds.objExists(p_name+'.'+attr):
+                                cmds.warning("Missed attr " + p_name+'.'+attr)
+                                continue
                             if not (cmds.listConnections(p_name+'.'+attr, d=False, s=True) or []) and not cmds.getAttr(p_name+'.'+attr, lock=1): # only not connections and not locked
                                 cmds.setAttr(p_name+'.'+attr, value)
 
@@ -793,7 +801,7 @@ class Module(object):
         allSets = utils.getSetsInSet(self.name+"_sets")
         allNodes += allSets
         allNodes.append(self.name + '_sets')
-
+        
         for o in allNodes:
             if cmds.objExists(o):
                 length_name = len(self.name)

@@ -1,0 +1,4 @@
+ver=1.0=
+description=Procedurally generated fk chain with local ik controls and hair dymnamic.
+section=Base
+advanced=False

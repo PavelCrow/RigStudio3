@@ -83,6 +83,8 @@ class Rig:
         cmds.setAttr("skeleton.overrideEnabled", 1)
         cmds.setAttr("skeleton.overrideColor", 29)
         cmds.setAttr("skeleton.template", True)
+        cmds.setAttr("skeleton.v", False)
+        cmds.setAttr("skeleton.v", lock=1)
 
         utils.create_default_sets()
 

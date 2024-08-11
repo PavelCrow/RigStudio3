@@ -3,7 +3,7 @@ import pymel.core as pm
 
 from ... import utils, module
 
-class Foot2(module.Module) :
+class Foot(module.Module) :
 	def __init__(self, name):
 		super(self.__class__, self).__init__()
 
@@ -20,11 +20,15 @@ class Foot2(module.Module) :
 		
 		cmds.disconnectAttr(self.name+'_ik_connector_decMat.outputRotate', self.name+'_ik_connector.rotate')
 		utils.resetAttrs(self.name+'_ik_connector')
+
+		if target_mod_type in ['limbQuadrupped', 'limbQuadruppedExtra']:
+			cmds.setAttr(self.name+'_ik_connector.rx', 90)
+			if opposite:
+				cmds.setAttr(self.name+'_ik_connector.ry', 180)
 		
 		super(self.__class__, self).connect(target, opposite)
 
 		if target_mod_type in ['limb', 'limbQuadrupped', 'limbQuadruppedExtra', 'limbCurved', 'limbQuadruppedExtraMiddle', 'limbQuadrupped2', "limbCurvedQuadrupped"]:
-			print(123)
 			# connect ikfk attribute
 			cmds.connectAttr(utils.getControlNameFromInternal(targetModuleName, 'control')+'.ikFk', self.root+'.ikFk')
 
@@ -54,9 +58,10 @@ class Foot2(module.Module) :
 				self.makeSeamless(True)
 
 			# fk opposite fix
-			if self.opposite:
-				cmds.disconnectAttr(targetModuleName+"_mirror_condition.outColorR", targetModuleName+"_end_initLoc.scaleZ")
-				cmds.setAttr(targetModuleName+"_end_initLoc.sz", 1)
+			if target_mod_type in ['limb']:
+				if self.opposite:
+					cmds.disconnectAttr(targetModuleName+"_mirror_condition.outColorR", targetModuleName+"_end_initLoc.scaleZ")
+					cmds.setAttr(targetModuleName+"_end_initLoc.sz", 1)
 
 			ik_end = utils.getControlNameFromInternal(targetModuleName, "ik_end")
 			cmds.setAttr(ik_end+"Shape.v", False)

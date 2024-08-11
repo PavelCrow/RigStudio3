@@ -464,4 +464,12 @@ New twists
 New Add controls
 Rewrited base code
 Faster rigs after generating
-Limb, Point, Root, Spine, Foot, Fingers modules
+Limb, Point, Root, Spine, Foot2, Fingers modules
+
+---Version 3.0.01
+Renamed module Foot2 to Foot
+Root module updated
+New Head module
+ChainIk module from RS2
+New SpineQuadripped module
+Locked Skeleton group

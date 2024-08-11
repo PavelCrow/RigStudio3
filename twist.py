@@ -1,4 +1,5 @@
 import maya.cmds as cmds
+import maya.mel as mel
 import pymel.core as pm
 import maya.OpenMaya as om
 from functools import partial
@@ -182,7 +183,7 @@ class Twist(object):
                 warning()
                 return
 
-            t_name = start_j.split('_joint')[0]
+            t_name = start_j.split('_joint')[0].split('_outJoint')[0]
         else:
             if module_name:
                 t_name = utils.getRealNameFromTemplated(module_name, data['name'])
@@ -219,6 +220,7 @@ class Twist(object):
             if cmds.objExists(n):
                 cmds.sets(n, e=1, forceElement=set)
                 cmds.rename(n, n.replace("_temp_:", t_name+"_"))
+        
         utils.addToModuleSet(set, moduleName)
         cmds.namespace(removeNamespace='_temp_')
 
@@ -233,6 +235,11 @@ class Twist(object):
             cmds.sets(t_name+"_twist_2", e=1, forceElement=s)
             cmds.sets(t_name+"_twist_3", e=1, forceElement=s)
             cmds.sets(s, e=1, forceElement=moduleName+"_controlSet")
+
+            # set tag as controller
+            cmds.select(moduleName+"_controlSet")
+            mel.eval("TagAsController")
+            cmds.select(clear=1)
 
         # root connector
         root_loc = cmds.spaceLocator(n=t_name+'_root_connectorLoc')[0]
@@ -452,6 +459,7 @@ class Twist(object):
 
         def attachTo(socket, target, opposite=False):
             set =t_name+'_twistNodesSet'
+            
             if socket == "root":
                 rootUpLoc = t_name + "_rootUpLoc"
                 cmds.parent(rootUpLoc, target)
@@ -466,7 +474,7 @@ class Twist(object):
                 target_initLoc = target.replace("joint", "initLoc").replace("outJoint", "initLoc")
 
                 if opposite and utils.isSymmetrical(target): # if target is in the mirrored module
-                    set = cmds.sets(name=t_name+'_twistNodesSet')
+                    # set = cmds.sets(name=t_name+'_twistNodesSet')
                     comp1 = cmds.createNode('composeMatrix', n=t_name+'_rootUpLocPre_compMat')
                     comp2 = cmds.createNode('composeMatrix', n=t_name+'_rootUpLocPost_compMat')
                     cmds.sets(comp1, e=1, forceElement=set)
@@ -476,9 +484,16 @@ class Twist(object):
                     utils.connectToOffsetParentMatrix(rootUpLoc, [comp1, root_initLoc, target_initLoc, comp2], ["outputMatrix", "worldMatrix[0]", "worldInverseMatrix[0]", "outputMatrix"], set=set)
                     cmds.setAttr(t_name+'_aim_compMat.inputRotateY', 0)
                     cmds.setAttr(t_name+'_aim_compMat.inputScaleZ', -1)
+                    utils.resetAttrs(rootUpLoc)
                 else:
                     utils.connectToOffsetParentMatrix(rootUpLoc, [root_initLoc, target_initLoc], ["worldMatrix[0]", "worldInverseMatrix[0]"], set=set)
-                utils.resetAttrs(rootUpLoc)
+                    utils.resetAttrs(rootUpLoc)
+
+                    #### Hardcode Fix !!!!!!!!! ###
+                    target_moduleType = utils.getModuleTypeFromAttr(t_name+"_outJoint")
+                    if target_moduleType == "limbQuadrupped" and opposite:
+                        cmds.setAttr(t_name+'_aim_compMat.inputScaleX', -1)
+
 
             elif socket == "end":
                 endLoc = t_name + "_end_connectorLoc"
