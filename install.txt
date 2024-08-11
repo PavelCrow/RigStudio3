@@ -3,16 +3,7 @@
 or create it manually with python command:
 
 Rig tool:
-import rigStudio2
-reload(rigStudio2)
-rigStudio2.main.run()
-
-Picker (animation mode):
-import rigStudio_picker.picker
-reload(rigStudio_picker.picker)
-rigStudio_picker.picker.main.run()
-
-Picker (edit mode):
-import rigStudio_picker.picker
-reload(rigStudio_picker.picker)
-rigStudio_picker.picker.main.run(edit=True)
+import importlib
+import rigStudio3
+importlib.reload(rigStudio3)
+rigStudio3.run()

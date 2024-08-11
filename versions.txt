@@ -476,3 +476,4 @@ Locked Skeleton group
 
 ---Version 3.0.02
 human, humanAdvanced and quadrupped templates
+git ignore setup
