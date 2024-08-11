@@ -3,7 +3,7 @@
 # share/python-wheels/
 
 
-__pycache__/
+__pycache__/ 
 .vscode/
 incrementalSave
 rigStudio3.code-workspace
