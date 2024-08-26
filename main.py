@@ -3259,8 +3259,6 @@ class MainWindow:
         self.curModule.toggleLRA()
 
     def moduleToggleVis(self):
-
-
         state = cmds.getAttr(self.curModule.name + "_mod.v")
 
         cmds.setAttr(self.curModule.name + "_mod.v", not state)
@@ -3269,38 +3267,55 @@ class MainWindow:
         if cmds.objExists(opp_mod):
             cmds.setAttr(opp_mod + ".v", not state)
 
+        twists = cmds.listRelatives("twists") or []
+        for tw_name in twists:
+            tw_j = tw_name.replace("mod", "outJoint")
+            m_name = utils.getModuleName(tw_j)
+            if m_name == self.curModule.name:
+                cmds.setAttr(tw_name + ".v", not state)
+                opp_name = utils.getOpposite(tw_name)
+                if cmds.objExists(opp_name):
+                    cmds.setAttr(opp_name + ".v", not state)
+
         self.updateModulesTree()
 
     def moduleSolo(self):
-        state = cmds.getAttr(self.curModule.name + "_mod.v")
+        twists = cmds.listRelatives("twists") or []
 
-        otherVis = False
+        allOtherOff = True
         for m_name in self.rig.modules:
-            if m_name == self.curModule.name:
+            if m_name == self.curModule.name or m_name == utils.getOpposite(self.curModule.name):
                 continue
             if cmds.getAttr(m_name + "_mod.v"):
-                otherVis = True
+                allOtherOff = False
                 break
 
-        if state:
-            if otherVis:
-                for m_name in self.rig.modules:
-                    cmds.setAttr(m_name + "_mod.v", 0)
-                cmds.setAttr(self.curModule.name + "_mod.v", 1)
+        for m_name in self.rig.modules:
+            cmds.setAttr(m_name + "_mod.v", 0)
 
-            else:
-                for m_name in self.rig.modules:
-                    cmds.setAttr(m_name + "_mod.v", 1)
-                # cmds.setAttr(self.curModule.name + "_mod.v", 0)
+        for tw_name in twists:
+            cmds.setAttr(tw_name + ".v", 0)
 
-        else:
+        for tw_name in twists:
+            tw_j = tw_name.replace("mod", "outJoint")
+            m_name = utils.getModuleName(tw_j)
+            if m_name == self.curModule.name:
+                cmds.setAttr(tw_name + ".v", 1)
+                opp_name = utils.getOpposite(tw_name)
+                if cmds.objExists(opp_name):
+                    cmds.setAttr(opp_name + ".v", 1)
+
+        cmds.setAttr(self.curModule.name + "_mod.v", 1)
+
+        if allOtherOff:
             for m_name in self.rig.modules:
-                cmds.setAttr(m_name + "_mod.v", 0)
-            cmds.setAttr(self.curModule.name + "_mod.v", 1)
+                cmds.setAttr(m_name + "_mod.v", 1)
+            for tw_name in twists:
+                cmds.setAttr(tw_name + ".v", 1)
 
-        # opp_mod = utils.getOpposite(self.curModule.name+"_mod")
-        # if cmds.objExists(opp_mod):
-        #     cmds.setAttr(opp_mod+".v", not state)
+        opp_mod = utils.getOpposite(self.curModule.name+"_mod")
+        if cmds.objExists(opp_mod):
+            cmds.setAttr(opp_mod+".v", 1)
 
         self.updateModulesTree()
 
