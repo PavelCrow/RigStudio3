@@ -241,11 +241,10 @@ class Limb(module.Module) :
 	def setOptions(self, optionsData):
 		self.update_aim_distance(optionsData['aimDistance'])
 	
-	def twistOverride(self, t_name):
+	def twistOverride(self, t_name, data):
 		# make elbow offset movable
 		if t_name == self.name+"_root":
 			cmds.parent(t_name+'_end_connectorLoc', self.name+'_middleOffset')
-			cmds.setAttr(t_name+'_end_connectorLoc.sx', -1)
 		elif t_name == self.name+"_middle":
 			cmds.parent(t_name+'_rootUpLoc', self.name+'_middleOffset')
 

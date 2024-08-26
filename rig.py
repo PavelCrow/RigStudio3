@@ -15,10 +15,11 @@ class Rig:
         self.jointsSize = 1
         self.posersSize = 1
         self.jointsAxises = False
+        self.gameJointsVis = True
+        self.gameJointsTemplate = True
         self.jointsVis = True
         self.posersVis = True
         self.controlsVis = True
-        self.jointsTemplate = True
         self.geoVis = True
         self.geoTemplate = False
         self.geoReference = False
@@ -36,7 +37,8 @@ class Rig:
                 self.posersVis = cmds.getAttr(self.root + ".posersVis")
                 self.controlsVis = cmds.getAttr(self.root + ".controlsVis")
                 self.jointsVis = cmds.getAttr(self.root + ".jointsVis")
-                self.jointsTemplate = cmds.getAttr(self.root + ".jointsTemplate")                
+                self.gameJointsVis = cmds.getAttr(self.root + ".gameJointsVis")
+                self.gameJointsTemplate = cmds.getAttr(self.root + ".gameJointsTemplate")                
             except:
                 pass
 
@@ -69,7 +71,8 @@ class Rig:
         utils.setUserAttr(root, 'posersVis', 1, type="bool", lock=0)
         utils.setUserAttr(root, 'controlsVis', 1, type="bool", lock=0)
         utils.setUserAttr(root, 'jointsVis', 1, type="bool", lock=0)
-        utils.setUserAttr(root, 'jointsTemplate', 1, type="bool", lock=0)
+        utils.setUserAttr(root, 'gameJointsVis', 1, type="bool", lock=0)
+        utils.setUserAttr(root, 'gameJointsTemplate', 1, type="bool", lock=0)
 
         # create groups
         cmds.group(empty=True, n="geo", p=root)
@@ -84,7 +87,7 @@ class Rig:
         cmds.setAttr("skeleton.overrideColor", 29)
         cmds.setAttr("skeleton.template", True)
         cmds.setAttr("skeleton.v", False)
-        cmds.setAttr("skeleton.v", lock=1)
+        # cmds.setAttr("skeleton.v", lock=1)
 
         utils.create_default_sets()
 
@@ -283,31 +286,39 @@ class Rig:
         for m in self.modules:
             if state == 0:
                 cmds.hide(m + '_controls')
+                controlShapes = cmds.listRelatives(m+'_outJoints', type="nurbsCurve", allDescendents=1) or []
+                for c in controlShapes:
+                    cmds.setAttr(c+'.lodVisibility', 0)
             else:
                 cmds.showHidden(m + '_controls')
+                controlShapes = cmds.listRelatives(m+'_outJoints', type="nurbsCurve", allDescendents=1) or []
+                for c in controlShapes:
+                    cmds.setAttr(c+'.lodVisibility', 1)
 
-        if cmds.objExists("twists"):
-            tw_mods = cmds.listRelatives('twists', type='transform') or []
-            for tw_mod in tw_mods:
-                controls_gr = tw_mod.split("_mod")[0] + '_controls'
-                if cmds.objExists(controls_gr):
-                    if state == 0:
-                        cmds.hide(controls_gr)
-                    else:
-                        cmds.showHidden(controls_gr)
+        
+        for tw_mod in cmds.listRelatives("twists") or []:
+            tw_name = tw_mod[:-4]
+            if state:
+                cmds.showHidden(tw_name+'_connectors')
+            else:
+                cmds.hide(tw_name+'_connectors')
                         
         cmds.setAttr(self.root + ".controlsVis", state)
 
-    def toggleVis_joints(self, state=None):
+    def toggleVis_gameJoints(self, state=None):
         if not state:
-            state = self.main.win.actionJoints.isChecked()
+            state = self.main.win.actionGameJoints.isChecked()
 
         if state == 0:
             cmds.hide('skeleton')
         else:
             cmds.showHidden('skeleton')
             
-        cmds.setAttr(self.root + ".jointsVis", state)
+        cmds.setAttr(self.root + ".gameJointsVis", state)
+
+        if not state:
+            self.main.win.actionSkeleton_LRA.setChecked(False)
+            self.toggleVis_jointsAxises(False)
 
     def toggleVis_geo(self, state=None):
         if not state:
@@ -320,14 +331,41 @@ class Rig:
             
     def toggleTemplate_joints(self, state=None):
         if not state:
-            state = self.main.win.actionJoints_Template.isChecked()
+            state = self.main.win.actionGameJoints_Template.isChecked()
 
         if state == 0:
             cmds.setAttr("skeleton.template", 0)
         else:
             cmds.setAttr("skeleton.template", 1)
             
-        cmds.setAttr(self.root + ".jointsTemplate", state)
+        cmds.setAttr(self.root + ".gameJointsTemplate", state)
+    
+    def toggleVis_joints(self, state=None):
+        if not state:
+            state = self.main.win.actionJoints.isChecked()
+
+        for m in self.modules:
+            if state:
+                for j in cmds.listRelatives(m+'_outJoints', type="joint", allDescendents=1) or []:
+                    if not cmds.objExists(j.replace("outJoint", "mod")):
+                        cmds.setAttr(j+'.drawStyle', 0)
+            else:
+                for j in cmds.listRelatives(m+'_outJoints', type="joint", allDescendents=1) or []:
+                    cmds.setAttr(j+'.drawStyle', 2)
+
+        for tw_mod in cmds.listRelatives("twists") or []:
+            tw_name = tw_mod[:-4]
+            if state:
+                cmds.showHidden(tw_name+'_joints')
+            else:
+                cmds.hide(tw_name+'_joints')
+            
+        cmds.setAttr(self.root + ".jointsVis", state)
+
+        if not state:
+            self.main.win.actionSkeleton_LRA.setChecked(False)
+            self.toggleVis_jointsAxises(False)
+        
 
     def toggleTemplate_geo(self, state=None):
         if not state:
@@ -366,6 +404,12 @@ class Rig:
         for tw_mod in tw_mods:
             tw_name = tw_mod[:-4]
             joints += cmds.listRelatives(tw_name+"_joints")
+        
+        outJoints = []
+        for m in self.modules:
+            for j in cmds.listRelatives(m+'_outJoints', type="joint", allDescendents=1) or []:
+                outJoints.append(j)
+        joints += outJoints
 
         if len(joints) > 0:
             for j in joints:

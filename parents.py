@@ -344,6 +344,10 @@ class Parents(object):
             cmds.warning("Selected object is not control")
             return
 
+        if cmds.objExists(obj+"_parentsGroup"):
+            cmds.warning("control is already in list")
+            return
+
         mod_name = utils.getModuleName(obj)
         m = utils.getModuleInstance(mod_name)
         if m.opposite:
@@ -369,7 +373,6 @@ class Parents(object):
 
 
         if not cmds.objExists(obj+"_parentsGroup"):
-            #cmds.warning("control is already in list")
             addGroup(obj)
 
         # add item
@@ -858,38 +861,31 @@ class Parents(object):
         attrType = data['attrType']
         targetModules = data['targetModules']
         constrType = data['constrType']
+        set = moduleName + "_nodesSet"
 
         if not cmds.objExists(control): 
             return
 
         for i, intName in enumerate(intNames):
-            #print ' --- ', targetModules[i], intName
             n = utils.getControlNameFromInternal(targetModules[i], intName)
             if not cmds.objExists(n):
                 cmds.warning("Target is not exists, object space is not created.", targetModules[i], intName)
                 return
 
         m = utils.getModuleInstance(moduleName)
-        #print "CREATE", m.name, m.opposite
 
         ctrl_name = obj.split("_parentsGroup")[0]
         init_name = utils.getInternalNameFromControl(ctrl_name)
-        ctrlInitLoc = "%s_%s_controlInitLoc" %(m.name, init_name)
+        ctrlInitLoc = "%s_%s_initLoc" %(m.name, init_name)
 
         #print "AAA", moduleName, data['control'], control
         if not cmds.objExists(ctrlInitLoc):
-            ctrlInitLoc = m.getClosestInitLoc(obj)	
-
-        #print '-------------------'
-        #for d in data:
-            #print d , data[d]
-        #print '-------------------'			
+            cmds.warning("Missed initLoc", ctrlInitLoc)
 
         # create target locators 
         targets = []
         controlInternalName = utils.getInternalNameFromControl(ctrl_name)
         for i, intName in enumerate(intNames):
-            #print ' --- ', targetModules[i], intName
             n = utils.getControlNameFromInternal(targetModules[i], intName)# or intName
 
             t_name = moduleName+'__'+niceNames[i]+'__'+controlInternalName
@@ -897,38 +893,23 @@ class Parents(object):
             if cmds.objExists(grp_name):
                 cmds.delete(grp_name)
             t = cmds.spaceLocator(n=t_name)[0]
-            utils.addModuleNameAttr(t, moduleName)
+            utils.addToModuleSet(t, moduleName)
             t_gr = cmds.group(n=grp_name, empty=1)
-            utils.addModuleNameAttr(t_gr, moduleName)			
+            utils.addToModuleSet(t_gr, moduleName)
             cmds.parent(t, t_gr)
 
-            #print 1111, t_gr, n
             targets.append(t)
             cmds.parent(t_gr, n)
+            utils.resetAttrs(t_gr)
             cmds.hide(t_gr)
 
-            #t_ctrlInitLoc = n + "_controlInitLoc"
             t_ctrlInitLoc = "%s_%s_initLoc" %(targetModules[i], intName)			
             t_ctrlInitLocExists = cmds.objExists(t_ctrlInitLoc)
-            
-            #if m.opposite:
-                #print "!!!", m.opposite, t
-                #cmds.setAttr(t+'.rx', 180)
 
             if not t_ctrlInitLocExists:
                 cmds.warning("Missed Init Loc!", t_ctrlInitLoc)
-                # m = utils.getModuleInstance(targetModules[i])
-                # t_ctrlInitLoc = m.getClosestInitLoc(n)
 
-            mMat = utils.connectByMatrix(t_gr, [ctrlInitLoc, t_ctrlInitLoc], ['worldMatrix[0]', 'worldInverseMatrix[0]'], moduleName)
-
-            # if not t_ctrlInitLocExists:
-            #     # mirror corrections
-            #     if m.opposite:
-            #         compMat = cmds.createNode('composeMatrix', n=n+"_compMat")
-            #         if m.opposite:
-            #             cmds.setAttr(compMat+'.inputScaleX', -1)
-            #         cmds.connectAttr(compMat+'.outputMatrix', mMat+'.matrixIn[2]')
+            mMat = utils.connectToOffsetParentMatrix(t_gr, [ctrlInitLoc, t_ctrlInitLoc], ['worldMatrix[0]', 'worldInverseMatrix[0]'], set=set)
 
         # create constraint
         if constrType == 'parentConstraint':
@@ -937,7 +918,7 @@ class Parents(object):
             const = cmds.pointConstraint(targets, obj, mo=0)[0]
         elif constrType == 'orientConstraint':
             const = cmds.orientConstraint(targets, obj, mo=0)[0]			
-        utils.addModuleNameAttr(const, moduleName)
+        utils.addToModuleSet(const, moduleName)
 
         # check right angles after constraints and correct if needed
         if m.opposite:
@@ -948,10 +929,6 @@ class Parents(object):
                 angle = getAngle(grp_name, ctrl_name)
                 if angle > 5:
                     cmds.setAttr(t_name+'.rx', 0)
-
-
-        #if m.opposite:
-            #return			
 
         # make connections
         if attrType == 'switcher':
@@ -985,7 +962,7 @@ class Parents(object):
             cmds.addAttr(control, longName=attrName, attributeType='float', keyable=attrVis, minValue=0, maxValue=1 )
             cmds.connectAttr(control+'.'+attrName, const+'.'+targets[0]+"W0")
             rev = cmds.createNode('reverse', n=const+"_reverse")
-            utils.addModuleNameAttr(rev, moduleName)
+            utils.addToModuleSet(rev, moduleName)
             cmds.connectAttr(control+'.'+attrName, rev+'.inputX')
             cmds.connectAttr(rev+'.outputX', const+'.'+targets[1]+"W1")
             if constrType != 'pointConstraint':
@@ -993,12 +970,10 @@ class Parents(object):
 
 
         # save data in attributes
-        #utils.setUserAttr(obj, "control", control)
         utils.setUserAttr(obj, "attrName", attrName)
         utils.setUserAttr(obj, "attrType", attrType)
         utils.setUserAttr(obj, "constrType", constrType)
         utils.setUserAttr(obj, "attrVis", attrVis, 'bool')
         utils.setUserAttr(obj, "niceNames", niceNames, 'data')
         utils.setUserAttr(obj, "intNames", intNames, 'data')		
-        #utils.setUserAttr(obj, "targetModules", targetModules, 'data')
 

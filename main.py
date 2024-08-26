@@ -164,7 +164,6 @@ class MainWindow:
                     m_action.setText(name)
                     m_action.setToolTip(name.upper())
                     m_action.triggered.connect(partial(self.addModule, m))
-                    #m_action.triggered.connect(partial(module.Module, m_type=m, main=self, create=True))
                     sub_menu.addAction(m_action)
                     self.menuActions[name] = m_action
 
@@ -191,13 +190,13 @@ class MainWindow:
             
             self.win.actionPosers.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "posers.svg")))
             self.win.actionControls.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "controls.png")))
+            self.win.actionGameJoints.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "jointsGame.png")))
+            self.win.actionGameJoints_Template.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "jointsGame_template.png")))
             self.win.actionJoints.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "joints.png")))
             self.win.actionGeometry.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "geometry.png")))
-            self.win.actionJoints_Template.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "joints_template.png")))
             self.win.actionGeometry_Template.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "geometry_template.png")))
             self.win.actionGeometry_Reference.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "geometry_reference.png")))
             self.win.actionSkeleton_LRA.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "axises2.png")))
-            self.win.actionPosers_Axises.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "axises.png")))
             self.win.actionHelp_Mode.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "helpBig_icon.png")))
             #self.win.actionMove_Tool.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "moveTool.png")))
             #self.win.actionAdvanced.setIcon(QtGui.QIcon(self.rootPath + '/ui/icons/map.png'))
@@ -277,8 +276,9 @@ class MainWindow:
             self.win.temp_btn.setVisible(False)
 
             # modules tree widget hide icons column
-            # self.win.modules_treeWidget.setColumnWidth(0, 200)
-            # self.win.modules_treeWidget.setColumnWidth(1, 30)
+            self.win.modules_treeWidget.setColumnWidth(0, 200)
+            self.win.modules_treeWidget.setColumnWidth(1, 30)
+            
             # modules tree widget stretch first column
             header = self.win.modules_treeWidget.header()
             try:
@@ -363,8 +363,8 @@ class MainWindow:
             self.win.module_vis_but.setIconSize(QtCore.QSize(20, 20))
             self.win.module_solo_but.setIcon(QtGui.QIcon(self.rootPath + '/ui/icons/solo.png'))
             self.win.module_solo_but.setIconSize(QtCore.QSize(20, 20))
-            self.win.module_poser_axises_but.setIcon(QtGui.QIcon(self.rootPath + '/ui/icons/axises.png'))
-            self.win.module_poser_axises_but.setIconSize(QtCore.QSize(20, 20))
+            # self.win.module_poser_axises_but.setIcon(QtGui.QIcon(self.rootPath + '/ui/icons/axises.png'))
+            # self.win.module_poser_axises_but.setIconSize(QtCore.QSize(20, 20))
 
             # object spaces
             self.win.parents_add_btn.setIcon(QtGui.QIcon(self.rootPath + '/ui/icons/os_plus.png'))
@@ -607,11 +607,12 @@ class MainWindow:
         self.win.action_moduleBuilder.triggered.connect(self.action_moduleBuilder)
         self.win.actionPosers.triggered.connect(self.rig.toggleVis_posers)
         self.win.actionControls.triggered.connect(self.rig.toggleVis_controls)
+        self.win.actionGameJoints.triggered.connect(self.rig.toggleVis_gameJoints)
+        self.win.actionGameJoints_Template.triggered.connect(self.rig.toggleTemplate_joints)
         self.win.actionJoints.triggered.connect(self.rig.toggleVis_joints)
         self.win.actionGeometry.triggered.connect(self.rig.toggleVis_geo)
         self.win.actionGeometry_Template.triggered.connect(self.rig.toggleTemplate_geo)
         self.win.actionGeometry_Reference.triggered.connect(self.rig.toggleReference_geo)
-        self.win.actionJoints_Template.triggered.connect(self.rig.toggleTemplate_joints)
         self.win.actionSkeleton_LRA.triggered.connect(self.rig.toggleVis_jointsAxises)
         self.win.actionHelp_Mode.triggered.connect(self.helpMode)
         self.win.actionMove_Tool.triggered.connect(self.moveTool)
@@ -642,7 +643,7 @@ class MainWindow:
         self.win.module_axises_but.clicked.connect(self.moduleToggleLRA)
         self.win.module_vis_but.clicked.connect(self.moduleToggleVis)
         self.win.module_solo_but.clicked.connect(self.moduleSolo)
-        self.win.module_poser_axises_but.clicked.connect(self.moduleToggle_posersAxises)
+        # self.win.module_poser_axises_but.clicked.connect(self.moduleToggle_posersAxises)
 
         self.win.sections_listWidget.currentItemChanged.connect(self.updateFacePage)
 
@@ -1161,7 +1162,6 @@ class MainWindow:
                 cmds.progressBar(progressControl, e=1, maxValue=len(modulesData), progress=0)
                 for mData in modulesData:
                     self.curModule = mData[0]
-                    # print 22222, self.curModule.name
                     self.curModule.setData(mData[1], sym=False, namingForce=True)
                     cmds.progressBar(progressControl, edit=True, step=1)
                 cmds.progressBar(progressControl2, edit=True, step=1)
@@ -1532,6 +1532,13 @@ class MainWindow:
             print("Template file %s was deleted" % tName)
 
         elif action == 'delete_rig':
+
+            result = QtWidgets.QMessageBox().question(self.win, 'Delete Rig Template', 'To delete %s template?' %tName,
+                                                QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+            
+            if result == QtWidgets.QMessageBox.No:
+                return
+            
             path = self.rootPath + '/templates/rigs/' + tName + '.tmpl'
             os.remove(path)
             self.rigTemplatesMenuUpdate()
@@ -2089,15 +2096,15 @@ class MainWindow:
 
         self.win.actionPosers.setEnabled(charExist)
         self.win.actionControls.setEnabled(charExist)
+        self.win.actionGameJoints.setEnabled(charExist)
         self.win.actionJoints.setEnabled(charExist)
         self.win.actionGeometry.setEnabled(charExist)
-        self.win.actionJoints_Template.setEnabled(charExist)
+        self.win.actionGameJoints_Template.setEnabled(charExist)
         self.win.actionGeometry_Template.setEnabled(charExist)
         self.win.actionGeometry_Reference.setEnabled(charExist)
         self.win.actionAdvanced.setEnabled(charExist)
         self.win.actionPosers_Hierarhy.setEnabled(charExist)
         self.win.actionSkeleton_LRA.setEnabled(charExist)
-        self.win.actionPosers_Axises.setEnabled(charExist)
 
         self.win.module_frame.setEnabled(False)
 
@@ -2108,7 +2115,8 @@ class MainWindow:
                 self.win.actionControls.setChecked(self.rig.controlsVis)
 
             self.win.actionJoints.setChecked(self.rig.jointsVis)
-            self.win.actionJoints_Template.setChecked(self.rig.jointsTemplate)
+            self.win.actionGameJoints.setChecked(self.rig.gameJointsVis)
+            self.win.actionGameJoints_Template.setChecked(self.rig.gameJointsTemplate)
             self.win.actionGeometry.setChecked(self.rig.geoVis)
             self.win.actionGeometry_Template.setChecked(self.rig.geoTemplate)
             self.win.actionGeometry_Reference.setChecked(self.rig.geoReference)
@@ -2326,13 +2334,13 @@ class MainWindow:
                 item = items[name]
                 
                 if not m.parent:
-                    #if cmds.getAttr(m.name + "_mod.v"):
-                        #item.setIcon(1, QtGui.QIcon(self.rootPath + '/ui/icons/module_item_selected2.png'))
+                    if cmds.getAttr(m.name + "_mod.v"):
+                        item.setIcon(1, QtGui.QIcon(self.rootPath + '/ui/icons/module_item_selected2.png'))
                     self.win.modules_treeWidget.addTopLevelItem(items[name])
                 else:
                     parentModuleName = utils.getModuleName(m.parent)
-                    # if cmds.getAttr(m.name + "_mod.v"):
-                    #     item.setIcon(1, QtGui.QIcon(self.rootPath + '/ui/icons/module_item_selected2.png'))
+                    if cmds.getAttr(m.name + "_mod.v"):
+                        item.setIcon(1, QtGui.QIcon(self.rootPath + '/ui/icons/module_item_selected2.png'))
                     parent = items[parentModuleName]
                     parent.addChild(items[name])
 
@@ -2343,8 +2351,8 @@ class MainWindow:
                     item.setForeground(0, QtGui.QBrush(QtGui.QColor("#6C6B6B")))
 
 
-        # if self.curModule: 
-        #     self.selectModuleInList(self.curModule.name)
+        if self.curModule: 
+            self.selectModuleInList(self.curModule.name)
 
         # expand modules tree
         self.win.modules_treeWidget.expandAll()
@@ -2530,7 +2538,6 @@ class MainWindow:
             self.selectModuleInList(name)
             self.rig.selectCurModMainPoser()
 
-        self.curModule.toggle_posersAxises(self.win.actionPosers_Axises.isChecked())
         self.curModule.toggleLRA(self.win.actionSkeleton_LRA.isChecked())
 
         return m
@@ -3265,8 +3272,6 @@ class MainWindow:
         self.updateModulesTree()
 
     def moduleSolo(self):
-
-
         state = cmds.getAttr(self.curModule.name + "_mod.v")
 
         otherVis = False
@@ -3286,7 +3291,7 @@ class MainWindow:
             else:
                 for m_name in self.rig.modules:
                     cmds.setAttr(m_name + "_mod.v", 1)
-                cmds.setAttr(self.curModule.name + "_mod.v", 0)
+                # cmds.setAttr(self.curModule.name + "_mod.v", 0)
 
         else:
             for m_name in self.rig.modules:
@@ -3295,7 +3300,7 @@ class MainWindow:
 
         # opp_mod = utils.getOpposite(self.curModule.name+"_mod")
         # if cmds.objExists(opp_mod):
-        # cmds.setAttr(opp_mod+".v", not state)
+        #     cmds.setAttr(opp_mod+".v", not state)
 
         self.updateModulesTree()
 

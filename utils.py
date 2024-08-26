@@ -327,9 +327,8 @@ def getModuleName(obj): #
 		j = p.replace("joints", "outJoint")
 
 	path = cmds.ls(j, l=1) or []
+	
 	moduleName = path[0].split("rig|modules|")[-1].split("_mod|")[0]
-
-
 
 	return moduleName
 
@@ -517,7 +516,6 @@ def getControlNameFromInternal(module_name, internalControlName):
 	return ""
 
 def getInternalNameFromControl(controlName):
-	#print 22222222, controlName+".internalName"
 	if cmds.objExists(controlName + ".internalName"):
 		return cmds.getAttr(controlName + ".internalName")
 	else:
@@ -674,11 +672,13 @@ def connectByMatrix(obj, targets, inputs=[], useDM=True, attrs=['t', 'r', 's'], 
 
 def connectToOffsetParentMatrix(obj, targets, inputs=[], set=None): #
 	m_name = getModuleName(obj)
+	# print(4444, obj, m_name)
 	if len(targets) > 1:
 		mMat = cmds.createNode('multMatrix', n=obj+"_multMat")
-		addToModuleSet(mMat, m_name)
 		if set:
 			cmds.sets(mMat, e=1, forceElement=set)
+		else:
+			addToModuleSet(mMat, m_name)
 		cmds.connectAttr(mMat+".matrixSum", obj+'.offsetParentMatrix')
 		for i in range(len(targets)):
 			cmds.connectAttr(targets[i]+"."+inputs[i], mMat+'.matrixIn[%s]' %(str(i)) )
@@ -853,6 +853,33 @@ def getClosestJoint(mod_name, src_object):
 
 	#if src_object == 'l_leg_upper_pin': print 555, closest
 	#if src_object == 'l_leg_upper_pin': print 555, pos1
+	return closest		
+
+def getClosestOutJoint(mod_name, src_object):
+	pos1 = cmds.xform(src_object, query=True, translation=True, worldSpace=True)
+	closest_distance = 10000000
+	closest = ""
+	for j in cmds.listRelatives(mod_name+"_outJoints", allDescendents=1):
+		if j.split("_")[-1] == 'outJoint':
+			pos2 = cmds.xform(j, query=True, translation=True, worldSpace=True)
+			distance = math.sqrt( math.pow((pos1[0]-pos2[0]),2) + math.pow((pos1[1]-pos2[1]),2) + math.pow((pos1[2]-pos2[2]),2))				
+			if distance < closest_distance:
+				closest_distance = distance
+				closest = j
+
+	return closest		
+
+def getClosestPoser(mod_name, src_object):
+	pos1 = cmds.xform(src_object, query=True, translation=True, worldSpace=True)
+	closest_distance = 10000000
+	closest = ""
+	for p in cmds.ls(mod_name+"_*_poser"):
+		pos2 = cmds.xform(p, query=True, translation=True, worldSpace=True)
+		distance = math.sqrt( math.pow((pos1[0]-pos2[0]),2) + math.pow((pos1[1]-pos2[1]),2) + math.pow((pos1[2]-pos2[2]),2))				
+		if distance < closest_distance:
+			closest_distance = distance
+			closest = p
+	
 	return closest		
 
 def isClose(obj1, obj2, delta=0.01):

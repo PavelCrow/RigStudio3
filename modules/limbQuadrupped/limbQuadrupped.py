@@ -154,20 +154,23 @@ class LimbQuadrupped(module.Module) :
 						for j in tw_js:
 							cmds.connectAttr(utils.getOppositeObject(self.name+'_ankle_volume_outJoint.s'), j+'.s', f=1)
 
-	def twistOverride(self, t_name):
+	def twistOverride(self, t_name, data):
 		# fix right hip flipping
-		if self.opposite and t_name.split("_")[-1] == "root":
-			cmds.setAttr(t_name+"_rootUpLoc.sx", -1)
+		# if self.opposite and t_name.split("_")[-1] == "root":
+		# 	cmds.setAttr(t_name+"_rootUpLoc.sx", -1)
 
 		# make elbow offset movable
 		if t_name == self.name+"_root":
 			cmds.parent(t_name+'_end_connectorLoc', self.name+'_kneeOffset')
-			cmds.setAttr(t_name+'_end_connectorLoc.sx', -1)
 		elif t_name == self.name+"_knee":
 			cmds.parent(t_name+'_rootUpLoc', self.name+'_kneeOffset')
 			cmds.parent(t_name+'_end_connectorLoc', self.name+'_ankleOffset')
 		elif t_name == self.name+"_ankle":
 			cmds.parent(t_name+'_rootUpLoc', self.name+'_ankleOffset')
+		
+		if not self.opposite:
+			cmds.setAttr(t_name+'_rootUpLoc.r', data["rootOffset"][0], data["rootOffset"][1], data["rootOffset"][2])
+			cmds.setAttr(t_name+'_end_connectorLoc.r', data["endOffset"][0], data["endOffset"][1], data["endOffset"][2])
 
 	def ibtwOverride(self, name):
 		if name == self.name + "_knee_twist_0" :

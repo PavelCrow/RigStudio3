@@ -39,7 +39,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="rig_tab">
        <attribute name="title">
@@ -972,22 +972,6 @@
                        <widget class="QToolButton" name="selectPoser_but">
                         <property name="text">
                          <string>SelectPoser</string>
-                        </property>
-                        <property name="popupMode">
-                         <enum>QToolButton::InstantPopup</enum>
-                        </property>
-                        <property name="autoRaise">
-                         <bool>true</bool>
-                        </property>
-                        <property name="arrowType">
-                         <enum>Qt::NoArrow</enum>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QToolButton" name="module_poser_axises_but">
-                        <property name="text">
-                         <string>PoserAxises</string>
                         </property>
                         <property name="popupMode">
                          <enum>QToolButton::InstantPopup</enum>
@@ -4848,6 +4832,38 @@
             </widget>
            </item>
            <item>
+            <layout class="QGridLayout" name="gridLayout_10" rowstretch="0,0" columnstretch="0,1">
+             <item row="0" column="1">
+              <widget class="QCheckBox" name="twist_flippedX_checkBox">
+               <property name="text">
+                <string>Flipped X</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_33">
+               <property name="text">
+                <string>End Symmetry: </string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_37">
+               <property name="text">
+                <string>End Offset: </string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QCheckBox" name="twist_endOffsetFlippedX_checkBox">
+               <property name="text">
+                <string>Flipped X</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
             <spacer name="verticalSpacer_6">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -5350,7 +5366,7 @@
                 <item>
                  <widget class="QCheckBox" name="ib_flippedX_checkBox">
                   <property name="text">
-                   <string>SyFlipped X</string>
+                   <string>Flipped X</string>
                   </property>
                  </widget>
                 </item>
@@ -9811,14 +9827,15 @@ p, li { white-space: pre-wrap; }
     </property>
     <addaction name="actionPosers"/>
     <addaction name="actionControls"/>
-    <addaction name="actionJoints"/>
     <addaction name="actionGeometry"/>
     <addaction name="separator"/>
-    <addaction name="actionJoints_Template"/>
+    <addaction name="actionGameJoints"/>
+    <addaction name="actionGameJoints_Template"/>
+    <addaction name="actionJoints"/>
+    <addaction name="separator"/>
     <addaction name="actionGeometry_Template"/>
     <addaction name="actionGeometry_Reference"/>
     <addaction name="separator"/>
-    <addaction name="actionPosers_Axises"/>
     <addaction name="actionSkeleton_LRA"/>
    </widget>
    <widget class="QMenu" name="menuOptions">
@@ -9908,20 +9925,22 @@ p, li { white-space: pre-wrap; }
    <addaction name="separator"/>
    <addaction name="actionPosers"/>
    <addaction name="actionControls"/>
-   <addaction name="actionJoints"/>
-   <addaction name="actionGeometry"/>
    <addaction name="separator"/>
-   <addaction name="actionJoints_Template"/>
+   <addaction name="actionJoints"/>
+   <addaction name="actionGameJoints"/>
+   <addaction name="actionGameJoints_Template"/>
+   <addaction name="separator"/>
+   <addaction name="actionGeometry"/>
    <addaction name="actionGeometry_Template"/>
    <addaction name="actionGeometry_Reference"/>
    <addaction name="separator"/>
-   <addaction name="actionPosers_Axises"/>
    <addaction name="actionSkeleton_LRA"/>
    <addaction name="actionPosers_Hierarhy"/>
    <addaction name="separator"/>
    <addaction name="actionMove_Tool"/>
    <addaction name="actionHelp_Mode"/>
    <addaction name="actionAdvanced"/>
+   <addaction name="separator"/>
   </widget>
   <action name="actionNew">
    <property name="text">
@@ -9965,7 +9984,7 @@ p, li { white-space: pre-wrap; }
     <string>Controls</string>
    </property>
   </action>
-  <action name="actionJoints">
+  <action name="actionGameJoints">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -9973,7 +9992,7 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Joints</string>
+    <string>Game Joints</string>
    </property>
   </action>
   <action name="actionGeometry">
@@ -9987,7 +10006,7 @@ p, li { white-space: pre-wrap; }
     <string>Geometry</string>
    </property>
   </action>
-  <action name="actionJoints_Template">
+  <action name="actionGameJoints_Template">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -9995,7 +10014,7 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Joints Template</string>
+    <string>Game Joints Template</string>
    </property>
   </action>
   <action name="actionGeometry_Template">
@@ -10082,12 +10101,12 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </property>
   </action>
-  <action name="actionPosers_Axises">
+  <action name="actionJoints">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Posers Axises</string>
+    <string>Joints</string>
    </property>
   </action>
   <action name="actionControl_Tool">

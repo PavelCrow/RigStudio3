@@ -107,7 +107,7 @@ class ChainIk(module.Module) :
 			cmds.sets(ctrl, forceElement=self.name+'_moduleControlSet')
 			cmds.sets(ctrl, forceElement=self.name+'_nodesSet')
 			cmds.group(ctrl, n=ctrl+"_group")
-			jnt = cmds.joint(n=ctrl+'_outJoint')
+			jnt = cmds.joint(n=self.name+'_'+str(n)+'_outJoint')
 			cmds.parent(jnt, ctrl)
 			joints.append(jnt)
 
@@ -174,7 +174,7 @@ class ChainIk(module.Module) :
 				cmds.sets(self.name+'_element_'+str(i+1)+"_nodesSet", e=1, forceElement=self.name+"_nodesSet")
 		
 		cmds.delete(self.name+'_root_outJoint')
-		cmds.rename(self.name+'_element_1_outJoint', self.name+'_root_outJoint')
+		cmds.rename(self.name+'_1_outJoint', self.name+'_root_outJoint')
 
 		cmds.hide(self.name+'_input')
 
@@ -215,11 +215,17 @@ class ChainIk(module.Module) :
 				pm.delete(o)
 				
 		# make init spline ik
-		pm.select(self.name+"_root_initJoint", self.name+"_element_%s_initJoint" %(self.jointsCount-1), self.name+'_initCrv')
+		pm.select(self.name+"_root_initJoint", self.name+"_%s_initJoint" %(self.jointsCount-1), self.name+'_initCrv')
 		ikh = pm.ikHandle(sol='ikSplineSolver', ccv=0, pcv=0, ns=2, n=self.name+'_initIkHandle')[0]
 		utils.addModuleNameAttr(ikh, self.name)
 		pm.parent(ikh, self.name+"_posers")
 		pm.hide(ikh)
+
+		ikh.dTwistControlEnable.set(1)
+		ikh.dWorldUpType.set(4)
+		ikh.dTwistValueType.set(1)
+		pm.connectAttr(self.name+'_root_poser.worldMatrix[0]', ikh.dWorldUpMatrix)
+		pm.connectAttr(self.name+'_element_'+str(controlsCount)+'_poser.worldMatrix[0]', ikh.dWorldUpMatrixEnd)
 
 	def create2(self):
 		name = self.name
@@ -254,12 +260,12 @@ class ChainIk(module.Module) :
 		for i in range(chainsCount):
 			# joint
 			pm.select(clear=1)
-			j = pm.joint(n=name+"_element_"+str(i)+"_outJoint")		
+			j = pm.joint(n=name+"_"+str(i)+"_outJoint")		
 			utils.addModuleNameAttr(j, self.name)
 			cmds.sets(j.name(), e=1, forceElement=self.name+'_outJointsSet' )	
 		
 			if generateGeo:
-				loc = pm.spaceLocator(n=name+"_element_"+str(i)+"_outLoc")
+				loc = pm.spaceLocator(n=name+"_"+str(i)+"_outLoc")
 				pm.parent(loc, j)
 				pm.hide(loc)
 		
@@ -561,7 +567,7 @@ class ChainIk(module.Module) :
 	def getOptions(self):
 		childs = cmds.listRelatives(self.name+'_outJoints', allDescendents=1, type='joint' )
 		self.jointsCount = len(childs)			
-
+		
 		posers = []
 		for p in cmds.listRelatives(self.name+'_posers', allDescendents=1):
 			if p.split('_')[-1] == 'poser':
@@ -726,8 +732,8 @@ class ChainIk(module.Module) :
 		utils.connectByMatrix(group_j, [self.name+"_outJoints", self.name+"_mainPoser", group_j], ['worldMatrix[0]', 'worldInverseMatrix[0]', 'parentInverseMatrix[0]'], module_name=self.name )
 		
 		for i in range(1, self.jointsCount):
-			cmds.setAttr(self.name+"_element_%s_joint.segmentScaleCompensate" %i, 1)
-			cmds.connectAttr(self.name+"_element_%s_joint.offset" %i, self.name+"_element_%s_outJoint.offset" %i)
+			cmds.setAttr(self.name+"_%s_joint.segmentScaleCompensate" %i, 1)
+			cmds.connectAttr(self.name+"_%s_joint.offset" %i, self.name+"_%s_outJoint.offset" %i)
 
 		for j in cmds.listRelatives(group_j, allDescendents=1):
 			cmds.sets(j, e=1, forceElement=self.name+"_nodesSet")
@@ -736,3 +742,4 @@ class ChainIk(module.Module) :
 
 	def bake(self):
 		super(self.__class__, self).bake(forceDelete=[self.name+"_initCurve_curveInfo"])
+

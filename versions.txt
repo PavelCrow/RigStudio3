@@ -477,3 +477,14 @@ Locked Skeleton group
 ---Version 3.0.02
 human, humanAdvanced and quadrupped templates
 git ignore setup
+remove temp files
+
+---Version 3.1.00
+Added game joints display buttons
+Fix display joints features
+Fix Spine module (fk controls pivots)
+Hide/Unhide/Solo modules mode
+Added more offset feature for the twists
+Added more offset feature for the inbetweens
+Now Head module connecting with ChailIk module with reverse influences
+Now Save rig template action saving with browser dialog window

@@ -229,8 +229,8 @@ class Module(object):
         self.symmetrical = self.isSymmetrical()
         self.seamless = self.isSeamless()
 
-    def connect(self, target, opposite=False):
-        # print ("Connect to", target)
+    def connect(self, target, opposite=False, makeSeamless=False):
+        # print ("Connect to", target)    
         connector = self.name+"_root_connector"
         # root = self.name + "_root_poserOrient"
         root_poser = self.name + "_root_poser"
@@ -246,10 +246,18 @@ class Module(object):
         connector_parent = cmds.listRelatives(connector, p=1)[0]
         if cmds.objExists(target_add_poser):
             target_poser = target_add_poser
+
+        if not cmds.objExists(target_poser):
+            target_poser = utils.getClosestPoser(target_module_name, target_joint)
+        
+        if not cmds.objExists(target_outJoint):
+            target_outJoint = utils.getClosestOutJoint(target_module_name, target)
+            target_initLoc = target_outJoint.replace("outJoint", "initLoc")
+            target_joint = target_outJoint.replace("outJoint", "joint")
         
         # save position
         initMatrix = cmds.xform(self.name+'_mainPoser', query=True, ws=True, m=True)
-
+        
         # make connections
         utils.connectToOffsetParentMatrix(self.name+'_posers', [targetMainPoser])
 
@@ -320,6 +328,9 @@ class Module(object):
             # set mirror attribute if exists
             if cmds.objExists(self.name+"_mod.mirror"):
                 cmds.setAttr(self.name+"_mod.mirror", 1)
+
+        if makeSeamless:
+            self.makeSeamless(True)
 
         cmds.select(target)
 
@@ -564,19 +575,18 @@ class Module(object):
         if load == "controlShapes" or load == "all":
             if not sym:
                 for ctrl in data['controlsShapeData']:
-                    # print ctrl, "---- > " , data['controlsShapeData'][ctrl]
+                    # print (ctrl, "---- > " , data['controlsShapeData'][ctrl])
                     ctrlName = data['controlsNamesData'][ctrl]
                     ctrlName = utils.getRealNameFromTemplated(self.name, ctrlName)
-                    # print ctrl, "---- > " , ctrlName
+                    # print (ctrl, "---- > " , ctrlName)
                     if not cmds.objExists(ctrlName):
                         continue
                     cmd = data['controlsShapeData'][ctrl]
                     utils.setUserAttr(ctrlName, 'customShapeCommand', cmd, type="string")
-                    # print ctrlName, data['controlsShapeData'][ctrl]
                     control = utils.getControlInstance(ctrlName)
                     if control:
                         control.setShape(cmd)
-
+            
             # set posers shapes
             if 'posersShapeData' in data:
                 for p in data['posersShapeData']:
@@ -701,7 +711,8 @@ class Module(object):
             cmds.warning("Module cannot be seamless with several children")
             return
         
-
+        if not cmds.objExists(parent_p):
+            parent_p = utils.getClosestPoser(parentModule_name, self.parent)
 
         self.seamless = state
 
@@ -724,6 +735,7 @@ class Module(object):
             cmds.setAttr(parent_p+'.lodVisibility', 0)
 
             if self.symmetrical:
+                print(3333344444444444, utils.getOpposite(self_root_j), utils.getOpposite(pp_j))
                 cmds.parent(utils.getOpposite(self_root_j), utils.getOpposite(pp_j))
                 if parent_module.symmetrical:
                     cmds.parent(utils.getOpposite(p_j), utils.getOpposite(parentModule_name+"_output"))
@@ -785,6 +797,10 @@ class Module(object):
         parent_add_p = self.parent.replace("outJoint", "addPoser")
         if cmds.objExists(parent_add_p):
             parent_p = parent_add_p
+
+        if not cmds.objExists(parent_p):
+            target_module_name = utils.getModuleName(self.parent)
+            parent_p = utils.getClosestPoser(target_module_name, self.parent)
         
         seamless = not cmds.getAttr(parent_p+'.lodVisibility')
         return seamless
@@ -992,11 +1008,16 @@ class Module(object):
 
     def toggleLRA(self, v="None"):
         module_joints = []
-        joints = cmds.listRelatives('skeleton', allDescendents=1, type='joint') or []
-        for j in joints:
-            if cmds.objExists(j+'.moduleName') and cmds.getAttr(j+'.moduleName') == self.name:
-                module_joints.append(j)
-
+        
+        if not self.main:
+            return
+        
+        joints_vis = self.main.win.actionJoints.isChecked()
+        if not joints_vis:
+            return
+        
+        module_joints =  cmds.listRelatives(self.name+'_outJoints', type="joint", allDescendents=1) or []
+        
         if v == "None" and module_joints:
             v = not cmds.getAttr(module_joints[0]+'.displayLocalAxis')
 
@@ -1144,7 +1165,7 @@ class Module(object):
         # print list
         pm.delete(p_group)				
 
-    def twistOverride(self, t_name):
+    def twistOverride(self, t_name, data):
         pass
 
     def ibtwOverride(self, ibtw_name):

@@ -127,9 +127,15 @@ class Template(object):
 		data = {}
 		modulesData = []
 
-		t_name, ok = QtWidgets.QInputDialog().getText(self.main.win, 'Save Rig Template', 'Enter template name:',
-														QtWidgets.QLineEdit.Normal, self.main.rig.name)
+		# t_name, ok = QtWidgets.QInputDialog().getText(self.main.win, 'Save Rig Template', 'Enter template name:',
+		# 												QtWidgets.QLineEdit.Normal, self.main.rig.name)
+
+
+		t_name, ok = QtWidgets.QFileDialog.getSaveFileName(self.main.win, "Save Rig Template",
+														os.path.join(self.rootPath,'templates','rigs'), "*.tmpl")
 		
+		t_name = t_name.split(".tmpl")[0]
+
 		if not ok:
 			return
 		
@@ -390,6 +396,8 @@ class Template(object):
 					rootOrientTarget = real_data['rootOrientTarget'] = utils.getRealNameFromTemplated(m_name, twData['rootOrientTarget'])
 					endOrientTarget = real_data['endOrientTarget'] = utils.getRealNameFromTemplated(m_name, twData['endOrientTarget'])
 					real_data['jointsCount'] = utils.getRealNameFromTemplated(m_name, twData['jointsCount'])
+					real_data['rootOffset'] = utils.getRealNameFromTemplated(m_name, twData['rootOffset'])
+					real_data['endOffset'] = utils.getRealNameFromTemplated(m_name, twData['endOffset'])
 
 					self.main.twistClass.twists_add(real_data)
 
