@@ -2882,6 +2882,8 @@ class MainWindow:
         # add new module
         opp_m = self.addModule(module.type, newModuleName, data['optionsData'], updateUI=updateUI)
         
+        opp_m.setData(data, sym=True)
+
         # conntect to parent
         target = utils.getOppositeIfExists(module.parent)
         opp_m.connect(target, opposite=True)
@@ -2913,10 +2915,10 @@ class MainWindow:
         for c in controls:
             l_control = utils.getControlInstance(utils.getOpposite(c))
             r_control = utils.getControlInstance(c)
-            # print "REPLACE SHAPE", c
-            # print "REPLACE SHAPE", c, pm.PyNode(c).worldSpace[0].outputs()
+            # print( "REPLACE SHAPE", c, utils.getOpposite(c), l_control, r_control)
+            # print ("REPLACE SHAPE", c, pm.PyNode(c).worldSpace[0].outputs())
             if len(pm.PyNode(c).worldSpace[0].outputs()) == 0:
-                # print "---- RECreate SHAPE", l_control.name
+                # print ("---- RECreate SHAPE", l_control.name)
                 shape_cmd = l_control.controlShapeToCommand()
                 r_control.setShape(shape_cmd)
             shapes = cmds.listRelatives(c, s=1)
