@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: foot.ma
-//Last modified: Wed, Sep 04, 2024 12:27:21 PM
+//Last modified: Wed, Sep 04, 2024 02:47:12 PM
 //Codeset: 1251
 requires maya "2022";
 requires -nodeType "sweepMeshCreator" -dataType "sweepMeshData" -dataType "sweepProfileData"
@@ -13,7 +13,7 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202303271415-baa69b5798";
 fileInfo "osv" "Windows 10 Pro v2009 (Build: 22631)";
-fileInfo "UUID" "88F88F29-4C07-5B45-6167-7BA77CFCFC99";
+fileInfo "UUID" "6DE76C25-4883-09AE-7438-DF957B5692EE";
 createNode transform -n "mod";
 	rename -uid "004B43DA-47F7-458F-3E16-DB8E5B0E6C0C";
 	addAttr -ci true -sn "ikFk" -ln "ikFk" -min 0 -max 1 -at "double";
@@ -380,6 +380,7 @@ createNode transform -n "ik_toe_initLoc" -p "toe_poserOrient";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 10;
 	setAttr -k on ".t";
+	setAttr -k on ".r" -type "double3" 90 0 90 ;
 	setAttr -k on ".r";
 createNode locator -n "ik_toe_initLoc_locShape" -p "ik_toe_initLoc";
 	rename -uid "0196E461-40D8-B9F1-7965-C3979293EB11";
@@ -814,6 +815,7 @@ createNode transform -n "ik_toe_group" -p "heelTwist_group";
 createNode transform -n "ik_toe" -p "ik_toe_group";
 	rename -uid "3B4998D0-476C-E1EC-A9F0-E3A53C9C2ADF";
 	setAttr -l on -k off ".v";
+	setAttr -k on ".t";
 	setAttr -l on -k off ".tx";
 	setAttr -l on -k off ".ty";
 	setAttr -l on -k off ".tz";
@@ -1318,15 +1320,15 @@ createNode locator -n "fk_heel_ikFkSwitchHelperShape" -p "fk_heel_ikFkSwitchHelp
 createNode transform -s -n "persp";
 	rename -uid "F921EAA9-4502-8B0D-4008-3CAC313597E1";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 5.6463425272790646 4.1084009127580181 5.5153392224129849 ;
-	setAttr ".r" -type "double3" -26.400000000003402 43.999999999999929 0 ;
+	setAttr ".t" -type "double3" 4.9009783454138791 3.843855914727242 5.2630908002742194 ;
+	setAttr ".r" -type "double3" -25.800000000003603 42.000000000000263 2.1399292388400544e-15 ;
 	setAttr ".rp" -type "double3" 7.7715611723760958e-16 9.3924867883288243e-14 3.0198066269804258e-14 ;
 	setAttr ".rpt" -type "double3" -1.0992890654171976e-16 4.8430186591755061e-15 -3.063514319172062e-14 ;
 createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "71CACD7C-4D6F-A019-F750-73914A7C0D25";
 	setAttr -k off ".v" no;
 	setAttr ".fl" 34.999999999999986;
-	setAttr ".coi" 8.4672042975377266;
+	setAttr ".coi" 7.7846487888663614;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -1998,7 +2000,7 @@ createNode objectSet -n "skinJointsSet";
 	setAttr ".ihi" 0;
 	setAttr -s 2 ".dsm";
 createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
-	rename -uid "34DAFA95-4990-40D3-A64F-518B75A1E8CF";
+	rename -uid "DD7A702A-4B40-63F3-DA87-7BBE274D32D0";
 	setAttr -s 3 ".tgi";
 	setAttr ".tgi[0].tn" -type "string" "Untitled_1";
 	setAttr ".tgi[0].vl" -type "double2" -5209.5236025159447 -9075.7393050756873 ;
@@ -2069,21 +2071,8 @@ createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
 	setAttr ".tgi[1].ni[6].y" -666.55462646484375;
 	setAttr ".tgi[1].ni[6].nvs" 18304;
 	setAttr ".tgi[2].tn" -type "string" "Untitled_3";
-	setAttr ".tgi[2].vl" -type "double2" -755.92649157071401 -1081.7372568414817 ;
-	setAttr ".tgi[2].vh" -type "double2" -26.155987043907043 -131.91816673297558 ;
-	setAttr -s 4 ".tgi[2].ni";
-	setAttr ".tgi[2].ni[0].x" -499.77618408203125;
-	setAttr ".tgi[2].ni[0].y" -345.94979858398438;
-	setAttr ".tgi[2].ni[0].nvs" 18304;
-	setAttr ".tgi[2].ni[1].x" -321.32586669921875;
-	setAttr ".tgi[2].ni[1].y" -524.7392578125;
-	setAttr ".tgi[2].ni[1].nvs" 18305;
-	setAttr ".tgi[2].ni[2].x" -649.6368408203125;
-	setAttr ".tgi[2].ni[2].y" -520.0242919921875;
-	setAttr ".tgi[2].ni[2].nvs" 18305;
-	setAttr ".tgi[2].ni[3].x" -882.85711669921875;
-	setAttr ".tgi[2].ni[3].y" -314.28570556640625;
-	setAttr ".tgi[2].ni[3].nvs" 18305;
+	setAttr ".tgi[2].vl" -type "double2" -744.32565922742504 -1060.7986356009376 ;
+	setAttr ".tgi[2].vh" -type "double2" -30.880301087767879 -132.22723307523538 ;
 select -ne :time1;
 	setAttr -av -k on ".cch";
 	setAttr -k on ".fzn";
@@ -3040,12 +3029,6 @@ connectAttr "mainPoserShapeOrig.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].d
 		;
 connectAttr "mainPoser_decomposeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[6].dn"
 		;
-connectAttr "toe_initLoc_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn"
-		;
-connectAttr "toe_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn";
-connectAttr "mirror_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn"
-		;
-connectAttr "mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn";
 connectAttr "black_rsSG.pa" ":renderPartition.st" -na;
 connectAttr "green_rsSG.pa" ":renderPartition.st" -na;
 connectAttr "blue_rsSG.pa" ":renderPartition.st" -na;

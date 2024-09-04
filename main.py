@@ -3550,7 +3550,7 @@ class MainWindow:
             shape_cmd = source_control.controlShapeToCommand()
             source_p = source_control.name + '_addPoser'
             p = self.curAddControlName + '_addPoser'
-
+            
             # if controlName:
             #     name = controlName
             # else:
@@ -3580,7 +3580,7 @@ class MainWindow:
 
             # set attributes
             for attr in utils.getVisibleAttrs(source_p):
-                if attr in ["translateX", "translateY", "translateZ", "rotateX", "rotateY", "rotateZ"]:
+                if attr in ["translateX", "translateY", "translateZ", "rotateX", "rotateY", "rotateZ", "scaleX"]:
                     continue
                 value = cmds.getAttr(source_p + "." + attr)
                 try:

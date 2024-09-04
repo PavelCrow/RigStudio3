@@ -155,6 +155,9 @@ def createAddPoser(name, moduleName): #
 	for o in cmds.listRelatives(p, fullPath=True, type=["transform", "joint"]):
 		cmds.delete(o)
 	
+	cmds.setAttr(p+'.tx', l=False, k=1)
+	cmds.setAttr(p+'.ry', l=False, k=1)
+	cmds.setAttr(p+'.sz', l=False, k=1)
 	cmds.setAttr(p+'.rx', l=False, k=1)
 	cmds.setAttr(p+'.ry', l=False, k=1)
 	cmds.setAttr(p+'.rz', l=False, k=1)

@@ -500,3 +500,5 @@ Now spine module game skin joint in single chain
 Fixed display joints features
 Fixed change joints count in spine and spineQuadrupped modules
 Fixed mirror fingers vodule on foot module
+Fixed connect add control to renamed control
+Fixed right size on duplicate add control in hierarchy

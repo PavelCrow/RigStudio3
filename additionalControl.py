@@ -173,6 +173,7 @@ class AdditionalControl(controller.Control):
 		name = self.name
 		old_moduleName = utils.getModuleName(name)
 		par_moduleName = utils.getModuleName(target)
+		isControl = cmds.objExists(target+".type") and cmds.getAttr(target+".type") == "control"
 		closestJoint = False
 		
 		parentIsJoint = cmds.objectType(target) == "joint"
@@ -198,7 +199,9 @@ class AdditionalControl(controller.Control):
 		
 		parent_initLoc = target_j.replace("joint", "initLoc").replace("outJoint", "initLoc")
 		if closestJoint:
-			parent_initLoc = target + "_initLoc"
+			# parent_initLoc = target + "_initLoc"
+			n = utils.getInternalNameFromControl(target)
+			parent_initLoc = par_moduleName + "_" + n + "_initLoc"
 
 		pars_ = cmds.listRelatives(group, p=1)
 		if pars_ and pars_[0] == target:
@@ -225,6 +228,9 @@ class AdditionalControl(controller.Control):
 			par_p = tar+"_poser"
 		elif cmds.objExists(tar+"_initLoc"):
 			par_p = tar+"_initLoc"
+		elif isControl:
+			n = utils.getInternalNameFromControl(tar)
+			par_p = par_moduleName+"_"+n+"_initLoc"
 		else:
 			par_p = par_moduleName + "_root_mainPoser"
 
