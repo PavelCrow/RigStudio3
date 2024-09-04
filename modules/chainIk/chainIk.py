@@ -66,10 +66,6 @@ class ChainIk(module.Module) :
 			if i > 1:
 				cmds.parent( poser, poser.replace(str(i+1)+"_poser", str(i)+"_poser") )
 
-		if not cmds.objExists(self.name+'_outJointsSet'):
-			cmds.select(clear=1)
-			cmds.sets(n=self.name+'_outJointsSet')
-
 		cmds.parent( self.name+'_element_2_poser', self.name+'_root_poser' )
 		
 		# create control, groups and joint
@@ -111,7 +107,7 @@ class ChainIk(module.Module) :
 			cmds.parent(jnt, ctrl)
 			joints.append(jnt)
 
-			cmds.sets(jnt, e=1, forceElement=self.name+'_outJointsSet')
+			# cmds.sets(jnt, e=1, forceElement=self.name+'_skinJointsSet')
 
 			# parent
 			mirror_mat = cmds.createNode('composeMatrix')
@@ -184,7 +180,6 @@ class ChainIk(module.Module) :
 		utils.setUserAttr(self.root, "moduleType", self.type)		
 
 		cmds.sets(self.name+'_sets', e=1, forceElement='modules_sets' )
-		cmds.sets(self.name+'_outJointsSet', e=1, forceElement=self.name+'_sets' )
 		cmds.select(self.name+'_moduleControlSet')
 		if cmds.objExists(self.name+'_controlSet'):
 			cmds.sets(e=1, add=self.name+'_controlSet' )
@@ -202,6 +197,7 @@ class ChainIk(module.Module) :
 		pm.parent(init_gr, self.name+"_mainPoser")
 		for o in pm.listRelatives(init_gr, allDescendents=1):
 			if pm.objectType(o) == 'joint':
+				pm.sets(self.name+"_skinJointsSet", e=1, rm=o)
 				pm.rename(o, o.replace("outJoint", "initJoint"))
 				l = pm.spaceLocator(n=o.replace("initJoint", "initLoc"))
 				try:
@@ -226,6 +222,8 @@ class ChainIk(module.Module) :
 		ikh.dTwistValueType.set(1)
 		pm.connectAttr(self.name+'_root_poser.worldMatrix[0]', ikh.dWorldUpMatrix)
 		pm.connectAttr(self.name+'_element_'+str(controlsCount)+'_poser.worldMatrix[0]', ikh.dWorldUpMatrixEnd)
+
+		cmds.setAttr(self.name+"_outJoints.v", 1)
 
 	def create2(self):
 		name = self.name
@@ -253,8 +251,8 @@ class ChainIk(module.Module) :
 		
 		# create set
 		cmds.select(clear=1)
-		cmds.sets(n=self.name+'_outJointsSet')
-		cmds.sets(self.name+'_outJointsSet', e=1, forceElement=self.name+'_sets' )				
+		cmds.sets(n=self.name+'_skinJointsSet')
+		cmds.sets(self.name+'_skinJointsSet', e=1, forceElement=self.name+'_sets' )				
 		
 		# create joints
 		for i in range(chainsCount):
@@ -262,7 +260,7 @@ class ChainIk(module.Module) :
 			pm.select(clear=1)
 			j = pm.joint(n=name+"_"+str(i)+"_outJoint")		
 			utils.addModuleNameAttr(j, self.name)
-			cmds.sets(j.name(), e=1, forceElement=self.name+'_outJointsSet' )	
+			cmds.sets(j.name(), e=1, forceElement=self.name+'_skinJointsSet' )	
 		
 			if generateGeo:
 				loc = pm.spaceLocator(n=name+"_"+str(i)+"_outLoc")
@@ -601,8 +599,28 @@ class ChainIk(module.Module) :
 		options['jointsCount'] = jointsCount
 		options['useDynamic'] = useDynamic
 
+		# get children
+		children = {}
+		for m_name in mainInstance.rig.getModuleChildren(self.name):
+			m = mainInstance.rig.modules[m_name]
+			children[m_name] = [m.parent, m, m.isSeamless()]
+		
+
+		joints = cmds.sets(self.name+'_skinJointsSet', q=1)
+		ids = []
+		for j in joints:
+			id = j.split("_")[-2]
+			if id.isdigit():
+				ids.append(int(id))
+		last_id = sorted(ids)[-1]
+		
+		if jointsCount <= last_id:
+			new_target = self.name + "_" + str(jointsCount-1) + "_outJoint"
+		else:
+			new_target = None
+
 		# rebuild current module
-		mainInstance.rebuildModule(options)
+		mainInstance.rebuildModule(options, new_target=new_target)
 		
 		if useDynamic:
 			dynCtrl = pm.PyNode(utils.getControlNameFromInternal(self.name, "control"))
@@ -721,24 +739,23 @@ class ChainIk(module.Module) :
 		
 		root_j = self.name + "_root_joint"
 		group_j = self.name + "_group_joint"
-		par = cmds.listRelatives(root_j, p=1)[0]
 		
-		cmds.duplicate(root_j, n=group_j)
-		pm.delete(pm.listRelatives(group_j))
-		cmds.parent(root_j, group_j)
-		utils.removeTransformParentJoint(root_j)
-		cmds.setAttr(group_j+".drawStyle", 2)
+		# cmds.duplicate(root_j, n=group_j)
+		# pm.delete(pm.listRelatives(group_j))
+		# cmds.parent(root_j, group_j)
+		# utils.removeTransformParentJoint(root_j)
+		# cmds.setAttr(group_j+".drawStyle", 2)
 		
-		utils.connectByMatrix(group_j, [self.name+"_outJoints", self.name+"_mainPoser", group_j], ['worldMatrix[0]', 'worldInverseMatrix[0]', 'parentInverseMatrix[0]'], module_name=self.name )
+		# utils.connectByMatrix(group_j, [self.name+"_outJoints", self.name+"_mainPoser", group_j], ['worldMatrix[0]', 'worldInverseMatrix[0]', 'parentInverseMatrix[0]'], module_name=self.name )
 		
 		for i in range(1, self.jointsCount):
 			cmds.setAttr(self.name+"_%s_joint.segmentScaleCompensate" %i, 1)
 			cmds.connectAttr(self.name+"_%s_joint.offset" %i, self.name+"_%s_outJoint.offset" %i)
 
-		for j in cmds.listRelatives(group_j, allDescendents=1):
+		for j in cmds.listRelatives(root_j, allDescendents=1):
 			cmds.sets(j, e=1, forceElement=self.name+"_nodesSet")
 
-		cmds.sets(group_j, e=1, forceElement=self.name+"_nodesSet")
+		cmds.sets(root_j, e=1, forceElement=self.name+"_nodesSet")
 
 	def bake(self):
 		super(self.__class__, self).bake(forceDelete=[self.name+"_initCurve_curveInfo"])

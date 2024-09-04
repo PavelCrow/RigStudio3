@@ -98,7 +98,8 @@ class Module(object):
         if not m_name:
             m_name = self.name
 
-        joints = cmds.ls(m_name+'*_outJoint')
+        # joints = cmds.ls(m_name+'*_outJoint')
+        joints = cmds.sets(m_name+'_skinJointsSet', q=1)
 
         # create skeleton grp
         joints_grp = m_name+'_outJoints'
@@ -108,22 +109,28 @@ class Module(object):
         cmds.duplicate(joints_grp, n=outJoints_grp)
         allJoints = pm.listRelatives(outJoints_grp, allDescendents=1)
         cmds.hide(joints_grp)
-
+        
         # connect joints and delete all except joints
         for o in allJoints:
+
             # delete if not joint or have not a joint
-            if pm.objectType(o) != 'joint':
-                childs = pm.listRelatives(o, allDescendents=1)
-                childs_joints = []
-                for ch in childs:
-                    if pm.objectType(ch) == 'joint':
-                        childs_joints.append(ch)
-                if len(childs_joints) == 0:
-                    pm.delete(o)
-                    continue
+            # if pm.objectType(o) != 'joint':
+            #     childs = pm.listRelatives(o, allDescendents=1)
+            #     childs_joints = []
+            #     for ch in childs:
+            #         if pm.objectType(ch) == 'joint':
+            #             childs_joints.append(ch)
+            #     if len(childs_joints) == 0:
+            #         pm.delete(o)
+            #         continue
 
             # connect
             srcName = o.name().split('|')[-1]
+
+            if not srcName in joints:
+                pm.delete(o)
+                continue
+
             o.rename(srcName.replace('outJoint', 'joint').replace('outRootJoint', 'rootJoint').replace('outGroup', 'group'))
             utils.connectTrandform(srcName, o.name())
 
@@ -189,8 +196,8 @@ class Module(object):
 
         for j in joints:
             sj = j.replace("outJoint", "joint")
-            if cmds.objExists(sj):
-                cmds.sets(sj, e=1, forceElement='skinJointsSet')
+            cmds.sets(sj, e=1, forceElement='skinJointsSet')
+            cmds.sets(sj, e=1, rm=self.name+'_skinJointsSet')
 
         cmds.delete(outJoints_grp)
 
@@ -735,7 +742,7 @@ class Module(object):
             cmds.setAttr(parent_p+'.lodVisibility', 0)
 
             if self.symmetrical:
-                print(3333344444444444, utils.getOpposite(self_root_j), utils.getOpposite(pp_j))
+                print("--------------- check--", utils.getOpposite(self_root_j), utils.getOpposite(pp_j))
                 cmds.parent(utils.getOpposite(self_root_j), utils.getOpposite(pp_j))
                 if parent_module.symmetrical:
                     cmds.parent(utils.getOpposite(p_j), utils.getOpposite(parentModule_name+"_output"))

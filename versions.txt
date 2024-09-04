@@ -492,3 +492,11 @@ Now Save rig template action saving with browser dialog window
 ---Version 3.1.01
 Fixed symmetry module wuth custom names
 Changed human templates
+
+---Version 3.1.02
+Now every module have skinJointsSet
+Fixed building game skin joints skeleton
+Now spine module game skin joint in single chain
+Fixed display joints features
+Fixed change joints count in spine and spineQuadrupped modules
+Fixed mirror fingers vodule on foot module

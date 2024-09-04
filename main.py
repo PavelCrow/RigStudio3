@@ -202,7 +202,6 @@ class MainWindow:
             #self.win.actionAdvanced.setIcon(QtGui.QIcon(self.rootPath + '/ui/icons/map.png'))
             #self.win.actionPosers_Hierarhy.setIcon(QtGui.QIcon(self.rootPath + '/ui/icons/posers_hier_on.png'))
 
-
             self.win.toolBar.setStyleSheet(  # "color: blue;"
                 # "background-color: yellow;"
                 # "selection-color: yellow;"
@@ -477,6 +476,9 @@ class MainWindow:
         self.win.addControl_frame.setEnabled(False)
         self.win.addControlName_lineEdit.setText("")
         self.win.addControlParent_lineEdit.setText("")
+
+        self.win.poserColor_label.setVisible(False)
+        self.win.posersColor_btn.setVisible(False)
 
     def rigTemplatesMenuUpdate(self):
         menu = QtWidgets.QMenu(self.win)
@@ -2074,7 +2076,7 @@ class MainWindow:
     def rigPage_update(self):
         charExist = self.rig.exists
         # print('rigPage_update')
-
+        
         # if main is exists
         if charExist:
             self.updateModulesTree()
@@ -2113,7 +2115,6 @@ class MainWindow:
             if len(self.rig.modules) > 0:
                 self.win.actionPosers.setChecked(self.rig.posersVis)
                 self.win.actionControls.setChecked(self.rig.controlsVis)
-
             self.win.actionJoints.setChecked(self.rig.jointsVis)
             self.win.actionGameJoints.setChecked(self.rig.gameJointsVis)
             self.win.actionGameJoints_Template.setChecked(self.rig.gameJointsTemplate)
@@ -2731,7 +2732,7 @@ class MainWindow:
         # replace mainPoser on root poser
         if target.split("_")[-1] == "mainPoser":
             target = target.replace("mainPoser", "root_poser")
-
+        
         if not cmds.objExists(target):
             return
 
@@ -2746,7 +2747,7 @@ class MainWindow:
         # turn off seamless
         if m.seamless:
             m.makeSeamless(False)
-
+        
         # disconnect
         if m.parent:
             m.disconnect()
@@ -3036,7 +3037,7 @@ class MainWindow:
 
         cmds.undoInfo(closeChunk=True)
 
-    def rebuildModule(self, options={}, moduleType=""):
+    def rebuildModule(self, options={}, moduleType="", new_target=None):
         sel = cmds.ls(sl=1)
 
         # get children
@@ -3052,7 +3053,7 @@ class MainWindow:
 
         if moduleType != "":
             curModuleData['type'] = moduleType
-
+        
         # turn off seamless 
         if self.curModule.seamless:
             self.curModule.makeSeamless(False)
@@ -3123,7 +3124,10 @@ class MainWindow:
         # reconnect children
         for m_name in children:
             if utils.getObjectSide(m_name) != 'r':
-                self.connectModule(children[m_name][0], m_name)
+                if new_target:
+                    self.connectModule(new_target, m_name)
+                else:
+                    self.connectModule(children[m_name][0], m_name)
 
         # remake parents in modules, where exists targets from current module
         for data in connectedParentsData:
@@ -3359,7 +3363,8 @@ class MainWindow:
         if name == "":
             name, ok = QtWidgets.QInputDialog().getText(self.win, 'Create Additional Control', 'Enter control name:',
                                                         QtWidgets.QLineEdit.Normal, 'ctrl')
-
+            if not ok:
+                return
             if not utils.nameIsOk(name):
                 QtWidgets.QMessageBox.information(self.win, "Warning", "Wrong Name.")
                 return

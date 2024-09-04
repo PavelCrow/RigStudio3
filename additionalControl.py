@@ -47,9 +47,14 @@ class AdditionalControl(controller.Control):
 		
 		# add ctr joint
 		j = cmds.duplicate(self.name+'_outJoint', n=self.name+'_joint')[0]
-		cmds.hide(self.name+'_outJoint')
 		cmds.setAttr(j+".segmentScaleCompensate", 0)	
+
+		if not cmds.getAttr("main.jointsVis"):
+			cmds.setAttr(self.name+'_outJoint.drawStyle', 2)
 		
+		# add outJoint to set
+		cmds.sets(self.name+'_outJoint', e=1, forceElement=par_moduleName+'_skinJointsSet')
+
 		# parent joint to sceleton
 		# if cmds.objExists(parent_j):
 		# 	cmds.parent(j, parent_j)

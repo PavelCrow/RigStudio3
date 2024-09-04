@@ -15,8 +15,8 @@ class Rig:
         self.jointsSize = 1
         self.posersSize = 1
         self.jointsAxises = False
-        self.gameJointsVis = True
-        self.gameJointsTemplate = True
+        self.gameJointsVis = False
+        self.gameJointsTemplate = False
         self.jointsVis = True
         self.posersVis = True
         self.controlsVis = True
@@ -71,8 +71,8 @@ class Rig:
         utils.setUserAttr(root, 'posersVis', 1, type="bool", lock=0)
         utils.setUserAttr(root, 'controlsVis', 1, type="bool", lock=0)
         utils.setUserAttr(root, 'jointsVis', 1, type="bool", lock=0)
-        utils.setUserAttr(root, 'gameJointsVis', 1, type="bool", lock=0)
-        utils.setUserAttr(root, 'gameJointsTemplate', 1, type="bool", lock=0)
+        utils.setUserAttr(root, 'gameJointsVis', 0, type="bool", lock=0)
+        utils.setUserAttr(root, 'gameJointsTemplate', 0, type="bool", lock=0)
 
         # create groups
         cmds.group(empty=True, n="geo", p=root)
@@ -85,7 +85,7 @@ class Rig:
 
         cmds.setAttr("skeleton.overrideEnabled", 1)
         cmds.setAttr("skeleton.overrideColor", 29)
-        cmds.setAttr("skeleton.template", True)
+        cmds.setAttr("skeleton.template", False)
         cmds.setAttr("skeleton.v", False)
         # cmds.setAttr("skeleton.v", lock=1)
 
@@ -346,11 +346,11 @@ class Rig:
 
         for m in self.modules:
             if state:
-                for j in cmds.listRelatives(m+'_outJoints', type="joint", allDescendents=1) or []:
+                for j in cmds.sets(m+'_skinJointsSet', q=1):
                     if not cmds.objExists(j.replace("outJoint", "mod")):
                         cmds.setAttr(j+'.drawStyle', 0)
             else:
-                for j in cmds.listRelatives(m+'_outJoints', type="joint", allDescendents=1) or []:
+                for j in cmds.sets(m+'_skinJointsSet', q=1):
                     cmds.setAttr(j+'.drawStyle', 2)
 
         for tw_mod in cmds.listRelatives("twists") or []:
@@ -366,7 +366,6 @@ class Rig:
             self.main.win.actionSkeleton_LRA.setChecked(False)
             self.toggleVis_jointsAxises(False)
         
-
     def toggleTemplate_geo(self, state=None):
         if not state:
             state = self.main.win.actionGeometry_Template.isChecked()

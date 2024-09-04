@@ -128,7 +128,7 @@ class Twist(object):
     @utils.oneStepUndo
     def twists_add(self, data={}, module_name="", mirror=True, setHelpers=True, advanced=True):
         sel = cmds.ls(sl=1)
-
+        
         def getChildJoint(root):
 
             def getChild(root_):
@@ -365,20 +365,23 @@ class Twist(object):
                                 except: cmds.warning(" MISS CONTROL SHAPE " + utils.getOpposite(s))						
         
         # set joints count
-        if data:
-            if utils.getObjectSide(t_name) == "l":
+        if utils.getObjectSide(t_name) != "r":
+            if data:
                 self.changeJointsCount(data["jointsCount"], moduleName=moduleName)
-                for i, pos in enumerate(data['jointsPos']):
-                    cmds.setAttr(t_name+"_twist_%s_twJoint.pos" %i, pos)
+                if utils.getObjectSide(t_name) == "l":
+                    for i, pos in enumerate(data['jointsPos']):
+                        cmds.setAttr(t_name+"_twist_%s_twJoint.pos" %i, pos)
                 
-                if cmds.objExists(utils.getOpposite(root_loc)):
-                    self.setEndFlipped(name=t_name, dir="x", state=data['flippedX'])
-                    self.setEndOffsetFlipped(name=t_name, state=data['endOffsetFlippedX'])
+                    if cmds.objExists(utils.getOpposite(root_loc)):
+                        self.setEndFlipped(name=t_name, dir="x", state=data['flippedX'])
+                        self.setEndOffsetFlipped(name=t_name, state=data['endOffsetFlippedX'])
+            else:
+                self.changeJointsCount(5, moduleName=moduleName)
         
         # module override
         mod = utils.getModuleInstance(moduleName)
         mod.twistOverride(t_name, data)
-        
+
         # select item in list
         self.updateList()
 
@@ -691,7 +694,8 @@ class Twist(object):
         generateJoints(twName, count, moduleName)
 
         rootConnector_opp = twName_opp+"_root_connector"
-        if cmds.objExists(rootConnector_opp):
+        
+        if twName != twName_opp and cmds.objExists(rootConnector_opp):
             if moduleName:
                 moduleName_opp = utils.getOpposite(moduleName)
             else:
@@ -816,3 +820,7 @@ class Twist(object):
 
         cmds.setAttr(opp_name+"_offset_compMat.inputScaleX", v)
         self.curTwist["endOffsetFlippedX"] = state
+
+    def addSkinJoints(self, m_name=None):
+        for j in cmds.listRelatives(t_name+"_joints"):
+            cmds.sets(j, e=1, forceElement=moduleName+"_skinJointsSet")
