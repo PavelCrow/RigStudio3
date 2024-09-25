@@ -480,6 +480,8 @@ class MainWindow:
         self.win.poserColor_label.setVisible(False)
         self.win.posersColor_btn.setVisible(False)
 
+        self.win.rigPage_frame.setVisible(False)
+
     def rigTemplatesMenuUpdate(self):
         menu = QtWidgets.QMenu(self.win)
 
@@ -2081,7 +2083,6 @@ class MainWindow:
         if charExist:
             self.updateModulesTree()
             self.win.tabWidget.setCurrentIndex(1)
-            
             self.win.jointsSize_lineEdit.setText(str(round(self.rig.jointsSize, 3)))
             self.win.posersSize_lineEdit.setText(str(round(self.rig.posersSize, 3)))
             self.win.actionSkeleton_LRA.setChecked(self.rig.jointsAxises)
@@ -2159,35 +2160,39 @@ class MainWindow:
         self.rigPage_update()
 
     def posersSize_startUpdate(self, manual=False):
+        # print("Start update")
+        if manual:
+            manual_v = self.win.posersSize_lineEdit.text()
+            self.posersSize_update(update=True, manual_v=manual_v)
+        else:
+            manual_v = None
+
         # save init size data
         self.posersSizeData = {}
         posers = []
         for m_name in self.rig.modules:
             for p in cmds.listRelatives(m_name + '_posers', type='transform', allDescendents=1) or []:
-                if p.split('_')[-1] in ['poser', 'mainPoser']:
+                if p.split('_')[-1] in ['poser', 'mainPoser', 'addPoser']:
                     posers.append(p)
         for p in posers:
             self.posersSizeData[p] = cmds.getAttr(p + '.size')
-        self.posersSizeGlobal = cmds.getAttr(self.rig.root_group + '.posersSize')
-        # update size
-        # self.posersSize_update(update=True, manual=manual)
-        self.posersSize_update(update=True)
+        self.posersSizeGlobal = cmds.getAttr(self.rig.root + '.posersSize')
 
-    def posersSize_update(self, update=True, manual=False):
-        # if self.posersSizeData == {}:
-        # return
-
+    def posersSize_update(self, update=True, manual_v=0):
         # get value
-        if manual:
+        if manual_v:
             v = float(self.win.posersSize_lineEdit.text())
+            self.win.posersSize_lineEdit.setText(str(round(v, 3)))
+            cmds.setAttr(self.rig.root + '.posersSize', v)
         else:
             v = self.win.posersSize_slider.value() * 0.01
 
         # update size
         if update:
-            if v != 1:
-                for p in self.posersSizeData:
-                    # print "update", v, p, self.posersSizeData[p]
+            for p in self.posersSizeData:
+                if manual_v:
+                    cmds.setAttr(p + '.size', v)
+                else:
                     init_value = self.posersSizeData[p]
                     value = v * init_value
                     if value < 0.01:
@@ -2196,57 +2201,75 @@ class MainWindow:
                         cmds.setAttr(p + '.size', value)
                     except:
                         pass
-            self.win.posersSize_lineEdit.setText(str(round(self.posersSizeGlobal * v, 3)))
+                    self.win.posersSize_lineEdit.setText(str(round(self.posersSizeGlobal * v, 3)))
         else:
             # save global size value
-            cmds.setAttr(self.rig.root_group + '.posersSize', round(self.posersSizeGlobal * v, 3))
+            cmds.setAttr(self.rig.root + '.posersSize', round(self.posersSizeGlobal * v, 3))
             # reset slider
-            # print "reset"
             self.win.posersSize_slider.setValue(100)
             self.posersSizeData = {}
-            self.win.posersSize_lineEdit.setText(str(round(cmds.getAttr(self.rig.root_group + '.posersSize'), 3)))
-
-        # manual setting
-        if manual:
-            self.win.posersSize_lineEdit.setText("1.00")
-            self.posersSize_startUpdate()
+            self.win.posersSize_lineEdit.setText(str(round(cmds.getAttr(self.rig.root + '.posersSize'), 3)))
 
     def posersSize_resetUi(self):
-        self.posersSize_update(False)
+        # self.posersSize_update(False)
+        v = float(self.win.posersSize_lineEdit.text())
+        cmds.setAttr(self.rig.root + '.posersSize', v)
+        self.posersSize_startUpdate()
+        self.win.posersSize_slider.setValue(100)
+        self.win.posersSize_lineEdit.setText("1.0")
 
-    def jointsSize_startUpdate(self):
+    def jointsSize_startUpdate(self, manual=False):
+        # print("Start update")
+        if manual:
+            manual_v = self.win.jointsSize_lineEdit.text()
+            self.jointsSize_update(update=True, manual_v=manual_v)
+        else:
+            manual_v = None
+
         # save init size data
         self.jointsSizeData = {}
         for j in cmds.listRelatives('skeleton', type='joint', allDescendents=1) or []:
             self.jointsSizeData[j] = cmds.getAttr(j + '.radius')
-        self.jointsSizeGlobal = cmds.getAttr(self.rig.root_group + '.jointsSize')
-        # update size
-        self.jointsSize_update(update=True)
 
-    def jointsSize_update(self, update=True):
-        # if self.jointsSizeData == {}:
-        # return
-        v = self.win.jointsSize_slider.value() * 0.01
+    def jointsSize_update(self, value=0, update=True, manual_v=0):
+        # print("update", value, update, manual_v)
+        if manual_v:
+            v = float(self.win.jointsSize_lineEdit.text())
+            # self.win.jointsSize_lineEdit.setText(str(round(v, 3)))
+            self.win.jointsSize_lineEdit.setText("1.0")
+            cmds.setAttr(self.rig.root + '.jointsSize', v)
+        else:
+            v = self.win.jointsSize_slider.value() * 0.01
+        
         # update size
         if update:
-            if v != 1:  # and self.jointsSizeGlobal != 0:
-                for p in self.jointsSizeData:
+            for p in self.jointsSizeData:
+                if manual_v:
+                    cmds.setAttr(p + '.radius', v)
+                    cmds.setAttr(p.replace("joint", "outJoint") + '.radius', v)
+                else:
                     init_value = self.jointsSizeData[p]
                     value = v * init_value
                     if value < 0.01:
                         value = 0.01
                     cmds.setAttr(p + '.radius', value)
-            self.win.jointsSize_lineEdit.setText(str(round(self.jointsSizeGlobal * v, 3)))
+                    cmds.setAttr(p.replace("joint", "outJoint") + '.radius', value)
+                    self.win.jointsSize_lineEdit.setText(str(round(v, 3)))
         else:
             # save global size value
-            cmds.setAttr(self.rig.root_group + '.jointsSize', self.jointsSizeGlobal * v)
+            cmds.setAttr(self.rig.root + '.jointsSize', v)
             # reset slider
             self.win.jointsSize_slider.setValue(100)
             self.jointsSizeData = {}
-            self.win.jointsSize_lineEdit.setText(str(round(cmds.getAttr(self.rig.root_group + '.jointsSize'), 3)))
+            self.win.jointsSize_lineEdit.setText("1.0")
 
     def jointsSize_resetUi(self):
-        self.jointsSize_update(False)
+        # print("reset ui")
+        v = float(self.win.jointsSize_lineEdit.text())
+        cmds.setAttr(self.rig.root + '.jointsSize', v)
+        self.jointsSize_startUpdate()
+        self.win.jointsSize_slider.setValue(100)
+        self.win.jointsSize_lineEdit.setText("1.0")
 
     def selectSkinJoints(self):
         skin_joints = []
@@ -2882,9 +2905,9 @@ class MainWindow:
 
         # add new module
         opp_m = self.addModule(module.type, newModuleName, data['optionsData'], updateUI=updateUI)
-        
-        opp_m.setData(data, sym=True)
 
+        opp_m.setData(data, sym=True)
+        
         # conntect to parent
         target = utils.getOppositeIfExists(module.parent)
         opp_m.connect(target, opposite=True)

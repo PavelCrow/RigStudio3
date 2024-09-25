@@ -168,6 +168,7 @@ def createAddPoser(name, moduleName): #
 	cmds.connectAttr(p+'.sx', p+'.sz')
 	cmds.setAttr(p+'.sz', l=True)
 	cmds.setAttr(p+'.sy', l=True)
+	cmds.setAttr(p+'Shape.overrideColor', 15)
 	
 	mns = cmds.createNode("makeNurbSphere", n=name+"_makeNurbSphere")
 	cmds.connectAttr(p+'.size', mns+".radius")

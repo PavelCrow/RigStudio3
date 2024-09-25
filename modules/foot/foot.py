@@ -58,10 +58,10 @@ class Foot(module.Module) :
 				self.makeSeamless(True)
 
 			# fk opposite fix
-			if target_mod_type in ['limb']:
-				if self.opposite:
-					cmds.disconnectAttr(targetModuleName+"_mirror_condition.outColorR", targetModuleName+"_end_initLoc.scaleZ")
-					cmds.setAttr(targetModuleName+"_end_initLoc.sz", 1)
+			# if target_mod_type in ['limb']:
+				# if self.opposite:
+					# cmds.disconnectAttr(targetModuleName+"_mirror_condition.outColorR", targetModuleName+"_end_initLoc.scaleZ")
+					# cmds.setAttr(targetModuleName+"_end_initLoc.sz", 1)
 
 			ik_end = utils.getControlNameFromInternal(targetModuleName, "ik_end")
 			cmds.setAttr(ik_end+"Shape.v", False)

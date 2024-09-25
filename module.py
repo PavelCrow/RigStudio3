@@ -104,11 +104,9 @@ class Module(object):
         # create skeleton grp
         joints_grp = m_name+'_outJoints'
         outJoints_grp = joints_grp+'_group'
-
-        cmds.showHidden(joints_grp)
+        
         cmds.duplicate(joints_grp, n=outJoints_grp)
         allJoints = pm.listRelatives(outJoints_grp, allDescendents=1)
-        cmds.hide(joints_grp)
         
         # connect joints and delete all except joints
         for o in allJoints:
@@ -133,6 +131,7 @@ class Module(object):
 
             o.rename(srcName.replace('outJoint', 'joint').replace('outRootJoint', 'rootJoint').replace('outGroup', 'group'))
             utils.connectTrandform(srcName, o.name())
+            
 
             if not cmds.objExists(m_name+"_mainPoser_decomposeMatrix"):
                 root_dec = cmds.createNode('decomposeMatrix', n=m_name+"_mainPoser_decomposeMatrix")
@@ -162,11 +161,11 @@ class Module(object):
                 if o.name() == m_name +"_root_joint":
                     # utils.resetJointOrient(o.name())
                     cmds.setAttr(o.name()+".jointOrient", 0,0,0)
-
         # connect root joints
         joints_ = cmds.listRelatives(outJoints_grp) or []
         for j in joints_:
             cmds.parent(j, 'skeleton')
+            utils.removeTransformParentJoint(j)
             utils.connectByMatrix(j, [j.replace("joint", "outJoint"), j], ['worldMatrix[0]', 'parentInverseMatrix[0]'], m_name)
 
             # correct scale joint
@@ -189,7 +188,6 @@ class Module(object):
 
             cmds.setAttr(j+".segmentScaleCompensate", 0)
 
-
         if not cmds.objExists('skinJointsSet'):
             cmds.sets(n='skinJointsSet')	
             cmds.sets('skinJointsSet', e=1, forceElement='sets' )
@@ -198,6 +196,9 @@ class Module(object):
             sj = j.replace("outJoint", "joint")
             cmds.sets(sj, e=1, forceElement='skinJointsSet')
             cmds.sets(sj, e=1, rm=self.name+'_skinJointsSet')
+            
+            if cmds.getAttr(sj+".drawStyle", settable=1):
+                cmds.setAttr(sj+".drawStyle", 0)
 
         cmds.delete(outJoints_grp)
 
@@ -217,8 +218,7 @@ class Module(object):
             if cmds.objExists(n):
                 cmds.delete(n)
 
-        if not cmds.objExists('sets'):
-            utils.create_default_sets()
+        utils.create_default_sets()
     
     def isSymmetrical(self): # 
         return self.name.split('_')[0] == "l" and cmds.objExists("r"+self.name[1:]+'_mod')
@@ -268,18 +268,18 @@ class Module(object):
         # make connections
         utils.connectToOffsetParentMatrix(self.name+'_posers', [targetMainPoser])
 
-        if opposite:
-            # mirror composematrix
-            mirror_compMat1 = cmds.createNode('composeMatrix', n=self.name+"_connector_compMat")
-            utils.addToModuleSet(mirror_compMat1, self.name)
-            # connect to mirrored condition if target module is symmetrical and negate composematrix
-            # else not negate composematrix
-            if cmds.objExists(target_module_name+"_mirror_condition"):
-                cmds.connectAttr(target_module_name+"_mirror_condition.outColorR", mirror_compMat1+".inputScaleZ")
+        # if opposite:
+        #     # mirror composematrix
+        #     mirror_compMat1 = cmds.createNode('composeMatrix', n=self.name+"_connector_compMat")
+        #     utils.addToModuleSet(mirror_compMat1, self.name)
+        #     # connect to mirrored condition if target module is symmetrical and negate composematrix
+        #     # else not negate composematrix
+        #     if cmds.objExists(target_module_name+"_mirror_condition"):
+        #         cmds.connectAttr(target_module_name+"_mirror_condition.outColorR", mirror_compMat1+".inputScaleZ")
 
-            utils.connectToOffsetParentMatrix(connector, [root_poser, target_initLoc, mirror_compMat1, target_outJoint, connector_parent], ['worldMatrix[0]', 'worldInverseMatrix[0]', 'outputMatrix', 'worldMatrix[0]', 'worldInverseMatrix[0]'])
-        else:
-            utils.connectToOffsetParentMatrix(connector, [root_poser, target_initLoc, target_outJoint, connector_parent], ['worldMatrix[0]', 'worldInverseMatrix[0]', 'worldMatrix[0]', 'worldInverseMatrix[0]'])
+        #     utils.connectToOffsetParentMatrix(connector, [root_poser, target_initLoc, mirror_compMat1, target_outJoint, connector_parent], ['worldMatrix[0]', 'worldInverseMatrix[0]', 'outputMatrix', 'worldMatrix[0]', 'worldInverseMatrix[0]'])
+        # else:
+        utils.connectToOffsetParentMatrix(connector, [root_poser, target_initLoc, target_outJoint, connector_parent], ['worldMatrix[0]', 'worldInverseMatrix[0]', 'worldMatrix[0]', 'worldInverseMatrix[0]'])
         
         self.parent = target_outJoint
 
@@ -556,7 +556,7 @@ class Module(object):
                                 continue
                             if not (cmds.listConnections(p_name+'.'+attr, d=False, s=True) or []) and not cmds.getAttr(p_name+'.'+attr, lock=1): # only not connections and not locked
                                 cmds.setAttr(p_name+'.'+attr, value)
-
+        
         # set control names
         if load == "controlNames" or load == "all":
             controlNames = utils.getSetObjects(self.name+'_moduleControlSet')
@@ -631,36 +631,39 @@ class Module(object):
         if load == "controlVis" or load == "all":
             controlNames = utils.getSetObjects(self.name+'_moduleControlSet')
             for cName in controlNames:
-                try:
-                    intName = utils.getInternalNameFromControl(cName)
-                    savedName_templated = data['controlsNamesData'][intName]
-                    savedName = utils.getRealNameFromTemplated(self.name, savedName_templated)
-                    if sym and not "MODNAME" in savedName_templated:
-                        savedName = utils.getOpposite(savedName)
+                # try:
+                intName = utils.getInternalNameFromControl(cName)
+                savedName_templated = data['controlsNamesData'][intName]
+                savedName = utils.getRealNameFromTemplated(self.name, savedName_templated)
+                if sym and not "MODNAME" in savedName_templated:
+                    savedName = utils.getOpposite(savedName)
 
-                    shapes = cmds.listRelatives(cName, s=1)
+                shapes = cmds.listRelatives(cName, s=1)
 
-                    for s in shapes:
+                for s in shapes:
+                    try:
+                        cmds.setAttr(s+'.v', data['controlsVisData'][intName])		
+                    except: cmds.warning(s+" shape cannot change visibility")
+
+                    if data['controlsColorData'][intName]:
+                        cmds.setAttr(s+".overrideEnabled", 1)
+                    else:
+                        cmds.setAttr(s+".overrideEnabled", 1)
+                    cmds.setAttr(s+'.overrideColor', data['controlsColorData'][intName])				
+
+                # attributes
+                default_attrs = utils.getVisibleAttrs(cName)
+                for a in default_attrs:
+                    if intName+"."+a in data['controlsAttrData']:
                         try:
-                            cmds.setAttr(s+'.v', data['controlsVisData'][intName])		
-                        except: cmds.warning(s+" shape cannot change visibility")
-
-                        if data['controlsColorData'][intName]:
-                            cmds.setAttr(s+".overrideEnabled", 1)
-                        else:
-                            cmds.setAttr(s+".overrideEnabled", 1)
-                        cmds.setAttr(s+'.overrideColor', data['controlsColorData'][intName])				
-
-                    # attributes
-                    default_attrs = utils.getVisibleAttrs(cName)
-                    for a in default_attrs:
-                        if intName+"."+a in data['controlsAttrData']:
                             cmds.setAttr(cName+"."+a, data['controlsAttrData'][intName+"."+a])
-                        else:
-                            cmds.setAttr(cName+"."+a, keyable=0, lock=1)
+                        except: 
+                            cmds.warning(cName+"."+a+" is cannot set data "+str(data['controlsAttrData'][intName+"."+a]))
+                    else:
+                        cmds.setAttr(cName+"."+a, keyable=0, lock=1)
 
-                except: cmds.warning(cName+" control is not exists in saved data")
-
+                # except: cmds.warning(cName+" control is not exists in saved data")
+        
         # set options
         if load == "options" or load == "all":
             if not sym:
@@ -674,14 +677,13 @@ class Module(object):
     def getParent(self): #
         # get multmatrix of the connector
         conn = cmds.listConnections(self.name+'_root_connector.offsetParentMatrix', source=1, destination=0) or []
-        
         if conn:
             mm = conn[0]
             # get taget node from multmatrix
-            if self.opposite:
-                parents = cmds.listConnections(mm+'.matrixIn[3]', source=1, destination=0) or []
-            else:
-                parents = cmds.listConnections(mm+'.matrixIn[2]', source=1, destination=0) or []
+            # if self.opposite:
+            #     parents = cmds.listConnections(mm+'.matrixIn[3]', source=1, destination=0) or []
+            # else:
+            parents = cmds.listConnections(mm+'.matrixIn[2]', source=1, destination=0) or []
 
             if parents: 
                 parent = parents[0]
@@ -729,8 +731,8 @@ class Module(object):
                 cmds.pointConstraint(self.name+"_root_poser", parent_p, mo=0)
 
             # change parent of the joint to parent of parent
-            p_j = cmds.listRelatives(self_root_j, p=1)[0]
-            pp_j = cmds.listRelatives(p_j, p=1)[0]
+            p_j = cmds.listRelatives(self_root_j, p=1)[0] # end_joint
+            pp_j = cmds.listRelatives(p_j, p=1)[0] # parent of the end_joint
             cmds.parent(self_root_j, pp_j)
 
             # move the useless joint to output group and hide it
@@ -742,8 +744,11 @@ class Module(object):
             cmds.setAttr(parent_p+'.lodVisibility', 0)
 
             if self.symmetrical:
-                print("--------------- check--", utils.getOpposite(self_root_j), utils.getOpposite(pp_j))
-                cmds.parent(utils.getOpposite(self_root_j), utils.getOpposite(pp_j))
+                self_root_j_opp = utils.getOpposite(self_root_j)
+                p_j_opp = cmds.listRelatives(self_root_j_opp, p=1)[0] # end_joint
+                pp_j_opp = cmds.listRelatives(p_j_opp, p=1)[0] # parent of the end_joint
+                # print("--------------- check--", self_root_j_opp, p_j_opp, pp_j_opp)
+                cmds.parent(self_root_j_opp, pp_j_opp)
                 if parent_module.symmetrical:
                     cmds.parent(utils.getOpposite(p_j), utils.getOpposite(parentModule_name+"_output"))
                     cmds.hide(utils.getOpposite(p_j))

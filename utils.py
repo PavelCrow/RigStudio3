@@ -1065,13 +1065,17 @@ def create_space_group(ctrl=None, sources=[], names=[]):
 	cmds.setAttr(ctrl+'.parent', 0)	
 
 def create_default_sets():
-	cmds.sets(n='controlSet')
-	cmds.sets(n='sets')
-	cmds.sets('controlSet', e=1, forceElement='sets')
-	cmds.sets(n='skinJointsSet')
-	cmds.sets('skinJointsSet', e=1, forceElement='sets')
-	cmds.sets(n='modules_sets')
-	cmds.sets('modules_sets', e=1, forceElement='sets')
+	if not cmds.objExists('sets'):
+		cmds.sets(n='sets')
+	if not cmds.objExists('controlSet'):
+		cmds.sets(n='controlSet')
+		cmds.sets('controlSet', e=1, forceElement='sets')	
+	if not cmds.objExists('skinJointsSet'):
+		cmds.sets(n='skinJointsSet')
+		cmds.sets('skinJointsSet', e=1, forceElement='sets')
+	if not cmds.objExists('modules_sets'):
+		cmds.sets(n='modules_sets')
+		cmds.sets('modules_sets', e=1, forceElement='sets')
 
 def nameIsOk(name): #
 	if name == "" or " " in name or "-" in name or name[0].isdigit():

@@ -348,10 +348,12 @@ class Rig:
             if state:
                 for j in cmds.sets(m+'_skinJointsSet', q=1):
                     if not cmds.objExists(j.replace("outJoint", "mod")):
-                        cmds.setAttr(j+'.drawStyle', 0)
+                        if cmds.getAttr(j+".drawStyle", settable=1): # if not locked
+                            cmds.setAttr(j+'.drawStyle', 0)
             else:
                 for j in cmds.sets(m+'_skinJointsSet', q=1):
-                    cmds.setAttr(j+'.drawStyle', 2)
+                    if cmds.getAttr(j+".drawStyle", settable=1): # if not locked
+                        cmds.setAttr(j+'.drawStyle', 2)
 
         for tw_mod in cmds.listRelatives("twists") or []:
             tw_name = tw_mod[:-4]

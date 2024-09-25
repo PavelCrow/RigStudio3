@@ -499,6 +499,17 @@ Fixed building game skin joints skeleton
 Now spine module game skin joint in single chain
 Fixed display joints features
 Fixed change joints count in spine and spineQuadrupped modules
-Fixed mirror fingers vodule on foot module
+Fixed mirror fingers module on foot module
 Fixed connect add control to renamed control
 Fixed right size on duplicate add control in hierarchy
+
+---Version 3.2.00
+Rewrited connections on opposite modules
+Fixed flipping opposite add controls
+Updated point, limb, foot modules
+Updated human_full template
+Connection lines between add controls
+new blue color for add controls posers
+
+---Version 3.2.01
+New wing module
