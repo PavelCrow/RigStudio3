@@ -513,9 +513,11 @@ new blue color for add controls posers
 
 ---Version 3.2.01
 New wing module
+New birdFoot module
 
 ---Version 3.3.01
 new wing module
 fixed set parent addition controls
 hide opposite posers on mirrored modules
 matched sizes of the all modules
+birdFoot update
