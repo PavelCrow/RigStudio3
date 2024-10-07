@@ -200,6 +200,7 @@ class ChainIk(module.Module) :
 				pm.sets(self.name+"_skinJointsSet", e=1, rm=o)
 				pm.rename(o, o.replace("outJoint", "initJoint"))
 				l = pm.spaceLocator(n=o.replace("initJoint", "initLoc"))
+				pm.hide(l)
 				try:
 					pm.parent(l, o)
 				except: pass

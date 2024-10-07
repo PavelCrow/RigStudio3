@@ -377,6 +377,11 @@ class Template(object):
 					cmds.progressBar(progressControl, edit=True, step=1)
 			cmds.progressBar(progressControl2, edit=True, step=1)
 
+			# hide opposite posers
+			for mData in data['modulesData']:
+				if mData['symmetrical']:
+					cmds.setAttr(utils.getOpposite(mData['name'])+"_posers.v", 0)
+
 		def create_twists(modulesData):
 			if print_main_messages: print(" -------------------------------- TWISTS ------------------------------------------------ ")
 			
@@ -510,3 +515,5 @@ class Template(object):
 		# update ui
 		self.main.updateModulePage(self.main.curModule.name)
 		self.main.addControls_updateTree()
+
+		

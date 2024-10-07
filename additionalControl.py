@@ -78,18 +78,21 @@ class AdditionalControl(controller.Control):
 		self.deep = 0
 
 	def setParent(self, target):
-		print(3333, "SETPARENT", self.name, target)
+		# print(3333, "SETPARENT", self.name, target)
 		# variables
+		if not utils.objectIsControl(target) and not utils.objectIsAdditionalControl(target) and target.split("_")[-1] != "joint" and target.split("_")[-1] != "outJoint":
+			cmds.warning("Select one control or joint")
+			return
+
 		name = self.name
 		old_moduleName = utils.getModuleName(name)
 		par_moduleName = utils.getModuleName(target)
 		isControl = cmds.objExists(target+".type") and cmds.getAttr(target+".type") == "control"
 		closestJoint = False
-		
 		parentIsJoint = cmds.objectType(target) == "joint"
+
 		if parentIsJoint:
 			target_j = target
-			
 			# if joint is simple, set target as control
 			par_ = cmds.listRelatives(target_j.replace("joint", "outJoint"), p=1)[0]
 			if utils.objectIsAdditionalControl(par_) or utils.objectIsControl(par_):
@@ -111,7 +114,7 @@ class AdditionalControl(controller.Control):
 		if closestJoint:
 			n = utils.getInternalNameFromControl(target)
 			parent_initLoc = par_moduleName + "_" + n + "_initLoc"
-
+		
 		pars_ = cmds.listRelatives(group, p=1)
 		if pars_ and pars_[0] == target:
 			cmds.warning("Control already have this parent")
@@ -131,6 +134,7 @@ class AdditionalControl(controller.Control):
 			tar = target.split("_joint")[0].split("_outJoint")[0]
 		else:
 			tar = target
+
 		if cmds.objExists(tar+"_addPoser"):
 			par_p = tar+"_addPoser"
 		elif cmds.objExists(tar+"_poser"):
@@ -150,9 +154,11 @@ class AdditionalControl(controller.Control):
 		crv = name+"_connectionCrv"
 		if not cmds.objExists(crv):
 			cmds.curve(n=crv, d=1, p=[(0,0,0), (0,0,0)])
+			cmds.sets(crv, e=1, forceElement=par_moduleName+'_nodesSet')
+			cmds.connectAttr(poser.replace("addPoser", "initLocShape")+".worldPosition[0]", crv+".controlPoints[1]", f=1)
 		par_initLocShape = par_p.replace("addPoser", "initLocShape").replace("poser", "initLocShape")
 		cmds.connectAttr(par_initLocShape+".worldPosition[0]", crv+".controlPoints[0]", f=1)
-		cmds.connectAttr(poser.replace("addPoser", "initLocShape")+".worldPosition[0]", crv+".controlPoints[1]", f=1)
+					
 		try: cmds.parent(crv, par_p)
 		except: pass
 		cmds.setAttr(crv+".inheritsTransform", 0)

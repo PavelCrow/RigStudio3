@@ -336,6 +336,8 @@ class Module(object):
             if cmds.objExists(self.name+"_mod.mirror"):
                 cmds.setAttr(self.name+"_mod.mirror", 1)
 
+            cmds.hide(self.name+"_posers")
+
         if makeSeamless:
             self.makeSeamless(True)
 

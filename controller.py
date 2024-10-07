@@ -184,7 +184,7 @@ class Control(object):
 		def doRename(name, newName):
 			allNodes = cmds.ls()
 			for n in ['tuner', 'group', 'joint', "decMat", 'outJoint', 'addPoser', 'poser_cluster', 'poserOrient', "addPoser_catcher", "poser_clusterHandle", "poser_locShape",
-			          'poser_axis_x', 'poser_axis_y', 'poser_axis_z', 'tuner_decMat', 'tuner_multMat', 'initLoc', 'controlInitLoc', 'group_decMat', 'group_multMat']:
+			          'poser_axis_x', 'poser_axis_y', 'poser_axis_z', 'tuner_decMat', 'tuner_multMat', 'initLoc', 'controlInitLoc', 'group_decMat', 'group_multMat', "connectionCrv"]:
 				if cmds.objExists(name+'_'+n):
 					cmds.rename(name+'_'+n, newName+'_'+n)
 			cmds.rename(name, newName)

@@ -2911,7 +2911,7 @@ class MainWindow:
         # conntect to parent
         target = utils.getOppositeIfExists(module.parent)
         opp_m.connect(target, opposite=True)
-
+        
         # add twists
         # for twData in data['twistsData']:
         #     name = utils.getRealNameFromTemplated(oldModule.name, twData['name'])
@@ -2920,7 +2920,7 @@ class MainWindow:
 
         if data['seamless']:
             module.makeSeamless(True)
-
+        
         # add os
         for d in data['parents']:
             if len(d['intNames']) > 0:
@@ -2995,7 +2995,7 @@ class MainWindow:
         if children:
             for child in children:
                 self.makeSymmetryModule(child)     
-
+        
         if updateUI:
             self.updateModulesTree()
         # self.curParents.updateList()
@@ -3095,21 +3095,6 @@ class MainWindow:
                         if mod_target == self.curModule.name:
                             # add os data to list
                             connectedParentsData.append(pData)
-
-        # get options data from every module
-        connectedOptions = []
-        for mod_name in self.rig.modules:
-            mod = self.rig.modules[mod_name]
-            # if not current module
-            if mod.name != self.curModule.name:
-                # check oss data
-                mData = mod.getOptions()
-                if mData:
-                    for d in mData:
-                        obj = mData[d]
-                        if cmds.objExists(obj):
-                            if utils.getModuleName(obj) == self.curModule.name:
-                                connectedOptions.append([mod.name, d, mData[d]])
 
         # delete connected oss
         for data in connectedParentsData:
@@ -3821,16 +3806,23 @@ class MainWindow:
             oppositeControl_name = oppAddControl.name
             oppositeTarget_name = utils.getOpposite(target)
 
-            # parent addPoser
-            if utils.objectIsAdditionalControl(target):
-                # print (1111, self.curAddControlName)
-                cmds.setAttr(self.curAddControlName + "_mirror_compMat.inputScaleX", 1)
-                if cmds.listRelatives(oppositeControl_name + "_addPoser", p=1)[0] != oppositeTarget_name:
-                    cmds.parent(oppositeControl_name + "_addPoser", oppositeTarget_name)
-            else:
-                cmds.setAttr(self.curAddControlName + "_mirror_compMat.inputScaleX", -1)
-                if cmds.listRelatives(oppositeControl_name + "_addPoser", p=1)[0] != m_name + "_mainPoser":
-                    cmds.parent(oppositeControl_name + "_addPoser", m_name + "_mainPoser")
+
+            # par_p = cmds.listRelatives(self.curAddControlName+"_addPoser", p=1)[0]
+            # opp_pr_p = utils.getOpposite(par_p)
+            # print(2222, par_p, opp_pr_p)
+            # print(2222, oppositeControl_name + "_addPoser", opp_pr_p)
+            # cmds.parent(oppositeControl_name + "_addPoser", opp_pr_p)
+
+            # # parent addPoser
+            # if utils.objectIsAdditionalControl(target):
+            #     # print (1111, self.curAddControlName)
+            #     cmds.setAttr(self.curAddControlName + "_mirror_compMat.inputScaleX", 1)
+            #     if cmds.listRelatives(oppositeControl_name + "_addPoser", p=1)[0] != oppositeTarget_name:
+            #         cmds.parent(oppositeControl_name + "_addPoser", oppositeTarget_name)
+            # else:
+            #     cmds.setAttr(self.curAddControlName + "_mirror_compMat.inputScaleX", -1)
+            #     if cmds.listRelatives(oppositeControl_name + "_addPoser", p=1)[0] != m_name + "_mainPoser":
+            #         cmds.parent(oppositeControl_name + "_addPoser", m_name + "_mainPoser")
 
         self.addControls_updateTree()
 
@@ -3841,6 +3833,11 @@ class MainWindow:
         self.win.additionalControls_treeWidget.setCurrentItem(newCurItem)
 
         cmds.select(sel)
+
+        cmds.refresh()
+
+        # update viewport
+        cmds.dgdirty(allPlugs=True)
 
     def addControls_flipOpposite(self, curAddControl=None):
         sel = cmds.ls(sl=1)
