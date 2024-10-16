@@ -521,3 +521,8 @@ fixed set parent addition controls
 hide opposite posers on mirrored modules
 matched sizes of the all modules
 birdFoot update
+
+---Version 3.3.02
+Arm module now have end control orient from end poser
+Human Templates hand orient fix
+Foot scale fix

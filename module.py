@@ -731,6 +731,7 @@ class Module(object):
             # if module connected not to root, match the parent poser to root poser
             if self.parent.split("_")[-2] != "root":
                 cmds.pointConstraint(self.name+"_root_poser", parent_p, mo=0)
+                cmds.orientConstraint(self.name+"_root_poser", parent_p, mo=0)
 
             # change parent of the joint to parent of parent
             p_j = cmds.listRelatives(self_root_j, p=1)[0] # end_joint
