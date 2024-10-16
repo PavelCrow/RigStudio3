@@ -247,7 +247,10 @@ class Limb(module.Module) :
 			cmds.parent(t_name+'_end_connectorLoc', self.name+'_middleOffset')
 		elif t_name == self.name+"_middle":
 			cmds.parent(t_name+'_rootUpLoc', self.name+'_middleOffset')
-			# cmds.connectAttr(self.name+'_middleOffset.worldMatrix', t_name+'_root_connectorLoc_aimMat.inputMatrix', f=1)
+			cmds.connectAttr(self.name+'_middleOffset.worldMatrix', t_name+'_root_connectorLoc_aimMat.inputMatrix', f=1)
+
+			if self.opposite:
+				cmds.setAttr(t_name+"_root_compMat.inputScaleZ", -1)
 
 	def ibtwOverride(self, name):
 		

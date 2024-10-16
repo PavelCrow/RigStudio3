@@ -526,3 +526,5 @@ birdFoot update
 Arm module now have end control orient from end poser
 Human Templates hand orient fix
 Foot scale fix
+Twist limb module mirror fix
+HumanFull template update

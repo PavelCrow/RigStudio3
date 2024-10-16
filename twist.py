@@ -257,6 +257,8 @@ class Twist(object):
 
         comp = cmds.createNode('composeMatrix', n=t_name+'_root_compMat')
         cmds.sets(comp, e=1, forceElement=set)
+        # if mirror:
+        #     cmds.setAttr(comp+".inputScaleZ", -1)
         
         utils.connectByMatrix(t_name+'_root_connector', [comp, root_loc], ['outputMatrix', 'worldMatrix[0]'], module_name=moduleName)
 
