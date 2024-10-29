@@ -39,7 +39,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>8</number>
       </property>
       <widget class="QWidget" name="rig_tab">
        <attribute name="title">
@@ -7467,6 +7467,13 @@
                     </widget>
                    </item>
                    <item>
+                    <widget class="QPushButton" name="buildMocapSkeleton_btn">
+                     <property name="text">
+                      <string>Build Mocap Skeleton</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
                     <widget class="QFrame" name="commonOptions_groupFrame_5">
                      <property name="frameShape">
                       <enum>QFrame::NoFrame</enum>
@@ -7503,38 +7510,6 @@
                         </property>
                         <property name="text">
                          <string>Create Controls Group</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QPushButton" name="connectByMultMatrix_btn">
-                        <property name="enabled">
-                         <bool>true</bool>
-                        </property>
-                        <property name="minimumSize">
-                         <size>
-                          <width>0</width>
-                          <height>0</height>
-                         </size>
-                        </property>
-                        <property name="text">
-                         <string>Connect By MultMatrix</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QPushButton" name="connectByBlendMatrix_btn">
-                        <property name="enabled">
-                         <bool>true</bool>
-                        </property>
-                        <property name="minimumSize">
-                         <size>
-                          <width>0</width>
-                          <height>0</height>
-                         </size>
-                        </property>
-                        <property name="text">
-                         <string>Connect By BlendMatrix</string>
                         </property>
                        </widget>
                       </item>
@@ -8014,7 +7989,7 @@
                <number>0</number>
               </property>
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_53" stretch="0">
+               <layout class="QHBoxLayout" name="horizontalLayout_53" stretch="">
                 <property name="spacing">
                  <number>10</number>
                 </property>
@@ -8027,13 +8002,6 @@
                 <property name="bottomMargin">
                  <number>10</number>
                 </property>
-                <item>
-                 <widget class="QPushButton" name="smf_baseRigPostScript_btn">
-                  <property name="text">
-                   <string>SMF Base Rig Post Script</string>
-                  </property>
-                 </widget>
-                </item>
                </layout>
               </item>
              </layout>

@@ -1,0 +1,4 @@
+ver=1.0=
+description=Simple Ik/Fk foot rig.
+section=Body
+advanced=False

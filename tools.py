@@ -355,8 +355,8 @@ def addMirrorAxisAttr():
 def addControlGroup():
 	sel = cmds.ls(sl=1)
 	for o  in sel:
-		gr = o + "_sdkGroup"
-		rootName = o + "_sdkGroup"
+		gr = o + "_group"
+		rootName = o + "_group"
 		
 		#print name, suffix, rootName
 		while cmds.objExists(gr):
@@ -374,22 +374,27 @@ def addControlGroup():
 		cmds.select(sel)
 		
 		
-def smf_baseRigPostScript():
-	if not cmds.objExists("world"):
-		cmds.rename('main', 'char')
-		cmds.rename('root', 'main')
-		cmds.circle(n='world', nr=(0,1,0), r=2.8)
-		cmds.setAttr("worldShape.overrideEnabled", 1)
-		cmds.setAttr("worldShape.overrideColor", 15)
-		cmds.parent('world', 'root_group')
-		cmds.setAttr('world.s', 1,1,1)
-		cmds.select('world')
-		cmds.DeleteHistory()
-		cmds.parent('main', 'world')
-		cmds.sets('world', edit=1, forceElement='body_controlSet');
-	else:
-		cmds.warning ("rig smf update is already done")
-		
+def buildMocapSkeleton():
+	skel = cmds.duplicate("skeleton", n="mocap_skeleton")[0]
+	for j in cmds.listRelatives(skel, allDescendents=1, fullPath=1):
+		j = cmds.rename(j, j.split("|")[-1].replace("joint", "mJoint"))
+		cmds.setAttr(j+".segmentScaleCompensate", 0)
+		cmds.setAttr(j+".drawStyle", 0)
+		cmds.setAttr(j+".preferredAngle", 0,0,0)
+
+		orig_j = j.replace("mJoint", "joint")
+		t = cmds.getAttr(orig_j+".t")[0]
+		cmds.setAttr(j+".t", t[0], t[1], t[2])
+		r = cmds.getAttr(orig_j+".r")[0]
+		cmds.setAttr(j+".r", r[0], r[1], r[2])
+		cmds.setAttr(j+".s", 1, 1, 1)
+	
+	cmds.parent(skel, w=1)
+	cmds.showHidden(skel)
+	root_j = cmds.listRelatives(skel)
+	spine_root_j = cmds.listRelatives(root_j)
+	cmds.parent(spine_root_j, skel)
+	cmds.delete(root_j)
 		
 def connectByMultMatrix():
 	# Connect by matrix

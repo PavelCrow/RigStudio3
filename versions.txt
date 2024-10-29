@@ -528,3 +528,11 @@ Human Templates hand orient fix
 Foot scale fix
 Twist limb module mirror fix
 HumanFull template update
+
+---Version 3.4.02
+add build mocap skeleton
+foot module update
+limbQuadrupped module update
+new module footSimple
+updated templates
+loading templates from any folder

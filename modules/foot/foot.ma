@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: foot.ma
-//Last modified: Mon, Oct 07, 2024 09:20:30 AM
+//Last modified: Tue, Oct 29, 2024 03:28:33 AM
 //Codeset: 1251
 requires maya "2022";
 requires -nodeType "sweepMeshCreator" -dataType "sweepMeshData" -dataType "sweepProfileData"
@@ -13,7 +13,7 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202303271415-baa69b5798";
 fileInfo "osv" "Windows 10 Pro v2009 (Build: 22631)";
-fileInfo "UUID" "6B04F07B-45D9-ADF7-E176-FE94E352CD93";
+fileInfo "UUID" "CC3B8F57-40B0-C018-862A-DD85296540E9";
 createNode transform -n "mod";
 	rename -uid "004B43DA-47F7-458F-3E16-DB8E5B0E6C0C";
 	addAttr -ci true -sn "ikFk" -ln "ikFk" -min 0 -max 1 -at "double";
@@ -32,9 +32,9 @@ createNode transform -n "mainPoser" -p "posers";
 	setAttr -k on ".s";
 	setAttr -k off ".sy";
 	setAttr -k off ".sz";
-	setAttr -k on ".size" 5;
-	setAttr -k on ".globalSize" 0.2;
-	setAttr -k on ".lineWidth" 0.15999999999999992;
+	setAttr -k on ".size";
+	setAttr -k on ".globalSize" 0.5;
+	setAttr -k on ".lineWidth" 0.15;
 createNode nurbsCurve -n "mainPoserShape" -p "mainPoser";
 	rename -uid "75D8738C-4247-A6E0-A6AF-469DE6343ACC";
 	setAttr -k off ".v";
@@ -50,23 +50,23 @@ createNode nurbsCurve -n "mainPoserShapeOrig" -p "mainPoser";
 		1 16 0 no 3
 		17 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
 		17
-		-0.14006934744825167 0.14006933472115335 0.14006922260458046
-		-0.14006934744825167 0.14006933472115335 -0.14006923490734344
-		0.14006911006367309 0.14006933472115335 -0.14006923490734344
-		0.14006911006367309 0.14006933472115335 0.14006922260458046
-		-0.14006934744825167 0.14006933472115335 0.14006922260458046
-		0.14006911006367309 0.14006933472115335 0.14006922260458046
-		0.14006911006367309 -0.14006912279077055 0.14006922260458046
-		-0.14006934744825167 -0.14006912279077055 0.14006922260458046
-		-0.14006934744825167 0.14006933472115335 0.14006922260458046
-		-0.14006934744825167 -0.14006912279077055 0.14006922260458046
-		-0.14006934744825167 -0.14006912279077055 -0.14006923490734344
-		-0.14006934744825167 0.14006933472115335 -0.14006923490734344
-		-0.14006934744825167 -0.14006912279077055 -0.14006923490734344
-		0.14006911006367309 -0.14006912279077055 -0.14006923490734344
-		0.14006911006367309 0.14006933472115335 -0.14006923490734344
-		0.14006911006367309 -0.14006912279077055 -0.14006923490734344
-		0.14006911006367309 -0.14006912279077055 0.14006922260458046
+		-1.003391673827053 1.0033915826560398 1.0033907795050443
+		-1.003391673827053 1.0033915826560398 -1.0033908676363192
+		1.0033899733143172 1.0033915826560398 -1.0033908676363192
+		1.0033899733143172 1.0033915826560398 1.0033907795050443
+		-1.003391673827053 1.0033915826560398 1.0033907795050443
+		1.0033899733143172 1.0033915826560398 1.0033907795050443
+		1.0033899733143172 -1.003390064485324 1.0033907795050443
+		-1.003391673827053 -1.003390064485324 1.0033907795050443
+		-1.003391673827053 1.0033915826560398 1.0033907795050443
+		-1.003391673827053 -1.003390064485324 1.0033907795050443
+		-1.003391673827053 -1.003390064485324 -1.0033908676363192
+		-1.003391673827053 1.0033915826560398 -1.0033908676363192
+		-1.003391673827053 -1.003390064485324 -1.0033908676363192
+		1.0033899733143172 -1.003390064485324 -1.0033908676363192
+		1.0033899733143172 1.0033915826560398 -1.0033908676363192
+		1.0033899733143172 -1.003390064485324 -1.0033908676363192
+		1.0033899733143172 -1.003390064485324 1.0033907795050443
 		;
 createNode transform -n "mainPoser_clusterHandle" -p "mainPoser";
 	rename -uid "9CB1DB14-456C-2EC3-2B7F-AB8E19705AC6";
@@ -82,9 +82,6 @@ createNode clusterHandle -n "mainPoser_clusterHandleShape" -p "mainPoser_cluster
 createNode transform -n "root_poser" -p "mainPoser";
 	rename -uid "E81A0998-4280-CF5E-7763-D9B560936D72";
 	addAttr -ci true -sn "size" -ln "size" -dv 1 -min 0 -at "double";
-	addAttr -ci true -sn "axises" -ln "axises" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "lineWidth" -ln "lineWidth" -max 10 -at "float";
-	addAttr -ci true -k true -sn "twist" -ln "twist" -at "float";
 	setAttr -k off ".v";
 	setAttr ".ovc" 4;
 	setAttr -k on ".t" -type "double3" -4.4408920985006262e-16 1.5780937895153564 -1.6375900969857065 ;
@@ -97,10 +94,7 @@ createNode transform -n "root_poser" -p "mainPoser";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
 	setAttr ".dh" yes;
-	setAttr -k on ".size" 0.5;
-	setAttr -cb on ".axises" yes;
-	setAttr -cb on ".lineWidth" 1;
-	setAttr -cb on ".twist";
+	setAttr -k on ".size" 0.4;
 createNode nurbsSurface -n "root_poserShape" -p "root_poser";
 	rename -uid "E7C4A81D-4AD2-6D5F-F2C0-BE9322AC6D37";
 	setAttr -k off ".v";
@@ -268,9 +262,6 @@ createNode locator -n "fk_heel_initLoc_locShape" -p "fk_heel_initLoc";
 createNode transform -n "toe_poser" -p "mainPoser";
 	rename -uid "D2BFDB8B-4F09-BCB9-0D66-A0BF585AC2DC";
 	addAttr -ci true -sn "size" -ln "size" -dv 1 -min 0 -at "double";
-	addAttr -ci true -sn "axises" -ln "axises" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "lineWidth" -ln "lineWidth" -max 10 -at "float";
-	addAttr -ci true -k true -sn "twist" -ln "twist" -at "float";
 	setAttr -k off ".v";
 	setAttr ".ovc" 4;
 	setAttr -k on ".t" -type "double3" 0 0.317997446773577 0.0060782896806902409 ;
@@ -283,10 +274,7 @@ createNode transform -n "toe_poser" -p "mainPoser";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
 	setAttr ".dh" yes;
-	setAttr -k on ".size" 0.5;
-	setAttr -cb on ".axises" yes;
-	setAttr -cb on ".lineWidth" 1;
-	setAttr -cb on ".twist";
+	setAttr -k on ".size" 0.4;
 createNode nurbsSurface -n "toe_poserShape" -p "toe_poser";
 	rename -uid "D9D348A9-4B5C-B4A1-332F-FDA4A7F5E813";
 	setAttr -k off ".v";
@@ -432,9 +420,6 @@ createNode locator -n "toe_initLoc_locShape" -p "toe_initLoc";
 createNode transform -n "toeTip_poser" -p "mainPoser";
 	rename -uid "253F2FCD-4567-140B-EB2D-5CAB813C4007";
 	addAttr -ci true -sn "size" -ln "size" -dv 1 -min 0 -at "double";
-	addAttr -ci true -sn "axises" -ln "axises" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "lineWidth" -ln "lineWidth" -max 10 -at "float";
-	addAttr -ci true -k true -sn "twist" -ln "twist" -at "float";
 	setAttr -k off ".v";
 	setAttr ".ovc" 4;
 	setAttr -k on ".t" -type "double3" 0 0.317997446773577 1.5400551876831834 ;
@@ -448,10 +433,7 @@ createNode transform -n "toeTip_poser" -p "mainPoser";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
 	setAttr ".dh" yes;
-	setAttr -k on ".size" 0.5;
-	setAttr -cb on ".axises" yes;
-	setAttr -cb on ".lineWidth" 1;
-	setAttr -cb on ".twist";
+	setAttr -k on ".size" 0.4;
 createNode nurbsSurface -n "toeTip_poserShape" -p "toeTip_poser";
 	rename -uid "BF2631FA-490B-338F-77AD-888D4C783E8B";
 	setAttr -k off ".v";
@@ -1233,6 +1215,7 @@ createNode joint -n "toe_outJoint" -p "root_outJoint";
 createNode joint -n "toeTip_outJoint" -p "toe_outJoint";
 	rename -uid "4DA5CF5B-4C7C-E4F4-19D1-C5B22791BF22";
 	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr ".v" no;
 	setAttr ".uoc" 1;
 	setAttr ".oc" 6;
 	setAttr ".t" -type "double3" 1.5339769124984741 5.5511151231257827e-17 -1.1275702593849246e-17 ;
@@ -1322,15 +1305,15 @@ createNode locator -n "fk_heel_ikFkSwitchHelperShape" -p "fk_heel_ikFkSwitchHelp
 createNode transform -s -n "persp";
 	rename -uid "F921EAA9-4502-8B0D-4008-3CAC313597E1";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 4.6735120111947062 6.556615450114653 8.2946433481447723 ;
-	setAttr ".r" -type "double3" -31.800000000005362 29.200000000002415 -1.8217861389250444e-15 ;
+	setAttr ".t" -type "double3" 3.7998126887676658 3.6735960371484753 5.853142870050938 ;
+	setAttr ".r" -type "double3" -28.200000000011311 33.999999999998366 3.8364421429793408e-15 ;
 	setAttr ".rp" -type "double3" 7.7715611723760958e-16 9.3924867883288243e-14 3.0198066269804258e-14 ;
 	setAttr ".rpt" -type "double3" -1.0992890654171976e-16 4.8430186591755061e-15 -3.063514319172062e-14 ;
 createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "71CACD7C-4D6F-A019-F750-73914A7C0D25";
 	setAttr -k off ".v" no;
 	setAttr ".fl" 34.999999999999986;
-	setAttr ".coi" 11.091213252661559;
+	setAttr ".coi" 7.5341174953654599;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -1370,14 +1353,14 @@ createNode camera -s -n "frontShape" -p "front";
 createNode transform -s -n "side";
 	rename -uid "AE19EFD1-4DF0-F1BC-CE2E-FE81C358D108";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 6.9039699318713943 0.40975736613002611 -0.11182859307655944 ;
+	setAttr ".t" -type "double3" 7.7966694863516519 0.71203748042068993 0.066172971358431809 ;
 	setAttr ".r" -type "double3" 0 90 0 ;
 createNode camera -s -n "sideShape" -p "side";
 	rename -uid "A13D6213-4298-109B-2D3E-878C845B1910";
 	setAttr -k off ".v" no;
 	setAttr ".rnd" no;
 	setAttr ".coi" 100.1;
-	setAttr ".ow" 6.4291070153039946;
+	setAttr ".ow" 7.7218887239398528;
 	setAttr ".imn" -type "string" "side";
 	setAttr ".den" -type "string" "side_depth";
 	setAttr ".man" -type "string" "side_mask";
@@ -1482,15 +1465,15 @@ createNode multMatrix -n "multMatrix161";
 	rename -uid "D7FC7943-4C70-84E5-1639-D2B4F135D926";
 	setAttr -s 2 ".i";
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "FDE06D61-4B34-BF89-E428-BCAB53CF142D";
+	rename -uid "A52913DC-4356-612F-E889-69B417724404";
 	setAttr -s 23 ".lnk";
 	setAttr -s 23 ".slnk";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "78F6491D-4684-7DE1-7F60-A3BA267F4824";
+	rename -uid "CAB41979-475D-0439-BB22-619239904206";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "19CE01F8-4DF6-369B-03C9-E4ACC39F3E53";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "B62EF067-45E1-5E76-D7CB-3F906388BFB2";
+	rename -uid "66DD868C-4636-D98F-E612-BFA714C5201B";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "281C2244-47AF-B8DB-A19E-3DB775F64F4B";
 	setAttr ".g" yes;
@@ -1833,6 +1816,7 @@ createNode materialInfo -n "toe_materialInfo4";
 	setAttr -l on ".moduleName" -type "string" "toe";
 createNode unitConversion -n "unitConversion1942";
 	rename -uid "5CC8E043-4130-B528-2B29-5994331550BE";
+	setAttr ".i" 0;
 	setAttr ".cf" 0.017453292519943295;
 createNode shadingEngine -n "toeTip_red_rsSG";
 	rename -uid "4982F6FA-4108-E33B-0553-2AB6D532D8C9";
@@ -1876,9 +1860,11 @@ createNode materialInfo -n "toeTip_materialInfo4";
 	setAttr -l on ".moduleName" -type "string" "toeTip";
 createNode unitConversion -n "unitConversion1943";
 	rename -uid "CDAF86A9-441B-8473-6F47-9D8468BEA603";
+	setAttr ".i" 0;
 	setAttr ".cf" 0.017453292519943295;
 createNode unitConversion -n "unitConversion1944";
 	rename -uid "6E389AE1-4C35-3149-7F2F-3EBFF43056DB";
+	setAttr ".i" 0;
 	setAttr ".cf" 0.017453292519943295;
 createNode multDoubleLinear -n "multDoubleLinear1623";
 	rename -uid "FBC6CD01-474B-51B1-3D28-DBA593131AA1";
@@ -1951,9 +1937,9 @@ createNode unitConversion -n "unitConversion1958";
 	rename -uid "AAE42689-40F5-998E-1D32-DA8AB7C039DF";
 	setAttr ".cf" 0.017453292519943295;
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "28B7493E-4989-981B-B741-B9A80C5F5637";
+	rename -uid "1FA51134-4E1E-3CA9-0439-F0AB3B8DB707";
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "42E4F485-42F7-830A-EFB5-A8BF6438A09B";
+	rename -uid "7660B5C8-4186-7C12-02E0-E09B231757AC";
 createNode floatConstant -n "floatConstant1";
 	rename -uid "8427F90B-4326-33CB-3E71-4684E1E74A14";
 	setAttr "._f" -90;
@@ -2002,38 +1988,38 @@ createNode objectSet -n "skinJointsSet";
 	setAttr ".ihi" 0;
 	setAttr -s 2 ".dsm";
 createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
-	rename -uid "34BF2375-4DEB-5346-F025-C8B24A00B599";
+	rename -uid "BFC1EAB9-49A2-B823-A8AE-ADABBEA7DC3A";
 	setAttr -s 3 ".tgi";
 	setAttr ".tgi[0].tn" -type "string" "Untitled_1";
-	setAttr ".tgi[0].vl" -type "double2" -5208.3331263727705 -7233.266290234923 ;
-	setAttr ".tgi[0].vh" -type "double2" 8508.3329952425574 6932.0758260126813 ;
+	setAttr ".tgi[0].vl" -type "double2" -5208.3331263727687 -8054.3351732708934 ;
+	setAttr ".tgi[0].vh" -type "double2" 8509.5234713857262 7751.9542329054784 ;
 	setAttr -s 13 ".tgi[0].ni";
-	setAttr ".tgi[0].ni[0].x" 988.5714111328125;
-	setAttr ".tgi[0].ni[0].y" 34.285713195800781;
+	setAttr ".tgi[0].ni[0].x" 1627.8299560546875;
+	setAttr ".tgi[0].ni[0].y" -187.4549560546875;
 	setAttr ".tgi[0].ni[0].nvs" 18304;
-	setAttr ".tgi[0].ni[1].x" 670;
-	setAttr ".tgi[0].ni[1].y" -5.7142858505249023;
+	setAttr ".tgi[0].ni[1].x" 362.85714721679688;
+	setAttr ".tgi[0].ni[1].y" 62.857143402099609;
 	setAttr ".tgi[0].ni[1].nvs" 18304;
-	setAttr ".tgi[0].ni[2].x" 362.85714721679688;
-	setAttr ".tgi[0].ni[2].y" 62.857143402099609;
-	setAttr ".tgi[0].ni[2].nvs" 18304;
-	setAttr ".tgi[0].ni[3].x" 1301.543701171875;
-	setAttr ".tgi[0].ni[3].y" -7.5206913948059082;
-	setAttr ".tgi[0].ni[3].nvs" 18305;
-	setAttr ".tgi[0].ni[4].x" 988.5714111328125;
-	setAttr ".tgi[0].ni[4].y" -67.142860412597656;
+	setAttr ".tgi[0].ni[2].x" 1301.543701171875;
+	setAttr ".tgi[0].ni[2].y" -7.5206913948059082;
+	setAttr ".tgi[0].ni[2].nvs" 18305;
+	setAttr ".tgi[0].ni[3].x" 1354.2857666015625;
+	setAttr ".tgi[0].ni[3].y" -514.28570556640625;
+	setAttr ".tgi[0].ni[3].nvs" 18304;
+	setAttr ".tgi[0].ni[4].x" 362.85714721679688;
+	setAttr ".tgi[0].ni[4].y" 164.28572082519531;
 	setAttr ".tgi[0].ni[4].nvs" 18304;
-	setAttr ".tgi[0].ni[5].x" 362.85714721679688;
-	setAttr ".tgi[0].ni[5].y" -38.571430206298828;
+	setAttr ".tgi[0].ni[5].x" 670;
+	setAttr ".tgi[0].ni[5].y" -5.7142858505249023;
 	setAttr ".tgi[0].ni[5].nvs" 18304;
-	setAttr ".tgi[0].ni[6].x" 1602.857177734375;
-	setAttr ".tgi[0].ni[6].y" 128.57142639160156;
-	setAttr ".tgi[0].ni[6].nvs" 18305;
-	setAttr ".tgi[0].ni[7].x" 670;
-	setAttr ".tgi[0].ni[7].y" 95.714286804199219;
+	setAttr ".tgi[0].ni[6].x" 362.85714721679688;
+	setAttr ".tgi[0].ni[6].y" -38.571430206298828;
+	setAttr ".tgi[0].ni[6].nvs" 18304;
+	setAttr ".tgi[0].ni[7].x" 988.5714111328125;
+	setAttr ".tgi[0].ni[7].y" -67.142860412597656;
 	setAttr ".tgi[0].ni[7].nvs" 18304;
-	setAttr ".tgi[0].ni[8].x" 1354.2857666015625;
-	setAttr ".tgi[0].ni[8].y" -514.28570556640625;
+	setAttr ".tgi[0].ni[8].x" 670;
+	setAttr ".tgi[0].ni[8].y" 95.714286804199219;
 	setAttr ".tgi[0].ni[8].nvs" 18304;
 	setAttr ".tgi[0].ni[9].x" 670;
 	setAttr ".tgi[0].ni[9].y" -107.14286041259766;
@@ -2041,53 +2027,80 @@ createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
 	setAttr ".tgi[0].ni[10].x" 1295.7142333984375;
 	setAttr ".tgi[0].ni[10].y" 98.571426391601562;
 	setAttr ".tgi[0].ni[10].nvs" 18304;
-	setAttr ".tgi[0].ni[11].x" 362.85714721679688;
-	setAttr ".tgi[0].ni[11].y" 164.28572082519531;
+	setAttr ".tgi[0].ni[11].x" 988.5714111328125;
+	setAttr ".tgi[0].ni[11].y" 34.285713195800781;
 	setAttr ".tgi[0].ni[11].nvs" 18304;
-	setAttr ".tgi[0].ni[12].x" 1627.8299560546875;
-	setAttr ".tgi[0].ni[12].y" -187.4549560546875;
-	setAttr ".tgi[0].ni[12].nvs" 18304;
+	setAttr ".tgi[0].ni[12].x" 1602.857177734375;
+	setAttr ".tgi[0].ni[12].y" 128.57142639160156;
+	setAttr ".tgi[0].ni[12].nvs" 18305;
 	setAttr ".tgi[1].tn" -type "string" "Untitled_2";
-	setAttr ".tgi[1].vl" -type "double2" -4461.9045846046056 -8035.62774032791 ;
-	setAttr ".tgi[1].vh" -type "double2" 9253.571060867549 6128.4849589681007 ;
+	setAttr ".tgi[1].vl" -type "double2" -4461.9045846046074 -8856.6254735820112 ;
+	setAttr ".tgi[1].vh" -type "double2" 9254.7615370107196 6948.2922160790285 ;
 	setAttr -s 7 ".tgi[1].ni";
-	setAttr ".tgi[1].ni[0].x" 2262.016845703125;
-	setAttr ".tgi[1].ni[0].y" -666.55462646484375;
+	setAttr ".tgi[1].ni[0].x" 2262.857177734375;
+	setAttr ".tgi[1].ni[0].y" -361.42855834960938;
 	setAttr ".tgi[1].ni[0].nvs" 18304;
-	setAttr ".tgi[1].ni[1].x" 2314.28564453125;
-	setAttr ".tgi[1].ni[1].y" -925.71429443359375;
+	setAttr ".tgi[1].ni[1].x" 2262.857177734375;
+	setAttr ".tgi[1].ni[1].y" -462.85714721679688;
 	setAttr ".tgi[1].ni[1].nvs" 18304;
-	setAttr ".tgi[1].ni[2].x" 2262.857177734375;
-	setAttr ".tgi[1].ni[2].y" -361.42855834960938;
-	setAttr ".tgi[1].ni[2].nvs" 18304;
-	setAttr ".tgi[1].ni[3].x" 1955.7142333984375;
-	setAttr ".tgi[1].ni[3].y" -348.57144165039062;
-	setAttr ".tgi[1].ni[3].nvs" 18305;
+	setAttr ".tgi[1].ni[2].x" 1955.7142333984375;
+	setAttr ".tgi[1].ni[2].y" -348.57144165039062;
+	setAttr ".tgi[1].ni[2].nvs" 18305;
+	setAttr ".tgi[1].ni[3].x" 2314.28564453125;
+	setAttr ".tgi[1].ni[3].y" -795.71429443359375;
+	setAttr ".tgi[1].ni[3].nvs" 18304;
 	setAttr ".tgi[1].ni[4].x" 2314.28564453125;
-	setAttr ".tgi[1].ni[4].y" -795.71429443359375;
+	setAttr ".tgi[1].ni[4].y" -925.71429443359375;
 	setAttr ".tgi[1].ni[4].nvs" 18304;
-	setAttr ".tgi[1].ni[5].x" 2262.857177734375;
-	setAttr ".tgi[1].ni[5].y" -462.85714721679688;
+	setAttr ".tgi[1].ni[5].x" 2262.016845703125;
+	setAttr ".tgi[1].ni[5].y" -666.55462646484375;
 	setAttr ".tgi[1].ni[5].nvs" 18304;
 	setAttr ".tgi[1].ni[6].x" 2262.857177734375;
 	setAttr ".tgi[1].ni[6].y" -564.28570556640625;
 	setAttr ".tgi[1].ni[6].nvs" 18304;
 	setAttr ".tgi[2].tn" -type "string" "Untitled_3";
-	setAttr ".tgi[2].vl" -type "double2" -924.99996324380402 -1368.4523265749713 ;
-	setAttr ".tgi[2].vh" -type "double2" 348.8095099490792 -52.976188371105927 ;
-	setAttr -s 4 ".tgi[2].ni";
-	setAttr ".tgi[2].ni[0].x" -480;
-	setAttr ".tgi[2].ni[0].y" -497.14285278320312;
+	setAttr ".tgi[2].vl" -type "double2" -1484.5744417315927 -1076.5498866681885 ;
+	setAttr ".tgi[2].vh" -type "double2" -678.69211139480683 -147.97848414248611 ;
+	setAttr -s 13 ".tgi[2].ni";
+	setAttr ".tgi[2].ni[0].x" -257.14285278320312;
+	setAttr ".tgi[2].ni[0].y" -798.5714111328125;
 	setAttr ".tgi[2].ni[0].nvs" 18304;
-	setAttr ".tgi[2].ni[1].x" -172.85714721679688;
-	setAttr ".tgi[2].ni[1].y" -627.14288330078125;
+	setAttr ".tgi[2].ni[1].x" -1178.5714111328125;
+	setAttr ".tgi[2].ni[1].y" -484.28570556640625;
 	setAttr ".tgi[2].ni[1].nvs" 18304;
-	setAttr ".tgi[2].ni[2].x" -135.00642395019531;
-	setAttr ".tgi[2].ni[2].y" -416.55746459960938;
-	setAttr ".tgi[2].ni[2].nvs" 18305;
-	setAttr ".tgi[2].ni[3].x" -787.14288330078125;
-	setAttr ".tgi[2].ni[3].y" -497.14285278320312;
+	setAttr ".tgi[2].ni[2].x" -1178.5714111328125;
+	setAttr ".tgi[2].ni[2].y" -585.71429443359375;
+	setAttr ".tgi[2].ni[2].nvs" 18304;
+	setAttr ".tgi[2].ni[3].x" -257.14285278320312;
+	setAttr ".tgi[2].ni[3].y" -595.71429443359375;
 	setAttr ".tgi[2].ni[3].nvs" 18304;
+	setAttr ".tgi[2].ni[4].x" -564.28570556640625;
+	setAttr ".tgi[2].ni[4].y" -534.28570556640625;
+	setAttr ".tgi[2].ni[4].nvs" 18304;
+	setAttr ".tgi[2].ni[5].x" 74.285713195800781;
+	setAttr ".tgi[2].ni[5].y" -427.14285278320312;
+	setAttr ".tgi[2].ni[5].nvs" 18304;
+	setAttr ".tgi[2].ni[6].x" 418.57144165039062;
+	setAttr ".tgi[2].ni[6].y" -928.5714111328125;
+	setAttr ".tgi[2].ni[6].nvs" 18304;
+	setAttr ".tgi[2].ni[7].x" -257.14285278320312;
+	setAttr ".tgi[2].ni[7].y" -697.14288330078125;
+	setAttr ".tgi[2].ni[7].nvs" 18304;
+	setAttr ".tgi[2].ni[8].x" 74.285713195800781;
+	setAttr ".tgi[2].ni[8].y" -687.14288330078125;
+	setAttr ".tgi[2].ni[8].nvs" 18304;
+	setAttr ".tgi[2].ni[9].x" 74.285713195800781;
+	setAttr ".tgi[2].ni[9].y" -528.5714111328125;
+	setAttr ".tgi[2].ni[9].nvs" 18304;
+	setAttr ".tgi[2].ni[10].x" 418.57144165039062;
+	setAttr ".tgi[2].ni[10].y" -491.42855834960938;
+	setAttr ".tgi[2].ni[10].nvs" 18304;
+	setAttr ".tgi[2].ni[11].x" -564.28570556640625;
+	setAttr ".tgi[2].ni[11].y" -635.71429443359375;
+	setAttr ".tgi[2].ni[11].nvs" 18304;
+	setAttr ".tgi[2].ni[12].x" -871.4285888671875;
+	setAttr ".tgi[2].ni[12].y" -564.28570556640625;
+	setAttr ".tgi[2].ni[12].nvs" 18304;
 select -ne :time1;
 	setAttr -av -k on ".cch";
 	setAttr -k on ".fzn";
@@ -2966,13 +2979,10 @@ connectAttr "toe_red_rsSG.msg" "toe_materialInfo1.sg";
 connectAttr "toe_green_rsSG.msg" "toe_materialInfo2.sg";
 connectAttr "toe_blue_rsSG.msg" "toe_materialInfo3.sg";
 connectAttr "toe_surfaceShader1SG.msg" "toe_materialInfo4.sg";
-connectAttr "root_poser.twist" "unitConversion1942.i";
 connectAttr "toeTip_red_rsSG.msg" "toeTip_materialInfo1.sg";
 connectAttr "toeTip_green_rsSG.msg" "toeTip_materialInfo2.sg";
 connectAttr "toeTip_blue_rsSG.msg" "toeTip_materialInfo3.sg";
 connectAttr "toeTip_surfaceShader1SG.msg" "toeTip_materialInfo4.sg";
-connectAttr "toe_poser.twist" "unitConversion1943.i";
-connectAttr "toeTip_poser.twist" "unitConversion1944.i";
 connectAttr "root_toeBall_distance_scaled.ox" "multDoubleLinear1623.i1";
 connectAttr "mirror_condition.ocr" "multDoubleLinear1623.i2";
 connectAttr "multiplyDivide3.ox" "multDoubleLinear1624.i1";
@@ -3020,43 +3030,58 @@ connectAttr "mainPoser_decomposeMatrix.osx" "multiplyDivide6.i1x";
 connectAttr "multDoubleLinear1628.o" "multiplyDivide6.i2x";
 connectAttr "root_outJoint.iog" "skinJointsSet.dsm" -na;
 connectAttr "toe_outJoint.iog" "skinJointsSet.dsm" -na;
-connectAttr "multiplyDivide3.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn";
-connectAttr "mainPoser_decomposeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
+connectAttr "ik_toe_upv.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn";
+connectAttr "toe_poser_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
 		;
-connectAttr "toe_poser_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn"
+connectAttr "multDoubleLinear1624.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn"
 		;
-connectAttr "multDoubleLinear1624.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn"
+connectAttr "ik_toe_upvShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn";
+connectAttr "toeTip_poser_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[4].dn"
 		;
-connectAttr "mirror_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[4].dn"
+connectAttr "mainPoser_decomposeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn"
 		;
-connectAttr "mainPoser.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn";
-connectAttr "toeTip_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[6].dn";
-connectAttr "toeBall_toeTip_distance.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[7].dn"
+connectAttr "mainPoser.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[6].dn";
+connectAttr "mirror_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[7].dn"
 		;
-connectAttr "ik_toe_upvShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[8].dn";
+connectAttr "toeBall_toeTip_distance.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[8].dn"
+		;
 connectAttr "mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[9].dn";
 connectAttr "toe_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[10].dn";
-connectAttr "toeTip_poser_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[11].dn"
+connectAttr "multiplyDivide3.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[11].dn"
 		;
-connectAttr "ik_toe_upv.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[12].dn";
-connectAttr "mainPoser_decomposeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn"
+connectAttr "toeTip_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[12].dn"
 		;
-connectAttr "mainPoserShapeOrig.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn"
+connectAttr "toeTip_poserOrient_aimConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn"
 		;
-connectAttr "toeTip_poserOrient_aimConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn"
+connectAttr "toe_poserOrient_aimConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn"
 		;
-connectAttr "mainPoser.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn";
-connectAttr "mainPoserShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn";
-connectAttr "toe_poserOrient_aimConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn"
+connectAttr "mainPoser.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn";
+connectAttr "mainPoserShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn";
+connectAttr "mainPoserShapeOrig.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn"
+		;
+connectAttr "mainPoser_decomposeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn"
 		;
 connectAttr "root_poserOrient_aimConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[6].dn"
 		;
-connectAttr "mirror_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn"
+connectAttr "cluster4GroupParts.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn"
 		;
-connectAttr "toe_initLoc_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn"
+connectAttr "groupId42.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn";
+connectAttr "mainPoserShapeOrig.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn"
 		;
-connectAttr "toe_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn";
-connectAttr "mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn";
+connectAttr "mainPoser_clusterHandleShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn"
+		;
+connectAttr "tweak24.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[4].dn";
+connectAttr "tweakSet24.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[5].dn";
+connectAttr "mainPoser.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[6].dn";
+connectAttr "mainPoser_clusterHandle.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[7].dn"
+		;
+connectAttr "mainPoser_clusterHandleCluster1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[8].dn"
+		;
+connectAttr "cluster4Set.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[9].dn";
+connectAttr "mainPoserShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[10].dn";
+connectAttr "cluster4GroupId.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[11].dn"
+		;
+connectAttr "groupParts42.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[12].dn";
 connectAttr "black_rsSG.pa" ":renderPartition.st" -na;
 connectAttr "green_rsSG.pa" ":renderPartition.st" -na;
 connectAttr "blue_rsSG.pa" ":renderPartition.st" -na;

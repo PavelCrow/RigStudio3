@@ -359,9 +359,20 @@ class Rig:
             tw_name = tw_mod[:-4]
             if state:
                 cmds.showHidden(tw_name+'_joints')
+                cmds.showHidden(tw_name+'_curve')
             else:
                 cmds.hide(tw_name+'_joints')
+                cmds.hide(tw_name+'_curve')
             
+        for m in self.modules:
+            for j in cmds.listRelatives(m+'_outJoints', allDescendents=1):
+                if "ibtw_outJoint" in j:
+                    if state:
+                        cmds.setAttr(j+'.drawStyle', 0)
+                    else:
+                        cmds.setAttr(j+'.drawStyle', 2)
+
+
         cmds.setAttr(self.root + ".jointsVis", state)
 
         if not state:

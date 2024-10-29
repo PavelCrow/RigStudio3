@@ -486,9 +486,14 @@ class MainWindow:
         menu = QtWidgets.QMenu(self.win)
 
         saveRigTepl_action = QtWidgets.QAction(self.win)
-        saveRigTepl_action.setText("Save Template")
+        saveRigTepl_action.setText("Save Template..")
         menu.addAction(saveRigTepl_action)
         saveRigTepl_action.triggered.connect(self.templateClass.rig_save)
+
+        loadRigTepl_action = QtWidgets.QAction(self.win)
+        loadRigTepl_action.setText("Load Template..")
+        menu.addAction(loadRigTepl_action)
+        loadRigTepl_action.triggered.connect(self.templateClass.rig_load)
 
         menu.addSeparator()
 
@@ -687,10 +692,10 @@ class MainWindow:
         self.win.addMirrorLoc_btn.clicked.connect(tools.addMirrorLoc)
         self.win.addMirrorAxisAttr_btn.clicked.connect(tools.addMirrorAxisAttr)
         self.win.createControlGroup_btn.clicked.connect(tools.addControlGroup)
-        self.win.connectByMultMatrix_btn.clicked.connect(tools.connectByMultMatrix)
-        self.win.connectByBlendMatrix_btn.clicked.connect(tools.connectByBlendMatrix)
+        # self.win.connectByMultMatrix_btn.clicked.connect(tools.connectByMultMatrix)
+        # self.win.connectByBlendMatrix_btn.clicked.connect(tools.connectByBlendMatrix)
 
-        self.win.smf_baseRigPostScript_btn.clicked.connect(tools.smf_baseRigPostScript)
+        self.win.buildMocapSkeleton_btn.clicked.connect(tools.buildMocapSkeleton)
 
         # Controller 
         self.win.rotateShapeX_btn.clicked.connect(partial(self.controls_rotateShape, "x"))

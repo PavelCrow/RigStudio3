@@ -183,10 +183,22 @@ class Template(object):
 
 		self.main.rigTemplatesMenuUpdate()
 
-	def rig_load(self, tName):
+	def rig_load(self, tName=None):
+
 		# read data
-		with open(os.path.join(self.rootPath, 'templates', 'rigs', tName + '.tmpl'), mode='r') as f:
-			data = json.load(f)
+		if tName:
+			with open(os.path.join(self.rootPath, 'templates', 'rigs', tName + '.tmpl'), mode='r') as f:
+				data = json.load(f)
+
+		else:
+			t_path = QtWidgets.QFileDialog.getOpenFileName(self.main.win, "Load Rig Template", os.path.join(self.rootPath,'templates','rigs'), "*.tmpl")[0]
+	
+			if not t_path:
+				return
+
+			with open(t_path, mode='r') as f:
+				data = json.load(f)
+
 
 		# delete rig
 		try:
