@@ -15,12 +15,13 @@ rootPath = os.path.normpath(os.path.dirname(__file__))
 
 
 class Twist(object):
-    def __init__(self, win):
+    def __init__(self, win, main):
         self.win = win
+        self.main = main
         self.twists = {}
         self.curTwistName = ""
         self.curTwist = {}
-
+        
         self.connect()
 
         self.updateList()
@@ -400,6 +401,7 @@ class Twist(object):
         if self.win.twists_listWidget.count() == 0:
             return
 
+        # get name
         if item_name == "" or item_name == False:
             if item_name == None:
                 return
@@ -407,6 +409,16 @@ class Twist(object):
                 return
             item_name = self.win.twists_listWidget.currentItem().text()
 
+        root_j = cmds.listRelatives(item_name + "_root_connectorLoc", p=1)[0]
+        cmds.setAttr(root_j+".drawStyle", 0)
+
+        # delete ibtws
+        ibtws_data = self.main.rig.getIbtwsData()
+        for ibtwData in ibtws_data:
+            if ibtwData["child_j"].split("_twist")[0] == item_name or ibtwData["parent_j"].split("_twist")[0] == item_name:
+                self.main.ibtwClass.remove(ibtwData["name"])
+        
+        # delete item
         item = self.win.twists_listWidget.findItems(item_name, QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive)[0]
         self.win.twists_listWidget.removeItemWidget(item)
 
@@ -626,7 +638,7 @@ class Twist(object):
             updateFrame = True
             count, ok = QtWidgets.QInputDialog().getInt(self.win, 'Change joints count', 'Enter joints count:',
                                             value=self.curTwist['jointsCount'], minValue=1, maxValue=100)
-
+        
         def generateJoints(twName, count, moduleName=None):
             # get values
             old_count = len(cmds.listRelatives(twName+'_joints'))
@@ -639,7 +651,7 @@ class Twist(object):
             upLoc = twName+"_startUp_loc"
             rootConnector = twName+"_root_connector"
             curveS = twName+"_curveShape"
-
+            
             # delete old joints
             for i in range(old_count):
                 cmds.delete(twName+'_twist_%s_twJoint' %i)
@@ -661,13 +673,12 @@ class Twist(object):
                 u = 0.5
             else:
                 step = 1.0/(count-1)
-
+            
             # generate joints
             cmds.select(clear=1)
             for i in range(count):
                 j = cmds.joint(n=twName+'_twist_%s_twJoint' %i)
                 utils.setUserAttr(j, "pos", u, "float", keyable=True, lock=False)
-                utils.addToModuleSet(j, moduleName)
                 cmds.sets(j, e=1, forceElement='skinJointsSet')
                 cmds.sets(j, e=1, forceElement=twSet)
                 cmds.parent(j, twName+"_joints")
@@ -693,8 +704,9 @@ class Twist(object):
         
         twName = self.curTwistName
         twName_opp = utils.getOpposite(self.curTwistName)
+        
         generateJoints(twName, count, moduleName)
-
+        
         rootConnector_opp = twName_opp+"_root_connector"
         
         if twName != twName_opp and cmds.objExists(rootConnector_opp):
@@ -723,7 +735,6 @@ class Twist(object):
                 m_Name = utils.getModuleName(tw_mod)
                 if m_Name == moduleName:
                     twists.append(tw_mod.split('_mod')[0])
-
 
         return twists		
 

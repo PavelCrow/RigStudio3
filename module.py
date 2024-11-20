@@ -58,6 +58,7 @@ class Module(object):
         control_set = self.name+'_moduleControlSet'
 
         control_set = createControlSet(self.name+'_moduleControlSet')
+        
         cmds.sets(control_set, e=1, forceElement='controlSet' )
         
         # add types attr
@@ -99,40 +100,28 @@ class Module(object):
             m_name = self.name
 
         # joints = cmds.ls(m_name+'*_outJoint')
-        joints = cmds.sets(m_name+'_skinJointsSet', q=1)
+        skin_joints = cmds.sets(m_name+'_skinJointsSet', q=1)
 
         # create skeleton grp
-        joints_grp = m_name+'_outJoints'
-        outJoints_grp = joints_grp+'_group'
+        out_joints_grp = m_name+'_outJoints'
+        joints_grp = out_joints_grp+'_group'
         
-        cmds.duplicate(joints_grp, n=outJoints_grp)
-        allJoints = pm.listRelatives(outJoints_grp, allDescendents=1)
+        cmds.duplicate(out_joints_grp, n=joints_grp)
+        joints = pm.listRelatives(joints_grp, allDescendents=1)
         
         # connect joints and delete all except joints
-        for o in allJoints:
-
-            # delete if not joint or have not a joint
-            # if pm.objectType(o) != 'joint':
-            #     childs = pm.listRelatives(o, allDescendents=1)
-            #     childs_joints = []
-            #     for ch in childs:
-            #         if pm.objectType(ch) == 'joint':
-            #             childs_joints.append(ch)
-            #     if len(childs_joints) == 0:
-            #         pm.delete(o)
-            #         continue
-
+        for o in joints:
             # connect
             srcName = o.name().split('|')[-1]
 
-            if not srcName in joints:
+            # if not srcName in skin_joints:
+            if pm.objectType(o) != "joint":
                 pm.delete(o)
                 continue
 
             o.rename(srcName.replace('outJoint', 'joint').replace('outRootJoint', 'rootJoint').replace('outGroup', 'group'))
             utils.connectTrandform(srcName, o.name())
             
-
             if not cmds.objExists(m_name+"_mainPoser_decomposeMatrix"):
                 root_dec = cmds.createNode('decomposeMatrix', n=m_name+"_mainPoser_decomposeMatrix")
                 cmds.connectAttr(m_name+"_mainPoser.worldMatrix[0]", root_dec+".inputMatrix")
@@ -161,8 +150,10 @@ class Module(object):
                 if o.name() == m_name +"_root_joint":
                     # utils.resetJointOrient(o.name())
                     cmds.setAttr(o.name()+".jointOrient", 0,0,0)
+        
         # connect root joints
-        joints_ = cmds.listRelatives(outJoints_grp) or []
+        joints_ = cmds.listRelatives(joints_grp) or []
+        
         for j in joints_:
             cmds.parent(j, 'skeleton')
             utils.removeTransformParentJoint(j)
@@ -193,14 +184,16 @@ class Module(object):
             cmds.sets('skinJointsSet', e=1, forceElement='sets' )
 
         for j in joints:
-            sj = j.replace("outJoint", "joint")
+            if not pm.objExists(j):
+                continue
+            sj = j.name()
             cmds.sets(sj, e=1, forceElement='skinJointsSet')
             cmds.sets(sj, e=1, rm=self.name+'_skinJointsSet')
             
-            if cmds.getAttr(sj+".drawStyle", settable=1):
-                cmds.setAttr(sj+".drawStyle", 0)
+            # if cmds.getAttr(sj+".drawStyle", settable=1):
+            #     cmds.setAttr(sj+".drawStyle", 0)
 
-        cmds.delete(outJoints_grp)
+        cmds.delete(joints_grp)
 
     def getJoints(self):
         outJoints = cmds.listRelatives(self.name + '_outJoints', allDescendents=1) or []
@@ -242,7 +235,7 @@ class Module(object):
         # root = self.name + "_root_poserOrient"
         root_poser = self.name + "_root_poser"
         targetType = target.split("_")[-1]
-
+        
         target_module_name = utils.getModuleName(target)
         targetMainPoser = target_module_name + "_mainPoser"
         target_poser = target[:-len(targetType)] + "poser"
@@ -251,6 +244,7 @@ class Module(object):
         target_outJoint = target[:-len(targetType)] + "outJoint"
         target_initLoc = target[:-len(targetType)] + "initLoc"
         connector_parent = cmds.listRelatives(connector, p=1)[0]
+
         if cmds.objExists(target_add_poser):
             target_poser = target_add_poser
 
@@ -279,6 +273,7 @@ class Module(object):
 
         #     utils.connectToOffsetParentMatrix(connector, [root_poser, target_initLoc, mirror_compMat1, target_outJoint, connector_parent], ['worldMatrix[0]', 'worldInverseMatrix[0]', 'outputMatrix', 'worldMatrix[0]', 'worldInverseMatrix[0]'])
         # else:
+
         utils.connectToOffsetParentMatrix(connector, [root_poser, target_initLoc, target_outJoint, connector_parent], ['worldMatrix[0]', 'worldInverseMatrix[0]', 'worldMatrix[0]', 'worldInverseMatrix[0]'])
         
         self.parent = target_outJoint
@@ -556,8 +551,10 @@ class Module(object):
                             if not cmds.objExists(p_name+'.'+attr):
                                 cmds.warning("Missed attr " + p_name+'.'+attr)
                                 continue
-                            if not (cmds.listConnections(p_name+'.'+attr, d=False, s=True) or []) and not cmds.getAttr(p_name+'.'+attr, lock=1): # only not connections and not locked
+                            # if not (cmds.listConnections(p_name+'.'+attr, d=False, s=True) or []) and not cmds.getAttr(p_name+'.'+attr, lock=1): # only not connections and not locked
+                            try:
                                 cmds.setAttr(p_name+'.'+attr, value)
+                            except: pass
         
         # set control names
         if load == "controlNames" or load == "all":
@@ -635,6 +632,11 @@ class Module(object):
             for cName in controlNames:
                 # try:
                 intName = utils.getInternalNameFromControl(cName)
+                
+                if intName not in data['controlsNamesData']:
+                    cmds.warning("Missed control data to load "+ cName)
+                    continue
+
                 savedName_templated = data['controlsNamesData'][intName]
                 savedName = utils.getRealNameFromTemplated(self.name, savedName_templated)
                 if sym and not "MODNAME" in savedName_templated:
@@ -672,6 +674,22 @@ class Module(object):
                 if data["seamless"] and not self.isSeamless(): 
                     self.makeSeamless(True)
                 self.setOptions(data['optionsData'])
+
+    def getIbtwsData(self):
+        # get twists data
+        ibtwsData = []
+        roots = cmds.ls("*_ibtw_root")
+        
+        for root in roots:
+            if utils.getObjectSide(root) == "r" and cmds.objExists(utils.getOpposite(root)):
+                continue
+            
+            if root[:(len(self.name))] == self.name: # if start of the ibts name == module name
+                ibtw = root.split("_ibtw_root")[0]
+                ibtwData = self.main.ibtwClass.getData(ibtw)
+                ibtwsData.append(ibtwData)
+                
+        return ibtwsData
 
     def setMirroredNames():
         pass
@@ -816,7 +834,6 @@ class Module(object):
         if not cmds.objExists(parent_p):
             target_module_name = utils.getModuleName(self.parent)
             parent_p = utils.getClosestPoser(target_module_name, self.parent)
-        
         seamless = not cmds.getAttr(parent_p+'.lodVisibility')
         return seamless
 

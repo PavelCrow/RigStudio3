@@ -510,8 +510,8 @@ class Inbetweens(object):
 			j.slideMin.set(data['slideMin'])
 			j.slideMax.set(data['slideMax'])
 
-		if side == "y":
-			j.angleMax.set(j.angleMax.get()*-1)
+		# if side == "y":
+		# 	j.angleMax.set(j.angleMax.get()*-1)
 
 		
 		set = name + '_ibtwNodesSet'

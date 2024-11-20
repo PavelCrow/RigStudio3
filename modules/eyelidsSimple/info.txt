@@ -1,0 +1,4 @@
+ver=1.0=
+description=Eyelids simple rig with four controllers. Can connect to existing eyes module.
+section=Face
+advanced=False

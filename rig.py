@@ -344,16 +344,16 @@ class Rig:
         if not state:
             state = self.main.win.actionJoints.isChecked()
 
-        for m in self.modules:
-            if state:
-                for j in cmds.sets(m+'_skinJointsSet', q=1):
-                    if not cmds.objExists(j.replace("outJoint", "mod")):
-                        if cmds.getAttr(j+".drawStyle", settable=1): # if not locked
-                            cmds.setAttr(j+'.drawStyle', 0)
-            else:
-                for j in cmds.sets(m+'_skinJointsSet', q=1):
-                    if cmds.getAttr(j+".drawStyle", settable=1): # if not locked
-                        cmds.setAttr(j+'.drawStyle', 2)
+        # for m in self.modules:
+        #     if state:
+        #         for j in cmds.sets(m+'_skinJointsSet', q=1):
+        #             if not cmds.objExists(j.replace("outJoint", "mod")):
+        #                 if cmds.getAttr(j+".drawStyle", settable=1): # if not locked
+        #                     cmds.setAttr(j+'.drawStyle', 0)
+        #     else:
+        #         for j in cmds.sets(m+'_skinJointsSet', q=1):
+        #             if cmds.getAttr(j+".drawStyle", settable=1): # if not locked
+        #                 cmds.setAttr(j+'.drawStyle', 2)
 
         for tw_mod in cmds.listRelatives("twists") or []:
             tw_name = tw_mod[:-4]
@@ -365,12 +365,13 @@ class Rig:
                 cmds.hide(tw_name+'_curve')
             
         for m in self.modules:
-            for j in cmds.listRelatives(m+'_outJoints', allDescendents=1):
-                if "ibtw_outJoint" in j:
-                    if state:
-                        cmds.setAttr(j+'.drawStyle', 0)
-                    else:
-                        cmds.setAttr(j+'.drawStyle', 2)
+            cmds.setAttr(m+'_outJoints.visibility', state)
+        #     for j in cmds.listRelatives(m+'_outJoints', allDescendents=1):
+        #         if "ibtw_outJoint" in j:
+        #             if state:
+        #                 cmds.setAttr(j+'.drawStyle', 0)
+        #             else:
+        #                 cmds.setAttr(j+'.drawStyle', 2)
 
 
         cmds.setAttr(self.root + ".jointsVis", state)

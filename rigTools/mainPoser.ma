@@ -1,17 +1,21 @@
-//Maya ASCII 2013 scene
+//Maya ASCII 2022 scene
 //Name: mainPoser.ma
-//Last modified: Mon, Feb 03, 2020 12:40:37 PM
+//Last modified: Sat, Nov 16, 2024 05:45:24 PM
 //Codeset: 1251
-requires maya "2013";
+requires maya "2022";
 requires "stereoCamera" "10.0";
 currentUnit -l centimeter -a degree -t film;
 fileInfo "application" "maya";
-fileInfo "product" "Maya 2013";
-fileInfo "version" "2013 x64";
-fileInfo "cutIdentifier" "201209210409-845513";
-fileInfo "osv" "Microsoft , 64-bit  (Build 9200)\n";
+fileInfo "product" "Maya 2022";
+fileInfo "version" "2022";
+fileInfo "cutIdentifier" "202303271415-baa69b5798";
+fileInfo "osv" "Windows 10 Pro v2009 (Build: 22631)";
+fileInfo "UUID" "E78A8F14-4EAD-7234-D750-DB83F1FBABCD";
 createNode transform -n "mainPoser";
+	rename -uid "EFC0A4CB-413F-8B55-98E8-A394D9581226";
 	addAttr -ci true -sn "size" -ln "size" -dv 1 -min 0 -at "double";
+	addAttr -ci true -sn "globalSize" -ln "globalSize" -dv 1 -min 0 -at "double";
+	addAttr -ci true -sn "lineWidth" -ln "lineWidth" -dv 1 -min 0 -at "double";
 	setAttr -l on -k off ".v";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 10;
@@ -19,62 +23,71 @@ createNode transform -n "mainPoser";
 	setAttr -k off ".sy";
 	setAttr -k off ".sz";
 	setAttr -k on ".size";
+	setAttr -k on ".globalSize";
+	setAttr -k on ".lineWidth";
 createNode nurbsCurve -n "mainPoserShape" -p "mainPoser";
+	rename -uid "B49AFC49-435E-238D-0FF1-F5A9F9363E6E";
 	setAttr -k off ".v";
 	setAttr -s 4 ".iog[0].og";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 10;
 	setAttr ".tw" yes;
 createNode nurbsCurve -n "mainPoserShapeOrig" -p "mainPoser";
+	rename -uid "7AC14BF4-4683-0C1C-343A-1B8073495014";
 	setAttr -k off ".v";
 	setAttr ".io" yes;
 	setAttr ".cc" -type "nurbsCurve" 
-		1 16 0 no 3
-		17 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
-		17
-		-0.14006934744825167 0.14006933472115335 0.14006922260458046
-		-0.14006934744825167 0.14006933472115335 -0.14006923490734344
-		0.14006911006367309 0.14006933472115335 -0.14006923490734344
-		0.14006911006367309 0.14006933472115335 0.14006922260458046
-		-0.14006934744825167 0.14006933472115335 0.14006922260458046
-		0.14006911006367309 0.14006933472115335 0.14006922260458046
-		0.14006911006367309 -0.14006912279077055 0.14006922260458046
-		-0.14006934744825167 -0.14006912279077055 0.14006922260458046
-		-0.14006934744825167 0.14006933472115335 0.14006922260458046
-		-0.14006934744825167 -0.14006912279077055 0.14006922260458046
-		-0.14006934744825167 -0.14006912279077055 -0.14006923490734344
-		-0.14006934744825167 0.14006933472115335 -0.14006923490734344
-		-0.14006934744825167 -0.14006912279077055 -0.14006923490734344
-		0.14006911006367309 -0.14006912279077055 -0.14006923490734344
-		0.14006911006367309 0.14006933472115335 -0.14006923490734344
-		0.14006911006367309 -0.14006912279077055 -0.14006923490734344
-		0.14006911006367309 -0.14006912279077055 0.14006922260458046
+		1 15 0 no 3
+		16 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+		16
+		-0.99824146113335877 0.99824146113335877 0.99824146113335877
+		-0.99824146113335877 0.99824146113335877 -0.99824146113335877
+		0.99824146113335877 0.99824146113335877 -0.99824146113335877
+		0.99824146113335877 0.99824146113335877 0.99824146113335877
+		-0.99824146113335877 0.99824146113335877 0.99824146113335877
+		-0.99824146113335877 -0.99824146113335877 0.99824146113335877
+		-0.99824146113335877 -0.99824146113335877 -0.99824146113335877
+		0.99824146113335877 -0.99824146113335877 -0.99824146113335877
+		0.99824146113335877 -0.99824146113335877 0.99824146113335877
+		-0.99824146113335877 -0.99824146113335877 0.99824146113335877
+		0.99824146113335877 -0.99824146113335877 0.99824146113335877
+		0.99824146113335877 0.99824146113335877 0.99824146113335877
+		0.99824146113335877 0.99824146113335877 -0.99824146113335877
+		0.99824146113335877 -0.99824146113335877 -0.99824146113335877
+		-0.99824146113335877 -0.99824146113335877 -0.99824146113335877
+		-0.99824146113335877 0.99824146113335877 -0.99824146113335877
 		;
 createNode transform -n "mainPoser_clusterHandle" -p "mainPoser";
+	rename -uid "1C5D4F21-438B-C644-A705-4DA2818DEC88";
 	setAttr ".v" no;
-	setAttr ".rp" -type "double3" -5.5320657416091379e-008 4.9388752143553205e-008 -2.8670646134987265e-009 ;
-	setAttr ".sp" -type "double3" -5.5320657416091379e-008 4.9388752143553205e-008 -2.8670646134987265e-009 ;
+	setAttr ".rp" -type "double3" -5.5320657416091379e-08 4.9388752143553205e-08 -2.8670646134987265e-09 ;
+	setAttr ".sp" -type "double3" -5.5320657416091379e-08 4.9388752143553205e-08 -2.8670646134987265e-09 ;
 createNode clusterHandle -n "mainPoser_clusterHandleShape" -p "mainPoser_clusterHandle";
+	rename -uid "E4725266-4337-59B2-8726-0A93A8159606";
 	setAttr ".ihi" 0;
 	setAttr -k off ".v";
-	setAttr ".or" -type "double3" -5.5320657416091379e-008 4.9388752143553205e-008 -2.8670646134987265e-009 ;
+	setAttr ".or" -type "double3" -5.5320657416091379e-08 4.9388752143553205e-08 -2.8670646134987265e-09 ;
 createNode transform -s -n "persp";
+	rename -uid "693BAF98-4506-9907-C80A-8CAEB2AF5395";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 0.87864949960231675 0.90945626322217055 1.1745150052517872 ;
-	setAttr ".r" -type "double3" -31.800000000000104 36.800000000000203 1.9860310191763175e-015 ;
+	setAttr ".t" -type "double3" 12.521175225512774 18.371659271193145 30.25720783238139 ;
+	setAttr ".r" -type "double3" -27.600000000001604 22.000000000000988 -8.5758468123606543e-16 ;
 createNode camera -s -n "perspShape" -p "persp";
+	rename -uid "48AC87D4-4AC2-6573-F8EC-84903E81E6E8";
 	setAttr -k off ".v" no;
 	setAttr ".fl" 34.999999999999993;
-	setAttr ".coi" 1.7258682171188633;
+	setAttr ".coi" 37.856847912389242;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
 	setAttr ".hc" -type "string" "viewSet -p %camera";
 createNode transform -s -n "top";
+	rename -uid "21DC666D-4348-3E7F-E9B9-9F94D716D68B";
 	setAttr ".v" no;
 	setAttr ".t" -type "double3" 0 100.1 0 ;
 	setAttr ".r" -type "double3" -89.999999999999986 0 0 ;
 createNode camera -s -n "topShape" -p "top";
+	rename -uid "2085D570-4B57-C16E-6F76-2A81CE8F0C91";
 	setAttr -k off ".v" no;
 	setAttr ".rnd" no;
 	setAttr ".coi" 100.1;
@@ -85,9 +98,11 @@ createNode camera -s -n "topShape" -p "top";
 	setAttr ".hc" -type "string" "viewSet -t %camera";
 	setAttr ".o" yes;
 createNode transform -s -n "front";
+	rename -uid "7094770D-4472-1557-F83E-849C525A715B";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 1.5948119311270936e-008 3.9478651771285289e-009 1.6698044130767242 ;
+	setAttr ".t" -type "double3" 1.5948119311270936e-08 3.9478651771285289e-09 1.6698044130767242 ;
 createNode camera -s -n "frontShape" -p "front";
+	rename -uid "8067162B-4FA1-2C17-DC53-8B91479D9EBA";
 	setAttr -k off ".v" no;
 	setAttr ".rnd" no;
 	setAttr ".coi" 100.1;
@@ -98,10 +113,12 @@ createNode camera -s -n "frontShape" -p "front";
 	setAttr ".hc" -type "string" "viewSet -f %camera";
 	setAttr ".o" yes;
 createNode transform -s -n "side";
+	rename -uid "2D108E4D-48BB-1873-07EA-5E92E5E01339";
 	setAttr ".v" no;
 	setAttr ".t" -type "double3" 100.1 0 0 ;
 	setAttr ".r" -type "double3" 0 89.999999999999986 0 ;
 createNode camera -s -n "sideShape" -p "side";
+	rename -uid "DF025CD9-4224-6901-F273-FAB145639453";
 	setAttr -k off ".v" no;
 	setAttr ".rnd" no;
 	setAttr ".coi" 100.1;
@@ -112,36 +129,82 @@ createNode camera -s -n "sideShape" -p "side";
 	setAttr ".hc" -type "string" "viewSet -s %camera";
 	setAttr ".o" yes;
 createNode groupId -n "cluster4GroupId";
+	rename -uid "20048A70-43D8-C9AC-498D-B897D750C8E1";
 	setAttr ".ihi" 0;
 createNode objectSet -n "cluster4Set";
+	rename -uid "A01BAE23-4F95-5397-54D2-2B9C5F37DF6B";
 	setAttr ".ihi" 0;
 	setAttr ".vo" yes;
 createNode cluster -n "mainPoser_clusterHandleCluster";
+	rename -uid "F5CDA258-4E63-DA10-82C1-7AA3F45A6429";
+	setAttr ".ip[0].gtg" -type "string" "";
 	setAttr ".rel" yes;
 	setAttr ".gm[0]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1;
+	setAttr ".ait" 0;
 createNode groupParts -n "cluster4GroupParts";
+	rename -uid "DF324125-4DA1-16E1-97B6-3C82D7D03B70";
 	setAttr ".ihi" 0;
 	setAttr ".ic" -type "componentList" 1 "cv[0:16]";
 createNode tweak -n "tweak24";
+	rename -uid "053AA3A5-4CEE-A95D-C600-F084C76EA8D3";
 createNode objectSet -n "tweakSet24";
+	rename -uid "5B61AF80-4AA6-4587-082C-D18AF3150942";
 	setAttr ".ihi" 0;
 	setAttr ".vo" yes;
 createNode groupId -n "groupId42";
+	rename -uid "BE7E55A1-4AFA-877C-BC98-F8BACD7C6D69";
 	setAttr ".ihi" 0;
 createNode groupParts -n "groupParts42";
+	rename -uid "105D793C-4F62-0EFE-70EB-9B878A890989";
 	setAttr ".ihi" 0;
 	setAttr ".ic" -type "componentList" 1 "cv[*]";
 createNode lightLinker -s -n "lightLinker1";
+	rename -uid "66407B1F-4EAC-1C88-51B7-BAB39EA878B9";
 	setAttr -s 2 ".lnk";
 	setAttr -s 2 ".slnk";
 createNode displayLayerManager -n "layerManager";
+	rename -uid "FE7C1DD5-4E61-A2BC-5663-4D8F35B01967";
 createNode displayLayer -n "defaultLayer";
+	rename -uid "9E68AF01-4FAC-F04B-0A5F-1B80BBCE8821";
 createNode renderLayerManager -n "renderLayerManager";
+	rename -uid "266FC59A-4071-A304-A32C-C3A591967A34";
 createNode renderLayer -n "defaultRenderLayer";
+	rename -uid "EFBFD1F0-4325-9739-5215-9C96C3AF42B8";
 	setAttr ".g" yes;
 createNode script -n "sceneConfigurationScriptNode";
+	rename -uid "7386BA9F-42B7-E35E-F2BD-7DBF405F485D";
 	setAttr ".b" -type "string" "playbackOptions -min 1 -max 200 -ast 1 -aet 200 ";
 	setAttr ".st" 6;
+createNode shapeEditorManager -n "shapeEditorManager";
+	rename -uid "2BF79E88-42E4-8951-D0A8-778C29336A3D";
+createNode poseInterpolatorManager -n "poseInterpolatorManager";
+	rename -uid "EE19A1B1-4D63-E5E1-87AE-C3B94BAFD1C8";
+createNode multiplyDivide -n "mainPoser_size_multiplyDivide";
+	rename -uid "47815217-4AD7-5158-81A9-A796D281938B";
+createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
+	rename -uid "62732122-4CD2-7535-C52A-3E80F9E71762";
+	setAttr ".tgi[0].tn" -type "string" "Untitled_1";
+	setAttr ".tgi[0].vl" -type "double2" 189.5450175244433 -1143.316382931522 ;
+	setAttr ".tgi[0].vh" -type "double2" 1220.7807088879056 37.528631531302985 ;
+	setAttr -s 6 ".tgi[0].ni";
+	setAttr ".tgi[0].ni[0].x" 259.83193969726562;
+	setAttr ".tgi[0].ni[0].y" 105.46218109130859;
+	setAttr ".tgi[0].ni[0].nvs" 18305;
+	setAttr ".tgi[0].ni[1].x" 862.38250732421875;
+	setAttr ".tgi[0].ni[1].y" 27.152067184448242;
+	setAttr ".tgi[0].ni[1].nvs" 18305;
+	setAttr ".tgi[0].ni[2].x" 1242.041748046875;
+	setAttr ".tgi[0].ni[2].y" -426.76983642578125;
+	setAttr ".tgi[0].ni[2].nvs" 18304;
+	setAttr ".tgi[0].ni[3].x" 373.03475952148438;
+	setAttr ".tgi[0].ni[3].y" -441.94888305664062;
+	setAttr ".tgi[0].ni[3].nvs" 18304;
+	setAttr ".tgi[0].ni[4].x" 1263.884521484375;
+	setAttr ".tgi[0].ni[4].y" 0.27045261859893799;
+	setAttr ".tgi[0].ni[4].nvs" 18305;
+	setAttr ".tgi[0].ni[5].x" 534.28570556640625;
+	setAttr ".tgi[0].ni[5].y" -44.988483428955078;
+	setAttr ".tgi[0].ni[5].nvs" 18305;
 select -ne :time1;
 	setAttr -av -k on ".cch";
 	setAttr -av -k on ".ihi";
@@ -152,6 +215,9 @@ select -ne :time1;
 	setAttr -k on ".etw";
 	setAttr -k on ".tps";
 	setAttr -av -k on ".tms";
+select -ne :hardwareRenderingGlobals;
+	setAttr ".etmr" no;
+	setAttr ".tmr" 4096;
 select -ne :renderPartition;
 	setAttr -k on ".cch";
 	setAttr -k on ".ihi";
@@ -160,6 +226,26 @@ select -ne :renderPartition;
 	setAttr -s 2 ".st";
 	setAttr -k on ".an";
 	setAttr -k on ".pt";
+select -ne :renderGlobalsList1;
+	setAttr -k on ".cch";
+	setAttr -k on ".ihi";
+	setAttr -k on ".nds";
+	setAttr -cb on ".bnm";
+select -ne :defaultShaderList1;
+	setAttr -k on ".cch";
+	setAttr -k on ".ihi";
+	setAttr -k on ".nds";
+	setAttr -cb on ".bnm";
+	setAttr -s 5 ".s";
+select -ne :postProcessList1;
+	setAttr -k on ".cch";
+	setAttr -k on ".ihi";
+	setAttr -k on ".nds";
+	setAttr -cb on ".bnm";
+	setAttr -s 2 ".p";
+select -ne :defaultRenderUtilityList1;
+select -ne :defaultRenderingList1;
+	setAttr -k on ".ihi";
 select -ne :initialShadingGroup;
 	setAttr -av -k on ".cch";
 	setAttr -k on ".ihi";
@@ -186,26 +272,8 @@ select -ne :initialParticleSE;
 	setAttr -k on ".fo";
 	setAttr -k on ".epo";
 	setAttr ".ro" yes;
-select -ne :defaultShaderList1;
-	setAttr -k on ".cch";
-	setAttr -k on ".ihi";
-	setAttr -k on ".nds";
-	setAttr -cb on ".bnm";
-	setAttr -s 2 ".s";
-select -ne :postProcessList1;
-	setAttr -k on ".cch";
-	setAttr -k on ".ihi";
-	setAttr -k on ".nds";
-	setAttr -cb on ".bnm";
-	setAttr -s 2 ".p";
-select -ne :defaultRenderingList1;
-	setAttr -k on ".ihi";
-select -ne :renderGlobalsList1;
-	setAttr -k on ".cch";
-	setAttr -k on ".ihi";
-	setAttr -k on ".nds";
-	setAttr -cb on ".bnm";
 select -ne :defaultRenderGlobals;
+	addAttr -ci true -h true -sn "dss" -ln "defaultSurfaceShader" -dt "string";
 	setAttr -av -k on ".cch";
 	setAttr -cb on ".ihi";
 	setAttr -av -k on ".nds";
@@ -232,7 +300,7 @@ select -ne :defaultRenderGlobals;
 	setAttr -cb on ".me";
 	setAttr -cb on ".se";
 	setAttr -k on ".be";
-	setAttr -cb on ".ep";
+	setAttr -cb on ".ep" 1;
 	setAttr -k on ".fec";
 	setAttr -av -k on ".ofc";
 	setAttr -cb on ".ofe";
@@ -295,6 +363,11 @@ select -ne :defaultRenderGlobals;
 	setAttr -k on ".ope";
 	setAttr -k on ".oppf";
 	setAttr -cb on ".hbl";
+	setAttr ".dss" -type "string" "lambert1";
+select -ne :defaultResolution;
+	setAttr ".w" 640;
+	setAttr ".h" 480;
+	setAttr ".dar" 1.3333332538604736;
 select -ne :defaultLightSet;
 	setAttr -k on ".cch";
 	setAttr -k on ".ihi";
@@ -322,6 +395,16 @@ select -ne :defaultObjectSet;
 	setAttr -k on ".fo";
 	setAttr -k on ".epo";
 	setAttr ".ro" yes;
+select -ne :defaultColorMgtGlobals;
+	setAttr ".cme" no;
+	setAttr ".cfe" yes;
+	setAttr ".cfp" -type "string" "<MAYA_RESOURCES>/OCIO-configs/Maya2022-default/config.ocio";
+	setAttr ".vtn" -type "string" "ACES 1.0 SDR-video (sRGB)";
+	setAttr ".vn" -type "string" "ACES 1.0 SDR-video";
+	setAttr ".dn" -type "string" "sRGB";
+	setAttr ".wsn" -type "string" "ACEScg";
+	setAttr ".otn" -type "string" "ACES 1.0 SDR-video (sRGB)";
+	setAttr ".potn" -type "string" "ACES 1.0 SDR-video (sRGB)";
 select -ne :hardwareRenderGlobals;
 	setAttr -k on ".cch";
 	setAttr -cb on ".ihi";
@@ -360,51 +443,6 @@ select -ne :hardwareRenderGlobals;
 	setAttr -k on ".bswa";
 	setAttr -k on ".shml";
 	setAttr -k on ".hwel";
-select -ne :defaultHardwareRenderGlobals;
-	setAttr -k on ".cch";
-	setAttr -cb on ".ihi";
-	setAttr -k on ".nds";
-	setAttr -cb on ".bnm";
-	setAttr -av -k on ".rp";
-	setAttr -k on ".cai";
-	setAttr -k on ".coi";
-	setAttr -cb on ".bc";
-	setAttr -av -k on ".bcb";
-	setAttr -av -k on ".bcg";
-	setAttr -av -k on ".bcr";
-	setAttr -k on ".ei";
-	setAttr -av -k on ".ex";
-	setAttr -av -k on ".es";
-	setAttr -av -k on ".ef";
-	setAttr -av -k on ".bf";
-	setAttr -k on ".fii";
-	setAttr -av -k on ".sf";
-	setAttr -k on ".gr";
-	setAttr -k on ".li";
-	setAttr -k on ".ls";
-	setAttr -av -k on ".mb";
-	setAttr -k on ".ti";
-	setAttr -k on ".txt";
-	setAttr -k on ".mpr";
-	setAttr -k on ".wzd";
-	setAttr -k on ".fn" -type "string" "im";
-	setAttr -k on ".if";
-	setAttr -k on ".res" -type "string" "ntsc_4d 646 485 1.333";
-	setAttr -k on ".as";
-	setAttr -k on ".ds";
-	setAttr -k on ".lm";
-	setAttr -av -k on ".fir";
-	setAttr -k on ".aap";
-	setAttr -av -k on ".gh";
-	setAttr -cb on ".sd";
-select -ne :ikSystem;
-	setAttr -k on ".cch";
-	setAttr -k on ".ihi";
-	setAttr -k on ".nds";
-	setAttr -k on ".bnm";
-	setAttr -av ".gsn";
-	setAttr -k on ".gsv";
-	setAttr -s 4 ".sol";
 connectAttr "mainPoser.sx" "mainPoser.sy" -l on;
 connectAttr "mainPoser.sx" "mainPoser.sz" -l on;
 connectAttr "cluster4GroupId.id" "mainPoserShape.iog.og[1].gid";
@@ -413,9 +451,9 @@ connectAttr "groupId42.id" "mainPoserShape.iog.og[2].gid";
 connectAttr "tweakSet24.mwc" "mainPoserShape.iog.og[2].gco";
 connectAttr "mainPoser_clusterHandleCluster.og[0]" "mainPoserShape.cr";
 connectAttr "tweak24.pl[0].cp[0]" "mainPoserShape.twl";
-connectAttr "mainPoser.size" "mainPoser_clusterHandle.sx";
-connectAttr "mainPoser.size" "mainPoser_clusterHandle.sy";
-connectAttr "mainPoser.size" "mainPoser_clusterHandle.sz";
+connectAttr "mainPoser_size_multiplyDivide.ox" "mainPoser_clusterHandle.sx";
+connectAttr "mainPoser_size_multiplyDivide.ox" "mainPoser_clusterHandle.sy";
+connectAttr "mainPoser_size_multiplyDivide.ox" "mainPoser_clusterHandle.sz";
 connectAttr "cluster4GroupId.msg" "cluster4Set.gn" -na;
 connectAttr "mainPoserShape.iog.og[1]" "cluster4Set.dsm" -na;
 connectAttr "mainPoser_clusterHandleCluster.msg" "cluster4Set.ub[0]";
@@ -438,5 +476,22 @@ relationship "shadowLink" ":lightLinker1" ":initialShadingGroup.message" ":defau
 relationship "shadowLink" ":lightLinker1" ":initialParticleSE.message" ":defaultLightSet.message";
 connectAttr "layerManager.dli[0]" "defaultLayer.id";
 connectAttr "renderLayerManager.rlmi[0]" "defaultRenderLayer.rlid";
+connectAttr "mainPoser.globalSize" "mainPoser_size_multiplyDivide.i1x";
+connectAttr "mainPoser.globalSize" "mainPoser_size_multiplyDivide.i1y";
+connectAttr "mainPoser.globalSize" "mainPoser_size_multiplyDivide.i1z";
+connectAttr "mainPoser.size" "mainPoser_size_multiplyDivide.i2x";
+connectAttr "mainPoser.lineWidth" "mainPoser_size_multiplyDivide.i2y";
+connectAttr "mainPoserShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn";
+connectAttr "mainPoser_size_multiplyDivide.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
+		;
+connectAttr "mainPoser_clusterHandleShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn"
+		;
+connectAttr "mainPoserShapeOrig.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn"
+		;
+connectAttr "mainPoser_clusterHandle.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[4].dn"
+		;
+connectAttr "mainPoser.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn";
+connectAttr "mainPoser_size_multiplyDivide.msg" ":defaultRenderUtilityList1.u" -na
+		;
 connectAttr "defaultRenderLayer.msg" ":defaultRenderingList1.r" -na;
 // End of mainPoser.ma

@@ -29,6 +29,7 @@ def createMainPoser(name=""):
 	
 	# import
 	path = rootPath + '//rigTools//' + 'mainPoser.ma'		
+	print(22222222222, path)
 	
 	if name == 'mainPoser':
 		utils.importFile(path)

@@ -68,6 +68,8 @@ class ChainIk(module.Module) :
 
 		cmds.parent( self.name+'_element_2_poser', self.name+'_root_poser' )
 		
+		cmds.setAttr(self.name+"_mainPoser.globalSize", 0.5)
+
 		# create control, groups and joint
 		cu = controller.Control()
 		for i in range(controlsCount):
@@ -188,13 +190,14 @@ class ChainIk(module.Module) :
 			cmds.sets(self.name+'_controlSet', e=1, forceElement='controlSet' )
 		
 		cmds.parent(self.root, 'modules')
-
+		
 		self.create2()
 		self.addSkinJoints()
 		
 		# add init joints and locs
 		init_gr = pm.duplicate(self.name+"_outJoints", n=self.name+"_initJoints")[0]
 		pm.parent(init_gr, self.name+"_mainPoser")
+		
 		for o in pm.listRelatives(init_gr, allDescendents=1):
 			if pm.objectType(o) == 'joint':
 				pm.sets(self.name+"_skinJointsSet", e=1, rm=o)
@@ -225,11 +228,14 @@ class ChainIk(module.Module) :
 		pm.connectAttr(self.name+'_element_'+str(controlsCount)+'_poser.worldMatrix[0]', ikh.dWorldUpMatrixEnd)
 
 		cmds.setAttr(self.name+"_outJoints.v", 1)
+		cmds.setAttr(self.name+'_initJoints.v', 0)
+		if self.isOpposite():
+			cmds.setAttr(self.name+'_initJoints.sx', -1)
 
 	def create2(self):
 		name = self.name
 		controlsCount = self.controlsCount
-		
+
 		# get values
 		chainsCount = self.jointsCount
 		generateGeo = False
@@ -262,6 +268,7 @@ class ChainIk(module.Module) :
 			j = pm.joint(n=name+"_"+str(i)+"_outJoint")		
 			utils.addModuleNameAttr(j, self.name)
 			cmds.sets(j.name(), e=1, forceElement=self.name+'_skinJointsSet' )	
+			cmds.sets(j.name(), e=1, forceElement=self.name+'_nodesSet' )	
 		
 			if generateGeo:
 				loc = pm.spaceLocator(n=name+"_"+str(i)+"_outLoc")
@@ -548,23 +555,19 @@ class ChainIk(module.Module) :
 		self.connectOpposite()
 
 	def updateOptionsPage(self, widget):
-		childs = cmds.listRelatives(self.name+'_outJoints', allDescendents=1, type='joint' )
-		jointsCount = len(childs)			
+		self.getOptions()
 		
-		groups = []
-		for g in cmds.listRelatives(self.name+'_controls', allDescendents=1, type='transform' ):
-			if g.split("_")[-1] == "group":
-				groups.append(g)
-		controlsCount = len(groups) - 1
-		
-		useDynamic = cmds.objExists(self.name+"_hairSystem")
-		
-		widget.controlsCount_spinBox.setValue(controlsCount)
-		widget.jointsCount_spinBox.setValue(jointsCount)
-		widget.useDynamic_checkBox.setChecked(cmds.objExists(self.name+"_hairSystem"))
+		widget.controlsCount_spinBox.setValue(self.controlsCount)
+		widget.jointsCount_spinBox.setValue(self.jointsCount)
+		widget.useDynamic_checkBox.setChecked(self.useDynamic)
 
 	def getOptions(self):
-		childs = cmds.listRelatives(self.name+'_outJoints', allDescendents=1, type='joint' )
+		childs = []
+		for j in cmds.listRelatives(self.name+'_outJoints', allDescendents=1, type='joint' ):
+			if "ibtw" in j:
+				continue
+			childs.append(j)
+		
 		self.jointsCount = len(childs)			
 		
 		posers = []
@@ -651,7 +654,7 @@ class ChainIk(module.Module) :
 					cmds.parent(p, name+"_mainPoser")
 	
 		par(self.name)
-		par(utils.getOppositeObject(self.name))
+		par(utils.getOpposite(self.name))
 	
 		if len(sel) > 0:
 			cmds.select(sel)
@@ -679,7 +682,9 @@ class ChainIk(module.Module) :
 				except: pass
 	
 		par(self.name)
-		par(utils.getOppositeObject(self.name))			
+
+		if self.symmetrical:
+			par(utils.getOpposite(self.name))			
 
 		if len(sel) > 0:
 			cmds.select(sel)		
@@ -734,6 +739,9 @@ class ChainIk(module.Module) :
 			l_c.dynamicWeight >> r_c.dynamicWeight
 
 		pm.hide(r_c.getParent())
+		
+		# cmds.setAttr(self.name+'_initJoints.sx', -1)
+		# print(1111, self.name)
 
 	def addSkinJoints(self):
 		super(self.__class__, self).addSkinJoints()

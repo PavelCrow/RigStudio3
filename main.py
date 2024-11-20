@@ -109,7 +109,7 @@ class MainWindow:
         self.jointsSizeData = {}
         self.jointsSizeGlobal = 0
         self.posersSizeGlobal = 0
-        self.twistClass = twist.Twist(self.win)
+        self.twistClass = twist.Twist(self.win, self)
         self.ibtwClass = inbetweens.Inbetweens(self.win)
         self.controlShapes_data = []
         self.helpEvent = None
@@ -2664,6 +2664,12 @@ class MainWindow:
         # for os_data in os_update_data:
         #     self.curParents.os_deleteConstraint(data=os_data)
 
+        # remove ibtws
+        ibtws_data = self.rig.getIbtwsData()
+        for ibtwData in ibtws_data:
+            if utils.getModuleName(ibtwData["child_j"]) == moduleName or utils.getModuleName(ibtwData["parent_j"]) == moduleName:
+                self.ibtwClass.remove(ibtwData["name"])
+
         # disconnect twists
         for tw in cmds.listRelatives('twists', type='transform') or []:
             t_name = tw.split("_mod")[0]
@@ -2851,7 +2857,7 @@ class MainWindow:
 
         cmds.undoInfo(closeChunk=True)
 
-    def makeSymmetryModule(self, moduleName="", updateUI=True):
+    def makeSymmetryModule(self, moduleName="", updateUI=True, mirrored_modules=[]):
         
         if moduleName != "":
             module = self.rig.modules[moduleName]
@@ -2895,6 +2901,9 @@ class MainWindow:
         # set names
         if side != "l":
             self.renameModule("l_" + module.name, module.name)
+
+        mirrored_modules.append(module.name)
+
         newModuleName = utils.getOpposite(module.name)
 
         # get data
@@ -2917,12 +2926,6 @@ class MainWindow:
         target = utils.getOppositeIfExists(module.parent)
         opp_m.connect(target, opposite=True)
         
-        # add twists
-        # for twData in data['twistsData']:
-        #     name = utils.getRealNameFromTemplated(oldModule.name, twData['name'])
-        #     self.twistClass.twists_remove(name)
-        #     tw = self.twistClass.twists_add(twData, oldModule.name)
-
         if data['seamless']:
             module.makeSeamless(True)
         
@@ -2999,8 +3002,16 @@ class MainWindow:
         children = self.rig.getModuleChildren(module.name)
         if children:
             for child in children:
-                self.makeSymmetryModule(child)     
+                self.makeSymmetryModule(child, mirrored_modules=mirrored_modules)
         
+        # after all childrens mirror
+        if not moduleName:
+            # add twists
+            for twData in data['twistsData']:
+                name = utils.getRealNameFromTemplated(oldModule.name, twData['name'])
+                self.twistClass.twists_remove(name)
+                tw = self.twistClass.twists_add(twData, oldModule.name)
+
         if updateUI:
             self.updateModulesTree()
         # self.curParents.updateList()
@@ -3227,7 +3238,7 @@ class MainWindow:
 
         # set seamless attribute
         if curModuleData['seamless']:
-            self.curModule.seamless(True)
+            self.curModule.makeSeamless(True)
 
         # set module paraneters
         self.curModule.setData(curModuleData)
@@ -3245,7 +3256,7 @@ class MainWindow:
                 # snapping
                 if children[m_name][2]:
                     m = children[m_name][1]
-                    m.seamless(True)
+                    m.makeSeamless(True)
 
         # make parents
         for data in curModuleData['parents']:

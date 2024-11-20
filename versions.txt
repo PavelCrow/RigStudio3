@@ -536,3 +536,16 @@ limbQuadrupped module update
 new module footSimple
 updated templates
 loading templates from any folder
+
+---Version 3.5.00
+new Mouth module
+new BrowsSimple module
+new Eyes module
+new EyesGeometry module
+new EyelidsSimple module
+new LimbSimple poser
+new Chain module
+ChainIk module update
+Fixed deleting ibtws  and twists
+Fixed saving ibtws template data
+Updated templates

@@ -107,7 +107,7 @@ class FootSimple(module.Module) :
 
 			utils.resetAttrs(self.name+"_root_connector")
 			
-			cmds.disconnectAttr(inputModuleName+'_root_connector.s', self.name+'_root_connector.s')
+			# cmds.disconnectAttr(inputModuleName+'_root_connector.s', self.name+'_root_connector.s')
 			
 			ik_end = utils.getControlNameFromInternal(inputModuleName, "ik_end")
 			cmds.setAttr(ik_end+"Shape.v", True)
@@ -118,7 +118,7 @@ class FootSimple(module.Module) :
 		if cmds.objExists(connectionNode_name):
 			try:
 				parent_joint = pm.PyNode(connectionNode_name).matrixIn[2].inputs()[0]
-				return parent_joint
+				return parent_joint.name()
 			except: 
 				input_node = pm.PyNode(connectionNode_name).matrixIn[0].inputs()[0]
 				if '_ik_out' in input_node.name():

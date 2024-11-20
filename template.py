@@ -235,6 +235,7 @@ class Template(object):
 
 		data = {}
 		modulesData = []
+		ibtwsData = []
 
 		if len(self.main.rig.modules) == 0:
 			cmds.warning("No modules")
@@ -248,10 +249,13 @@ class Template(object):
 			if haveParent(self.main.curModule.name, m.name) or name == self.main.curModule.name:
 				mData = m.getData()
 				modulesData.append(mData)
+
+				ibtwsData.append(m.getIbtwsData())
 		
 		data['type'] = 'compound_module'
 		data['name'] = os.path.basename(t_name).split(".")[0]
 		data['modulesData'] = modulesData
+		data['ibtwsData'] = ibtwsData
 
 		# format data 
 		json_string = json.dumps(data, indent=4)
@@ -432,9 +436,13 @@ class Template(object):
 			
 			cmds.window(window, e=1, t='Load inbetweens data')
 			cmds.progressBar(progressControl, e=1, progress=0)
-
-			for ibtwData in ibtwsData:
-				self.main.ibtwClass.add(ibtwData)
+			
+			for module_ibtwsData in ibtwsData:
+				if type(module_ibtwsData)==type({}): 			# for rig template
+					self.main.ibtwClass.add(module_ibtwsData)
+				elif module_ibtwsData:							# for compound module template
+					for ibtwData in module_ibtwsData:
+						self.main.ibtwClass.add(ibtwData)
 
 				cmds.progressBar(progressControl, edit=True, step=1)
 			cmds.progressBar(progressControl2, edit=True, step=1)

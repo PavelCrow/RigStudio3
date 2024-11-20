@@ -873,7 +873,10 @@ def getClosestPoser(mod_name, src_object):
 	pos1 = cmds.xform(src_object, query=True, translation=True, worldSpace=True)
 	closest_distance = 10000000
 	closest = ""
-	for p in cmds.ls(mod_name+"_*_poser"):
+	posers = cmds.listRelatives(mod_name+"_posers", allDescendents=1)
+	for p in posers:
+		if p.split("_")[-1] != "poser":
+			continue
 		pos2 = cmds.xform(p, query=True, translation=True, worldSpace=True)
 		distance = math.sqrt( math.pow((pos1[0]-pos2[0]),2) + math.pow((pos1[1]-pos2[1]),2) + math.pow((pos1[2]-pos2[2]),2))				
 		if distance < closest_distance:
