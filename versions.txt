@@ -551,5 +551,8 @@ Fixed saving ibtws template data
 Updated templates
 
 ---Version 3.5.01
-updated build mocap skeleton feathure
+updated build mocap skeleton feature
 removed old unused options from fingers and limbs modules
+
+---Version 3.5.02
+updated build mocap skeleton feature

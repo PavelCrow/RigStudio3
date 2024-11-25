@@ -379,32 +379,274 @@ def buildMocapSkeleton():
 		cmds.warning("Mocap Skeleton is exists")
 		return
 
-	skel = cmds.duplicate("skeleton", n="mocap_skeleton")[0]
-	cmds.parent(skel, w=1)
+	# if full skeleton in not exists (for dummy rig)
+	if not cmds.objExists("skeleton") or not cmds.listRelatives("skeleton"):
 
-	for j in cmds.listRelatives(skel, allDescendents=1, fullPath=1):
-		# delete if not joint and has not childs
-		if not cmds.objectType(j) == "joint" and not cmds.listRelatives(j):
-			cmds.delete(j)
-			continue
+		data = {'head_root_mJoint': {'name': 'head_root_mJoint',
+						'parent': 'neck_mJoint',
+						'target': 'head'},
+		'l_arm_middle_mJoint': {'name': 'l_arm_middle_mJoint',
+								'parent': 'l_arm_root_mJoint',
+								'target': 'l_arm_middle_outJoint'},
+		'l_arm_root_mJoint': {'name': 'l_arm_root_mJoint',
+							'parent': 'l_clav_root_mJoint',
+							'target': 'l_arm_root_outJoint'},
+		'l_clav_root_mJoint': {'name': 'l_clav_root_mJoint',
+								'parent': 'spine_end_mJoint',
+								'target': 'l_shoulder_skinJoint'},
+		'l_fingers_root_mJoint': {'name': 'l_fingers_root_mJoint',
+								'parent': 'l_arm_middle_mJoint',
+								'target': 'l_hand_root_skinJoint'},
+		'l_foot_root_mJoint': {'name': 'l_foot_root_mJoint',
+								'parent': 'l_leg_middle_mJoint',
+								'target': 'l_foot_root_skinJoint'},
+		'l_foot_toeTip_mJoint': {'name': 'l_foot_toeTip_mJoint',
+								'parent': 'l_foot_toe_mJoint',
+								'target': 'l_foot_toeTip_outJoint'},
+		'l_foot_toe_mJoint': {'name': 'l_foot_toe_mJoint',
+							'parent': 'l_foot_root_mJoint',
+							'target': 'l_foot_toe_skinJoint'},
+		'l_indexFinger_1_mJoint': {'name': 'l_indexFinger_1_mJoint',
+									'parent': 'l_index_root_mJoint',
+									'target': 'l_hand_indexFinger_1_skinJoint'},
+		'l_indexFinger_2_mJoint': {'name': 'l_indexFinger_2_mJoint',
+									'parent': 'l_indexFinger_1_mJoint',
+									'target': 'l_hand_indexFinger_2_skinJoint'},
+		'l_indexFinger_3_mJoint': {'name': 'l_indexFinger_3_mJoint',
+									'parent': 'l_indexFinger_2_mJoint',
+									'target': 'l_hand_indexFinger_3_skinJoint'},
+		'l_indexFinger_end_mJoint': {'name': 'l_indexFinger_end_mJoint',
+									'parent': 'l_indexFinger_3_mJoint',
+									'target': 'l_hand_indexFinger_end_outJoint'},
+		'l_index_root_mJoint': {'name': 'l_index_root_mJoint',
+								'parent': 'l_fingers_root_mJoint',
+								'target': 'l_hand_index_root_skinJoint'},
+		'l_leg_middle_mJoint': {'name': 'l_leg_middle_mJoint',
+								'parent': 'l_leg_root_mJoint',
+								'target': 'l_leg_middle_outJoint'},
+		'l_leg_root_mJoint': {'name': 'l_leg_root_mJoint',
+							'parent': 'spine_root_mJoint',
+							'target': 'l_leg_root_outJoint'},
+		'l_middleFinger_1_mJoint': {'name': 'l_middleFinger_1_mJoint',
+									'parent': 'l_middle_root_mJoint',
+									'target': 'l_hand_middleFinger_1_skinJoint'},
+		'l_middleFinger_2_mJoint': {'name': 'l_middleFinger_2_mJoint',
+									'parent': 'l_middleFinger_1_mJoint',
+									'target': 'l_hand_middleFinger_2_skinJoint'},
+		'l_middleFinger_3_mJoint': {'name': 'l_middleFinger_3_mJoint',
+									'parent': 'l_middleFinger_2_mJoint',
+									'target': 'l_hand_middleFinger_3_skinJoint'},
+		'l_middleFinger_end_mJoint': {'name': 'l_middleFinger_end_mJoint',
+									'parent': 'l_middleFinger_3_mJoint',
+									'target': 'l_hand_middleFinger_end_outJoint'},
+		'l_middle_root_mJoint': {'name': 'l_middle_root_mJoint',
+								'parent': 'l_fingers_root_mJoint',
+								'target': 'l_hand_middle_root_skinJoint'},
+		'l_pinkyFinger_1_mJoint': {'name': 'l_pinkyFinger_1_mJoint',
+									'parent': 'l_pinky_root_mJoint',
+									'target': 'l_hand_pinkyFinger_1_skinJoint'},
+		'l_pinkyFinger_2_mJoint': {'name': 'l_pinkyFinger_2_mJoint',
+									'parent': 'l_pinkyFinger_1_mJoint',
+									'target': 'l_hand_pinkyFinger_2_skinJoint'},
+		'l_pinkyFinger_3_mJoint': {'name': 'l_pinkyFinger_3_mJoint',
+									'parent': 'l_pinkyFinger_2_mJoint',
+									'target': 'l_hand_pinkyFinger_3_skinJoint'},
+		'l_pinkyFinger_end_mJoint': {'name': 'l_pinkyFinger_end_mJoint',
+									'parent': 'l_pinkyFinger_3_mJoint',
+									'target': 'l_hand_pinkyFinger_end_outJoint'},
+		'l_pinky_root_mJoint': {'name': 'l_pinky_root_mJoint',
+								'parent': 'l_fingers_root_mJoint',
+								'target': 'l_hand_pinky_root_skinJoint'},
+		'l_ringFinger_1_mJoint': {'name': 'l_ringFinger_1_mJoint',
+								'parent': 'l_ring_root_mJoint',
+								'target': 'l_hand_ringFinger_1_skinJoint'},
+		'l_ringFinger_2_mJoint': {'name': 'l_ringFinger_2_mJoint',
+								'parent': 'l_ringFinger_1_mJoint',
+								'target': 'l_hand_ringFinger_2_skinJoint'},
+		'l_ringFinger_3_mJoint': {'name': 'l_ringFinger_3_mJoint',
+								'parent': 'l_ringFinger_2_mJoint',
+								'target': 'l_hand_ringFinger_3_skinJoint'},
+		'l_ringFinger_end_mJoint': {'name': 'l_ringFinger_end_mJoint',
+									'parent': 'l_ringFinger_3_mJoint',
+									'target': 'l_hand_ringFinger_end_outJoint'},
+		'l_ring_root_mJoint': {'name': 'l_ring_root_mJoint',
+								'parent': 'l_fingers_root_mJoint',
+								'target': 'l_hand_ring_root_skinJoint'},
+		'l_thumbFinger_1_mJoint': {'name': 'l_thumbFinger_1_mJoint',
+									'parent': 'l_fingers_root_mJoint',
+									'target': 'l_hand_thumbFinger_1_skinJoint'},
+		'l_thumbFinger_2_mJoint': {'name': 'l_thumbFinger_2_mJoint',
+									'parent': 'l_thumbFinger_1_mJoint',
+									'target': 'l_hand_thumbFinger_2_skinJoint'},
+		'l_thumbFinger_3_mJoint': {'name': 'l_thumbFinger_3_mJoint',
+									'parent': 'l_thumbFinger_2_mJoint',
+									'target': 'l_hand_thumbFinger_3_skinJoint'},
+		'l_thumbFinger_end_mJoint': {'name': 'l_thumbFinger_end_mJoint',
+									'parent': 'l_thumbFinger_3_mJoint',
+									'target': 'l_hand_thumbFinger_end_outJoint'},
+		'neck_mJoint': {'name': 'neck_mJoint',
+						'parent': 'spine_end_mJoint',
+						'target': 'neck'},
+		'r_arm_middle_mJoint': {'name': 'r_arm_middle_mJoint',
+								'parent': 'r_arm_root_mJoint',
+								'target': 'r_arm_middle_outJoint'},
+		'r_arm_root_mJoint': {'name': 'r_arm_root_mJoint',
+							'parent': 'r_clav_root_mJoint',
+							'target': 'r_arm_root_outJoint'},
+		'r_clav_root_mJoint': {'name': 'r_clav_root_mJoint',
+								'parent': 'spine_end_mJoint',
+								'target': 'r_shoulder_skinJoint'},
+		'r_fingers_root_mJoint': {'name': 'r_fingers_root_mJoint',
+								'parent': 'r_arm_middle_mJoint',
+								'target': 'r_hand_root_skinJoint'},
+		'r_foot_root_mJoint': {'name': 'r_foot_root_mJoint',
+								'parent': 'r_leg_middle_mJoint',
+								'target': 'r_foot_root_skinJoint'},
+		'r_foot_toeTip_mJoint': {'name': 'r_foot_toeTip_mJoint',
+								'parent': 'r_foot_toe_mJoint',
+								'target': 'r_foot_toeTip_outJoint'},
+		'r_foot_toe_mJoint': {'name': 'r_foot_toe_mJoint',
+							'parent': 'r_foot_root_mJoint',
+							'target': 'r_foot_toe_skinJoint'},
+		'r_indexFinger_1_mJoint': {'name': 'r_indexFinger_1_mJoint',
+									'parent': 'r_index_root_mJoint',
+									'target': 'r_hand_indexFinger_1_skinJoint'},
+		'r_indexFinger_2_mJoint': {'name': 'r_indexFinger_2_mJoint',
+									'parent': 'r_indexFinger_1_mJoint',
+									'target': 'r_hand_indexFinger_2_skinJoint'},
+		'r_indexFinger_3_mJoint': {'name': 'r_indexFinger_3_mJoint',
+									'parent': 'r_indexFinger_2_mJoint',
+									'target': 'r_hand_indexFinger_3_skinJoint'},
+		'r_indexFinger_end_mJoint': {'name': 'r_indexFinger_end_mJoint',
+									'parent': 'r_indexFinger_3_mJoint',
+									'target': 'r_hand_indexFinger_end_outJoint'},
+		'r_index_root_mJoint': {'name': 'r_index_root_mJoint',
+								'parent': 'r_fingers_root_mJoint',
+								'target': 'r_hand_index_root_skinJoint'},
+		'r_leg_middle_mJoint': {'name': 'r_leg_middle_mJoint',
+								'parent': 'r_leg_root_mJoint',
+								'target': 'r_leg_middle_outJoint'},
+		'r_leg_root_mJoint': {'name': 'r_leg_root_mJoint',
+							'parent': 'spine_root_mJoint',
+							'target': 'r_leg_root_outJoint'},
+		'r_middleFinger_1_mJoint': {'name': 'r_middleFinger_1_mJoint',
+									'parent': 'r_middle_root_mJoint',
+									'target': 'r_hand_middleFinger_1_skinJoint'},
+		'r_middleFinger_2_mJoint': {'name': 'r_middleFinger_2_mJoint',
+									'parent': 'r_middleFinger_1_mJoint',
+									'target': 'r_hand_middleFinger_2_skinJoint'},
+		'r_middleFinger_3_mJoint': {'name': 'r_middleFinger_3_mJoint',
+									'parent': 'r_middleFinger_2_mJoint',
+									'target': 'r_hand_middleFinger_3_skinJoint'},
+		'r_middleFinger_end_mJoint': {'name': 'r_middleFinger_end_mJoint',
+									'parent': 'r_middleFinger_3_mJoint',
+									'target': 'r_hand_middleFinger_end_outJoint'},
+		'r_middle_root_mJoint': {'name': 'r_middle_root_mJoint',
+								'parent': 'r_fingers_root_mJoint',
+								'target': 'r_hand_middle_root_skinJoint'},
+		'r_pinkyFinger_1_mJoint': {'name': 'r_pinkyFinger_1_mJoint',
+									'parent': 'r_pinky_root_mJoint',
+									'target': 'r_hand_pinkyFinger_1_skinJoint'},
+		'r_pinkyFinger_2_mJoint': {'name': 'r_pinkyFinger_2_mJoint',
+									'parent': 'r_pinkyFinger_1_mJoint',
+									'target': 'r_hand_pinkyFinger_2_skinJoint'},
+		'r_pinkyFinger_3_mJoint': {'name': 'r_pinkyFinger_3_mJoint',
+									'parent': 'r_pinkyFinger_2_mJoint',
+									'target': 'r_hand_pinkyFinger_3_skinJoint'},
+		'r_pinkyFinger_end_mJoint': {'name': 'r_pinkyFinger_end_mJoint',
+									'parent': 'r_pinkyFinger_3_mJoint',
+									'target': 'r_hand_pinkyFinger_end_outJoint'},
+		'r_pinky_root_mJoint': {'name': 'r_pinky_root_mJoint',
+								'parent': 'r_fingers_root_mJoint',
+								'target': 'r_hand_pinky_root_skinJoint'},
+		'r_ringFinger_1_mJoint': {'name': 'r_ringFinger_1_mJoint',
+								'parent': 'r_ring_root_mJoint',
+								'target': 'r_hand_ringFinger_1_skinJoint'},
+		'r_ringFinger_2_mJoint': {'name': 'r_ringFinger_2_mJoint',
+								'parent': 'r_ringFinger_1_mJoint',
+								'target': 'r_hand_ringFinger_2_skinJoint'},
+		'r_ringFinger_3_mJoint': {'name': 'r_ringFinger_3_mJoint',
+								'parent': 'r_ringFinger_2_mJoint',
+								'target': 'r_hand_ringFinger_3_skinJoint'},
+		'r_ringFinger_end_mJoint': {'name': 'r_ringFinger_end_mJoint',
+									'parent': 'r_ringFinger_3_mJoint',
+									'target': 'r_hand_ringFinger_end_outJoint'},
+		'r_ring_root_mJoint': {'name': 'r_ring_root_mJoint',
+								'parent': 'r_fingers_root_mJoint',
+								'target': 'r_hand_ring_root_skinJoint'},
+		'r_thumbFinger_1_mJoint': {'name': 'r_thumbFinger_1_mJoint',
+									'parent': 'r_fingers_root_mJoint',
+									'target': 'r_hand_thumbFinger_1_skinJoint'},
+		'r_thumbFinger_2_mJoint': {'name': 'r_thumbFinger_2_mJoint',
+									'parent': 'r_thumbFinger_1_mJoint',
+									'target': 'r_hand_thumbFinger_2_skinJoint'},
+		'r_thumbFinger_3_mJoint': {'name': 'r_thumbFinger_3_mJoint',
+									'parent': 'r_thumbFinger_2_mJoint',
+									'target': 'r_hand_thumbFinger_3_skinJoint'},
+		'r_thumbFinger_end_mJoint': {'name': 'r_thumbFinger_end_mJoint',
+									'parent': 'r_thumbFinger_3_mJoint',
+									'target': 'r_hand_thumbFinger_end_outJoint'},
+		'spine_1_mJoint': {'name': 'spine_1_mJoint',
+							'parent': 'spine_root_mJoint',
+							'target': 'spine_local_2'},
+		'spine_2_mJoint': {'name': 'spine_2_mJoint',
+							'parent': 'spine_1_mJoint',
+							'target': 'spine_local_3'},
+		'spine_3_mJoint': {'name': 'spine_3_mJoint',
+							'parent': 'spine_2_mJoint',
+							'target': 'spine_local_4'},
+		'spine_end_mJoint': {'name': 'spine_end_mJoint',
+							'parent': 'spine_3_mJoint',
+							'target': 'spine_end_skinJoint'},
+		'spine_root_mJoint': {'name': 'spine_root_mJoint',
+							'parent': 'mocap_skeleton',
+							'target': 'spine_root_skinJoint'}
+							}
 
-		j = cmds.rename(j, j.split("|")[-1].replace("joint", "mJoint"))
-		cmds.setAttr(j+".segmentScaleCompensate", 0)
-		cmds.setAttr(j+".drawStyle", 0)
-		cmds.setAttr(j+".preferredAngle", 0,0,0)
+		cmds.group(n="mocap_skeleton", empty=1)
 
-		orig_j = j.replace("mJoint", "joint")
-		t = cmds.getAttr(orig_j+".t")[0]
-		cmds.setAttr(j+".t", t[0], t[1], t[2])
-		r = cmds.getAttr(orig_j+".r")[0]
-		cmds.setAttr(j+".r", r[0], r[1], r[2])
-		cmds.setAttr(j+".s", 1, 1, 1)
-		
-	cmds.showHidden(skel)
-	root_j = cmds.listRelatives(skel)
-	spine_root_j = cmds.listRelatives(root_j)
-	cmds.parent(spine_root_j, skel)
-	cmds.delete(root_j)
+		# create joints
+		for j in data:
+			cmds.joint(n=j)
+			cmds.select(clear=1)
+
+		for j in data:    
+			j_data = data[j]
+			cmds.parent(j, j_data["parent"])
+			cmds.parentConstraint(j_data["target"], j, mo=0)
+
+		for j in cmds.listRelatives("spine_root_mJoint", allDescendents=1):
+			if not cmds.objectType(j) == "joint":
+				cmds.delete(j)
+
+	# for rigs from templates
+	else:
+		skel = cmds.duplicate("skeleton", n="mocap_skeleton")[0]
+		cmds.parent(skel, w=1)
+
+		for j in cmds.listRelatives(skel, allDescendents=1, fullPath=1):
+			# delete if not joint and has not childs
+			if not cmds.objectType(j) == "joint" and not cmds.listRelatives(j):
+				cmds.delete(j)
+				continue
+
+			j = cmds.rename(j, j.split("|")[-1].replace("joint", "mJoint"))
+			cmds.setAttr(j+".segmentScaleCompensate", 0)
+			cmds.setAttr(j+".drawStyle", 0)
+			cmds.setAttr(j+".preferredAngle", 0,0,0)
+
+			orig_j = j.replace("mJoint", "joint")
+			t = cmds.getAttr(orig_j+".t")[0]
+			cmds.setAttr(j+".t", t[0], t[1], t[2])
+			r = cmds.getAttr(orig_j+".r")[0]
+			cmds.setAttr(j+".r", r[0], r[1], r[2])
+			cmds.setAttr(j+".s", 1, 1, 1)
+			
+		cmds.showHidden(skel)
+		root_j = cmds.listRelatives(skel)
+		spine_root_j = cmds.listRelatives(root_j)
+		cmds.parent(spine_root_j, skel)
+		cmds.delete(root_j)
 		
 def connectByMultMatrix():
 	# Connect by matrix
