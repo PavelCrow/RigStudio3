@@ -695,6 +695,10 @@ class Module(object):
         pass
 
     def getParent(self): #
+        if not cmds.objExists(self.name+'_root_connector'):
+            cmds.warning("Cannot find the "+self.name+'_root_connector')
+            return
+
         # get multmatrix of the connector
         conn = cmds.listConnections(self.name+'_root_connector.offsetParentMatrix', source=1, destination=0) or []
         if conn:
@@ -703,7 +707,11 @@ class Module(object):
             # if self.opposite:
             #     parents = cmds.listConnections(mm+'.matrixIn[3]', source=1, destination=0) or []
             # else:
-            parents = cmds.listConnections(mm+'.matrixIn[2]', source=1, destination=0) or []
+            try:
+                parents = cmds.listConnections(mm+'.matrixIn[2]', source=1, destination=0) or []
+            except: 
+                cmds.warning("Wrong inputs in "+mm+'.matrixIn[2]')
+                return None
 
             if parents: 
                 parent = parents[0]

@@ -30,33 +30,6 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QPushButton" name="swapEndOrient_btn">
-     <property name="text">
-      <string>Swap End Orient</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="keepZeroAttributes_checkBox">
-     <property name="text">
-      <string>Keep zero attributes</string>
-     </property>
-     <property name="checked">
-      <bool>false</bool>
-     </property>
-     <property name="tristate">
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QPushButton" name="addMiddleTwistOffsetControl_btn">
-     <property name="text">
-      <string>Toggle Middle Twist Offset Control</string>
-     </property>
-    </widget>
-   </item>
-   <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="label">

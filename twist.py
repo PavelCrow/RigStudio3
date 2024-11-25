@@ -751,6 +751,10 @@ class Twist(object):
         if not cmds.objExists(twName+'_system'):
             return
 
+        if not cmds.objExists(twName + "_root_connectorLoc") or not cmds.objExists(twName + "_rootUpLoc") or not cmds.objExists(twName + "_end_connectorLoc"):
+            cmds.warning("Cannot find the "+twName+"_root_connectorLoc, "+twName + "_rootUpLoc and "+twName + "_end_connectorLoc")
+            return
+
         joints = cmds.listRelatives(twName+'_joints')
         twData['advanced'] = cmds.objExists(twName+"_twist")
         jointsCount = len(joints)

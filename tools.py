@@ -375,8 +375,19 @@ def addControlGroup():
 		
 		
 def buildMocapSkeleton():
+	if cmds.objExists("mocap_skeleton"):
+		cmds.warning("Mocap Skeleton is exists")
+		return
+
 	skel = cmds.duplicate("skeleton", n="mocap_skeleton")[0]
+	cmds.parent(skel, w=1)
+
 	for j in cmds.listRelatives(skel, allDescendents=1, fullPath=1):
+		# delete if not joint and has not childs
+		if not cmds.objectType(j) == "joint" and not cmds.listRelatives(j):
+			cmds.delete(j)
+			continue
+
 		j = cmds.rename(j, j.split("|")[-1].replace("joint", "mJoint"))
 		cmds.setAttr(j+".segmentScaleCompensate", 0)
 		cmds.setAttr(j+".drawStyle", 0)
@@ -388,8 +399,7 @@ def buildMocapSkeleton():
 		r = cmds.getAttr(orig_j+".r")[0]
 		cmds.setAttr(j+".r", r[0], r[1], r[2])
 		cmds.setAttr(j+".s", 1, 1, 1)
-	
-	cmds.parent(skel, w=1)
+		
 	cmds.showHidden(skel)
 	root_j = cmds.listRelatives(skel)
 	spine_root_j = cmds.listRelatives(root_j)

@@ -29,8 +29,8 @@ class Fingers(module.Module) :
 		self.w = w
 		self.main = mainInstance
 		
-		w.rebuild_btn.clicked.connect(self.rebuild)			
-		w.addSDKGroup_btn.clicked.connect(self.addSDKGroup)			
+		# w.rebuild_btn.clicked.connect(self.rebuild)			
+		# w.addSDKGroup_btn.clicked.connect(self.addSDKGroup)			
 			
 	def rebuild(self):
 		module = self.main.curModule
@@ -66,14 +66,15 @@ class Fingers(module.Module) :
 		cmds.setAttr(self.name+"_middle_pairBlend.weight", self.w.middle_spinBox.value())
 			
 	def updateOptionsPage(self, w):
-		w.thumb_checkBox.setChecked(cmds.getAttr(self.name+"_thumbFinger_1_joint.v"))
-		w.index_checkBox.setChecked(cmds.getAttr(self.name+"_index_root_joint.v"))
-		w.middle_checkBox.setChecked(cmds.getAttr(self.name+"_middle_root_joint.v"))
-		w.ring_checkBox.setChecked(cmds.getAttr(self.name+"_ring_root_joint.v"))
-		w.pinky_checkBox.setChecked(cmds.getAttr(self.name+"_pinky_root_joint.v"))
+		# w.thumb_checkBox.setChecked(cmds.getAttr(self.name+"_thumbFinger_1_joint.v"))
+		# w.index_checkBox.setChecked(cmds.getAttr(self.name+"_index_root_joint.v"))
+		# w.middle_checkBox.setChecked(cmds.getAttr(self.name+"_middle_root_joint.v"))
+		# w.ring_checkBox.setChecked(cmds.getAttr(self.name+"_ring_root_joint.v"))
+		# w.pinky_checkBox.setChecked(cmds.getAttr(self.name+"_pinky_root_joint.v"))
 		
-		w.ring_spinBox.setValue(cmds.getAttr(self.name+"_ring_pairBlend.weight"))
-		w.middle_spinBox.setValue(cmds.getAttr(self.name+"_middle_pairBlend.weight"))
+		# w.ring_spinBox.setValue(cmds.getAttr(self.name+"_ring_pairBlend.weight"))
+		# w.middle_spinBox.setValue(cmds.getAttr(self.name+"_middle_pairBlend.weight"))
+		pass
 
 	def getData(self):
 		data = super(self.__class__, self).getData()

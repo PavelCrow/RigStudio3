@@ -268,6 +268,10 @@ class Rig:
                     all_joints += joints
 
     def toggleVis_posers(self, state=None): #
+        if not cmds.objExists(self.root + ".posersVis"):
+            cmds.warning("Cannot find the "+self.root + ".posersVis")
+            return
+        
         if not state:
             state = self.main.win.actionPosers.isChecked()
 
@@ -276,7 +280,7 @@ class Rig:
                 cmds.hide(m_name + '_posers')
             else:
                 cmds.showHidden(m_name + '_posers')
-                
+        
         cmds.setAttr(self.root + ".posersVis", state)
                 
     def toggleVis_controls(self, state=None):
@@ -298,11 +302,18 @@ class Rig:
         
         for tw_mod in cmds.listRelatives("twists") or []:
             tw_name = tw_mod[:-4]
+            if not cmds.objExists(tw_name+'_connectors'):
+                cmds.warning("Cannot find "+tw_name+'_connectors')
+                continue
             if state:
                 cmds.showHidden(tw_name+'_connectors')
             else:
                 cmds.hide(tw_name+'_connectors')
-                        
+        
+        if not cmds.objExists(self.root + ".controlsVis"):
+            cmds.warning("Cannot find "+self.root + ".controlsVis")
+            return
+        
         cmds.setAttr(self.root + ".controlsVis", state)
 
     def toggleVis_gameJoints(self, state=None):
@@ -357,6 +368,9 @@ class Rig:
 
         for tw_mod in cmds.listRelatives("twists") or []:
             tw_name = tw_mod[:-4]
+            if not cmds.objExists(tw_name+'_joints'):
+                cmds.warning("Cannot find "+tw_name+'_joints')
+                continue
             if state:
                 cmds.showHidden(tw_name+'_joints')
                 cmds.showHidden(tw_name+'_curve')
@@ -373,7 +387,10 @@ class Rig:
         #             else:
         #                 cmds.setAttr(j+'.drawStyle', 2)
 
-
+        if not cmds.objExists(self.root + ".jointsVis"):
+            cmds.warning("Cannot find "+tw_name+'_joints')
+            return
+        
         cmds.setAttr(self.root + ".jointsVis", state)
 
         if not state:

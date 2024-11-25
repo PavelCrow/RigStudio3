@@ -19,7 +19,8 @@ class LimbQuadrupped(module.Module) :
 		super(self.__class__, self).connect(target)
 
 	def connectSignals(self, mainInstance, w):
-		w.connectAnkle_btn.clicked.connect(self.connect_ankle_to_posers)
+		# w.connectAnkle_btn.clicked.connect(self.connect_ankle_to_posers)
+		pass
 
 	def connect_ankle_to_posers(self):
 		

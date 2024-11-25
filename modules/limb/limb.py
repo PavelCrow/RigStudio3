@@ -26,8 +26,8 @@ class Limb(module.Module) :
 	def connectSignals(self, main, w):
 		module = main.curModule
 		opp_module = main.rig.getMirroredModule(module)
-		w.swapEndOrient_btn.clicked.connect(partial(self.swapEndPose, main, opp_module))
-		w.addMiddleTwistOffsetControl_btn.clicked.connect(self.addMiddleTwistOffsetControl)
+		# w.swapEndOrient_btn.clicked.connect(partial(self.swapEndPose, main, opp_module))
+		# w.addMiddleTwistOffsetControl_btn.clicked.connect(self.addMiddleTwistOffsetControl)
 		w.aimDistance_spinBox.valueChanged.connect(self.update_aim_distance)
 
 	def updateOptionsPage(self, w):

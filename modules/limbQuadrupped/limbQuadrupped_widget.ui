@@ -27,13 +27,6 @@
     <number>2</number>
    </property>
    <item>
-    <widget class="QPushButton" name="connectAnkle_btn">
-     <property name="text">
-      <string>Toggle Connect Ankle to Posers</string>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="QFrame" name="delete_frame">
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
