@@ -711,6 +711,7 @@ def bakeDummyRig():
 	cmds.delete("rig")
 
 	for j in joints:
+		cmds.setAttr(j+".v", 1)
 		childs = pm.listRelatives(j)
 		if childs:
 			pm.delete(childs)
