@@ -667,3 +667,235 @@ def connectByBlendMatrix():
 	s2.worldMatrix[0] >> bm.target[0].targetMatrix
 	bm.outputMatrix >> t.offsetParentMatrix
 	
+def bakeDummyRig():
+	import maya.cmds as cmds
+
+	if not cmds.objExists("skeleton") or cmds.listRelatives("skeleton"):
+		cmds.warning('This rig is not "Dummy Rig". Skeleton is not empty')
+		return
+
+	def getSetObjects(set):
+		objects = []
+		if not cmds.objExists(set):
+			return []
+		if cmds.objectType(set) != 'objectSet':
+			return []
+
+		childs = cmds.sets(set, q=1) or []
+
+		for o in childs:
+			if cmds.objectType(o) == 'objectSet':
+				innerObjects = getSetObjects(o)
+				objects += innerObjects
+			else:
+				objects.append(o)
+		return objects
+
+	# off softIk
+	for c in getSetObjects("controlSet"):
+		if cmds.objExists(c+".softIk"):
+			cmds.setAttr(c+".softIk", 0)
+		
+	# unparent joints
+	joints = cmds.sets("body_skinJoints_set", q=1)
+	for j in joints:
+		conns_in = cmds.listConnections(j, plugs=1, connections=1, s=1, d=0) or []
+		sources_in = conns_in[1::2]
+		targets_in = conns_in[::2]
+		for i, s in enumerate(sources_in):
+			cmds.setAttr(targets_in[i], lock=0)
+			cmds.disconnectAttr(sources_in[i], j+'.'+targets_in[i].split('.')[1])
+		cmds.parent(j, w=1)
+
+	# delete unused
+	cmds.delete("rig")
+
+	for j in joints:
+		childs = pm.listRelatives(j)
+		if childs:
+			pm.delete(childs)
+
+	def attr_from_connection (attr, source=False, destination=False, targetName=None):
+		if destination:
+			if pm.connectionInfo( attr, isSource=True):
+				outputs = pm.connectionInfo( attr, destinationFromSource=True)
+				if len(outputs) == 0:
+					return None
+				elif len(outputs) == 1:
+					out_attr = pm.PyNode(outputs[0])
+					return out_attr
+				else:
+					pm.warning("Found multiple attributes")
+					print (outputs)
+					if targetName:
+						for out in outputs:
+							if targetName in out:
+								out_attr = pm.PyNode(out)
+								return out_attr
+					return None
+		elif source:
+			pass
+		else:
+			pm.warning("Set source or destination flag")
+
+	# delete parent joints
+	for j in joints:
+		if cmds.listRelatives(j, p=1):
+			tr = cmds.listRelatives(j, p=1)[0]
+			m = cmds.xform(j, m=1, q=1, ws=1)
+			cmds.setAttr(tr+".s", 1,1,1)
+			cmds.setAttr(tr+".shearXY", 0)
+			cmds.setAttr(tr+".shearXZ", 0)
+			cmds.setAttr(tr+".shearYZ", 0)
+			cmds.parent(j, w=1)
+			cmds.xform(j, m=m, ws=1)
+			cmds.delete(tr)
+			
+
+	# reset scale
+	for j in joints:
+		cmds.setAttr(j+".s", 1,1,1)
+		cmds.setAttr(j+".radius", 1)
+		if "hand" in j or "psd" in j or "ibw" in j:
+			cmds.setAttr(j+".radius", 0.2)
+		if "hand_root" in j:
+			cmds.setAttr(j+".radius", 1)
+		
+
+	# rebind skin
+	geos = []
+	for sh in pm.ls(geometry=1):
+		p = pm.listRelatives(sh, p=1)[0]
+		if not p in geos:
+			geos.append(p)
+		
+	for geo in geos:
+		sh = geo.getShape()
+		if not len(sh.inMesh.inputs()) :
+			pm.warning("Miss scincluster")
+		sc = sh.inMesh.inputs()[0]
+
+		# enter rebind mode
+		for j in sc.matrix.inputs():
+			scAttr = attr_from_connection(j.worldMatrix[0], destination=True, targetName=sc.name())
+			id = scAttr.name().split("[")[-1][:-1]
+			j.worldInverseMatrix[0] >> sc.bindPreMatrix[id]
+
+		# exit rebind mode
+		for j in sc.matrix.inputs():
+			scAttr = attr_from_connection(j.worldMatrix[0], destination=True, targetName=sc.name())
+			id = scAttr.name().split("[")[-1][:-1]
+			m = j.worldInverseMatrix[0].get()
+			pm.disconnectAttr(j.worldInverseMatrix[0], sc.bindPreMatrix[id])
+			sc.bindPreMatrix[id].set(m)
+
+
+
+	# build hierarhy
+	for j in joints:
+		side = j.split("_")[0]
+		
+		if "foot_toe_outJoint_ry" in j:
+			root_j = side+"_foot_toe_skinJoint"
+			cmds.parent(j, root_j)
+		
+		if "foot_psd" in j:
+			root_j = side+"_foot_root_skinJoint"
+			cmds.parent(j, root_j)
+		
+		if "knee_psd" in j:
+			root_j = side+"_knee_skinJoint"
+			cmds.parent(j, root_j)
+		
+		if "hip_psd" in j:
+			root_j = side+"_upleg_twist_0_skinJoint"
+			cmds.parent(j, root_j)
+		
+		if "shoulder_rz" in j:
+			root_j = side+"_shoulder_skinJoint"
+			cmds.parent(j, root_j)
+		
+		if "head_psd" in j:
+			root_j = "head_skinJoint"
+			cmds.parent(j, root_j)
+		
+		if "neck_psd" in j:
+			root_j = "neck_twist_0_jnt_skinJoint"
+			cmds.parent(j, root_j)
+		
+		if "elbow_psd_joint" in j:
+			root_j = side+"_elbow_psd_skinJoint"
+			cmds.setAttr(root_j+".radius", 1)
+			cmds.parent(j, root_j)
+		
+		if "shoulder_psd" in j:
+			root_j = side+"_forearm_twist_0_skinJoint"
+			cmds.parent(j, root_j)
+					
+		if "wrist_psd" in j:
+			root_j = side+"_hand_root_skinJoint"
+			cmds.parent(j, root_j)
+					
+		if "ibw" in j:
+			if "Finger" in j:
+				name = j.split("Finger")[0] + "Finger"
+				suff = j.split("Finger")[-1]
+				id = suff.split("_")[1]
+				root_j = name + "_" + id + "_skinJoint"
+				cmds.setAttr(root_j+".radius", 0.5)
+				cmds.parent(j, root_j)
+
+	for side in ["l", "r"]:
+		for part in ["index", "middle", "ring", "pinky"]:
+			cmds.parent(side+"_hand_%s_root_skinJoint" %part, side+"_hand_root_skinJoint")
+
+	for i in range(1,4):
+		for side in ["l", "r"]:
+			for part in ["index", "middle", "thumb", "ring", "pinky"]:
+				if i==1:
+					if part == "thumb":
+						cmds.parent(side+"_hand_%sFinger_%s_skinJoint" %(part,i), side+"_hand_root_skinJoint")
+					else:
+						cmds.parent(side+"_hand_%sFinger_%s_skinJoint" %(part,i), side+"_hand_%s_root_skinJoint" %part)
+				else:
+					cmds.parent(side+"_hand_%sFinger_%s_skinJoint" %(part,i), side+"_hand_%sFinger_%s_skinJoint" %(part,i-1))
+
+	for j in joints:
+		if "twist" in j:
+			i = int(j.split("twist")[-1].split("_")[1])
+			if i > 0:
+				cmds.parent(j, j.replace(str(i), str(i-1)))
+
+	for i in range(2,9):
+		cmds.parent("spine_%s_skinJoint" %i, "spine_%s_skinJoint" %(i-1))
+		
+	cmds.parent("spine_1_skinJoint", "spine_root_skinJoint")
+	cmds.parent("l_upleg_twist_0_skinJoint", "spine_root_skinJoint")
+	cmds.parent("r_upleg_twist_0_skinJoint", "spine_root_skinJoint")
+	cmds.parent("spine_end_skinJoint", "spine_8_skinJoint")
+	cmds.parent("spine_end_skinJoint1", "l_shoulder_skinJoint", "r_shoulder_skinJoint", "neck_twist_0_jnt_skinJoint", "spine_end_skinJoint")
+	cmds.parent("l_forearm_twist_0_skinJoint", "l_shoulder_skinJoint")
+	cmds.parent("r_forearm_twist_0_skinJoint", "r_shoulder_skinJoint")
+	cmds.parent("l_foot_toe_skinJoint", "l_foot_root_skinJoint")
+	cmds.parent("r_foot_toe_skinJoint", "r_foot_root_skinJoint")
+	cmds.parent("l_foot_root_skinJoint", "l_leg_twist_4_skinJoint")
+	cmds.parent("r_foot_root_skinJoint", "r_leg_twist_4_skinJoint")
+	cmds.parent("l_leg_twist_0_skinJoint", "l_knee_skinJoint")
+	cmds.parent("r_leg_twist_0_skinJoint", "r_knee_skinJoint")
+	cmds.parent("l_knee_skinJoint", "l_upleg_twist_4_skinJoint")
+	cmds.parent("r_knee_skinJoint", "r_upleg_twist_4_skinJoint")
+	cmds.parent("l_hand_root_skinJoint", "l_arm_twist_4_skinJoint")
+	cmds.parent("r_hand_root_skinJoint", "r_arm_twist_4_skinJoint")
+	cmds.parent("l_arm_twist_0_skinJoint", "l_elbow_psd_skinJoint")
+	cmds.parent("r_arm_twist_0_skinJoint", "r_elbow_psd_skinJoint")
+	cmds.parent("l_elbow_psd_skinJoint", "l_forearm_twist_4_skinJoint")
+	cmds.parent("r_elbow_psd_skinJoint", "r_forearm_twist_4_skinJoint")
+	cmds.parent("head_skinJoint", "neck_twist_4_jnt_skinJoint")
+
+	cmds.setAttr("spine_end_skinJoint1.radius", 0.1)
+
+	cmds.group(empty=1, n="skeleton")
+	cmds.parent("spine_root_skinJoint", "skeleton")
+
+	if cmds.objExists("main"):
+		cmds.parent("skeleton", "main")

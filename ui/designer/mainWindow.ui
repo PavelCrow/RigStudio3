@@ -7498,6 +7498,13 @@
                        <number>0</number>
                       </property>
                       <item>
+                       <widget class="QPushButton" name="bakeDummyRig_btn">
+                        <property name="text">
+                         <string>Bake Dummy Rig</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
                        <widget class="QPushButton" name="createControlGroup_btn">
                         <property name="enabled">
                          <bool>true</bool>
@@ -7989,7 +7996,7 @@
                <number>0</number>
               </property>
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_53" stretch="">
+               <layout class="QHBoxLayout" name="horizontalLayout_53">
                 <property name="spacing">
                  <number>10</number>
                 </property>

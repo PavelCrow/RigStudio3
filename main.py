@@ -696,6 +696,7 @@ class MainWindow:
         # self.win.connectByBlendMatrix_btn.clicked.connect(tools.connectByBlendMatrix)
 
         self.win.buildMocapSkeleton_btn.clicked.connect(tools.buildMocapSkeleton)
+        self.win.bakeDummyRig_btn.clicked.connect(tools.bakeDummyRig)
 
         # Controller 
         self.win.rotateShapeX_btn.clicked.connect(partial(self.controls_rotateShape, "x"))
