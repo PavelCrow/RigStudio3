@@ -43,6 +43,7 @@ class Twist(object):
         self.win.twist_reset_btn.clicked.connect(self.reset)
         self.win.changeJointsCount_btn.clicked.connect(self.changeJointsCount)
         self.win.twistToggleOffsetLocators_btn.clicked.connect(self.toggleOffsetLocators)
+        self.win.twist_rootFlipped_checkBox.clicked.connect(self.setRootFlipped)
         self.win.twist_flippedX_checkBox.clicked.connect(partial(self.setEndFlipped, dir="x"))
         self.win.twist_endOffsetFlippedX_checkBox.clicked.connect(partial(self.setEndOffsetFlipped))
 
@@ -118,6 +119,7 @@ class Twist(object):
             self.win.twistRootOrientJoint_lineEdit.setText(data['rootOrientTarget'])
             self.win.twistEndJoint_lineEdit.setText(data['endOrientTarget'])
 
+            self.win.twist_rootFlipped_checkBox.setChecked(data['rootFlipped'])
             self.win.twist_flippedX_checkBox.setChecked(data['flippedX'])
             self.win.twist_endOffsetFlippedX_checkBox.setChecked(data['endOffsetFlippedX'])
 
@@ -164,7 +166,7 @@ class Twist(object):
 
         def warning():
             cmds.warning(' Select skin joint with one child joint, or joint and child')
-
+        
         if data == {}:
             # Check right selections
             if len(sel) == 1:
@@ -191,7 +193,7 @@ class Twist(object):
                 warning()
                 return
 
-            t_name = start_j.split('_joint')[0].split('_outJoint')[0]
+            t_name = start_j.split('_skinJoint')[0].split('_outJoint')[0]
         else:
             if module_name:
                 t_name = utils.getRealNameFromTemplated(module_name, data['name'])
@@ -223,7 +225,7 @@ class Twist(object):
         # rename and add all twist nodes to module set
         set = cmds.sets(name=t_name+'_twistNodesSet')
         nodes = cmds.ls('_temp_:*')
-        moduleName = utils.getModuleName(t_name+"_joint")
+        moduleName = utils.getModuleName(t_name+"_skinJoint")
         for n in nodes:
             if cmds.objExists(n):
                 cmds.sets(n, e=1, forceElement=set)
@@ -233,7 +235,7 @@ class Twist(object):
         cmds.namespace(removeNamespace='_temp_')
 
         # add end target attribute
-        utils.setUserAttr(t_name+"_mod", "endTarget", end_j.replace("joint", "outJoint"))
+        utils.setUserAttr(t_name+"_mod", "endTarget", end_j.replace("skinJoint", "outJoint"))
         
         # add controls to set
         if advanced:
@@ -295,17 +297,17 @@ class Twist(object):
 
         # make connections
         self.curTwistName = t_name
-        root_outJoint = start_j.replace("joint", "outJoint")
+        root_outJoint = start_j.replace("skinJoint", "outJoint")
         cmds.parent(root_loc, rootUpLoc, root_outJoint)
         utils.resetAttrs(root_loc)
         utils.resetAttrs(rootUpLoc)
-        cmds.parent(end_loc, end_j.replace("joint", "outJoint"))
+        cmds.parent(end_loc, end_j.replace("skinJoint", "outJoint"))
         utils.resetAttrs(end_loc)
         cmds.setAttr(root_outJoint+".drawStyle", 2)
         
-        utils.aimToOffsetParentMatrix(root_loc, input=root_outJoint, primary=end_loc, secondary=rootUpLoc, set=set)
-        cmds.setAttr(root_loc+"_aimMat.secondaryTargetVectorY", 1)
-        cmds.setAttr(root_loc+"_aimMat.secondaryMode", 2)
+        # utils.aimToOffsetParentMatrix(root_loc, input=root_outJoint, primary=end_loc, secondary=rootUpLoc, set=set)
+        # cmds.setAttr(root_loc+"_aimMat.secondaryTargetVectorY", 1)
+        # cmds.setAttr(root_loc+"_aimMat.secondaryMode", 2)
 
         if utils.objectIsOpposite(root_loc): # if mirrored
             end_loc_opp = utils.getOpposite(end_loc)
@@ -313,23 +315,29 @@ class Twist(object):
             utils.connectByMatrix(end_loc, [end_loc_opp, comp], ['matrix', 'outputMatrix'], attrs=['r'], set=set)
 
         # hide root joint
-        cmds.setAttr(t_name+'_joint.drawStyle', 2)
+        cmds.setAttr(t_name+'_skinJoint.drawStyle', 2)
 
         # if opposite
         if utils.objectIsOpposite(root_loc): 
             cmds.setAttr(t_name+'_mod.mirror', True)
             cmds.setAttr(rootUpLoc+'.ry', 180)
+            cmds.setAttr(root_loc+'.ry', 180)
         else:
             if data:
-                off = data['rootOffset']
-                cmds.setAttr(rootUpLoc + ".r", off[0], off[1], off[2])
-                off = data['endOffset']
-                cmds.setAttr(end_loc + ".r", off[0], off[1], off[2])
+                if 'rootOffset' in data:
+                    off = data['rootOffset']
+                    cmds.setAttr(root_loc + ".r", off[0], off[1], off[2])
+                if 'rootUpOffset' in data:
+                    off = data['rootUpOffset']
+                    cmds.setAttr(rootUpLoc + ".r", off[0], off[1], off[2])
+                if 'endOffset' in data:
+                    off = data['endOffset']
+                    cmds.setAttr(end_loc + ".r", off[0], off[1], off[2])
 
         # create twist on mirrored joint    
         if mirror:
             if t_name.split('_')[0] == 'l':
-                if cmds.objExists(utils.getOpposite(t_name+"_joint")):
+                if cmds.objExists(utils.getOpposite(t_name+"_skinJoint")):
                     if data == {}:
                         data = self.getData(t_name)
                     reverseData = data
@@ -376,15 +384,16 @@ class Twist(object):
                         cmds.setAttr(t_name+"_twist_%s_twJoint.pos" %i, pos)
                 
                     if cmds.objExists(utils.getOpposite(root_loc)):
-                        self.setEndFlipped(name=t_name, dir="x", state=data['flippedX'])
-                        self.setEndOffsetFlipped(name=t_name, state=data['endOffsetFlippedX'])
+                        if 'rootFlipped' in data: self.setRootFlipped(name=t_name, state=data['rootFlipped'])
+                        if 'flippedX' in data: self.setEndFlipped(name=t_name, dir="x", state=data['flippedX'])
+                        if 'endOffsetFlippedX' in data: self.setEndOffsetFlipped(name=t_name, state=data['endOffsetFlippedX'])
             else:
                 self.changeJointsCount(5, moduleName=moduleName)
-        
+
         # module override
         mod = utils.getModuleInstance(moduleName)
         mod.twistOverride(t_name, data)
-
+        
         # select item in list
         self.updateList()
 
@@ -422,7 +431,7 @@ class Twist(object):
         item = self.win.twists_listWidget.findItems(item_name, QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive)[0]
         self.win.twists_listWidget.removeItemWidget(item)
 
-        cmds.sets(item_name+"_joint", e=1, forceElement='skinJointsSet' )
+        cmds.sets(item_name+"_skinJoint", e=1, forceElement='skinJointsSet' )
 
         # delete all twist nodes
         nodes = cmds.sets(item_name+'_twistNodesSet', q=1)
@@ -442,7 +451,7 @@ class Twist(object):
         #self.selectItem()
 
         # show root joint
-        cmds.setAttr(item_name+'_joint.drawStyle', 0)
+        cmds.setAttr(item_name+'_skinJoint.drawStyle', 0)
 
     @utils.oneStepUndo
     def attach(self, socket, target=None):
@@ -454,9 +463,9 @@ class Twist(object):
             
             target = sel[0]
             
-        outJoint = target.replace("joint", "outJoint")
+        outJoint = target.replace("skinJoint", "outJoint")
     
-        if target.split("_")[-1] == "joint":      # target is joint
+        if target.split("_")[-1] == "skinJoint":      # target is skinJoint
             if cmds.objExists(outJoint):
                 target = outJoint
             else:
@@ -478,46 +487,34 @@ class Twist(object):
             if socket == "root":
                 rootUpLoc = t_name + "_rootUpLoc"
                 cmds.parent(rootUpLoc, target)
+                utils.resetAttrs(rootUpLoc)
 
                 if opposite: 
                     root_target = utils.getOpposite(self.curTwist['target'])
-                    # cmds.setAttr(t_name+'_aim_compMat.inputRotateY', 180)
+                    # cmds.setAttr(rootUpLoc+'.sx', -1)
                 else:
                     root_target = self.curTwist['target']
                     
-                root_initLoc = root_target.replace("joint", "initLoc").replace("outJoint", "initLoc")
-                target_initLoc = target.replace("joint", "initLoc").replace("outJoint", "initLoc")
-
-                # delete connection node before create the new
-                if cmds.objExists(rootUpLoc+"_multMat"):
-                        cmds.delete(rootUpLoc+"_multMat")
+                root_initLoc = root_target.replace("skinJoint", "initLoc").replace("outJoint", "initLoc")
+                target_initLoc = target.replace("skinJoint", "initLoc").replace("outJoint", "initLoc")
                 
-                if opposite and utils.isSymmetrical(target): # if target is in the mirrored module
-                    comp1 = cmds.createNode('composeMatrix', n=t_name+'_rootUpLocPre_compMat')
-                    comp2 = cmds.createNode('composeMatrix', n=t_name+'_rootUpLocPost_compMat')
-                    cmds.sets(comp1, e=1, forceElement=set)
-                    cmds.sets(comp2, e=1, forceElement=set)
-                    cmds.setAttr(comp1+'.inputScaleX', -1)
-                    cmds.setAttr(comp2+'.inputScaleZ', -1)
-                    utils.connectToOffsetParentMatrix(rootUpLoc, [comp1, root_initLoc, target_initLoc, comp2], ["outputMatrix", "worldMatrix[0]", "worldInverseMatrix[0]", "outputMatrix"], set=set)
-                    utils.resetAttrs(rootUpLoc)
-                else:
-                    utils.connectToOffsetParentMatrix(rootUpLoc, [root_initLoc, target_initLoc], ["worldMatrix[0]", "worldInverseMatrix[0]"], set=set)
-                    utils.resetAttrs(rootUpLoc)
+                utils.connectToOffsetParentMatrix(rootUpLoc, [root_initLoc, target_initLoc], ["worldMatrix[0]", "worldInverseMatrix[0]"], set=set)
+
+                utils.connectByMatrix(t_name+"_start_connector", [rootUpLoc, t_name+"_root_connector"], ["worldMatrix[0]", "worldInverseMatrix[0]"], set=set)
 
             elif socket == "end":
                 endLoc = t_name + "_end_connectorLoc"
                 
                 cmds.parent(endLoc, target)
 
-                end_target = self.curTwist['endOrientTarget']
+                # end_target = self.curTwist['endOrientTarget']
 
-                # if default end target
-                if not end_target:
-                    end_target = cmds.listRelatives(endLoc, p=1)[0]
+                # # if default end target
+                # if not end_target:
+                #     end_target = cmds.listRelatives(endLoc, p=1)[0]
 
-                end_initLoc = end_target.replace("joint", "initLoc").replace("outJoint", "initLoc")
-                target_initLoc = target.replace("joint", "initLoc").replace("outJoint", "initLoc")
+                # end_initLoc = end_target.replace("skinJoint", "initLoc").replace("outJoint", "initLoc")
+                # target_initLoc = target.replace("skinJoint", "initLoc").replace("outJoint", "initLoc")
 
                 utils.resetAttrs(endLoc)
 
@@ -530,7 +527,7 @@ class Twist(object):
                 # print("------------------")
 
         t_name = self.curTwistName
-        moduleName = utils.getModuleName(t_name+"_joint")
+        moduleName = utils.getModuleName(t_name+"_skinJoint")
         
         # check if already connected
         if cmds.listRelatives(t_name + "_rootUpLoc", p=1)[0] == target:
@@ -557,7 +554,7 @@ class Twist(object):
 
     @utils.oneStepUndo
     def attachToRoot(self):
-        parents = cmds.listRelatives(self.curTwist["target"].replace("outJoint", "joint"), p=1)
+        parents = cmds.listRelatives(self.curTwist["target"].replace("outJoint", "skinJoint"), p=1)
         if len(parents) != 1:
             cmds.warning("Cannot find the parrent joint of the current target")
             return
@@ -568,7 +565,7 @@ class Twist(object):
 
     @utils.oneStepUndo
     def attachToEnd(self):
-        childs = cmds.listRelatives(self.curTwist["target"].replace("outJoint", "joint"))
+        childs = cmds.listRelatives(self.curTwist["target"].replace("outJoint", "skinJoint"))
         if len(childs) != 1:
             cmds.warning("Cannot find the single child joint of the current target")
             return
@@ -679,6 +676,7 @@ class Twist(object):
             for i in range(count):
                 j = cmds.joint(n=twName+'_twist_%s_twJoint' %i)
                 utils.setUserAttr(j, "pos", u, "float", keyable=True, lock=False)
+                cmds.addAttr(j, ln="twistMultiplier", at="double", min=0, max=1, dv=1, keyable=True)
                 cmds.sets(j, e=1, forceElement='skinJointsSet')
                 cmds.sets(j, e=1, forceElement=twSet)
                 cmds.parent(j, twName+"_joints")
@@ -692,7 +690,12 @@ class Twist(object):
                 cmds.sets(mult, e=1, forceElement=twSet)
                 cmds.connectAttr(quat+'.outputRotateX', mult+'.input1')
                 cmds.connectAttr(j+'.pos', mult+'.input2')
-                cmds.connectAttr(mult+'.output', mp+".frontTwist")
+
+                mult2 = cmds.createNode('multDoubleLinear', n=twName+'_twistMultDoubleLinear_%s' %i)
+                cmds.sets(mult2, e=1, forceElement=twSet)
+                cmds.connectAttr(mult+'.output', mult2+'.input1')
+                cmds.connectAttr(j+'.twistMultiplier', mult2+'.input2')
+                cmds.connectAttr(mult2+'.output', mp+".frontTwist")
 
                 cmds.connectAttr(upLoc+'.worldMatrix[0]', mp+".worldUpMatrix")
                 cmds.connectAttr(curveS+'.worldSpace[0]', mp+".geometryPath")
@@ -719,8 +722,10 @@ class Twist(object):
             for i in range(count):
                 if utils.getObjectSide(twName) == "l":
                     cmds.connectAttr(twName+'_twist_%s_twJoint.pos' %i, twName_opp+'_twist_%s_twJoint.pos' %i)
+                    cmds.connectAttr(twName+'_twist_%s_twJoint.twistMultiplier' %i, twName_opp+'_twist_%s_twJoint.twistMultiplier' %i)
                 else:
                     cmds.connectAttr(twName_opp+'_twist_%s_twJoint.pos' %i, twName+'_twist_%s_twJoint.pos' %i)
+                    cmds.connectAttr(twName_opp+'_twist_%s_twJoint.twistMultiplier' %i, twName+'_twist_%s_twJoint.twistMultiplier' %i)
 
         # update only if set count manually from button
         if updateFrame:
@@ -763,15 +768,18 @@ class Twist(object):
         twData['endTarget'] = cmds.getAttr(twName+"_mod.endTarget")
         twData['rootOrientTarget'] = cmds.listRelatives(twName + "_rootUpLoc", p=1)[0]
         twData['endOrientTarget'] = cmds.listRelatives(twName + "_end_connectorLoc", p=1)[0]
-        twData['rootOffset'] = cmds.getAttr(twName + "_rootUpLoc.r")[0]
+        twData['rootUpOffset'] = cmds.getAttr(twName + "_rootUpLoc.r")[0]
+        twData['rootOffset'] = cmds.getAttr(twName + "_root_connectorLoc.r")[0]
         twData['endOffset'] = cmds.getAttr(twName + "_end_connectorLoc.r")[0]
 
+        twData["rootFlipped"] = False
         twData["flippedX"] = False
         twData["endOffsetFlippedX"] = False
         root = twName+"_root_connector"
         if utils.isSymmetrical(root):
             if not utils.objectIsOpposite(root):
                 opp_twName = utils.getOpposite(twName)
+                twData['rootFlipped'] = cmds.getAttr(opp_twName + "_rootUpLoc.sx") == -1
                 twData['flippedX'] = cmds.getAttr(opp_twName + "_end_compMat.inputScaleX") == -1
                 twData['endOffsetFlippedX'] = cmds.getAttr(opp_twName + "_offset_compMat.inputScaleX") == -1
         
@@ -786,13 +794,13 @@ class Twist(object):
             twData['endTarget'] = utils.getTemplatedNameFromReal(module_name, twData['endTarget'])
             twData['rootOrientTarget'] = utils.getTemplatedNameFromReal(module_name, twData['rootOrientTarget'])
             twData['endOrientTarget'] = utils.getTemplatedNameFromReal(module_name, twData['endOrientTarget'])
-
+        
         return twData
 
     def toggleOffsetLocators(self):
         t_name = self.curTwistName
         v = not cmds.getAttr(t_name+"_end_connectorLoc.visibility")
-        cmds.select(t_name+"_end_connectorLoc", t_name+"_rootUpLoc")
+        cmds.select(t_name+"_end_connectorLoc", t_name+"_root_connectorLoc", t_name+"_rootUpLoc")
 
         # opp_t_name = utils.getOpposite(t_name)
         # if cmds.objExists(opp_t_name+"_mod"):
@@ -802,6 +810,23 @@ class Twist(object):
             cmds.ShowSelectedObjects()
         else:
             cmds.hide()
+
+    def setRootFlipped(self, name=None, state=None):
+        if not state:
+            state = self.win.twist_rootFlipped_checkBox.isChecked()
+        
+        if state:
+            v = -1
+        else:
+            v = 1
+
+        if not name:
+            name = self.curTwistName
+            
+        opp_name = utils.getOpposite(name)
+        rootUpLoc = opp_name + "_rootUpLoc"
+        cmds.setAttr(rootUpLoc+'.sx', v)
+        self.curTwist["rootFlipped"] = state
 
     def setEndFlipped(self, name=None, dir="x", state=None, solo=True):
         if not state:

@@ -20,7 +20,23 @@ class LimbQuadrupped(module.Module) :
 
 	def connectSignals(self, mainInstance, w):
 		# w.connectAnkle_btn.clicked.connect(self.connect_ankle_to_posers)
-		pass
+		w.aimDistance_spinBox.valueChanged.connect(self.update_aim_distance)
+
+	def updateOptionsPage(self, w):
+		w.aimDistance_spinBox.setValue(cmds.getAttr(self.name+"_mod.aim_offset"))
+		self.widget = w
+
+	def getData(self):
+		data = super(self.__class__, self).getData()
+		optionsData = self.getOptions()
+		data['optionsData'] = optionsData	
+
+		return data	
+	
+	def getOptions(self):
+		optionsData = {}
+		optionsData['aimDistance'] = cmds.getAttr(self.name+"_mod.aim_offset")
+		return optionsData
 
 	def connect_ankle_to_posers(self):
 		
@@ -156,13 +172,11 @@ class LimbQuadrupped(module.Module) :
 							cmds.connectAttr(utils.getOppositeObject(self.name+'_ankle_volume_outJoint.s'), j+'.s', f=1)
 
 	def twistOverride(self, t_name, data):
-		# fix right hip flipping
-		# if self.opposite and t_name.split("_")[-1] == "root":
-		# 	cmds.setAttr(t_name+"_rootUpLoc.sx", -1)
-
 		# make elbow offset movable
 		if t_name == self.name+"_root":
 			cmds.parent(t_name+'_end_connectorLoc', self.name+'_kneeOffset')
+			cmds.aimConstraint(self.name+"_kneeOffset", t_name+"_root_connectorLoc", mo=0, aimVector=(1,0,0), upVector=(0,1,0), worldUpType="objectrotation", worldUpVector=(0,1,0), worldUpObject=t_name+"_outJoint")
+
 		elif t_name == self.name+"_knee":
 			cmds.parent(t_name+'_rootUpLoc', self.name+'_kneeOffset')
 			cmds.parent(t_name+'_end_connectorLoc', self.name+'_ankleOffset')
@@ -178,3 +192,22 @@ class LimbQuadrupped(module.Module) :
 			cmds.connectAttr(self.name+"_kneeOffset.worldMatrix[0]", self.name+"_knee_twist_0_ibtw_joints_group_multMat.matrixIn[0]", f=1)
 		elif name == self.name + "_ankle_twist_0" :
 			cmds.connectAttr(self.name+"_ankleOffset.worldMatrix[0]", self.name+"_ankle_twist_0_ibtw_joints_group_multMat.matrixIn[0]", f=1)
+
+	def update_aim_distance(self, v=None):
+		def setValue(v):
+			cmds.setAttr(self.name+"_mod.aim_offset", v)
+			if self.symmetrical:
+				opp_mod = utils.getOpposite(self.name+"_mod")
+				cmds.setAttr(opp_mod+".aim_offset", v)
+
+		if v:
+			setValue(v)
+		else:
+			try: # fix error "C++ object already deleted"
+				if not self.widget:
+					return
+				if not v:
+					v = self.widget.aimDistance_spinBox.value()
+					setValue(v)
+			except:
+				pass

@@ -184,7 +184,7 @@ class Chain(module.Module) :
 		# add init locs
 		for i in range(2, controlsCount+1):
 			p = self.name+'_element_'+str(i)+'_poser'
-			l = cmds.spaceLocator(n=self.name+'_element_'+str(i)+'_joint_initLoc')[0]
+			l = cmds.spaceLocator(n=self.name+'_element_'+str(i)+'_skinJoint_initLoc')[0]
 			
 			utils.addModuleNameAttr(l, self.name)			
 			cmds.parent(l, p)
@@ -230,6 +230,8 @@ class Chain(module.Module) :
 		# 
 
 		cmds.parent(self.root, 'modules')	
+
+		cmds.hide(self.name+"_outJoints")
 
 	def updateOptionsPage(self, widget):
 		self.getOptions()
@@ -323,7 +325,7 @@ class Chain(module.Module) :
 	def addSkinJoints(self):
 		super(self.__class__, self).addSkinJoints()
 
-		root_j = self.name + "_root_joint"
+		root_j = self.name + "_root_skinJoint"
 
 		childs = cmds.listRelatives(root_j)
 		if len(childs) > 0:

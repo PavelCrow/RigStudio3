@@ -34,8 +34,8 @@ def check():
         if not cmds.objExists(c+"_initLoc"):
             cmds.warning("InitLoc is not exists: "+c+"_initLoc")
     for j in utils.getSetObjects('skinJointsSet'):
-        if not cmds.objExists(j.replace("joint","initLoc")):
-            cmds.warning("InitLoc is not exists: "+j.replace("joint","initLoc"))
+        if not cmds.objExists(j.replace("skinJoint","initLoc")):
+            cmds.warning("InitLoc is not exists: "+j.replace("skinJoint","initLoc"))
 
     # namespaces
     if cmds.ls("*:*"):

@@ -79,10 +79,11 @@ class Module(object):
 
         self.joints = self.getJoints()
 
+        # hide system nodes
         for o in ['_system', '_input']:
             if cmds.objExists(self.name+o):
                 cmds.hide(self.name+o)
-        cmds.showHidden(self.name+"_outJoints")
+        cmds.hide(self.name+"_outJoints")
 
         # correct posers size
         # for p in pm.listRelatives(self.name + "_posers", allDescendents=1):
@@ -119,7 +120,7 @@ class Module(object):
                 pm.delete(o)
                 continue
 
-            o.rename(srcName.replace('outJoint', 'joint').replace('outRootJoint', 'rootJoint').replace('outGroup', 'group'))
+            o.rename(srcName.replace('outJoint', 'skinJoint').replace('outRootJoint', 'rootJoint').replace('outGroup', 'group'))
             utils.connectTrandform(srcName, o.name())
             
             if not cmds.objExists(m_name+"_mainPoser_decomposeMatrix"):
@@ -141,13 +142,13 @@ class Module(object):
             utils.addToModuleSet(mult, self.name)
 
             # correct joint size
-            if o.split("_")[-1] == 'joint':
+            if o.split("_")[-1] == 'skinJoint':
 
                 cmds.setAttr(o+".segmentScaleCompensate", 0)
 
                 r = o.radius.get() * cmds.getAttr("main.jointsSize")
                 o.radius.set(r)
-                if o.name() == m_name +"_root_joint":
+                if o.name() == m_name +"_root_skinJoint":
                     # utils.resetJointOrient(o.name())
                     cmds.setAttr(o.name()+".jointOrient", 0,0,0)
         
@@ -157,13 +158,13 @@ class Module(object):
         for j in joints_:
             cmds.parent(j, 'skeleton')
             utils.removeTransformParentJoint(j)
-            utils.connectByMatrix(j, [j.replace("joint", "outJoint"), j], ['worldMatrix[0]', 'parentInverseMatrix[0]'], m_name)
+            utils.connectByMatrix(j, [j.replace("skinJoint", "outJoint"), j], ['worldMatrix[0]', 'parentInverseMatrix[0]'], m_name)
 
             # correct scale joint
             mult = cmds.createNode('multiplyDivide', n=j+"_jointInvScale_multiplyDivide")
             utils.addModuleNameAttr(mult, m_name)
             cmds.connectAttr(root_dec+".outputScale", mult+".input2")
-            cmds.connectAttr(m_name+"_root_joint_decMat.outputScale", mult+".input1")
+            cmds.connectAttr(m_name+"_root_skinJoint_decMat.outputScale", mult+".input1")
             cmds.setAttr(mult+".operation", 2)
 
             cmds.connectAttr(mult+".outputX", j+".scaleX", f=1)
@@ -199,7 +200,7 @@ class Module(object):
         outJoints = cmds.listRelatives(self.name + '_outJoints', allDescendents=1) or []
         joints = []
         for j in outJoints:
-            joints.append(j.replace("outJ", "j"))
+            joints.append(j.replace("outJoint", "skinJoint"))
         return joints
 
     def delete(self):
@@ -240,7 +241,7 @@ class Module(object):
         targetMainPoser = target_module_name + "_mainPoser"
         target_poser = target[:-len(targetType)] + "poser"
         target_add_poser = target[:-len(targetType)] + "addPoser"
-        target_joint = target[:-len(targetType)] + "joint"
+        target_joint = target[:-len(targetType)] + "skinJoint"
         target_outJoint = target[:-len(targetType)] + "outJoint"
         target_initLoc = target[:-len(targetType)] + "initLoc"
         connector_parent = cmds.listRelatives(connector, p=1)[0]
@@ -254,7 +255,7 @@ class Module(object):
         if not cmds.objExists(target_outJoint):
             target_outJoint = utils.getClosestOutJoint(target_module_name, target)
             target_initLoc = target_outJoint.replace("outJoint", "initLoc")
-            target_joint = target_outJoint.replace("outJoint", "joint")
+            target_joint = target_outJoint.replace("outJoint", "skinJoint")
         
         # save position
         initMatrix = cmds.xform(self.name+'_mainPoser', query=True, ws=True, m=True)
@@ -303,7 +304,7 @@ class Module(object):
         for j in joints:
             if cmds.objectType(j) != 'joint':
                 continue
-            root_j = j.replace("outJoint", "joint")
+            root_j = j.replace("outJoint", "skinJoint")
             cmds.parent(root_j, target_joint)
             utils.removeTransformParentJoint(root_j)
             utils.resetJointOrient(root_j)
@@ -360,7 +361,7 @@ class Module(object):
         self.parent = ""
 
         # reroot skin joints
-        jointsRoot = self.name+'_root_joint'
+        jointsRoot = self.name+'_root_skinJoint'
         utils.parentTo(jointsRoot, 'skeleton')	
         utils.removeTransformParentJoint(jointsRoot)
         utils.resetJointOrient(jointsRoot)
@@ -393,7 +394,7 @@ class Module(object):
         posers = {}
         for p in cmds.listRelatives(self.name+'_posers', allDescendents=1, type="transform"):
             path = cmds.ls(p, l=1)
-            if p.split('_')[-1] == "poser":
+            if p.split('_')[-1] in ["poser", "mainPoser"]:
                 posers[str(len(str(path)))+p] = p
         posers_sorted = []
         for id in sorted(posers):
@@ -499,15 +500,18 @@ class Module(object):
             # get twists data
             twistsData = []
             twists = []
+            
             if cmds.objExists("twists"):
                 tw_mods = cmds.listRelatives('twists', type='transform') or []
                 for tw_mod in tw_mods:
-                    tw_joint = tw_mod[:-4] + "_joint"
+                    tw_joint = tw_mod[:-4] + "_skinJoint"
+                    # tw_joint = tw_mod[:-4] + "_joint"
                     moduleName = utils.getModuleName(tw_joint)
                     if moduleName == self.name:
                         twists.append(tw_mod[:-4])
                 for tw in twists:
                     twData = twist.Twist.getData(tw, self.name)
+                    # print(111, twData)
                     twistsData.append(twData)
             return twistsData
         
@@ -739,8 +743,8 @@ class Module(object):
         parentModule_name = utils.getModuleName(self.parent)
         parent_module = self.main.rig.modules[parentModule_name]
         parent_p = self.parent.replace("outJoint", "poser")
-        self_root_j = self.name+"_root_joint"
-        parent_j = self.parent.replace("outJoint", "joint")
+        self_root_j = self.name+"_root_skinJoint"
+        parent_j = self.parent.replace("outJoint", "skinJoint")
 
         # return if several children
         children = self.main.rig.getModuleChildren(parentModule_name)
@@ -792,7 +796,7 @@ class Module(object):
             # if parent module is the root
             if parent_j.split("_")[-2] == "root":
                 if parent_module.parent:
-                    pp_j = parent_module.parent.replace("outJoint", "joint")
+                    pp_j = parent_module.parent.replace("outJoint", "skinJoint")
                 else:
                     pp_j = "skeleton"
                 cmds.parent(parent_j, pp_j)
@@ -800,7 +804,7 @@ class Module(object):
                 if self.symmetrical and parent_module.symmetrical:
                     cmds.parent(utils.getOpposite(parent_j), utils.getOpposite(pp_j))
             else:
-                p_j = cmds.listRelatives(self.parent, p=1)[0].replace("outJoint", "joint")
+                p_j = cmds.listRelatives(self.parent, p=1)[0].replace("outJoint", "skinJoint")
                 cmds.parent(parent_j, p_j)
 
                 if self.symmetrical:
@@ -953,10 +957,10 @@ class Module(object):
                         for tw_d in twData:
                             s_j = tw_d["start_j"]
                             e_j = tw_d["end_j"]
-                            if s_j.split("_joint")[0] == name:
-                                tw_d["start_j"] = new_name + "_joint"
-                            if e_j.split("_joint")[0] == name:
-                                tw_d["end_j"] = new_name + "_joint"
+                            if s_j.split("_skinJoint")[0] == name:
+                                tw_d["start_j"] = new_name + "_skinJoint"
+                            if e_j.split("_skinJoint")[0] == name:
+                                tw_d["end_j"] = new_name + "_skinJoint"
 
         if curMod_name:
             m_name = curMod_name  # for load module 
@@ -969,7 +973,7 @@ class Module(object):
             if not cData['opposite']:
                 m = self.main.rig.modules[m_name]
                 # parent add control to root joint
-                c = m.addAdditionalControl(cData['name'], parent=m_name+"_root_joint", shape='circle', updateData=False)
+                c = m.addAdditionalControl(cData['name'], parent=m_name+"_root_skinJoint", shape='circle', updateData=False)
                 addControls.append(c)
 
         # parent add control to control from data
@@ -1047,8 +1051,6 @@ class Module(object):
 
 
     def toggleLRA(self, v="None"):
-        module_joints = []
-        
         if not self.main:
             return
         
@@ -1056,28 +1058,13 @@ class Module(object):
         if not joints_vis:
             return
         
-        module_joints =  cmds.listRelatives(self.name+'_outJoints', type="joint", allDescendents=1) or []
+        joints =  cmds.listRelatives('skeleton', allDescendents=1) or []
         
-        if v == "None" and module_joints:
-            v = not cmds.getAttr(module_joints[0]+'.displayLocalAxis')
+        if v == "None" and joints:
+            v = not cmds.getAttr(joints[0]+'.displayLocalAxis')
 
-        for j in module_joints:
+        for j in joints:
             cmds.setAttr(j+'.displayLocalAxis', v)
-
-        if self.symmetrical:
-            for j in module_joints:
-                cmds.setAttr(utils.getOpposite(j)+'.displayLocalAxis', v)	
-
-    def toggle_posersAxises(self, state=None):
-        if state == None:
-            v = not cmds.getAttr(self.getPosers()[0]+'.axises')
-        else:
-            v = state
-        for p in self.getPosers():
-            if cmds.objExists(p+'.axises'):
-                try:
-                    cmds.setAttr(p+'.axises', v)
-                except: pass
 
     def getControlsParents(self):
         parented = []

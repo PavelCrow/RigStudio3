@@ -557,3 +557,15 @@ removed old unused options from fingers and limbs modules
 ---Version 3.5.02
 updated build mocap skeleton feature
 bake dummy rig temp feature
+
+---Version 3.5.03
+Quadrupped module update
+Licencing
+
+---Version 3.6.00
+Transition to a unified skeleton hierarchy
+Removed Game joints buttons
+New connections of the twist elements
+New attribute twistMultiplier on the twist joints
+Updated humanFull and quadruppedFull templates
+ChainIk module update

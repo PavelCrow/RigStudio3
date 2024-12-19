@@ -105,9 +105,9 @@ class HumanIk(object):
 		def getRootJoint(m_name, int_name):
 			c_name = utils.getRealNameFromDataName(int_name, m_name)
 			if cmds.objExists(c_name):
-				j_name = c_name + "_" + int_name + "_joint"
+				j_name = c_name + "_" + int_name + "_skinJoint"
 			else:
-				j_name = m_name + "_" + int_name + "_joint"
+				j_name = m_name + "_" + int_name + "_skinJoint"
 
 			if cmds.objExists(j_name):
 				return j_name

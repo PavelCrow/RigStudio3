@@ -5,7 +5,7 @@ if len(sel) != 1:
     cmds.warning("Select one joint")
     #return
 j = sel[0]
-name = j.split("_joint")[0]
+name = j.split("_skinJoint")[0]
 if not cmds.objExists(j+".angle"+axis):
     cmds.addAttr(j, longName="angle"+axis, keyable=1)
     dMat = cmds.createNode('decomposeMatrix', n="%s_decomposeMatrix" %j)

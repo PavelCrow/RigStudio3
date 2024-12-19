@@ -104,7 +104,7 @@ class Mouth(module.Module) :
 
 		# delete old 
 		count_cur = int( ( len(cmds.listRelatives(m_name+'_lipsExtra_controls')) - 2 ) / 4 )
-		cmds.delete(m_name+"_root_joint")
+		cmds.delete(m_name+"_root_skinJoint")
 		for i in range(1, count_cur+1):
 			for n in ["l_t", "r_t", "l_b", "r_b"]:
 				name = m_name+"_%s_lip_%s_" %(n,i)

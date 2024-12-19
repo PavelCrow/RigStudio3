@@ -39,9 +39,9 @@ class Fingers(module.Module) :
 			v = w.isChecked()
 			
 			if name == "thumb":
-				cmds.setAttr(self.name+"_%sFinger_1_joint.v" %name, v)	
+				cmds.setAttr(self.name+"_%sFinger_1_skinJoint.v" %name, v)	
 			else:
-				cmds.setAttr(self.name+"_%s_root_joint.v" %name, v)	
+				cmds.setAttr(self.name+"_%s_root_skinJoint.v" %name, v)	
 				cmds.setAttr(self.name+"_%sFingerRoot_poser.lodVisibility" %name, v)	
 				cmds.setAttr(self.name+"_%sFingerRoot_line.v" %name, v)	
 			cmds.setAttr(self.name+"_%sFinger_mainPoser.lodVisibility" %name, v)
@@ -81,11 +81,11 @@ class Fingers(module.Module) :
 		
 		optionsData = {}
 		
-		optionsData['thumb'] = cmds.getAttr(self.name+"_thumbFinger_1_joint.v")
-		optionsData['index'] = cmds.getAttr(self.name+"_index_root_joint.v")
-		optionsData['middle'] = cmds.getAttr(self.name+"_middle_root_joint.v")
-		optionsData['ring'] = cmds.getAttr(self.name+"_ring_root_joint.v")
-		optionsData['pinky'] = cmds.getAttr(self.name+"_pinky_root_joint.v")
+		optionsData['thumb'] = cmds.getAttr(self.name+"_thumbFinger_1_skinJoint.v")
+		optionsData['index'] = cmds.getAttr(self.name+"_index_root_skinJoint.v")
+		optionsData['middle'] = cmds.getAttr(self.name+"_middle_root_skinJoint.v")
+		optionsData['ring'] = cmds.getAttr(self.name+"_ring_root_skinJoint.v")
+		optionsData['pinky'] = cmds.getAttr(self.name+"_pinky_root_skinJoint.v")
 		optionsData['middle_value'] = cmds.getAttr(self.name+"_middle_pairBlend.weight")
 		optionsData['ring_value'] = cmds.getAttr(self.name+"_ring_pairBlend.weight")
 		
@@ -99,9 +99,9 @@ class Fingers(module.Module) :
 		
 		def switch(m_name, name, v, opp=False):
 			if name == "thumb":
-				cmds.setAttr(m_name+"_%sFinger_1_joint.v" %name, v)	
+				cmds.setAttr(m_name+"_%sFinger_1_skinJoint.v" %name, v)	
 			else:
-				cmds.setAttr(m_name+"_%s_root_joint.v" %name, v)	
+				cmds.setAttr(m_name+"_%s_root_skinJoint.v" %name, v)	
 				cmds.setAttr(m_name+"_%sFingerRoot_poser.lodVisibility" %name, v)
 				# cmds.setAttr(m_name+"_%sFingerRoot_line.v" %name, v)
 			cmds.setAttr(m_name+"_%sFinger_mainPoser.lodVisibility" %name, v)
@@ -162,9 +162,9 @@ class Fingers(module.Module) :
 					cmds.connectAttr(name+"_%sFingerC_line.lodVisibility" %f, opp_name+"_%sFingerC_line.lodVisibility" %f)
 					cmds.connectAttr(name+"_%sFingerD_line.lodVisibility" %f, opp_name+"_%sFingerD_line.lodVisibility" %f)
 					if f == "thumb":
-						cmds.connectAttr(name+"_%sFinger_1_joint.v" %f, opp_name+"_%sFinger_1_joint.v" %f)
+						cmds.connectAttr(name+"_%sFinger_1_skinJoint.v" %f, opp_name+"_%sFinger_1_skinJoint.v" %f)
 					else:
-						cmds.connectAttr(name+"_%s_root_joint.v" %f, opp_name+"_%s_root_joint.v" %f)
+						cmds.connectAttr(name+"_%s_root_skinJoint.v" %f, opp_name+"_%s_root_skinJoint.v" %f)
 						cmds.connectAttr(name+"_%sFingerRoot_line.v" %f, opp_name+"_%sFingerRoot_line.v" %f)
 						cmds.connectAttr(name+"_%sFingerRoot_poser.lodVisibility" %f, opp_name+"_%sFingerRoot_poser.lodVisibility" %f)
 		except:

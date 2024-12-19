@@ -477,7 +477,7 @@ class Wing(module.Module) :
 	def addSkinJoints(self):
 		super(self.__class__, self).addSkinJoints()
 		if self.parent:
-			cmds.parent(self.name+"_root_joint", self.parent.replace("outJoint", "joint"))
+			cmds.parent(self.name+"_root_skinJoint", self.parent.replace("outJoint", "skinJoint"))
 
 	def connect(self, target, opposite=False, makeSeamless=False):
 		super(self.__class__, self).connect(target, opposite, makeSeamless)

@@ -49,7 +49,7 @@ class Foot(module.Module) :
 
 
 			utils.connectByMatrix(self.name+'_root_connector', [targetModuleName+'_ik_out', self.name+'_root_connector'], 
-						          ['worldMatrix[0]', 'parentInverseMatrix[0]'], self.name, attrs=['t', 'r'] )
+						          ['worldMatrix[0]', 'parentInverseMatrix[0]'], self.name, attrs=['t', 'r', 's'] )
 
 			# cmds.connectAttr(targetModuleName+'_root_connector.s', self.name+'_root_connector.s')
 

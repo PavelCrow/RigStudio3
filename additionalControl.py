@@ -12,7 +12,7 @@ class AdditionalControl(controller.Control):
 	def __init__(self, name="", parent="", shape="", data={}):
 		if name != "":
 			self.name = name
-			self.parent = parent.replace("outJoint", "joint")
+			self.parent = parent.replace("outJoint", "skinJoint")
 			self.poserParent = ""
 			self.colorId = 18
 			self.symmetrical = False
@@ -20,7 +20,7 @@ class AdditionalControl(controller.Control):
 			self.create(shape)
 		elif data != {}:
 			self.name = data['name']
-			self.parent = data['parent'].replace("outJoint", "joint")
+			self.parent = data['parent'].replace("outJoint", "skinJoint")
 			self.poserParent = data['poserParent']
 			self.colorId = data['colorId']		
 			self.symmetrical = False
@@ -35,7 +35,7 @@ class AdditionalControl(controller.Control):
 		utils.setUserAttr(self.name, 'type', 'additionalControl')
 
 		# add ctr joint
-		j = cmds.duplicate(self.name+'_outJoint', n=self.name+'_joint')[0]
+		j = cmds.duplicate(self.name+'_outJoint', n=self.name+'_skinJoint')[0]
 		cmds.setAttr(j+".segmentScaleCompensate", 0)	
 
 		if not cmds.getAttr("main.jointsVis"):
@@ -48,9 +48,9 @@ class AdditionalControl(controller.Control):
 		jointsSize = cmds.getAttr('main.jointsSize')
 		cmds.setAttr(j+".radius", jointsSize)
 
-		cmds.connectAttr(self.name+".sx", self.name+'_joint.sx', f=1)			
-		cmds.connectAttr(self.name+".sy", self.name+'_joint.sy', f=1)			
-		cmds.connectAttr(self.name+".sz", self.name+'_joint.sz', f=1)			
+		cmds.connectAttr(self.name+".sx", self.name+'_skinJoint.sx', f=1)			
+		cmds.connectAttr(self.name+".sy", self.name+'_skinJoint.sy', f=1)			
+		cmds.connectAttr(self.name+".sz", self.name+'_skinJoint.sz', f=1)			
 
 		# add addPoser
 		posers.createAddPoser(self.name, par_moduleName)
@@ -80,7 +80,7 @@ class AdditionalControl(controller.Control):
 	def setParent(self, target):
 		# print(3333, "SETPARENT", self.name, target)
 		# variables
-		if not utils.objectIsControl(target) and not utils.objectIsAdditionalControl(target) and target.split("_")[-1] != "joint" and target.split("_")[-1] != "outJoint":
+		if not utils.objectIsControl(target) and not utils.objectIsAdditionalControl(target) and target.split("_")[-1] != "skinJoint" and target.split("_")[-1] != "outJoint":
 			cmds.warning("Select one control or joint")
 			return
 
@@ -94,23 +94,23 @@ class AdditionalControl(controller.Control):
 		if parentIsJoint:
 			target_j = target
 			# if joint is simple, set target as control
-			par_ = cmds.listRelatives(target_j.replace("joint", "outJoint"), p=1)[0]
+			par_ = cmds.listRelatives(target_j.replace("skinJoint", "outJoint"), p=1)[0]
 			if utils.objectIsAdditionalControl(par_) or utils.objectIsControl(par_):
 				target = par_
 				parentIsJoint = False
 		else:
-			target_j = target + '_joint'
+			target_j = target + '_skinJoint'
 			if not cmds.objExists(target_j):
 				target_j = utils.getClosestJoint(par_moduleName, target)
 				closestJoint = True
 		
-		parent_out_j = target_j.replace("joint", "outJoint")
-		parent_j = target_j.replace("outJoint", "joint")
+		parent_out_j = target_j.replace("skinJoint", "outJoint")
+		parent_j = target_j.replace("outJoint", "skinJoint")
 		poser = name+"_addPoser"
 		group = name+'_group'
-		joint =  name+'_joint'
+		joint =  name+'_skinJoint'
 		
-		parent_initLoc = target_j.replace("joint", "initLoc").replace("outJoint", "initLoc")
+		parent_initLoc = target_j.replace("skinJoint", "initLoc").replace("outJoint", "initLoc")
 		if closestJoint:
 			n = utils.getInternalNameFromControl(target)
 			parent_initLoc = par_moduleName + "_" + n + "_initLoc"
@@ -131,7 +131,7 @@ class AdditionalControl(controller.Control):
 		
 		# parent poser
 		if cmds.objectType(target) == "joint":
-			tar = target.split("_joint")[0].split("_outJoint")[0]
+			tar = target.split("_skinJoint")[0].split("_outJoint")[0]
 		else:
 			tar = target
 
@@ -149,7 +149,7 @@ class AdditionalControl(controller.Control):
 
 		if cmds.listRelatives(poser, p=1)[0] != par_p:
 			cmds.parent(poser, par_p)
-		
+			
 		# create connection line
 		crv = name+"_connectionCrv"
 		if not cmds.objExists(crv):
@@ -208,7 +208,7 @@ class AdditionalControl(controller.Control):
 			if cmds.objExists(old_moduleName+'_controlSet'):
 				cmds.sets(control_name, e=1, remove=old_moduleName+'_controlSet' )
 				cmds.sets(control_name, e=1, remove=old_moduleName+'_moduleControlSet' )		
-			for n in ["", "_group", "_outJoint", "_addPoser", "_initLoc", "_group_decMat", "_group_multMat", "_makeNurbSphere", "_initLocShape", "_joint", "_addPoserShape", "_joint_multMat", "Shape"]:
+			for n in ["", "_group", "_outJoint", "_addPoser", "_initLoc", "_group_decMat", "_group_multMat", "_makeNurbSphere", "_initLocShape", "_skinJoint", "_addPoserShape", "_skinJoint_multMat", "Shape"]:
 				cmds.sets(control_name+n, e=1, forceElement=moduleName+'_nodesSet')
 				if cmds.objExists(old_moduleName+'_controlSet'):
 					cmds.sets(control_name+n, e=1, rm=old_moduleName+'_nodesSet')
@@ -230,7 +230,7 @@ class AdditionalControl(controller.Control):
 
 	def delete(self): #
 		group = cmds.listRelatives(self.name, p=1)[0]
-		cmds.delete(group, group+"_decMat", group+"_multMat", self.name + '_joint', self.name+'_addPoser', self.name+'_connectionCrv')
+		cmds.delete(group, group+"_decMat", group+"_multMat", self.name + '_skinJoint', self.name+'_addPoser', self.name+'_connectionCrv')
 		if self.opposite:
 			# add posers can be connected by matrix or stright connections
 			if cmds.objExists(self.name+"_addPoser_decMat"):

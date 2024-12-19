@@ -1,3 +1,35 @@
+# --------------------------------------------------------------
+# Program Name: Rig Studio
+# Description: A Python-based tool for Autodesk Maya designed to create procedural rigs.
+#
+# Author: Pavel Korolev
+# Creation Date: 29.01.2022
+# Last Updated: 02.12.2024
+#
+# License: Portions of the Rig Studio codebase are distributed under the MIT License and are freely available for use.
+# However, access to closed modules and the full version of the program requires purchasing a commercial license.
+# All rights to the proprietary part of the program are reserved by the author.
+#
+# Dependencies:
+# - Python version 3.7.7
+# - Autodesk Maya version 2022
+# - Installed modules: PyMEL
+#
+# Usage:
+# - The program is intended for creating procedural rigs in Maya.
+# - Detailed documentation: rigstudio.ru (Currently unavailable).
+#
+# Contact for feedback: [pavel.crow@gmail.com]
+#
+# This software is licensed under the terms of the LICENSE file.
+# © 2024 Pavel Korolev. All rights reserved.
+#
+# --------------------------------------------------------------
+#
+# Python commamd:
+# import rigStudio3
+# rigStudio3.run()
+
 import maya.cmds as cmds
 import pymel.core as pm
 import maya.OpenMayaUI as OpenMayaUI
@@ -190,8 +222,7 @@ class MainWindow:
             
             self.win.actionPosers.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "posers.svg")))
             self.win.actionControls.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "controls.png")))
-            self.win.actionGameJoints.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "jointsGame.png")))
-            self.win.actionGameJoints_Template.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "jointsGame_template.png")))
+            self.win.actionJoints_Template.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "joints_template.png")))
             self.win.actionJoints.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "joints.png")))
             self.win.actionGeometry.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "geometry.png")))
             self.win.actionGeometry_Template.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "geometry_template.png")))
@@ -616,8 +647,7 @@ class MainWindow:
         self.win.action_moduleBuilder.triggered.connect(self.action_moduleBuilder)
         self.win.actionPosers.triggered.connect(self.rig.toggleVis_posers)
         self.win.actionControls.triggered.connect(self.rig.toggleVis_controls)
-        self.win.actionGameJoints.triggered.connect(self.rig.toggleVis_gameJoints)
-        self.win.actionGameJoints_Template.triggered.connect(self.rig.toggleTemplate_joints)
+        self.win.actionJoints_Template.triggered.connect(self.rig.toggleTemplate_joints)
         self.win.actionJoints.triggered.connect(self.rig.toggleVis_joints)
         self.win.actionGeometry.triggered.connect(self.rig.toggleVis_geo)
         self.win.actionGeometry_Template.triggered.connect(self.rig.toggleTemplate_geo)
@@ -1966,8 +1996,6 @@ class MainWindow:
         return name
 
     def makeControl(self, name=""):
-        logger.debug(traceback.extract_stack()[-1][2])
-
         # get name
         if name == "":
             name = self.win.controlName_lineEdit.text()
@@ -1996,7 +2024,7 @@ class MainWindow:
         # add joint
         if self.win.joints_checkBox.isChecked():
             cmds.select(control)
-            j = cmds.joint(n=name + '_joint')
+            j = cmds.joint(n=name + '_skinJoint')
 
         cmds.select(root)
 
@@ -2105,10 +2133,9 @@ class MainWindow:
 
         self.win.actionPosers.setEnabled(charExist)
         self.win.actionControls.setEnabled(charExist)
-        self.win.actionGameJoints.setEnabled(charExist)
         self.win.actionJoints.setEnabled(charExist)
         self.win.actionGeometry.setEnabled(charExist)
-        self.win.actionGameJoints_Template.setEnabled(charExist)
+        self.win.actionJoints_Template.setEnabled(charExist)
         self.win.actionGeometry_Template.setEnabled(charExist)
         self.win.actionGeometry_Reference.setEnabled(charExist)
         self.win.actionAdvanced.setEnabled(charExist)
@@ -2123,8 +2150,7 @@ class MainWindow:
                 self.win.actionPosers.setChecked(self.rig.posersVis)
                 self.win.actionControls.setChecked(self.rig.controlsVis)
             self.win.actionJoints.setChecked(self.rig.jointsVis)
-            self.win.actionGameJoints.setChecked(self.rig.gameJointsVis)
-            self.win.actionGameJoints_Template.setChecked(self.rig.gameJointsTemplate)
+            self.win.actionJoints_Template.setChecked(self.rig.jointsTemplate)
             self.win.actionGeometry.setChecked(self.rig.geoVis)
             self.win.actionGeometry_Template.setChecked(self.rig.geoTemplate)
             self.win.actionGeometry_Reference.setChecked(self.rig.geoReference)
@@ -2252,14 +2278,14 @@ class MainWindow:
             for p in self.jointsSizeData:
                 if manual_v:
                     cmds.setAttr(p + '.radius', v)
-                    cmds.setAttr(p.replace("joint", "outJoint") + '.radius', v)
+                    cmds.setAttr(p.replace("skinJoint", "outJoint") + '.radius', v)
                 else:
                     init_value = self.jointsSizeData[p]
                     value = v * init_value
                     if value < 0.01:
                         value = 0.01
                     cmds.setAttr(p + '.radius', value)
-                    cmds.setAttr(p.replace("joint", "outJoint") + '.radius', value)
+                    cmds.setAttr(p.replace("skinJoint", "outJoint") + '.radius', value)
                     self.win.jointsSize_lineEdit.setText(str(round(v, 3)))
         else:
             # save global size value
@@ -2294,8 +2320,8 @@ class MainWindow:
                     skin_joints.remove(j)
 
         for j in skin_joints:
-            if cmds.objExists(j.replace('joint', 'outJoint')):
-                if utils.getModuleTypeFromAttr(j.replace('joint', 'outJoint')) == 'root':
+            if cmds.objExists(j.replace('skinJoint', 'outJoint')):
+                if utils.getModuleTypeFromAttr(j.replace('skinJoint', 'outJoint')) == 'root':
                     skin_joints.remove(j)
 
         cmds.select(skin_joints)
@@ -2674,7 +2700,7 @@ class MainWindow:
         # disconnect twists
         for tw in cmds.listRelatives('twists', type='transform') or []:
             t_name = tw.split("_mod")[0]
-            j = t_name + "_joint"
+            j = t_name + "_skinJoint"
             t_mod_name = utils.getModuleName(j)
             
             # delete twist in current module
@@ -3373,11 +3399,11 @@ class MainWindow:
             return
 
         parent = sel[0]
-        if not utils.objectIsControl(parent) and not utils.objectIsAdditionalControl(parent) and parent.split("_")[-1] != "joint" and parent.split("_")[-1] != "outJoint":
+        if not utils.objectIsControl(parent) and not utils.objectIsAdditionalControl(parent) and parent.split("_")[-1] != "skinJoint" and parent.split("_")[-1] != "outJoint":
             cmds.warning("Select one control or joint")
             return
 
-        # if parent.split("_")[-1] == "joint":
+        # if parent.split("_")[-1] == "skinJoint":
         #     joint = parent
         # else:
         #     joint = parent + "_joint"
@@ -3596,9 +3622,9 @@ class MainWindow:
             if utils.objectIsAdditionalControl(parent):
                 if cmds.listRelatives(ctrl.name + "_addPoser", p=1)[0] != parent + "_addPoser":
                     cmds.parent(ctrl.name + "_addPoser", parent + "_addPoser")
-            else:
-                if cmds.listRelatives(ctrl.name + "_addPoser", p=1)[0] != mod.name + "_mainPoser":
-                    cmds.parent(ctrl.name + "_addPoser", mod.name + "_mainPoser")
+            # else: # disable because duplicate add control on symmetry was wrong
+            #     if cmds.listRelatives(ctrl.name + "_addPoser", p=1)[0] != mod.name + "_mainPoser":
+            #         cmds.parent(ctrl.name + "_addPoser", mod.name + "_mainPoser")
 
             # set position
             cmds.xform(self.curAddControlName + '_addPoser', m=pos, ws=1)
@@ -3755,7 +3781,7 @@ class MainWindow:
         
         cmds.hide(mirroredControl.name + '_addPoser')
 
-        cmds.setAttr(mirroredControl.name + "_joint.radius", cmds.getAttr(curAddControl.name + "_joint.radius"))
+        cmds.setAttr(mirroredControl.name + "_skinJoint.radius", cmds.getAttr(curAddControl.name + "_skinJoint.radius"))
 
         # connect shapes
         curveShapes = cmds.listRelatives(mirroredControl.name, children=True, path=True, type='nurbsCurve')

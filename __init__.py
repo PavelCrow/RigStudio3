@@ -1,3 +1,37 @@
+# --------------------------------------------------------------
+# Program Name: Rig Studio
+# Description: A Python-based tool for Autodesk Maya designed to create procedural rigs.
+#
+# Author: Pavel Korolev
+# Creation Date: 29.01.2022
+# Last Updated: 02.12.2024
+#
+# License: Portions of the Rig Studio codebase are distributed under the MIT License and are freely available for use.
+# However, access to closed modules and the full version of the program requires purchasing a commercial license.
+# All rights to the proprietary part of the program are reserved by the author.
+#
+# Dependencies:
+# - Python version 3.7.7
+# - Autodesk Maya version 2022
+# - Installed modules: PyMEL
+#
+# Usage:
+# - The program is intended for creating procedural rigs in Maya.
+# - Detailed documentation: rigstudio.ru (Currently unavailable).
+#
+# Contact for feedback:
+# Email: pavel.crow@gmail.com
+# Website: rigstudio.ru
+#
+# This software is licensed under the terms of the LICENSE file.
+# © 2024 Pavel Korolev. All rights reserved.
+#
+# --------------------------------------------------------------
+#
+# Python commamd:
+# import rigStudio3
+# rigStudio3.run()
+
 import os, json, sys
 import maya.cmds as cmds
 from importlib import reload

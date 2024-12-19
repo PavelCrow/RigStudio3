@@ -14,4 +14,4 @@ class Root(module.Module):
 	def create(self, options={}):
 		super(self.__class__, self).create(options)	
 		
-		cmds.setAttr(self.name+"_root_joint.drawStyle", 2)
+		cmds.setAttr(self.name+"_root_skinJoint.drawStyle", 2)

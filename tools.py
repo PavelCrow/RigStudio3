@@ -630,12 +630,12 @@ def buildMocapSkeleton():
 				cmds.delete(j)
 				continue
 
-			j = cmds.rename(j, j.split("|")[-1].replace("joint", "mJoint"))
+			j = cmds.rename(j, j.split("|")[-1].replace("skinJoint", "mJoint"))
 			cmds.setAttr(j+".segmentScaleCompensate", 0)
 			cmds.setAttr(j+".drawStyle", 0)
 			cmds.setAttr(j+".preferredAngle", 0,0,0)
 
-			orig_j = j.replace("mJoint", "joint")
+			orig_j = j.replace("mJoint", "skinJoint")
 			t = cmds.getAttr(orig_j+".t")[0]
 			cmds.setAttr(j+".t", t[0], t[1], t[2])
 			r = cmds.getAttr(orig_j+".r")[0]

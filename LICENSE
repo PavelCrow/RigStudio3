@@ -1,0 +1,35 @@
+
+# License Agreement for Rig Studio
+
+## 1. Open Source Components
+Portions of the Rig Studio codebase are distributed under the MIT License. These components are free to use, modify, and distribute in accordance with the terms of the MIT License. For details, see the "MIT License" section below.
+
+## 2. Proprietary Components
+The remaining parts of Rig Studio, including advanced modules, algorithms, and tools, are proprietary and protected under copyright law. Use of these components is subject to the following conditions:
+- **Commercial License or Subscription**: Access to proprietary features requires purchasing a commercial license or subscription.
+- **No Modification or Redistribution**: The proprietary components may not be modified or redistributed without explicit written permission from the author.
+
+## 3. Commercial Use
+Any use of Rig Studio, including its open-source components, for commercial purposes requires the purchase of a commercial license. This includes, but is not limited to:
+- Developing products or services based on Rig Studio.
+- Using Rig Studio in commercial projects.
+
+## 4. Disclaimer of Warranty
+This program is provided "as is", without warranty of any kind. The author is not liable for any damages resulting from the use of this program.
+
+## 5. Contact Information
+For commercial licenses, subscriptions, or further inquiries, please contact:
+Email: [your email]  
+Website: [your website]
+
+## 6. Copyright
+© 2024 [Your Name or Company Name]. All rights reserved.
+
+---
+
+## MIT License
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

@@ -417,9 +417,9 @@ class Template(object):
 					rootOrientTarget = real_data['rootOrientTarget'] = utils.getRealNameFromTemplated(m_name, twData['rootOrientTarget'])
 					endOrientTarget = real_data['endOrientTarget'] = utils.getRealNameFromTemplated(m_name, twData['endOrientTarget'])
 					real_data['jointsCount'] = utils.getRealNameFromTemplated(m_name, twData['jointsCount'])
-					real_data['rootOffset'] = utils.getRealNameFromTemplated(m_name, twData['rootOffset'])
-					real_data['endOffset'] = utils.getRealNameFromTemplated(m_name, twData['endOffset'])
-
+					if 'rootOffset' in twData: real_data['rootOffset'] = utils.getRealNameFromTemplated(m_name, twData['rootOffset'])
+					if 'rootUpOffset' in twData: real_data['rootUpOffset'] = utils.getRealNameFromTemplated(m_name, twData['rootUpOffset'])
+					if 'endOffset' in twData: real_data['endOffset'] = utils.getRealNameFromTemplated(m_name, twData['endOffset'])
 					self.main.twistClass.twists_add(real_data)
 
 					if rootOrientTarget != target:
@@ -427,6 +427,9 @@ class Template(object):
 
 					if endOrientTarget != endTarget:
 						self.main.twistClass.attach("end", endOrientTarget)
+
+					if 'rootFlipped' in twData and twData['rootFlipped']:
+						self.main.twistClass.setRootFlipped(name=utils.getOpposite(twData['name']), state=twData['rootFlipped'])
 
 				cmds.progressBar(progressControl, edit=True, step=1)
 			cmds.progressBar(progressControl2, edit=True, step=1)

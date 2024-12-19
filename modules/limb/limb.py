@@ -245,15 +245,12 @@ class Limb(module.Module) :
 		# make elbow offset movable
 		if t_name == self.name+"_root":
 			cmds.parent(t_name+'_end_connectorLoc', self.name+'_middleOffset')
+			cmds.aimConstraint(self.name+"_middleOffset", t_name+"_root_connectorLoc", mo=0, aimVector=(1,0,0), upVector=(0,1,0), worldUpType="objectrotation", worldUpVector=(0,1,0), worldUpObject=t_name+"_outJoint")
 		elif t_name == self.name+"_middle":
 			cmds.parent(t_name+'_rootUpLoc', self.name+'_middleOffset')
-			cmds.connectAttr(self.name+'_middleOffset.worldMatrix', t_name+'_root_connectorLoc_aimMat.inputMatrix', f=1)
-
-			if self.opposite:
-				cmds.setAttr(t_name+"_root_compMat.inputScaleZ", -1)
+			cmds.pointConstraint(t_name+'_rootUpLoc', t_name+'_root_connectorLoc', mo=0)
+			cmds.aimConstraint(t_name+'_end_connectorLoc', t_name+"_root_connectorLoc", mo=0, aimVector=(1,0,0), upVector=(0,1,0), worldUpType="objectrotation", worldUpVector=(0,1,0), worldUpObject=t_name+"_outJoint")
 
 	def ibtwOverride(self, name):
-		
-
 		if name == self.name + "_middle_twist_0" :
 			cmds.connectAttr(self.name+"_middleOffset.worldMatrix[0]", self.name+"_middle_twist_0_ibtw_joints_group_multMat.matrixIn[0]", f=1)

@@ -39,7 +39,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>8</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="rig_tab">
        <attribute name="title">
@@ -4835,32 +4835,46 @@
             </widget>
            </item>
            <item>
-            <layout class="QGridLayout" name="gridLayout_10" rowstretch="0,0" columnstretch="0,1">
-             <item row="0" column="1">
+            <layout class="QGridLayout" name="gridLayout_10" rowstretch="0,0,0" columnstretch="0,0">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_38">
+               <property name="text">
+                <string>Root Opposite: </string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
               <widget class="QCheckBox" name="twist_flippedX_checkBox">
+               <property name="text">
+                <string>Flipped</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_33">
+               <property name="text">
+                <string>End Opposite: </string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QCheckBox" name="twist_endOffsetFlippedX_checkBox">
                <property name="text">
                 <string>Flipped X</string>
                </property>
               </widget>
              </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_33">
-               <property name="text">
-                <string>End Symmetry: </string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
+             <item row="2" column="0">
               <widget class="QLabel" name="label_37">
                <property name="text">
                 <string>End Offset: </string>
                </property>
               </widget>
              </item>
-             <item row="1" column="1">
-              <widget class="QCheckBox" name="twist_endOffsetFlippedX_checkBox">
+             <item row="0" column="1">
+              <widget class="QCheckBox" name="twist_rootFlipped_checkBox">
                <property name="text">
-                <string>Flipped X</string>
+                <string>Flipped</string>
                </property>
               </widget>
              </item>
@@ -9816,9 +9830,8 @@ p, li { white-space: pre-wrap; }
     <addaction name="actionControls"/>
     <addaction name="actionGeometry"/>
     <addaction name="separator"/>
-    <addaction name="actionGameJoints"/>
-    <addaction name="actionGameJoints_Template"/>
     <addaction name="actionJoints"/>
+    <addaction name="actionJoints_Template"/>
     <addaction name="separator"/>
     <addaction name="actionGeometry_Template"/>
     <addaction name="actionGeometry_Reference"/>
@@ -9914,8 +9927,7 @@ p, li { white-space: pre-wrap; }
    <addaction name="actionControls"/>
    <addaction name="separator"/>
    <addaction name="actionJoints"/>
-   <addaction name="actionGameJoints"/>
-   <addaction name="actionGameJoints_Template"/>
+   <addaction name="actionJoints_Template"/>
    <addaction name="separator"/>
    <addaction name="actionGeometry"/>
    <addaction name="actionGeometry_Template"/>
@@ -9993,7 +10005,7 @@ p, li { white-space: pre-wrap; }
     <string>Geometry</string>
    </property>
   </action>
-  <action name="actionGameJoints_Template">
+  <action name="actionJoints_Template">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -10001,7 +10013,7 @@ p, li { white-space: pre-wrap; }
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Game Joints Template</string>
+    <string>Joints Template</string>
    </property>
   </action>
   <action name="actionGeometry_Template">

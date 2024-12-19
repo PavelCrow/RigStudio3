@@ -319,7 +319,8 @@ def getModuleTypeFromAttr(obj):
 def getModuleName(obj): #
 	if obj == None or obj == "" or not cmds.objExists(obj):
 		return None	
-	j = obj.replace("joint", "outJoint")
+	j = obj.replace("skinJoint", "outJoint")
+	# j = obj.replace("joint", "outJoint")
 
 	# for twist joints
 	if obj.split("_")[-1] == "twJoint":
@@ -329,7 +330,7 @@ def getModuleName(obj): #
 	path = cmds.ls(j, l=1) or []
 	
 	moduleName = path[0].split("rig|modules|")[-1].split("_mod|")[0]
-
+	
 	return moduleName
 
 def capitalizeName(name):
@@ -839,7 +840,7 @@ def getClosestJoint(mod_name, src_object):
 	closest_distance = 10000000
 	closest = ""
 	for j in cmds.listRelatives("skeleton", allDescendents=1):
-		if j.split("_")[-1] == 'joint':
+		if j.split("_")[-1] == 'skinJoint':
 
 			#print j, getModuleName(j)
 			if getModuleName(j) == mod_name:

@@ -14,7 +14,7 @@ class Head(module.Module):
 	def create(self, options={}):
 		super(self.__class__, self).create(options)	
 		
-		cmds.setAttr(self.name+"_root_joint.drawStyle", 2)
+		cmds.setAttr(self.name+"_root_skinJoint.drawStyle", 2)
 
 	def connect(self, target, opposite=False):
 		target_module_name = utils.getModuleName(target)
@@ -25,9 +25,8 @@ class Head(module.Module):
 			jointsCount = len(childs)
 			target = "%s_%s_outJoint" %(target_module_name, (jointsCount-1))
 
-		super().connect(target, opposite, makeSeamless=True)
+			super().connect(target, opposite, makeSeamless=True)
 
-		if target_module_type == "chainIk":
 			target_poser = utils.getClosestPoser(target_module_name, target)
 
 			int_name = target_poser[len(target_module_name)+1:-6]
@@ -42,6 +41,9 @@ class Head(module.Module):
 
 			cmds.setAttr(target_control+".lodVisibility", 0)
 			cmds.setAttr(target_control_local+".lodVisibility", 0)
+
+		else:
+			super().connect(target, opposite)
 	
 	def disconnect(self):
 		target = self.parent

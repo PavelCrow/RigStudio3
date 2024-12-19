@@ -183,7 +183,7 @@ class Control(object):
 		
 		def doRename(name, newName):
 			allNodes = cmds.ls()
-			for n in ['tuner', 'group', 'joint', "decMat", 'outJoint', 'addPoser', 'poser_cluster', 'poserOrient', "addPoser_catcher", "poser_clusterHandle", "poser_locShape",
+			for n in ['tuner', 'group', 'skinJoint', "decMat", 'outJoint', 'addPoser', 'poser_cluster', 'poserOrient', "addPoser_catcher", "poser_clusterHandle", "poser_locShape",
 			          'poser_axis_x', 'poser_axis_y', 'poser_axis_z', 'tuner_decMat', 'tuner_multMat', 'initLoc', 'controlInitLoc', 'group_decMat', 'group_multMat', "connectionCrv"]:
 				if cmds.objExists(name+'_'+n):
 					cmds.rename(name+'_'+n, newName+'_'+n)
@@ -279,8 +279,8 @@ class Control(object):
 		if cmds.objExists(self.name+"_group"):
 			cmds.delete(self.name+"_group")
 
-		if cmds.objExists(self.name+'_joint'):
-			cmds.delete(self.name+'_joint')
+		if cmds.objExists(self.name+'_skinJoint'):
+			cmds.delete(self.name+'_skinJoint')
 
 	def isVisible(self):
 		shapes = cmds.listRelatives(self.name, s=1)

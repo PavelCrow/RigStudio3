@@ -193,7 +193,7 @@ class ChainIk(module.Module) :
 		
 		self.create2()
 		self.addSkinJoints()
-		
+
 		# add init joints and locs
 		init_gr = pm.duplicate(self.name+"_outJoints", n=self.name+"_initJoints")[0]
 		pm.parent(init_gr, self.name+"_mainPoser")
@@ -202,6 +202,8 @@ class ChainIk(module.Module) :
 			if pm.objectType(o) == 'joint':
 				pm.sets(self.name+"_skinJointsSet", e=1, rm=o)
 				pm.rename(o, o.replace("outJoint", "initJoint"))
+				if o.name() == self.name+"_root_initJoint":
+					continue
 				l = pm.spaceLocator(n=o.replace("initJoint", "initLoc"))
 				pm.hide(l)
 				try:
@@ -231,6 +233,8 @@ class ChainIk(module.Module) :
 		cmds.setAttr(self.name+'_initJoints.v', 0)
 		if self.isOpposite():
 			cmds.setAttr(self.name+'_initJoints.sx', -1)
+
+		cmds.hide(self.name+"_outJoints")
 
 	def create2(self):
 		name = self.name
@@ -746,7 +750,7 @@ class ChainIk(module.Module) :
 	def addSkinJoints(self):
 		super(self.__class__, self).addSkinJoints()
 		
-		root_j = self.name + "_root_joint"
+		root_j = self.name + "_root_skinJoint"
 		group_j = self.name + "_group_joint"
 		
 		# cmds.duplicate(root_j, n=group_j)
@@ -758,8 +762,8 @@ class ChainIk(module.Module) :
 		# utils.connectByMatrix(group_j, [self.name+"_outJoints", self.name+"_mainPoser", group_j], ['worldMatrix[0]', 'worldInverseMatrix[0]', 'parentInverseMatrix[0]'], module_name=self.name )
 		
 		for i in range(1, self.jointsCount):
-			cmds.setAttr(self.name+"_%s_joint.segmentScaleCompensate" %i, 1)
-			cmds.connectAttr(self.name+"_%s_joint.offset" %i, self.name+"_%s_outJoint.offset" %i)
+			cmds.setAttr(self.name+"_%s_skinJoint.segmentScaleCompensate" %i, 1)
+			cmds.connectAttr(self.name+"_%s_skinJoint.offset" %i, self.name+"_%s_outJoint.offset" %i)
 
 		for j in cmds.listRelatives(root_j, allDescendents=1):
 			cmds.sets(j, e=1, forceElement=self.name+"_nodesSet")
@@ -769,3 +773,7 @@ class ChainIk(module.Module) :
 	def bake(self):
 		super(self.__class__, self).bake(forceDelete=[self.name+"_initCurve_curveInfo"])
 
+	def delete(self):
+		cmds.delete(self.name+"_initCurve_curveInfo")
+
+		super(self.__class__, self).delete()

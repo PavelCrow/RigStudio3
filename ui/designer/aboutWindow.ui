@@ -118,7 +118,7 @@
       <item>
        <widget class="QLabel" name="label_6">
         <property name="text">
-         <string>www.rigstudiomaya.com</string>
+         <string>www.rigstudio.ru</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>

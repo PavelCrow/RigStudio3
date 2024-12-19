@@ -142,7 +142,7 @@ class Inbetweens(object):
 			parent_j = data["parent_j"]
 			local = data["local"]
 		
-		name = child_j.split("_joint")[0].split("_outJoint")[0].split("_twJoint")[0]
+		name = child_j.split("_skinJoint")[0].split("_outJoint")[0].split("_twJoint")[0]
 
 		if cmds.objExists(name+"_ibtw_root"):
 			QtWidgets.QMessageBox.information(self.win, "Warning", "Inbetween in this joint already exists.")
@@ -169,8 +169,8 @@ class Inbetweens(object):
 
 		# attach to hierarhy
 		root = name+"_ibtw_root"
-		out_child_j = child_j.replace("joint", "outJoint")
-		out_parent_j = parent_j.replace("joint", "outJoint")
+		out_child_j = child_j.replace("skinJoint", "outJoint")
+		out_parent_j = parent_j.replace("skinJoint", "outJoint")
 		out_parent_initLoc = out_parent_j.replace("outJoint", "initLoc")
 		
 		if local:

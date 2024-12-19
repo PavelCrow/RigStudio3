@@ -202,7 +202,7 @@ class Tree(module.Module) :
 		for n in range(1, chainsCount+1):
 			for i in range(1, elementsCount+1):
 				p = "%s_chain_%s_element_%s_poser" %(self.name, n, i)
-				l = cmds.spaceLocator(n="%s_chain_%s_element_%s_joint_initLoc" %(self.name, n, i))[0]
+				l = cmds.spaceLocator(n="%s_chain_%s_element_%s_skinJoint_initLoc" %(self.name, n, i))[0]
 				
 				utils.addModuleNameAttr(l, self.name)			
 				cmds.parent(l, p)
@@ -329,7 +329,7 @@ class Tree(module.Module) :
 	
 	def addSkinJoints(self):
 		super(self.__class__, self).addSkinJoints()
-		childs = cmds.listRelatives(self.name+"_root_joint")
+		childs = cmds.listRelatives(self.name+"_root_skinJoint")
 		
 		for j in childs:
 			cmds.setAttr(j+".segmentScaleCompensate", 0)
