@@ -456,7 +456,7 @@ class Parents(object):
             if m.opposite:
                 cmds.warning("Select left side control")
                 return		
-
+        
         for ctrl in sels:
             if ctrl not in self.targets:
                 # create item

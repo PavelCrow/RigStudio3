@@ -1,5 +1,5 @@
 import maya.cmds as cmds
-import traceback
+import pymel.core as pm
 
 from ... import utils, module
 
@@ -19,24 +19,20 @@ class LimbQuadrupped(module.Module) :
 		super(self.__class__, self).connect(target)
 
 	def connectSignals(self, mainInstance, w):
-		# w.connectAnkle_btn.clicked.connect(self.connect_ankle_to_posers)
 		w.aimDistance_spinBox.valueChanged.connect(self.update_aim_distance)
+		w.matchFkToIK.clicked.connect(self.matchFkToIK)
 
 	def updateOptionsPage(self, w):
 		w.aimDistance_spinBox.setValue(cmds.getAttr(self.name+"_mod.aim_offset"))
 		self.widget = w
-
-	def getData(self):
-		data = super(self.__class__, self).getData()
-		optionsData = self.getOptions()
-		data['optionsData'] = optionsData	
-
-		return data	
 	
 	def getOptions(self):
 		optionsData = {}
 		optionsData['aimDistance'] = cmds.getAttr(self.name+"_mod.aim_offset")
 		return optionsData
+
+	def setOptions(self, optionsData):
+		self.update_aim_distance(optionsData['aimDistance'])
 
 	def connect_ankle_to_posers(self):
 		
@@ -179,10 +175,14 @@ class LimbQuadrupped(module.Module) :
 
 		elif t_name == self.name+"_knee":
 			cmds.parent(t_name+'_rootUpLoc', self.name+'_kneeOffset')
+			cmds.parent(t_name+'_root_connectorLoc', self.name+'_kneeOffset')
+			cmds.aimConstraint(self.name+"_ankleOffset", t_name+"_root_connectorLoc", mo=0, aimVector=(1,0,0), upVector=(0,1,0), worldUpType="objectrotation", worldUpVector=(0,1,0), worldUpObject=t_name+"_outJoint")
 			cmds.parent(t_name+'_end_connectorLoc', self.name+'_ankleOffset')
 		elif t_name == self.name+"_ankle":
 			cmds.parent(t_name+'_rootUpLoc', self.name+'_ankleOffset')
-		
+			cmds.parent(t_name+'_root_connectorLoc', self.name+'_ankleOffset')
+			cmds.aimConstraint(t_name+"_end_connectorLoc", t_name+"_root_connectorLoc", mo=0, aimVector=(1,0,0), upVector=(0,1,0), worldUpType="objectrotation", worldUpVector=(0,1,0), worldUpObject=t_name+"_outJoint")
+
 		if not self.opposite:
 			cmds.setAttr(t_name+'_rootUpLoc.r', data["rootOffset"][0], data["rootOffset"][1], data["rootOffset"][2])
 			cmds.setAttr(t_name+'_end_connectorLoc.r', data["endOffset"][0], data["endOffset"][1], data["endOffset"][2])
@@ -211,3 +211,73 @@ class LimbQuadrupped(module.Module) :
 					setValue(v)
 			except:
 				pass
+
+	def matchFkToIK(self):
+		cmds.undoInfo(openChunk=True)
+
+		# switch ik
+		c = utils.getControlNameFromInternal(self.name, "control")
+		cmds.select(c)
+		cmds.setAttr(c+".ikFk", 1)
+		import rigStudio3.animTools.switchIkFk
+		rigStudio3.animTools.switchIkFk.switchIkFk()
+
+		if self.symmetrical:
+			c_opp = utils.getOpposite(c)
+			cmds.setAttr(c_opp+".ikFk", 1)
+			cmds.select(c_opp)
+			rigStudio3.animTools.switchIkFk.switchIkFk()
+
+		# get foot module name
+		outputs = cmds.connectionInfo( c + ".ikFk", destinationFromSource=True)
+		foot_m_name = None
+		for attr in outputs:
+			if attr.split('.')[-1] == 'ikFk':
+				in_node = attr.split('.')[0]	
+				foot_m_name = utils.getModuleName(in_node).split("_mod")[0]
+				break
+		
+		# get controls list
+		leg_fk_controls = leg_fk_controls = ["fk_a", "fk_b", "fk_c"]
+		foot_fk_controls = ["fk_heel", "fk_toe"]
+		
+		# matching
+		def matching(m_name, controls):
+			for c_int in controls:
+				c = pm.PyNode(utils.getControlNameFromInternal(m_name, c_int))
+				p = c.getParent()
+				inputs = []
+				inputs += p.t.inputs()
+				inputs += p.tx.inputs()
+				inputs += p.ty.inputs()
+				inputs += p.tz.inputs()
+				inputs += p.r.inputs()
+				inputs += p.rx.inputs()
+				inputs += p.ry.inputs()
+				inputs += p.rz.inputs()
+				if inputs:
+					gr = pm.group(empty=True, n=c+"_offset")
+					pm.parent(gr,c)
+					gr.t.set(0,0,0)
+					gr.r.set(0,0,0)
+					gr.s.set(1,1,1)
+					pm.parent(gr,p)
+					pm.parent(c,gr)
+				else:
+					top_p = p.getParent()
+					pm.parent(c,top_p)
+					pm.parent(p,c)
+					p.t.set(0,0,0)
+					p.r.set(0,0,0)
+					p.s.set(1,1,1)
+					pm.parent(p,top_p)
+					pm.parent(c,p)
+
+		matching(self.name, leg_fk_controls)
+		if foot_m_name: matching(foot_m_name, foot_fk_controls)
+
+		if self.symmetrical:
+			matching(utils.getOpposite(self.name), leg_fk_controls)
+			if foot_m_name: matching(utils.getOpposite(foot_m_name), foot_fk_controls)
+
+		cmds.undoInfo(closeChunk=True)

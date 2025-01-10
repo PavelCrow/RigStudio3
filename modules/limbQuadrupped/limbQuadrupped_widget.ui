@@ -54,6 +54,13 @@
     </layout>
    </item>
    <item>
+    <widget class="QPushButton" name="matchFkToIK">
+     <property name="text">
+      <string>Match FK to IK</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QFrame" name="delete_frame">
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>

@@ -27,15 +27,17 @@ ns = ""
 # functions
 ##################################
 
-def getModuleName(obj):
+def getModuleName(obj): #
 	if obj == None or obj == "" or not cmds.objExists(obj):
-		return ""
+		return None	
+	j = obj.replace("skinJoint", "outJoint")
+	# j = obj.replace("joint", "outJoint")
 
-	moduleName = ""
-
-	if cmds.attributeQuery( 'moduleName', node=obj, exists=True ):
-		moduleName = cmds.getAttr(obj+'.moduleName')
-		
+	path = cmds.ls(j, l=1) or []
+	
+	# moduleName = path[0].split("modules|")[-1].split("_mod|")[0].split("_mod")[0]
+	moduleName = path[0].split("modules|")[-1].split("_mod|")[0].split("_mod")[0].split(":")[-1]
+	# print(222, path, moduleName)
 	return moduleName
 
 def getInternalNameFromControl(controlName):
@@ -45,17 +47,16 @@ def getInternalNameFromControl(controlName):
 		return ""
 
 def getControlNameFromInternal(module_name, internalControlName):
+	# print ("---", module_name)
 	ctrls = getSetObjects(module_name+'_moduleControlSet')
-	#print "---", module_name, internalControlName, ctrls
+	# print ("---", module_name, internalControlName, ctrls)
 	for c in ctrls:
 		#print c
 		#if c == 'l_footB_heelFk':
 			#print c
 		try:
 			int_name = cmds.getAttr(c+".internalName")
-			mod_name = cmds.getAttr(c+".moduleName") 
-			#print mod_name, c, int_name, module_name
-			if int_name == internalControlName and mod_name == module_name.split(':')[-1]:
+			if int_name == internalControlName:
 				return c
 		except: pass
 	#cmds.warning('Cannot find control with internal name '+internalControlName+' in moduleControlSet')
@@ -63,7 +64,7 @@ def getControlNameFromInternal(module_name, internalControlName):
 
 def getSetObjects(set):
 	objects = []
-	#print ("!!!", set, cmds.sets(set, q=1))
+	# print ("!!!", set)
 	if cmds.sets(set, q=1) == None:
 		return []
 	for o in cmds.sets(set, q=1):
@@ -156,7 +157,7 @@ def switchIkFk(simple=False):
 		ns = getNS(sel)
 		intName = getInternalNameFromControl(sel)
 		m_name = ns + getModuleName(sel)
-		#print sel, ns, m_name, m_type, intName
+		# print (11111, sel, m_name)
 
 		# get switch control
 		mod = m_name + "_mod"
@@ -228,7 +229,7 @@ def from_fk_to_ik(control):
 
 		# Make vector as needed length and from b point and final Point elbow control
 		if cmds.objExists(m_name+'_mod.aim_offset'):
-			scale = cmds.getAttr(m_name+'_posers_decMat.outputScaleX')
+			scale = cmds.getAttr(m_name+'_mainPoser_decomposeMatrix.outputScaleX')
 			offset = cmds.getAttr(m_name+'_mod.aim_offset') * scale 
 		else:
 			offset = 0.5
@@ -306,6 +307,7 @@ def from_ik_to_fk(control):
 	ns = getNS(control)
 	m_name = ns + getModuleName(control)
 	foot_m = getConnectedFootModule(control)
+
 	quad = cmds.objExists(control+".length3")
 	#print 00, control, control+".lehgth3", cmds.objExists(control+".lehgth3")
 	# get init scale values
@@ -313,7 +315,6 @@ def from_ik_to_fk(control):
 	if cmds.objExists(m_name + "_b_finalJoint"):
 		cur_tB = cmds.getAttr(m_name + "_b_finalJoint.tx")
 		l1 = cur_tB / init_tB
-		print (111111, cur_tB , init_tB, l1)
 		if l1 < 0: l1 *= -1
 		init_tEnd = cmds.getAttr(m_name + "_initScaleEnd_mult.input1")
 		cur_tEnd = cmds.getAttr(m_name + "_end_finalJoint.tx")
@@ -389,7 +390,6 @@ def from_ik_to_fk(control):
 		cmds.setAttr(control + ".length2", l2)
 		cmds.setAttr(control + ".length3", lEnd)
 	else:
-		print (222, l1, lEnd)
 		cmds.setAttr(control + ".length2", lEnd)
 
 	cmds.setAttr(control + ".ikFk", 0)

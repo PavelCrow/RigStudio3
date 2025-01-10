@@ -569,3 +569,13 @@ New connections of the twist elements
 New attribute twistMultiplier on the twist joints
 Updated humanFull and quadruppedFull templates
 ChainIk module update
+
+---Version 3.6.01
+install.py update
+chainIk module update
+chain module fix
+changed twists save data
+updated twists in quadruppedLimb module
+updated quadruppedFull templates
+matchFkToIk feature in quadruppedLimb module
+updated module Root and Point

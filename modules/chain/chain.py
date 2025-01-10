@@ -64,7 +64,7 @@ class Chain(module.Module) :
 			cmds.connectAttr(self.name+"_mainPoser.globalSize", mult+".input1")
 			cmds.connectAttr(poser+".size", mult+".input2")
 			cmds.connectAttr(mult+".output", mns+".radius")
-			cmds.connectAttr(mns+".outputSurface", poser+"NurbsShape.create")
+			cmds.connectAttr(mns+".outputSurface", poser+"Shape.create")
 			cmds.setAttr(poser+'.tx', self.length/controlsCount*float(i)*4)	
 
 			if i > 1:

@@ -233,9 +233,6 @@ class Twist(object):
         
         utils.addToModuleSet(set, moduleName)
         cmds.namespace(removeNamespace='_temp_')
-
-        # add end target attribute
-        utils.setUserAttr(t_name+"_mod", "endTarget", end_j.replace("skinJoint", "outJoint"))
         
         # add controls to set
         if advanced:
@@ -298,13 +295,20 @@ class Twist(object):
         # make connections
         self.curTwistName = t_name
         root_outJoint = start_j.replace("skinJoint", "outJoint")
+        end_outJoint = end_j.replace("skinJoint", "outJoint")
         cmds.parent(root_loc, rootUpLoc, root_outJoint)
         utils.resetAttrs(root_loc)
         utils.resetAttrs(rootUpLoc)
-        cmds.parent(end_loc, end_j.replace("skinJoint", "outJoint"))
+        cmds.parent(end_loc, end_outJoint)
         utils.resetAttrs(end_loc)
         cmds.setAttr(root_outJoint+".drawStyle", 2)
         
+        # save data
+        utils.setUserAttr(t_name+"_mod", "endTarget", end_outJoint)
+        utils.setUserAttr(t_name+"_mod", "target", start_j)
+        utils.setUserAttr(t_name+"_mod", "rootOrientTarget", root_outJoint)
+        utils.setUserAttr(t_name+"_mod", "endOrientTarget", end_outJoint)
+
         # utils.aimToOffsetParentMatrix(root_loc, input=root_outJoint, primary=end_loc, secondary=rootUpLoc, set=set)
         # cmds.setAttr(root_loc+"_aimMat.secondaryTargetVectorY", 1)
         # cmds.setAttr(root_loc+"_aimMat.secondaryMode", 2)
@@ -502,6 +506,9 @@ class Twist(object):
 
                 utils.connectByMatrix(t_name+"_start_connector", [rootUpLoc, t_name+"_root_connector"], ["worldMatrix[0]", "worldInverseMatrix[0]"], set=set)
 
+                # save data
+                utils.setUserAttr(t_name+"_mod", "rootOrientTarget", target)
+
             elif socket == "end":
                 endLoc = t_name + "_end_connectorLoc"
                 
@@ -525,6 +532,9 @@ class Twist(object):
                 # print (end_initLoc)
                 # print (target_initLoc)
                 # print("------------------")
+
+                # save data
+                utils.setUserAttr(t_name+"_mod", "endOrientTarget", target)
 
         t_name = self.curTwistName
         moduleName = utils.getModuleName(t_name+"_skinJoint")
@@ -550,6 +560,8 @@ class Twist(object):
                 attachTo(socket, utils.getOpposite(target), opposite=True)	
                 self.twists[t_name] = self.getData(t_name)
         
+
+
         self.updateFrame()
 
     @utils.oneStepUndo
@@ -764,10 +776,12 @@ class Twist(object):
         twData['advanced'] = cmds.objExists(twName+"_twist")
         jointsCount = len(joints)
         twData['jointsCount'] = jointsCount
-        twData['target'] = cmds.listRelatives(twName + "_root_connectorLoc", p=1)[0]
-        twData['endTarget'] = cmds.getAttr(twName+"_mod.endTarget")
-        twData['rootOrientTarget'] = cmds.listRelatives(twName + "_rootUpLoc", p=1)[0]
-        twData['endOrientTarget'] = cmds.listRelatives(twName + "_end_connectorLoc", p=1)[0]
+        try: # fix for old characters without this attrs
+            twData['target'] = cmds.getAttr(twName+"_mod.target")
+            twData['endTarget'] = cmds.getAttr(twName+"_mod.endTarget")
+            twData['rootOrientTarget'] = cmds.getAttr(twName+"_mod.rootOrientTarget")
+            twData['endOrientTarget'] = cmds.getAttr(twName+"_mod.endOrientTarget")
+        except: pass
         twData['rootUpOffset'] = cmds.getAttr(twName + "_rootUpLoc.r")[0]
         twData['rootOffset'] = cmds.getAttr(twName + "_root_connectorLoc.r")[0]
         twData['endOffset'] = cmds.getAttr(twName + "_end_connectorLoc.r")[0]

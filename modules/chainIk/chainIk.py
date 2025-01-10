@@ -59,7 +59,7 @@ class ChainIk(module.Module) :
 			cmds.connectAttr(self.name+"_mainPoser.globalSize", mult+".input1")
 			cmds.connectAttr(poser+".size", mult+".input2")
 			cmds.connectAttr(mult+".output", mns+".radius")
-			cmds.connectAttr(mns+".outputSurface", poser+"NurbsShape.create")
+			cmds.connectAttr(mns+".outputSurface", poser+"Shape.create")
 
 			cmds.setAttr(poser+'.tx', self.length/controlsCount*float(i))	
 
@@ -193,7 +193,7 @@ class ChainIk(module.Module) :
 		
 		self.create2()
 		self.addSkinJoints()
-
+		
 		# add init joints and locs
 		init_gr = pm.duplicate(self.name+"_outJoints", n=self.name+"_initJoints")[0]
 		pm.parent(init_gr, self.name+"_mainPoser")
@@ -355,17 +355,25 @@ class ChainIk(module.Module) :
 		cmds.sets(dynCtrl.name(), forceElement=self.name+'_nodesSet')
 		dynCtrl.addAttr('length', at='float', k=1, min=0, dv=1)	
 		dynCtrl.addAttr('autoStretch', at='float', k=1, min=0, max=1, dv=1)
-		dynCtrl.addAttr('roll', at='float', k=1)
-		dynCtrl.addAttr('twist', at='float', k=1)
 		dynCtrl.addAttr('stretchVolume', at='float', k=1, min=0, max=1)
+		dynCtrl.addAttr('roll', at='float', k=1)
+		# dynCtrl.addAttr('twist', at='float', k=1)
+		dynCtrl.addAttr('autoTwist', at='bool', k=1)
+		
 		# add chain size attr
 		if generateGeo:
 			dynCtrl.addAttr('elementSize', at='float', k=1, min=0.001, dv=1)	
 		
 		
-		dynCtrl.roll >> ikh.roll	
-		dynCtrl.twist >> add.input1D[numCVs]
+		# dynCtrl.roll >> ikh.roll	
+		# dynCtrl.twist >> add.input1D[numCVs]
 		add.output1D >> ikh.twist
+
+		# autotwist
+		rev = pm.createNode('reverse', n=name+'_autoTwist_rev')
+		utils.addModuleNameAttr(rev, self.name)		
+		dynCtrl.autoTwist >> rev.inputX
+		rev.outputX >> ikh.dTwistControlEnable
 		
 		s = dynCtrl.getShape()
 		s.overrideEnabled.set(1)
@@ -720,24 +728,21 @@ class ChainIk(module.Module) :
 		r_c.length.unlock()
 		r_c.autoStretch.unlock()
 		r_c.roll.unlock()
-		r_c.twist.unlock()
+		# r_c.twist.unlock()
 		try:
 			r_c.dynamicWeight.unlock()
 		except: pass
 		
 		l_c.length >> r_c.length
 		l_c.autoStretch >> r_c.autoStretch
+		l_c.stretchVolume >> r_c.stretchVolume
+		l_c.autoTwist >> r_c.autoTwist
 		
 		mult_roll = pm.createNode('multDoubleLinear')
 		utils.addModuleNameAttr(mult_roll, self.name)	
-		mult_twist = pm.createNode('multDoubleLinear')
-		utils.addModuleNameAttr(mult_twist, self.name)	
 		mult_roll.input2.set(-1)
-		mult_twist.input2.set(-1)
 		l_c.roll >> mult_roll.input1
-		l_c.twist >> mult_twist.input1	
 		mult_roll.output >> r_c.roll
-		mult_twist.output >> r_c.twist
 		
 		if self.useDynamic:
 			l_c.dynamicWeight >> r_c.dynamicWeight
@@ -767,6 +772,8 @@ class ChainIk(module.Module) :
 
 		for j in cmds.listRelatives(root_j, allDescendents=1):
 			cmds.sets(j, e=1, forceElement=self.name+"_nodesSet")
+
+	
 
 		cmds.sets(root_j, e=1, forceElement=self.name+"_nodesSet")
 

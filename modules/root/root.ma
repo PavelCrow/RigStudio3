@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: root.ma
-//Last modified: Mon, Oct 07, 2024 09:17:46 AM
+//Last modified: Tue, Jan 07, 2025 07:01:12 AM
 //Codeset: 1251
 requires maya "2022";
 requires "stereoCamera" "10.0";
@@ -10,7 +10,7 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202303271415-baa69b5798";
 fileInfo "osv" "Windows 10 Pro v2009 (Build: 22631)";
-fileInfo "UUID" "CB58407D-4E3D-E755-B1F6-D69241E75DB8";
+fileInfo "UUID" "EEE89F85-46BD-FF38-B5F3-93B440A5CC5F";
 createNode transform -n "mod";
 	rename -uid "796B45B9-43DB-82CA-C93B-1A91B6023A77";
 createNode transform -n "posers" -p "mod";
@@ -62,6 +62,12 @@ createNode transform -n "root_initLoc" -p "root_poser";
 	setAttr ".v" no;
 createNode locator -n "root_initLocShape" -p "root_initLoc";
 	rename -uid "DD5A073D-42A9-193F-7CFB-BDAB95E24301";
+	setAttr -k off ".v";
+createNode transform -n "main_initLoc" -p "root_poser";
+	rename -uid "FBB28FEC-452E-F460-A5F5-0EBE0B7700F0";
+	setAttr ".v" no;
+createNode locator -n "main_initLocShape" -p "main_initLoc";
+	rename -uid "2A22777D-4C95-5898-DB81-C292A3DA57D6";
 	setAttr -k off ".v";
 createNode nurbsCurve -n "mainPoserShapeOrig" -p "mainPoser";
 	rename -uid "2F641722-415B-5F16-F4A3-BBB55E60E337";
@@ -296,15 +302,15 @@ createNode camera -s -n "sideShape" -p "side";
 	setAttr ".hc" -type "string" "viewSet -s %camera";
 	setAttr ".o" yes;
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "8688CF76-4741-5599-7E6C-D9951841736E";
+	rename -uid "E7162FEB-4EDC-9595-D6F1-ACB8175E2980";
 	setAttr -s 2 ".lnk";
 	setAttr -s 2 ".slnk";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "87FF75B3-4DC3-1F8B-1A79-2AA4647F3D6C";
+	rename -uid "8A651CCA-4A84-4CEE-F72C-A48633DC5F87";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "6684CFD7-4C9D-D20C-7922-43B1C9C96070";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "8F82639C-41E7-AF1E-4A4D-F6AE3F0B9659";
+	rename -uid "2222D072-460F-2199-25CF-F29C2C72C05D";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "C8562179-48C0-C6E6-EC2D-C98541679724";
 	setAttr ".g" yes;
@@ -337,9 +343,9 @@ createNode multDoubleLinear -n "negate";
 	rename -uid "7FC27DA1-4067-DA67-BBB0-2E9270F8A353";
 	setAttr ".i2" -1;
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "CC3D2240-48FD-EF7F-43E3-4B8C846A65FD";
+	rename -uid "9CA11654-4408-86FD-3C15-B1AEAEA39B9E";
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "C82EBC37-4ABE-B01F-BC5A-69B0C842DC99";
+	rename -uid "F2C6FB9C-4539-DCE4-338B-35B29A52202E";
 createNode multiplyDivide -n "size_multiplyDivide";
 	rename -uid "6E7D770B-40F8-7736-8F57-758A20381435";
 createNode makeNurbSphere -n "makeNurbSphere1";

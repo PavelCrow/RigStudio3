@@ -110,15 +110,16 @@ class Module(object):
         cmds.duplicate(out_joints_grp, n=joints_grp)
         joints = pm.listRelatives(joints_grp, allDescendents=1)
         
+        # clear joints chain
+        for o in joints:
+            if pm.objectType(o) != "joint":
+                pm.delete(o)
+        joints = pm.listRelatives(joints_grp, allDescendents=1)
+
         # connect joints and delete all except joints
         for o in joints:
             # connect
             srcName = o.name().split('|')[-1]
-
-            # if not srcName in skin_joints:
-            if pm.objectType(o) != "joint":
-                pm.delete(o)
-                continue
 
             o.rename(srcName.replace('outJoint', 'skinJoint').replace('outRootJoint', 'rootJoint').replace('outGroup', 'group'))
             utils.connectTrandform(srcName, o.name())
@@ -179,7 +180,7 @@ class Module(object):
                 cmds.connectAttr(mult2+".output", j+".scaleZ", f=1)
 
             cmds.setAttr(j+".segmentScaleCompensate", 0)
-
+        
         if not cmds.objExists('skinJointsSet'):
             cmds.sets(n='skinJointsSet')	
             cmds.sets('skinJointsSet', e=1, forceElement='sets' )
@@ -1058,13 +1059,15 @@ class Module(object):
         if not joints_vis:
             return
         
-        joints =  cmds.listRelatives('skeleton', allDescendents=1) or []
+        joints =  cmds.listRelatives('skeleton', allDescendents=1, type="joint") or []
         
         if v == "None" and joints:
             v = not cmds.getAttr(joints[0]+'.displayLocalAxis')
 
         for j in joints:
-            cmds.setAttr(j+'.displayLocalAxis', v)
+            try:
+                cmds.setAttr(j+'.displayLocalAxis', v)
+            except: print("Skipped display axis", j)
 
     def getControlsParents(self):
         parented = []

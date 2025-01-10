@@ -449,8 +449,12 @@ class Inbetweens(object):
 
 			data["parentOffset"] = cmds.getAttr(name+"_ibtw_parent_offsetLoc.r")
 			data["childOffset"] = cmds.getAttr(name+"_ibtw_child_offsetLoc.r")
-			data["targetYPos"] = cmds.getAttr(name+"_ibtw_target_y.t")
-			data["targetZPos"] = cmds.getAttr(name+"_ibtw_target_z.t")
+
+			if cmds.objExists(name+"_ibtw_target_y") and cmds.objExists(name+"_ibtw_target_z"):
+				data["targetYPos"] = cmds.getAttr(name+"_ibtw_target_y.t")
+				data["targetZPos"] = cmds.getAttr(name+"_ibtw_target_z.t")
+			else:
+				print("Missed", name+"_ibtw_target_y", name+"_ibtw_target_z")
 
 			if utils.isSymmetrical(root):
 				opp_name = utils.getOpposite(name)
