@@ -8,8 +8,15 @@ import sys
 
 from .import utils, main, attributes
 
-from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
-from shiboken2 import wrapInstance
+version = int(cmds.about(v=True).split(" ")[0])
+if version <= 2024:
+    from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
+    from shiboken2 import wrapInstance
+    from PySide2.QtWidgets import QAction
+else:
+    from PySide6 import QtWidgets, QtGui, QtCore, QtUiTools
+    from shiboken6 import wrapInstance
+    from PySide6.QtGui import QAction
 
 rootPath = os.path.normpath(os.path.dirname(__file__))
 
@@ -228,7 +235,7 @@ class driverItemClass(QtWidgets.QTreeWidgetItem):
 
 		attr_list = cmds.listAttr(self.driver, k=1) or []
 		for attr_name in sorted(attr_list):
-			m_action = QtWidgets.QAction(self.win)
+			m_action = QAction(self.win)
 			name = utils.formatName(attr_name)
 			m_action.setText(name)
 			m_action.triggered.connect(partial(self.insertSubItem, attr_name))			
@@ -236,11 +243,11 @@ class driverItemClass(QtWidgets.QTreeWidgetItem):
 			
 		menu.addSeparator()
 	
-		m_action = QtWidgets.QAction('Add Attribute..', menu)
+		m_action = QAction('Add Attribute..', menu)
 		m_action.triggered.connect(self.addAttributeWin)
 		menu.addAction(m_action)		
 
-		m_action = QtWidgets.QAction('Hiddens', menu, checkable=True)
+		m_action = QAction('Hiddens', menu, checkable=True)
 		m_action.setChecked(self.hiddens)
 		m_action.triggered.connect(partial(self.setHiddens, m_action))
 		menu.addAction(m_action)
@@ -259,7 +266,7 @@ class driverItemClass(QtWidgets.QTreeWidgetItem):
 					continue
 				if t in ['message', 'compound', 'generic', 'typed', 'long', 'short']:
 					continue
-				m_action = QtWidgets.QAction(self.win)
+				m_action = QAction(self.win)
 				name = utils.formatName(attr_name)
 				m_action.setText(name)
 				m_action.triggered.connect(partial(self.insertSubItem, attr_name))			

@@ -238,6 +238,12 @@ class Spine(module.Module) :
 
 		cmds.parent(self.name+"_end_skinJoint", self.name+"_local_%s_skinJoint" %last_id)
 		utils.removeTransformParentJoint(self.name+"_end_skinJoint")
+		cmds.setAttr(self.name+"_end_skinJoint.jointOrient", 0,0,0)
 
 	def bake(self):
 		super(self.__class__, self).bake(forceDelete=[self.name+"_decomposeMatrix91",self.name+"_decomposeMatrix92",self.name+"_decomposeMatrix93"])
+
+	def connect(self, target, opposite=False, makeSeamless=False):
+		super(self.__class__, self).connect(target, opposite=False, makeSeamless=False)		
+
+		cmds.setAttr(self.name+"_end_skinJoint.jointOrient", 0,0,0)

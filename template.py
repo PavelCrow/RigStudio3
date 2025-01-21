@@ -1,7 +1,15 @@
 import maya.cmds as cmds
 import maya.mel as mel
 from . import utils, parents
-from PySide2 import QtWidgets, QtCore
+
+version = int(cmds.about(v=True).split(" ")[0])
+if version <= 2024:
+    from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
+    from shiboken2 import wrapInstance
+else:
+    from PySide6 import QtWidgets, QtGui, QtCore, QtUiTools
+    from shiboken6 import wrapInstance
+
 import os, json
 
 
@@ -474,13 +482,18 @@ class Template(object):
 		# self.main.win.twists_listWidget.clear()
 
 		create_modules()
+		print(111, cmds.getAttr("spine_end_skinJoint.jointOrient"))
 		create_addControls()
 		connect_modules(modulesData)
+		print(222, cmds.getAttr("spine_end_skinJoint.jointOrient"))
 		set_modules(modulesData)
+		print(333, cmds.getAttr("spine_end_skinJoint.jointOrient"))
 		if load == 'rig': mirror_modules(modulesData)
 		create_twists(modulesData)
+		print(444, cmds.getAttr("spine_end_skinJoint.jointOrient"))
 		create_ibtws(data["ibtwsData"])
 		create_oss(modulesData)
+		print(555, cmds.getAttr("spine_end_skinJoint.jointOrient"))
 
 		# if print_main_messages: print(
 		# 	" -------------------------------- SET Parents DATA ------------------------------------------------ ")

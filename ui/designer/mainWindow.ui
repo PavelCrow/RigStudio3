@@ -9856,7 +9856,7 @@ p, li { white-space: pre-wrap; }
     <addaction name="actionHomePage"/>
     <addaction name="actionTutorials"/>
     <addaction name="separator"/>
-    <addaction name="actionHelp_Mode"/>
+    <addaction name="actionLicense"/>
     <addaction name="actionAbout"/>
    </widget>
    <widget class="QMenu" name="menuTools">
@@ -9937,9 +9937,7 @@ p, li { white-space: pre-wrap; }
    <addaction name="actionPosers_Hierarhy"/>
    <addaction name="separator"/>
    <addaction name="actionMove_Tool"/>
-   <addaction name="actionHelp_Mode"/>
    <addaction name="actionAdvanced"/>
-   <addaction name="separator"/>
   </widget>
   <action name="actionNew">
    <property name="text">
@@ -10118,12 +10116,12 @@ p, li { white-space: pre-wrap; }
     <string>Context Connector</string>
    </property>
   </action>
-  <action name="actionHelp_Mode">
+  <action name="actionLicense">
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="text">
-    <string>Help Mode</string>
+    <string>License..</string>
    </property>
   </action>
   <action name="actionMove_Tool">

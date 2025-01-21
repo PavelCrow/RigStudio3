@@ -1,9 +1,6 @@
 import maya.cmds as cmds
 import pymel.core as pm
-import os
-import sys
-import math
-import importlib
+import os, sys, math, json, importlib
 import pickle as cPickle
 
 from . import controller, additionalControl
@@ -1150,3 +1147,18 @@ def oneStepUndo(func):
 		func(*args, **kwargs)
 		cmds.undoInfo(closeChunk=True)
 	return wrapper	
+
+# def readFromJson(path, data):
+# 	with open(path, mode='r') as f:
+# 		self.configData = json.load(f)
+# 	json_string = json.dumps(data, indent=4)
+# 	# save data to file
+# 	with open(path, 'w') as f:
+# 		f.write(json_string)
+
+# def writeToJson(path, data):
+# 	print("Saved to:", path)
+# 	json_string = json.dumps(data, indent=4)
+# 	# save data to file
+# 	with open(path, 'w') as f:
+# 		f.write(json_string)

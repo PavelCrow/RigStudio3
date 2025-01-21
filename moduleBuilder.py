@@ -3,12 +3,19 @@ import maya.mel as mel
 import pymel.core as pm
 import maya.OpenMaya as om
 from functools import partial
-import logging, traceback, os, sys, imp, math, json, shutil, importlib
+import os, sys, imp, math, json, shutil, importlib
 
 from .import utils, main
 
-from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
-from shiboken2 import wrapInstance
+version = int(cmds.about(v=True).split(" ")[0])
+if version <= 2024:
+    from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
+    from shiboken2 import wrapInstance
+    from PySide2.QtWidgets import QAction
+else:
+    from PySide6 import QtWidgets, QtGui, QtCore, QtUiTools
+    from shiboken6 import wrapInstance
+    from PySide6.QtGui import QAction
 
 fileName = __name__.split('.')[0]
 rootPath = os.path.abspath(imp.find_module(fileName)[1])
@@ -115,7 +122,7 @@ class ModuleBuilder(object):
 		for sectionListName in sorted(sections):
 			sub_menu = menu.addMenu('&%s' %sectionListName)
 			for m in sections[sectionListName]:
-				m_action = QtWidgets.QAction(self.win)
+				m_action = QAction(self.win)
 				name = utils.formatName(m)
 				#m_action = ActionClass(self.win)
 				m_action.setText(name)
@@ -143,7 +150,7 @@ class ModuleBuilder(object):
 		for sectionListName in sorted(sections):
 			sub_menu = menu.addMenu('&%s' %sectionListName)
 			for m in sections[sectionListName]:
-				m_action = QtWidgets.QAction(self.win)
+				m_action = QAction(self.win)
 				name = utils.formatName(m)
 				#m_action = ActionClass(self.win)
 				m_action.setText(name)

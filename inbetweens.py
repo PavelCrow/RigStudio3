@@ -6,8 +6,13 @@ import os
 
 from .import utils, main
 
-from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
-from shiboken2 import wrapInstance
+version = int(cmds.about(v=True).split(" ")[0])
+if version <= 2024:
+    from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
+    from shiboken2 import wrapInstance
+else:
+    from PySide6 import QtWidgets, QtGui, QtCore, QtUiTools
+    from shiboken6 import wrapInstance
 
 rootPath = os.path.normpath(os.path.dirname(__file__))
 full = os.path.isfile(rootPath + "/full")

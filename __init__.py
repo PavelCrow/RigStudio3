@@ -55,7 +55,7 @@ import sys
 
 # print("init")
 
-from . import ui, main, utils, rig, module, parents, twist, tools, moduleBuilder, inbetweens, driver, template, attributes, sets, controller, additionalControl, posers
+from . import ui, main, utils, rig, module, parents, twist, tools, moduleBuilder, inbetweens, driver, template, attributes, sets, controller, additionalControl, posers, check
 reload(ui)
 reload(utils)
 reload(module)
@@ -73,6 +73,7 @@ reload(controller)
 reload(additionalControl)
 reload(posers)
 reload(main)
+reload(check)
 
 def run():
     global rs_win

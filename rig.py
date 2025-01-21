@@ -341,8 +341,9 @@ class Rig:
             cmds.hide('skeleton')
         else:
             cmds.showHidden('skeleton')
-            
-        cmds.setAttr(self.root + ".jointsVis", state)
+        
+        if cmds.objExists(self.root + ".jointsVis"):
+            cmds.setAttr(self.root + ".jointsVis", state)
         
     def toggleTemplate_geo(self, state=None):
         if not state:

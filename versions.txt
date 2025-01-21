@@ -579,3 +579,7 @@ updated twists in quadruppedLimb module
 updated quadruppedFull templates
 matchFkToIk feature in quadruppedLimb module
 updated module Root and Point
+
+---Version 3.7.00
+Maya 2025 support
+Spine module update

@@ -39,13 +39,15 @@ version = int(cmds.about(v=True).split(" ")[0])
 if version <= 2024:
     from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
     from shiboken2 import wrapInstance
+    from PySide2.QtWidgets import QAction
 else:
     from PySide6 import QtWidgets, QtGui, QtCore, QtUiTools
     from shiboken6 import wrapInstance
+    from PySide6.QtGui import QAction
 
 from functools import partial
 
-from .import utils, parents, twist, inbetweens, rig, tools, template
+from .import utils, parents, twist, inbetweens, rig, tools, template, check
 from .ui.action import ActionClass as Action
 from .ui.groupLabel import GroupLabel
 
@@ -82,6 +84,7 @@ class MainWindow:
         self.moduleBuilderUiFilePath = os.path.join(widgets_path, "moduleBuilderWindow.ui")
         self.attributesUiFilePath = os.path.join(widgets_path, "attributesWindow.ui")
         self.driverUiFilePath = os.path.join(widgets_path, "driver.ui")
+        self.licenseUiFilePath = os.path.join(widgets_path, "licenseWindow.ui")
 
         # app = QtWidgets.QApplication.instance()
         self.win = load_ui_widget(self.uiFilePath)
@@ -153,6 +156,7 @@ class MainWindow:
         self.mWin = get_maya_window()
         self.moveMode = False
         self.full = True# full
+        self.lic_status = self.configData['state']
 
         self.rig = rig.Rig(self)
         self.templateClass = template.Template()
@@ -199,7 +203,7 @@ class MainWindow:
                     sub_menu.addAction(m_action)
                     self.menuActions[name] = m_action
 
-                    replace_m_action = QtWidgets.QAction(self.win)
+                    replace_m_action = QAction(self.win)
                     replace_m_action.setText(utils.formatName(m))
                     replace_m_action.triggered.connect(partial(self.replaceModule, m))
                     replace_sub_menu.addAction(replace_m_action)
@@ -228,7 +232,7 @@ class MainWindow:
             self.win.actionGeometry_Template.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "geometry_template.png")))
             self.win.actionGeometry_Reference.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "geometry_reference.png")))
             self.win.actionSkeleton_LRA.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "axises2.png")))
-            self.win.actionHelp_Mode.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "helpBig_icon.png")))
+            # self.win.actionHelp_Mode.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "helpBig_icon.png")))
             #self.win.actionMove_Tool.setIcon(QtGui.QIcon(os.path.join(self.rootPath, "ui", "icons", "moveTool.png")))
             #self.win.actionAdvanced.setIcon(QtGui.QIcon(self.rootPath + '/ui/icons/map.png'))
             #self.win.actionPosers_Hierarhy.setIcon(QtGui.QIcon(self.rootPath + '/ui/icons/posers_hier_on.png'))
@@ -241,7 +245,7 @@ class MainWindow:
             self.win.modules_treeWidget.setStyleSheet("selection-background-color: grey;")
 
             spacer=QtWidgets.QWidget()
-            self.win.toolBar.insertWidget(self.win.actionHelp_Mode, spacer)
+            # self.win.toolBar.insertWidget(self.win.actionHelp_Mode, spacer)
             spacer.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
             
         def setGroupLabels():
@@ -516,12 +520,12 @@ class MainWindow:
     def rigTemplatesMenuUpdate(self):
         menu = QtWidgets.QMenu(self.win)
 
-        saveRigTepl_action = QtWidgets.QAction(self.win)
+        saveRigTepl_action = QAction(self.win)
         saveRigTepl_action.setText("Save Template..")
         menu.addAction(saveRigTepl_action)
         saveRigTepl_action.triggered.connect(self.templateClass.rig_save)
 
-        loadRigTepl_action = QtWidgets.QAction(self.win)
+        loadRigTepl_action = QAction(self.win)
         loadRigTepl_action.setText("Load Template..")
         menu.addAction(loadRigTepl_action)
         loadRigTepl_action.triggered.connect(self.templateClass.rig_load)
@@ -543,7 +547,7 @@ class MainWindow:
         templateNames = getTemplateFiles()
         for t in templateNames:
             # read data
-            t_action = QtWidgets.QAction(self.win)
+            t_action = QAction(self.win)
             t_action.setText(t)
             t_action.triggered.connect(partial(self.templateClass.rig_load, t))
             menu.addAction(t_action)
@@ -552,7 +556,7 @@ class MainWindow:
             menu.addSeparator()
             delete_menu = menu.addMenu('&Delete')
             for t in templateNames:
-                m_action = QtWidgets.QAction(self.win)
+                m_action = QAction(self.win)
                 m_action.setText("Delete " + utils.formatName(t.split(".")[0].split("/")[-1]))
                 m_action.triggered.connect(partial(self.template_actions, "delete_rig", t))
                 delete_menu.addAction(m_action)
@@ -566,7 +570,7 @@ class MainWindow:
 
         menu = QtWidgets.QMenu(self.win)
 
-        save_action = QtWidgets.QAction(self.win)
+        save_action = QAction(self.win)
         save_action.setText("Save Current Shape")
         menu.addAction(save_action)
         save_action.triggered.connect(self.saveControlShape)
@@ -583,7 +587,7 @@ class MainWindow:
         for name in self.controlShapes_data:
             if name in standartButtons:
                 continue
-            ctrlShape_action = QtWidgets.QAction(self.win)
+            ctrlShape_action = QAction(self.win)
             ctrlShape_action.setText(name)
             ctrlShape_action.triggered.connect(partial(self.controls_setShape, self.controlShapes_data[name]))
             menu.addAction(ctrlShape_action)
@@ -594,7 +598,7 @@ class MainWindow:
             for name in self.controlShapes_data:
                 if name in standartButtons:
                     continue
-                m_action = QtWidgets.QAction(self.win)
+                m_action = QAction(self.win)
                 m_action.setText("Delete " + utils.formatName(name.split(".")[0].split("/")[-1]))
                 m_action.triggered.connect(partial(self.template_actions, "delete_shape", name))
                 delete_menu.addAction(m_action)
@@ -642,6 +646,7 @@ class MainWindow:
         # menu
         self.win.actionDebug.triggered.connect(self.action_debug)
         self.win.actionAbout.triggered.connect(self.action_about)
+        self.win.actionLicense.triggered.connect(self.action_license)
         self.win.actionSets.triggered.connect(self.action_sets)
         self.win.actionHumanIk.triggered.connect(self.action_humanIk)
         self.win.action_moduleBuilder.triggered.connect(self.action_moduleBuilder)
@@ -653,7 +658,7 @@ class MainWindow:
         self.win.actionGeometry_Template.triggered.connect(self.rig.toggleTemplate_geo)
         self.win.actionGeometry_Reference.triggered.connect(self.rig.toggleReference_geo)
         self.win.actionSkeleton_LRA.triggered.connect(self.rig.toggleVis_jointsAxises)
-        self.win.actionHelp_Mode.triggered.connect(self.helpMode)
+        # self.win.actionHelp_Mode.triggered.connect(self.helpMode)
         self.win.actionMove_Tool.triggered.connect(self.moveTool)
         self.win.actionHomePage.triggered.connect(self.homePage)
         self.win.actionTutorials.triggered.connect(self.tutorialsPage)
@@ -747,12 +752,12 @@ class MainWindow:
         # Set Module Template Menu --------------------------------------------------
         menu = QtWidgets.QMenu(self.win)
 
-        saveModTepl_action = QtWidgets.QAction(self.win)
+        saveModTepl_action = QAction(self.win)
         saveModTepl_action.setText("Save Template")
         menu.addAction(saveModTepl_action)
         saveModTepl_action.triggered.connect(self.templateClass.module_save)
 
-        saveCompModTepl_action = QtWidgets.QAction(self.win)
+        saveCompModTepl_action = QAction(self.win)
         saveCompModTepl_action.setText("Save as Compound Module")
         menu.addAction(saveCompModTepl_action)
         saveCompModTepl_action.triggered.connect(partial(self.templateClass.compound_save))
@@ -776,7 +781,7 @@ class MainWindow:
         templateNames = getTemplateFiles()
 
         for t in templateNames:
-            t_action = QtWidgets.QAction(self.win)
+            t_action = QAction(self.win)
             t_action.setText(t)
             t_action.triggered.connect(partial(self.templateClass.module_load, t))
             menu.addAction(t_action)
@@ -785,7 +790,7 @@ class MainWindow:
             menu.addSeparator()
             delete_menu = menu.addMenu('&Delete')
             for t in templateNames:
-                m_action = QtWidgets.QAction(self.win)
+                m_action = QAction(self.win)
                 m_action.setText("Delete " + utils.formatName(t.split(".")[0].split("/")[-1]))
                 m_action.triggered.connect(partial(self.templateClass.module_delete, t))
                 delete_menu.addAction(m_action)
@@ -819,13 +824,13 @@ class MainWindow:
                 continue
             sub_menu = self.compoundModules_menu.addMenu('&%s' % t)
             for f in templates[t]:
-                m_action = QtWidgets.QAction(self.win)
+                m_action = QAction(self.win)
                 m_action.setText(os.path.basename(f.split(".")[0]))
                 m_action.triggered.connect(partial(self.templateClass.compound_load, f))
                 sub_menu.addAction(m_action)
 
         for f in templates["root"]:
-            m_action = QtWidgets.QAction(self.win)
+            m_action = QAction(self.win)
             m_action.setText(os.path.basename(f.split(".")[0]))
             m_action.triggered.connect(partial(self.templateClass.compound_load, f))
             self.compoundModules_menu.addAction(m_action)
@@ -836,7 +841,7 @@ class MainWindow:
         for t in templates:
             sub_menu = delete_menu.addMenu('&%s' % t)
             for f in templates[t]:
-                m_action = QtWidgets.QAction(self.win)
+                m_action = QAction(self.win)
                 m_action.setText("Delete " + os.path.basename(f.split(".")[0]))
                 m_action.triggered.connect(partial(self.template_actions, "compound_delete", f))
                 sub_menu.addAction(m_action)
@@ -4133,8 +4138,6 @@ class MainWindow:
         sys.stdout.write("Created new module " + name)
 
     def action_about(self):
-
-
         def aboutClose():
             self.aboutWin.close()
 
@@ -4158,11 +4161,112 @@ class MainWindow:
         # write version to ui
         self.aboutWin.label_5.setText(lastVestion)
 
+        # set site link
+        self.aboutWin.site_label.setText('<a href="https://www.rigstudio.ru">www.rigstudio.ru</a>')
+
+
         # logo
         imagemap = QtGui.QPixmap(self.rootPath + '/icons/rs_logo_about.png')
         self.aboutWin.logo_label.setPixmap(imagemap)
 
         self.aboutWin.show()
+
+    def action_license(self):
+        def licClose():
+            self.licWin.close()
+
+        def updateStatusText():
+            if self.lic_status == 0:
+                status = "Not checked"
+            elif self.lic_status == 1:
+                status = "License is active"
+            elif self.lic_status >= 2:
+                status = "No license"
+
+            self.licWin.status_label.setText("Status: " + status)
+            
+            if self.lic_status == 1:
+                self.licWin.status_label.setStyleSheet("background-color: green; color: white;")
+                self.licWin.version_label.setText('Pro version')
+                # self.licWin.status_label.setStyleSheet("""
+                #     background-color: green;
+                #     color: white;
+                #     padding: 5px;
+                #     border-radius: 5px;
+                # """)
+            else:
+                self.licWin.status_label.setStyleSheet("")
+                self.licWin.version_label.setText('Free version')
+
+
+
+        def show_message(state):
+            if state == 0: text = "License status not checked"
+            elif state == 1: text = "License is active."
+            elif state == 2: text = "License has expired."
+            elif state == 3: text = "License data is corrupted or invalid."
+            elif state == 4: text = "License file is missing."
+            elif state == 5: text = "MAC address mismatch, the license is activated on another hardware."
+            elif state == 6: text = "Database connection error, please check your internet connection."
+            
+            # 0 - не проверено
+            # 1 - лицензия действительна
+            # 2 - срок действия лицензии истёк
+            # 3 - повреждение / неправильные данные лицензии
+            # 4 - файл лицензии отсутствует
+            # 5 - несовпадение MAC-адреса
+            # 6 - ошибка подключения к бд
+
+            msg = QtWidgets.QMessageBox()
+            if state == 1:
+                msg.setIcon(QtWidgets.QMessageBox.Information)
+            else:
+                msg.setIcon(QtWidgets.QMessageBox.Critical)
+            msg.setWindowTitle("License Status")
+            msg.setText(text)
+            msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+            msg.exec_()
+
+        def activate():
+            self.lic_status = check.check_license("rigstudio")
+            print(1111, self.lic_status)
+            show_message(self.lic_status)
+            
+            self.configData["state"] = self.lic_status
+            json_string = json.dumps(self.configData, indent=4)
+            # save data to file
+            with open(os.path.join(self.rootPath, "config.json"), 'w') as f:
+                f.write(json_string)
+
+            updateStatusText()
+                    
+
+        self.licWin = load_ui_widget(self.licenseUiFilePath, parent=self.win)
+        self.licWin.pushButton.clicked.connect(licClose)
+        self.licWin.activate_btn.clicked.connect(activate)
+
+        # get version
+        with open(self.rootPath + '/versions.txt') as f:
+            lines = f.readlines()
+
+        versions = []
+        for l in lines:
+            if '---Version' in l:
+                versions.append(l)
+
+        lastVestion = versions[-1].split('Version ')[1].split('\n')[0]
+        
+        # write version to ui
+        self.licWin.label.setText("Rig Studio " + lastVestion)
+        updateStatusText()
+
+        # set site link
+        self.licWin.site_label.setText('<a href="https://www.rigstudio.ru">www.rigstudio.ru</a>')
+        
+
+        self.licWin.show()
+
+
 
     def action_sets(self):
 
@@ -4230,20 +4334,6 @@ class MainWindow:
 
 
         webbrowser.open('https://www.rigstudiomaya.com/tutorials')
-
-
-    #def action_posersAxisesToggle(self):
-        #state = self.win.actionPosers_Axises.isChecked()
-
-        #utils.setUserAttr("main", "posersAxises", state, type="bool", lock=True, keyable=False, cb=False)
-
-        #if len(self.rig.modules) == 0:
-            #return
-
-        ## state = not cmds.getAttr(self.rig.modules[self.rig.moduleNames[0]].name+'_root_poser.axises')
-        #for m_name in self.rig.modules:
-            #m = self.rig.modules[m_name]
-            #self.moduleToggle_posersAxises(m, state)
 
     def action_attributes(self):
 

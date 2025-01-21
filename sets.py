@@ -4,8 +4,15 @@ import os
 import json
 from .import utils, main
 
-from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
-from shiboken2 import wrapInstance
+version = int(cmds.about(v=True).split(" ")[0])
+if version <= 2024:
+    from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
+    from shiboken2 import wrapInstance
+    from PySide2.QtWidgets import QAction
+else:
+    from PySide6 import QtWidgets, QtGui, QtCore, QtUiTools
+    from shiboken6 import wrapInstance
+    from PySide6.QtGui import QAction
 
 rootPath = os.path.normpath(os.path.dirname(__file__))
 
@@ -497,12 +504,12 @@ class Sets(object):
 	def	setsTemplatesMenuUpdate(self):
 		menu = QtWidgets.QMenu(self.win)
 
-		saveModTepl_action = QtWidgets.QAction(self.win)
+		saveModTepl_action = QAction(self.win)
 		saveModTepl_action.setText("Save Template")
 		menu.addAction(saveModTepl_action)	
 		saveModTepl_action.triggered.connect(partial(self.templActions, 'save'))
 
-		resetModTepl_action = QtWidgets.QAction(self.win)
+		resetModTepl_action = QAction(self.win)
 		resetModTepl_action.setText("Clear")
 		menu.addAction(resetModTepl_action)	
 		resetModTepl_action.triggered.connect(partial(self.templActions, 'clear'))
@@ -522,7 +529,7 @@ class Sets(object):
 		# build template menu for current module
 		templateNames = getTemplateFiles()
 		for t in templateNames:
-			t_action = QtWidgets.QAction(self.win)
+			t_action = QAction(self.win)
 			t_action.setText(t)
 			t_action.triggered.connect(partial(self.templActions, 'load', t))				
 			menu.addAction(t_action)				

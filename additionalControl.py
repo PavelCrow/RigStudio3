@@ -5,8 +5,14 @@ from functools import partial
 
 from .import utils, main, controller, posers, rigTools
 
-from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
-from shiboken2 import wrapInstance
+version = int(cmds.about(v=True).split(" ")[0])
+if version <= 2024:
+    from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
+    from shiboken2 import wrapInstance
+else:
+    from PySide6 import QtWidgets, QtGui, QtCore, QtUiTools
+    from shiboken6 import wrapInstance
+
 
 class AdditionalControl(controller.Control):
 	def __init__(self, name="", parent="", shape="", data={}):

@@ -2,9 +2,15 @@ import maya.cmds as cmds
 import maya.mel as mel
 import pymel.core as pm
 
-from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
-import os
-import imp
+version = int(cmds.about(v=True).split(" ")[0])
+if version <= 2024:
+    from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
+    from shiboken2 import wrapInstance
+else:
+    from PySide6 import QtWidgets, QtGui, QtCore, QtUiTools
+    from shiboken6 import wrapInstance
+
+import os, imp
 
 from .import utils
 
