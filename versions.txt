@@ -588,6 +588,3 @@ Spine module update
 License feature
 Additional control updates
 Spine module update
-
----Version 3.8.01
-Deleted full file
