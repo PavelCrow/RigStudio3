@@ -234,14 +234,14 @@ def getModuleSections():
 		with open(os.path.join(modulePath, 'modules', m, 'info.txt')) as f:
 			lines = f.readlines()	
 		sect = lines[2].rstrip().split('=')[1]
-
 		if sect in sections:
 			sectionList = sections[sect]
 		else: 
 			sectionList = []
 		sectionList.append(m)
+		
 		sections[sect] = sectionList
-
+	
 	return sections
 
 def setUserAttr(obj, attrName, value, type="string", lock=True, keyable=False, cb=False, enumList=""):
@@ -1147,6 +1147,13 @@ def oneStepUndo(func):
 		func(*args, **kwargs)
 		cmds.undoInfo(closeChunk=True)
 	return wrapper	
+
+# def saveLicenceState():
+# 	self.configData["state"] = self.lic_status
+# 	json_string = json.dumps(self.configData, indent=4)
+# 	# save data to file
+# 	with open(os.path.join(self.rootPath, "config.json"), 'w') as f:
+# 		f.write(json_string)
 
 # def readFromJson(path, data):
 # 	with open(path, mode='r') as f:

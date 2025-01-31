@@ -583,3 +583,8 @@ updated module Root and Point
 ---Version 3.7.00
 Maya 2025 support
 Spine module update
+
+---Version 3.8.00
+License feature
+Additional control updates
+Spine module update

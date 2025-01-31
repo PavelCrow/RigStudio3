@@ -30,7 +30,7 @@ class AdditionalControl(controller.Control):
 			self.poserParent = data['poserParent']
 			self.colorId = data['colorId']		
 			self.symmetrical = False
-			self.opposite = False	
+			self.opposite = data['opposite']	
 			self.create(shape)
 
 	def create(self, shape='circle'): #
@@ -66,7 +66,7 @@ class AdditionalControl(controller.Control):
 		
 		# lock visibility attribute
 		utils.lockChannels(self.name, channels=[])
-
+		
 		self.setParent(self.parent)
 		
 		cmds.select(poser)
@@ -140,16 +140,20 @@ class AdditionalControl(controller.Control):
 			tar = target.split("_skinJoint")[0].split("_outJoint")[0]
 		else:
 			tar = target
-
+		
 		if cmds.objExists(tar+"_addPoser"):
 			par_p = tar+"_addPoser"
 		elif cmds.objExists(tar+"_poser"):
 			par_p = tar+"_poser"
 		elif cmds.objExists(tar+"_initLoc"):
 			par_p = tar+"_initLoc"
+			cmds.showHidden(par_p)
+			cmds.hide(par_p+"Shape")
 		elif isControl:
 			n = utils.getInternalNameFromControl(tar)
 			par_p = par_moduleName+"_"+n+"_initLoc"
+			cmds.showHidden(par_p)
+			cmds.hide(par_p+"Shape")
 		else:
 			par_p = par_moduleName + "_root_mainPoser"
 
@@ -178,22 +182,34 @@ class AdditionalControl(controller.Control):
 			utils.removeTransformParentJoint(joint)
 			utils.resetJointOrient(joint)
 
-		# control group connection
+		
+		# delete old connection nodes
 		if cmds.objExists(name+"_group_multMat"):
 			cmds.delete(name+"_group_multMat")
+		if cmds.objExists(joint+"_multMat"):
+			cmds.delete(joint+"_multMat")
+
+		# control group connection
 		utils.connectByMatrix(group, [poser, parent_initLoc], ['worldMatrix[0]', 'worldInverseMatrix[0]'])
 
 		# connect joint by local matrixes if parent is addControl
 		if utils.objectIsAdditionalControl(self.parent):
 			# local connect joint from control and control group
-			utils.connectByMatrix(joint, [name, group], ['matrix', 'matrix'], par_moduleName)
+			if self.opposite and utils.objectIsOpposite(self.parent):
+				compMat = cmds.createNode('composeMatrix', n=name+'_composeMatrix')
+				cmds.setAttr(compMat+".inputScaleZ", -1)
+				utils.connectByMatrix(joint, [name, group, compMat], ['matrix', 'matrix', 'outputMatrix'], par_moduleName)
+			else:
+				utils.connectByMatrix(joint, [name, group], ['matrix', 'matrix'], par_moduleName)
 			
 			mult_t = cmds.createNode('multiplyDivide', n=name+'_correctTranslateMult')
 			cmds.connectAttr(joint+"_decMat.outputTranslate", mult_t+'.input1')			
 
 			dMat = cmds.createNode('decomposeMatrix', n=name+"_correctTranslateDecMat")
 			cmds.connectAttr(target+"_addPoser.worldMatrix[0]", dMat+'.inputMatrix')
-			cmds.connectAttr(dMat+".outputScale", mult_t+'.input2')
+			cmds.connectAttr(dMat+".outputScaleX", mult_t+'.input2X')
+			cmds.connectAttr(dMat+".outputScaleX", mult_t+'.input2Y')
+			cmds.connectAttr(dMat+".outputScaleX", mult_t+'.input2Z')
 			
 			cmds.connectAttr(mult_t+".outputX", joint+'.tx', f=1)
 			cmds.connectAttr(mult_t+".outputY", joint+'.ty', f=1)
@@ -241,6 +257,9 @@ class AdditionalControl(controller.Control):
 			# add posers can be connected by matrix or stright connections
 			if cmds.objExists(self.name+"_addPoser_decMat"):
 				cmds.delete(self.name+"_addPoser_decMat", self.name+"_addPoser_multMat")
+			
+			if cmds.objExists(self.name+'_composeMatrix'):
+				cmds.delete(self.name+'_composeMatrix')
 	
 	def getChildren(self):
 		nodes = cmds.listRelatives(self.name)

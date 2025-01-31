@@ -39,7 +39,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>8</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="rig_tab">
        <attribute name="title">
@@ -3578,7 +3578,7 @@
        <attribute name="title">
         <string>Add Controls</string>
        </attribute>
-       <layout class="QHBoxLayout" name="horizontalLayout_27" stretch="0,1">
+       <layout class="QHBoxLayout" name="horizontalLayout_27" stretch="1,3">
         <item>
          <widget class="QFrame" name="addControls_frame">
           <property name="frameShape">
@@ -7482,6 +7482,9 @@
                    </item>
                    <item>
                     <widget class="QPushButton" name="buildMocapSkeleton_btn">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
                      <property name="text">
                       <string>Build Mocap Skeleton</string>
                      </property>
@@ -7513,6 +7516,9 @@
                       </property>
                       <item>
                        <widget class="QPushButton" name="bakeDummyRig_btn">
+                        <property name="enabled">
+                         <bool>false</bool>
+                        </property>
                         <property name="text">
                          <string>Bake Dummy Rig</string>
                         </property>
@@ -9801,7 +9807,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>696</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="nativeMenuBar">
@@ -9838,17 +9844,6 @@ p, li { white-space: pre-wrap; }
     <addaction name="separator"/>
     <addaction name="actionSkeleton_LRA"/>
    </widget>
-   <widget class="QMenu" name="menuOptions">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="title">
-     <string>Options</string>
-    </property>
-    <addaction name="actionDebug"/>
-    <addaction name="actionAdvanced"/>
-    <addaction name="actionPosers_Hierarhy"/>
-   </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>Help</string>
@@ -9864,6 +9859,7 @@ p, li { white-space: pre-wrap; }
      <string>Tools</string>
     </property>
     <addaction name="actionMove_Tool"/>
+    <addaction name="actionDebug"/>
     <addaction name="actionSets"/>
     <addaction name="actionHumanIk"/>
     <addaction name="action_moduleBuilder"/>
@@ -9878,7 +9874,6 @@ p, li { white-space: pre-wrap; }
    <addaction name="menuRig"/>
    <addaction name="menuDisplay"/>
    <addaction name="menuTools"/>
-   <addaction name="menuOptions"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -10146,6 +10141,9 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="actionSets">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Control Sets..</string>
    </property>

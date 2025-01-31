@@ -66,6 +66,34 @@ def load_ui_widget(uifilename, parent=get_maya_window()):
 
     return ui
 
+def show_message(state):
+    if state == 0: text = "License status not checked"
+    elif state == 1: text = "License is active."
+    elif state == 2: text = "License has expired."
+    elif state == 3: text = "License data is corrupted or invalid."
+    elif state == 4: text = "License file is missing."
+    elif state == 5: text = "MAC address mismatch, the license is activated on another hardware."
+    elif state == 6: text = "Database connection error, please check your internet connection."
+    elif state == 7: text = "Полная лицензия СМФ."
+    
+    # 0 - не проверено
+    # 1 - лицензия действительна
+    # 2 - срок действия лицензии истёк
+    # 3 - повреждение / неправильные данные лицензии
+    # 4 - файл лицензии отсутствует
+    # 5 - несовпадение MAC-адреса
+    # 6 - ошибка подключения к бд
+
+    msg = QtWidgets.QMessageBox()
+    if state == 1 or state == 7:
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+    else:
+        msg.setIcon(QtWidgets.QMessageBox.Critical)
+    msg.setWindowTitle("License Status")
+    msg.setText(text)
+    msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+    msg.exec_()
+
 
 class MainWindow:
     def __init__(self):
@@ -156,12 +184,23 @@ class MainWindow:
         self.mWin = get_maya_window()
         self.moveMode = False
         self.full = True# full
-        self.lic_status = self.configData['state']
 
         self.rig = rig.Rig(self)
         self.templateClass = template.Template()
         self.templateClass.main = self
         self.curParents = parents.Parents(self.win, self.rig)
+
+        lic_status_saved = self.configData['state']
+        self.lic_status = check.check_license("rigstudio")
+        if self.lic_status == 2 and lic_status_saved == 1:
+            show_message(self.lic_status)
+
+            self.configData["state"] = self.lic_status
+            json_string = json.dumps(self.configData, indent=4)
+            # save data to file
+            with open(os.path.join(self.rootPath, "config.json"), 'w') as f:
+                f.write(json_string)
+            
 
         self.initUi()
         self.rigPage_update()
@@ -172,13 +211,13 @@ class MainWindow:
         # self.curParents.rig = self.rig
         # self.curParents.updateList()
         #
-        # # color buttons
-        # for i, color in enumerate(self.color_list):
-        #     try:
-        #         exec("self.win.color_btn_%d.setStyleSheet('QPushButton {background-color: rgb%s;}')" % (i, color))
-        #         exec('self.win.color_btn_%d.clicked.connect(partial(self.controls_setColor, %d))' % (i, i))
-        #     except:
-        #         pass
+        # color buttons
+        for i, color in enumerate(self.color_list):
+            try:
+                exec("self.win.color_btn_%d.setStyleSheet('QPushButton {background-color: rgb%s;}')" % (i, color))
+                exec('self.win.color_btn_%d.clicked.connect(partial(self.controls_setColor, %d))' % (i, i))
+            except:
+                pass
 
         # self.win.splitter.setSizes([200, 400])
         self.win.show()
@@ -187,11 +226,16 @@ class MainWindow:
         def setMenu():
             menu = QtWidgets.QMenu(self.win)
             replace_menu = QtWidgets.QMenu(self.win)
-            # get sections
+            
+            # get section list
             sections = utils.getModuleSections()
+            sections_sorted = ["Base", "Body"]
+            for sect in sorted(sections):
+                if sect not in sections_sorted:
+                    sections_sorted.append(sect)
 
             # add module names in sections
-            for sectionListName in sorted(sections):
+            for sectionListName in sections_sorted:
                 sub_menu = menu.addMenu('&%s' % sectionListName)
                 replace_sub_menu = replace_menu.addMenu('&%s' % sectionListName)
                 for m in sections[sectionListName]:
@@ -207,6 +251,9 @@ class MainWindow:
                     replace_m_action.setText(utils.formatName(m))
                     replace_m_action.triggered.connect(partial(self.replaceModule, m))
                     replace_sub_menu.addAction(replace_m_action)
+
+                if self.lic_status not in [1, 7] and sectionListName not in ["Base", "Body", "Custom"]:
+                    sub_menu.setEnabled(False)
 
             font = menu.font()
             font.setPixelSize(12)
@@ -516,6 +563,19 @@ class MainWindow:
         self.win.posersColor_btn.setVisible(False)
 
         self.win.rigPage_frame.setVisible(False)
+
+        self.win.actionSets.setVisible(False)
+        self.win.actionHumanIk.setVisible(False)
+        self.win.action_matchRig_animation.setVisible(False)
+        self.win.actionAdd_Attribute.setVisible(False)
+        self.win.actionAttributes_Window.setVisible(False)
+        self.win.actionDriven_Groups.setVisible(False)
+        self.win.actionDebug.setVisible(False)
+
+        if self.lic_status != 1 and self.lic_status != 7 :
+            self.win.setWindowTitle("Rig Studio 3 (Free version)")
+
+
 
     def rigTemplatesMenuUpdate(self):
         menu = QtWidgets.QMenu(self.win)
@@ -1967,8 +2027,6 @@ class MainWindow:
         self.modulePageUpdated = True
 
     def addChildControl(self):
-        logger.debug(traceback.extract_stack()[-1][2])
-
         # get parent if selected
         sel = pm.ls(sl=1)
         if len(sel) == 1:
@@ -2002,11 +2060,12 @@ class MainWindow:
 
     def makeControl(self, name=""):
         # get name
-        if name == "":
+        if not name:
             name = self.win.controlName_lineEdit.text()
             if name == "":
                 name = 'ctrl'
-        name = utils.getLastName(name)
+        
+        name = utils.incrementNameIfExists(name)
 
         # create control
         control = name
@@ -3692,7 +3751,7 @@ class MainWindow:
         commonParent = curAddControl.parent == opp_par
 
         if not cmds.objExists(opp_par):
-            cmds.warning("Opposite parent is not exists")
+            cmds.warning("Opposite parent is not exists "+opp_par)
             return
 
         # rename if needed
@@ -3715,6 +3774,7 @@ class MainWindow:
         data['name'] = utils.getOpposite(data['name'])
         data['parent'] = utils.getOpposite(data['parent'])
         data['poserParent'] = utils.getOpposite(data['poserParent'])
+        data['opposite'] = True
 
         # add opp add control
         mirrored_module = self.rig.getMirroredModule(mod)
@@ -4178,7 +4238,7 @@ class MainWindow:
         def updateStatusText():
             if self.lic_status == 0:
                 status = "Not checked"
-            elif self.lic_status == 1:
+            elif self.lic_status == 1 or self.lic_status == 7:
                 status = "License is active"
             elif self.lic_status >= 2:
                 status = "No license"
@@ -4188,48 +4248,18 @@ class MainWindow:
             if self.lic_status == 1:
                 self.licWin.status_label.setStyleSheet("background-color: green; color: white;")
                 self.licWin.version_label.setText('Pro version')
-                # self.licWin.status_label.setStyleSheet("""
-                #     background-color: green;
-                #     color: white;
-                #     padding: 5px;
-                #     border-radius: 5px;
-                # """)
+                # self.licWin.offer_label.setVisible(False)
+            elif self.lic_status == 7:
+                self.licWin.status_label.setStyleSheet("background-color: green; color: white;")
+                self.licWin.version_label.setText('СМФ Pro version')
+                # self.licWin.offer_label.setVisible(False)
             else:
                 self.licWin.status_label.setStyleSheet("")
                 self.licWin.version_label.setText('Free version')
 
 
-
-        def show_message(state):
-            if state == 0: text = "License status not checked"
-            elif state == 1: text = "License is active."
-            elif state == 2: text = "License has expired."
-            elif state == 3: text = "License data is corrupted or invalid."
-            elif state == 4: text = "License file is missing."
-            elif state == 5: text = "MAC address mismatch, the license is activated on another hardware."
-            elif state == 6: text = "Database connection error, please check your internet connection."
-            
-            # 0 - не проверено
-            # 1 - лицензия действительна
-            # 2 - срок действия лицензии истёк
-            # 3 - повреждение / неправильные данные лицензии
-            # 4 - файл лицензии отсутствует
-            # 5 - несовпадение MAC-адреса
-            # 6 - ошибка подключения к бд
-
-            msg = QtWidgets.QMessageBox()
-            if state == 1:
-                msg.setIcon(QtWidgets.QMessageBox.Information)
-            else:
-                msg.setIcon(QtWidgets.QMessageBox.Critical)
-            msg.setWindowTitle("License Status")
-            msg.setText(text)
-            msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
-            msg.exec_()
-
         def activate():
             self.lic_status = check.check_license("rigstudio")
-            print(1111, self.lic_status)
             show_message(self.lic_status)
             
             self.configData["state"] = self.lic_status

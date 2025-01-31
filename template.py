@@ -482,18 +482,13 @@ class Template(object):
 		# self.main.win.twists_listWidget.clear()
 
 		create_modules()
-		print(111, cmds.getAttr("spine_end_skinJoint.jointOrient"))
 		create_addControls()
 		connect_modules(modulesData)
-		print(222, cmds.getAttr("spine_end_skinJoint.jointOrient"))
 		set_modules(modulesData)
-		print(333, cmds.getAttr("spine_end_skinJoint.jointOrient"))
 		if load == 'rig': mirror_modules(modulesData)
 		create_twists(modulesData)
-		print(444, cmds.getAttr("spine_end_skinJoint.jointOrient"))
 		create_ibtws(data["ibtwsData"])
 		create_oss(modulesData)
-		print(555, cmds.getAttr("spine_end_skinJoint.jointOrient"))
 
 		# if print_main_messages: print(
 		# 	" -------------------------------- SET Parents DATA ------------------------------------------------ ")

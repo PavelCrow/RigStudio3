@@ -479,7 +479,36 @@ class Module(object):
 
         def getAddControlsData():
             addCtrlsData = []
+
+            # def isAddcontrolParent():
+            #     print(2222, c.name, c.parent)
+            
+            # Создаем список тсоритованный по глубине
+            hierarchy = {}
             for c in self.additionalControls:
+                parent = c.parent
+                if parent not in hierarchy:
+                    hierarchy[parent] = []
+                hierarchy[parent].append(c.name)
+                # print(c.name, parent, utils.objectIsAdditionalControl(parent))
+
+            # Sorted flatten list                
+            sorted_list = []
+            def flatten_hierarchy(hierarchy, parents=None, depth=0):
+                """Рекурсивно выводит структуру с отступами."""
+                for parent in sorted(parents):  # Обрабатываем корневые элементы сначала
+                    # sorted_list.append((parent, depth))  # Добавляем в список с указанием глубины
+                    sorted_list.append(parent)  # Добавляем в список с указанием глубины
+                    if parent in hierarchy:
+                        flatten_hierarchy(hierarchy, hierarchy[parent], depth + 1)
+            # root control is a first in list
+            if self.additionalControls:
+                flatten_hierarchy(hierarchy, [self.additionalControls[0].name])
+            
+            # get add controls data by deep order
+            for c_name in sorted_list:
+                # get addControl by name from sorted list from list of add controls
+                c = next((ctr for ctr in self.additionalControls if ctr.name == c_name), None)
                 p = c.name+"_addPoser"
                 if not cmds.objExists(p): continue			
                 cData = c.getData()
@@ -962,7 +991,7 @@ class Module(object):
                                 tw_d["start_j"] = new_name + "_skinJoint"
                             if e_j.split("_skinJoint")[0] == name:
                                 tw_d["end_j"] = new_name + "_skinJoint"
-
+        
         if curMod_name:
             m_name = curMod_name  # for load module 
         else:
@@ -976,7 +1005,7 @@ class Module(object):
                 # parent add control to root joint
                 c = m.addAdditionalControl(cData['name'], parent=m_name+"_root_skinJoint", shape='circle', updateData=False)
                 addControls.append(c)
-
+        
         # parent add control to control from data
         for cData in mData['additionalControlsData']:
             if not cData['opposite']:
@@ -984,7 +1013,7 @@ class Module(object):
                 for c in addControls:
                     if c.name == cData['name']:
                         c.setParent(par)
-
+        
         self.getAdditionalControls()
         
         # set posers
@@ -1007,7 +1036,7 @@ class Module(object):
                 for a in ["translateX", "translateY", "translateZ", "rotateX", "rotateY", "rotateZ"]:
                     if a not in attrData:
                         cmds.setAttr(p + "." + a, l=1, k=0, cb=0)
-
+        
         # set shapes and colors
         for cData in mData['additionalControlsData']:
             if not cData['opposite']:
@@ -1020,7 +1049,9 @@ class Module(object):
             if cData['opposite']:
                 c = utils.getControlInstance(utils.getOpposite(cData['name']))
                 self.main.addControls_mirrorControl(c)
-
+            # else:
+            #     self.main.addControls_mirrorControl(c)
+        
         # hide "hidden" controls
         for cData in mData['additionalControlsData']:
             if not cData['opposite']:

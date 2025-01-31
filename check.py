@@ -8,7 +8,6 @@ import sys
 # import tkinter as tk
 from datetime import datetime, timedelta
 from .external import pymysql
-import glob
 
 DB_HOST = 'server37.hosting.reg.ru'
 DB_NAME = 'u2805911_default'
@@ -23,6 +22,7 @@ DB_PASSWORD = 'r1zUH8Wmqk1KPj09'
 # 4 - файл лицензии отсутствует
 # 5 - несовпадение MAC-адреса
 # 6 - ошибка подключения к бд
+# 7 - полная лицензия СМФ
 
 LICENSE_STATUS = 0
 SOFTWARE_NAME = "additionmodulespack"
@@ -96,54 +96,56 @@ def check_license(software_name):
 
     rootPath = os.path.normpath(os.path.dirname(__file__))
 
-    # Используем glob для поиска всех файлов, начинающихся на 'license' без расширения
-    license_files = glob.glob(os.path.join(rootPath, "licenses", "license*"))
-    print(2222, software_name)
-    # for file in all_license_files:
-    #     if os.path.isfile(file):  # Проверяем, что это файл
-    #         _, file_extension = os.path.splitext(file)  # Разделяем имя файла и его расширение
-    #         if file_extension == '':  # Проверяем, что расширение пустое
-    #             license_files.append(file)
-    # license_files = [f for f in glob.glob("license*") if os.path.isfile(f) and os.path.splitext(f)[1] == '']
-    
-    if not license_files:
+    # Используем поиск всех файлов, начинающихся на 'license' без расширения
+
+    LICENSE_FILE = os.path.join(rootPath, "licenses", "license_smf")
+    if os.path.isfile(LICENSE_FILE):
+        set_license_status(7)
+        return LICENSE_STATUS
+
+    LICENSE_FILE = os.path.join(rootPath, "licenses", "license_rigstudio")
+    if not os.path.isfile(LICENSE_FILE):
         set_license_status(4)
         return LICENSE_STATUS
+
+    # if not license_files:
+    #     set_license_status(4)
+    #     return LICENSE_STATUS
 
     # Изначально статус не проверен
     set_license_status(0)
 
-    for LICENSE_FILE in license_files:
+    def check_file():
         try:
             with open(LICENSE_FILE, "r", encoding="utf-8") as f:
                 j = json.load(f)
         except:
-            continue  # Переходим к следующему файлу
+            return  # Переходим к следующему файлу
 
         d = j.get("data")
         s = j.get("signature")
         if not d or not s:
-            continue  # Неправильный формат, переходим к следующему файлу
+            return  # Неправильный формат, переходим к следующему файлу
 
         try:
             raw_data = base64.b64decode(d.encode("utf-8")).decode("utf-8")
         except:
-            continue  # Неправильные данные, переходим к следующему файлу
+            return  # Неправильные данные, переходим к следующему файлу
 
         computed_sig = hmac.new(PRIVATE_KEY, raw_data.encode("utf-8"), hashlib.sha256).hexdigest()
         if not hmac.compare_digest(computed_sig, s):
-            continue  # Неверная подпись, переходим к следующему файлу
+            return  # Неверная подпись, переходим к следующему файлу
 
         try:
             o = json.loads(raw_data)
         except:
-            continue  # Неправильные данные, переходим к следующему файлу
+            return  # Неправильные данные, переходим к следующему файлу
 
         if "software_name" not in o or "expiry_days" not in o or "unique_key" not in o:
-            continue  # Отсутствуют необходимые поля, переходим к следующему файлу
+            return  # Отсутствуют необходимые поля, переходим к следующему файлу
 
         if o["software_name"] != software_name:
-            continue  # Несоответствие имени ПО, переходим к следующему файлу
+            return  # Несоответствие имени ПО, переходим к следующему файлу
 
         expiry_date_str = o.get("expiry_date")
         local_mac_str = get_local_mac_address()
@@ -156,7 +158,7 @@ def check_license(software_name):
             )
 
             if new_expiry_date_str is None:
-                continue  # Ошибка при обновлении даты, переходим к следующему файлу
+                return  # Ошибка при обновлении даты, переходим к следующему файлу
 
             o["expiry_date"] = new_expiry_date_str
             o["mac_address"] = local_mac_str
@@ -170,7 +172,7 @@ def check_license(software_name):
                 with open(LICENSE_FILE, "w", encoding="utf-8") as f:
                     json.dump(j, f, ensure_ascii=False)
             except:
-                continue  # Не удалось записать файл, переходим к следующему
+                return  # Не удалось записать файл, переходим к следующему
 
             set_license_status(1)
             return LICENSE_STATUS # Лицензия успешно обновлена
@@ -178,7 +180,7 @@ def check_license(software_name):
         try:
             expiry_dt = datetime.strptime(expiry_date_str, "%Y-%m-%d").date()
         except:
-            continue  # Неправильный формат даты, переходим к следующему файлу
+            return  # Неправильный формат даты, переходим к следующему файлу
         
         if datetime.now().date() >= expiry_dt:
             set_license_status(2)
@@ -196,7 +198,7 @@ def check_license(software_name):
                 with open(LICENSE_FILE, "w", encoding="utf-8") as f:
                     json.dump(j, f, ensure_ascii=False)
             except:
-                continue  # Не удалось записать файл, переходим к следующему
+                return  # Не удалось записать файл, переходим к следующему
 
             set_license_status(1)
         else:
@@ -206,6 +208,8 @@ def check_license(software_name):
             else:
                 set_license_status(1)
                 return LICENSE_STATUS
+
+    check_file()
 
     # Если ни один файл не прошёл проверку
     if LICENSE_STATUS == 0:
