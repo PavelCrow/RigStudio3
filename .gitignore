@@ -9,6 +9,6 @@
 incrementalSave
 rigStudio3.code-workspace
 .mayaSwatches
-license_*
+# license_*
 main.py
 check.py
