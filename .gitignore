@@ -3,10 +3,12 @@
 # share/python-wheels/
 
 
-__pycache__/ 
+# __pycache__/ 
 .vscode/
 .idea/
 incrementalSave
 rigStudio3.code-workspace
 .mayaSwatches
 license_*
+main.py
+check.py

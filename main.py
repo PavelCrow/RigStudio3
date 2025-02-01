@@ -71,7 +71,7 @@ def show_message(state):
     elif state == 1: text = "License is active."
     elif state == 2: text = "License has expired."
     elif state == 3: text = "License data is corrupted or invalid."
-    elif state == 4: text = "License file is missing."
+    elif state == 4: text = "The license file is missing. Please purchase it on the website."
     elif state == 5: text = "MAC address mismatch, the license is activated on another hardware."
     elif state == 6: text = "Database connection error, please check your internet connection."
     elif state == 7: text = "Полная лицензия СМФ."
