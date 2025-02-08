@@ -6,7 +6,7 @@ import os
 import imp
 import sys
 
-from .import utils, main, attributes
+from .import utils, attributes
 
 version = int(cmds.about(v=True).split(" ")[0])
 if version <= 2024:

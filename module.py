@@ -4,7 +4,7 @@ import pymel.core as pm
 import os
 import math
 
-from . import utils, main, twist, additionalControl, parents, inbetweens
+from . import utils, twist, additionalControl, parents, inbetweens
 
 rootPath = os.path.normpath(os.path.dirname(__file__))
 

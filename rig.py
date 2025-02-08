@@ -1,9 +1,5 @@
 import maya.cmds as cmds
-import os
-import importlib
-import math
-import sys
-from . import main, utils, inbetweens
+from . import utils
 
 class Rig:
     def __init__(self, main, name='character'): #

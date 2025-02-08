@@ -2,7 +2,7 @@ import maya.cmds as cmds
 from functools import partial
 import os
 import json
-from .import utils, main
+from .import utils
 
 version = int(cmds.about(v=True).split(" ")[0])
 if version <= 2024:

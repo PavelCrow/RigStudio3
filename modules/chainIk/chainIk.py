@@ -46,9 +46,11 @@ class ChainIk(module.Module) :
 			self.useDynamic = options['useDynamic']
 		
 		# create posers
+		cmds.setAttr(self.name+"_root_poser.size", 0.5)
 		for i in range(1, controlsCount):
 			poser = cmds.duplicate(self.name+'_root_poser', rr=1, n=self.name+'_element_'+str(i+1)+'_poser')[0]
-
+			cmds.setAttr(poser+".size", 0.5)
+			
 			childs = pm.listRelatives(poser, allDescendents=1)
 			for o in childs:
 				if pm.objExists(o):

@@ -49,10 +49,10 @@ class Chain(module.Module) :
 			controlsCount = options['controlsCount']
 		
 		# create posers
+		cmds.setAttr(self.name+"_root_poser.size", 0.5)
 		for i in range(1, controlsCount):
 			poser = cmds.duplicate(self.name+'_root_poser', rr=1, n=self.name+'_element_'+str(i+1)+'_poser')[0]
-			
-			# utils.addModuleNameAttr(poser, self.name)
+			cmds.setAttr(poser+".size", 0.5)
 			
 			childs = pm.listRelatives(poser, allDescendents=1)
 			for o in childs:

@@ -3,7 +3,7 @@ import pymel.core as pm
 import maya.OpenMaya as om
 from functools import partial
 
-from .import utils, main, controller, posers, rigTools
+from .import utils, controller, posers, rigTools
 
 version = int(cmds.about(v=True).split(" ")[0])
 if version <= 2024:

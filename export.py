@@ -11,18 +11,35 @@ def run(clearPy=False):
 	if result == "No":
 		return
 	
-	fileName = __name__.split('.')[0] 								#rigStudio2
+	fileName = __name__.split('.')[0]	#rigStudio2
 	rs_folder = os.path.abspath(imp.find_module(fileName)[1])	 	#'C:\Users\Pavel\Dropbox\mayaScripts/rigStudio'
-	rs_out_folder = rs_folder + '_out' 	#rigStudio_out
-	rs_out_tool = rs_folder + '_out/rigStudio2'
-	
-	addFiles = ["install.txt", "versions.txt", "license.txt"]
-	
-	if os.path.exists(rs_out_folder):
-		shutil.rmtree(rs_out_folder)
-	
-	os.makedirs(rs_out_folder)
-	
+	rs_out = rs_folder + '_out/rigStudio3'
+
+	# exclude = ["__pycache__", "old_versions", "tests", ".git"]
+
+	if os.path.exists(rs_out):
+		shutil.rmtree(rs_out)
+	return
+	def copy_project(src, dst, exclude_patterns=None):
+		# Создаем правило для `ignore_patterns`
+		ignore = shutil.ignore_patterns(*(exclude_patterns or []))
+
+		# Копируем файлы, исключая ненужные папки
+		shutil.copytree(src, dst, ignore=ignore)
+		print(f"Проект успешно скопирован в: {dst}")
+
+	# Исключаем ненужные файлы и папки
+	exclude = ["__pycache__", ".idea", ".vscode", "_old", "licenses",
+			"modules", ".git", "*.log", "*.tmp", ".gitignore", 
+			"check.py", "main.py"]
+
+	copy_project(rs_folder, rs_out, exclude)
+
+	os.makedirs(os.path.join(rs_out, "licenses"))
+
+
+	return
+
 	# Duplicate folder
 	def copytree(src, dst, symlinks=False, ignore=None):
 		if not os.path.exists(dst):
@@ -31,13 +48,13 @@ def run(clearPy=False):
 		for item in os.listdir(src):
 			s = os.path.join(src, item)
 			d = os.path.join(dst, item)
-			if os.path.isdir(s):
-				shutil.copytree(s, d, symlinks, ignore)
-			else:
-				shutil.copy2(s, d)
+			# if os.path.isdir(s):
+			# 	shutil.copytree(s, d, symlinks, ignore)
+			# else:
+			# 	shutil.copy2(s, d)
 	
 	copytree(rs_folder, rs_out_tool)
-
+	return
 	shutil.rmtree(rs_out_tool+"/.hg")
 	os.remove(rs_out_tool+'/.hgignore')
 
@@ -79,14 +96,11 @@ def run(clearPy=False):
 	# my_file.close()	
 
 
-	for f in addFiles:
-		shutil.copyfile(rs_folder+'/'+f, rs_out_folder+'/'+f)
-		
 	# Remove .py files
 	def removeFiles(folder, ext):
 		filelist = glob.glob(folder+"/*."+ext)
 		for file in filelist:
-			print file
+			print (file)
 			if "install.py" in file:
 				continue
 			os.remove(file)
@@ -151,7 +165,7 @@ def run(clearPy=False):
 			modules.append(f)
 	for m in modules:
 		if moduleIsAdvanced(m):
-			print m, "Advanced"
+			print (m, "Advanced")
 			dir = rs_out_tool+"/modules/"+m
 			if os.path.exists(dir):
 				shutil.rmtree(dir)		
@@ -173,7 +187,7 @@ def clear():
 	filelist = glob.glob(rs_folder+"/*.pyc")
 	
 	for file in filelist:
-		print file
+		print (file)
 		if file.split('\\')[-1] == 'Qt.pyc':
 			continue
 		os.remove(file)
@@ -181,7 +195,7 @@ def clear():
 	filelist = glob.glob(rs_folder+"/rigStudio_picker/*.pyc")
 	
 	for file in filelist:
-		print file
+		print (file)
 		if file.split('\\')[-1] == 'Qt.pyc':
 			continue
 		os.remove(file)

@@ -5,7 +5,7 @@ import maya.OpenMaya as om
 from functools import partial
 import os, math
 
-from .import main, utils
+from .import utils
 
 version = int(cmds.about(v=True).split(" ")[0])
 if version <= 2024:
@@ -700,6 +700,7 @@ class Twist(object):
                 mp = cmds.createNode('motionPath', n=twName+'_curve_%s_mpath' %i)
                 cmds.sets(mp, e=1, forceElement=twSet)
                 cmds.setAttr(mp+'.worldUpType', 2)
+                cmds.setAttr(mp+'.frontAxis', 0)
                 cmds.connectAttr(j+'.pos', mp+'.uValue')
 
                 mult = cmds.createNode('multDoubleLinear', n=twName+'_multDoubleLinear_%s' %i)

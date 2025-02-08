@@ -3,7 +3,5 @@
 or create it manually with python command:
 
 Rig tool:
-import importlib
 import rigStudio3
-importlib.reload(rigStudio3)
 rigStudio3.run()

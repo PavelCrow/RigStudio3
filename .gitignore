@@ -12,3 +12,4 @@ rigStudio3.code-workspace
 license_*
 main.py
 check.py
+connections.py

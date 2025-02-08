@@ -13,7 +13,7 @@ else:
 
 import os
 
-from .import utils, main
+from .import utils
 
 rootPath = os.path.normpath(os.path.dirname(__file__))
 templatesPath = rootPath+"/map/templates"

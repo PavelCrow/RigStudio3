@@ -6,10 +6,9 @@ from functools import partial
 import logging, traceback, os, imp, math, json, sys
 
 if sys.version[0] == "2":
-	import utils, main
+	import utils
 else:
 	import importlib
-	import rigStudio2.main as main
 	import rigStudio2.utils as utils
 	
 version = int(cmds.about(v=True).split(" ")[0])
@@ -30,22 +29,6 @@ rootDebug = ""
 
 fileName = __name__.split('.')[0]
 rootPath = os.path.abspath(imp.find_module(fileName)[1])
-
-
-def debugStart(func, name="", noEnd=False):
-	if not main.configData['debug']: return
-	global rootDebug
-	rootDebug = rootDebug + ' -> ' + func
-	logger.debug(rootDebug + ' ' + name + ' -> ')	
-
-	if noEnd:
-		rootDebug = rootDebug.split(' -> ' + func)[0]	
-
-def debugEnd(func, name=""):
-	if not main.configData['debug']: return
-	global rootDebug
-	logger.debug(rootDebug + ' ' + name + " -| ")
-	rootDebug = rootDebug.split(' -> ' + func)[0]	
 
 class HumanIk(object):
 	def __init__(self, main):

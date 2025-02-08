@@ -591,3 +591,8 @@ Spine module update
 
 ---Version 3.8.01
 License feature update
+
+---Version 3.8.02
+Cleared importing 
+New export project
+Updated modules maya files with one 

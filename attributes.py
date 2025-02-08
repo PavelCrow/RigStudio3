@@ -4,7 +4,7 @@ import maya.OpenMaya as om
 from functools import partial
 import logging, traceback, os, imp, math, json, sys
 
-from .import utils, main
+from .import utils
 
 version = int(cmds.about(v=True).split(" ")[0])
 if version <= 2024:
