@@ -306,6 +306,15 @@ class Twist(object):
         cmds.parent(end_loc, end_outJoint)
         utils.resetAttrs(end_loc)
         cmds.setAttr(root_outJoint+".drawStyle", 2)
+
+        # root aim matrix
+        aimm = cmds.createNode('aimMatrix', n=t_name+'_aimMatrix')
+        mm = cmds.createNode('multMatrix', n=t_name+'_aimMultMatrix')
+        cmds.connectAttr(root_outJoint+".worldMatrix[0]", aimm+".inputMatrix")
+        cmds.connectAttr(end_outJoint+".worldMatrix[0]", aimm+".primaryTargetMatrix")
+        cmds.connectAttr(aimm+".outputMatrix", mm+".matrixIn[0]")
+        cmds.connectAttr(root_outJoint+".worldInverseMatrix[0]", mm+".matrixIn[1]")
+        cmds.connectAttr(mm+".matrixSum", root_loc+".offsetParentMatrix")
         
         # save data
         utils.setUserAttr(t_name+"_mod", "endTarget", end_outJoint)

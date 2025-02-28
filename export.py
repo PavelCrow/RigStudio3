@@ -11,141 +11,82 @@ def run(clearPy=False):
 	if result == "No":
 		return
 	
-	fileName = __name__.split('.')[0]	#rigStudio2
-	rs_folder = os.path.abspath(imp.find_module(fileName)[1])	 	#'C:\Users\Pavel\Dropbox\mayaScripts/rigStudio'
-	rs_out = rs_folder + '_out/rigStudio3'
+	rs_folder = os.path.dirname(os.path.abspath(__file__))	#F:\Maya_Projects\rigStudio3
+	rs_out = r"F:\Maya_Projects\rigStudio3_out\temp\rigStudio3"
+	temp_folder = r"F:\Maya_Projects\rigStudio3_out\temp"
+	rs_free = r"F:\Maya_Projects\rigStudio3_out\free"
+	rs_pro = r"F:\Maya_Projects\rigStudio3_out\pro"
 
-	# exclude = ["__pycache__", "old_versions", "tests", ".git"]
-
+	# Удаление временной папки
 	if os.path.exists(rs_out):
 		shutil.rmtree(rs_out)
-	return
+	
 	def copy_project(src, dst, exclude_patterns=None):
 		# Создаем правило для `ignore_patterns`
 		ignore = shutil.ignore_patterns(*(exclude_patterns or []))
-
+		print(src, dst)
 		# Копируем файлы, исключая ненужные папки
 		shutil.copytree(src, dst, ignore=ignore)
 		print(f"Проект успешно скопирован в: {dst}")
 
 	# Исключаем ненужные файлы и папки
-	exclude = ["__pycache__", ".idea", ".vscode", "_old", "licenses",
-			"modules", ".git", "*.log", "*.tmp", ".gitignore", 
-			"check.py", "main.py"]
+	exclude = ["__pycache__", ".idea", ".vscode", "_old", "licenses", "incrementalSave", ".mayaSwatches", 
+			".git", "*.psd", "*.pyc",
+			"rigStudio3.code-workspace", ".gitignore", "check.py", "main.py"]
+	
+	pro_modules = ["eyesGeometry", "wing", "birdFoot"]
+	extra_modules = ["browsSimple", "eyes", "mouth", "eyelidsSimple"]
 
 	copy_project(rs_folder, rs_out, exclude)
 
 	os.makedirs(os.path.join(rs_out, "licenses"))
 
+	s= os.path.join(rs_folder, "__pycache__")
+	d= os.path.join(rs_out, "__pycache__")
+	shutil.copytree(s , d)
 
-	return
-
-	# Duplicate folder
-	def copytree(src, dst, symlinks=False, ignore=None):
-		if not os.path.exists(dst):
-			os.makedirs(dst)    
-	
-		for item in os.listdir(src):
-			s = os.path.join(src, item)
-			d = os.path.join(dst, item)
-			# if os.path.isdir(s):
-			# 	shutil.copytree(s, d, symlinks, ignore)
-			# else:
-			# 	shutil.copy2(s, d)
-	
-	copytree(rs_folder, rs_out_tool)
-	return
-	shutil.rmtree(rs_out_tool+"/.hg")
-	os.remove(rs_out_tool+'/.hgignore')
-
-	# Picker Folder
-	os.makedirs(rs_out_folder+"/rigStudio_picker")
-	for f in ['animTools', 'picker' ]:
-		copytree(rs_folder+"/"+f, rs_out_folder+"/rigStudio_picker/"+f)
-	os.makedirs(rs_out_folder+"/rigStudio_picker/ui/icons")
-	
-	for f in ['arrowsCircle.png', 'selector.png', 'zoomReset.png']:
-		shutil.copyfile(rs_folder+'/ui/icons/'+f, rs_out_folder+'/rigStudio_picker/ui/icons/'+f)
-	
-	for f in ['aboutWindow.ui']:
-		shutil.copyfile(rs_folder+'/ui/'+f, rs_out_folder+'/rigStudio_picker/ui/'+f)
-	
-	for f in ['rs_logo_about.png']:
-		shutil.copyfile(rs_folder+'/icons/'+f, rs_out_folder+'/rigStudio_picker/ui/icons/'+f)
-	
-	for f in ['utils.py', 'picker_icon.py', 'versions.txt']:
-		shutil.copyfile(rs_folder+'/'+f, rs_out_folder+'/rigStudio_picker/'+f)
-	
-	shutil.copyfile(rs_folder+'/picker/__init__exp.py', rs_out_folder+'/rigStudio_picker/__init__.py')
-	shutil.copyfile(rs_folder+'/picker/__init__exp2.py', rs_out_folder+'/rigStudio_picker/picker/__init__.py')
-	os.remove(rs_out_folder+'/rigStudio_picker/picker/__init__exp.py')
-	os.remove(rs_out_folder+'/rigStudio_picker/picker/__init__exp2.py')
-	shutil.copyfile(rs_out_tool+"/full", rs_out_folder+'/rigStudio_picker/picker/full')
-
-	# remove RS links from main.py
-	# new_lines = []
-	# with open(rs_out_folder+'/rigStudio_picker/picker/main.py') as f:
-	# 	lines = f.readlines()	
-	# for l in lines:
-	# 	if 'rigStudio2' in l:
-	# 		l = l.replace('rigStudio2', 'rigStudio_picker')
-	# 	new_lines.append(l)
-	# f.close()
-	# my_file = open(rs_out_folder+'/rigStudio_picker/picker/main.py', "w")
-	# my_file.writelines(new_lines)
-	# my_file.close()	
-
-
-	# Remove .py files
-	def removeFiles(folder, ext):
-		filelist = glob.glob(folder+"/*."+ext)
-		for file in filelist:
-			print (file)
-			if "install.py" in file:
-				continue
-			os.remove(file)
-	
-	if clearPy:
-		removeFiles(rs_out_tool,'py')
-		removeFiles(os.path.join(rs_out_tool, "picker"),'py')
-		removeFiles(os.path.join(rs_out_tool, "matchRig"),'py')
-		removeFiles(rs_folder + '_out/rigStudio_picker/picker','py')
-		
-	removeFiles(rs_out_tool,'wpr')
-	removeFiles(rs_out_tool,'wpu')
-	removeFiles(os.path.join(rs_out_tool, "matchRig"),'psd')
-	#removeFiles(rs_folder + '_out/rigStudio_picker/picker/images','png')
-
-	# clear modules folder  
-	files = os.listdir(rs_out_tool+"/modules")
+	# Очистка modules folder  
+	mod_folder = os.path.join(rs_out, "modules")
+	files = os.listdir(mod_folder)
 	for f in files:
-		if not os.path.isfile(rs_out_tool+"/modules/"+f):
+		if not os.path.isfile(os.path.join(mod_folder, f)):
 			if f[0] == '_':
-				shutil.rmtree(rs_out_tool+"/modules/"+f)
+				shutil.rmtree(os.path.join(mod_folder, f))
 
-	folders = [x[0] for x in os.walk(rs_out_folder)]
-	#print 3333, folders
-	for f in folders:
-		if f.split("\\")[-1] in ['.mayaSwatches', 'incrementalSave', "_old", "psd"]:
-			if os.path.exists(f):
-				shutil.rmtree(f)
 
-	shutil.rmtree(rs_out_tool+"/_map")
-				
-	# get version
+	# Удаление Pro-модулей  
+	mod_folder = os.path.join(rs_out, "modules")
+	files = os.listdir(mod_folder)
+	for f in files:
+		if f in pro_modules:
+			shutil.rmtree(os.path.join(mod_folder, f))
+
+	# Получение версии из versions.txt
 	with open(rs_folder+'/versions.txt') as f:
 		lines = f.readlines()
 	versions = []
 	for l in lines:
 		if '---Version' in l:
 			versions.append(l)
-	lastVestion = versions[-1].split('---')[1]
+	lastVestion = versions[-1].split('---')[1].strip() 
 	num = lastVestion.split("Version ")[1].split(" Beta")[0]
 	
-	# archive full file
-	out_file = rs_folder.split("mayaScripts")[0] + '/Public/rigStudio'+num+"Full"
-	shutil.make_archive(out_file, 'zip', rs_out_folder)
+	# ✅ Создаём архив
+	archive = os.path.join(rs_pro, f"rigStudio{num}Pro")
+	shutil.make_archive(archive, 'zip', temp_folder)
 
+	# Удаление Extra-модулей  
+	mod_folder = os.path.join(rs_out, "modules")
+	files = os.listdir(mod_folder)
+	for f in files:
+		if f in extra_modules:
+			shutil.rmtree(os.path.join(mod_folder, f))
+	
+	# ✅ Создаём архив
+	archive = os.path.join(rs_free, f"rigStudio{num}Free")
+	shutil.make_archive(archive, 'zip', temp_folder)
+
+	return
 	os.remove(rs_out_tool+"/full")
 	os.remove(rs_out_folder+'/rigStudio_picker/picker/full')
 	

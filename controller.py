@@ -54,7 +54,7 @@ class Control(object):
 
 		self.setColor(colorId)
 
-
+		return name
 
 	def select(self):
 		cmds.select(self.name)

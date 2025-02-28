@@ -39,7 +39,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="rig_tab">
        <attribute name="title">
@@ -5167,7 +5167,7 @@
              <property name="frameShadow">
               <enum>QFrame::Plain</enum>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_82" stretch="0,0,0,0,0,0,0,0">
+             <layout class="QVBoxLayout" name="verticalLayout_82" stretch="0,0,0,0,0,0,0,0,0,0,0,0">
               <property name="spacing">
                <number>4</number>
               </property>
@@ -5372,11 +5372,43 @@
                </layout>
               </item>
               <item>
+               <spacer name="verticalSpacer_21">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>5</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_39">
+                <property name="layoutDirection">
+                 <enum>Qt::LeftToRight</enum>
+                </property>
+                <property name="autoFillBackground">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>Symmetry Options</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
                <layout class="QHBoxLayout" name="horizontalLayout_47" stretch="0,1,1,1">
                 <item>
                  <widget class="QLabel" name="label_32">
                   <property name="text">
-                   <string>Symmetry: </string>
+                   <string/>
                   </property>
                  </widget>
                 </item>
@@ -5418,6 +5450,59 @@
                  </size>
                 </property>
                </spacer>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_48" stretch="0,1,1">
+                <item>
+                 <widget class="QLabel" name="label_42">
+                  <property name="text">
+                   <string>          </string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="swapJointsY_checkBox">
+                  <property name="text">
+                   <string>Swap Joints Y</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="swapJointsZ_checkBox">
+                  <property name="layoutDirection">
+                   <enum>Qt::LeftToRight</enum>
+                  </property>
+                  <property name="text">
+                   <string>Swap Joints Z</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_55" stretch="0,1,1">
+                <item>
+                 <widget class="QLabel" name="label_43">
+                  <property name="text">
+                   <string>          </string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="swapAngleY_checkBox">
+                  <property name="text">
+                   <string>Swap Angle Y</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="swapAngleZ_checkBox">
+                  <property name="text">
+                   <string>Swap Angle Z</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
               <item>
                <spacer name="verticalSpacer_16">

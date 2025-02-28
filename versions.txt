@@ -596,3 +596,6 @@ License feature update
 Cleared importing 
 New export project
 Updated modules maya files with one 
+
+---Version 3.9.0
+Updated inbetween feature

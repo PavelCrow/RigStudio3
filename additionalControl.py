@@ -14,6 +14,14 @@ else:
     from shiboken6 import wrapInstance
 
 
+def oneStepUndo(func):
+	def wrapper(*args, **kwargs):
+		cmds.undoInfo(openChunk=True)
+		func(*args, **kwargs)
+		cmds.undoInfo(closeChunk=True)
+	return wrapper
+
+
 class AdditionalControl(controller.Control):
 	def __init__(self, name="", parent="", shape="", data={}):
 		if name != "":

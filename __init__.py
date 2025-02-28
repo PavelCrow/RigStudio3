@@ -32,48 +32,34 @@
 # import rigStudio3
 # rigStudio3.run()
 
-import os, json, sys
-import maya.cmds as cmds
+import os
 from importlib import reload
-import maya.OpenMayaUI as OpenMayaUI
 
-version = int(cmds.about(v=True).split(" ")[0])
-if version <= 2024:
-    from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
-    from shiboken2 import wrapInstance
+rootPath = os.path.normpath(os.path.dirname(__file__))
+if os.path.exists(os.path.join(rootPath, "main.py")):
+    from . import ui, utils, main, rig, module, parents, twist, tools, moduleBuilder, inbetweens, driver, template, attributes, sets, controller, additionalControl, posers, check
+    reload(ui)
+    reload(utils)
+    reload(module)
+    reload(rig)
+    reload(twist)
+    reload(inbetweens)
+    reload(parents)
+    reload(attributes)
+    reload(tools)
+    reload(sets)
+    reload(moduleBuilder)
+    reload(driver)
+    reload(template)
+    reload(controller)
+    reload(additionalControl)
+    reload(posers)
+    reload(main)
+    reload(check)
 else:
-    from PySide6 import QtWidgets, QtGui, QtCore, QtUiTools
-    from shiboken6 import wrapInstance
+    from rigStudio3 import utils
+    main = utils.import_pyc("main")
 
-
-# fileName = __name__.split('.')[0]
-# rootPath = os.path.abspath(imp.find_module(fileName)[1])
-# script_path = rootPath + '/rigTools/pk_makeControls.mel'
-# mel.eval( 'source "' + script_path.replace('\\', '/') + '"')
-import sys
-# print (sys.version)
-
-# print("init")
-
-from . import ui, main, utils, rig, module, parents, twist, tools, moduleBuilder, inbetweens, driver, template, attributes, sets, controller, additionalControl, posers, check
-reload(ui)
-reload(utils)
-reload(module)
-reload(rig)
-reload(twist)
-reload(inbetweens)
-reload(parents)
-reload(attributes)
-reload(tools)
-reload(sets)
-reload(moduleBuilder)
-reload(driver)
-reload(template)
-reload(controller)
-reload(additionalControl)
-reload(posers)
-reload(main)
-reload(check)
 
 def run():
     global rs_win

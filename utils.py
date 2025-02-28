@@ -1148,6 +1148,22 @@ def oneStepUndo(func):
 		cmds.undoInfo(closeChunk=True)
 	return wrapper	
 
+def import_pyc(module_name):
+    """Импортирует .pyc файл вручную из __pycache__"""
+    ver = sys.version.split(".")[1]
+    pyc_path = os.path.join(os.path.dirname(__file__), "__pycache__", module_name+".cpython-3%s.pyc" %ver)
+        
+    if os.path.exists(pyc_path):
+        spec = importlib.util.spec_from_file_location(module_name, pyc_path)
+        module = importlib.util.module_from_spec(spec)
+        sys.modules[module_name] = module
+        spec.loader.exec_module(module)
+        # print(f"✅ Загружен {module_name}.pyc")
+        return module
+    else:
+        print(f"❌ Ошибка: {module_name}.pyc не найден!")
+        return None
+
 # def saveLicenceState():
 # 	self.configData["state"] = self.lic_status
 # 	json_string = json.dumps(self.configData, indent=4)
