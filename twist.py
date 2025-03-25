@@ -315,7 +315,16 @@ class Twist(object):
         cmds.connectAttr(aimm+".outputMatrix", mm+".matrixIn[0]")
         cmds.connectAttr(root_outJoint+".worldInverseMatrix[0]", mm+".matrixIn[1]")
         cmds.connectAttr(mm+".matrixSum", root_loc+".offsetParentMatrix")
-        
+
+        # stretch volume
+        db = cmds.createNode('distanceBetween', n=t_name+'_distanceBetween')
+        cmds.sets(db, e=1, forceElement=set)
+        root_initLoc = utils.getInitLocFromJoint(root_outJoint)
+        end_initLoc = utils.getInitLocFromJoint(end_outJoint)
+        cmds.connectAttr(end_initLoc+".worldMatrix[0]", db+".inMatrix1")
+        cmds.connectAttr(root_initLoc+".worldMatrix[0]", db+".inMatrix2")
+        cmds.connectAttr(db+".distance", t_name+"_length_multDoubleLinear.input2")
+
         # save data
         utils.setUserAttr(t_name+"_mod", "endTarget", end_outJoint)
         utils.setUserAttr(t_name+"_mod", "target", start_j)
@@ -451,6 +460,7 @@ class Twist(object):
         cmds.sets(item_name+"_skinJoint", e=1, forceElement='skinJointsSet' )
 
         # delete all twist nodes
+        cmds.delete(item_name+"_curveInfo")
         nodes = cmds.sets(item_name+'_twistNodesSet', q=1)
         for n in nodes:
             if cmds.objExists(n):
@@ -725,7 +735,7 @@ class Twist(object):
 
                 cmds.connectAttr(upLoc+'.worldMatrix[0]', mp+".worldUpMatrix")
                 cmds.connectAttr(curveS+'.worldSpace[0]', mp+".geometryPath")
-                cmds.connectAttr(rootConnector+'.s', j+".s")
+                cmds.connectAttr(twName+'_scale_multiplyDivide.output', j+".s")
                 cmds.connectAttr(mp+'.allCoordinates', j+".t")
                 cmds.connectAttr(mp+'.rotate', j+".r")
 

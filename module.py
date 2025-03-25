@@ -37,6 +37,7 @@ class Module(object):
         # import
         template_path = os.path.join(rootPath, "modules", self.type, self.type+'.ma')
         utils.importFile(template_path, self.name)
+        print(111, template_path)
 
         # sets update
         cmds.sets(self.name+'_sets', e=1, forceElement='modules_sets' )

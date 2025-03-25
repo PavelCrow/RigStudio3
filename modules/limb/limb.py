@@ -247,21 +247,27 @@ class Limb(module.Module) :
 			cmds.parent(t_name+'_end_connectorLoc', self.name+'_middleOffset')
 			cmds.aimConstraint(self.name+"_middleOffset", t_name+"_root_connectorLoc", mo=0, aimVector=(1,0,0), upVector=(0,1,0), worldUpType="objectrotation", worldUpVector=(0,1,0), worldUpObject=t_name+"_outJoint")
 			
-			joints = cmds.listRelatives(self.name+"_root_joints")
-			for j in joints:
-				cmds.connectAttr(self.name+"_root_volume_skinJoint.s", j+".s", f=1)
+			# joints = cmds.listRelatives(self.name+"_root_joints")
+			# for j in joints:
+			# 	cmds.connectAttr(self.name+"_root_volume_outJoint.s", j+".s", f=1)
 
 		elif t_name == self.name+"_middle":
 			cmds.parent(t_name+'_rootUpLoc', self.name+'_middleOffset')
 			cmds.pointConstraint(t_name+'_rootUpLoc', t_name+'_root_connectorLoc', mo=0)
 			cmds.aimConstraint(t_name+'_end_connectorLoc', t_name+"_root_connectorLoc", mo=0, aimVector=(1,0,0), upVector=(0,1,0), worldUpType="objectrotation", worldUpVector=(0,1,0), worldUpObject=t_name+"_outJoint")
 
-			joints = cmds.listRelatives(self.name+"_middle_joints")
-			for j in joints:
-				cmds.connectAttr(self.name+"_middle_volume_skinJoint.s", j+".s", f=1)
+			# joints = cmds.listRelatives(self.name+"_middle_joints")
+			# for j in joints:
+			# 	cmds.connectAttr(self.name+"_middle_volume_outJoint.s", j+".s", f=1)
 
 		if cmds.objExists(self.name+"_root_root_connector") and cmds.objExists(self.name+"_middle_root_connector"):
 			cmds.setAttr(self.name+"_middleOffsetShape.v", 1)
+
+		cmds.setAttr(self.name+"_control.stretchVolume", lock=1, keyable=0, channelBox=0)
+
+
+
+
 
 	def ibtwOverride(self, name):
 		if name == self.name + "_middle_twist_0" :

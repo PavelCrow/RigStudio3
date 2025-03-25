@@ -1164,24 +1164,9 @@ def import_pyc(module_name):
         print(f"❌ Ошибка: {module_name}.pyc не найден!")
         return None
 
-# def saveLicenceState():
-# 	self.configData["state"] = self.lic_status
-# 	json_string = json.dumps(self.configData, indent=4)
-# 	# save data to file
-# 	with open(os.path.join(self.rootPath, "config.json"), 'w') as f:
-# 		f.write(json_string)
-
-# def readFromJson(path, data):
-# 	with open(path, mode='r') as f:
-# 		self.configData = json.load(f)
-# 	json_string = json.dumps(data, indent=4)
-# 	# save data to file
-# 	with open(path, 'w') as f:
-# 		f.write(json_string)
-
-# def writeToJson(path, data):
-# 	print("Saved to:", path)
-# 	json_string = json.dumps(data, indent=4)
-# 	# save data to file
-# 	with open(path, 'w') as f:
-# 		f.write(json_string)
+def getInitLocFromJoint(joint_name):
+	suff = joint_name.split("_")[-1]
+	if suff in ["joint", "outJoint"]:
+		initLoc = joint_name.split(suff)[0] + "initLoc"
+		return initLoc
+	return None

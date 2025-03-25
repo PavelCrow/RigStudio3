@@ -193,6 +193,11 @@ class LimbQuadrupped(module.Module) :
 		elif name == self.name + "_ankle_twist_0" :
 			cmds.connectAttr(self.name+"_ankleOffset.worldMatrix[0]", self.name+"_ankle_twist_0_ibtw_joints_group_multMat.matrixIn[0]", f=1)
 
+		# cmds.connectAttr(self.name+"_control.stretchVolume", name+"_twist.stretchVolume")
+		# cmds.setAttr(name+"_twist.stretchVolume", k=0, channelBox=0)
+
+		cmds.setAttr(self.name+"_control.stretchVolume", lock=1, keyable=0, channelBox=0)
+
 	def update_aim_distance(self, v=None):
 		def setValue(v):
 			cmds.setAttr(self.name+"_mod.aim_offset", v)

@@ -286,6 +286,7 @@ class Rig:
                 cmds.hide(m + '_controls')
                 controlShapes = cmds.listRelatives(m+'_outJoints', type="nurbsCurve", allDescendents=1) or []
                 for c in controlShapes:
+                    print(111, c)
                     cmds.setAttr(c+'.lodVisibility', 0)
             else:
                 cmds.showHidden(m + '_controls')

@@ -599,3 +599,9 @@ Updated modules maya files with one
 
 ---Version 3.9.0
 Updated inbetween feature
+
+---Version 3.10.0
+Updated twist feature
+
+---Version 3.10.1
+Twist feature fix
