@@ -605,3 +605,6 @@ Updated twist feature
 
 ---Version 3.10.1
 Twist feature fix
+
+---Version 3.10.2
+Spine module fix
