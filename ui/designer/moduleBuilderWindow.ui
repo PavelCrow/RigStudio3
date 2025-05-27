@@ -271,7 +271,7 @@
       <item>
        <widget class="QPushButton" name="checkModule_btn">
         <property name="enabled">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <property name="text">
          <string>Check Module</string>

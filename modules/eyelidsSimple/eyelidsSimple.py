@@ -29,10 +29,10 @@ class EyelidsSimple(module.Module) :
 			comp2 = cmds.createNode("composeMatrix", n=self.name+"_rotateCorrectMatrix")
 			cmds.setAttr(comp2+".inputScaleX", -1)
 			
-			utils.connectByMatrix(self.name+'_l_eye_move_connector', [targetModuleName+'_l_base_skinJoint', self.name+'_l_eye_move_connector'], 
-				                  ['worldMatrix[0]', 'parentInverseMatrix[0]'], self.name, attrs=['t', 'r'] )
-			utils.connectByMatrix(self.name+'_r_eye_move_connector', [comp, targetModuleName+'_r_base_skinJoint', self.name+'_r_eye_move_connector'], 
-				                  ['outputMatrix', 'worldMatrix[0]', 'parentInverseMatrix[0]'], self.name, attrs=['t', 'r'] )
+			utils.connectByMatrix(self.name+'_l_eye_move_connector', [self.name+"_end_poser", targetModuleName+"_end_poser", targetModuleName+'_l_base_skinJoint', self.name+'_l_eye_move_connector'], 
+				                  ['worldMatrix[0]', 'worldInverseMatrix[0]', 'worldMatrix[0]', 'parentInverseMatrix[0]'], self.name, attrs=['t', 'r'] )
+			utils.connectByMatrix(self.name+'_r_eye_move_connector', [self.name+"_end_poser", comp, targetModuleName+"_r_ball_controlInitLoc", comp, targetModuleName+'_r_base_skinJoint', self.name+'_r_eye_move_connector'], 
+				                  ['worldMatrix[0]', 'outputMatrix', 'worldInverseMatrix[0]', 'outputMatrix', 'worldMatrix[0]', 'parentInverseMatrix[0]'], self.name, attrs=['t', 'r'] )
 			
 			eye_ctrl = utils.getControlNameFromInternal(targetModuleName, 'control')
 			
@@ -41,11 +41,11 @@ class EyelidsSimple(module.Module) :
 			cmds.setAttr(eye_ctrl+".autoLids", e=1, l=0, k=1)
 			
 			cmds.connectAttr(eye_ctrl+".autoLids", self.root+'.autoLids')
-			cmds.connectAttr(targetModuleName+"_l_eye_skinJoint.rx", self.name+'_l_eye_rotate_connector.rx')
-			cmds.connectAttr(targetModuleName+"_l_eye_skinJoint.ry", self.name+'_l_eye_rotate_connector.ry')
-			cmds.connectAttr(targetModuleName+"_l_eye_skinJoint.rz", self.name+'_l_eye_rotate_connector.rz')
+			cmds.connectAttr(targetModuleName+"_l_outJoint.rx", self.name+'_l_eye_rotate_connector.rx')
+			cmds.connectAttr(targetModuleName+"_l_outJoint.ry", self.name+'_l_eye_rotate_connector.ry')
+			cmds.connectAttr(targetModuleName+"_l_outJoint.rz", self.name+'_l_eye_rotate_connector.rz')
 			
-			utils.connectByMatrix(self.name+'_r_eye_rotate_connector', [comp2, targetModuleName+"_r_eye_skinJoint", self.name+'_r_eye_rotate_connector'], 
+			utils.connectByMatrix(self.name+'_r_eye_rotate_connector', [comp2, targetModuleName+"_r_outJoint", self.name+'_r_eye_rotate_connector'], 
 				                  ['outputMatrix', 'worldMatrix[0]', 'parentInverseMatrix[0]'], self.name, attrs=['r'] )			
 
 			cmds.connectAttr(targetModuleName+"_l_ball.s", self.name+'_l_t_eyeLid_outJoint.s', f=1)
@@ -54,7 +54,7 @@ class EyelidsSimple(module.Module) :
 			cmds.connectAttr(targetModuleName+"_r_ball.s", self.name+'_r_b_eyeLid_outJoint.s', f=1)
 
 			cmds.connectAttr(targetModuleName+'_end_poser.tx', self.name+'_end_poser.tx')
-			cmds.connectAttr(targetModuleName+'_end_poser.s', self.name+'_end_poser.s')
+			# cmds.connectAttr(targetModuleName+'_end_poser.s', self.name+'_end_poser.s')
 			
 			# cmds.disconnectAttr(self.name+"_root_connector_decMat.outputScaleX", self.name+'_root_connector.sx')	
 			# cmds.disconnectAttr(self.name+"_root_connector_decMat.outputScaleY", self.name+'_root_connector.sy')	
@@ -70,9 +70,9 @@ class EyelidsSimple(module.Module) :
 		cmds.setAttr(eye_ctrl+".autoLids", e=1, l=0)
 		cmds.deleteAttr(eye_ctrl+'.autoLids')
 		
-		cmds.disconnectAttr(inputModuleName+"_l_eye_skinJoint.rx", self.name+'_l_eye_rotate_connector.rx')
-		cmds.disconnectAttr(inputModuleName+"_l_eye_skinJoint.ry", self.name+'_l_eye_rotate_connector.ry')
-		cmds.disconnectAttr(inputModuleName+"_l_eye_skinJoint.rz", self.name+'_l_eye_rotate_connector.rz')
+		cmds.disconnectAttr(inputModuleName+"_l_outJoint.rx", self.name+'_l_eye_rotate_connector.rx')
+		cmds.disconnectAttr(inputModuleName+"_l_outJoint.ry", self.name+'_l_eye_rotate_connector.ry')
+		cmds.disconnectAttr(inputModuleName+"_l_outJoint.rz", self.name+'_l_eye_rotate_connector.rz')
 
 		cmds.delete(self.name+"_r_eye_rotate_connector_decMat")
 		cmds.delete(self.name+"_r_eye_rotate_connector_multMat")

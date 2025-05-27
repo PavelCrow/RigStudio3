@@ -90,18 +90,27 @@ class Rig:
         self.main.rigPage_update()
 
     def delete(self): #
+        # delete twists
+        tw_mods = cmds.listRelatives("twists") or []
+        for tw_mod in tw_mods:
+            tw_name = tw_mod.split("_mod")[0]
+            cmds.delete(tw_name+"_curveInfo")
+        cmds.delete("twists")
+
+        # delete modules
         for m_name in self.modules:
             m = self.modules[m_name]
             m.delete()
 
+        # delete rig
         cmds.delete("main")
-
+        
         # delete all sets
         for set in cmds.ls(type="objectSet"):
             if set not in ['defaultLightSet', 'defaultObjectSet', 'initialParticleSE', 'initialShadingGroup']:
                 if cmds.objExists(set): 
                     cmds.delete(set)
-
+        
         self.exists = False
         self.modules = {}
         self.main.curModule = None

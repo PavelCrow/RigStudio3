@@ -1,6 +1,7 @@
 import maya.cmds as cmds
 import maya.mel as mel
 from . import utils, parents
+import random
 
 version = int(cmds.about(v=True).split(" ")[0])
 if version <= 2024:
@@ -327,6 +328,9 @@ class Template(object):
 										updateUI=False)
 					modulesData.append([mod, mData])
 
+					# fix divide by zero, by setting not zero random positions
+					cmds.setAttr(mData['name']+"_mainPoser.tx", random.random())
+
 				cmds.progressBar(progressControl, edit=True, step=1)
 			cmds.progressBar(progressControl2, edit=True, step=1)
 
@@ -366,6 +370,7 @@ class Template(object):
 						mod_name = mData['name']
 						parent = mData['parent']
 						self.main.connectModule(parent, mod_name, updateUI=False)
+						
 				cmds.progressBar(progressControl, edit=True, step=1)
 			cmds.progressBar(progressControl2, edit=True, step=1)
 
@@ -459,7 +464,7 @@ class Template(object):
 			cmds.progressBar(progressControl2, edit=True, step=1)
 
 		def create_oss(modulesData):
-			self.par_class = parents.Parents(self.main.win, self.main.rig)
+			self.par_class = self.main.curParents
 			for data in modulesData:
 				mData = data[1]
 				for d in mData['parents']:

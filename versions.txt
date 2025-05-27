@@ -608,3 +608,14 @@ Twist feature fix
 
 ---Version 3.10.2
 Spine module fix
+
+---Version 3.10.3
+Eye module update
+EyelidsSimple module update
+LimbQuadrupped module update
+SpineQuadrupped module update
+Chain module update
+ChainIK module update
+
+---Version 3.11.4
+Duplicate module with childrens

@@ -17,6 +17,7 @@ class Limb(module.Module) :
 		super(self.__class__, self).connect(target, opposite)
 
 	def delete(self):
+		cmds.delete(self.name+'_final_length_factor')
 		cmds.delete(self.name+'_rootEnd_vectorNormalized')
 		cmds.delete(self.name+'_cosAngle_bewtweenVectors')
 		cmds.delete(self.name+'_middleOut_vectorNormalized')
@@ -264,10 +265,6 @@ class Limb(module.Module) :
 			cmds.setAttr(self.name+"_middleOffsetShape.v", 1)
 
 		cmds.setAttr(self.name+"_control.stretchVolume", lock=1, keyable=0, channelBox=0)
-
-
-
-
 
 	def ibtwOverride(self, name):
 		if name == self.name + "_middle_twist_0" :

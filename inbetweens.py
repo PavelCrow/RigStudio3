@@ -145,14 +145,14 @@ class Inbetweens(object):
 				cmds.warning(' Select one child joint under parent, or parent joint and child joint')
 				return			
 			
-			if cmds.objectType(sel[0]) != "joint" and cmds.objectType(sel[0]) != "outJoint":
-				cmds.warning(' Selected object is not a joint or outJoint')
+			if sel[0].split("_")[-1] != "skinJoint":
+				cmds.warning(' Selected object is not a skinJoint')
 				return			
 			if len(sel) == 1:
 				child_j = sel[0]
 				parent_j = cmds.listRelatives(child_j, p=1)[0]
-				if cmds.objectType(parent_j) != "joint" and cmds.objectType(parent_j) != "outJoint":
-					cmds.warning(' Selected object is not a joint or outJoint')
+				if parent_j.split("_")[-1] != "skinJoint":
+					cmds.warning(' Parent of the selected joint is not a skinJoint')
 					return	
 			elif len(sel) == 2:
 				parent_j, child_j = sel
@@ -168,6 +168,7 @@ class Inbetweens(object):
 		self.curIb = self.getData(name)
 		
 		if cmds.objExists(name+"_ibtw_root"):
+			print(6666, name+"_ibtw_root")
 			QtWidgets.QMessageBox.information(self.win, "Warning", "Inbetween in this joint already exists.")
 			return
 
@@ -180,9 +181,10 @@ class Inbetweens(object):
 		cmds.file(path, pr=1, i=1, type="mayaAscii", namespace='_temp_', ra=True, mergeNamespacesOnClash=False,options="v=0;")
 
 		# rename and add all twist nodes to module set
-		set = cmds.sets(name=name+'_ibtwNodesSet')
-		nodes = cmds.ls('_temp_:*')
 		moduleName = utils.getModuleName(child_j)
+		set = cmds.sets(name=name+'_ibtwNodesSet')
+
+		nodes = cmds.ls('_temp_:*')
 		for n in nodes:
 			if cmds.objExists(n):
 				cmds.sets(n, e=1, forceElement=set)
@@ -192,8 +194,14 @@ class Inbetweens(object):
 
 		# attach to hierarhy
 		root = name+"_ibtw_root"
-		out_child_j = child_j.replace("skinJoint", "outJoint")
-		out_parent_j = parent_j.replace("skinJoint", "outJoint")
+		if "_twist_" in child_j:
+			out_child_j = child_j.replace("skinJoint", "twJoint")
+		else:
+			out_child_j = child_j.replace("skinJoint", "outJoint")
+		if "_twist_" in parent_j:
+			out_parent_j = parent_j.replace("skinJoint", "twJoint")
+		else:
+			out_parent_j = parent_j.replace("skinJoint", "outJoint")
 		out_parent_initLoc = out_parent_j.replace("outJoint", "initLoc")
 		
 		if local:
@@ -236,44 +244,18 @@ class Inbetweens(object):
 
 			cmds.hide(parent_offset_loc, child_offset_loc)
 		
-		# remove init joints
-		cmds.delete(name+"_ibtw_outJoint_y_1_offsetRotate")
-		cmds.delete(name+"_ibtw_outJoint_y_2_offsetRotate")
-		cmds.delete(name+"_ibtw_outJoint_z_1_offsetRotate")
-		cmds.delete(name+"_ibtw_outJoint_z_2_offsetRotate")
-
-		# connect opp joints
-		# def connectOppJoint(name, side):
-		# 	opp_name = utils.getOpposite(name)
-			
-		# 	if local:
-		# 		mult = cmds.createNode('multiplyDivide', n="%s_ibtw_%s_angle_multiplyDivide" %(name,side) )
-		# 		cmds.sets(mult, e=1, forceElement=set)
-		# 		cmds.setAttr(mult+".input2X", -1)
-		# 		cmds.setAttr(mult+".input2Y", -1)
-		# 		cmds.connectAttr("%s_ibtw_outJoint_%s.angleMax" %(name,side), mult+".input1X")
-		# 		cmds.connectAttr("%s_ibtw_outJoint_%s.angleMin" %(name,side), mult+".input1Y")
-		# 		cmds.connectAttr( mult+".outputX", "%s_ibtw_outJoint_%s.angleMax" %(opp_name,side))
-		# 		cmds.connectAttr( mult+".outputY", "%s_ibtw_outJoint_%s.angleMin" %(opp_name,side))
-		# 	else:
-		# 		cmds.setAttr(opp_name+"_ibtw_aim.tx", -3)
-		# 		cmds.connectAttr("%s_ibtw_outJoint_%s.angleMax" %(name,side), "%s_ibtw_outJoint_%s.angleMax" %(opp_name,side))
-		# 		cmds.connectAttr("%s_ibtw_outJoint_%s.angleMin" %(name,side), "%s_ibtw_outJoint_%s.angleMin" %(opp_name,side))
-			
-		# 	mult = cmds.createNode('multiplyDivide', n="%s_ibtw_%s_slide_multiplyDivide" %(name,side) )
-		# 	cmds.sets(mult, e=1, forceElement=set)
-		# 	cmds.setAttr(mult+".input2X", -1)
-		# 	cmds.setAttr(mult+".input2Y", -1)
-		# 	cmds.connectAttr("%s_ibtw_outJoint_%s.offsetMax" %(name,side), mult+".input1X")
-		# 	cmds.connectAttr("%s_ibtw_outJoint_%s.offsetMin" %(name,side), mult+".input1Y")
-		# 	cmds.connectAttr( mult+".outputX", "%s_ibtw_outJoint_%s.offsetMax" %(opp_name,side))
-		# 	cmds.connectAttr( mult+".outputY", "%s_ibtw_outJoint_%s.offsetMin" %(opp_name,side))
-
-		# 	cmds.connectAttr("%s_ibtw_outJoint_%s.posMax" %(name,side), "%s_ibtw_outJoint_%s.posMax" %(opp_name,side))
-		# 	cmds.connectAttr("%s_ibtw_outJoint_%s.posMin" %(name,side), "%s_ibtw_outJoint_%s.posMin" %(opp_name,side))
+		# remove init joints (for world ibtw)
+		if cmds.objExists(name+"_ibtw_outJoint_y_1_offsetRotate"):
+			cmds.delete(name+"_ibtw_outJoint_y_1_offsetRotate")
+			cmds.delete(name+"_ibtw_outJoint_y_2_offsetRotate")
+			cmds.delete(name+"_ibtw_outJoint_z_1_offsetRotate")
+			cmds.delete(name+"_ibtw_outJoint_z_2_offsetRotate")
 
 		# opposite
 		if utils.isSymmetrical(child_j) and utils.getObjectSide(child_j) == "l":
+			opp_name = utils.getOpposite(name)
+			opp_set = opp_name+'_ibtwNodesSet'
+
 			if data:
 				opp_data = data.copy()
 				opp_data['child_j'] = utils.getOpposite(child_j)
@@ -283,11 +265,9 @@ class Inbetweens(object):
 				cmds.select(utils.getOpposite(parent_j), utils.getOpposite(child_j))
 				self.add(local=local)
 
-			opp_name = utils.getOpposite(name)
-
 			if local:
 				mult = cmds.createNode('multiplyDivide', n=opp_name+"_ibtw_reverseParentOffset_multiplyDivide")
-				cmds.sets(mult, e=1, forceElement=set)
+				cmds.sets(mult, e=1, forceElement=opp_set)
 				cmds.connectAttr(name+"_ibtw_offsetLoc.r", mult+".input1")
 				cmds.connectAttr(mult+".output", opp_name+"_ibtw_offsetLoc.r")
 
@@ -297,7 +277,7 @@ class Inbetweens(object):
 				opp_offsetLoc = opp_name+"_ibtw_parent_offsetLoc"
 				opp_root = utils.getOpposite(root)
 				gr = cmds.group(empty=1, name=opp_offsetLoc+"_mirrorGroup")
-				cmds.sets(gr, e=1, forceElement=set)
+				cmds.sets(gr, e=1, forceElement=opp_set)
 				cmds.parent(gr, utils.getOpposite(out_parent_j))
 				utils.resetAttrs(gr)
 				cmds.parent(opp_offsetLoc, gr)
@@ -314,7 +294,7 @@ class Inbetweens(object):
 
 				opp_offsetLoc = opp_name+"_ibtw_child_offsetLoc"
 				gr = cmds.group(empty=1, name=opp_offsetLoc+"_mirrorGroup")
-				cmds.sets(gr, e=1, forceElement=set)
+				cmds.sets(gr, e=1, forceElement=opp_set)
 				cmds.parent(gr, utils.getOpposite(out_child_j))
 				utils.resetAttrs(gr)
 				cmds.parent(opp_offsetLoc, gr)
@@ -337,6 +317,7 @@ class Inbetweens(object):
 					jointsData['posMax'] = 5
 					jointsData['offsetMin'] = 0
 					jointsData['offsetMax'] = 0
+					jointsData['reverse'] = False
 					self.addJoint("y", name, jointsData)
 
 					jointsData['angleMax'] = 30
@@ -377,8 +358,9 @@ class Inbetweens(object):
 			else:
 				jointsData = data["jointsData"]
 				for j_data in jointsData:
-					side = j_data["name"].split("_")[-2]
-					self.addJoint(side, name, j_data)
+					side = j_data["name"].split("_")[-3]
+					# side = j_data["name"].split("_")[-2]
+					self.addJoint(side=side, name=name, data=j_data)
 			
 				if data["local"]:
 					cmds.setAttr(name+"_ibtw_offsetLoc.rx", data["offset"][0][0])
@@ -426,6 +408,9 @@ class Inbetweens(object):
 		# select item in list
 		self.selectListItem(name)
 
+		# cmds.sets(set, edit=1, fe=moduleName+"_nodesSet")
+		# print(222222, set, moduleName+"_nodesSet")
+
 		cmds.select(clear=1)
 
 	def remove(self, name=""): #
@@ -438,7 +423,7 @@ class Inbetweens(object):
 			if not self.win.ibtw_childs_listWidget.currentItem():
 				return
 			name = self.win.ibtw_childs_listWidget.currentItem().text()
-			
+		
 		# delete all twist nodes
 		nodes = cmds.sets(name+'_ibtwNodesSet', q=1)
 		for n in nodes:
@@ -446,6 +431,7 @@ class Inbetweens(object):
 				cmds.delete(n)
 
 		opp_name = utils.getOpposite(name)
+		
 		if name != opp_name and cmds.objExists(opp_name+'_ibtw_root'):
 			self.remove(opp_name)
 
@@ -480,6 +466,8 @@ class Inbetweens(object):
 		if utils.isSymmetrical(root) and utils.getObjectSide(root) == "r":
 			if not cmds.objExists(name+"_ibtw_child_offsetLoc_mirrorGroup"):
 				return
+			
+		local = self.isLocal(name)
 
 		data = {}
 		data["name"] = name
@@ -490,7 +478,7 @@ class Inbetweens(object):
 		data["swapJointsZ"] = False
 		data["swapAngleY"] = False
 		data["swapAngleZ"] = False
-		data["local"] = self.isLocal(name)
+		data["local"] = local
 		
 		if self.isLocal(name):
 			data["child_j"] = child_j = cmds.listRelatives(root, p=1)[0]
@@ -519,16 +507,22 @@ class Inbetweens(object):
 					opp_name = utils.getOpposite(name)
 				else:
 					opp_name = name
-				data["flippedX"] = cmds.getAttr(opp_name+"_ibtw_parent_offsetLoc_mirrorGroup.sx") == -1
-				data["flippedY"] = cmds.getAttr(opp_name+"_ibtw_parent_offsetLoc_mirrorGroup.sy") == -1
-				data["flippedZ"] = cmds.getAttr(opp_name+"_ibtw_parent_offsetLoc_mirrorGroup.sz") == -1
-				data["swapJointsY"] = cmds.getAttr(opp_name+"_ibtw_joints_group.sy") == -1
-				data["swapJointsZ"] = cmds.getAttr(opp_name+"_ibtw_joints_group.sz") == -1
-				data["swapAngleY"] = cmds.getAttr(opp_name+"_ibtw_target_y.tz") == -1
-				data["swapAngleZ"] = cmds.getAttr(opp_name+"_ibtw_target_z.tz") == -1
+				if local:
+					pass
+				else:
+					data["flippedX"] = cmds.getAttr(opp_name+"_ibtw_parent_offsetLoc_mirrorGroup.sx") == -1
+					data["flippedY"] = cmds.getAttr(opp_name+"_ibtw_parent_offsetLoc_mirrorGroup.sy") == -1
+					data["flippedZ"] = cmds.getAttr(opp_name+"_ibtw_parent_offsetLoc_mirrorGroup.sz") == -1
+					data["swapJointsY"] = cmds.getAttr(opp_name+"_ibtw_joints_group.sy") == -1
+					data["swapJointsZ"] = cmds.getAttr(opp_name+"_ibtw_joints_group.sz") == -1
+					data["swapAngleY"] = cmds.getAttr(opp_name+"_ibtw_target_y.tz") == -1
+					data["swapAngleZ"] = cmds.getAttr(opp_name+"_ibtw_target_z.tz") == -1
 
 		jointsData = []
-		joints_gr = cmds.listRelatives(name+"*_ibtw_joints_group")
+		if local:
+			joints_gr = cmds.listRelatives(name+"*_ibtw_root")
+		else:
+			joints_gr = cmds.listRelatives(name+"*_ibtw_joints_group")
 		for j_gr in joints_gr:
 			j = cmds.listRelatives(j_gr)[0]
 			jData = {}
@@ -539,7 +533,8 @@ class Inbetweens(object):
 			jData["posMax"] = cmds.getAttr(j+".posMax")
 			jData["offsetMin"] = cmds.getAttr(j+".offsetMin")
 			jData["offsetMax"] = cmds.getAttr(j+".offsetMax")
-			jData["reverse"] = cmds.getAttr(j+".reverse")
+			if not local:
+				jData["reverse"] = cmds.getAttr(j+".reverse")
 			jointsData.append(jData)
 
 		data["jointsData"] = jointsData
@@ -555,10 +550,10 @@ class Inbetweens(object):
 		return data
 	
 	def addJoint(self, side, name=None, data=None): #
-		print(1111, name)
+		# print(111, side, name, data)
 		if not name:
 			name = self.curIbName
-		j_name = utils.incrementNameIfExists(name+"_ibtw_outJoint_%s_1" %side)
+		j_name = utils.incrementNameIfExistsWithSuffix(f"{name}_ibtw_{side}_1_outJoint")
 		local = self.isLocal(name)
 
 		if local:
@@ -586,8 +581,9 @@ class Inbetweens(object):
 			j.reverse.set(data['reverse'])
 
 		set = name + '_ibtwNodesSet'
-
+		# print(222, name+"_ibtw_%s_unitConversion" %side)
 		uc = pm.PyNode(name+"_ibtw_%s_unitConversion" %side)
+		
 		sr = pm.createNode("setRange", n=j_name.replace("outJoint", "setRange"))
 		cond1 = pm.createNode("condition", n=j_name.replace("outJoint", "pos_condition"))
 		cond2 = pm.createNode("condition", n=j_name.replace("outJoint", "slide_condition"))
@@ -655,6 +651,58 @@ class Inbetweens(object):
 		else:
 			sr.outValueY >> j.translateZ
 
+
+		# add root skinJoint
+		root_s_j = name+"_ibtw_root_skinJoint"
+		if not cmds.objExists(root_s_j):
+			data = self.getData(name)
+			par_s_j = data["parent_j"].replace("outJoint", "skinJoint").replace("twJoint", "skinJoint")
+
+			root_s_j = cmds.joint(n=root_s_j)
+			cmds.sets(root_s_j, e=1, forceElement=set)
+			pm.parent(root_s_j, par_s_j)
+			utils.resetAttrs(root_s_j, jointOrient=True)
+
+			mod_name = utils.getModuleName(data["parent_j"])
+			# utils.connectByMatrix(root_s_j, [name+"_ibtw_joints_group", name+"_ibtw_root"], ["matrix", "matrix"], module_name=mod_name)
+			# if utils.objectIsOpposite(name+"_ibtw_root"):
+			# 	mirror_gr = name+"_ibtw_parent_offsetLoc_mirrorGroup"
+			# 	cmds.connectAttr(mirror_gr+".matrix", name+"_ibtw_root_skinJoint_multMat.matrixIn[2]")
+			utils.connectByMatrix(root_s_j, [name+"_ibtw_joints_group", root_s_j], ["worldMatrix[0]", "parentInverseMatrix[0]"], module_name=mod_name)
+
+		# add skinJoint
+		s_j = pm.duplicate(j, n=j.replace("outJoint", "skinJoint"))[0]
+		cmds.sets(s_j.name(), e=1, forceElement=set)
+		pm.deleteAttr(s_j, attribute="driverAngle")
+		
+		# hide outJoint
+		j.drawStyle.set(2)
+
+		pm.parent(s_j, root_s_j)
+		utils.removeTransformParentJoint(s_j.name())
+		utils.resetAttrs(s_j, jointOrient=True)
+
+		j.t >> s_j.t
+		j.r >> s_j.r
+		
+		if utils.getObjectSide(name+"_ibtw_root") == "l" or utils.getObjectSide(name+"_ibtw_root") == "c":
+			s_j.angleMin >> j.angleMin
+			s_j.angleMax >> j.angleMax
+			s_j.posMin >> j.posMin
+			s_j.posMax >> j.posMax
+			s_j.offsetMin >> j.offsetMin
+			s_j.offsetMax >> j.offsetMax
+			s_j.reverse >> j.reverse
+		elif utils.objectIsOpposite(name+"_ibtw_root"):
+			pm.deleteAttr(s_j, attribute="angleMin")
+			pm.deleteAttr(s_j, attribute="angleMax")
+			pm.deleteAttr(s_j, attribute="posMin")
+			pm.deleteAttr(s_j, attribute="posMax")
+			pm.deleteAttr(s_j, attribute="offsetMin")
+			pm.deleteAttr(s_j, attribute="offsetMax")
+			pm.deleteAttr(s_j, attribute="reverse")
+
+
 		# add opposite
 		if utils.isSymmetrical(name+"_ibtw_root") and utils.getObjectSide(name+"_ibtw_root") == "l":
 			opp_name = utils.getOpposite(name)
@@ -689,7 +737,7 @@ class Inbetweens(object):
 				cmds.connectAttr(j_name+".angleMax", opp_j_name+".angleMax")
 				cmds.connectAttr(j_name+".angleMin", opp_j_name+".angleMin")
 
-		pm.select(j)
+		pm.select(s_j)
 
 	def selectFirstJoints(self, side):
 		name = self.curIbName

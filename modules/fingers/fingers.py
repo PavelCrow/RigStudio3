@@ -21,10 +21,10 @@ class Fingers(module.Module) :
 			cmds.setAttr(ctrl+'.tx', 0)
 
 		super(self.__class__, self).connect(target, opposite)
-
+		
 		if target_modType == 'limb':			
 			self.makeSeamless(True)
-
+		
 	def connectSignals(self, mainInstance, w):
 		self.w = w
 		self.main = mainInstance
@@ -82,10 +82,10 @@ class Fingers(module.Module) :
 		optionsData = {}
 		
 		optionsData['thumb'] = cmds.getAttr(self.name+"_thumbFinger_1_skinJoint.v")
-		optionsData['index'] = cmds.getAttr(self.name+"_index_root_skinJoint.v")
-		optionsData['middle'] = cmds.getAttr(self.name+"_middle_root_skinJoint.v")
-		optionsData['ring'] = cmds.getAttr(self.name+"_ring_root_skinJoint.v")
-		optionsData['pinky'] = cmds.getAttr(self.name+"_pinky_root_skinJoint.v")
+		optionsData['index'] = cmds.getAttr(self.name+"_indexFingerRoot_skinJoint.v")
+		optionsData['middle'] = cmds.getAttr(self.name+"_middleFingerRoot_skinJoint.v")
+		optionsData['ring'] = cmds.getAttr(self.name+"_ringFingerRoot_skinJoint.v")
+		optionsData['pinky'] = cmds.getAttr(self.name+"_pinkyFingerRoot_skinJoint.v")
 		optionsData['middle_value'] = cmds.getAttr(self.name+"_middle_pairBlend.weight")
 		optionsData['ring_value'] = cmds.getAttr(self.name+"_ring_pairBlend.weight")
 		
@@ -101,7 +101,7 @@ class Fingers(module.Module) :
 			if name == "thumb":
 				cmds.setAttr(m_name+"_%sFinger_1_skinJoint.v" %name, v)	
 			else:
-				cmds.setAttr(m_name+"_%s_root_skinJoint.v" %name, v)	
+				cmds.setAttr(m_name+"_%sFingerRoot_skinJoint.v" %name, v)	
 				cmds.setAttr(m_name+"_%sFingerRoot_poser.lodVisibility" %name, v)
 				# cmds.setAttr(m_name+"_%sFingerRoot_line.v" %name, v)
 			cmds.setAttr(m_name+"_%sFinger_mainPoser.lodVisibility" %name, v)

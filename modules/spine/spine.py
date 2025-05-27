@@ -6,27 +6,23 @@ from ... import utils, module
 class Spine(module.Module) :
 	def __init__(self, name):
 		super(self.__class__, self).__init__()
-
+		
 		self.name = name
 		self.type = __name__.split('.')[-1]
 		self.unic = False
 		
 		self.jointsCount = 5
 
-	def connect(self, target): #
-		super(self.__class__, self).connect(target)
-		
+	def connect(self, target, opposite=False, makeSeamless=False):
+		super(self.__class__, self).connect(target, opposite=False, makeSeamless=False)		
+
 		# reroot end skin joint after connect
 		last_id = len(cmds.listRelatives(self.name+"_bendJoints"))
+		
 		cmds.parent(self.name+"_end_skinJoint", self.name+"_local_%s_skinJoint" %last_id)
 		utils.removeTransformParentJoint(self.name+"_end_skinJoint")
 
-		# create offset rotate root for quadrupped spine (posers is strighten in horizontal)
-		# if cmds.getAttr(self.name + "_end_poser.tz") > cmds.getAttr(self.name + "_end_poser.ty"):
-		# 	l = cmds.duplicate(self.name+"_root_initLoc", n=self.name+"_root_poserOrient_offset")[0]
-		# 	utils.resetAttrs(l)
-			
-		# 	cmds.connectAttr(l+".worldMatrix[0]", self.name+"_root_connector_multMat.matrixIn[0]", f=1)
+		cmds.setAttr(self.name+"_end_skinJoint.jointOrient", 0,0,0)
 	
 	def connectSignals(self, mainInstance, w): #
 		module = mainInstance.curModule
@@ -128,17 +124,18 @@ class Spine(module.Module) :
 		cmds.setAttr(con+'.worldUpVectorY', -1)
 		cmds.connectAttr(follicles[count-1]+".worldMatrix[0]", con+".worldUpMatrix")
 		
-		# print(33, bend_joints)
-		# # init locs
-		# for f in cmds.listRelatives(name+'_bendJoints'):
-		# 	cmds.delete(f)
+
+		# init locs
+		for f in cmds.listRelatives(name+'_joints_initLocs'):
+			if f.split("_")[-1] == "initFollicle":
+				cmds.delete(f)
 		
 		locs = []
 		follicles = []
 		for i in range(count):
 			f = cmds.createNode("follicle")
 			fT = cmds.listRelatives(f, p=1)[0]
-			fT = cmds.rename(fT, name+'_local_%s_foll' %(i+1))
+			fT = cmds.rename(fT, name+'_local_%s_initFollicle' %(i+1))
 			f = fT + "Shape"
 			utils.addModuleNameAttr(fT, name)
 			
@@ -165,13 +162,13 @@ class Spine(module.Module) :
 			cmds.setAttr( f+".parameterU", u )
 			cmds.delete(near)
 			
-			l = cmds.spaceLocator(n=name+'_local_%s_loc' %(i+1))[0]
+			l = cmds.spaceLocator(n=name+'_local_%s_initLoc' %(i+1))[0]
 			locs.append(l)
 			utils.addModuleNameAttr(l, name)
 			cmds.parent(l, fT)
 			utils.resetAttrs(l)
 			
-			cmds.parent(fT, name+"_bendJoints")
+			cmds.parent(fT, name+"_joints_initLocs")
 		
 		for i in range(count-1):
 			con = cmds.aimConstraint(locs[i+1], locs[i] , mo=0, n=locs[i]+"_aimConstraint")[0]
@@ -242,8 +239,3 @@ class Spine(module.Module) :
 
 	def bake(self):
 		super(self.__class__, self).bake(forceDelete=[self.name+"_decomposeMatrix91",self.name+"_decomposeMatrix92",self.name+"_decomposeMatrix93"])
-
-	def connect(self, target, opposite=False, makeSeamless=False):
-		super(self.__class__, self).connect(target, opposite=False, makeSeamless=False)		
-
-		cmds.setAttr(self.name+"_end_skinJoint.jointOrient", 0,0,0)

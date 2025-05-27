@@ -14,7 +14,6 @@ rootPath = os.path.normpath(os.path.dirname(__file__))
     ##print "ADDED path"
 #mel.eval("source pk_makeControls")
 
-
 class Module(object):
     def __init__(self): #
         self.main = None
@@ -37,7 +36,6 @@ class Module(object):
         # import
         template_path = os.path.join(rootPath, "modules", self.type, self.type+'.ma')
         utils.importFile(template_path, self.name)
-        print(111, template_path)
 
         # sets update
         cmds.sets(self.name+'_sets', e=1, forceElement='modules_sets' )
@@ -85,6 +83,12 @@ class Module(object):
             if cmds.objExists(self.name+o):
                 cmds.hide(self.name+o)
         cmds.hide(self.name+"_outJoints")
+
+        # hide out joints
+        for j in cmds.listRelatives(self.name+"_outJoints", allDescendents=1):
+            if cmds.objectType(j) == "joint":
+                cmds.setAttr(j+".drawStyle", 2)
+
 
         # correct posers size
         # for p in pm.listRelatives(self.name + "_posers", allDescendents=1):
@@ -207,9 +211,9 @@ class Module(object):
 
     def delete(self):
         cmds.delete(self.root)
-
+        
         # remove another nodes
-        nodes = cmds.sets(self.name+"_nodesSet", q=1)
+        nodes = utils.getSetObjects(self.name+"_nodesSet")
         for n in nodes:
             if cmds.objExists(n):
                 cmds.delete(n)
@@ -253,11 +257,16 @@ class Module(object):
 
         if not cmds.objExists(target_poser):
             target_poser = utils.getClosestPoser(target_module_name, target_joint)
-        
+
+        if cmds.objExists(target_module_name+"_mod.useClosestInitLocs"):
+            if cmds.getAttr(target_module_name+"_mod.useClosestInitLocs"):
+                target_outJoint = ""
+
         if not cmds.objExists(target_outJoint):
             target_outJoint = utils.getClosestOutJoint(target_module_name, target)
             target_initLoc = target_outJoint.replace("outJoint", "initLoc")
             target_joint = target_outJoint.replace("outJoint", "skinJoint")
+
         
         # save position
         initMatrix = cmds.xform(self.name+'_mainPoser', query=True, ws=True, m=True)
@@ -351,10 +360,12 @@ class Module(object):
         cmds.disconnectAttr(parentModule+'_mainPoser.worldMatrix', self.name+"_posers.offsetParentMatrix")
         cmds.delete(self.name+'_root_connector_multMat')
 
-        # reset connector matrix
-        def_mat = [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]
-        cmds.setAttr(self.name+'_root_connector.offsetParentMatrix', def_mat, type = "matrix")
-
+        # reset matrixes
+        m = cmds.xform(self.name+'_mainPoser', ws=1, q=1, m=1)
+        utils.resetAttrs(self.name+'_posers', matrix=1)
+        utils.resetAttrs(self.name+'_root_connector', matrix=1)
+        cmds.xform(self.name+'_mainPoser', ws=1, m=m)
+        
         # delete line group
         if cmds.objExists(self.name + "_connectionLine_group"):
             cmds.delete(self.name + "_connectionLine_group")
@@ -480,18 +491,21 @@ class Module(object):
 
         def getAddControlsData():
             addCtrlsData = []
+            self.getAdditionalControls()
 
-            # def isAddcontrolParent():
-            #     print(2222, c.name, c.parent)
-            
             # Создаем список тсоритованный по глубине
             hierarchy = {}
+            root_add_controls = []
             for c in self.additionalControls:
+                # print(99, c, c.parent)
                 parent = c.parent
                 if parent not in hierarchy:
                     hierarchy[parent] = []
                 hierarchy[parent].append(c.name)
-                # print(c.name, parent, utils.objectIsAdditionalControl(parent))
+                
+                if not utils.objectIsAdditionalControl(parent):
+                    root_add_controls.append(c.name)
+                # print("00", c.name, parent, utils.objectIsAdditionalControl(parent))
 
             # Sorted flatten list                
             sorted_list = []
@@ -502,10 +516,10 @@ class Module(object):
                     sorted_list.append(parent)  # Добавляем в список с указанием глубины
                     if parent in hierarchy:
                         flatten_hierarchy(hierarchy, hierarchy[parent], depth + 1)
-            # root control is a first in list
-            if self.additionalControls:
-                flatten_hierarchy(hierarchy, [self.additionalControls[0].name])
             
+            if self.additionalControls:
+                flatten_hierarchy(hierarchy, root_add_controls)
+
             # get add controls data by deep order
             for c_name in sorted_list:
                 # get addControl by name from sorted list from list of add controls
@@ -541,6 +555,7 @@ class Module(object):
                     if moduleName == self.name:
                         twists.append(tw_mod[:-4])
                 for tw in twists:
+                    # print(44, tw, self.name)
                     twData = twist.Twist.getData(tw, self.name)
                     # print(111, twData)
                     twistsData.append(twData)
@@ -574,8 +589,10 @@ class Module(object):
         return data
 
     def setData(self, data, sym=False, namingForce=False, load="all"): 
+        
         # set posers
         if load == "posers" or load == "all":
+
             if not sym:
                 for p in sorted(data['posersAttrsData']):
                     attrData = data['posersAttrsData'][p]
@@ -611,7 +628,7 @@ class Module(object):
                                 savedName = utils.incrementNameIfExists(savedName)				
                         utils.renameControl(cName, savedName)
                 except: print ("Skipped setting control name", int_name)
-
+        
         # set controls shapes
         if load == "controlShapes" or load == "all":
             if not sym:
@@ -623,11 +640,13 @@ class Module(object):
                     if not cmds.objExists(ctrlName):
                         continue
                     cmd = data['controlsShapeData'][ctrl]
+                    
                     utils.setUserAttr(ctrlName, 'customShapeCommand', cmd, type="string")
+                    
                     control = utils.getControlInstance(ctrlName)
                     if control:
                         control.setShape(cmd)
-            
+                    
             # set posers shapes
             if 'posersShapeData' in data:
                 for p in data['posersShapeData']:
@@ -660,7 +679,7 @@ class Module(object):
                             poser.getShape().worldSpace[0] >> node.target[0].targetGeometry
                         except:
                             poser.getShape().worldSpace[0] >> node.inputCurve
-
+        
         # controls visibility and color
         if load == "controlVis" or load == "all":
             controlNames = utils.getSetObjects(self.name+'_moduleControlSet')
@@ -669,7 +688,7 @@ class Module(object):
                 intName = utils.getInternalNameFromControl(cName)
                 
                 if intName not in data['controlsNamesData']:
-                    cmds.warning("Missed control data to load "+ cName)
+                    # cmds.warning("Missed control data to load "+ cName)
                     continue
 
                 savedName_templated = data['controlsNamesData'][intName]
@@ -709,7 +728,7 @@ class Module(object):
                 if data["seamless"] and not self.isSeamless(): 
                     self.makeSeamless(True)
                 self.setOptions(data['optionsData'])
-
+        
     def getIbtwsData(self):
         # get twists data
         ibtwsData = []
@@ -787,18 +806,17 @@ class Module(object):
             parent_p = utils.getClosestPoser(parentModule_name, self.parent)
 
         self.seamless = state
-
+        
         if state:
             # if module connected not to root, match the parent poser to root poser
             if self.parent.split("_")[-2] != "root":
                 cmds.pointConstraint(self.name+"_root_poser", parent_p, mo=0)
                 cmds.orientConstraint(self.name+"_root_poser", parent_p, mo=0)
-
+            
             # change parent of the joint to parent of parent
             p_j = cmds.listRelatives(self_root_j, p=1)[0] # end_joint
             pp_j = cmds.listRelatives(p_j, p=1)[0] # parent of the end_joint
             cmds.parent(self_root_j, pp_j)
-
             # move the useless joint to output group and hide it
             # print(3333, self.name, p_j, parentModule_name+"_output")
             cmds.parent(p_j, parentModule_name+"_output")
@@ -817,7 +835,6 @@ class Module(object):
                     cmds.parent(utils.getOpposite(p_j), utils.getOpposite(parentModule_name+"_output"))
                     cmds.hide(utils.getOpposite(p_j))
                     cmds.setAttr(utils.getOpposite(parent_p)+'.lodVisibility', 0)
-
         else:
             if not self.isSeamless():
                 cmds.warning("Not seamless")
@@ -859,12 +876,12 @@ class Module(object):
                 cmds.parent(utils.getOpposite(self_root_j), utils.getOpposite(parent_j))
                 cmds.showHidden(utils.getOpposite(parent_j))
                 cmds.setAttr(utils.getOpposite(parent_p)+'.lodVisibility', 1)
-
+            
         # reset joint orients
         utils.resetJointOrient(self_root_j)
         if self.symmetrical:
             utils.resetJointOrient(utils.getOpposite(self_root_j))
-
+        
     def isSeamless(self): #
         if not self.parent:
             return False
@@ -932,13 +949,18 @@ class Module(object):
                 return c
         return None
 
-    def getAdditionalControls(self): #
+    def getAdditionalControls(self, rootControlsOnly=False): #
         # get additional controls
         additionalControls = []
         controls = utils.getSetObjects(self.name+'_moduleControlSet')
         for c_name in controls:
             if utils.objectIsAdditionalControl(c_name):
                 c = utils.getAdditionalControlInstance(c_name)
+
+                if rootControlsOnly:
+                    if utils.objectIsAdditionalControl(c.parent):
+                        continue
+
                 additionalControls.append(c)
 
         # get list of the all add controls
@@ -970,6 +992,7 @@ class Module(object):
     def setAddControlsData(self, mData, curMod_name=""):
         # increment names
         datas = mData['additionalControlsData']
+        # print(11111, datas)
         new_names = []
         for data in datas:
             name = data['name']
@@ -986,12 +1009,12 @@ class Module(object):
                         # edit twist data
                         twData = mData["twistsData"]
                         for tw_d in twData:
-                            s_j = tw_d["start_j"]
-                            e_j = tw_d["end_j"]
+                            s_j = tw_d["target"]
+                            e_j = tw_d["endTarget"]
                             if s_j.split("_skinJoint")[0] == name:
-                                tw_d["start_j"] = new_name + "_skinJoint"
+                                tw_d["target"] = new_name + "_skinJoint"
                             if e_j.split("_skinJoint")[0] == name:
-                                tw_d["end_j"] = new_name + "_skinJoint"
+                                tw_d["endTarget"] = new_name + "_skinJoint"
         
         if curMod_name:
             m_name = curMod_name  # for load module 
@@ -1004,26 +1027,33 @@ class Module(object):
             if not cData['opposite']:
                 m = self.main.rig.modules[m_name]
                 # parent add control to root joint
-                c = m.addAdditionalControl(cData['name'], parent=m_name+"_root_skinJoint", shape='circle', updateData=False)
+                # print(121, m_name, cData['parent'], mData['name'])
+                par = utils.getRealNameFromTemplated(m_name, cData["parent"], mData['name'])
+                # print(122, cData['name'], par)
+                c = m.addAdditionalControl(cData['name'], parent=par, shape='circle', updateData=False)
                 addControls.append(c)
         
-        # parent add control to control from data
-        for cData in mData['additionalControlsData']:
-            if not cData['opposite']:
-                par = utils.getRealNameFromTemplated(m_name, cData["parent"])
-                for c in addControls:
-                    if c.name == cData['name']:
-                        c.setParent(par)
+        # # parent add control to control from data
+        # for cData in mData['additionalControlsData']:
+        #     if not cData['opposite']:
+        #         if curMod_name:
+        #             par = utils.getRealNameFromTemplated(m_name, cData["parent"], mData['name'])
+        #         else:
+        #             par = utils.getRealNameFromTemplated(m_name, cData["parent"])
+        #         print(222222, m_name, cData["parent"], par)
+        #         for c in addControls:
+        #             if c.name == cData['name']:
+        #                 c.setParent(par)
         
         self.getAdditionalControls()
         
         # set posers
         for cData in mData['additionalControlsData']:
             if not cData['opposite']:
-                par = utils.getRealNameFromTemplated(m_name, cData["poserParent"])
+                # par = utils.getRealNameFromTemplated(m_name, cData["poserParent"])
                 p = utils.getRealNameFromTemplated(m_name, cData['name'] + "_addPoser")
-                if cmds.listRelatives(p, p=1)[0] != par:
-                    cmds.parent(p, par)
+                # if cmds.listRelatives(p, p=1)[0] != par:
+                #     cmds.parent(p, par)
                 cmds.xform(p, m=cData['pos'], ws=1)
 
                 attrData = cData['poserAttrsData']

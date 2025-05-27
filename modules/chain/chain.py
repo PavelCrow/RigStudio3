@@ -69,6 +69,8 @@ class Chain(module.Module) :
 
 			if i > 1:
 				cmds.parent( poser, poser.replace(str(i+1)+"_poser", str(i)+"_poser") )
+			else:
+				cmds.duplicate(self.name+"_root_initLoc", n=self.name+"_element_1_initLoc")
 				
 		cmds.parent( self.name+'_element_2_poser', self.name+'_root_poser' )
 
@@ -228,6 +230,16 @@ class Chain(module.Module) :
 		# for o in cmds.listRelatives(self.name+"_posers", allDescendents=1):
 		# 	utils.addModuleNameAttr(o, self.name)			
 		# 
+
+		# lines attr
+		cmds.setAttr(self.name+"_mainPoser.lineSize", 1.5)
+		for i in range(controlsCount):
+			if i == 0:
+				poser = self.name+'_root_poser'
+			else:
+				poser = self.name+'_element_'+str(i+1)+'_poser'
+			cmds.connectAttr(self.name+'_mainPoser.lineSize', poser+'.lineWidth')
+			cmds.setAttr(poser+'.lineWidth', k=0, cb=0)
 
 		cmds.parent(self.root, 'modules')	
 

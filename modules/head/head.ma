@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: head.ma
-//Last modified: Fri, Sep 06, 2024 08:58:59 PM
+//Last modified: Fri, Apr 25, 2025 05:42:32 AM
 //Codeset: 1251
 requires maya "2022";
 requires "stereoCamera" "10.0";
@@ -9,8 +9,8 @@ fileInfo "application" "maya";
 fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202303271415-baa69b5798";
-fileInfo "osv" "Windows 10 Pro v2009 (Build: 22631)";
-fileInfo "UUID" "0E5207F7-46EB-CB66-D43A-C9B291C52E36";
+fileInfo "osv" "Windows 10 Pro v2009 (Build: 26100)";
+fileInfo "UUID" "827F3F76-4453-D032-EF6E-2DBB253D10F8";
 createNode transform -n "mod";
 	rename -uid "796B45B9-43DB-82CA-C93B-1A91B6023A77";
 createNode transform -n "posers" -p "mod";
@@ -21,16 +21,16 @@ createNode transform -n "mainPoser" -p "posers";
 	addAttr -ci true -sn "size" -ln "size" -dv 1 -min 0 -at "double";
 	addAttr -ci true -sn "globalSize" -ln "globalSize" -dv 1 -min 0 -at "double";
 	setAttr -l on -k off ".v";
+	setAttr ".ove" yes;
 	setAttr ".ovc" 12;
 	setAttr -k on ".s";
 	setAttr -k off ".sy";
 	setAttr -k off ".sz";
 	setAttr -k on ".size";
-	setAttr -k on ".globalSize" 0.3;
+	setAttr -k on ".globalSize" 0.5;
 createNode nurbsCurve -n "mainPoserShape" -p "mainPoser";
 	rename -uid "C85FD3BD-4B15-B4FD-5AE1-EF966DC407CB";
 	setAttr -k off ".v";
-	setAttr ".ove" yes;
 	setAttr ".ovc" 12;
 	setAttr ".tw" yes;
 createNode transform -n "root_poser" -p "mainPoser";
@@ -40,11 +40,10 @@ createNode transform -n "root_poser" -p "mainPoser";
 	setAttr -k off ".sy";
 	setAttr -k off ".sz";
 	setAttr ".dh" yes;
-	setAttr -k on ".size";
+	setAttr -k on ".size" 0.5;
 createNode nurbsSurface -n "root_poserShape" -p "root_poser";
 	rename -uid "F302DA9A-496E-99CA-7D7C-8898CAEE0A31";
 	setAttr -k off ".v";
-	setAttr ".ove" yes;
 	setAttr ".ovc" 12;
 	setAttr ".vir" yes;
 	setAttr ".vif" yes;
@@ -153,17 +152,17 @@ createNode nurbsCurve -n "rootShape" -p "root";
 		3 8 2 no 3
 		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
 		11
-		0.78220172572844116 2.6153697012529582 -0.78220172572844004
-		-1.2620422609855989e-16 2.6153697012529582 -1.1062002890368023
-		-0.78220172572844016 2.6153697012529582 -0.78220172572844016
-		-1.1062002890368023 2.6153697012529582 -3.2011531745708022e-16
-		-0.7822017257284406 2.6153697012529582 0.78220172572844016
-		-3.3331973582254345e-16 2.6153697012529582 1.1062002890368023
-		0.78220172572844004 2.6153697012529582 0.78220172572844038
-		1.1062002890368023 2.6153697012529582 5.9457618450434596e-16
-		0.78220172572844116 2.6153697012529582 -0.78220172572844004
-		-1.2620422609855989e-16 2.6153697012529582 -1.1062002890368023
-		-0.78220172572844016 2.6153697012529582 -0.78220172572844016
+		1.4891325479984885 4.9790636086335791 -1.4891325479984854
+		-2.4026387899273386e-16 4.9790636086335791 -2.1059514455506707
+		-1.4891325479984856 4.9790636086335791 -1.4891325479984856
+		-2.1059514455506707 4.9790636086335791 -6.09426088767927e-16
+		-1.4891325479984869 4.9790636086335791 1.4891325479984856
+		-6.345642705420579e-16 4.9790636086335791 2.1059514455506707
+		1.4891325479984854 4.9790636086335791 1.4891325479984863
+		2.1059514455506707 4.9790636086335791 1.1319365829647421e-15
+		1.4891325479984885 4.9790636086335791 -1.4891325479984854
+		-2.4026387899273386e-16 4.9790636086335791 -2.1059514455506707
+		-1.4891325479984856 4.9790636086335791 -1.4891325479984856
 		;
 createNode transform -n "main_group" -p "root";
 	rename -uid "6F396B91-4842-341B-CED5-D097F2681FD4";
@@ -192,10 +191,10 @@ createNode nurbsCurve -n "controlShape" -p "control";
 		1 3 0 no 3
 		4 0 1 2 3
 		4
-		2.467239996477097 1.9933175290671281 -4.2828179154815966e-17
-		2.467239996477097 2.6721906516358453 -1.9356829344980881e-16
-		2.7816779607654398 2.4705297192765334 -2.1860982494910752e-16
-		2.467239996477097 2.268868786917221 -1.0401284934073526e-16
+		3.2580848399233138 2.6322520840616144 -5.6556249665645716e-17
+		3.2580848399233138 3.5287300237961929 -2.5561433961801593e-16
+		3.6733122057276151 3.2624290447820647 -2.886826403357506e-16
+		3.2580848399233138 2.9961280657679321 -1.3735294826533221e-16
 		;
 createNode orientConstraint -n "root_group_orientConstraint1" -p "root_group";
 	rename -uid "BAB78326-4871-1A2A-A87E-A8B301FA3187";
@@ -237,15 +236,15 @@ createNode joint -n "root_outJoint" -p "outJoints";
 createNode transform -s -n "persp";
 	rename -uid "5D24B4F0-48F4-0BBF-2883-0FB107072B31";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 5.9615992888940834 4.9877826167992332 7.958135551186805 ;
-	setAttr ".r" -type "double3" -24.000000000003798 -325.19999999992086 -9.6832422356650401e-16 ;
+	setAttr ".t" -type "double3" 0.57299083972868559 6.3743001159611312 18.029294887195029 ;
+	setAttr ".r" -type "double3" -18.000000000004047 -357.99999999991587 -1.9890583565230358e-16 ;
 	setAttr ".rp" -type "double3" -6.9388939039072284e-18 1.1102230246251563e-16 2.2204460492503131e-16 ;
 	setAttr ".rpt" -type "double3" -2.0710120022049341e-16 1.3723218949214615e-17 -2.394600998630024e-16 ;
 createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "FA06188C-40FD-4EF2-A7A8-2DBD9ED48E1A";
 	setAttr -k off ".v" no;
 	setAttr ".fl" 34.999999999999986;
-	setAttr ".coi" 11.592429156057086;
+	setAttr ".coi" 19.745138067670794;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -299,15 +298,15 @@ createNode camera -s -n "sideShape" -p "side";
 	setAttr ".hc" -type "string" "viewSet -s %camera";
 	setAttr ".o" yes;
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "F8AA50A6-42C6-FA99-55A2-338C90C674AE";
+	rename -uid "37991289-42EB-14A7-1DAD-DA8DDAB3FE77";
 	setAttr -s 2 ".lnk";
 	setAttr -s 2 ".slnk";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "E8E5A8AF-4544-CFFA-C6BF-21B40BD88F8C";
+	rename -uid "9F0D54C3-415E-821D-8AEC-F5BAFFC8C75F";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "6684CFD7-4C9D-D20C-7922-43B1C9C96070";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "6AC4931C-4AA4-688B-4A09-849E40E75B80";
+	rename -uid "E0538F87-43F9-8536-3EA5-16B7EF37D983";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "C8562179-48C0-C6E6-EC2D-C98541679724";
 	setAttr ".g" yes;
@@ -340,9 +339,9 @@ createNode multDoubleLinear -n "negate";
 	rename -uid "7FC27DA1-4067-DA67-BBB0-2E9270F8A353";
 	setAttr ".i2" -1;
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "5E053A77-4790-E4ED-606F-DBB0B530BC16";
+	rename -uid "A6266C4B-4A34-F12B-C28D-84BBB7E97332";
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "27CB4480-4B2A-5716-1797-1DBD3979E3B2";
+	rename -uid "D91DB57B-4F28-6FB9-FCE4-34860C46D16F";
 createNode multiplyDivide -n "size_multiplyDivide";
 	rename -uid "6E7D770B-40F8-7736-8F57-758A20381435";
 createNode makeNurbSphere -n "makeNurbSphere1";
@@ -406,7 +405,7 @@ select -ne :time1;
 	setAttr -av -k on ".nds";
 	setAttr -cb on ".bnm";
 	setAttr -k on ".o" 0;
-	setAttr -av ".unw";
+	setAttr -av -k on ".unw";
 	setAttr -av -k on ".etw";
 	setAttr -av -k on ".tps";
 	setAttr -av -k on ".tms";
@@ -425,10 +424,10 @@ select -ne :hardwareRenderingGlobals;
 	setAttr -k on ".sslt";
 	setAttr -k on ".cbr";
 	setAttr -k on ".bbr";
-	setAttr -k on ".mhl";
+	setAttr -av -k on ".mhl";
 	setAttr -k on ".cons";
 	setAttr -k on ".vac";
-	setAttr -k on ".hwi";
+	setAttr -av -k on ".hwi";
 	setAttr -k on ".csvd";
 	setAttr -av ".ta";
 	setAttr -av ".tq";
@@ -440,7 +439,7 @@ select -ne :hardwareRenderingGlobals;
 	setAttr -av ".aora";
 	setAttr -k on ".aofr";
 	setAttr -av ".aosm";
-	setAttr -k on ".hff";
+	setAttr -av -k on ".hff";
 	setAttr -av -k on ".hfd";
 	setAttr -av -k on ".hfs";
 	setAttr -av -k on ".hfe";
@@ -465,11 +464,11 @@ select -ne :hardwareRenderingGlobals;
 	setAttr -k on ".mbcsy";
 	setAttr -k on ".mbasx";
 	setAttr -k on ".mbasy";
-	setAttr -k on ".blen";
+	setAttr -av -k on ".blen";
 	setAttr -k on ".blth";
 	setAttr -k on ".blfr";
 	setAttr -k on ".blfa";
-	setAttr -k on ".blat";
+	setAttr -av -k on ".blat";
 	setAttr -av ".msaa";
 	setAttr -av ".aasc";
 	setAttr -k on ".aasq";
@@ -501,13 +500,16 @@ select -ne :postProcessList1;
 	setAttr -cb on ".bnm";
 	setAttr -s 2 ".p";
 select -ne :defaultRenderUtilityList1;
-	setAttr -k on ".cch";
+	setAttr -av -k on ".cch";
 	setAttr -cb on ".ihi";
 	setAttr -av -k on ".nds";
 	setAttr -cb on ".bnm";
 	setAttr -s 8 ".u";
 select -ne :defaultRenderingList1;
+	setAttr -av -k on ".cch";
 	setAttr -k on ".ihi";
+	setAttr -av -k on ".nds";
+	setAttr -cb on ".bnm";
 select -ne :initialShadingGroup;
 	setAttr -av -k on ".cch";
 	setAttr -k on ".fzn";
@@ -525,12 +527,18 @@ select -ne :initialShadingGroup;
 	setAttr -k on ".eo";
 	setAttr -k on ".fo";
 	setAttr -k on ".epo";
-	setAttr ".ro" yes;
+	setAttr -k on ".ro" yes;
+	setAttr -k on ".hio";
 select -ne :initialParticleSE;
 	setAttr -av -k on ".cch";
+	setAttr -k on ".fzn";
 	setAttr -k on ".ihi";
 	setAttr -av -k on ".nds";
 	setAttr -cb on ".bnm";
+	setAttr -k on ".bbx";
+	setAttr -k on ".vwm";
+	setAttr -k on ".tpv";
+	setAttr -k on ".uit";
 	setAttr -k on ".mwc";
 	setAttr -av -k on ".an";
 	setAttr -k on ".il";
@@ -538,7 +546,8 @@ select -ne :initialParticleSE;
 	setAttr -k on ".eo";
 	setAttr -k on ".fo";
 	setAttr -k on ".epo";
-	setAttr ".ro" yes;
+	setAttr -k on ".ro" yes;
+	setAttr -k on ".hio";
 select -ne :defaultRenderGlobals;
 	addAttr -ci true -h true -sn "dss" -ln "defaultSurfaceShader" -dt "string";
 	setAttr -av -k on ".cch";
@@ -648,7 +657,7 @@ select -ne :defaultResolution;
 	setAttr -k on ".bnm";
 	setAttr -av -k on ".w" 640;
 	setAttr -av -k on ".h" 480;
-	setAttr -av ".pa" 1;
+	setAttr -av -k on ".pa" 1;
 	setAttr -av -k on ".al";
 	setAttr -av -k on ".dar" 1.3333332538604736;
 	setAttr -av -k on ".ldar";
@@ -696,11 +705,11 @@ select -ne :defaultColorMgtGlobals;
 	setAttr ".potn" -type "string" "ACES 1.0 SDR-video (sRGB)";
 select -ne :hardwareRenderGlobals;
 	setAttr -av -k on ".cch";
-	setAttr -cb on ".ihi";
+	setAttr -av -cb on ".ihi";
 	setAttr -av -k on ".nds";
 	setAttr -cb on ".bnm";
-	setAttr -av ".ctrs" 256;
-	setAttr -av ".btrs" 512;
+	setAttr -av -k off -cb on ".ctrs" 256;
+	setAttr -av -k off -cb on ".btrs" 512;
 	setAttr -av -k off -cb on ".fbfm";
 	setAttr -av -k off -cb on ".ehql";
 	setAttr -av -k off -cb on ".eams";
@@ -723,15 +732,15 @@ select -ne :hardwareRenderGlobals;
 	setAttr -av -k off -cb on ".mgcs";
 	setAttr -av -k off -cb on ".twa";
 	setAttr -av -k off -cb on ".twz";
-	setAttr -k on ".hwcc";
-	setAttr -k on ".hwdp";
-	setAttr -k on ".hwql";
-	setAttr -k on ".hwfr" 25;
-	setAttr -k on ".soll";
-	setAttr -k on ".sosl";
-	setAttr -k on ".bswa";
-	setAttr -k on ".shml";
-	setAttr -k on ".hwel";
+	setAttr -av -k on ".hwcc";
+	setAttr -av -k on ".hwdp";
+	setAttr -av -k on ".hwql";
+	setAttr -av -k on ".hwfr" 25;
+	setAttr -av -k on ".soll";
+	setAttr -av -k on ".sosl";
+	setAttr -av -k on ".bswa";
+	setAttr -av -k on ".shml";
+	setAttr -av -k on ".hwel";
 connectAttr "mainPoser.sx" "mainPoser.sy" -l on;
 connectAttr "mainPoser.sx" "mainPoser.sz" -l on;
 connectAttr "mainPoser_clusterHandleCluster.og[0]" "mainPoserShape.cr";

@@ -67,6 +67,8 @@ class ChainIk(module.Module) :
 
 			if i > 1:
 				cmds.parent( poser, poser.replace(str(i+1)+"_poser", str(i)+"_poser") )
+			else:
+				cmds.duplicate(self.name+"_root_initLoc", n=self.name+"_element_1_initLoc")
 
 		cmds.parent( self.name+'_element_2_poser', self.name+'_root_poser' )
 		
@@ -94,9 +96,9 @@ class ChainIk(module.Module) :
 				utils.setUserAttr(ctrlLocal, 'internalName', 'local_element_'+str(n))
 				utils.setUserAttr(ctrlLocal, 'type', "control")
 				utils.addModuleNameAttr(ctrlLocal, self.name)
-				cmds.setAttr(ctrlLocal+'.sx', 1)
-				cmds.setAttr(ctrlLocal+'.sy', 1)
-				cmds.setAttr(ctrlLocal+'.sz', 1)
+				cmds.setAttr(ctrlLocal+'.sx', 0.5)
+				cmds.setAttr(ctrlLocal+'.sy', 0.5)
+				cmds.setAttr(ctrlLocal+'.sz', 0.5)
 				cmds.makeIdentity(ctrlLocal, apply=1, r=1, s=1)
 				utils.lockChannels(ctrlLocal, ['r', 's'])			
 				cmds.parent(ctrlLocal, ctrl)
@@ -193,6 +195,16 @@ class ChainIk(module.Module) :
 		
 		cmds.parent(self.root, 'modules')
 		
+		# lines attr
+		cmds.setAttr(self.name+"_mainPoser.lineSize", 1.5)
+		for i in range(controlsCount):
+			if i == 0:
+				poser = self.name+'_root_poser'
+			else:
+				poser = self.name+'_element_'+str(i+1)+'_poser'
+			cmds.connectAttr(self.name+'_mainPoser.lineSize', poser+'.lineWidth')
+			cmds.setAttr(poser+'.lineWidth', k=0, cb=0)
+
 		self.create2()
 		self.addSkinJoints()
 		
@@ -582,7 +594,7 @@ class ChainIk(module.Module) :
 				continue
 			childs.append(j)
 		
-		self.jointsCount = len(childs)			
+		self.jointsCount = len(childs)		
 		
 		posers = []
 		for p in cmds.listRelatives(self.name+'_posers', allDescendents=1):

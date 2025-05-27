@@ -453,7 +453,7 @@ class Parents(object):
         if len(sels) == 0:
             cmds.warning("Select target")
             return
-
+        
         # add selected controls in table
         for ctrl in sels:
             mod_name = utils.getModuleName(ctrl)

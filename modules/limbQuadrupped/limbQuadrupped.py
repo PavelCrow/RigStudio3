@@ -32,7 +32,8 @@ class LimbQuadrupped(module.Module) :
 		return optionsData
 
 	def setOptions(self, optionsData):
-		self.update_aim_distance(optionsData['aimDistance'])
+		if optionsData:
+			self.update_aim_distance(optionsData['aimDistance'])
 
 	def connect_ankle_to_posers(self):
 		
@@ -183,7 +184,7 @@ class LimbQuadrupped(module.Module) :
 			cmds.parent(t_name+'_root_connectorLoc', self.name+'_ankleOffset')
 			cmds.aimConstraint(t_name+"_end_connectorLoc", t_name+"_root_connectorLoc", mo=0, aimVector=(1,0,0), upVector=(0,1,0), worldUpType="objectrotation", worldUpVector=(0,1,0), worldUpObject=t_name+"_outJoint")
 
-		if not self.opposite:
+		if not self.opposite and data:
 			cmds.setAttr(t_name+'_rootUpLoc.r', data["rootOffset"][0], data["rootOffset"][1], data["rootOffset"][2])
 			cmds.setAttr(t_name+'_end_connectorLoc.r', data["endOffset"][0], data["endOffset"][1], data["endOffset"][2])
 
@@ -286,3 +287,10 @@ class LimbQuadrupped(module.Module) :
 			if foot_m_name: matching(utils.getOpposite(foot_m_name), foot_fk_controls)
 
 		cmds.undoInfo(closeChunk=True)
+
+	def delete(self):
+		cmds.delete(self.name+"_multiplyDivide369")
+		cmds.delete(self.name+"_multiplyDivide362")
+		cmds.delete(self.name+"_multiplyDivide357")
+
+		super(self.__class__, self).delete()

@@ -213,9 +213,17 @@ class Twist(object):
             else:
                 advanced = False			
 
-        # check this joint is have twist
+        # check if this joint is have twist
         if t_name in self.twists:
             cmds.warning(' Selected joint have twist')
+            return
+
+        # check if joint is twist
+        if "_twist_" in start_j:
+            cmds.warning(' Selected joint is twist joint')
+            return
+        if "_twist_" in end_j:
+            cmds.warning(' Selected joint is twist joint')
             return
 
         # import with namespace
@@ -224,12 +232,14 @@ class Twist(object):
         else:
             path = os.path.join(rootPath, 'modules', '_twistSimple.ma')
         
-        cmds.file(path, pr=1, i=1, type="mayaAscii", namespace='_temp_', ra=True, mergeNamespacesOnClash=False,options="v=0;")
+        cmds.file(path, pr=1, i=1, type="mayaAscii", namespace='_temp_', ra=True, mergeNamespacesOnClash=False, options="v=0;")
 
         # rename and add all twist nodes to module set
         set = cmds.sets(name=t_name+'_twistNodesSet')
         nodes = cmds.ls('_temp_:*')
         moduleName = utils.getModuleName(t_name+"_skinJoint")
+        print(333, t_name+"_skinJoint", module_name)
+
         for n in nodes:
             if cmds.objExists(n):
                 cmds.sets(n, e=1, forceElement=set)
@@ -405,10 +415,15 @@ class Twist(object):
         if utils.getObjectSide(t_name) != "r":
             if data:
                 self.changeJointsCount(data["jointsCount"], moduleName=moduleName)
+                for i, pos in enumerate(data['jointsPos']):
+                    cmds.setAttr(t_name+"_twist_%s_skinJoint.pos" %i, pos)
+
+                # Безопасно получаем список, по умолчанию пустой
+                twist_multipliers = data.get('jointsTwistMultiplier', [])
+                for i, twistMultiplier in enumerate(twist_multipliers):
+                    cmds.setAttr(t_name+"_twist_%s_skinJoint.twistMultiplier" %i, twistMultiplier)
+            
                 if utils.getObjectSide(t_name) == "l":
-                    for i, pos in enumerate(data['jointsPos']):
-                        cmds.setAttr(t_name+"_twist_%s_twJoint.pos" %i, pos)
-                
                     if cmds.objExists(utils.getOpposite(root_loc)):
                         if 'rootFlipped' in data: self.setRootFlipped(name=t_name, state=data['rootFlipped'])
                         if 'flippedX' in data: self.setEndFlipped(name=t_name, dir="x", state=data['flippedX'])
@@ -443,9 +458,6 @@ class Twist(object):
             if not self.win.twists_listWidget.currentItem():
                 return
             item_name = self.win.twists_listWidget.currentItem().text()
-
-        root_j = cmds.listRelatives(item_name + "_root_connectorLoc", p=1)[0]
-        cmds.setAttr(root_j+".drawStyle", 0)
 
         # delete ibtws
         ibtws_data = self.main.rig.getIbtwsData()
@@ -678,6 +690,7 @@ class Twist(object):
             
             if not moduleName:
                 moduleName = utils.getModuleName(self.curTwist["target"])
+
             twSet = twName+'_twistNodesSet'
             quat = twName+"_quatToEuler_1"
             upLoc = twName+"_startUp_loc"
@@ -710,9 +723,9 @@ class Twist(object):
             cmds.select(clear=1)
             for i in range(count):
                 j = cmds.joint(n=twName+'_twist_%s_twJoint' %i)
-                utils.setUserAttr(j, "pos", u, "float", keyable=True, lock=False)
+                utils.setUserAttr(j, "pos", u, "float", keyable=True, lock=False, min=0, max=1)
                 cmds.addAttr(j, ln="twistMultiplier", at="double", min=0, max=1, dv=1, keyable=True)
-                cmds.sets(j, e=1, forceElement='skinJointsSet')
+                # cmds.sets(j, e=1, forceElement='skinJointsSet')
                 cmds.sets(j, e=1, forceElement=twSet)
                 cmds.parent(j, twName+"_joints")
 
@@ -740,6 +753,8 @@ class Twist(object):
                 cmds.connectAttr(mp+'.rotate', j+".r")
 
                 u += step
+
+            self.addSkinJoints(twName)
         
         twName = self.curTwistName
         twName_opp = utils.getOpposite(self.curTwistName)
@@ -760,8 +775,8 @@ class Twist(object):
                     cmds.connectAttr(twName+'_twist_%s_twJoint.pos' %i, twName_opp+'_twist_%s_twJoint.pos' %i)
                     cmds.connectAttr(twName+'_twist_%s_twJoint.twistMultiplier' %i, twName_opp+'_twist_%s_twJoint.twistMultiplier' %i)
                 else:
-                    cmds.connectAttr(twName_opp+'_twist_%s_twJoint.pos' %i, twName+'_twist_%s_twJoint.pos' %i)
-                    cmds.connectAttr(twName_opp+'_twist_%s_twJoint.twistMultiplier' %i, twName+'_twist_%s_twJoint.twistMultiplier' %i)
+                    cmds.connectAttr(twName_opp+'_twist_%s_twJoint.pos' %i, twName+'_twist_%s_twJoint.pos' %i, f=1)
+                    cmds.connectAttr(twName_opp+'_twist_%s_twJoint.twistMultiplier' %i, twName+'_twist_%s_twJoint.twistMultiplier' %i, f=1)
 
         # update only if set count manually from button
         if updateFrame:
@@ -809,7 +824,7 @@ class Twist(object):
         twData['rootUpOffset'] = cmds.getAttr(twName + "_rootUpLoc.r")[0]
         twData['rootOffset'] = cmds.getAttr(twName + "_root_connectorLoc.r")[0]
         twData['endOffset'] = cmds.getAttr(twName + "_end_connectorLoc.r")[0]
-
+        
         twData["rootFlipped"] = False
         twData["flippedX"] = False
         twData["endOffsetFlippedX"] = False
@@ -826,6 +841,12 @@ class Twist(object):
             pos = cmds.getAttr(twName+"_twist_%s_twJoint.pos" %i)
             jointsPos.append(pos)
         twData['jointsPos'] = jointsPos
+        
+        jointsTwistMultiplier = []
+        for i in range(jointsCount):
+            twistMultiplier = cmds.getAttr(twName+"_twist_%s_twJoint.twistMultiplier" %i)
+            jointsTwistMultiplier.append(twistMultiplier)
+        twData['jointsTwistMultiplier'] = jointsTwistMultiplier
 
         if module_name != "":
             twData['target'] = utils.getTemplatedNameFromReal(module_name, twData['target'])
@@ -901,6 +922,27 @@ class Twist(object):
         cmds.setAttr(opp_name+"_offset_compMat.inputScaleX", v)
         self.curTwist["endOffsetFlippedX"] = state
 
-    def addSkinJoints(self, m_name=None):
-        for j in cmds.listRelatives(t_name+"_joints"):
+    def addSkinJoints(self, twName):
+        moduleName = utils.getModuleName(twName+"_outJoint")
+        # delete old twist skinJoints
+        if cmds.objExists(f"{twName}_twist_0_skinJoint"):
+            cmds.delete(f"{twName}_twist_0_skinJoint")
+
+        cmds.hide(twName+"_joints")
+        for i in range(len(cmds.listRelatives(twName+"_joints"))):
+            tw_j = f"{twName}_twist_{i}_twJoint"
+            j = cmds.duplicate(tw_j , n=tw_j.replace("twJoint", "skinJoint"))[0]
+            cmds.setAttr(j+".segmentScaleCompensate", 0)
+            cmds.setAttr(tw_j+".drawStyle", 2)
+            if i == 0:
+                cmds.parent(j, f"{twName}_skinJoint")
+            else:
+                cmds.parent(j, f"{twName}_twist_{i-1}_skinJoint")
+            utils.removeTransformParentJoint(j)
+            utils.resetAttrs(j, matrix=True, jointOrient=True)
+            utils.connectByMatrix(j, [tw_j, j], ['worldMatrix[0]', 'parentInverseMatrix[0]'], module_name=moduleName)
+
+            cmds.connectAttr(j+".pos", tw_j+".pos")
+            cmds.connectAttr(j+".twistMultiplier", tw_j+".twistMultiplier")
+
             cmds.sets(j, e=1, forceElement=moduleName+"_skinJointsSet")

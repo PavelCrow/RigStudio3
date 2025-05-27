@@ -11,10 +11,10 @@ class Head(module.Module):
 		self.type = __name__.split('.')[-1]
 
 
-	def create(self, options={}):
-		super(self.__class__, self).create(options)	
+	# def create(self, options={}):
+	# 	super(self.__class__, self).create(options)	
 		
-		cmds.setAttr(self.name+"_root_skinJoint.drawStyle", 2)
+	# 	cmds.setAttr(self.name+"_root_skinJoint.drawStyle", 2)
 
 	def connect(self, target, opposite=False):
 		target_module_name = utils.getModuleName(target)

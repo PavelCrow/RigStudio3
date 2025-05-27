@@ -136,7 +136,6 @@ class Mouth(module.Module) :
 			uc1 = cmds.createNode("unitConversion", n=c+"_unitConversion_1")
 			uc2 = cmds.createNode("unitConversion", n=c+"_unitConversion_2")
 			mp = cmds.createNode("motionPath", n=c+"_motionPath")
-			# clp = cmds.createNode("clamp", n=c+"_clamp")
 			rmp = cmds.createNode("remapValue", n=c+"_remapValue")
 			add1 = cmds.createNode("addDoubleLinear", n=c+"_addDoubleLinear_1")
 			add2 = cmds.createNode("addDoubleLinear", n=c+"_addDoubleLinear_2")
@@ -257,6 +256,8 @@ class Mouth(module.Module) :
 			cmds.setAttr(c+".internalName", c[len(m_name)+1:], type="string")
 			cmds.setAttr(c+".internalName", l=1)
 
+			cmds.connectAttr(c.replace("_r_", "_l_")+"Shape.worldSpace[0]", c+"Shape.create")
+
 			pb = cmds.createNode("pairBlend", n=c+"_pairBlend")
 			uc1 = cmds.createNode("unitConversion", n=c+"_unitConversion_1")
 			uc2 = cmds.createNode("unitConversion", n=c+"_unitConversion_2")
@@ -351,6 +352,8 @@ class Mouth(module.Module) :
 			cmds.setAttr(c+".internalName", c[len(m_name)+1:], type="string")
 			cmds.setAttr(c+".internalName", l=1)
 
+			cmds.connectAttr(c.replace("_r_", "_l_")+"Shape.worldSpace[0]", c+"Shape.create")
+
 			pb = cmds.createNode("pairBlend", n=c+"_pairBlend")
 			mp = cmds.createNode("motionPath", n=c+"_motionPath")
 			j = cmds.duplicate(m_name+"_c_t_lip_outJoint", n=c.replace("detail", "outJoint"))[0]
@@ -379,6 +382,10 @@ class Mouth(module.Module) :
 
 		self.addSkinJoints()
 		
+		for i in range(1, count+1):
+			cmds.connectAttr(f"{m_name}_l_t_lip_{i}_skinJoint.pos", f"{m_name}_l_t_lip_{i}_outJoint.pos")
+			
+
 		if self.widget:
 			self.updateOptionsPage(self.widget)
 
@@ -386,7 +393,7 @@ class Mouth(module.Module) :
 		value = round(v * 0.0001, 4)
 		eval("widget.lineEdit.setText(str(%s))" %value)
 
-		cmds.setAttr(self.name+"_l_t_lip_%s_outJoint.pos" %id, value)
+		cmds.setAttr(self.name+"_l_t_lip_%s_skinJoint.pos" %id, value)
 
 	def sliderValue_update(self, widget):
 		v = float( eval("widget.lineEdit.text()") ) * 10000
@@ -408,7 +415,7 @@ class Mouth(module.Module) :
 			self.rebuildWithNewOptions(count=optionsData["jointsCount"])
 
 		for i, pos in enumerate(optionsData["posData"]):
-			cmds.setAttr(self.name+"_l_t_lip_%s_outJoint.pos" %(i+1), pos)
+			cmds.setAttr(self.name+"_l_t_lip_%s_skinJoint.pos" %(i+1), pos)
 
 		if self.widget:
 			self.updateOptionsPage(self.widget)

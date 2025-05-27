@@ -83,19 +83,38 @@ def incrementName(name):
 	return name
 
 def incrementNameIfExists(name): #
-	suffix = name.split('_')[-1]
-	if suffix.isdigit():
-		rootName = name[:-len(suffix)-1]
+	suff = name.split('_')[-1]
+	if suff.isdigit():
+		rootName = name[:-len(suff)-1]
 	else:
-		suffix = ""
+		suff = ""
 		rootName = name	
 
 	while cmds.objExists(name):
-		suffix = name.split('_')[-1]
-		if suffix.isdigit():
-			name = rootName + '_' + str( int(suffix) + 1 )
+		suff = name.split('_')[-1]
+		if suff.isdigit():
+			name = rootName + '_' + str( int(suff) + 1 )
 		else:
 			name += '_1'
+
+	return name
+
+def incrementNameIfExistsWithSuffix(name): #
+	suffix = name.split('_')[-1]
+	id = name.split('_')[-2]
+
+	if id.isdigit():
+		rootName = name[:-len(id)-len(suffix)-2]
+	else:
+		rootName = name	
+
+	while cmds.objExists(name):
+		id = name.split('_')[-2]
+		if id.isdigit():
+			id = int(id) + 1
+			name = f"{rootName}_{id}_{suffix}"
+		else:
+			name = f"{rootName}_1_{suffix}"
 
 	return name
 
@@ -140,7 +159,7 @@ def getShape(name):
 	shape = cmds.listRelatives(name, s=1)[0]
 	return shape
 
-def resetAttrs(o, debug=False, matrix=False): #
+def resetAttrs(o, debug=False, matrix=False, jointOrient=False): #
 	for a in [".tx", ".ty", ".tz", ".rx", ".ry", ".rz"]:
 		try:
 			cmds.setAttr(o+a, 0)
@@ -160,6 +179,9 @@ def resetAttrs(o, debug=False, matrix=False): #
 
 	if matrix:
 		cmds.setAttr(o+'.offsetParentMatrix', [1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0], type="matrix")
+
+	if jointOrient:
+		cmds.setAttr(o+".jointOrient", 0,0,0)
 
 def getModuleNameFromHierarhy(controlName):
 	p = cmds.listRelatives(controlName, parent=1)[0]
@@ -244,7 +266,7 @@ def getModuleSections():
 	
 	return sections
 
-def setUserAttr(obj, attrName, value, type="string", lock=True, keyable=False, cb=False, enumList=""):
+def setUserAttr(obj, attrName, value, type="string", lock=True, keyable=False, cb=False, enumList="", min="none", max="none"):
 	#print obj, attrName
 	# create attribute if not exists
 	if not cmds.attributeQuery(attrName, n=obj, exists=True ):
@@ -286,6 +308,10 @@ def setUserAttr(obj, attrName, value, type="string", lock=True, keyable=False, c
 	cmds.setAttr(obj+"."+attrName, e=1, l=lock )
 	if not keyable: cmds.setAttr(obj+"."+attrName, e=1, cb=cb )
 
+	if min != "none": cmds.addAttr(obj+"."+attrName, e=1, minValue=min)
+	if max != "none": cmds.addAttr(obj+"."+attrName, e=1, maxValue=max)
+
+
 def addModuleNameAttr(obj, moduleName):
 	#print (33333, obj, moduleName)
 	if not pm.attributeQuery("moduleName", node=obj, exists=1):
@@ -316,18 +342,25 @@ def getModuleTypeFromAttr(obj):
 def getModuleName(obj): #
 	if obj == None or obj == "" or not cmds.objExists(obj):
 		return None	
-	j = obj.replace("skinJoint", "outJoint")
-	# j = obj.replace("joint", "outJoint")
+	
+	if "_twist_" in obj:
+		tw_name = obj.split("_twist_")[0]
+		j = tw_name + "_outJoint"
+	else:
+		j = obj.replace("skinJoint", "outJoint")
 
 	# for twist joints
-	if obj.split("_")[-1] == "twJoint":
-		p = cmds.listRelatives(obj, p=1)[0]
-		j = p.replace("joints", "outJoint")
+	# if not cmds.objExists(j):
+	# 	j = obj.replace("skinJoint", "twJoint")
+	# if obj.split("_")[-1] == "twJoint":
+	# 	p = cmds.listRelatives(obj, p=1)[0]
+	# 	j = p.replace("joints", "outJoint")
 
 	path = cmds.ls(j, l=1) or []
-	
+	# print(111, obj, j, path)
+
 	moduleName = path[0].split("rig|modules|")[-1].split("_mod|")[0]
-	
+	# print(222,moduleName)
 	return moduleName
 
 def capitalizeName(name):
@@ -547,9 +580,13 @@ def getTemplatedNameFromReal(mod_name, control_name): #
 
 	return control_name
 
-def getRealNameFromTemplated(mod_name, control_name): #
+def getRealNameFromTemplated(mod_name, control_name, old_mod_name=None): #
+	# print(444, mod_name, control_name, control_name[:-(len(control_name)-len(old_mod_name))])
 	if isinstance(control_name, str) and "MODNAME" in control_name:
 		name = control_name.replace("MODNAME", mod_name)
+		return name
+	elif old_mod_name and old_mod_name == control_name[:-(len(control_name)-len(old_mod_name))] :
+		name = mod_name + control_name[len(old_mod_name):]
 		return name
 	else:
 		return control_name
@@ -832,14 +869,22 @@ def getRealNameFromData(obj_name, module_name):
 		old_mod_name = obj_name.split("_")[0]
 		return obj_name.replace(old_mod_name, module_name)
 
-def getClosestJoint(mod_name, src_object):
-	pos1 = cmds.xform(src_object, query=True, translation=True, worldSpace=True)
+def getClosestJoint(mod_name, src_object, skipAddSkinJoints=False):
+	# print(333, "CLOSEST", mod_name, src_object)
+	pos1 = pm.xform(src_object, query=True, translation=True, worldSpace=True)
 	closest_distance = 10000000
 	closest = ""
 	for j in cmds.listRelatives("skeleton", allDescendents=1):
 		if j.split("_")[-1] == 'skinJoint':
-
-			#print j, getModuleName(j)
+			if skipAddSkinJoints:
+				out_j =  j.replace('skinJoint', 'outJoint')
+				if not cmds.objExists(out_j):
+					out_j =  j.replace('skinJoint', 'twJoint') # for twist joints
+				if not cmds.objExists(out_j):
+					out_j =  j.replace('root_skinJoint', 'joints_group') # for ibtw joints
+				c = cmds.listRelatives(out_j, p=1)[0]
+				if objectIsAdditionalControl(c):
+					continue
 			if getModuleName(j) == mod_name:
 				pos2 = cmds.xform(j, query=True, translation=True, worldSpace=True)
 				distance = math.sqrt( math.pow((pos1[0]-pos2[0]),2) + math.pow((pos1[1]-pos2[1]),2) + math.pow((pos1[2]-pos2[2]),2))				
@@ -848,9 +893,11 @@ def getClosestJoint(mod_name, src_object):
 					closest_distance = distance
 					closest = j
 				#if src_object == 'l_leg_upper_pin': print 444, j, distance, closest_distance
+				# print (333, "CLOSEST JOINT", src_object, pos1, j, pos2, distance)
 
 	#if src_object == 'l_leg_upper_pin': print 555, closest
 	#if src_object == 'l_leg_upper_pin': print 555, pos1
+	# print(333, "CLOSEST GET", getTemplatedNameFromRealclosest)
 	return closest		
 
 def getClosestOutJoint(mod_name, src_object):

@@ -42,6 +42,7 @@ class AdditionalControl(controller.Control):
 			self.create(shape)
 
 	def create(self, shape='circle'): #
+		# print(331, self.parent)
 		par_moduleName = utils.getModuleName(self.parent)
 
 		# create control
@@ -115,15 +116,15 @@ class AdditionalControl(controller.Control):
 		else:
 			target_j = target + '_skinJoint'
 			if not cmds.objExists(target_j):
-				target_j = utils.getClosestJoint(par_moduleName, target)
+				target_j = utils.getClosestJoint(par_moduleName, target, skipAddSkinJoints=True)
 				closestJoint = True
-		
+				# print(3333333, target + '_skinJoint', target_j)
 		parent_out_j = target_j.replace("skinJoint", "outJoint")
 		parent_j = target_j.replace("outJoint", "skinJoint")
 		poser = name+"_addPoser"
 		group = name+'_group'
 		joint =  name+'_skinJoint'
-		
+		# print(4444, joint, parent_out_j, parent_j)
 		parent_initLoc = target_j.replace("skinJoint", "initLoc").replace("outJoint", "initLoc")
 		if closestJoint:
 			n = utils.getInternalNameFromControl(target)
@@ -167,7 +168,7 @@ class AdditionalControl(controller.Control):
 
 		if cmds.listRelatives(poser, p=1)[0] != par_p:
 			cmds.parent(poser, par_p)
-			
+		
 		# create connection line
 		crv = name+"_connectionCrv"
 		if not cmds.objExists(crv):
