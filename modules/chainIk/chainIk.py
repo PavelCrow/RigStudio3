@@ -153,7 +153,8 @@ class ChainIk(module.Module) :
 				
 			cmds.setAttr(jnt+".jointOrientX", 0)
 			cmds.setAttr(jnt+".jointOrientY", 0)
-			cmds.setAttr(jnt+".jointOrientZ", 0)			
+			cmds.setAttr(jnt+".jointOrientZ", 0)		
+			cmds.setAttr(jnt+".drawStyle", 2)	
 			
 			# add lines, connect posers
 			if n > 1:
@@ -247,8 +248,6 @@ class ChainIk(module.Module) :
 		cmds.setAttr(self.name+'_initJoints.v', 0)
 		if self.isOpposite():
 			cmds.setAttr(self.name+'_initJoints.sx', -1)
-
-		cmds.hide(self.name+"_outJoints")
 
 	def create2(self):
 		name = self.name

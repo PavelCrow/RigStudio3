@@ -19,19 +19,19 @@ class Head(module.Module):
 	def connect(self, target, opposite=False):
 		target_module_name = utils.getModuleName(target)
 		target_module_type = utils.getModuleTypeFromAttr(target)
-
+		
 		if target_module_type == "chainIk":
 			childs = cmds.listRelatives(target_module_name+'_outJoints', allDescendents=1, type='joint' )
 			jointsCount = len(childs)
 			target = "%s_%s_outJoint" %(target_module_name, (jointsCount-1))
-
-			super().connect(target, opposite, makeSeamless=True)
 
 			target_poser = utils.getClosestPoser(target_module_name, target)
 
 			int_name = target_poser[len(target_module_name)+1:-6]
 			target_control = utils.getControlNameFromInternal(target_module_name, int_name)
 			target_control_local = utils.getControlNameFromInternal(target_module_name, "local_"+int_name)
+
+			super().connect(target, opposite, makeSeamless=True)
 
 			cmds.connectAttr(target_control+".worldMatrix[0]", self.name+"_root_connector_multMat.matrixIn[2]", f=1)
 			cmds.connectAttr(target_poser+".worldInverseMatrix[0]", self.name+"_root_connector_multMat.matrixIn[1]", f=1)
@@ -41,7 +41,7 @@ class Head(module.Module):
 
 			cmds.setAttr(target_control+".lodVisibility", 0)
 			cmds.setAttr(target_control_local+".lodVisibility", 0)
-
+			
 		else:
 			super().connect(target, opposite)
 	

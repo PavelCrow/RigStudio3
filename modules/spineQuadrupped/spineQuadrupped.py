@@ -229,6 +229,8 @@ class SpineQuadrupped(module.Module) :
 		for o in joints:		
 			cmds.setAttr(o.replace("outJoint", "skinJoint")+".segmentScaleCompensate", 1)
 		
+		cmds.setAttr(self.name+"_root_skinJoint.segmentScaleCompensate", 0)
+		
 		cmds.parent(self.name+"_end_skinJoint", self.name+"_local_%s_skinJoint" %last_id)
 		utils.removeTransformParentJoint(self.name+"_end_skinJoint")
 

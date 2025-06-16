@@ -237,5 +237,7 @@ class Spine(module.Module) :
 		utils.removeTransformParentJoint(self.name+"_end_skinJoint")
 		cmds.setAttr(self.name+"_end_skinJoint.jointOrient", 0,0,0)
 
+		cmds.setAttr(self.name+"_root_skinJoint.segmentScaleCompensate", 0)
+
 	def bake(self):
 		super(self.__class__, self).bake(forceDelete=[self.name+"_decomposeMatrix91",self.name+"_decomposeMatrix92",self.name+"_decomposeMatrix93"])

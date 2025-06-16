@@ -128,6 +128,9 @@ class Inbetweens(object):
 				self.win.swapJointsZ_checkBox.setEnabled(is_symmetrical)
 				self.win.swapAngleY_checkBox.setEnabled(is_symmetrical)
 				self.win.swapAngleZ_checkBox.setEnabled(is_symmetrical)
+		
+		# set check state for offsetLocs button
+		self.win.ib_selectOffsetLocator_btn.setChecked(cmds.getAttr(self.curIbName+"_ibtw_parent_offsetLocShape.v"))
 
 		if self.curIbName.split('_')[0] == 'r':
 			self.win.ibs_options_frame.setEnabled(False)
@@ -166,9 +169,7 @@ class Inbetweens(object):
 		
 		name = child_j.split("_skinJoint")[0].split("_outJoint")[0].split("_twJoint")[0]
 		self.curIb = self.getData(name)
-		
 		if cmds.objExists(name+"_ibtw_root"):
-			print(6666, name+"_ibtw_root")
 			QtWidgets.QMessageBox.information(self.win, "Warning", "Inbetween in this joint already exists.")
 			return
 
@@ -359,6 +360,9 @@ class Inbetweens(object):
 				jointsData = data["jointsData"]
 				for j_data in jointsData:
 					side = j_data["name"].split("_")[-3]
+					if not side in ["y", "z"]:
+						cmds.warning("Old data format in template")
+						return
 					# side = j_data["name"].split("_")[-2]
 					self.addJoint(side=side, name=name, data=j_data)
 			
@@ -496,12 +500,6 @@ class Inbetweens(object):
 			data["parentOffset"] = cmds.getAttr(name+"_ibtw_parent_offsetLoc.r")
 			data["childOffset"] = cmds.getAttr(name+"_ibtw_child_offsetLoc.r")
 
-			# if cmds.objExists(name+"_ibtw_target_y") and cmds.objExists(name+"_ibtw_target_z"):
-			# 	data["targetYPos"] = cmds.getAttr(name+"_ibtw_target_y.t")
-			# 	data["targetZPos"] = cmds.getAttr(name+"_ibtw_target_z.t")
-			# else:
-			# 	print("Missed", name+"_ibtw_target_y", name+"_ibtw_target_z")
-
 			if utils.isSymmetrical(root):
 				if utils.getObjectSide(root) == "l":
 					opp_name = utils.getOpposite(name)
@@ -515,7 +513,7 @@ class Inbetweens(object):
 					data["flippedZ"] = cmds.getAttr(opp_name+"_ibtw_parent_offsetLoc_mirrorGroup.sz") == -1
 					data["swapJointsY"] = cmds.getAttr(opp_name+"_ibtw_joints_group.sy") == -1
 					data["swapJointsZ"] = cmds.getAttr(opp_name+"_ibtw_joints_group.sz") == -1
-					data["swapAngleY"] = cmds.getAttr(opp_name+"_ibtw_target_y.tz") == -1
+					data["swapAngleY"] = cmds.getAttr(opp_name+"_ibtw_target_y.ty") == -1
 					data["swapAngleZ"] = cmds.getAttr(opp_name+"_ibtw_target_z.tz") == -1
 
 		jointsData = []
@@ -523,19 +521,21 @@ class Inbetweens(object):
 			joints_gr = cmds.listRelatives(name+"*_ibtw_root")
 		else:
 			joints_gr = cmds.listRelatives(name+"*_ibtw_joints_group")
-		for j_gr in joints_gr:
-			j = cmds.listRelatives(j_gr)[0]
-			jData = {}
-			jData["name"] = j
-			jData["angleMin"] = cmds.getAttr(j+".angleMin")
-			jData["angleMax"] = cmds.getAttr(j+".angleMax")
-			jData["posMin"] = cmds.getAttr(j+".posMin")
-			jData["posMax"] = cmds.getAttr(j+".posMax")
-			jData["offsetMin"] = cmds.getAttr(j+".offsetMin")
-			jData["offsetMax"] = cmds.getAttr(j+".offsetMax")
-			if not local:
-				jData["reverse"] = cmds.getAttr(j+".reverse")
-			jointsData.append(jData)
+		
+		if joints_gr:
+			for j_gr in joints_gr:
+				j = cmds.listRelatives(j_gr)[0]
+				jData = {}
+				jData["name"] = j
+				jData["angleMin"] = cmds.getAttr(j+".angleMin")
+				jData["angleMax"] = cmds.getAttr(j+".angleMax")
+				jData["posMin"] = cmds.getAttr(j+".posMin")
+				jData["posMax"] = cmds.getAttr(j+".posMax")
+				jData["offsetMin"] = cmds.getAttr(j+".offsetMin")
+				jData["offsetMax"] = cmds.getAttr(j+".offsetMax")
+				if not local:
+					jData["reverse"] = cmds.getAttr(j+".reverse")
+				jointsData.append(jData)
 
 		data["jointsData"] = jointsData
 
@@ -550,7 +550,7 @@ class Inbetweens(object):
 		return data
 	
 	def addJoint(self, side, name=None, data=None): #
-		# print(111, side, name, data)
+		# print(13, side, name)
 		if not name:
 			name = self.curIbName
 		j_name = utils.incrementNameIfExistsWithSuffix(f"{name}_ibtw_{side}_1_outJoint")
@@ -673,7 +673,7 @@ class Inbetweens(object):
 		# add skinJoint
 		s_j = pm.duplicate(j, n=j.replace("outJoint", "skinJoint"))[0]
 		cmds.sets(s_j.name(), e=1, forceElement=set)
-		pm.deleteAttr(s_j, attribute="driverAngle")
+		# pm.deleteAttr(s_j, attribute="driverAngle")
 		
 		# hide outJoint
 		j.drawStyle.set(2)
@@ -693,6 +693,9 @@ class Inbetweens(object):
 			s_j.offsetMin >> j.offsetMin
 			s_j.offsetMax >> j.offsetMax
 			s_j.reverse >> j.reverse
+			j.driverAngle >> s_j.driverAngle
+			j.driverAngle.lock()
+			pm.setAttr(j.driverAngle, lock=1)
 		elif utils.objectIsOpposite(name+"_ibtw_root"):
 			pm.deleteAttr(s_j, attribute="angleMin")
 			pm.deleteAttr(s_j, attribute="angleMax")
@@ -819,3 +822,51 @@ class Inbetweens(object):
 		else:
 			v = 1
 		cmds.setAttr(f"{opp_name}_ibtw_target_{dir}.t{dir}", v)
+
+	def getIbtwsData(self, moduleNames=[]):
+		ibtwsData = []
+		roots = cmds.ls("*_ibtw_root")
+
+		for root in roots:
+			if utils.getObjectSide(root) == "r" and cmds.objExists(utils.getOpposite(root)):
+				continue
+			m_name = utils.getModuleName(root)
+			if moduleNames and m_name not in moduleNames: # if start of the ibts name == module name
+				continue
+
+			ibtw = root.split("_ibtw_root")[0]
+			ibtwData = self.getData(ibtw)
+			ibtwsData.append(ibtwData)
+		
+		return ibtwsData	
+	
+	def renameData(self, data, names_dict):
+			
+		def rename_module_in_data(tw_data, value, old_name, new_name):
+			if value.split("_")[0] in ["l", "r"]:
+				m_name = value.split("_")[0] + "_" + value.split("_")[1]
+				if len(value.split("_")) >= 3:
+					if value.split("_")[2].isdigit():
+						m_name = m_name + "_" + value.split("_")[2]
+			else:
+				m_name = value.split("_")[0]
+				if len(value.split("_")) >= 2:
+					if value.split("_")[1].isdigit():
+						m_name = m_name + "_" + value.split("_")[1]
+		
+			if m_name == old_name:
+				value = new_name + value[len(old_name):]
+				tw_data[attr] = value
+				# print("REN", old_name, new_name, value)
+
+		for old_name in names_dict:
+			new_name = names_dict[old_name]
+			if old_name == new_name:
+				continue
+
+			for attr in ["child_j", "parent_j", "name"]:
+				for tw_data in data:
+					value = tw_data[attr]
+					rename_module_in_data(tw_data, value, old_name, new_name)
+
+		return data	

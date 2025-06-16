@@ -905,3 +905,147 @@ def bakeDummyRig():
 
 	if cmds.objExists("main"):
 		cmds.parent("skeleton", "main")
+
+def reskin():
+
+	def attr_from_connection (attr, source=False, destination=False, targetName=None):
+		if destination:
+			if pm.connectionInfo( attr, isSource=True):
+				outputs = pm.connectionInfo( attr, destinationFromSource=True)
+				if len(outputs) == 0:
+					return None
+				elif len(outputs) == 1:
+					out_attr = pm.PyNode(outputs[0])
+					return out_attr
+				else:
+					pm.warning("Found multiple attributes")
+					print (outputs)
+					if targetName:
+						for out in outputs:
+							if targetName in out:
+								out_attr = pm.PyNode(out)
+								return out_attr
+					return None
+		elif source:
+			pass
+		else:
+			pm.warning("Set source or destination flag")    
+		
+	def resetSkin(sc):
+		# enter rebind mode
+		for j in sc.matrix.inputs():
+			scAttr = attr_from_connection(j.worldMatrix[0], destination=True, targetName=sc.name())
+			id = scAttr.name().split("[")[-1][:-1]
+			j.worldInverseMatrix[0] >> sc.bindPreMatrix[id]
+
+		# exit rebind mode
+		for j in sc.matrix.inputs():
+			scAttr = attr_from_connection(j.worldMatrix[0], destination=True, targetName=sc.name())
+			id = scAttr.name().split("[")[-1][:-1]
+			m = j.worldInverseMatrix[0].get()
+			pm.disconnectAttr(j.worldInverseMatrix[0], sc.bindPreMatrix[id])
+			sc.bindPreMatrix[id].set(m)
+
+	def run():        
+		sel = pm.ls(sl=1)        
+				
+		if not len(sel) :
+			cmds.warning("Select geometry or skincluster")
+			return
+			
+		if len(sel) == 1:
+			geo = sel[0]
+			
+			if pm.objectType(geo) == "transform":
+				sh = geo.getShape()
+
+				# get skincluster
+				sc = sh.inMesh.inputs()[0]
+				if pm.objectType(sc) != "skinCluster":
+					cmds.warning("Cannot get skincluster, select skincluster in channelbox")
+					return
+			else:
+				cmds.warning("Select geometry with skincluster or skincluster")
+				return
+
+		elif len(sel) == 2:
+			if pm.objectType(sel[0]) == "skinCluster":
+				sc = sel[0]
+			else:
+				cmds.warning("Cannot get scincluster")
+				return
+				
+		resetSkin(sc)
+		
+	run()    
+
+def selectSkinJoints():
+	pm.mel.eval("""
+	global proc string[] selectSkinJoints ( )
+	{
+	string $list[] = stringArrayCatenate(`ls -sl -geometry`, `ls -sl -et transform`);
+	string $objectName = $list[0];
+
+	if (size($list) < 1) error "No selected object.";
+	if (size($list) > 1) error "More than one object selected.";
+
+	$list = `ls -sl -type skinCluster`;
+
+	if (size($list) < 1)
+	{
+		$list = `listHistory -pdo 1 $objectName`;
+		$list = `ls -type skinCluster $list`;
+	}
+
+	string $skinClusterName = $list[0];
+
+	if (size($list) < 1) error "No skinCluster deformer for selected object.";
+	if (size($list) > 1) error "More than one skinCluster deformer for selected object. Select skinCluster node in Channel Box.";
+		
+	string $history[] = `listHistory $objectName`;
+	string $clustersName[] = `ls -type skinCluster $history`;
+	string $skinClusterSetName[] = `listConnections -type objectSet $skinClusterName`;
+	
+	int $flag;
+	for ($clusterMember in $clustersName)
+		if ($clusterMember == $skinClusterName) $flag++;
+	if ($flag == 0) error ("`" + $skinClusterName + "` is not deformer for `" + $objectName + "`.");
+	
+	$list = `listHistory -levels 1 $skinClusterName`;
+	$list = `ls -type transform $list`;
+	$list = `stringArrayRemoveDuplicates($list)`;
+
+	string $jointName[] = $list;
+
+	if (size($list) < 1) error "No joint connected with skinCluster.";
+
+	select -r $jointName;
+
+	return $jointName;
+	}
+	selectSkinJoints;
+	""")
+
+def copySkin():
+	src, tgt = pm.ls(sl=1)
+	pm.select(src)
+	selectSkinJoints()
+	pm.select(tgt, add=1)
+	pm.skinCluster(toSelectedBones=1, maximumInfluences=5)
+	pm.select(src, tgt)
+	pm.copySkinWeights(noMirror=1, surfaceAssociation='closestPoint', influenceAssociation='closestJoint')
+
+def selectAllJoints():
+	singleHierarhy = cmds.getAttr("main.singleHierarhy")
+
+	if singleHierarhy:
+		cmds.select(cmds.listRelatives("skeleton", allDescendents=1))
+	else:
+		joints = []
+		for mod in cmds.listRelatives("modules"):
+			joints += cmds.listRelatives(mod.replace("mod", "outJoints"), allDescendents=1, type="joint")
+
+		for tw_name in cmds.listRelatives("twists"):
+			joints += cmds.listRelatives(tw_name.replace("mod", "joints"), allDescendents=1, type="joint")
+
+		cmds.select(joints)

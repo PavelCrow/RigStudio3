@@ -156,7 +156,8 @@ class Chain(module.Module) :
 			cmds.setAttr(jnt+".jointOrientX", 0)
 			cmds.setAttr(jnt+".jointOrientY", 0)
 			cmds.setAttr(jnt+".jointOrientZ", 0)			
-			cmds.setAttr(jnt+".segmentScaleCompensate", 0)			
+			cmds.setAttr(jnt+".segmentScaleCompensate", 0)		
+			cmds.setAttr(jnt+".drawStyle", 2)		
     
 			# add lines, connect posers
 			if n > 1:
@@ -242,8 +243,6 @@ class Chain(module.Module) :
 			cmds.setAttr(poser+'.lineWidth', k=0, cb=0)
 
 		cmds.parent(self.root, 'modules')	
-
-		cmds.hide(self.name+"_outJoints")
 
 	def updateOptionsPage(self, widget):
 		self.getOptions()

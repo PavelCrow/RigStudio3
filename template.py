@@ -1,6 +1,6 @@
 import maya.cmds as cmds
 import maya.mel as mel
-from . import utils, parents
+from . import utils, parents, twist
 import random
 
 version = int(cmds.about(v=True).split(" ")[0])
@@ -19,7 +19,7 @@ class Template(object):
 	def __init__(self):
 		self.main = None
 		self.rootPath = os.path.normpath(os.path.dirname(__file__))
-		
+	
 
 	def module_save(self):
 		m = self.main.curModule
@@ -55,67 +55,15 @@ class Template(object):
 		with open(path, mode='r') as f:
 			mData = json.load(f)
 
-		# skip if any add control is exists
-		# curAddControlsNames = []
-		# for c in m.additionalControls:
-		# 	curAddControlsNames.append(c.name)
-
-		# remove opposite module
-		# sym = False
-		# if m.symmetrical:
-		# 	cur_m = m
-		# 	sym = True
-		# 	oppMod = self.rig.getMirroredModule(m)
-		# 	self.deleteModule(oppMod.name)
-
-		# 	self.curModule = cur_m
-		# 	oldCurItem = \
-		# 		self.win.modules_treeWidget.findItems(cur_m.name, QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive,
-		# 											0)[0]
-		# 	self.win.modules_treeWidget.setCurrentItem(oldCurItem)
-		# 	self.curModule.symmetrical = False
-
-		# remove twists
-		# twists = self.twistClass.getTwists(m.name)
-		# for tw in twists:
-		# 	self.twistClass.twists_remove(tw)
-
-		# # remove add controls
-		# for c in m.additionalControls:
-		# 	c.delete()
-
 		# set module paraneters
 		mod.setData(mData)
-
-		# set options
-		# opt = mData['optionsData']
-		# if opt != {}:
-		# 	self.rebuildModule(options=opt)
-
-		# m.setData(mData)
 
 		self.main.updateModulesTree()
 		self.main.updateModulePage(mod.name)
 
-		# make symmetry module if needed
-		# if sym:
-		# 	self.makeSymmetryModule()
-
 		mod.deleteAllAdditionalControls()
 		mod.setAddControlsData(mData, mod.name)
 		self.main.addControls_updateTree()
-
-		# twists
-		# for twData in mData['twistsData']:
-		# 	real_data = []
-		# 	real_data = twData
-		# 	m_name = self.curModule.name
-		# 	real_data['name'] = utils.getRealNameFromTemplated(m_name, twData['name'])
-		# 	real_data['start_j'] = utils.getRealNameFromTemplated(m_name, twData['start_j'])
-		# 	real_data['end_j'] = utils.getRealNameFromTemplated(m_name, twData['end_j'])
-		# 	twist.Twist(self.win).twists_add(real_data)
-
-		# self.twistClass.updateList()
 
 		self.main.selectModuleInList(mod.name)
 
@@ -177,9 +125,11 @@ class Template(object):
 		cmds.deleteUI(window)
 
 		data['type'] = 'rs_rig'
+		data['rs_version'] = cmds.getAttr("main.rs_version") or "before 3.12"
 		data['name'] = self.main.rig.name
 		data['modulesData'] = modulesData
-		data['ibtwsData'] = self.main.rig.getIbtwsData()
+		data['twistsData'] = self.main.twistClass.getTwistsData()
+		data['ibtwsData'] = self.main.ibtwClass.getIbtwsData()
 		# data['sets'] = self.sets.getData()
 
 		fullPath = os.path.join(self.rootPath, 'templates', 'rigs', t_name + ".tmpl")
@@ -225,7 +175,7 @@ class Template(object):
 
 		self.main.rigPage_update()
 
-	def	compound_save(self):
+	def get_cur_module_chain_data(self):
 		def haveParent(parent_name, module_name):
 			m = self.main.rig.modules[module_name]
 			p_moduleName = None
@@ -236,35 +186,47 @@ class Template(object):
 				m = self.main.rig.modules[p_moduleName]
 			return False
 
-		t_name = QtWidgets.QFileDialog.getSaveFileName(self.main.win, "Save compound module",
-														os.path.join(self.rootPath,'templates','compoundModules'), "*.ctmpl")[0]
-
-		if t_name == "":
-			return
-
 		data = {}
 		modulesData = []
-		ibtwsData = []
+		module_names = []
 
 		if len(self.main.rig.modules) == 0:
 			cmds.warning("No modules")
 			return
 
-		# collect data for current module and his children
+		# collect data for current module
 		for name in self.main.rig.modules:
 			m = self.main.rig.modules[name]
-
-			# print name, m.parent
-			if haveParent(self.main.curModule.name, m.name) or name == self.main.curModule.name:
+			if name == self.main.curModule.name:
 				mData = m.getData()
 				modulesData.append(mData)
+				module_names.append(m.name)
+				break
+		# collect data for his children
+		for name in self.main.rig.modules:
+			m = self.main.rig.modules[name]
+			if haveParent(self.main.curModule.name, m.name):
+				mData = m.getData()
+				modulesData.append(mData)
+				module_names.append(m.name)
 
-				ibtwsData.append(m.getIbtwsData())
-		
+		data['modulesData'] = modulesData
+		data['ibtwsData'] = self.main.ibtwClass.getIbtwsData(module_names)
+		data['twistsData'] = self.main.twistClass.getTwistsData(module_names)
+
+		return data
+
+	def	compound_save(self, duplicateModule=None):
+
+		t_name = QtWidgets.QFileDialog.getSaveFileName(self.main.win, "Save compound module",
+														os.path.join(self.rootPath,'templates','compoundModules'), "*.ctmpl")[0]
+		if t_name == "":
+			return
+
+		data = self.get_cur_module_chain_data()
+
 		data['type'] = 'compound_module'
 		data['name'] = os.path.basename(t_name).split(".")[0]
-		data['modulesData'] = modulesData
-		data['ibtwsData'] = ibtwsData
 
 		# format data 
 		json_string = json.dumps(data, indent=4)
@@ -279,6 +241,17 @@ class Template(object):
 		with open(os.path.join(self.rootPath, 'templates', 'rigs', path), mode='r') as f:
 			data = json.load(f)
 
+		# create modules
+		self.load_modules(data, load='rig')
+
+		self.main.updateModulesTree()
+
+	def load_modules(self, data, load):
+		
+		# rename data
+		modulesRename = {}
+		new_modules_names = []
+
 		def incrementIfExists(name): 
 			suffix = name.split('_')[-1]
 			if suffix.isdigit():
@@ -287,7 +260,7 @@ class Template(object):
 				suffix = ""
 				rootName = name	
 
-			while cmds.objExists(name+"_mod"):
+			while cmds.objExists(name+"_mod") or name in new_modules_names:
 				suffix = name.split('_')[-1]
 				if suffix.isdigit():
 					name = rootName + '_' + str( int(suffix) + 1 )
@@ -296,28 +269,49 @@ class Template(object):
 
 			return name
 
+		# rename nodules
 		for mData in data['modulesData']:
 			name = mData["name"]
 			if cmds.objExists(name+"_mod"):
 				# get new name
 				new_name = incrementIfExists(name)
-				# rename parents
-				for mData_ in data['modulesData']:
-					if mData_["parent"]:
-						if name+"_" == mData_["parent"][:len(name)+1]: 
-							mData_["parent"] = new_name + mData_["parent"][len(name):] 
+				new_modules_names.append(new_name)
+
 				# rename name
 				mData["name"] = new_name
+				modulesRename[name] = mData["name"]
+		
+		# rename module parents
+		if modulesRename:
+			for mData in data['modulesData']:
+				if mData["parent"]:
+					for old_name in modulesRename:
+						if mData["name"] == modulesRename[old_name]:
+							if not mData["parent"].split("_")[1].isdigit():
+								old_parent_module_name = mData["parent"].split("_")[0]
+							else :
+								old_parent_module_name = mData["parent"].split("_")[0] + "_" + mData["parent"].split("_")[1]
+							print(333, old_parent_module_name)
+							if old_parent_module_name in modulesRename:
+								mData["parent"] = modulesRename[old_parent_module_name] + mData["parent"][len(old_parent_module_name):] 
+		
+		# rename oss
+		for mData in data['modulesData']:
+			name = mData["name"]
+			for par_data in mData["parents"]:
+				control = par_data["control"]
+				new_name = utils.incrementNameIfExists(control)
+				par_data["control"] = new_name
+				self.main.curParents.renameData(par_data, modulesRename)
 
-		# create modules
-		self.load_modules(data, load='rig')
-
-		self.main.updateModulesTree()
-
-	def load_modules(self, data, load):
+		try:
+			data["twistsData"] = self.main.twistClass.renameData(data["twistsData"], modulesRename)
+			data["ibtwsData"] = self.main.ibtwClass.renameData(data["ibtwsData"], modulesRename)
+		except:
+			cmds.warning("missed loading twist and ibts data, old version template")
 		
 		modulesData = []
-
+		
 		def create_modules():
 			# create modules with add controls
 			if print_main_messages: print(
@@ -339,6 +333,7 @@ class Template(object):
 				" -------------------------------- LOAD ADD CONTROLS ------------------------------------------------ ")
 			for d in modulesData:
 				mod, mData = d
+				# print(333, mData)
 				mod.setAddControlsData(mData, mod.name)
 
 				cmds.progressBar(progressControl, edit=True, step=1)
@@ -417,32 +412,31 @@ class Template(object):
 			cmds.window(window, e=1, t='Load twists data')
 			cmds.progressBar(progressControl, e=1, progress=0)
 
-			for mData in modulesData:
-				m = mData[0]
-				for twData in mData[1]['twistsData']:
-					# print "Rig load ADD TWIST Start ------------" , twData['name']
-					real_data = []
-					real_data = twData
-					m_name = m.name
-					real_data['name'] = utils.getRealNameFromTemplated(m_name, twData['name'])
-					target = real_data['target'] = utils.getRealNameFromTemplated(m_name, twData['target'])
-					endTarget = real_data['endTarget'] = utils.getRealNameFromTemplated(m_name, twData['endTarget'])
-					rootOrientTarget = real_data['rootOrientTarget'] = utils.getRealNameFromTemplated(m_name, twData['rootOrientTarget'])
-					endOrientTarget = real_data['endOrientTarget'] = utils.getRealNameFromTemplated(m_name, twData['endOrientTarget'])
-					real_data['jointsCount'] = utils.getRealNameFromTemplated(m_name, twData['jointsCount'])
-					if 'rootOffset' in twData: real_data['rootOffset'] = utils.getRealNameFromTemplated(m_name, twData['rootOffset'])
-					if 'rootUpOffset' in twData: real_data['rootUpOffset'] = utils.getRealNameFromTemplated(m_name, twData['rootUpOffset'])
-					if 'endOffset' in twData: real_data['endOffset'] = utils.getRealNameFromTemplated(m_name, twData['endOffset'])
-					self.main.twistClass.twists_add(real_data)
+			for twData in modulesData:
 
-					if rootOrientTarget != target:
-						self.main.twistClass.attach("root", rootOrientTarget)
+				target = twData['target']
+				m_name = utils.getModuleName(target)
+				m = utils.getModuleInstance(m_name)
 
-					if endOrientTarget != endTarget:
-						self.main.twistClass.attach("end", endOrientTarget)
+				# twData['name'] = utils.getRealNameFromTemplated(m_name, twData['name'])
+				# target = twData['target'] = utils.getRealNameFromTemplated(m_name, twData['target'])
+				endTarget = twData['endTarget'] = utils.getRealNameFromTemplated(m_name, twData['endTarget'])
+				rootOrientTarget = twData['rootOrientTarget'] = utils.getRealNameFromTemplated(m_name, twData['rootOrientTarget'])
+				endOrientTarget = twData['endOrientTarget'] = utils.getRealNameFromTemplated(m_name, twData['endOrientTarget'])
+				# twData['jointsCount'] = utils.getRealNameFromTemplated(m_name, twData['jointsCount'])
+				if 'rootOffset' in twData: twData['rootOffset'] = utils.getRealNameFromTemplated(m_name, twData['rootOffset'])
+				if 'rootUpOffset' in twData: twData['rootUpOffset'] = utils.getRealNameFromTemplated(m_name, twData['rootUpOffset'])
+				if 'endOffset' in twData: twData['endOffset'] = utils.getRealNameFromTemplated(m_name, twData['endOffset'])
+				self.main.twistClass.twists_add(twData)
 
-					if 'rootFlipped' in twData and twData['rootFlipped']:
-						self.main.twistClass.setRootFlipped(name=utils.getOpposite(twData['name']), state=twData['rootFlipped'])
+				if rootOrientTarget != target:
+					self.main.twistClass.attach("root", rootOrientTarget)
+
+				if endOrientTarget != endTarget:
+					self.main.twistClass.attach("end", endOrientTarget)
+
+				if 'rootFlipped' in twData and twData['rootFlipped']:
+					self.main.twistClass.setRootFlipped(name=utils.getOpposite(twData['name']), state=twData['rootFlipped'])
 
 				cmds.progressBar(progressControl, edit=True, step=1)
 			cmds.progressBar(progressControl2, edit=True, step=1)
@@ -491,36 +485,14 @@ class Template(object):
 		connect_modules(modulesData)
 		set_modules(modulesData)
 		if load == 'rig': mirror_modules(modulesData)
-		create_twists(modulesData)
-		create_ibtws(data["ibtwsData"])
+		if "twistsData" in data:
+			create_twists(data["twistsData"]) 
+			create_ibtws(data["ibtwsData"])
 		create_oss(modulesData)
-
-		# if print_main_messages: print(
-		# 	" -------------------------------- SET Parents DATA ------------------------------------------------ ")
-		# # load oss data
-		# cmds.window(window, e=1, t='Load parents data')
-		# cmds.progressBar(progressControl, e=1, progress=0)
-		# for mData in modulesData:
-		# 	self.main.curModule = mData[0]
-		# 	loadParents(mData[1])
-		# 	cmds.progressBar(progressControl, edit=True, step=1)
-		# cmds.progressBar(progressControl2, edit=True, step=1)
-
-		# if print_main_messages: print(
-		# 	" -------------------------------- Snap To Parents End Joint DATA ------------------------------------------------ ")
-		# # load oss data
-		# cmds.window(window, e=1, t='Load snap to parents ends data')
-		# cmds.progressBar(progressControl, e=1, progress=0)
-		# for mData in modulesData:
-		# 	self.main.curModule = mData[0]
-		# 	snapParentsEnd(mData[1])
-		# 	cmds.progressBar(progressControl, edit=True, step=1)
-		# cmds.progressBar(progressControl2, edit=True, step=1)
+		set_modules(modulesData, load="controlVis")
 
 		# update joints placement
 		cmds.refresh()
-
-
 
 		# if print_main_messages: print(
 		# 	" -------------------------------- SET ATTRIBUTES ------------------------------------------------ ")
@@ -549,7 +521,10 @@ class Template(object):
 		cmds.select(clear=1)
 		
 		# update ui
-		self.main.updateModulePage(self.main.curModule.name)
 		self.main.addControls_updateTree()
 
-		
+		# select root module
+		self.main.updateModulePage(modulesData[0][0].name)
+		cmds.select(modulesData[0][0].name+"_mainPoser")	
+
+		return modulesData[0][0].name	

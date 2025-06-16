@@ -196,7 +196,7 @@ class Parents(object):
         data['moduleName'] = moduleName
         data['targetModules'] = targetModules
         data['targets'] = targets	
-
+       
         return data	
 
     def updateList(self):
@@ -239,7 +239,7 @@ class Parents(object):
         data = self.getDataFromNode(self.obj)
         if not data:
             return
-        #self.obj = data['spaceObj']
+
         self.moduleName = data['moduleName']
         self.control = utils.getControlNameFromInternal(self.moduleName, data['control'])
         if self.control == "": self.control = os_curItem.text()
@@ -636,13 +636,6 @@ class Parents(object):
         else:
             data = inputData
             self.obj = utils.getRealNameFromTemplated(data['moduleName'], data['spaceObj'])
-            #moduleName = data['moduleName']
-            #data['spaceObj'] = utils.getRealNameFromTemplated(moduleName, data['spaceObj'])
-            #data['control'] = utils.getControlNameFromInternal(moduleName, data['control'])
-            #targetModules = []
-            #for t in data['targetModules']:
-                #targetModules.append(utils.getRealNameFromTemplated(moduleName, t))			
-            #data['targetModules'] = targetModules
 
         moduleName = data['moduleName']
         sym_moduleName = utils.getOpposite(moduleName)
@@ -754,16 +747,6 @@ class Parents(object):
         niceNames = data['niceNames']
         intNames = data['intNames']
         attrType = data['attrType']
-
-        #print "DELETE OS", moduleName, obj
-        #print attrName 
-        #print attrVis
-        #print niceNames
-        #print intNames 
-        #print attrType 
-        #print 'control' , moduleName, data['control']
-        #for d in data:
-            #print d, data[d]
 
         targetModules = []
         for t in data['targetModules']:
@@ -881,7 +864,11 @@ class Parents(object):
 
         ctrl_name = obj.split("_parentsGroup")[0]
         init_name = utils.getInternalNameFromControl(ctrl_name)
-        ctrlInitLoc = "%s_%s_initLoc" %(m.name, init_name)
+
+        if utils.objectIsAdditionalControl(ctrl_name):
+            ctrlInitLoc = "%s_initLoc" %(init_name)
+        else:
+            ctrlInitLoc = "%s_%s_initLoc" %(m.name, init_name)
 
         #print "AAA", moduleName, data['control'], control
         if not cmds.objExists(ctrlInitLoc):
@@ -908,7 +895,10 @@ class Parents(object):
             utils.resetAttrs(t_gr)
             cmds.hide(t_gr)
 
-            t_ctrlInitLoc = "%s_%s_initLoc" %(targetModules[i], intName)			
+            if utils.objectIsAdditionalControl(n):
+                t_ctrlInitLoc = "%s_initLoc" %(intName)
+            else:
+                t_ctrlInitLoc = "%s_%s_initLoc" %(targetModules[i], intName)
             t_ctrlInitLocExists = cmds.objExists(t_ctrlInitLoc)
 
             if not t_ctrlInitLocExists:
@@ -982,3 +972,29 @@ class Parents(object):
         utils.setUserAttr(obj, "niceNames", niceNames, 'data')
         utils.setUserAttr(obj, "intNames", intNames, 'data')		
 
+    def renameData(self, data, names_dict):
+        for old_name in names_dict:
+            new_name = names_dict[old_name]
+            if old_name == new_name:
+                continue
+            
+            for attr in data:
+                if attr == "spaceObj":
+                    if data[attr].split("_")[0] == "MODNAME":
+                        data[attr] = new_name + data[attr][len("MODNAME"):]
+                    space_control = data[attr].split("_parentsGroup")[0]
+                    if cmds.objExists(space_control) and utils.objectIsAdditionalControl(space_control):
+                        new_control_name = utils.incrementNameIfExists(space_control)
+                        data[attr] = new_control_name + data[attr][len(space_control):]
+                elif attr == "moduleName":        
+                    if data[attr] == old_name:
+                        data[attr] = new_name + data[attr][len(old_name):]
+                elif attr == "targetModules":
+                    target_modules = []
+                    for target_module in data[attr]:
+                        if target_module == old_name:
+                            target_module = new_name + target_module[len(old_name):]
+                        target_modules.append(target_module)
+                    data[attr] = target_modules
+
+        return data	

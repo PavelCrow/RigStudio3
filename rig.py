@@ -1,6 +1,8 @@
 import maya.cmds as cmds
-import importlib
+import os, importlib
 from . import utils
+
+modulePath = os.path.normpath(os.path.dirname(__file__))
 
 class Rig:
     def __init__(self, main, name='character'): #
@@ -9,6 +11,7 @@ class Rig:
         self.exists = False
         self.root = "main"
         self.main = main
+        self.singleHierarhy = True
         self.jointsSize = 1
         self.posersSize = 1
         self.jointsAxises = False
@@ -24,8 +27,10 @@ class Rig:
 
     def load(self): #
         # print("rig load")
+   
         self.exists = cmds.objExists(self.root) and cmds.objExists('rig') and cmds.objExists('geo')
         if self.exists:
+            self.singleHierarhy = cmds.getAttr(self.root + ".singleHierarhy")
             self.jointsSize = cmds.getAttr(self.root + ".jointsSize")
             self.posersSize = cmds.getAttr(self.root + ".posersSize")
             self.jointsAxises = cmds.getAttr(self.root + ".jointsAxises")
@@ -43,7 +48,7 @@ class Rig:
 
             # get rig name
             self.name = cmds.getAttr(self.root + ".name")
-
+            
             # load modules
             self.load_modules()
 
@@ -55,10 +60,22 @@ class Rig:
         # create main group
         root = cmds.group(empty=True, n="main")
 
+        path = os.path.join(modulePath,'versions.txt')
+        with open(path, mode='r') as f:
+            lines = f.readlines()
+        
+        versions = []
+        for l in lines:
+            if '---Version' in l:
+                versions.append(l)
+
+        rs_version = versions[-1].split(' ')[1].split('\n')[0]
+
         # add attributes
         utils.setUserAttr(root, 'nodeType', 'rs_rig')
         utils.setUserAttr(root, 'name', self.name)
-        utils.setUserAttr(root, 'rs_version', 2, type="float", lock=0)
+        utils.setUserAttr(root, 'rs_version', rs_version)
+        utils.setUserAttr(root, 'singleHierarhy', 1, type="bool", lock=0)
         utils.setUserAttr(root, 'posersSize', 1, type="float", lock=0)
         utils.setUserAttr(root, 'jointsSize', 1, type="float", lock=0)
         utils.setUserAttr(root, 'posersAxises', 0, type="bool", lock=0)
@@ -295,7 +312,6 @@ class Rig:
                 cmds.hide(m + '_controls')
                 controlShapes = cmds.listRelatives(m+'_outJoints', type="nurbsCurve", allDescendents=1) or []
                 for c in controlShapes:
-                    print(111, c)
                     cmds.setAttr(c+'.lodVisibility', 0)
             else:
                 cmds.showHidden(m + '_controls')
@@ -345,10 +361,32 @@ class Rig:
             state = self.main.win.actionJoints.isChecked()
 
         if state == 0:
-            cmds.hide('skeleton')
+            if self.singleHierarhy:
+                cmds.hide('skeleton')
+            else:
+                for mod in self.modules:
+                    joints = cmds.listRelatives(mod+"_outJoints", allDescendents=1, type="joint")
+                    for j in joints:
+                        cmds.setAttr(j+".drawStyle", 2)
         else:
-            cmds.showHidden('skeleton')
-        
+            if self.singleHierarhy:
+                cmds.showHidden('skeleton')
+            else:
+                for mod in self.modules:
+                    joints = cmds.listRelatives(mod+"_outJoints", allDescendents=1, type="joint")
+                    for j in joints:
+                        cmds.setAttr(j+".drawStyle", 0)
+
+        if not self.singleHierarhy:
+            for tw_name in cmds.listRelatives("twists"):
+                tw_j = tw_name.replace("mod", "outJoint")
+                cmds.setAttr(tw_j+".drawStyle", 2)
+                for j in cmds.listRelatives(tw_name.replace("mod", "joints"), allDescendents=1, type="joint"):
+                    if state:
+                        cmds.setAttr(j+".drawStyle", 0)
+                    else:
+                        cmds.setAttr(j+".drawStyle", 2)
+
         if cmds.objExists(self.root + ".jointsVis"):
             cmds.setAttr(self.root + ".jointsVis", state)
         
@@ -457,15 +495,3 @@ class Rig:
                 children.append(m.name)
         #print children
         return children
-    
-    def getIbtwsData(self):
-        # get twists data
-        ibtwsData = []
-        roots = cmds.ls("*_ibtw_root")
-        for root in roots:
-            if utils.getObjectSide(root) == "r" and cmds.objExists(utils.getOpposite(root)):
-                continue
-            ibtw = root.split("_ibtw_root")[0]
-            ibtwData = self.main.ibtwClass.getData(ibtw)
-            ibtwsData.append(ibtwData)
-        return ibtwsData

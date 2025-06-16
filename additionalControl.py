@@ -51,6 +51,7 @@ class AdditionalControl(controller.Control):
 
 		# add ctr joint
 		j = cmds.duplicate(self.name+'_outJoint', n=self.name+'_skinJoint')[0]
+		cmds.setAttr(self.name+"_outJoint.visibility", 0)	
 		cmds.setAttr(j+".segmentScaleCompensate", 0)	
 
 		if not cmds.getAttr("main.jointsVis"):

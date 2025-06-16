@@ -138,38 +138,6 @@ class Fingers(module.Module) :
 				cmds.setAttr(opp_name+"_ring_pairBlend.weight", options["ring_value"])
 				cmds.setAttr(opp_name+"_middle_pairBlend.weight", options["middle_value"])
 			
-	def connectOpposite(self):
-		super(self.__class__, self).connectOpposite()
-		
-		side = utils.getObjectSide(self.name)
-		if side != 'r':# or not cmds.objExists(opp_name+'_mod'):
-			return		
-
-		opp_name = self.name
-		name = utils.getOppositeObject(opp_name)		
-		#print 111, name, opp_name
-		
-		try:
-			if cmds.objExists(opp_name+"_mod"):
-				cmds.connectAttr(name+"_clench_group.v", opp_name+"_clench_group.v")
-				cmds.connectAttr(name+"_ring_pairBlend.weight", opp_name+"_ring_pairBlend.weight")
-				cmds.connectAttr(name+"_middle_pairBlend.weight", opp_name+"_middle_pairBlend.weight")
-		
-				for f in ['thumb', 'index', 'middle', 'ring', 'pinky']:
-					cmds.connectAttr(name+"_%sFinger_mainPoser.lodVisibility" %f, opp_name+"_%sFinger_mainPoser.lodVisibility" %f)
-					cmds.connectAttr(name+"_%sFingerA_line.lodVisibility" %f, opp_name+"_%sFingerA_line.lodVisibility" %f)
-					cmds.connectAttr(name+"_%sFingerB_line.lodVisibility" %f, opp_name+"_%sFingerB_line.lodVisibility" %f)
-					cmds.connectAttr(name+"_%sFingerC_line.lodVisibility" %f, opp_name+"_%sFingerC_line.lodVisibility" %f)
-					cmds.connectAttr(name+"_%sFingerD_line.lodVisibility" %f, opp_name+"_%sFingerD_line.lodVisibility" %f)
-					if f == "thumb":
-						cmds.connectAttr(name+"_%sFinger_1_skinJoint.v" %f, opp_name+"_%sFinger_1_skinJoint.v" %f)
-					else:
-						cmds.connectAttr(name+"_%s_root_skinJoint.v" %f, opp_name+"_%s_root_skinJoint.v" %f)
-						cmds.connectAttr(name+"_%sFingerRoot_line.v" %f, opp_name+"_%sFingerRoot_line.v" %f)
-						cmds.connectAttr(name+"_%sFingerRoot_poser.lodVisibility" %f, opp_name+"_%sFingerRoot_poser.lodVisibility" %f)
-		except:
-			pass
-
 	def addSDKGroup(self):
 		import pymel.core as pm
 		sel = pm.selected()

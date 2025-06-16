@@ -99,6 +99,14 @@ def incrementNameIfExists(name): #
 
 	return name
 
+def incrementModuleNameIfExists(module_name): #
+	mod_name = module_name + "_mod"
+	while cmds.objExists(mod_name):
+		module_name = incrementName(module_name)
+		mod_name = module_name + "_mod"
+
+	return module_name
+
 def incrementNameIfExistsWithSuffix(name): #
 	suffix = name.split('_')[-1]
 	id = name.split('_')[-2]
@@ -357,7 +365,6 @@ def getModuleName(obj): #
 	# 	j = p.replace("joints", "outJoint")
 
 	path = cmds.ls(j, l=1) or []
-	# print(111, obj, j, path)
 
 	moduleName = path[0].split("rig|modules|")[-1].split("_mod|")[0]
 	# print(222,moduleName)
@@ -537,13 +544,14 @@ def setMirrorAttrControl():
 
 def getControlNameFromInternal(module_name, internalControlName):
 	ctrls = getSetObjects(module_name+'_moduleControlSet')
+	# print(111222, module_name, internalControlName)
 	for c in ctrls:
 		int_name = cmds.getAttr(c+".internalName")
 		# print ("-----", c, int_name)
 		if int_name == internalControlName:
-			#print "RETURN", internalControlName, "->>>", c
+			# print ("RETURN", internalControlName, "->>>", c)
 			return c
-	#cmds.warning('Cannot find control with internal name '+internalControlName+' in moduleControlSet')
+	cmds.warning('Cannot find control with internal name '+internalControlName+' in moduleControlSet')
 	return ""
 
 def getInternalNameFromControl(controlName):
@@ -572,11 +580,12 @@ def renameControl(oldCtrlName, newCtrlName):
 			return
 
 def getTemplatedNameFromReal(mod_name, control_name): #
-	#print (122, mod_name, control_name)
 	if mod_name in control_name:
 		if control_name[:len(mod_name)] == mod_name:
 			name = "MODNAME" + control_name[len(mod_name):]
 			return name
+
+	control_name = control_name.split("|")[-1] # fix special "world" name
 
 	return control_name
 
@@ -915,6 +924,7 @@ def getClosestOutJoint(mod_name, src_object):
 	return closest		
 
 def getClosestPoser(mod_name, src_object):
+	# print("GET CLOSEST", mod_name, src_object)
 	pos1 = cmds.xform(src_object, query=True, translation=True, worldSpace=True)
 	closest_distance = 10000000
 	closest = ""

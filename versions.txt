@@ -619,3 +619,19 @@ ChainIK module update
 
 ---Version 3.11.4
 Duplicate module with childrens
+
+---Version 3.11.5
+Foot and FootSimple module connection to limbs fix
+
+---Version 3.12.0
+Duplicate module now duplicated his children also with twists, ibtws and oss
+Save and Load updates
+Templates data changed
+Loading compound modules now correcting rename all children mocules and twists/ibts/oss data
+Fix "world" name in controls
+Rebuilded templates
+Checkable button to twists offset locs
+Checkable button to ibtws offset locs
+Updates in ibtws joints
+Fixed opposite module connect axises
+Fingers module update

@@ -82,7 +82,7 @@ class Module(object):
         for o in ['_system', '_input']:
             if cmds.objExists(self.name+o):
                 cmds.hide(self.name+o)
-        cmds.hide(self.name+"_outJoints")
+        cmds.showHidden(self.name+"_outJoints", self.name+"_output")
 
         # hide out joints
         for j in cmds.listRelatives(self.name+"_outJoints", allDescendents=1):
@@ -273,20 +273,18 @@ class Module(object):
         
         # make connections
         utils.connectToOffsetParentMatrix(self.name+'_posers', [targetMainPoser])
+        if opposite and cmds.getAttr(target_initLoc+".sx") == 1:
+            # mirror composematrix
+            mirror_compMat1 = cmds.createNode('composeMatrix', n=self.name+"_connector_compMat")
+            utils.addToModuleSet(mirror_compMat1, self.name)
+            # connect to mirrored condition if target module is symmetrical and negate composematrix
+            # else not negate composematrix
+            if cmds.objExists(target_module_name+"_mirror_condition"):
+                cmds.connectAttr(target_module_name+"_mirror_condition.outColorR", mirror_compMat1+".inputScaleZ")
 
-        # if opposite:
-        #     # mirror composematrix
-        #     mirror_compMat1 = cmds.createNode('composeMatrix', n=self.name+"_connector_compMat")
-        #     utils.addToModuleSet(mirror_compMat1, self.name)
-        #     # connect to mirrored condition if target module is symmetrical and negate composematrix
-        #     # else not negate composematrix
-        #     if cmds.objExists(target_module_name+"_mirror_condition"):
-        #         cmds.connectAttr(target_module_name+"_mirror_condition.outColorR", mirror_compMat1+".inputScaleZ")
-
-        #     utils.connectToOffsetParentMatrix(connector, [root_poser, target_initLoc, mirror_compMat1, target_outJoint, connector_parent], ['worldMatrix[0]', 'worldInverseMatrix[0]', 'outputMatrix', 'worldMatrix[0]', 'worldInverseMatrix[0]'])
-        # else:
-
-        utils.connectToOffsetParentMatrix(connector, [root_poser, target_initLoc, target_outJoint, connector_parent], ['worldMatrix[0]', 'worldInverseMatrix[0]', 'worldMatrix[0]', 'worldInverseMatrix[0]'])
+            utils.connectToOffsetParentMatrix(connector, [root_poser, target_initLoc, mirror_compMat1, target_outJoint, connector_parent], ['worldMatrix[0]', 'worldInverseMatrix[0]', 'outputMatrix', 'worldMatrix[0]', 'worldInverseMatrix[0]'])
+        else:
+            utils.connectToOffsetParentMatrix(connector, [root_poser, target_initLoc, target_outJoint, connector_parent], ['worldMatrix[0]', 'worldInverseMatrix[0]', 'worldMatrix[0]', 'worldInverseMatrix[0]'])
         
         self.parent = target_outJoint
 
@@ -527,8 +525,8 @@ class Module(object):
                 p = c.name+"_addPoser"
                 if not cmds.objExists(p): continue			
                 cData = c.getData()
-                cData["parent"] = cData["parent"]
-                cData["poserParent"] = cmds.listRelatives(p, p=1)[0]
+                cData["parent"] = utils.getTemplatedNameFromReal(self.name, cData["parent"])
+                cData["poserParent"] =  utils.getTemplatedNameFromReal(self.name, cmds.listRelatives(p, p=1)[0])
                 # print c.name, cData["colorId"] 
 
                 # attrs_data = {}
@@ -579,13 +577,7 @@ class Module(object):
         data['controlsColorData'] = controlsData[3]	
         data['controlsShapeData'] = controlsData[4]	
         data['additionalControlsData'] = getAddControlsData()	
-        data['twistsData'] = getTwistsData()	
 
-        # print( '-------------------')
-        # for d in data:
-        #     print (d, data[d])
-        # print (111111, data["twistsData"])
-        # print( '-------------------')
         return data
 
     def setData(self, data, sym=False, namingForce=False, load="all"): 
@@ -728,22 +720,6 @@ class Module(object):
                 if data["seamless"] and not self.isSeamless(): 
                     self.makeSeamless(True)
                 self.setOptions(data['optionsData'])
-        
-    def getIbtwsData(self):
-        # get twists data
-        ibtwsData = []
-        roots = cmds.ls("*_ibtw_root")
-        
-        for root in roots:
-            if utils.getObjectSide(root) == "r" and cmds.objExists(utils.getOpposite(root)):
-                continue
-            
-            if root[:(len(self.name))] == self.name: # if start of the ibts name == module name
-                ibtw = root.split("_ibtw_root")[0]
-                ibtwData = self.main.ibtwClass.getData(ibtw)
-                ibtwsData.append(ibtwData)
-                
-        return ibtwsData
 
     def setMirroredNames():
         pass
@@ -905,7 +881,7 @@ class Module(object):
 
     def rename(self, new_name): #
         # rename all nodes
-        allNodes = cmds.sets(self.name+"_nodesSet", q=1)
+        allNodes = utils.getSetObjects(self.name+"_nodesSet")
         allSets = utils.getSetsInSet(self.name+"_sets")
         allNodes += allSets
         allNodes.append(self.name + '_sets')
@@ -993,28 +969,28 @@ class Module(object):
         # increment names
         datas = mData['additionalControlsData']
         # print(11111, datas)
-        new_names = []
+        new_names = {}
         for data in datas:
             name = data['name']
             if cmds.objExists(name):
                 new_name = utils.incrementNameIfExists(name)
-                while new_name in new_names:
-                    new_name = utils.incrementName(new_name)
+                # while new_name in new_names:
+                #     new_name = utils.incrementName(new_name)
                 data["name"] = new_name
-                new_names.append(new_name)
+                new_names[new_name] = name
                 for d in datas:
                     par = d["parent"]
                     if par == name:
                         d["parent"] = new_name
                         # edit twist data
-                        twData = mData["twistsData"]
-                        for tw_d in twData:
-                            s_j = tw_d["target"]
-                            e_j = tw_d["endTarget"]
-                            if s_j.split("_skinJoint")[0] == name:
-                                tw_d["target"] = new_name + "_skinJoint"
-                            if e_j.split("_skinJoint")[0] == name:
-                                tw_d["endTarget"] = new_name + "_skinJoint"
+                        # twData = mData["twistsData"]
+                        # for tw_d in twData:
+                        #     s_j = tw_d["target"]
+                        #     e_j = tw_d["endTarget"]
+                        #     if s_j.split("_skinJoint")[0] == name:
+                        #         tw_d["target"] = new_name + "_skinJoint"
+                        #     if e_j.split("_skinJoint")[0] == name:
+                        #         tw_d["endTarget"] = new_name + "_skinJoint"
         
         if curMod_name:
             m_name = curMod_name  # for load module 
@@ -1098,9 +1074,14 @@ class Module(object):
         # set attributes
         for cData in mData['additionalControlsData']:
             c = utils.getControlInstance(cData['name'])
+            
             if not c:
                 cmds.warning("Missed add controls in "+cData['name'])
             intName = utils.getInternalNameFromControl(c.name)
+
+            if intName in new_names:
+                intName = new_names[intName]
+
             default_attrs = utils.getVisibleAttrs(c.name)
             for a in default_attrs:
                 if intName + "." + a in mData['controlsAttrData']:
