@@ -30,7 +30,10 @@ class Rig:
    
         self.exists = cmds.objExists(self.root) and cmds.objExists('rig') and cmds.objExists('geo')
         if self.exists:
-            self.singleHierarhy = cmds.getAttr(self.root + ".singleHierarhy")
+            if cmds.objExists(self.root + ".singleHierarhy"):
+                self.singleHierarhy = cmds.getAttr(self.root + ".singleHierarhy")
+            else:
+                self.singleHierarhy = True
             self.jointsSize = cmds.getAttr(self.root + ".jointsSize")
             self.posersSize = cmds.getAttr(self.root + ".posersSize")
             self.jointsAxises = cmds.getAttr(self.root + ".jointsAxises")

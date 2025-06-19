@@ -7878,12 +7878,12 @@
                        <number>0</number>
                       </property>
                       <item>
-                       <widget class="QPushButton" name="bakeDummyRig_btn">
+                       <widget class="QPushButton" name="displayAffected_btn">
                         <property name="enabled">
-                         <bool>false</bool>
+                         <bool>true</bool>
                         </property>
                         <property name="text">
-                         <string>Bake Dummy Rig</string>
+                         <string>Display Affected</string>
                         </property>
                        </widget>
                       </item>

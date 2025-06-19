@@ -37,6 +37,7 @@ from importlib import reload
 
 rootPath = os.path.normpath(os.path.dirname(__file__))
 if os.path.exists(os.path.join(rootPath, "main.py")):
+    print(111)
     from . import ui, utils, main, rig, module, parents, twist, tools, moduleBuilder, inbetweens, driver, template, attributes, sets, controller, additionalControl, posers, check
     reload(ui)
     reload(utils)
@@ -54,8 +55,11 @@ if os.path.exists(os.path.join(rootPath, "main.py")):
     reload(controller)
     reload(additionalControl)
     reload(posers)
+    print(222)
     reload(main)
+    print(333)
     reload(check)
+
 else:
     from rigStudio3 import utils
     main = utils.import_pyc("main")

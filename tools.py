@@ -1049,3 +1049,12 @@ def selectAllJoints():
 			joints += cmds.listRelatives(tw_name.replace("mod", "joints"), allDescendents=1, type="joint")
 
 		cmds.select(joints)
+
+def displayAffected():
+	is_affected_displayed = cmds.displayPref(query=True, displayAffected=True)
+	cmds.displayPref(displayAffected = not is_affected_displayed)
+
+	if not is_affected_displayed:
+		print("displayAffected is enable" )
+	else:
+		print("displayAffected is disable" )

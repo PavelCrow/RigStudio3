@@ -635,3 +635,7 @@ Checkable button to ibtws offset locs
 Updates in ibtws joints
 Fixed opposite module connect axises
 Fingers module update
+New tools buttons in Tools sections.
+
+---Version 3.12.1
+Updated ui tools buttons
