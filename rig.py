@@ -55,7 +55,7 @@ class Rig:
             # load modules
             self.load_modules()
 
-    def create(self): #
+    def create(self, singleHierarhy=True): #
         if self.exists:
             cmds.warning("Rig is already exists")
             return
@@ -78,7 +78,7 @@ class Rig:
         utils.setUserAttr(root, 'nodeType', 'rs_rig')
         utils.setUserAttr(root, 'name', self.name)
         utils.setUserAttr(root, 'rs_version', rs_version)
-        utils.setUserAttr(root, 'singleHierarhy', 1, type="bool", lock=0)
+        utils.setUserAttr(root, 'singleHierarhy', singleHierarhy, type="bool", lock=0)
         utils.setUserAttr(root, 'posersSize', 1, type="float", lock=0)
         utils.setUserAttr(root, 'jointsSize', 1, type="float", lock=0)
         utils.setUserAttr(root, 'posersAxises', 0, type="bool", lock=0)
@@ -100,8 +100,10 @@ class Rig:
         cmds.setAttr("skeleton.overrideEnabled", 1)
         cmds.setAttr("skeleton.overrideColor", 29)
         cmds.setAttr("skeleton.template", False)
-        cmds.setAttr("skeleton.v", False)
+        cmds.setAttr("skeleton.v", singleHierarhy)
         # cmds.setAttr("skeleton.v", lock=1)
+
+        self.singleHierarhy = singleHierarhy
 
         utils.create_default_sets()
 
@@ -362,7 +364,7 @@ class Rig:
     def toggleVis_joints(self, state=None):
         if not state:
             state = self.main.win.actionJoints.isChecked()
-
+        
         if state == 0:
             if self.singleHierarhy:
                 cmds.hide('skeleton')
@@ -375,20 +377,22 @@ class Rig:
             if self.singleHierarhy:
                 cmds.showHidden('skeleton')
             else:
+                cmds.hide('skeleton')
                 for mod in self.modules:
                     joints = cmds.listRelatives(mod+"_outJoints", allDescendents=1, type="joint")
                     for j in joints:
                         cmds.setAttr(j+".drawStyle", 0)
 
-        if not self.singleHierarhy:
-            for tw_name in cmds.listRelatives("twists"):
-                tw_j = tw_name.replace("mod", "outJoint")
-                cmds.setAttr(tw_j+".drawStyle", 2)
-                for j in cmds.listRelatives(tw_name.replace("mod", "joints"), allDescendents=1, type="joint"):
-                    if state:
-                        cmds.setAttr(j+".drawStyle", 0)
-                    else:
-                        cmds.setAttr(j+".drawStyle", 2)
+        if cmds.listRelatives("twists"):
+            if not self.singleHierarhy:
+                for tw_name in cmds.listRelatives("twists"):
+                    tw_j = tw_name.replace("mod", "outJoint")
+                    cmds.setAttr(tw_j+".drawStyle", 2)
+                    for j in cmds.listRelatives(tw_name.replace("mod", "joints"), allDescendents=1, type="joint"):
+                        if state:
+                            cmds.setAttr(j+".drawStyle", 0)
+                        else:
+                            cmds.setAttr(j+".drawStyle", 2)
 
         if cmds.objExists(self.root + ".jointsVis"):
             cmds.setAttr(self.root + ".jointsVis", state)
@@ -466,8 +470,9 @@ class Rig:
         exec('from .modules.%s import %s' % (moduleType, moduleType)) 	# from .modules.moduleA import moduleA
         exec('importlib.reload(%s)' % (moduleType))						# importlib.reload(moduleA)
         m = eval('%s.%s(moduleName)' % (moduleType, moduleTypeCap))  	# m = modules.moduleA.moduleA.ModuleA(name)
-        m.create(options)
         m.main = self.main
+        m.create(options)
+        
 
         self.modules[moduleName] = m
 

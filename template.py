@@ -167,7 +167,7 @@ class Template(object):
 
 		# create rig
 		rigName = self.main.rig.name
-		self.main.rig.create()
+		self.main.rig.create(self.main.win.singleHierarhy_radioButton.isChecked())
 		self.main.rig.rename(rigName)
 
 		# create modules

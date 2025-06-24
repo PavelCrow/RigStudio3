@@ -205,8 +205,9 @@ class ChainIk(module.Module) :
 				poser = self.name+'_element_'+str(i+1)+'_poser'
 			cmds.connectAttr(self.name+'_mainPoser.lineSize', poser+'.lineWidth')
 			cmds.setAttr(poser+'.lineWidth', k=0, cb=0)
-
+		
 		self.create2()
+		
 		self.addSkinJoints()
 		
 		# add init joints and locs
@@ -299,6 +300,8 @@ class ChainIk(module.Module) :
 			else:
 				pm.parent(j, joints_gr)
 				pm.rename(j, name+"_root_outJoint")
+
+			j.drawStyle.set(2)
 		
 		# create curve and locators
 		points = [ (x*length,0,0) for x in range(controlsCount) ]
@@ -761,32 +764,21 @@ class ChainIk(module.Module) :
 			l_c.dynamicWeight >> r_c.dynamicWeight
 
 		pm.hide(r_c.getParent())
-		
-		# cmds.setAttr(self.name+'_initJoints.sx', -1)
-		# print(1111, self.name)
 
 	def addSkinJoints(self):
 		super(self.__class__, self).addSkinJoints()
 		
 		root_j = self.name + "_root_skinJoint"
 		group_j = self.name + "_group_joint"
-		
-		# cmds.duplicate(root_j, n=group_j)
-		# pm.delete(pm.listRelatives(group_j))
-		# cmds.parent(root_j, group_j)
-		# utils.removeTransformParentJoint(root_j)
-		# cmds.setAttr(group_j+".drawStyle", 2)
-		
-		# utils.connectByMatrix(group_j, [self.name+"_outJoints", self.name+"_mainPoser", group_j], ['worldMatrix[0]', 'worldInverseMatrix[0]', 'parentInverseMatrix[0]'], module_name=self.name )
-		
+
 		for i in range(1, self.jointsCount):
 			cmds.setAttr(self.name+"_%s_skinJoint.segmentScaleCompensate" %i, 1)
 			cmds.connectAttr(self.name+"_%s_skinJoint.offset" %i, self.name+"_%s_outJoint.offset" %i)
 
 		for j in cmds.listRelatives(root_j, allDescendents=1):
 			cmds.sets(j, e=1, forceElement=self.name+"_nodesSet")
-
-	
+			cmds.setAttr(j+".drawStyle", 0)
+		cmds.setAttr(root_j+".drawStyle", 0)
 
 		cmds.sets(root_j, e=1, forceElement=self.name+"_nodesSet")
 

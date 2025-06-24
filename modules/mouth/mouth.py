@@ -57,26 +57,28 @@ class Mouth(module.Module) :
 		self.jointsCount = options['jointsCount']
 		
 		widget.jointsCount_spinBox.setValue(self.jointsCount)
+		
+		widget.frame_6.setVisible(False)
 
-		# delete old feather widgets
-		for x in range(self.widget.pos_verticalLayout.count()):
-			w = self.widget.pos_verticalLayout.itemAt(x).widget()
-			w.deleteLater()
+		# # delete old feather widgets
+		# for x in range(self.widget.pos_verticalLayout.count()):
+		# 	w = self.widget.pos_verticalLayout.itemAt(x).widget()
+		# 	w.deleteLater()
 
-		# add feathers widgets
-		path = os.path.join(self.mainInstance.rootPath, "modules", self.type, "inbetweenJointPos_widget.ui")
+		# # add feathers widgets
+		# path = os.path.join(self.mainInstance.rootPath, "modules", self.type, "inbetweenJointPos_widget.ui")
 
-		for i, pos in enumerate(options['posData']):
-			id = i + 1
-			w = load_ui_widget(path)
-			self.widget.pos_verticalLayout.addWidget(w)
+		# for i, pos in enumerate(options['posData']):
+		# 	id = i + 1
+		# 	w = load_ui_widget(path)
+		# 	self.widget.pos_verticalLayout.addWidget(w)
 
-			w.label.setText("Pos "+str(id))
+		# 	w.label.setText("Pos "+str(id))
 
-			w.slider.valueChanged.connect(partial(self.slider_update, w, id))
-			w.lineEdit.editingFinished.connect(partial(self.sliderValue_update, w))
+		# 	w.slider.valueChanged.connect(partial(self.slider_update, w, id))
+		# 	w.lineEdit.editingFinished.connect(partial(self.sliderValue_update, w))
 
-			w.slider.setValue(pos*10000)
+		# 	w.slider.setValue(pos*10000)
 
 	def getOptions(self): #
 		self.jointsCount = int ( ( len(cmds.listRelatives(self.name+'_lipsExtra_controls')) - 2 ) / 4 )

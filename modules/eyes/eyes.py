@@ -3,9 +3,6 @@ from functools import partial
 
 from ... import utils, module
 
-version = int(cmds.about(v=True).split(" ")[0])
-
-
 class Eyes(module.Module) :
 	def __init__(self, name):
 		super(self.__class__, self).__init__()

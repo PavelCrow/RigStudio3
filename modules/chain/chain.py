@@ -6,12 +6,6 @@ from functools import partial
 
 from ... import utils, module, main, controller, rigTools, posers
 
-version = int(cmds.about(v=True).split(" ")[0])
-if version >= 2020:
-	from PySide2 import QtWidgets, QtGui, QtCore, QtUiTools
-else:
-	from rigStudio2.Qt import QtWidgets, QtGui, QtCore, QtUiTools
-
 rootDebug = ""
 fileName = __name__.split('.')[0]
 rootPath = os.path.abspath(imp.find_module(fileName)[1])
@@ -346,5 +340,7 @@ class Chain(module.Module) :
 
 		for j in cmds.listRelatives(root_j, allDescendents=1):
 			cmds.sets(j, e=1, forceElement=self.name+"_nodesSet")
+			cmds.setAttr(j+".drawStyle", 0)
+		cmds.setAttr(root_j+".drawStyle", 0)
 
 		cmds.sets(root_j, e=1, forceElement=self.name+"_nodesSet")				

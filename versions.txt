@@ -639,3 +639,7 @@ New tools buttons in Tools sections.
 
 ---Version 3.12.1
 Updated ui tools buttons
+
+---Version 3.12.2
+Fixed single hierarchy visibility joints
+Updated mouth module

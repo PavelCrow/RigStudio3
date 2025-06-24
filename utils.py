@@ -1215,7 +1215,7 @@ def import_pyc(module_name):
         module = importlib.util.module_from_spec(spec)
         sys.modules[module_name] = module
         spec.loader.exec_module(module)
-        # print(f"✅ Загружен {module_name}.pyc")
+        print(f"✅ Загружен {module_name}.pyc")
         return module
     else:
         print(f"❌ Ошибка: {module_name}.pyc не найден!")

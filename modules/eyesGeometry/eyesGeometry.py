@@ -3,14 +3,6 @@ from functools import partial
 
 from ... import utils, module
 
-version = int(cmds.about(v=True).split(" ")[0])
-if version <= 2024:
-	from PySide2 import QtWidgets, QtGui, QtUiTools, QtCore
-else:
-	from PySide6 import QtWidgets, QtGui, QtUiTools, QtCore
-
-
-
 class EyesGeometry(module.Module) :
 	def __init__(self, name):
 		super(self.__class__, self).__init__()
@@ -65,11 +57,6 @@ class EyesGeometry(module.Module) :
 			self.useGeometryToggle()
 
 	def useGeometryToggle(self, w=None):
-		if not self.full:
-			QtWidgets.QMessageBox.information(self.win, "Sorry", "This feature is available in full version only.")
-			self.widget.useGeometry_checkBox.setChecked(False)
-			return
-		
 		sel = cmds.ls(sl=1)
 		v = cmds.getAttr(self.name+"_geo_group.visibility")
 		

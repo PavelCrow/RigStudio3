@@ -85,9 +85,15 @@ class Module(object):
         cmds.showHidden(self.name+"_outJoints", self.name+"_output")
 
         # hide out joints
-        for j in cmds.listRelatives(self.name+"_outJoints", allDescendents=1):
-            if cmds.objectType(j) == "joint":
-                cmds.setAttr(j+".drawStyle", 2)
+        
+        if cmds.objExists(self.main.rig.root + ".singleHierarhy"):
+                singleHierarhy = cmds.getAttr(self.main.rig.root + ".singleHierarhy")
+        else:
+            singleHierarhy = True    
+        if singleHierarhy:    
+            for j in cmds.listRelatives(self.name+"_outJoints", allDescendents=1):
+                if cmds.objectType(j) == "joint":
+                    cmds.setAttr(j+".drawStyle", 2)
 
 
         # correct posers size
