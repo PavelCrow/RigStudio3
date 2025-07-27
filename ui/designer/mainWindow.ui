@@ -39,7 +39,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>8</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="rig_tab">
        <attribute name="title">
@@ -5090,59 +5090,6 @@
             </widget>
            </item>
            <item>
-            <layout class="QGridLayout" name="gridLayout_10" rowstretch="0,0,0" columnstretch="0,0,0">
-             <item row="1" column="0">
-              <widget class="QLabel" name="label_33">
-               <property name="text">
-                <string>End Opposite: </string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="QCheckBox" name="twist_endOffsetFlippedX_checkBox">
-               <property name="text">
-                <string>Flipped X</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QCheckBox" name="twist_flippedX_checkBox">
-               <property name="text">
-                <string>Flipped</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_38">
-               <property name="text">
-                <string>Root Opposite: </string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="label_37">
-               <property name="text">
-                <string>End Offset: </string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QCheckBox" name="twist_rootFlipped_checkBox">
-               <property name="text">
-                <string>Flipped</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="2">
-              <widget class="QCheckBox" name="twist_endOffsetFlippedY_checkBox">
-               <property name="text">
-                <string>Flipped Y</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
             <spacer name="verticalSpacer_6">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -5432,7 +5379,7 @@
              <property name="frameShadow">
               <enum>QFrame::Plain</enum>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_82" stretch="0,0,0,0,0,0,0,0,0,0,0,0">
+             <layout class="QVBoxLayout" name="verticalLayout_82" stretch="0,0,0,0,0,0">
               <property name="spacing">
                <number>4</number>
               </property>
@@ -5634,139 +5581,6 @@
                  <widget class="QPushButton" name="ib_addZJoint_btn">
                   <property name="text">
                    <string>Add Z Joint</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <spacer name="verticalSpacer_21">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Fixed</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>5</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_39">
-                <property name="layoutDirection">
-                 <enum>Qt::LeftToRight</enum>
-                </property>
-                <property name="autoFillBackground">
-                 <bool>false</bool>
-                </property>
-                <property name="text">
-                 <string>Symmetry Options</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_47" stretch="0,1,1,1">
-                <item>
-                 <widget class="QLabel" name="label_32">
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QCheckBox" name="ib_flippedX_checkBox">
-                  <property name="text">
-                   <string>Flipped X</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QCheckBox" name="ib_flippedY_checkBox">
-                  <property name="text">
-                   <string>Flipped Y</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QCheckBox" name="ib_flippedZ_checkBox">
-                  <property name="text">
-                   <string>Flipped Z</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <spacer name="verticalSpacer_8">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Fixed</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>5</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_48" stretch="0,1,1">
-                <item>
-                 <widget class="QLabel" name="label_42">
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QCheckBox" name="swapJointsY_checkBox">
-                  <property name="text">
-                   <string>Swap Joints Y</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QCheckBox" name="swapJointsZ_checkBox">
-                  <property name="layoutDirection">
-                   <enum>Qt::LeftToRight</enum>
-                  </property>
-                  <property name="text">
-                   <string>Swap Joints Z</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_55" stretch="0,1,1">
-                <item>
-                 <widget class="QLabel" name="label_43">
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QCheckBox" name="swapAngleY_checkBox">
-                  <property name="text">
-                   <string>Swap Angle Y</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QCheckBox" name="swapAngleZ_checkBox">
-                  <property name="text">
-                   <string>Swap Angle Z</string>
                   </property>
                  </widget>
                 </item>

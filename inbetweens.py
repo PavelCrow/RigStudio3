@@ -36,13 +36,6 @@ class Inbetweens(object):
 		self.win.ib_selectOffsetLocator_btn.clicked.connect(self.selectOffsetLocator)
 		self.win.ib_addYJoint_btn.clicked.connect(partial(self.addJoint, "y"))
 		self.win.ib_addZJoint_btn.clicked.connect(partial(self.addJoint, "z"))
-		self.win.ib_flippedX_checkBox.clicked.connect(partial(self.setFlipped, dir="x"))
-		self.win.ib_flippedY_checkBox.clicked.connect(partial(self.setFlipped, dir="y"))
-		self.win.ib_flippedZ_checkBox.clicked.connect(partial(self.setFlipped, dir="z"))
-		self.win.swapJointsY_checkBox.clicked.connect(partial(self.swapJoints, dir="y"))
-		self.win.swapJointsZ_checkBox.clicked.connect(partial(self.swapJoints, dir="z"))
-		self.win.swapAngleY_checkBox.clicked.connect(partial(self.swapAngles, dir="y"))
-		self.win.swapAngleZ_checkBox.clicked.connect(partial(self.swapAngles, dir="z"))
 
 	def doubleClckItem(self): #
 		cmds.select(self.curIb['name']+"_ibtw_root" )
@@ -96,38 +89,9 @@ class Inbetweens(object):
 			if self.isLocal(self.curIbName):
 				self.win.local_rbtn.setChecked(True)
 				self.win.world_rbtn.setChecked(False)
-				self.win.ib_flippedX_checkBox.setVisible(False)
-				self.win.ib_flippedX_checkBox.setEnabled(False)
-				self.win.ib_flippedY_checkBox.setVisible(False)
-				self.win.ib_flippedY_checkBox.setEnabled(False)
-				self.win.ib_flippedZ_checkBox.setVisible(False)
-				self.win.ib_flippedZ_checkBox.setEnabled(False)
-				self.win.swapJointsY_checkBox.setEnabled(False)
-				self.win.swapJointsZ_checkBox.setEnabled(False)
-				self.win.swapAngleY_checkBox.setEnabled(False)
-				self.win.swapAngleZ_checkBox.setEnabled(False)
 			else:
 				self.win.world_rbtn.setChecked(True)
 				self.win.local_rbtn.setChecked(False)
-				
-				self.win.ib_flippedX_checkBox.setVisible(True)
-				self.win.ib_flippedX_checkBox.setChecked(self.curIb['flippedX'])
-				self.win.ib_flippedY_checkBox.setVisible(True)
-				self.win.ib_flippedY_checkBox.setChecked(self.curIb['flippedY'])
-				self.win.ib_flippedZ_checkBox.setVisible(True)
-				self.win.ib_flippedZ_checkBox.setChecked(self.curIb['flippedZ'])
-				self.win.swapJointsY_checkBox.setChecked(self.curIb['swapJointsY'])
-				self.win.swapJointsZ_checkBox.setChecked(self.curIb['swapJointsZ'])
-				self.win.swapAngleY_checkBox.setChecked(self.curIb['swapAngleY'])
-				self.win.swapAngleZ_checkBox.setChecked(self.curIb['swapAngleZ'])
-
-				self.win.ib_flippedX_checkBox.setEnabled(is_symmetrical)
-				self.win.ib_flippedY_checkBox.setEnabled(is_symmetrical)
-				self.win.ib_flippedZ_checkBox.setEnabled(is_symmetrical)
-				self.win.swapJointsY_checkBox.setEnabled(is_symmetrical)
-				self.win.swapJointsZ_checkBox.setEnabled(is_symmetrical)
-				self.win.swapAngleY_checkBox.setEnabled(is_symmetrical)
-				self.win.swapAngleZ_checkBox.setEnabled(is_symmetrical)
 		
 		# set check state for offsetLocs button
 		self.win.ib_selectOffsetLocator_btn.setChecked(cmds.getAttr(self.curIbName+"_ibtw_parent_offsetLocShape.v"))
@@ -222,9 +186,6 @@ class Inbetweens(object):
 					o.v.set(0)
 			cmds.sets(parent_offset_loc, e=1, forceElement=set)
 			utils.resetAttrs(parent_offset_loc)
-			# cmds.connectAttr(child_j+".tx", parent_offset_loc+".tx")
-			# cmds.connectAttr(child_j+".ty", parent_offset_loc+".ty")
-			# cmds.connectAttr(child_j+".tz", parent_offset_loc+".tz")
 			
 			child_offset_loc = cmds.duplicate(name+"_ibtw_input", n=name+"_ibtw_child_offsetLoc")[0]
 			cmds.hide(name+"_ibtw_inputShape")
@@ -283,15 +244,9 @@ class Inbetweens(object):
 				utils.resetAttrs(gr)
 				cmds.parent(opp_offsetLoc, gr)
 				utils.resetAttrs(opp_offsetLoc)
-				# cmds.setAttr(gr+".sx", -1)
-				cmds.connectAttr(name+"_ibtw_parent_offsetLoc.r", opp_offsetLoc+".r")
 				cmds.parent(opp_root, gr)
 				utils.resetAttrs(opp_root)
-				
-				# mult = cmds.createNode('multDoubleLinear', n=opp_name+"_ibtw_reverseParentOffset_multDoubleLinear")
-				# cmds.connectAttr(child_j+".tx", mult+".input1")
-				# cmds.connectAttr(gr+".sx", mult+".input2")
-				# cmds.connectAttr(mult+".output", opp_offsetLoc+".tx", f=1)
+				cmds.setAttr(gr+".sx", -1)
 
 				opp_offsetLoc = opp_name+"_ibtw_child_offsetLoc"
 				gr = cmds.group(empty=1, name=opp_offsetLoc+"_mirrorGroup")
@@ -301,10 +256,6 @@ class Inbetweens(object):
 				cmds.parent(opp_offsetLoc, gr)
 				utils.resetAttrs(opp_offsetLoc)
 				cmds.setAttr(gr+".sx", -1)
-				cmds.connectAttr(name+"_ibtw_child_offsetLoc.r", opp_offsetLoc+".r")
-				
-				# cmds.connectAttr(name+"_ibtw_target_y.t", opp_name+"_ibtw_target_y.t")
-				# cmds.connectAttr(name+"_ibtw_target_z.t", opp_name+"_ibtw_target_z.t")
 
 
 		# add joints
@@ -363,7 +314,6 @@ class Inbetweens(object):
 					if not side in ["y", "z"]:
 						cmds.warning("Old data format in template")
 						return
-					# side = j_data["name"].split("_")[-2]
 					self.addJoint(side=side, name=name, data=j_data)
 			
 				if data["local"]:
@@ -377,27 +327,16 @@ class Inbetweens(object):
 					cmds.setAttr(name+"_ibtw_child_offsetLoc.rx", data["childOffset"][0][0])
 					cmds.setAttr(name+"_ibtw_child_offsetLoc.ry", data["childOffset"][0][1])
 					cmds.setAttr(name+"_ibtw_child_offsetLoc.rz", data["childOffset"][0][2])
-					# cmds.setAttr(name+"_ibtw_target_y.tx", data["targetYPos"][0][0])
-					# cmds.setAttr(name+"_ibtw_target_y.ty", data["targetYPos"][0][1])
-					# cmds.setAttr(name+"_ibtw_target_y.tz", data["targetYPos"][0][2])
-					# cmds.setAttr(name+"_ibtw_target_z.tx", data["targetZPos"][0][0])
-					# cmds.setAttr(name+"_ibtw_target_z.ty", data["targetZPos"][0][1])
-					# cmds.setAttr(name+"_ibtw_target_z.tz", data["targetZPos"][0][2])
-				
-				if data["flippedX"]:
-					self.setFlipped(name, state=True, dir="x")
-				if data["flippedY"]:
-					self.setFlipped(name, state=True, dir="y")
-				if data["flippedZ"]:
-					self.setFlipped(name, state=True, dir="z")
-				if data["swapJointsY"]:
-					self.swapJoints(name=name, state=True, dir="y")
-				if data["swapJointsZ"]:
-					self.swapJoints(name=name, state=True, dir="z")
-				if data["swapAngleY"]:
-					self.swapAngles(name=name, state=True, dir="y")
-				if data["swapAngleZ"]:
-					self.swapAngles(name=name, state=True, dir="z")
+
+					if "parentOffsetR" in data:
+						if utils.getObjectSide(root) == "l":
+							opp_name = utils.getOpposite(name)
+							cmds.setAttr(opp_name+"_ibtw_parent_offsetLoc.rx", data["parentOffsetR"][0][0])
+							cmds.setAttr(opp_name+"_ibtw_parent_offsetLoc.ry", data["parentOffsetR"][0][1])
+							cmds.setAttr(opp_name+"_ibtw_parent_offsetLoc.rz", data["parentOffsetR"][0][2])
+							cmds.setAttr(opp_name+"_ibtw_child_offsetLoc.rx", data["childOffsetR"][0][0])
+							cmds.setAttr(opp_name+"_ibtw_child_offsetLoc.ry", data["childOffsetR"][0][1])
+							cmds.setAttr(opp_name+"_ibtw_child_offsetLoc.rz", data["childOffsetR"][0][2])
 
 		# module override
 		mod = utils.getModuleInstance(moduleName)
@@ -411,9 +350,6 @@ class Inbetweens(object):
 
 		# select item in list
 		self.selectListItem(name)
-
-		# cmds.sets(set, edit=1, fe=moduleName+"_nodesSet")
-		# print(222222, set, moduleName+"_nodesSet")
 
 		cmds.select(clear=1)
 
@@ -453,13 +389,14 @@ class Inbetweens(object):
 		else:
 			v = not cmds.getAttr(name+"_ibtw_parent_offsetLocShape.v")
 
+		cmds.select(offset_locs)
+		
 		for l in offset_locs:
 			if cmds.objExists(l):
 				cmds.setAttr(l+".v", v)
 			if cmds.objExists(utils.getOpposite(l)):
 				cmds.setAttr(utils.getOpposite(l)+".v", v)
-
-		cmds.select(offset_locs)
+				cmds.select(utils.getOpposite(l), add=1)
 
 	def getData(self, name): #
 		root = name+"_ibtw_root"
@@ -475,13 +412,6 @@ class Inbetweens(object):
 
 		data = {}
 		data["name"] = name
-		data["flippedX"] = False
-		data["flippedY"] = False
-		data["flippedZ"] = False
-		data["swapJointsY"] = False
-		data["swapJointsZ"] = False
-		data["swapAngleY"] = False
-		data["swapAngleZ"] = False
 		data["local"] = local
 		
 		if self.isLocal(name):
@@ -508,13 +438,8 @@ class Inbetweens(object):
 				if local:
 					pass
 				else:
-					data["flippedX"] = cmds.getAttr(opp_name+"_ibtw_parent_offsetLoc_mirrorGroup.sx") == -1
-					data["flippedY"] = cmds.getAttr(opp_name+"_ibtw_parent_offsetLoc_mirrorGroup.sy") == -1
-					data["flippedZ"] = cmds.getAttr(opp_name+"_ibtw_parent_offsetLoc_mirrorGroup.sz") == -1
-					data["swapJointsY"] = cmds.getAttr(opp_name+"_ibtw_joints_group.sy") == -1
-					data["swapJointsZ"] = cmds.getAttr(opp_name+"_ibtw_joints_group.sz") == -1
-					data["swapAngleY"] = cmds.getAttr(opp_name+"_ibtw_target_y.ty") == -1
-					data["swapAngleZ"] = cmds.getAttr(opp_name+"_ibtw_target_z.tz") == -1
+					data["parentOffsetR"] = cmds.getAttr(opp_name+"_ibtw_parent_offsetLoc.r")
+					data["childOffsetR"] = cmds.getAttr(opp_name+"_ibtw_child_offsetLoc.r")
 
 		jointsData = []
 		if local:
@@ -524,7 +449,11 @@ class Inbetweens(object):
 		
 		if joints_gr:
 			for j_gr in joints_gr:
-				j = cmds.listRelatives(j_gr)[0]
+				if not cmds.listRelatives(j_gr):
+					continue
+				j = cmds.listRelatives(j_gr)[0] 
+				if cmds.objectType(j) != "joint":
+					continue
 				jData = {}
 				jData["name"] = j
 				jData["angleMin"] = cmds.getAttr(j+".angleMin")
@@ -581,7 +510,6 @@ class Inbetweens(object):
 			j.reverse.set(data['reverse'])
 
 		set = name + '_ibtwNodesSet'
-		# print(222, name+"_ibtw_%s_unitConversion" %side)
 		uc = pm.PyNode(name+"_ibtw_%s_unitConversion" %side)
 		
 		sr = pm.createNode("setRange", n=j_name.replace("outJoint", "setRange"))
@@ -664,16 +592,11 @@ class Inbetweens(object):
 			utils.resetAttrs(root_s_j, jointOrient=True)
 
 			mod_name = utils.getModuleName(data["parent_j"])
-			# utils.connectByMatrix(root_s_j, [name+"_ibtw_joints_group", name+"_ibtw_root"], ["matrix", "matrix"], module_name=mod_name)
-			# if utils.objectIsOpposite(name+"_ibtw_root"):
-			# 	mirror_gr = name+"_ibtw_parent_offsetLoc_mirrorGroup"
-			# 	cmds.connectAttr(mirror_gr+".matrix", name+"_ibtw_root_skinJoint_multMat.matrixIn[2]")
 			utils.connectByMatrix(root_s_j, [name+"_ibtw_joints_group", root_s_j], ["worldMatrix[0]", "parentInverseMatrix[0]"], module_name=mod_name)
 
 		# add skinJoint
 		s_j = pm.duplicate(j, n=j.replace("outJoint", "skinJoint"))[0]
 		cmds.sets(s_j.name(), e=1, forceElement=set)
-		# pm.deleteAttr(s_j, attribute="driverAngle")
 		
 		# hide outJoint
 		j.drawStyle.set(2)
@@ -746,82 +669,6 @@ class Inbetweens(object):
 		name = self.curIbName
 		opp_name = utils.getOpposite(name)
 		cmds.select(name+"_ibtw_outJoint_%s_1" %side, opp_name+"_ibtw_outJoint_%s_1" %side)
-
-	def setFlipped(self, name=None, dir="x", state=None, solo=True):
-		
-		if not state:
-			if dir == "x":
-				state = self.win.ib_flippedX_checkBox.isChecked()
-			elif dir == "y":
-				state = self.win.ib_flippedY_checkBox.isChecked()
-			elif dir == "z":
-				state = self.win.ib_flippedZ_checkBox.isChecked()
-		
-		if state:
-			v = -1
-		else:
-			v = 1
-
-		if not name:
-			name = self.curIbName
-			
-		opp_name = utils.getOpposite(name)
-		if dir == "x":
-			cmds.setAttr(opp_name+"_ibtw_parent_offsetLoc_mirrorGroup.sx", v)
-			# self.curIb["flippedX"] = state
-		elif dir == "y":
-			cmds.setAttr(opp_name+"_ibtw_parent_offsetLoc_mirrorGroup.sy", v)
-			# self.curIb["flippedZ"] = state
-		elif dir == "z":
-			cmds.setAttr(opp_name+"_ibtw_parent_offsetLoc_mirrorGroup.sz", v)
-			# self.curIb["flippedZ"] = state
-			
-		# if state and solo:
-		# 	if dir == "x":
-		# 		self.win.ib_flippedY_checkBox.setChecked(False)
-		# 		self.win.ib_flippedZ_checkBox.setChecked(False)
-		# 		self.setFlipped(name, dir="y", state=None, solo=False)
-		# 		self.setFlipped(name, dir="z", state=None, solo=False)
-		# 	elif dir == "y":
-		# 		self.win.ib_flippedX_checkBox.setChecked(False)
-		# 		self.win.ib_flippedZ_checkBox.setChecked(False)
-		# 		self.setFlipped(name, dir="x", state=None, solo=False)
-		# 		self.setFlipped(name, dir="z", state=None, solo=False)
-		# 	elif dir == "z":
-		# 		self.win.ib_flippedX_checkBox.setChecked(False)
-		# 		self.win.ib_flippedY_checkBox.setChecked(False)
-		# 		self.setFlipped(name, dir="x", state=None, solo=False)
-		# 		self.setFlipped(name, dir="y", state=None, solo=False)
-
-	def swapJoints(self, dir, name=None, state="None"):
-		if state == "None":
-			if dir == "y":
-				state = self.win.swapJointsY_checkBox.isChecked()
-			elif dir == "z":
-				state = self.win.swapJointsZ_checkBox.isChecked()
-		if not name:
-			name = self.curIbName
-		opp_name = utils.getOpposite(name)
-		if state:
-			v = -1
-		else:
-			v = 1
-		cmds.setAttr(opp_name+"_ibtw_joints_group.s"+dir, v)
-
-	def swapAngles(self, dir, name=None, state="None"):
-		if state == "None":
-			if dir == "y":
-				state = self.win.swapAngleY_checkBox.isChecked()
-			elif dir == "z":
-				state = self.win.swapAngleZ_checkBox.isChecked()
-		if not name:
-			name = self.curIbName
-		opp_name = utils.getOpposite(name)
-		if state:
-			v = -1
-		else:
-			v = 1
-		cmds.setAttr(f"{opp_name}_ibtw_target_{dir}.t{dir}", v)
 
 	def getIbtwsData(self, moduleNames=[]):
 		ibtwsData = []

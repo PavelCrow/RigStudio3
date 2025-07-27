@@ -32,9 +32,9 @@ def createMainPoser(name=""):
 				return
 		else:
 			return
-	
+	print(222)
 	# import
-	path = rootPath + '//rigTools//' + 'mainPoser.ma'		
+	path = os.path.join(rootPath, "rigTools", 'mainPoser.ma')
 	
 	if name == 'mainPoser':
 		utils.importFile(path)
@@ -67,23 +67,8 @@ def createPoser(name=""):
 			return
 		
 	# import
-	path = rootPath + '//rigTools//' + 'poser.ma'		
+	path = os.path.join(rootPath, "rigTools", 'poser.ma')
 	utils.importFile(path, name)
-	
-	if cmds.objExists("red_rsMat"):
-		cmds.delete(name+"_red_rsMat")
-		cmds.select(name+"_poser_axis_x")
-		cmds.hyperShade(assign= "red_rsMat")
-		cmds.delete(name+"_green_rsMat")
-		cmds.select(name+"_poser_axis_y")
-		cmds.hyperShade(assign= "green_rsMat")
-		cmds.delete(name+"_blue_rsMat")
-		cmds.select(name+"_poser_axis_z")
-		cmds.hyperShade(assign= "blue_rsMat")
-	else:
-		cmds.rename(name+"_red_rsMat", "red_rsMat")
-		cmds.rename(name+"_green_rsMat", "green_rsMat")
-		cmds.rename(name+"_blue_rsMat", "blue_rsMat")
 	
 	if cmds.objExists("mainPoser"):
 		cmds.parent(name+"_poser", "mainPoser")

@@ -629,6 +629,15 @@ def getInputNode(obj, attr):
 
 	return None
 
+def getOutputNode(obj, attr):
+	if cmds.connectionInfo( obj+"."+attr, isSource=True):
+		outputAttr = cmds.connectionInfo( obj+"."+attr, destinationFromSource=True)[0]
+		outputNode = outputAttr.split('.')[0]
+
+		return outputNode
+
+	return None
+
 def getLastName(name):
 	i = 1
 	initName = name

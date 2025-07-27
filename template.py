@@ -418,15 +418,13 @@ class Template(object):
 				m_name = utils.getModuleName(target)
 				m = utils.getModuleInstance(m_name)
 
-				# twData['name'] = utils.getRealNameFromTemplated(m_name, twData['name'])
-				# target = twData['target'] = utils.getRealNameFromTemplated(m_name, twData['target'])
 				endTarget = twData['endTarget'] = utils.getRealNameFromTemplated(m_name, twData['endTarget'])
 				rootOrientTarget = twData['rootOrientTarget'] = utils.getRealNameFromTemplated(m_name, twData['rootOrientTarget'])
 				endOrientTarget = twData['endOrientTarget'] = utils.getRealNameFromTemplated(m_name, twData['endOrientTarget'])
-				# twData['jointsCount'] = utils.getRealNameFromTemplated(m_name, twData['jointsCount'])
 				if 'rootOffset' in twData: twData['rootOffset'] = utils.getRealNameFromTemplated(m_name, twData['rootOffset'])
-				if 'rootUpOffset' in twData: twData['rootUpOffset'] = utils.getRealNameFromTemplated(m_name, twData['rootUpOffset'])
 				if 'endOffset' in twData: twData['endOffset'] = utils.getRealNameFromTemplated(m_name, twData['endOffset'])
+				if 'rootOffsetR' in twData: twData['rootOffsetR'] = utils.getRealNameFromTemplated(m_name, twData['rootOffsetR'])
+				if 'endOffsetR' in twData: twData['endOffsetR'] = utils.getRealNameFromTemplated(m_name, twData['endOffsetR'])
 				self.main.twistClass.twists_add(twData)
 
 				if rootOrientTarget != target:
@@ -434,9 +432,6 @@ class Template(object):
 
 				if endOrientTarget != endTarget:
 					self.main.twistClass.attach("end", endOrientTarget)
-
-				if 'rootFlipped' in twData and twData['rootFlipped']:
-					self.main.twistClass.setRootFlipped(name=utils.getOpposite(twData['name']), state=twData['rootFlipped'])
 
 				cmds.progressBar(progressControl, edit=True, step=1)
 			cmds.progressBar(progressControl2, edit=True, step=1)

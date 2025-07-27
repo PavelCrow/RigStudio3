@@ -6,7 +6,7 @@ import maya.OpenMayaUI as OpenMayaUI
 from functools import partial
 import os, sys, imp, math, json, shutil, importlib
 
-from .import utils
+from .import utils, posers
 
 version = int(cmds.about(v=True).split(" ")[0])
 if version <= 2024:
@@ -375,20 +375,13 @@ class ModuleBuilder(object):
 		self.updateCurrentModule()
 		
 	def createMainPoser(self):
-		#from .import utils, main
-		import rigStudio2.rigTools.posers
-		importlib.reload(rigStudio2.rigTools.posers)
-		rigStudio2.rigTools.posers.createMainPoser()
+		posers.createMainPoser()
 		
 	def createPoser(self):
-		import rigStudio2.rigTools.posers
-		importlib.reload(rigStudio2.rigTools.posers)
-		rigStudio2.rigTools.posers.createPoser()
+		posers.createPoser()
 		
 	def connectPosers(self):
-		import rigStudio2.rigTools.posers
-		importlib.reload(rigStudio2.rigTools.posers)
-		rigStudio2.rigTools.posers.connectPosers()
+		posers.connectPosers()
 		
 	def mirror(self):
 		mirr = cmds.getAttr("posers.sz") == -1

@@ -643,3 +643,13 @@ Updated ui tools buttons
 ---Version 3.12.2
 Fixed single hierarchy visibility joints
 Updated mouth module
+
+---Version 3.12.3
+Updated twists, added rootUpFlip data attribute. Fixed opposite chain module twists.
+
+---Version 3.13.0
+Limb module fk autotwist feature of the twist joints for ik-fk seamless switching
+
+---Version 3.14.0
+Update twists
+Update inbetweens

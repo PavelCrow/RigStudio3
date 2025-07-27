@@ -172,30 +172,25 @@ class LimbQuadrupped(module.Module) :
 		# make elbow offset movable
 		if t_name == self.name+"_root":
 			cmds.parent(t_name+'_end_connectorLoc', self.name+'_kneeOffset')
-			cmds.aimConstraint(self.name+"_kneeOffset", t_name+"_root_connectorLoc", mo=0, aimVector=(1,0,0), upVector=(0,1,0), worldUpType="objectrotation", worldUpVector=(0,1,0), worldUpObject=t_name+"_outJoint")
+			cmds.connectAttr(self.name+"_kneeOffset_loc.worldMatrix[0]", t_name+"_aimMatrix.primaryTargetMatrix", f=1)
 
 		elif t_name == self.name+"_knee":
-			cmds.parent(t_name+'_rootUpLoc', self.name+'_kneeOffset')
-			cmds.parent(t_name+'_root_connectorLoc', self.name+'_kneeOffset')
-			cmds.aimConstraint(self.name+"_ankleOffset", t_name+"_root_connectorLoc", mo=0, aimVector=(1,0,0), upVector=(0,1,0), worldUpType="objectrotation", worldUpVector=(0,1,0), worldUpObject=t_name+"_outJoint")
 			cmds.parent(t_name+'_end_connectorLoc', self.name+'_ankleOffset')
-		elif t_name == self.name+"_ankle":
-			cmds.parent(t_name+'_rootUpLoc', self.name+'_ankleOffset')
-			cmds.parent(t_name+'_root_connectorLoc', self.name+'_ankleOffset')
-			cmds.aimConstraint(t_name+"_end_connectorLoc", t_name+"_root_connectorLoc", mo=0, aimVector=(1,0,0), upVector=(0,1,0), worldUpType="objectrotation", worldUpVector=(0,1,0), worldUpObject=t_name+"_outJoint")
+			cmds.connectAttr(self.name+"_ankleOffset_loc.worldMatrix[0]", t_name+"_aimMatrix.primaryTargetMatrix", f=1)
+			cmds.connectAttr(self.name+"_kneeOffset_loc.worldMatrix[0]", t_name+"_aimMatrix.inputMatrix", f=1)
 
-		if not self.opposite and data:
-			cmds.setAttr(t_name+'_rootUpLoc.r', data["rootOffset"][0], data["rootOffset"][1], data["rootOffset"][2])
-			cmds.setAttr(t_name+'_end_connectorLoc.r', data["endOffset"][0], data["endOffset"][1], data["endOffset"][2])
+		elif t_name == self.name+"_ankle":
+			cmds.connectAttr(self.name+"_ankleOffset_loc.worldMatrix[0]", t_name+"_aimMatrix.inputMatrix", f=1)
+
+		if self.opposite:
+			cmds.setAttr(t_name+'_rootUpLoc.s', 1, 1, -1)
+			cmds.setAttr(t_name+'_end_connectorLoc.s', 1, 1, -1)
 
 	def ibtwOverride(self, name):
 		if name == self.name + "_knee_twist_0" :
 			cmds.connectAttr(self.name+"_kneeOffset.worldMatrix[0]", self.name+"_knee_twist_0_ibtw_joints_group_multMat.matrixIn[0]", f=1)
 		elif name == self.name + "_ankle_twist_0" :
 			cmds.connectAttr(self.name+"_ankleOffset.worldMatrix[0]", self.name+"_ankle_twist_0_ibtw_joints_group_multMat.matrixIn[0]", f=1)
-
-		# cmds.connectAttr(self.name+"_control.stretchVolume", name+"_twist.stretchVolume")
-		# cmds.setAttr(name+"_twist.stretchVolume", k=0, channelBox=0)
 
 		cmds.setAttr(self.name+"_control.stretchVolume", lock=1, keyable=0, channelBox=0)
 
