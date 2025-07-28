@@ -76,7 +76,7 @@ class Twist(object):
         self.updateFrame()
 
     def updateList(self):
-        if not cmds.objExists('main'):
+        if not cmds.objExists(self.main.rig.root):
             return
 
         # update twists data

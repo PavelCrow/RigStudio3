@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: limb.ma
-//Last modified: Sat, Jul 26, 2025 06:53:09 AM
+//Last modified: Mon, Jul 28, 2025 10:31:06 AM
 //Codeset: 1251
 requires maya "2022";
 requires -nodeType "sweepMeshCreator" -dataType "sweepMeshData" -dataType "sweepProfileData"
@@ -12,11 +12,11 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202303271415-baa69b5798";
 fileInfo "osv" "Windows 10 Pro v2009 (Build: 26100)";
-fileInfo "UUID" "38320177-4560-013F-48D7-1DA11496556D";
+fileInfo "UUID" "49067B09-43DE-667F-AFD0-BF9715A03DAE";
 createNode transform -s -n "persp";
 	rename -uid "3C7E0AEC-41A5-B981-7A2B-32A67D2BBAA3";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 13.030419603893778 6.9165372720556668 10.868437279904111 ;
+	setAttr ".t" -type "double3" 16.320177133825588 11.087851141850866 16.215861825331526 ;
 	setAttr ".r" -type "double3" -33.60000000000403 31.600000000003639 -3.7342422247849992e-15 ;
 	setAttr ".rp" -type "double3" 1.1102230246251563e-16 0 8.8817841970012523e-16 ;
 	setAttr ".rpt" -type "double3" 5.7589012943859782e-16 4.8375017868310666e-16 -2.7025092621108523e-16 ;
@@ -26,7 +26,7 @@ createNode camera -s -n "perspShape" -p "persp";
 	setAttr ".fl" 34.999999999999979;
 	setAttr ".ncp" 0.001;
 	setAttr ".fcp" 50000;
-	setAttr ".coi" 15.027257863748575;
+	setAttr ".coi" 22.56498386534404;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -887,7 +887,7 @@ createNode transform -n "control" -p "control_group";
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
-	setAttr -k on ".ikFk" 0;
+	setAttr -k on ".ikFk";
 	setAttr -k on ".autoStretch";
 	setAttr -k on ".softIk" 4;
 	setAttr -k on ".stretchVolume";
@@ -1128,7 +1128,14 @@ createNode transform -n "ik_aim_init" -p "ik_controls";
 	rename -uid "77AA6A27-4772-D6D2-10DD-DEAC8237495C";
 createNode transform -n "ik_aim_mirror" -p "ik_aim_init";
 	rename -uid "FC1CD595-4B04-7DDD-380D-369B79FD7269";
-createNode transform -n "ik_aim" -p "ik_aim_mirror";
+createNode transform -n "ik_aim_PH" -p "ik_aim_mirror";
+	rename -uid "22DF783E-492E-998A-05EA-839001A0F6AF";
+	setAttr -l on ".rz";
+	setAttr -l on ".rx";
+	setAttr -l on ".ry";
+createNode transform -n "ik_aim_SN" -p "ik_aim_PH";
+	rename -uid "2EE30EF8-4AD9-BDEA-A203-0680746ED826";
+createNode transform -n "ik_aim" -p "ik_aim_SN";
 	rename -uid "F5A1C1E7-4F65-D66E-0830-D9A7A7D011B5";
 	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
 	addAttr -ci true -sn "mirrorShape" -ln "mirrorShape" -min 0 -max 1 -at "bool";
@@ -1218,7 +1225,11 @@ createNode transform -n "ik_end_init" -p "ik_controls";
 	rename -uid "D7936AC9-413C-C55D-069E-3790EBEE6ECD";
 createNode transform -n "ik_end_mirror" -p "ik_end_init";
 	rename -uid "83F612D8-4E80-ECC3-0012-AF9A8130F260";
-createNode transform -n "ik_end" -p "ik_end_mirror";
+createNode transform -n "ik_end_PH" -p "ik_end_mirror";
+	rename -uid "74C183EF-421E-946A-EE9C-938C84966C25";
+createNode transform -n "ik_end_SN" -p "ik_end_PH";
+	rename -uid "032B31F8-4353-CAC4-9CC6-AAAB4CF9C7AA";
+createNode transform -n "ik_end" -p "ik_end_SN";
 	rename -uid "5DF27C6E-4BAC-B695-4F3B-BD97DE04C301";
 	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
 	addAttr -ci true -sn "mirrorShape" -ln "mirrorShape" -min 0 -max 1 -at "bool";
@@ -1330,7 +1341,7 @@ createNode nurbsCurve -n "aim_curveShape" -p "aim_curve";
 		1 1 0 no 3
 		2 0 1
 		2
-		5.0000000000000009 0 -0.99999999999999878
+		5.0000000135737057 0 -1.0000000027147415
 		5.0000000000000009 0 -4.119999885559082
 		;
 createNode transform -n "middleOffset_group" -p "controls";
@@ -1447,7 +1458,7 @@ createNode orientConstraint -n "middle_control_orientConstraint1" -p "middleOffs
 	setAttr -k off ".sz";
 	setAttr ".erp" yes;
 	setAttr -s 2 ".tg";
-	setAttr ".lr" -type "double3" 0 -11.309932474020195 0 ;
+	setAttr ".lr" -type "double3" 0 -11.309933479197001 0 ;
 	setAttr ".o" -type "double3" 0 2.8824484474179729e-06 0 ;
 	setAttr ".rsrr" -type "double3" 0 -26.56505117707799 0 ;
 	setAttr ".int" 2;
@@ -1528,7 +1539,7 @@ createNode parentConstraint -n "end_joint_parentConstraint1" -p "end_finalJoint"
 	setAttr -k off ".sz";
 	setAttr ".erp" yes;
 	setAttr -s 2 ".tg";
-	setAttr ".lr" -type "double3" 0 11.309932474020197 0 ;
+	setAttr ".lr" -type "double3" 0 11.309934296688311 0 ;
 	setAttr ".rst" -type "double3" 2.161307049502966 0.029976148749351963 -0.079060712407660994 ;
 	setAttr ".rsrr" -type "double3" 1.8436269137598027 29.243973811402793 1.6517385454817457 ;
 	setAttr ".int" 2;
@@ -1579,7 +1590,7 @@ createNode parentConstraint -n "b_joint_parentConstraint1" -p "b_finalJoint";
 	setAttr -k off ".sz";
 	setAttr ".erp" yes;
 	setAttr -s 2 ".tg";
-	setAttr ".lr" -type "double3" 0 -22.619864948040394 0 ;
+	setAttr ".lr" -type "double3" 0 -22.61986695839401 0 ;
 	setAttr ".rst" -type "double3" 2.2681055008005182 0.036040713028121597 -0.1204070915889166 ;
 	setAttr ".rsrr" -type "double3" -0.10474226879154834 -52.816060736806094 -0.3565215501189829 ;
 	setAttr ".int" 2;
@@ -1618,7 +1629,7 @@ createNode parentConstraint -n "a_joint_parentConstraint1" -p "a_finalJoint";
 	setAttr -k off ".sz";
 	setAttr ".erp" yes;
 	setAttr -s 2 ".tg";
-	setAttr ".lr" -type "double3" 0 11.309932474020201 0 ;
+	setAttr ".lr" -type "double3" 0 11.309932474020203 0 ;
 	setAttr ".rst" -type "double3" -8.1139024314801804e-17 2.0284756078700451e-17 2.4341707294440544e-16 ;
 	setAttr ".rsrr" -type "double3" -2.7624631311983412e-16 -7.3523463271148621e-34 
 		-3.0498753761064987e-16 ;
@@ -1743,17 +1754,17 @@ createNode reverse -n "ikFk_reverse";
 createNode ikRPsolver -n "ikRPsolver1";
 	rename -uid "C8E02A8C-4202-BEA8-2F8D-9290A57AA09B";
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "4EBC5554-4DEC-A7CB-4B52-73B65DD536B8";
+	rename -uid "81082CE6-4B04-82C5-0951-AA9EB6FF897E";
 	setAttr -s 2 ".lnk";
 	setAttr -s 2 ".slnk";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "F721BF9E-4F44-AD8E-9607-1097A78CE7EE";
+	rename -uid "A51FDA9E-4A84-227B-F5BC-A9988940A1B9";
 	setAttr ".cdl" 5;
 	setAttr -s 5 ".dli[1:4]"  5 3 2 4;
 createNode displayLayer -n "defaultLayer";
 	rename -uid "B15E876D-47C6-71D4-FBBA-048077D00CDF";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "85B0CB2D-4EC5-6F40-5511-5B85CCB13ED8";
+	rename -uid "8D6925B6-4720-ED74-A271-6B8D249C616B";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "5C2832CF-4FC3-2DB8-D683-F7B50E309797";
 	setAttr ".g" yes;
@@ -2081,9 +2092,9 @@ createNode blendColors -n "ikfk_blend";
 	rename -uid "4377AEB8-448E-A4E5-E0D9-FCA36318D1C6";
 	setAttr ".c2" -type "float3" 1 1 1 ;
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "A363F417-47CE-FF28-B8AF-71B784143133";
+	rename -uid "9FA2010B-4574-8EE3-1D67-60876099C96F";
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "5E624DBB-4282-8816-C36D-B98ADC31ED69";
+	rename -uid "9514CD04-4F3A-886E-8D32-5D931097C9DD";
 createNode renderLayerManager -n "renderLayerManager1";
 	rename -uid "E06E584E-4F44-08F7-202C-62A9DF3268E5";
 createNode renderLayer -n "defaultRenderLayer1";

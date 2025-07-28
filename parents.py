@@ -361,11 +361,18 @@ class Parents(object):
 
         def addGroup(obj):
             mod_name = utils.getModuleName(obj)
-            par = cmds.listRelatives(obj, p=1)[0]
             gr = cmds.group(empty=1, n=obj+"_parentsGroup")
+            move_obj = obj
+            par = cmds.listRelatives(obj, p=1)[0]
+            useZV = par.split("_")[-1] == "SN"
+            if useZV:
+                par = cmds.listRelatives(par, p=1)[0]
+                move_obj = par
+                par = cmds.listRelatives(par, p=1)[0]
+            
             cmds.parent(gr, par)
             utils.resetAttrs(gr)
-            cmds.parent(obj, gr)
+            cmds.parent(move_obj, gr)
             utils.addModuleNameAttr(gr, mod_name)
 
             # create variables

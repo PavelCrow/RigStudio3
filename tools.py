@@ -902,7 +902,7 @@ def bakeDummyRig():
 
 	cmds.group(empty=1, n="skeleton")
 	cmds.parent("spine_root_skinJoint", "skeleton")
-
+	
 	if cmds.objExists("main"):
 		cmds.parent("skeleton", "main")
 
@@ -1036,7 +1036,8 @@ def copySkin():
 	pm.copySkinWeights(noMirror=1, surfaceAssociation='closestPoint', influenceAssociation='closestJoint')
 
 def selectAllJoints():
-	singleHierarhy = cmds.getAttr("main.singleHierarhy")
+	root = cmds.listRelatives("rig", p=1)[0]
+	singleHierarhy = cmds.getAttr(root+".singleHierarhy")
 
 	if singleHierarhy:
 		cmds.select(cmds.listRelatives("skeleton", allDescendents=1))

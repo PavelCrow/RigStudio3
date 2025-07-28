@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: spine.ma
-//Last modified: Fri, Apr 25, 2025 07:27:41 AM
+//Last modified: Mon, Jul 28, 2025 10:30:26 AM
 //Codeset: 1251
 requires maya "2022";
 requires -nodeType "sweepMeshCreator" -dataType "sweepMeshData" -dataType "sweepProfileData"
@@ -13,7 +13,7 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202303271415-baa69b5798";
 fileInfo "osv" "Windows 10 Pro v2009 (Build: 26100)";
-fileInfo "UUID" "CE99F1A6-412A-D1A5-C282-0388BA2B85BA";
+fileInfo "UUID" "94171852-4FEA-8A14-BBC0-629A7155851D";
 createNode transform -n "mod";
 	rename -uid "C55DD497-492A-4EC0-E01E-33B4860B4331";
 	addAttr -ci true -sn "version" -ln "version" -dt "string";
@@ -1250,7 +1250,11 @@ createNode transform -n "controls" -p "mod";
 	setAttr ".ove" yes;
 createNode transform -n "pelvis_group" -p "controls";
 	rename -uid "A81677C5-401D-7526-2C08-34BCA24A4BE3";
-createNode transform -n "pelvis" -p "pelvis_group";
+createNode transform -n "pelvis_PH" -p "pelvis_group";
+	rename -uid "D510C9D8-4024-658A-7477-FE9D5019D7A3";
+createNode transform -n "pelvis_SN" -p "pelvis_PH";
+	rename -uid "B89A6C94-4640-CAD6-DF7C-8490D120CD9C";
+createNode transform -n "pelvis" -p "pelvis_SN";
 	rename -uid "AE5D7052-4637-A961-620A-9F88A5FF9893";
 	addAttr -ci true -sn "mirrored" -ln "mirrored" -min 0 -max 1 -at "bool";
 	addAttr -ci true -sn "translateXMirror" -ln "translateXMirror" -min 0 -max 1 -at "bool";
@@ -2584,7 +2588,7 @@ createNode joint -n "end_outJoint" -p "outJoints";
 createNode transform -s -n "persp";
 	rename -uid "742B74BF-4D6B-9A22-954F-B78DD4DB06E5";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" -18.650388695450701 7.5227870267192678 6.4954780776227921 ;
+	setAttr ".t" -type "double3" -25.950481944210537 8.6790204966924094 9.3269976411119551 ;
 	setAttr ".r" -type "double3" -8.4000000000089052 -428.79999999995357 0 ;
 	setAttr ".rp" -type "double3" -3.3306690738754696e-16 -4.4408920985006262e-16 -1.7763568394002505e-15 ;
 	setAttr ".rpt" -type "double3" -6.7928001781737458e-16 -1.7125212621107998e-16 3.3031043487526458e-16 ;
@@ -2593,7 +2597,7 @@ createNode camera -s -n "perspShape" -p "persp";
 	setAttr -k off ".v";
 	setAttr ".rnd" no;
 	setAttr ".cap" -type "double2" 1.41732 0.94488 ;
-	setAttr ".coi" 21.031923578408659;
+	setAttr ".coi" 28.94682978859819;
 	setAttr ".imn" -type "string" "persp1";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -2659,15 +2663,15 @@ createNode objectSet -n "ik_moduleControlSet";
 	setAttr -s 3 ".dsm";
 	setAttr ".an" -type "string" "gControlSet";
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "04675D02-4D48-B68F-0F1C-D5A17AE191B6";
+	rename -uid "7102DBB6-4B5E-C773-5FBD-57AC077360B1";
 	setAttr -s 25 ".lnk";
 	setAttr -s 25 ".slnk";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "8CE4154F-46E8-ECA2-82F2-EC8A29184C79";
+	rename -uid "6318C7E5-44CA-FB87-DD45-8BBB1DBBF7E6";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "B1DB931A-42AC-3765-6A0C-0E9123FB8239";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "16064A74-4A87-B2D4-6F80-7CA99726EAEF";
+	rename -uid "0D7AD585-450E-9610-9D6F-B5A017D58FE7";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "86635CA8-42FC-A04E-4E62-638EF51ABD39";
 	setAttr ".g" yes;
@@ -3576,9 +3580,9 @@ createNode quatToEuler -n "quatToEuler1";
 createNode quatToEuler -n "quatToEuler2";
 	rename -uid "B6413183-48DD-EA41-0FE0-4184DB6868AC";
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "42A99911-4D48-A486-D117-07B67352F7CC";
+	rename -uid "9B6DBEE9-4EA7-8CAC-5B24-58929E6FED79";
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "F76ABAA8-4CD3-8928-B00A-1A82EED24D39";
+	rename -uid "F1E9E6FA-4086-854B-CE51-6FB0BC949D20";
 createNode makeNurbSphere -n "makeNurbSphere1";
 	rename -uid "8DBE1D78-4612-053F-6D5F-088A4D6E19AF";
 	setAttr ".ax" -type "double3" 0 1 0 ;

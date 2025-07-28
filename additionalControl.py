@@ -54,14 +54,16 @@ class AdditionalControl(controller.Control):
 		cmds.setAttr(self.name+"_outJoint.visibility", 0)	
 		cmds.setAttr(j+".segmentScaleCompensate", 0)	
 
-		if not cmds.getAttr("main.jointsVis"):
+		root = cmds.listRelatives("rig", p=1)[0]
+
+		if not cmds.getAttr(root+".jointsVis"):
 			cmds.setAttr(self.name+'_outJoint.drawStyle', 2)
 		
 		# add outJoint to set
 		cmds.sets(self.name+'_outJoint', e=1, forceElement=par_moduleName+'_skinJointsSet')
 		
 		# joint size
-		jointsSize = cmds.getAttr('main.jointsSize')
+		jointsSize = cmds.getAttr(root+'.jointsSize')
 		cmds.setAttr(j+".radius", jointsSize)
 
 		cmds.connectAttr(self.name+".sx", self.name+'_skinJoint.sx', f=1)			

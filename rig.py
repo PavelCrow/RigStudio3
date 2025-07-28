@@ -27,9 +27,10 @@ class Rig:
 
     def load(self): #
         # print("rig load")
-   
+
         self.exists = cmds.objExists(self.root) and cmds.objExists('rig') and cmds.objExists('geo')
         if self.exists:
+            self.root = cmds.listRelatives("rig", p=1)[0]
             if cmds.objExists(self.root + ".singleHierarhy"):
                 self.singleHierarhy = cmds.getAttr(self.root + ".singleHierarhy")
             else:
@@ -61,7 +62,7 @@ class Rig:
             return
         
         # create main group
-        root = cmds.group(empty=True, n="main")
+        root = cmds.group(empty=True, n=self.root)
 
         path = os.path.join(modulePath,'versions.txt')
         with open(path, mode='r') as f:
@@ -125,7 +126,8 @@ class Rig:
             m.delete()
 
         # delete rig
-        cmds.delete("main")
+        root = cmds.listRelatives("rig", p=1)[0]
+        cmds.delete(root)
         
         # delete all sets
         for set in cmds.ls(type="objectSet"):
@@ -139,7 +141,7 @@ class Rig:
 
     def rename(self, newName): #
         self.name = newName
-        utils.setUserAttr("main", "name", newName)
+        utils.setUserAttr(self.root, "name", newName)
 
     def isTemplate(self, type):
 
@@ -208,7 +210,7 @@ class Rig:
                         pass
 
         # Save data to node
-        objAttr = "main.pose"
+        objAttr = self.root + ".pose"
         utils.pyToAttr(objAttr, attrData)
 
         if len(sel) > 0:
@@ -223,10 +225,10 @@ class Rig:
         controls = self.getControls()
 
         # on creating main
-        if not cmds.attributeQuery('pose', node="main", exists=True):
+        if not cmds.attributeQuery('pose', node=self.root, exists=True):
             return
 
-        objAttr = "main.pose"
+        objAttr = self.root + ".pose"
 
         # Get data
         attrData = {}

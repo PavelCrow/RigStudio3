@@ -95,16 +95,6 @@ class Module(object):
                 if cmds.objectType(j) == "joint":
                     cmds.setAttr(j+".drawStyle", 2)
 
-
-        # correct posers size
-        # for p in pm.listRelatives(self.name + "_posers", allDescendents=1):
-        #     if p.split("_")[-1] in ['poser', 'mainPoser']:
-        #         try:
-        #             size = p.size.get() * cmds.getAttr("main.posersSize")
-        #             p.size.set(size)
-        #         except:
-        #             print("Cannot set size attr in the poser")
-
         cmds.refresh()
 
     def addSkinJoints(self, m_name=None):
@@ -158,7 +148,7 @@ class Module(object):
 
                 cmds.setAttr(o+".segmentScaleCompensate", 0)
 
-                r = o.radius.get() * cmds.getAttr("main.jointsSize")
+                r = o.radius.get() * cmds.getAttr(self.main.rig.root+".jointsSize")
                 o.radius.set(r)
                 if o.name() == m_name +"_root_skinJoint":
                     # utils.resetJointOrient(o.name())

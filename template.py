@@ -124,8 +124,11 @@ class Template(object):
 		# delete progress window
 		cmds.deleteUI(window)
 
+		root = cmds.listRelatives("rig", p=1)[0]
+
 		data['type'] = 'rs_rig'
-		data['rs_version'] = cmds.getAttr("main.rs_version") or "before 3.12"
+		data['root'] = root
+		data['rs_version'] = cmds.getAttr(root+".rs_version") or "before 3.12"
 		data['name'] = self.main.rig.name
 		data['modulesData'] = modulesData
 		data['twistsData'] = self.main.twistClass.getTwistsData()
@@ -167,6 +170,8 @@ class Template(object):
 
 		# create rig
 		rigName = self.main.rig.name
+		if "root" in data:
+			self.main.rig.root = data["root"]
 		self.main.rig.create(self.main.win.singleHierarhy_radioButton.isChecked())
 		self.main.rig.rename(rigName)
 
