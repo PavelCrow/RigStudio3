@@ -16,7 +16,8 @@ def run(clearPy=False):
 	temp_folder = r"F:\Maya_Projects\rigStudio3_out\temp"
 	rs_free = r"F:\Maya_Projects\rigStudio3_out\free"
 	rs_pro = r"F:\Maya_Projects\rigStudio3_out\pro"
-
+	yd_folder = r"C:\Users\pavel\YandexDisk\RS\releases"
+	
 	# Удаление временной папки
 	if os.path.exists(rs_out):
 		shutil.rmtree(rs_out)
@@ -36,7 +37,7 @@ def run(clearPy=False):
 	
 	pro_modules = ["eyesGeometry", "wing", "birdFoot"]
 	extra_modules = ["browsSimple", "eyes", "mouth", "eyelidsSimple"]
-
+	
 	copy_project(rs_folder, rs_out, exclude)
 
 	os.makedirs(os.path.join(rs_out, "licenses"))
@@ -44,7 +45,7 @@ def run(clearPy=False):
 	s= os.path.join(rs_folder, "__pycache__")
 	d= os.path.join(rs_out, "__pycache__")
 	shutil.copytree(s , d)
-
+	
 	# Очистка modules folder  
 	mod_folder = os.path.join(rs_out, "modules")
 	files = os.listdir(mod_folder)
@@ -60,7 +61,7 @@ def run(clearPy=False):
 	for f in files:
 		if f in pro_modules:
 			shutil.rmtree(os.path.join(mod_folder, f))
-
+	
 	# Получение версии из versions.txt
 	with open(rs_folder+'/versions.txt') as f:
 		lines = f.readlines()
@@ -74,6 +75,8 @@ def run(clearPy=False):
 	# ✅ Создаём архив
 	archive = os.path.join(rs_pro, f"rigStudio{num}Pro")
 	shutil.make_archive(archive, 'zip', temp_folder)
+	print(111, archive)
+	shutil.copy(archive+".zip", os.path.join(yd_folder, "rs 3 pro version"))
 
 	# Удаление Extra-модулей  
 	mod_folder = os.path.join(rs_out, "modules")
@@ -85,6 +88,7 @@ def run(clearPy=False):
 	# ✅ Создаём архив
 	archive = os.path.join(rs_free, f"rigStudio{num}Free")
 	shutil.make_archive(archive, 'zip', temp_folder)
+	shutil.copy(archive+".zip", os.path.join(yd_folder, "rs 3 free version"))
 
 	return
 	os.remove(rs_out_tool+"/full")
