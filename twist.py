@@ -36,11 +36,9 @@ class Twist(object):
         self.win.addTwistSimple_btn.clicked.connect(partial(self.twists_add, advanced=False) )
         self.win.removeTwist_btn.clicked.connect(self.twists_remove)
 
-        self.win.twists_listWidget.itemSelectionChanged.connect(self.selectItem)
+        self.win.twists_listWidget.currentItemChanged.connect(self.selectItem)
         self.win.twists_listWidget.itemDoubleClicked.connect(self.doubleClckItem)		
 
-        self.win.twist_attachRootToParent_btn.clicked.connect(self.attachToRoot)
-        self.win.twist_attachEndToChild_btn.clicked.connect(self.attachToEnd)
         self.win.twist_attachRoot_btn.clicked.connect(partial(self.attach, socket="root"))
         self.win.twist_attachEnd_btn.clicked.connect(partial(self.attach, socket="end"))
         self.win.twist_reset_btn.clicked.connect(self.reset)
@@ -528,7 +526,7 @@ class Twist(object):
                 endLoc = t_name + "_end_connectorLoc"
                 cmds.parent(endLoc, target)
                 for a in [".tx", ".ty", ".tz"]:
-                    cmds.setAttr(rootUpLoc+a, 0)
+                    cmds.setAttr(endLoc+a, 0)
 
                 # save data
                 utils.setUserAttr(t_name+"_mod", "endOrientTarget", target)
@@ -594,17 +592,17 @@ class Twist(object):
                 return
 
             rootUpLoc = t_name + "_rootUpLoc"
-            cmds.parent(rootUpLoc, target_outJoint)
-            cmds.delete(rootUpLoc+"_multMat")
+            try: cmds.parent(rootUpLoc, target_outJoint)
+            except: pass
             utils.resetAttrs(rootUpLoc, matrix=True)
 
             rootUpLoc_opp = utils.getOpposite(rootUpLoc)
             if cmds.objExists(rootUpLoc_opp):
                 target_opp = utils.getOppositeIfExists(target_outJoint)
-                cmds.parent(rootUpLoc_opp, target_opp)
-                cmds.delete(rootUpLoc_opp+"_multMat")
+                try:
+                    cmds.parent(rootUpLoc_opp, target_opp)
+                except: pass
                 utils.resetAttrs(rootUpLoc_opp, matrix=True)
-                cmds.setAttr(rootUpLoc_opp+'.ry', 180)
 
         def resetEnd():
             # skip if parent is default joint
@@ -616,15 +614,18 @@ class Twist(object):
                 return
 
             endLoc = t_name + "_end_connectorLoc"
-            cmds.parent(endLoc, endTarget_outJoint)
+            try:
+                cmds.parent(endLoc, endTarget_outJoint)
+            except: pass
             utils.resetAttrs(endLoc)
 
             endLoc_opp = utils.getOpposite(endLoc)
             if cmds.objExists(endLoc_opp):
                 endTarget_outJoint_opp = utils.getOppositeIfExists(endTarget_outJoint)
-                cmds.parent(endLoc_opp, endTarget_outJoint_opp)
+                try:
+                    cmds.parent(endLoc_opp, endTarget_outJoint_opp)
+                except: pass
                 utils.resetAttrs(endLoc_opp, matrix=True)
-                # cmds.setAttr(endLoc_opp+'.ry', 180)
 
         if twist['rootOrientTarget'] != target_outJoint and not resetEndOnly:
             resetRoot()

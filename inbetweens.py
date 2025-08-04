@@ -438,8 +438,9 @@ class Inbetweens(object):
 				if local:
 					pass
 				else:
-					data["parentOffsetR"] = cmds.getAttr(opp_name+"_ibtw_parent_offsetLoc.r")
-					data["childOffsetR"] = cmds.getAttr(opp_name+"_ibtw_child_offsetLoc.r")
+					if cmds.objExists(opp_name+"_mod"):
+						data["parentOffsetR"] = cmds.getAttr(opp_name+"_ibtw_parent_offsetLoc.r")
+						data["childOffsetR"] = cmds.getAttr(opp_name+"_ibtw_child_offsetLoc.r")
 
 		jointsData = []
 		if local:

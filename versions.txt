@@ -657,3 +657,6 @@ Update inbetweens
 ---Version 3.14.1
 Added zv parent groups to main modules
 Root group name saving to template
+
+---Version 3.14.2
+Licenses feature update

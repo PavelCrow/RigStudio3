@@ -779,11 +779,11 @@ class Parents(object):
 
         if attrType == 'attributes':
             for n in self.niceNames:
-                cmds.deleteAttr(control, attribute=n)
+                if cmds.objExists(control+"."+n):
+                    cmds.deleteAttr(control, attribute=n)
         else:
             attrName = cmds.getAttr(obj+".attrName")
             cmds.deleteAttr(control, attribute=attrName)				
-            #print 111111111111, control, attrName
 
         #except: pass
 
@@ -955,6 +955,7 @@ class Parents(object):
 
         elif attrType == 'attributes':
             for i, n in enumerate(niceNames):
+                print(1111, control, n)
                 cmds.addAttr(control, longName=n, attributeType='float', keyable=attrVis, minValue=0, maxValue=1 )
                 cmds.connectAttr(control+'.'+n, const+'.'+targets[i]+"W"+str(i))
 

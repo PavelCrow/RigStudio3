@@ -319,7 +319,6 @@ def setUserAttr(obj, attrName, value, type="string", lock=True, keyable=False, c
 	if min != "none": cmds.addAttr(obj+"."+attrName, e=1, minValue=min)
 	if max != "none": cmds.addAttr(obj+"."+attrName, e=1, maxValue=max)
 
-
 def addModuleNameAttr(obj, moduleName):
 	#print (33333, obj, moduleName)
 	if not pm.attributeQuery("moduleName", node=obj, exists=1):
@@ -1236,3 +1235,16 @@ def getInitLocFromJoint(joint_name):
 		initLoc = joint_name.split(suff)[0] + "initLoc"
 		return initLoc
 	return None
+
+def get_version():
+	# get version
+	with open(modulePath + '/versions.txt') as f:
+		lines = f.readlines()
+
+	versions = []
+	for l in lines:
+		if '---Version' in l:
+			versions.append(l)
+
+	lastVestion = versions[-1].split('---')[1]
+	return lastVestion
