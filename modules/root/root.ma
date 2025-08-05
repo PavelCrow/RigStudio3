@@ -4,14 +4,6 @@
 //Codeset: 1251
 requires maya "2022";
 requires "stereoCamera" "10.0";
-requires "AT_MPView" "RC 1";
-requires "sampleData" "1.0";
-requires "ngSkinTools" "1.0.960";
-requires "BluePencil" "1.0";
-requires "Mayatomr" "2013.0 - 3.10.1.11 ";
-requires "RoadkillPro2012_amd64" "Version 1.044a";
-requires "SLFxShader" "1.0";
-requires "mtoa" "5.0.0.1";
 currentUnit -l centimeter -a degree -t pal;
 fileInfo "application" "maya";
 fileInfo "product" "Maya 2022";
