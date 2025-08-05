@@ -774,6 +774,9 @@ class Twist(object):
 
         opp = utils.getOpposite(twName)
         if cmds.objExists(opp+"_mod") and opp!=twName:
+            if not cmds.objExists(opp + "_rootUpLoc"):
+                cmds.warning("Missed "+ opp + "_rootUpLoc")
+                return
             twData['rootOffsetR'] = cmds.xform(opp + "_rootUpLoc", query=True, worldSpace=True, rotation=True)
             twData['endOffsetR'] = cmds.xform(opp + "_end_connectorLoc", query=True, worldSpace=True, rotation=True)
 

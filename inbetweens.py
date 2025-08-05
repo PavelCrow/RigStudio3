@@ -413,7 +413,6 @@ class Inbetweens(object):
 		data = {}
 		data["name"] = name
 		data["local"] = local
-		
 		if self.isLocal(name):
 			data["child_j"] = child_j = cmds.listRelatives(root, p=1)[0]
 			data["parent_j"] = cmds.listRelatives(child_j, p=1)[0]
@@ -433,14 +432,12 @@ class Inbetweens(object):
 			if utils.isSymmetrical(root):
 				if utils.getObjectSide(root) == "l":
 					opp_name = utils.getOpposite(name)
-				else:
-					opp_name = name
-				if local:
-					pass
-				else:
-					if cmds.objExists(opp_name+"_mod"):
+					if cmds.objExists(opp_name+"_ibtw_root"):
 						data["parentOffsetR"] = cmds.getAttr(opp_name+"_ibtw_parent_offsetLoc.r")
 						data["childOffsetR"] = cmds.getAttr(opp_name+"_ibtw_child_offsetLoc.r")
+				# if local:
+				# 	pass
+
 
 		jointsData = []
 		if local:

@@ -955,7 +955,7 @@ class Parents(object):
 
         elif attrType == 'attributes':
             for i, n in enumerate(niceNames):
-                print(1111, control, n)
+                # print(1111, control, n)
                 cmds.addAttr(control, longName=n, attributeType='float', keyable=attrVis, minValue=0, maxValue=1 )
                 cmds.connectAttr(control+'.'+n, const+'.'+targets[i]+"W"+str(i))
 
