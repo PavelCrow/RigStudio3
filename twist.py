@@ -319,12 +319,12 @@ class Twist(object):
         mm = cmds.createNode('multMatrix', n=t_name+'_aimMultMatrix')
         cmds.connectAttr(root_outJoint+".worldMatrix[0]", aimm+".inputMatrix")
         cmds.connectAttr(end_outJoint+".worldMatrix[0]", aimm+".primaryTargetMatrix")
-        cmds.connectAttr(rootUpLoc+".worldMatrix[0]", aimm+".secondaryTargetMatrix")
         cmds.connectAttr(aimm+".outputMatrix", mm+".matrixIn[0]")
-        cmds.setAttr(aimm+".secondaryTargetVectorY", 1)
-        cmds.setAttr(aimm+".secondaryMode", 2)
         cmds.connectAttr(root_outJoint+".worldInverseMatrix[0]", mm+".matrixIn[1]")
         cmds.connectAttr(mm+".matrixSum", root_loc+".offsetParentMatrix")
+
+        # start orient 
+        utils.connectByMatrix(t_name+'_start_connector', [rootUpLoc, t_name+'_root_connector'], ['worldMatrix[0]', 'worldInverseMatrix[0]'], module_name=moduleName, attrs=['r'])
 
         # stretch volume
         db = cmds.createNode('distanceBetween', n=t_name+'_distanceBetween')
