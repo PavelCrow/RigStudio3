@@ -669,3 +669,4 @@ Inbetween save offsets fix
 
 ---Version 3.14.5
 Twist feature update
+Fingers module limits
