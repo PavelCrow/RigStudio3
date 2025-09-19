@@ -688,8 +688,10 @@ class Module(object):
 
                 for s in shapes:
                     try:
-                        cmds.setAttr(s+'.v', data['controlsVisData'][intName])		
-                    except: cmds.warning(s+" shape cannot change visibility")
+                        if not cmds.listConnections(s+'.v'):
+                            cmds.setAttr(s+'.v', data['controlsVisData'][intName])		
+                    except: 
+                        cmds.warning(s+" shape cannot change visibility")
 
                     if data['controlsColorData'][intName]:
                         cmds.setAttr(s+".overrideEnabled", 1)

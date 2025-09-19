@@ -92,4 +92,3 @@ class EyelidsSimple(module.Module) :
 		cmds.connectAttr(self.name+"_r_b_eyeLid.s", self.name+'_r_b_eyeLid_outJoint.s', f=1)
 
 		cmds.disconnectAttr(inputModuleName+'_end_poser.tx', self.name+'_end_poser.tx')
-		cmds.disconnectAttr(inputModuleName+'_end_poser.s', self.name+'_end_poser.s')

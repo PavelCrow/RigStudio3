@@ -305,8 +305,7 @@ def pointOnCurveLocators():
 		if count > 1:
 			ci.parameter.set(float(i)/float(count-1))
 		
-		
-		
+				
 def addRotateOrder():
 	sel = cmds.ls(sl=True)
 	if len(sel) == 0:
@@ -355,6 +354,19 @@ def addMirrorAxisAttr():
 	
 	for c in sel:
 		utils.setUserAttr(c, "mirrorAxis", 0, type="enum", enumList="none:x:y:z:", lock=False, keyable=False, cb=False)
+
+
+def ikFkSwitch():
+	import rigStudio3.animTools.switchIkFk as switchIkFk 
+	switchIkFk.switchIkFk()
+	
+def symmetry():
+	import rigStudio3.animTools.switchIkFk as switchIkFk 
+	switchIkFk.symmetry()
+
+def mirror():
+	import rigStudio3.animTools.switchIkFk as switchIkFk 
+	switchIkFk.mirror()
 
 
 def addControlGroup():
@@ -1059,3 +1071,13 @@ def displayAffected():
 		print("displayAffected is enable" )
 	else:
 		print("displayAffected is disable" )
+
+def locsToCurve():
+	locs = pm.selected()
+	pos=[]
+	for l in locs:
+		pos.append(l.worldPosition[0].get())
+	c = pm.curve(d=1, p=pos)
+	for i,l in enumerate(locs):
+		l.worldPosition[0] >> c.controlPoints[i]
+

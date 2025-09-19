@@ -1181,7 +1181,7 @@ def curveShapeToCommand(name): #
 		form = cmds.getAttr('%s.form' %curveShape)
 		nucmdsVs = numSpans + degree
 		cmds.delete(infoNode)
-
+		
 		if form == 2:
 			nucmdsVs -= degree
 

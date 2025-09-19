@@ -28,7 +28,8 @@ class Rig:
     def load(self): #
         # print("rig load")
 
-        self.exists = cmds.objExists(self.root) and cmds.objExists('rig') and cmds.objExists('geo')
+        self.exists = cmds.objExists('rig') and cmds.objExists('geo')
+        
         if self.exists:
             self.root = cmds.listRelatives("rig", p=1)[0]
             if cmds.objExists(self.root + ".singleHierarhy"):

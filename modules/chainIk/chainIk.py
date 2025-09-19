@@ -403,6 +403,7 @@ class ChainIk(module.Module) :
 		
 		# length
 		initCrv_info = pm.createNode("curveInfo", n = name+'_initCurve_curveInfo')
+		cmds.sets(initCrv_info.name(), e=1, forceElement=self.name+'_nodesSet' )	
 		sInit_crv.worldSpace[0] >> initCrv_info.inputCurve
 		
 		# dynamic system
