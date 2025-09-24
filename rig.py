@@ -320,12 +320,16 @@ class Rig:
                 cmds.hide(m + '_controls')
                 controlShapes = cmds.listRelatives(m+'_outJoints', type="nurbsCurve", allDescendents=1) or []
                 for c in controlShapes:
-                    cmds.setAttr(c+'.lodVisibility', 0)
+                    try:
+                        cmds.setAttr(c+'.lodVisibility', 0)
+                    except: pass
             else:
                 cmds.showHidden(m + '_controls')
                 controlShapes = cmds.listRelatives(m+'_outJoints', type="nurbsCurve", allDescendents=1) or []
                 for c in controlShapes:
-                    cmds.setAttr(c+'.lodVisibility', 1)
+                    try:
+                        cmds.setAttr(c+'.lodVisibility', 1)
+                    except: pass
 
         
         for tw_mod in cmds.listRelatives("twists") or []:

@@ -116,7 +116,7 @@ class Module(object):
             if pm.objectType(o) != "joint":
                 pm.delete(o)
         joints = pm.listRelatives(joints_grp, allDescendents=1)
-
+        
         # connect joints and delete all except joints
         for o in joints:
             # connect
@@ -193,8 +193,10 @@ class Module(object):
             cmds.sets(sj, e=1, forceElement='skinJointsSet')
             cmds.sets(sj, e=1, rm=self.name+'_skinJointsSet')
             
-            # if cmds.getAttr(sj+".drawStyle", settable=1):
-            #     cmds.setAttr(sj+".drawStyle", 0)
+            if self.main.rig.singleHierarhy and cmds.getAttr(sj.replace("skinJoint", "outJoint")+".drawStyle") == 0:
+                cmds.setAttr(sj+".drawStyle", 0)
+            else:
+                cmds.setAttr(sj+".drawStyle", 2)
 
         cmds.delete(joints_grp)
 
@@ -735,11 +737,19 @@ class Module(object):
             # if self.opposite:
             #     parents = cmds.listConnections(mm+'.matrixIn[3]', source=1, destination=0) or []
             # else:
-            try:
-                parents = cmds.listConnections(mm+'.matrixIn[2]', source=1, destination=0) or []
-            except: 
-                cmds.warning("Wrong inputs in "+mm+'.matrixIn[2]')
-                return None
+            # try:
+            #     if self.opposite:
+            #         parents = cmds.listConnections(mm+'.matrixIn[3]', source=1, destination=0) or []
+            #     else:
+            #         parents = cmds.listConnections(mm+'.matrixIn[2]', source=1, destination=0) or []
+            # except: 
+            #     cmds.warning("Wrong inputs in "+mm+'.matrixIn[2]')
+            #     return None
+            parents = []
+            par = pm.PyNode(mm).inputs()
+            for p in par:
+                if p.split("_")[-1] == "outJoint":
+                    parents = [p.name()]
 
             if parents: 
                 parent = parents[0]

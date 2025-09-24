@@ -628,14 +628,13 @@ def getInputNode(obj, attr):
 
 	return None
 
-def getOutputNode(obj, attr):
+def getOutputNodes(obj, attr):
+	outputNodes = []
 	if cmds.connectionInfo( obj+"."+attr, isSource=True):
-		outputAttr = cmds.connectionInfo( obj+"."+attr, destinationFromSource=True)[0]
-		outputNode = outputAttr.split('.')[0]
-
-		return outputNode
-
-	return None
+		outputAtts = cmds.connectionInfo( obj+"."+attr, destinationFromSource=True)
+		for a in outputAtts:
+			outputNodes.append(a.split('.')[0])
+	return outputNodes
 
 def getLastName(name):
 	i = 1
@@ -681,6 +680,7 @@ def connectByMatrix(obj, targets, inputs=[], useDM=True, attrs=['t', 'r', 's'], 
 		m_name = module_name
 	else:
 		m_name = getModuleName(obj)
+
 	dMat = cmds.createNode('decomposeMatrix', n=obj+"_decMat")
 	addToModuleSet(dMat, m_name)
 	if set: cmds.sets(dMat, e=1, forceElement=set)

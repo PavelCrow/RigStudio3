@@ -38,8 +38,9 @@ class Wing2(module.Module) :
 		self.type = __name__.split('.')[-1]
 		self.unic = False
 		
-		self.feathersCount = 20
-		self.jointsCount = 8
+		self.tempData = []
+		self.layersCount = 1
+		self.layer_id = 0
 
 		self.widget = None
 		
@@ -61,8 +62,12 @@ class Wing2(module.Module) :
 		self.widget.armSurf_btn.clicked.connect(self.toggle_arm_surf)
 		self.widget.featherPlanes_btn.clicked.connect(self.toggle_feathers_planes)
 
+		self.widget.match_btn.clicked.connect(self.match)
+
 		self.widget.addLayer_btn.clicked.connect(self.add_layer)
 		self.widget.removeLastLayer_btn.clicked.connect(self.removeLastLayer)
+		self.widget.copy_btn.clicked.connect(self.copy)
+		self.widget.paste_btn.clicked.connect(self.paste)
 		self.widget.rebuild_btn.clicked.connect(partial(self.rebuildWithNewOptions, mainInstance, w))
 
 		self.widget.wide_slider.valueChanged.connect(partial(self.slider_update, "wide"))
@@ -86,12 +91,16 @@ class Wing2(module.Module) :
 		self.widget.twistRoot_spinBox.valueChanged.connect(partial(self.spinbox_update, "twistRoot"))
 		self.widget.twistTip_spinBox.valueChanged.connect(partial(self.spinbox_update, "twistTip"))
 		self.widget.bend_spinBox.valueChanged.connect(partial(self.spinbox_update, "bend"))
+
+		self.widget.aimDistance_spinBox.valueChanged.connect(self.update_aim_distance)
 	
 	def updateOptionsPage(self, widget=None):
 		self.options = self.getOptions()
 
 		if not self.widget:
 			return
+		
+		self.widget.aimDistance_spinBox.setValue(cmds.getAttr(self.name+"_mod.aim_offset"))
 		
 		planes = cmds.ls(f"{self.name}_layer_*_feather_*_geo")
 		if planes:
@@ -181,17 +190,28 @@ class Wing2(module.Module) :
 		en = self.widget.featherPlanes_btn.isChecked()
 
 		planes = cmds.ls(f"{self.name}_layer_*_feather_*_geo")
-		
+				
 		for p in planes:
 			cmds.setAttr(p+".visibility", en)
+		
+		if self.symmetrical:
+			opp_planes = cmds.ls(f"{utils.getOpposite(self.name)}_layer_*_feather_*_geo")
+			for p in opp_planes:
+				cmds.setAttr(p+".visibility", en)
 
 	def toggle_wing_surf(self):
 		en = self.widget.wingSurf_btn.isChecked()
 		cmds.setAttr(self.name+"_surf.visibility", en)
 
+		if self.symmetrical:
+			cmds.setAttr(utils.getOpposite(self.name)+"_surf.visibility", en)
+
 	def toggle_arm_surf(self):
 		en = self.widget.armSurf_btn.isChecked()
 		cmds.setAttr(self.name+"_arm_surf.visibility", en)
+
+		if self.symmetrical:
+			cmds.setAttr(utils.getOpposite(self.name)+"_arm_surf.visibility", en)		
 
 	def toggle_posers(self, state):
 		if state == 3:
@@ -220,18 +240,18 @@ class Wing2(module.Module) :
 		
 		cmds.delete(f"{name}_layer_{self.layersCount-1}_feathers_group")
 
-		self.bif = pm.PyNode(name+"_bifrostGraphShape")
+		bif = pm.PyNode(name+"_bifrostGraphShape")
 
 		if self.layersCount > 1:
 			for i in range(1,8):
 				cmds.setAttr( f"{name}_feathersLayer_{i}_{self.layersCount-1}Shape.visibility", 0)
 		
 		for a in ["length", "length_min", "pos_2_offset", "pos_3_offset", "root_pos", "tip_pos", "twist_root", "twist_tip", "wide"]:
-			size = pm.getAttr(self.bif.attr(a), size=True)
+			size = pm.getAttr(bif.attr(a), size=True)
 			for i in range(size):
-				inp = self.bif.attr(a)[i].attr(a+"_A")[0].inputs()
+				inp = bif.attr(a)[i].attr(a+"_A")[0].inputs()
 				if not inp:
-					pm.removeMultiInstance( self.bif.attr(a)[i])
+					pm.removeMultiInstance( bif.attr(a)[i])
 
 		if self.symmetrical and utils.getObjectSide(name) == "l":
 			self.removeLastLayer(sym=True)
@@ -239,10 +259,7 @@ class Wing2(module.Module) :
 		self.updateOptionsPage()
 
 	def getOptions(self):
-		
 		layersData = []
-
-		self.bif = pm.PyNode(self.name+"_bifrostGraphShape")
 
 		self.layersCount = len(cmds.listRelatives(self.name+"_feathers_controls") or [])
 		for id in range(self.layersCount):
@@ -266,6 +283,7 @@ class Wing2(module.Module) :
 
 		optionsData = {}
 		optionsData['layersData'] = layersData
+		optionsData['aimDistance'] = cmds.getAttr(self.name+"_mod.aim_offset")
 		
 		return optionsData
 	
@@ -277,10 +295,11 @@ class Wing2(module.Module) :
 		return data	
 
 	def setData(self, data, sym=False, namingForce=False, load="all"):
-		print(4444, self.name, self.opposite)
 		super(self.__class__, self).setData(data, sym, namingForce)
 		
 		data = data["optionsData"]
+
+		self.update_aim_distance(data['aimDistance'])
 		
 		layersCount = self.layersCount = len(cmds.listRelatives(self.name+"_feathers_controls") or [])
 		for i in range(layersCount):
@@ -308,7 +327,7 @@ class Wing2(module.Module) :
 	def add_layer(self, data=None, sym=False, feathers_count=None, feather_controls_count=None):
 		if sym: name = utils.getOpposite(self.name)
 		else: name = self.name		
-		print("add layer", name)
+		# print("add layer", name)
 		if data:
 			feathers_count = data["feathersCount"]
 			feather_controls_count = data["controlsCount"]
@@ -623,6 +642,49 @@ class Wing2(module.Module) :
 			cmds.setAttr(c+"."+type, value)
 		except: pass
 
+	def update_aim_distance(self, v=None):
+		def setValue(v):
+			cmds.setAttr(self.name+"_mod.aim_offset", v)
+			if self.symmetrical:
+				opp_mod = utils.getOpposite(self.name+"_mod")
+				cmds.setAttr(opp_mod+".aim_offset", v)
+
+		if v:
+			setValue(v)
+		else:
+			try: # fix error "C++ object already deleted"
+				if not self.widget:
+					return
+				if not v:
+					v = self.widget.aimDistance_spinBox.value()
+					setValue(v)
+			except:
+				pass
+
+	def ibtwOverride(self, name):
+		if not self.opposite:
+			opp_name = utils.getOpposite(self.name)
+			if name == self.name + "_start" :
+				cmds.setAttr(opp_name+"_start_ibtw_parent_offsetLoc_mirrorGroup.sx", 1)
+
+	def copy(self):
+		data = self.getOptions()
+		for i, d in enumerate(data['layersData']):
+			layer_data = data['layersData'][i]
+			if layer_data["id"] == self.layer_id:
+				self.tempData = layer_data
+	
+	def paste(self):
+		for d_name in self.tempData:
+			v = self.tempData[d_name]
+			if d_name in ["id", "controlsCount", "feathersCount"]:
+				continue
+			cmds.setAttr(f"{self.name}_layer_{self.layer_id}_control.{d_name}", v)
+
+		self.select_layer(self.layer_id)
+
+	def match(self):
+		print(111, self.layer_id)
 
 
 class InputDialog(QtWidgets.QDialog):

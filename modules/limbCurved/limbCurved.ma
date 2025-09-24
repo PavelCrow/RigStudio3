@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: limbCurved.ma
-//Last modified: Fri, Sep 19, 2025 05:38:49 PM
+//Last modified: Wed, Sep 24, 2025 09:02:50 PM
 //Codeset: 1251
 requires maya "2022";
 requires -nodeType "inverseMatrix" "matrixNodes" "1.0";
@@ -14,14 +14,14 @@ currentUnit -l centimeter -a degree -t film;
 fileInfo "application" "maya";
 fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
-fileInfo "cutIdentifier" "202106180615-26a94e7f8c";
+fileInfo "cutIdentifier" "202110272215-ad32f8f1e6";
 fileInfo "osv" "Windows 10 Pro v2009 (Build: 26100)";
-fileInfo "UUID" "4EE9E860-41B2-B0F7-E98F-2AA407C28195";
+fileInfo "UUID" "C558F57A-4F55-D2AF-08FA-6EA94F2D078B";
 createNode transform -s -n "persp";
 	rename -uid "9930C439-4773-B55F-3AF3-1197E8D2931A";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 5.2604408794260724 9.3200420975524878 15.916241175884617 ;
-	setAttr ".r" -type "double3" -39.600000000006041 367.19999999990955 0 ;
+	setAttr ".t" -type "double3" 10.451772364555062 12.184674670336815 9.5116198322527321 ;
+	setAttr ".r" -type "double3" -52.200000000027963 379.59999999990157 0 ;
 	setAttr ".rp" -type "double3" 1.1102230246251563e-16 0 8.8817841970012523e-16 ;
 	setAttr ".rpt" -type "double3" 5.7589012943859782e-16 4.8375017868310666e-16 -2.7025092621108523e-16 ;
 createNode camera -s -n "perspShape" -p "persp";
@@ -30,15 +30,16 @@ createNode camera -s -n "perspShape" -p "persp";
 	setAttr ".fl" 34.999999999999979;
 	setAttr ".ncp" 0.001;
 	setAttr ".fcp" 50000;
-	setAttr ".coi" 17.668433422516966;
+	setAttr ".coi" 18.361026456835937;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
+	setAttr ".tp" -type "double3" 5.9453570137449931 0.067350655911519008 -0.007416558716099253 ;
 	setAttr ".hc" -type "string" "viewSet -p %camera";
 createNode transform -s -n "top";
 	rename -uid "5A919E60-469D-8DC4-5223-749A2D700F1B";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 1.5746616989842446 13.317458046342656 -0.83590028467170874 ;
+	setAttr ".t" -type "double3" 3.3523297486617056 5.9217254014124627 -1.9306975256883283 ;
 	setAttr ".r" -type "double3" -90 360 0 ;
 createNode camera -s -n "topShape" -p "top";
 	rename -uid "79A2314F-439D-3FB4-9615-EC90EF6DC036";
@@ -47,7 +48,7 @@ createNode camera -s -n "topShape" -p "top";
 	setAttr ".ncp" 1;
 	setAttr ".fcp" 50000;
 	setAttr ".coi" 3.5713423035773197;
-	setAttr ".ow" 10.59102441010236;
+	setAttr ".ow" 6.998931513112649;
 	setAttr ".imn" -type "string" "top";
 	setAttr ".den" -type "string" "top_depth";
 	setAttr ".man" -type "string" "top_mask";
@@ -57,7 +58,7 @@ createNode camera -s -n "topShape" -p "top";
 createNode transform -s -n "front";
 	rename -uid "38B490A3-4E14-6D12-4F4A-45AEA931B352";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 3.9983006293470167 0.19659006517312605 16.796852123715713 ;
+	setAttr ".t" -type "double3" 4.9806959631121908 -0.70706173336244227 18.399760629611951 ;
 	setAttr ".r" -type "double3" 0 360 0 ;
 createNode camera -s -n "frontShape" -p "front";
 	rename -uid "D95A67EB-4A4E-F624-ED46-1CBA80E7F17F";
@@ -66,7 +67,7 @@ createNode camera -s -n "frontShape" -p "front";
 	setAttr ".ncp" 1;
 	setAttr ".fcp" 50000;
 	setAttr ".coi" 100.1;
-	setAttr ".ow" 16.218406193718049;
+	setAttr ".ow" 18.449648463037427;
 	setAttr ".imn" -type "string" "front";
 	setAttr ".den" -type "string" "front_depth";
 	setAttr ".man" -type "string" "front_mask";
@@ -816,10 +817,10 @@ createNode nurbsCurve -n "controlShape" -p "control";
 		1 3 0 no 3
 		4 0 1 2 3
 		4
-		0.46945434266716113 0.27684798102421976 0
-		0.46945434266716113 0.43289465486419471 0
-		0.57348545856047806 0.38087909691753702 0
-		0.46945434266716113 0.32886353897087856 0
+		0.48676277417865299 1.0967073409052046 0
+		0.48676277417865299 1.5743004433687016 0
+		0.80515817582098226 1.4151027425475387 0
+		0.48676277417865299 1.2559050417263706 0
 		;
 createNode transform -n "fk_controls" -p "controls";
 	rename -uid "C14D2C88-4A78-237F-4795-2FB8B1FBF5BA";
@@ -1225,7 +1226,6 @@ createNode transform -n "middle" -p "middle_group";
 	addAttr -ci true -sn "middleBend" -ln "middleBend" -min 0 -at "double";
 	addAttr -ci true -sn "startWeight" -ln "startWeight" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "endWeight" -ln "endWeight" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "noCorner" -ln "noCorner" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "default_radius" -ln "default_radius" -dt "string";
 	addAttr -ci true -sn "default_middleBend" -ln "default_middleBend" -dt "string";
 	addAttr -ci true -sn "default_startWeight" -ln "default_startWeight" -dt "string";
@@ -1234,6 +1234,8 @@ createNode transform -n "middle" -p "middle_group";
 	addAttr -ci true -sn "default_mainBendControls" -ln "default_mainBendControls" -dt "string";
 	addAttr -ci true -sn "default_addBendControls" -ln "default_addBendControls" -dt "string";
 	addAttr -ci true -sn "default_sharpCorner" -ln "default_sharpCorner" -dt "string";
+	addAttr -ci true -sn "slidingEllbow" -ln "slidingEllbow" -min 0 -max 1 -at "bool";
+	addAttr -ci true -sn "noEllbow" -ln "noEllbow" -min 0 -max 1 -at "double";
 	setAttr -l on -k off ".v";
 	setAttr -s 2 ".iog";
 	setAttr -k on ".t";
@@ -1260,12 +1262,11 @@ createNode transform -n "middle" -p "middle_group";
 	setAttr -cb on ".mainBendControls";
 	setAttr -cb on ".addBendControls";
 	setAttr -l on ".zero";
-	setAttr -cb on ".sharpCorner" yes;
+	setAttr -l on ".sharpCorner" yes;
 	setAttr -k on ".radius" 1;
 	setAttr -k on ".middleBend" 1;
 	setAttr -k on ".startWeight" 1;
 	setAttr -k on ".endWeight" 1;
-	setAttr -k on ".noCorner";
 	setAttr ".default_radius" -type "string" "1.0";
 	setAttr ".default_middleBend" -type "string" "1.0";
 	setAttr ".default_startWeight" -type "string" "1.0";
@@ -1274,23 +1275,24 @@ createNode transform -n "middle" -p "middle_group";
 	setAttr ".default_mainBendControls" -type "string" "False";
 	setAttr ".default_addBendControls" -type "string" "False";
 	setAttr ".default_sharpCorner" -type "string" "True";
+	setAttr -l on ".slidingEllbow" yes;
+	setAttr -k on ".noEllbow";
 createNode transform -n "curve1_2_offset" -p "middle";
 	rename -uid "3660B092-4ED7-D184-4AF0-B0831752CE64";
-	setAttr ".v" no;
 	setAttr ".rp" -type "double3" 0 -6.9388939039072261e-18 3.4694469519536136e-17 ;
 	setAttr ".rpt" -type "double3" -2.3769283482227962e-17 0 -9.4214131554256245e-18 ;
 	setAttr ".sp" -type "double3" 0 -6.9388939039072284e-18 3.4694469519536142e-17 ;
 	setAttr ".spt" -type "double3" 0 2.3111159332646827e-33 -6.1629758220391534e-33 ;
-createNode transform -n "middleBend_" -p "curve1_2_offset";
+createNode transform -n "middle_bend" -p "curve1_2_offset";
 	rename -uid "FD73169B-43FF-3200-F7F8-B79D4FF17B7A";
-	setAttr -l on -k off ".v";
+	setAttr -k off ".v";
 	setAttr -l on -k off ".rx";
 	setAttr -l on -k off ".ry";
 	setAttr -l on -k off ".rz";
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
-createNode nurbsCurve -n "middleBend_Shape" -p "middleBend_";
+createNode nurbsCurve -n "middle_bendShape" -p "middle_bend";
 	rename -uid "D4AFBE96-4F3C-678A-3861-89931BC2D45D";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
@@ -1299,19 +1301,19 @@ createNode nurbsCurve -n "middleBend_Shape" -p "middleBend_";
 		3 8 2 no 3
 		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
 		11
-		2.0974098814501957e-16 0.10229860991239548 -0.079224541783332825
-		2.0974098814501957e-16 0 -0.1215980052947998
-		2.0974098814501957e-16 -0.10229860991239548 -0.079224541783332825
-		2.0974098814501957e-16 -0.14467209577560425 0.02307407557964325
-		2.0974098814501957e-16 -0.10229860991239548 0.12537269294261932
-		2.0974098814501957e-16 0 0.1677461564540863
-		2.0974098814501957e-16 0.10229860991239548 0.12537269294261932
-		2.0974098814501957e-16 0.14467209577560425 0.02307407557964325
-		2.0974098814501957e-16 0.10229860991239548 -0.079224541783332825
-		2.0974098814501957e-16 0 -0.1215980052947998
-		2.0974098814501957e-16 -0.10229860991239548 -0.079224541783332825
+		6.3975397889716e-16 0.31203220365231005 -0.24165145916613709
+		6.3975397889716e-16 0 -0.37089940502959046
+		6.3975397889716e-16 -0.31203220365231005 -0.24165145916613709
+		6.3975397889716e-16 -0.44128021769326076 0.070380767212005146
+		6.3975397889716e-16 -0.31203220365231005 0.38241299359014774
+		6.3975397889716e-16 0 0.51166093945360047
+		6.3975397889716e-16 0.31203220365231005 0.38241299359014774
+		6.3975397889716e-16 0.44128021769326076 0.070380767212005146
+		6.3975397889716e-16 0.31203220365231005 -0.24165145916613709
+		6.3975397889716e-16 0 -0.37089940502959046
+		6.3975397889716e-16 -0.31203220365231005 -0.24165145916613709
 		;
-createNode transform -n "curve1_2_loc" -p "middleBend_";
+createNode transform -n "curve1_2_loc" -p "middle_bend";
 	rename -uid "4FD0C67A-439A-7A17-E3CA-C785AD77C501";
 	setAttr ".v" no;
 	setAttr ".t" -type "double3" 4.4408920985006262e-16 -2.3111159332646827e-33 0 ;
@@ -1470,7 +1472,7 @@ createNode transform -n "curve1_3_offset" -p "end_group";
 	setAttr ".rpt" -type "double3" 4.4715333406739685e-19 0 -5.8621022683015451e-20 ;
 	setAttr ".sp" -type "double3" 0 -6.9388939039072284e-18 3.4694469519536142e-17 ;
 	setAttr ".spt" -type "double3" 0 6.5919492087118667e-18 -3.2959746043559335e-17 ;
-createNode transform -n "lowerBend" -p "curve1_3_offset";
+createNode transform -n "lower_bend" -p "curve1_3_offset";
 	rename -uid "80EA1A5D-4F3C-B08D-9E7C-2DA6EB277EDE";
 	setAttr -l on -k off ".v";
 	setAttr -l on -k off ".rx";
@@ -1479,13 +1481,13 @@ createNode transform -n "lowerBend" -p "curve1_3_offset";
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
-createNode transform -n "curve1_3_loc" -p "lowerBend";
+createNode transform -n "curve1_3_loc" -p "lower_bend";
 	rename -uid "E4F8EC34-415B-F823-C5C2-7B8EBE792FB5";
 	setAttr ".v" no;
 createNode locator -n "curve1_3_locShape" -p "curve1_3_loc";
 	rename -uid "7621C949-4180-EF42-6584-5DBFA5567FF8";
 	setAttr -k off ".v";
-createNode nurbsCurve -n "lowerBendShape" -p "lowerBend";
+createNode nurbsCurve -n "lower_bendShape" -p "lower_bend";
 	rename -uid "331D56BA-47EC-EA76-41ED-66B9D52AF489";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
@@ -1582,7 +1584,7 @@ createNode locator -n "lower_curve_4_locShape" -p "lower_curve_4_loc";
 createNode transform -n "lowerBend_1_hardLoc" -p "end_group";
 	rename -uid "821DFDC9-4570-7DCB-0B27-19BC6E7587AE";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" -4.8442158699035645 0 2.2985086056692694e-15 ;
+	setAttr ".t" -type "double3" -4.589256763458252 0 2.2985086056692694e-15 ;
 createNode locator -n "lowerBend_1_hardLocShape" -p "lowerBend_1_hardLoc";
 	rename -uid "5D574F51-41DB-36D0-90E3-A88499488055";
 	setAttr -k off ".v";
@@ -1590,7 +1592,7 @@ createNode locator -n "lowerBend_1_hardLocShape" -p "lowerBend_1_hardLoc";
 createNode transform -n "lowerBend_2_hardLoc" -p "end_group";
 	rename -uid "F755DFB4-4441-6593-016F-7C9052E74192";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" -2.9065296649932861 0 1.9428902930940239e-16 ;
+	setAttr ".t" -type "double3" -2.753554105758667 0 1.9428902930940239e-16 ;
 createNode locator -n "lowerBend_2_hardLocShape" -p "lowerBend_2_hardLoc";
 	rename -uid "080E203B-49B9-6055-2342-BF911653EA42";
 	setAttr -k off ".v";
@@ -1598,7 +1600,7 @@ createNode locator -n "lowerBend_2_hardLocShape" -p "lowerBend_2_hardLoc";
 createNode transform -n "lowerBend_3_hardLoc" -p "end_group";
 	rename -uid "92607ED0-49EB-B84C-1C38-2BB7DACBD3B4";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" -0.95915484428405762 0 -1.7694179454963432e-15 ;
+	setAttr ".t" -type "double3" -0.90867286920547485 0 -1.7694179454963432e-15 ;
 createNode locator -n "lowerBend_3_hardLocShape" -p "lowerBend_3_hardLoc";
 	rename -uid "3910A467-444C-A688-E0AD-EBA3748FFE86";
 	setAttr -k off ".v";
@@ -1717,7 +1719,7 @@ createNode transform -n "curve1_1_offset" -p "root_group";
 	setAttr ".rpt" -type "double3" -4.6152263399562707e-19 0 -6.2520618541503395e-20 ;
 	setAttr ".sp" -type "double3" 0 -6.9388939039072284e-18 3.4694469519536142e-17 ;
 	setAttr ".spt" -type "double3" 0 6.5919492087118667e-18 -3.2959746043559335e-17 ;
-createNode transform -n "upperBend" -p "curve1_1_offset";
+createNode transform -n "upper_bend" -p "curve1_1_offset";
 	rename -uid "D0CDBCBD-430C-0E85-032E-6094D9FA2FD8";
 	setAttr -l on -k off ".v";
 	setAttr -l on -k off ".rx";
@@ -1726,13 +1728,13 @@ createNode transform -n "upperBend" -p "curve1_1_offset";
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
-createNode transform -n "curve1_1_loc" -p "upperBend";
+createNode transform -n "curve1_1_loc" -p "upper_bend";
 	rename -uid "DE8EF084-45A9-9306-BAA6-60A3E7973E37";
 	setAttr ".v" no;
 createNode locator -n "curve1_1_locShape" -p "curve1_1_loc";
 	rename -uid "A177A495-49C1-D5B2-487E-6C8CC346E70C";
 	setAttr -k off ".v";
-createNode nurbsCurve -n "upperBendShape" -p "upperBend";
+createNode nurbsCurve -n "upper_bendShape" -p "upper_bend";
 	rename -uid "3E2B3415-4A2A-928C-F664-38BE5524DD64";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
@@ -1756,7 +1758,7 @@ createNode nurbsCurve -n "upperBendShape" -p "upperBend";
 createNode transform -n "upperBend_1_hardLoc" -p "root_group";
 	rename -uid "DBA5901E-4A00-5807-A3DC-75AE2556963E";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 0.95915484428405762 0 -4.1355807667287081e-15 ;
+	setAttr ".t" -type "double3" 0.90867286920547485 0 -4.1355807667287081e-15 ;
 createNode locator -n "upperBend_1_hardLocShape" -p "upperBend_1_hardLoc";
 	rename -uid "9F0B1E2E-458A-C9CB-4DA3-8FB2CC6CEAC7";
 	setAttr -k off ".v";
@@ -1764,7 +1766,7 @@ createNode locator -n "upperBend_1_hardLocShape" -p "upperBend_1_hardLoc";
 createNode transform -n "upperBend_2_hardLoc" -p "root_group";
 	rename -uid "D97D2641-49AC-4661-E8C7-968C64610577";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 2.9065296649932861 0 -1.7763568394002505e-15 ;
+	setAttr ".t" -type "double3" 2.753554105758667 0 -1.7763568394002505e-15 ;
 createNode locator -n "upperBend_2_hardLocShape" -p "upperBend_2_hardLoc";
 	rename -uid "75EF6540-4C49-914C-B6E1-DE812202DD39";
 	setAttr -k off ".v";
@@ -1772,7 +1774,7 @@ createNode locator -n "upperBend_2_hardLocShape" -p "upperBend_2_hardLoc";
 createNode transform -n "upperBend_3_hardLoc" -p "root_group";
 	rename -uid "34800188-4B75-7AEB-AE3D-32B8B95F106A";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 4.8442158699035645 0 -3.8094527532450684e-15 ;
+	setAttr ".t" -type "double3" 4.589256763458252 0 -3.8094527532450684e-15 ;
 createNode locator -n "upperBend_3_hardLocShape" -p "upperBend_3_hardLoc";
 	rename -uid "E156E96A-43DA-2CC5-E246-5AA7AD707E89";
 	setAttr -k off ".v";
@@ -1870,7 +1872,6 @@ createNode nurbsCurve -n "lowerBend_2Shape" -p "lowerBend_2";
 		;
 createNode transform -n "lower_curve_3_offset" -p "offset_group";
 	rename -uid "ED2D61BC-400A-35AE-92B5-BCAA1DDC0EBB";
-	setAttr ".s" -type "double3" 1 1 0.99999999999999989 ;
 	setAttr ".rp" -type "double3" 0 -6.9388939039072284e-18 1.3877787807814452e-17 ;
 	setAttr ".sp" -type "double3" 0 -6.9388939039072284e-18 1.3877787807814457e-17 ;
 	setAttr ".spt" -type "double3" 0 0 -4.6222318665293654e-33 ;
@@ -2231,7 +2232,6 @@ createNode nurbsCurve -n "upperBend_2Shape" -p "upperBend_2";
 		;
 createNode transform -n "upper_curve_1_offset" -p "offset_group";
 	rename -uid "BCB564C5-45C0-2F55-E296-9BB50149353B";
-	setAttr ".s" -type "double3" 1 1 0.99999999999999989 ;
 	setAttr ".rp" -type "double3" 0 -6.9388939039072284e-18 1.3877787807814452e-17 ;
 	setAttr ".sp" -type "double3" 0 -6.9388939039072284e-18 1.3877787807814457e-17 ;
 	setAttr ".spt" -type "double3" 0 0 -4.6222318665293654e-33 ;
@@ -2679,13 +2679,13 @@ createNode nurbsCurve -n "final_curveShape" -p "final_curve";
 		 1 1 1
 		9
 		-5.4046817967048915e-18 5.3721753255795302e-20 5.0799220773883605e-20
-		0.926464427009278 -2.6164482355690955e-05 -0.25739793166248015
-		2.8258939090403707 -4.5017009805827536e-05 -0.68923831746607334
-		4.7360972152715641 -2.6162870589296059e-05 -1.0193200424924767
+		0.87699181982768826 -2.6110078857830661e-05 -0.24735348312172867
+		2.675977037946927 -4.4852150853765091e-05 -0.65880061905326492
+		4.486235919216818 -2.5888105840484868e-05 -0.96859057676338312
 		5.0000000228089467 -6.0058218052113952e-06 -1.0165510636239539
-		5.2639028304921842 1.2141689509507004e-05 -1.0193200424927604
-		7.1741061193385818 0.00027054680973403393 -0.68923831746747433
-		9.0735355786254352 0.0005650948137103616 -0.25739793166498753
+		5.5137641238751023 4.8682938367435369e-05 -0.96859057676381255
+		7.3240229888289274 0.00029247157271704196 -0.65880061905475329
+		9.1230081852780014 0.00057232999130376087 -0.24735348312426489
 		9.9999999920780382 0.00072573233323714609 -3.0495603595677651e-12
 		;
 createNode transform -n "soft_locs_group" -p "system";
@@ -2836,15 +2836,15 @@ createNode bifrostGraphShape -n "bifrostGraphShape" -p "bifrostGraph";
 		+ "                                                {\n                                                    \"metaName\": \"end_matrix\"\n                                                },\n                                                {\n                                                    \"metaName\": \"middle_bend\"\n                                                },\n                                                {\n                                                    \"metaName\": \"smooth_mode\"\n                                                },\n                                                {\n                                                    \"metaName\": \"radius\"\n                                                },\n                                                {\n                                                    \"metaName\": \"sharp_corner\"\n                                                },\n                                                {\n                                                    \"metaName\": \"startWeight\"\n                                                },\n"
 		+ "                                                {\n                                                    \"metaName\": \"endWeight\"\n                                                },\n                                                {\n                                                    \"metaName\": \"init_length\"\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"input1\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n"
 		+ "                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-948.189 1803.1\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"in_upper_bend\"\n                                                },\n                                                {\n                                                    \"metaName\": \"in_lower_bend\"\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                }\n                            ]\n                        },\n                        {\n                            \"metaName\": \"io_onodes\",\n                            \"metadata\": [\n"
-		+ "                                {\n                                    \"metaName\": \"output\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"520.112 401.022\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"main_bend_upper\"\n                                                },\n"
-		+ "                                                {\n                                                    \"metaName\": \"main_bend_lower\"\n                                                },\n                                                {\n                                                    \"metaName\": \"main_bend_center\"\n                                                },\n                                                {\n                                                    \"metaName\": \"corner_wide\"\n                                                },\n                                                {\n                                                    \"metaName\": \"corner_wide_out\"\n                                                },\n                                                {\n                                                    \"metaName\": \"corner_wide_negated\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_lower_slide_1\"\n"
-		+ "                                                },\n                                                {\n                                                    \"metaName\": \"out_lower_slide_2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_lower_slide_3\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_upper_slide_1\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_upper_slide_2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_upper_slide_3\"\n                                                }\n                                            ]\n                                        }\n"
-		+ "                                    ]\n                                },\n                                {\n                                    \"metaName\": \"output1\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"314.438 1318.6\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"bend_lower_1\"\n"
+		+ "                                {\n                                    \"metaName\": \"output\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"main_bend_upper\"\n                                                },\n                                                {\n                                                    \"metaName\": \"main_bend_lower\"\n                                                },\n                                                {\n                                                    \"metaName\": \"main_bend_center\"\n"
+		+ "                                                },\n                                                {\n                                                    \"metaName\": \"corner_wide\"\n                                                },\n                                                {\n                                                    \"metaName\": \"corner_wide_out\"\n                                                },\n                                                {\n                                                    \"metaName\": \"corner_wide_negated\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_lower_slide_1\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_lower_slide_2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_lower_slide_3\"\n"
+		+ "                                                },\n                                                {\n                                                    \"metaName\": \"out_upper_slide_1\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_upper_slide_2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_upper_slide_3\"\n                                                }\n                                            ]\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"545.001 376.133\"\n                                        }\n                                    ]\n"
+		+ "                                },\n                                {\n                                    \"metaName\": \"output1\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"314.438 1318.6\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"bend_lower_1\"\n"
 		+ "                                                },\n                                                {\n                                                    \"metaName\": \"bend_lower_2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"bend_lower_3\"\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"output2\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n"
 		+ "                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"295.2 1805.29\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"bend_upper_1\"\n                                                },\n                                                {\n                                                    \"metaName\": \"bend_upper_2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"bend_upper_3\"\n                                                }\n                                            ]\n                                        }\n"
 		+ "                                    ]\n                                }\n                            ]\n                        }\n                    ]\n                },\n                {\n                    \"metaName\": \"backdrop3\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"type\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"backdrop\"\n                        },\n                        {\n                            \"metaName\": \"title\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"Upper bend\"\n                        },\n                        {\n                            \"metaName\": \"coords\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-637.167 3283.59 2214.29 1111.97\"\n                        }\n                    ]\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n"
 		+ "                    \"metaValue\": \"BifrostGraph,User::Compounds,print\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Constants,float\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Math,lerp\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Logic,if\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::FCurve,evaluate_fcurve\"\n                },\n                {\n                    \"metaName\": \"internal\",\n                    \"metaValue\": \"true\"\n                },\n                {\n                    \"metaName\": \"ViewportRect\",\n"
-		+ "                    \"metaType\": \"string\",\n                    \"metaValue\": \"-1821.69 594.261 1141.66 1441.22\"\n                }\n            ],\n            \"ports\": [\n                {\n                    \"portName\": \"angle\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"main_bend_upper\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"main_bend_lower\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"main_bend_center\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"bend_upper_1\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"Math::float3\"\n"
+		+ "                    \"metaType\": \"string\",\n                    \"metaValue\": \"-276.992 357.191 554.732 950.848\"\n                }\n            ],\n            \"ports\": [\n                {\n                    \"portName\": \"angle\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"main_bend_upper\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"main_bend_lower\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"main_bend_center\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"bend_upper_1\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"Math::float3\"\n"
 		+ "                },\n                {\n                    \"portName\": \"bend_upper_2\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"bend_upper_3\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"bend_lower_1\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"bend_lower_2\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"bend_lower_3\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"global_scale\",\n                    \"portDirection\": \"input\",\n"
 		+ "                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"start_matrix\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float4x4\"\n                },\n                {\n                    \"portName\": \"middle_matrix\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float4x4\"\n                },\n                {\n                    \"portName\": \"end_matrix\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float4x4\"\n                },\n                {\n                    \"portName\": \"middle_bend\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"smooth_mode\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"radius\",\n                    \"portDirection\": \"input\",\n"
 		+ "                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"corner_wide\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"corner_wide_out\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"corner_wide_negated\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"in_upper_bend\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"in_lower_bend\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"out_lower_slide_1\",\n                    \"portDirection\": \"output\",\n"
@@ -2871,24 +2871,24 @@ createNode bifrostGraphShape -n "bifrostGraphShape" -p "bifrostGraph";
 		+ "                        }\n                    ],\n                    \"connections\": [\n                        {\n                            \"source\": \"half_of.half_value\",\n                            \"target\": \"scalar_to_vector3.x\"\n                        },\n                        {\n                            \"source\": \"half_of1.half_value\",\n                            \"target\": \"negate1.value\"\n                        },\n                        {\n                            \"source\": \"negate1.negated\",\n                            \"target\": \"scalar_to_vector4.x\"\n                        },\n                        {\n                            \"source\": \".output\",\n                            \"target\": \"scalar_to_vector3.z\"\n                        },\n                        {\n                            \"source\": \"scalar_to_vector3.vector3\",\n                            \"target\": \".vector3\"\n                        },\n                        {\n                            \"source\": \".output\",\n                            \"target\": \"scalar_to_vector4.z\"\n"
 		+ "                        },\n                        {\n                            \"source\": \"scalar_to_vector4.vector3\",\n                            \"target\": \".vector4\"\n                        },\n                        {\n                            \"source\": \".output\",\n                            \"target\": \"scalar_to_vector5.z\"\n                        },\n                        {\n                            \"source\": \"scalar_to_vector5.vector3\",\n                            \"target\": \".vector5\"\n                        },\n                        {\n                            \"source\": \".upper_length\",\n                            \"target\": \"half_of.value\"\n                        },\n                        {\n                            \"source\": \".lower_length\",\n                            \"target\": \"half_of1.value\"\n                        }\n                    ],\n                    \"values\": [],\n                    \"reservedNodeNames\": [\n                        {\n                            \"name\": \"input\"\n                        },\n"
 		+ "                        {\n                            \"name\": \"output\"\n                        }\n                    ]\n                },\n                {\n                    \"name\": \"Corner_wide\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"io_nodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"io_inodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"input\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n"
-		+ "                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"radius\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"smooth_mode\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"upper_length\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"lower_length\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"angle\"\n"
-		+ "                                                        },\n                                                        {\n                                                            \"metaName\": \"small_radius\"\n                                                        }\n                                                    ]\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"-1431.75 163.76\"\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"io_onodes\",\n                                    \"metadata\": [\n                                        {\n"
-		+ "                                            \"metaName\": \"output\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"corner_wide\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"corner_wide_out\"\n                                                        },\n"
-		+ "                                                        {\n                                                            \"metaName\": \"negated\"\n                                                        }\n                                                    ]\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"1538.75 -215.189\"\n                                                }\n                                            ]\n                                        },\n                                        {\n                                            \"metaName\": \"output1\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n"
-		+ "                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"lower_slide_1\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"lower_slide_2\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"lower_slide_3\"\n                                                        }\n                                                    ]\n                                                },\n"
-		+ "                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"1646.41 468.487\"\n                                                }\n                                            ]\n                                        },\n                                        {\n                                            \"metaName\": \"output2\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n"
+		+ "                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"-1431.75 163.76\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"radius\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"smooth_mode\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"upper_length\"\n                                                        },\n"
+		+ "                                                        {\n                                                            \"metaName\": \"lower_length\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"angle\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"small_radius\"\n                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"io_onodes\",\n                                    \"metadata\": [\n                                        {\n"
+		+ "                                            \"metaName\": \"output\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"1538.75 -215.189\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n"
+		+ "                                                            \"metaName\": \"corner_wide\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"corner_wide_out\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"negated\"\n                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        },\n                                        {\n                                            \"metaName\": \"output1\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n"
+		+ "                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"1646.41 468.487\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"lower_slide_1\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"lower_slide_2\"\n"
+		+ "                                                        },\n                                                        {\n                                                            \"metaName\": \"lower_slide_3\"\n                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        },\n                                        {\n                                            \"metaName\": \"output2\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n"
 		+ "                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"1727.63 1380.7\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"upper_slide_1\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"upper_slide_2\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"upper_slide_3\"\n                                                        }\n                                                    ]\n"
 		+ "                                                }\n                                            ]\n                                        }\n                                    ]\n                                }\n                            ]\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Math,clamp\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Math,multiply\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Math,negate\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n"
-		+ "                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Math,half_of\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Math,subtract\"\n                        },\n                        {\n                            \"metaName\": \"ViewportRect\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1526.02 -374.334 1206.06 1522.51\"\n                        }\n                    ],\n                    \"ports\": [\n                        {\n                            \"portName\": \"corner_wide\",\n                            \"portDirection\": \"output\"\n                        },\n                        {\n                            \"portName\": \"radius\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"float\"\n                        },\n"
+		+ "                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Math,half_of\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Math,subtract\"\n                        },\n                        {\n                            \"metaName\": \"ViewportRect\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-557.796 59.1383 1050.78 1036.91\"\n                        }\n                    ],\n                    \"ports\": [\n                        {\n                            \"portName\": \"corner_wide\",\n                            \"portDirection\": \"output\"\n                        },\n                        {\n                            \"portName\": \"radius\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"float\"\n                        },\n"
 		+ "                        {\n                            \"portName\": \"smooth_mode\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"float\"\n                        },\n                        {\n                            \"portName\": \"corner_wide_out\",\n                            \"portDirection\": \"output\"\n                        },\n                        {\n                            \"portName\": \"negated\",\n                            \"portDirection\": \"output\"\n                        },\n                        {\n                            \"portName\": \"upper_length\",\n                            \"portDirection\": \"input\"\n                        },\n                        {\n                            \"portName\": \"lower_length\",\n                            \"portDirection\": \"input\"\n                        },\n                        {\n                            \"portName\": \"lower_slide_1\",\n                            \"portDirection\": \"output\"\n                        },\n                        {\n"
 		+ "                            \"portName\": \"angle\",\n                            \"portDirection\": \"input\"\n                        },\n                        {\n                            \"portName\": \"lower_slide_2\",\n                            \"portDirection\": \"output\"\n                        },\n                        {\n                            \"portName\": \"lower_slide_3\",\n                            \"portDirection\": \"output\"\n                        },\n                        {\n                            \"portName\": \"upper_slide_1\",\n                            \"portDirection\": \"output\"\n                        },\n                        {\n                            \"portName\": \"upper_slide_2\",\n                            \"portDirection\": \"output\"\n                        },\n                        {\n                            \"portName\": \"upper_slide_3\",\n                            \"portDirection\": \"output\"\n                        },\n                        {\n                            \"portName\": \"small_radius\",\n"
 		+ "                            \"portDirection\": \"input\",\n                            \"portType\": \"bool\"\n                        }\n                    ],\n                    \"compoundNodes\": [\n                        {\n                            \"nodeName\": \"half_of2\",\n                            \"nodeType\": \"Core::Math::half_of\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-152.121 106.766\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"lerp1\",\n                            \"nodeType\": \"Core::Math::lerp\",\n"
-		+ "                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-714.308 166.341\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"negate\",\n                            \"nodeType\": \"Core::Math::negate\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n"
+		+ "                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-755.007 157.091\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"negate\",\n                            \"nodeType\": \"Core::Math::negate\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n"
 		+ "                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"674 114\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"change_range\",\n                            \"nodeType\": \"Core::Math::change_range\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-268.431 -428.68\"\n                                }\n                            ]\n                        },\n                        {\n"
-		+ "                            \"nodeName\": \"multiply\",\n                            \"nodeType\": \"Core::Math::multiply\",\n                            \"multiInPortNames\": [\n                                \"interpolated\",\n                                \"negated\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"293 530\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"negate1\",\n                            \"nodeType\": \"Core::Math::negate\",\n                            \"metadata\": [\n"
+		+ "                            \"nodeName\": \"multiply\",\n                            \"nodeType\": \"Core::Math::multiply\",\n                            \"multiInPortNames\": [\n                                \"interpolated\",\n                                \"negated\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"281.9 498.551\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"negate1\",\n                            \"nodeType\": \"Core::Math::negate\",\n                            \"metadata\": [\n"
 		+ "                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-309.973 819.504\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"lerp\",\n                            \"nodeType\": \"Core::Math::lerp\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n"
-		+ "                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-132.564 324.051\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"multiply1\",\n                            \"nodeType\": \"Core::Math::multiply\",\n                            \"multiInPortNames\": [\n                                \"half_value\",\n                                \"result\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"374.646 -484.578\"\n"
-		+ "                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"if\",\n                            \"nodeType\": \"Core::Logic::if\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-481.223 469.959\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"multiply2\",\n                            \"nodeType\": \"Core::Math::multiply\",\n                            \"multiInPortNames\": [\n                                \"output1\",\n"
+		+ "                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-127.014 320.351\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"multiply1\",\n                            \"nodeType\": \"Core::Math::multiply\",\n                            \"multiInPortNames\": [\n                                \"half_value\",\n                                \"result\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"374.646 -484.578\"\n"
+		+ "                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"if\",\n                            \"nodeType\": \"Core::Logic::if\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-424.799 456.084\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"multiply2\",\n                            \"nodeType\": \"Core::Math::multiply\",\n                            \"multiInPortNames\": [\n                                \"output1\",\n"
 		+ "                                \"output2\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"695.144 629.332\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"value\",\n                            \"valueType\": \"float\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n"
 		+ "                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"359.088 806.663\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"multiply3\",\n                            \"nodeType\": \"Core::Math::multiply\",\n                            \"multiInPortNames\": [\n                                \"half_value\",\n                                \"result\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n"
 		+ "                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"302.864 129.425\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"negate2\",\n                            \"nodeType\": \"Core::Math::negate\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"742.912 1202.83\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"negate3\",\n"
@@ -2902,15 +2902,15 @@ createNode bifrostGraphShape -n "bifrostGraphShape" -p "bifrostGraph";
 		+ "                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"777.459 928.131\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"multiply8\",\n                            \"nodeType\": \"Core::Math::multiply\",\n                            \"multiInPortNames\": [\n                                \"output1\",\n                                \"output2\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n"
 		+ "                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"983.174 1707.35\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"value4\",\n                            \"valueType\": \"float\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"662.551 1935.28\"\n"
 		+ "                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"if1\",\n                            \"nodeType\": \"Core::Logic::if\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-455.432 -49.3979\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"clamp\",\n                            \"nodeType\": \"Core::Math::clamp\",\n                            \"metadata\": [\n                                {\n"
-		+ "                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-1067.43 -47.3631\"\n                                }\n                            ]\n                        }\n                    ],\n                    \"connections\": [\n                        {\n                            \"source\": \".smooth_mode\",\n                            \"target\": \"lerp1.fraction\"\n                        },\n                        {\n                            \"source\": \"negate.negated\",\n                            \"target\": \".negated\"\n                        },\n                        {\n                            \"source\": \".lower_length\",\n                            \"target\": \"negate1.value\"\n"
-		+ "                        },\n                        {\n                            \"source\": \"lerp.interpolated\",\n                            \"target\": \"multiply.first.interpolated\"\n                        },\n                        {\n                            \"source\": \".angle\",\n                            \"target\": \"change_range.value\"\n                        },\n                        {\n                            \"source\": \"lerp1.interpolated\",\n                            \"target\": \"if.true_case\"\n                        },\n                        {\n                            \"source\": \"multiply.output\",\n                            \"target\": \"multiply2.first.output1\"\n                        },\n                        {\n                            \"source\": \"value.output\",\n                            \"target\": \"multiply2.first.output2\"\n                        },\n                        {\n                            \"source\": \"multiply3.output\",\n                            \"target\": \"negate.value\"\n                        },\n"
-		+ "                        {\n                            \"source\": \"negate2.negated\",\n                            \"target\": \".upper_slide_1\"\n                        },\n                        {\n                            \"source\": \"negate3.negated\",\n                            \"target\": \".upper_slide_2\"\n                        },\n                        {\n                            \"source\": \"negate4.negated\",\n                            \"target\": \".upper_slide_3\"\n                        },\n                        {\n                            \"source\": \"multiply4.output\",\n                            \"target\": \"multiply5.first.output1\"\n                        },\n                        {\n                            \"source\": \"value1.output\",\n                            \"target\": \"multiply5.first.output2\"\n                        },\n                        {\n                            \"source\": \"lerp.interpolated\",\n                            \"target\": \"multiply4.first.interpolated\"\n                        },\n                        {\n"
-		+ "                            \"source\": \".upper_length\",\n                            \"target\": \"negate5.value\"\n                        },\n                        {\n                            \"source\": \"negate5.negated\",\n                            \"target\": \"multiply4.first.negated\"\n                        },\n                        {\n                            \"source\": \"multiply4.output\",\n                            \"target\": \"negate2.value\"\n                        },\n                        {\n                            \"source\": \"multiply5.output\",\n                            \"target\": \"negate3.value\"\n                        },\n                        {\n                            \"source\": \"multiply6.output\",\n                            \"target\": \".corner_wide_out\"\n                        },\n                        {\n                            \"source\": \"value2.output\",\n                            \"target\": \"multiply6.first.output2\"\n                        },\n                        {\n                            \"source\": \"multiply3.output\",\n"
-		+ "                            \"target\": \"multiply6.first.output1\"\n                        },\n                        {\n                            \"source\": \"value3.output\",\n                            \"target\": \"multiply7.first.output2\"\n                        },\n                        {\n                            \"source\": \"multiply2.output\",\n                            \"target\": \"multiply7.first.output1\"\n                        },\n                        {\n                            \"source\": \"value4.output\",\n                            \"target\": \"multiply8.first.output2\"\n                        },\n                        {\n                            \"source\": \"multiply5.output\",\n                            \"target\": \"multiply8.first.output1\"\n                        },\n                        {\n                            \"source\": \"multiply8.output\",\n                            \"target\": \"negate4.value\"\n                        },\n                        {\n                            \"source\": \"multiply7.output\",\n"
-		+ "                            \"target\": \".lower_slide_3\"\n                        },\n                        {\n                            \"source\": \"multiply2.output\",\n                            \"target\": \".lower_slide_2\"\n                        },\n                        {\n                            \"source\": \"multiply.output\",\n                            \"target\": \".lower_slide_1\"\n                        },\n                        {\n                            \"source\": \".small_radius\",\n                            \"target\": \"if.condition\"\n                        },\n                        {\n                            \"source\": \"if.output\",\n                            \"target\": \"lerp.fraction\"\n                        },\n                        {\n                            \"source\": \"negate1.negated\",\n                            \"target\": \"multiply.first.negated\"\n                        },\n                        {\n                            \"source\": \".small_radius\",\n                            \"target\": \"if1.condition\"\n"
-		+ "                        },\n                        {\n                            \"source\": \"lerp1.interpolated\",\n                            \"target\": \"if1.true_case\"\n                        },\n                        {\n                            \"source\": \"if1.output\",\n                            \"target\": \"half_of2.value\"\n                        },\n                        {\n                            \"source\": \"multiply1.output\",\n                            \"target\": \".corner_wide\"\n                        },\n                        {\n                            \"source\": \"change_range.result\",\n                            \"target\": \"multiply1.first.result\"\n                        },\n                        {\n                            \"source\": \"half_of2.half_value\",\n                            \"target\": \"multiply1.first.half_value\"\n                        },\n                        {\n                            \"source\": \"change_range.result\",\n                            \"target\": \"multiply3.first.result\"\n"
-		+ "                        },\n                        {\n                            \"source\": \"half_of2.half_value\",\n                            \"target\": \"multiply3.first.half_value\"\n                        },\n                        {\n                            \"source\": \".radius\",\n                            \"target\": \"clamp.value\"\n                        },\n                        {\n                            \"source\": \"clamp.clamped\",\n                            \"target\": \"lerp1.first\"\n                        }\n                    ],\n                    \"values\": [\n                        {\n                            \"valueName\": \"lerp1.second\",\n                            \"valueType\": \"float\",\n                            \"value\": \"0f\"\n                        },\n                        {\n                            \"valueName\": \"change_range.from_end\",\n                            \"valueType\": \"float\",\n                            \"value\": \"-160f\"\n                        },\n                        {\n                            \"valueName\": \"change_range.to_end\",\n"
-		+ "                            \"valueType\": \"float\",\n                            \"value\": \"1f\"\n                        },\n                        {\n                            \"valueName\": \"lerp.first\",\n                            \"valueType\": \"float\",\n                            \"value\": \"1f\"\n                        },\n                        {\n                            \"valueName\": \"lerp.second\",\n                            \"valueType\": \"float\",\n                            \"value\": \"0.949999988f\"\n                        },\n                        {\n                            \"valueName\": \"if.false_case\",\n                            \"valueType\": \"float\",\n                            \"value\": \"1.5f\"\n                        },\n                        {\n                            \"valueName\": \"value.value\",\n                            \"valueType\": \"float\",\n                            \"value\": \"0.600000024f\"\n                        },\n                        {\n                            \"valueName\": \"value1.value\",\n"
+		+ "                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-1079.45 -64.0128\"\n                                }\n                            ]\n                        }\n                    ],\n                    \"connections\": [\n                        {\n                            \"source\": \".smooth_mode\",\n                            \"target\": \"lerp1.fraction\"\n                        },\n                        {\n                            \"source\": \"negate.negated\",\n                            \"target\": \".negated\"\n                        },\n                        {\n                            \"source\": \".lower_length\",\n                            \"target\": \"negate1.value\"\n"
+		+ "                        },\n                        {\n                            \"source\": \".angle\",\n                            \"target\": \"change_range.value\"\n                        },\n                        {\n                            \"source\": \"lerp1.interpolated\",\n                            \"target\": \"if.true_case\"\n                        },\n                        {\n                            \"source\": \"multiply.output\",\n                            \"target\": \"multiply2.first.output1\"\n                        },\n                        {\n                            \"source\": \"value.output\",\n                            \"target\": \"multiply2.first.output2\"\n                        },\n                        {\n                            \"source\": \"multiply3.output\",\n                            \"target\": \"negate.value\"\n                        },\n                        {\n                            \"source\": \"negate2.negated\",\n                            \"target\": \".upper_slide_1\"\n                        },\n"
+		+ "                        {\n                            \"source\": \"negate3.negated\",\n                            \"target\": \".upper_slide_2\"\n                        },\n                        {\n                            \"source\": \"negate4.negated\",\n                            \"target\": \".upper_slide_3\"\n                        },\n                        {\n                            \"source\": \"multiply4.output\",\n                            \"target\": \"multiply5.first.output1\"\n                        },\n                        {\n                            \"source\": \"value1.output\",\n                            \"target\": \"multiply5.first.output2\"\n                        },\n                        {\n                            \"source\": \"lerp.interpolated\",\n                            \"target\": \"multiply4.first.interpolated\"\n                        },\n                        {\n                            \"source\": \".upper_length\",\n                            \"target\": \"negate5.value\"\n                        },\n                        {\n"
+		+ "                            \"source\": \"negate5.negated\",\n                            \"target\": \"multiply4.first.negated\"\n                        },\n                        {\n                            \"source\": \"multiply4.output\",\n                            \"target\": \"negate2.value\"\n                        },\n                        {\n                            \"source\": \"multiply5.output\",\n                            \"target\": \"negate3.value\"\n                        },\n                        {\n                            \"source\": \"multiply6.output\",\n                            \"target\": \".corner_wide_out\"\n                        },\n                        {\n                            \"source\": \"value2.output\",\n                            \"target\": \"multiply6.first.output2\"\n                        },\n                        {\n                            \"source\": \"multiply3.output\",\n                            \"target\": \"multiply6.first.output1\"\n                        },\n                        {\n                            \"source\": \"value3.output\",\n"
+		+ "                            \"target\": \"multiply7.first.output2\"\n                        },\n                        {\n                            \"source\": \"multiply2.output\",\n                            \"target\": \"multiply7.first.output1\"\n                        },\n                        {\n                            \"source\": \"value4.output\",\n                            \"target\": \"multiply8.first.output2\"\n                        },\n                        {\n                            \"source\": \"multiply5.output\",\n                            \"target\": \"multiply8.first.output1\"\n                        },\n                        {\n                            \"source\": \"multiply8.output\",\n                            \"target\": \"negate4.value\"\n                        },\n                        {\n                            \"source\": \"multiply7.output\",\n                            \"target\": \".lower_slide_3\"\n                        },\n                        {\n                            \"source\": \"multiply2.output\",\n"
+		+ "                            \"target\": \".lower_slide_2\"\n                        },\n                        {\n                            \"source\": \"multiply.output\",\n                            \"target\": \".lower_slide_1\"\n                        },\n                        {\n                            \"source\": \".small_radius\",\n                            \"target\": \"if.condition\"\n                        },\n                        {\n                            \"source\": \"if.output\",\n                            \"target\": \"lerp.fraction\"\n                        },\n                        {\n                            \"source\": \"negate1.negated\",\n                            \"target\": \"multiply.first.negated\"\n                        },\n                        {\n                            \"source\": \".small_radius\",\n                            \"target\": \"if1.condition\"\n                        },\n                        {\n                            \"source\": \"lerp1.interpolated\",\n                            \"target\": \"if1.true_case\"\n"
+		+ "                        },\n                        {\n                            \"source\": \"if1.output\",\n                            \"target\": \"half_of2.value\"\n                        },\n                        {\n                            \"source\": \"multiply1.output\",\n                            \"target\": \".corner_wide\"\n                        },\n                        {\n                            \"source\": \"change_range.result\",\n                            \"target\": \"multiply1.first.result\"\n                        },\n                        {\n                            \"source\": \"half_of2.half_value\",\n                            \"target\": \"multiply1.first.half_value\"\n                        },\n                        {\n                            \"source\": \"change_range.result\",\n                            \"target\": \"multiply3.first.result\"\n                        },\n                        {\n                            \"source\": \"half_of2.half_value\",\n                            \"target\": \"multiply3.first.half_value\"\n"
+		+ "                        },\n                        {\n                            \"source\": \".radius\",\n                            \"target\": \"clamp.value\"\n                        },\n                        {\n                            \"source\": \"clamp.clamped\",\n                            \"target\": \"lerp1.first\"\n                        },\n                        {\n                            \"source\": \"lerp.interpolated\",\n                            \"target\": \"multiply.first.interpolated\"\n                        }\n                    ],\n                    \"values\": [\n                        {\n                            \"valueName\": \"lerp1.second\",\n                            \"valueType\": \"float\",\n                            \"value\": \"0f\"\n                        },\n                        {\n                            \"valueName\": \"change_range.from_end\",\n                            \"valueType\": \"float\",\n                            \"value\": \"-160f\"\n                        },\n                        {\n                            \"valueName\": \"change_range.to_end\",\n"
+		+ "                            \"valueType\": \"float\",\n                            \"value\": \"1f\"\n                        },\n                        {\n                            \"valueName\": \"lerp.first\",\n                            \"valueType\": \"float\",\n                            \"value\": \"1f\"\n                        },\n                        {\n                            \"valueName\": \"lerp.second\",\n                            \"valueType\": \"float\",\n                            \"value\": \"0.899999976f\"\n                        },\n                        {\n                            \"valueName\": \"if.false_case\",\n                            \"valueType\": \"float\",\n                            \"value\": \"1.5f\"\n                        },\n                        {\n                            \"valueName\": \"value.value\",\n                            \"valueType\": \"float\",\n                            \"value\": \"0.600000024f\"\n                        },\n                        {\n                            \"valueName\": \"value1.value\",\n"
 		+ "                            \"valueType\": \"float\",\n                            \"value\": \"0.600000024f\"\n                        },\n                        {\n                            \"valueName\": \"value2.value\",\n                            \"valueType\": \"float\",\n                            \"value\": \"-0.222800002f\"\n                        },\n                        {\n                            \"valueName\": \"value3.value\",\n                            \"valueType\": \"float\",\n                            \"value\": \"0.330000013f\"\n                        },\n                        {\n                            \"valueName\": \"value4.value\",\n                            \"valueType\": \"float\",\n                            \"value\": \"0.330000013f\"\n                        },\n                        {\n                            \"valueName\": \"if1.false_case\",\n                            \"valueType\": \"float\",\n                            \"value\": \"0f\"\n                        },\n                        {\n                            \"valueName\": \"clamp.min\",\n"
 		+ "                            \"valueType\": \"float\",\n                            \"value\": \"0.00999999978f\"\n                        },\n                        {\n                            \"valueName\": \"clamp.max\",\n                            \"valueType\": \"float\",\n                            \"value\": \"10f\"\n                        }\n                    ],\n                    \"reservedNodeNames\": [\n                        {\n                            \"name\": \"input\"\n                        },\n                        {\n                            \"name\": \"output\"\n                        },\n                        {\n                            \"name\": \"output1\"\n                        },\n                        {\n                            \"name\": \"output2\"\n                        }\n                    ]\n                },\n                {\n                    \"name\": \"length\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"io_nodes\",\n                            \"metadata\": [\n"
 		+ "                                {\n                                    \"metaName\": \"io_inodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"input\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"-769.585 -111.771\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n"
@@ -3022,6 +3022,7 @@ createNode bifrostGraphShape -n "bifrostGraphShape" -p "bifrostGraph";
 		+ "                    \"valueType\": \"array<float>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"print.array_bool\",\n                    \"valueType\": \"array<bool>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"print.array_string\",\n                    \"valueType\": \"array<string>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"print.array_float3\",\n                    \"valueType\": \"array<Math::float3>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"print.transform\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"1f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n"
 		+ "                            \"y\": \"1f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"1f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"1f\"\n                        }\n                    }\n                }\n            ],\n            \"reservedNodeNames\": [\n                {\n                    \"name\": \"input\"\n                },\n                {\n                    \"name\": \"output\"\n                },\n                {\n                    \"name\": \"output1\"\n                },\n                {\n                    \"name\": \"input1\"\n                },\n                {\n                    \"name\": \"output2\"\n                }\n"
 		+ "            ]\n        }\n    ]\n}\n");
+	setAttr ".dirtyFlag" yes;
 	setAttr -k on ".angle";
 	setAttr -k on ".global_scale";
 	setAttr -k on ".start_matrix";
@@ -3036,6 +3037,89 @@ createNode bifrostGraphShape -n "bifrostGraphShape" -p "bifrostGraph";
 	setAttr -k on ".startWeight";
 	setAttr -k on ".endWeight";
 	setAttr -k on ".init_length";
+createNode transform -n "twist_joints" -p "system";
+	rename -uid "4651F112-4E88-2290-489E-9D8E7EF96D38";
+	setAttr ".v" no;
+createNode joint -n "twist_0_joint" -p "twist_joints";
+	rename -uid "52534C0E-40DE-1300-BBC5-1CB3CB8EB300";
+	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
+	setAttr ".mxrl" -type "double3" 360 360 360 ;
+	setAttr ".smd" 7;
+	setAttr ".bps" -type "matrix" 0.99999999999993439 0 -3.6232601223622836e-07 0 0 0.99996960163116455 0 0
+		 3.6231499811646972e-07 0 0.99996960163109894 0 -5.3067252399122155e-18 5.4095551466424304e-20 -1.0255695055077891e-18 1;
+createNode joint -n "twist_1_joint" -p "twist_joints";
+	rename -uid "02D0AD9C-473E-65F1-2160-AE83564D785E";
+	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
+	setAttr ".mxrl" -type "double3" 360 360 360 ;
+	setAttr ".smd" 7;
+	setAttr ".bps" -type "matrix" 0.99999999999993439 0 -3.6232600767104704e-07 0 0 0.99996960163116455 0 0
+		 3.6231499355142716e-07 0 0.99996960163109894 0 0.35561430253326332 2.193859418593791e-20 -1.2884831130252656e-07 1;
+createNode joint -n "twist_2_joint" -p "twist_joints";
+	rename -uid "14D14F05-440C-4804-C973-9F90EB7B8421";
+	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
+	setAttr ".mxrl" -type "double3" 360 360 360 ;
+	setAttr ".smd" 7;
+	setAttr ".bps" -type "matrix" 0.99999999999993439 0 -3.6232600293214763e-07 0 0 0.99996960163116455 0 0
+		 3.6231498881267185e-07 0 0.99996960163109894 0 0.87477846797879277 1.6492808945738963e-21 -3.1695498931693838e-07 1;
+createNode joint -n "twist_3_joint" -p "twist_joints";
+	rename -uid "3A2780A7-42B9-E9FF-2D6E-BDAD02CCF0CD";
+	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
+	setAttr ".mxrl" -type "double3" 360 360 360 ;
+	setAttr ".smd" 7;
+	setAttr ".bps" -type "matrix" 0.99999999999993716 0 -3.5439787774778538e-07 0 0 0.99996960163116455 0 0
+		 3.5438710463038311e-07 0 0.99996960163110171 0 1.6230619142940546 -2.2813198089869744e-18 -5.8711179215021363e-07 1;
+createNode joint -n "twist_4_joint" -p "twist_joints";
+	rename -uid "A71B1183-4A94-9183-F48B-B0A691EF23C1";
+	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
+	setAttr ".mxrl" -type "double3" 360 360 360 ;
+	setAttr ".smd" 7;
+	setAttr ".bps" -type "matrix" 0.99999999999996758 0 -2.545112628663806e-07 0 0 0.99996960163116455 0 0
+		 2.5450352613913923e-07 0 0.99996960163113213 0 2.0360373836291892 -3.7131550845022918e-17 -7.2186966685689251e-07 1;
+createNode joint -n "twist_5_joint" -p "twist_joints";
+	rename -uid "DE2B032E-45B3-EE53-426E-D9BA3A62954D";
+	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
+	setAttr ".mxrl" -type "double3" 360 360 360 ;
+	setAttr ".smd" 7;
+	setAttr ".bps" -type "matrix" 1 0 0 0 0 0.99996960163116455 0 0 0 0 0.99996960163116455 0
+		 2.1996167103448254 -8.7892656116158234e-17 -7.4430469354683578e-07 1;
+createNode joint -n "twist_6_joint" -p "twist_joints";
+	rename -uid "728DDF8E-4552-67E0-0EA9-159BF39CF7D8";
+	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
+	setAttr ".mxrl" -type "double3" 360 360 360 ;
+	setAttr ".smd" 7;
+	setAttr ".bps" -type "matrix" 0.99999999999995115 0 3.1263263873738035e-07 0 0 0.99996960163116455 0 0
+		 -3.1262313521511804e-07 0 0.9999696016311157 0 2.3759826986522445 -3.0325435594382318e-17 -7.1412011423125903e-07 1;
+createNode joint -n "twist_7_joint" -p "twist_joints";
+	rename -uid "7857C251-43F9-A728-2AC1-C389A20F89F6";
+	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
+	setAttr ".mxrl" -type "double3" 360 360 360 ;
+	setAttr ".smd" 7;
+	setAttr ".bps" -type "matrix" 0.99999999999991684 0 4.0771208512660012e-07 0 0 0.99996960163116455 0 0
+		 -4.0769969134425777e-07 0 0.9999696016310814 0 2.8304395695194025 -6.3082392577166269e-19 -5.3996442508762242e-07 1;
+createNode joint -n "twist_8_joint" -p "twist_joints";
+	rename -uid "B1BA3F3F-44ED-24A3-4A05-81B7EBDA8410";
+	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
+	setAttr ".mxrl" -type "double3" 360 360 360 ;
+	setAttr ".smd" 7;
+	setAttr ".bps" -type "matrix" 0.9999999999999154 0 4.1120470471378883e-07 0 0 0.99996960163116455 0 0
+		 -4.1119220476150805e-07 0 0.99996960163107995 0 3.462066058350814 -1.0084296608336714e-34 -2.8050626920138995e-07 1;
+createNode joint -n "twist_9_joint" -p "twist_joints";
+	rename -uid "A2F32116-4587-A827-4D85-9CA1D1247FFC";
+	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
+	setAttr ".mxrl" -type "double3" 360 360 360 ;
+	setAttr ".smd" 7;
+	setAttr ".bps" -type "matrix" 0.9999999999999154 0 4.112047074076732e-07 0 0 0.99996960163116455 0 0
+		 -4.1119220745531057e-07 0 0.99996960163107995 0 3.8650354791933927 -7.0889575158818096e-34 -1.1480334698512045e-07 1;
 createNode transform -n "output" -p "mod";
 	rename -uid "AE64A555-46BF-B6C3-D3DC-B6BDCA144703";
 createNode transform -n "outJoints" -p "output";
@@ -3050,25 +3134,118 @@ createNode joint -n "root_outJoint" -p "outJoints";
 	setAttr ".ssc" no;
 	setAttr ".bps" -type "matrix" 1.0000276823691665 0 0.0023306988404748073 0 0 1 0 0
 		 -0.0023306279931854523 0 0.99999728408289057 0 0 0 0 1;
-	setAttr ".ds" 2;
-createNode joint -n "middle_outJoint" -p "root_outJoint";
-	rename -uid "F869F1E5-48A0-EF1E-6D24-E383EFC876C3";
+createNode joint -n "twist_0_outJoint" -p "root_outJoint";
+	rename -uid "1C7694FC-47BF-2095-1E45-BA9029171956";
+	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	addAttr -ci true -sn "pos" -ln "pos" -min 0 -max 100 -at "double";
+	setAttr -s 2 ".iog";
+	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
+	setAttr ".mxrl" -type "double3" 360 360 360 ;
+	setAttr ".smd" 7;
+	setAttr ".bps" -type "matrix" 0.99999999999993439 0 -3.6232601223622836e-07 0 0 0.99996960163116455 0 0
+		 3.6231499811646972e-07 0 0.99996960163109894 0 -5.3067252399122155e-18 5.4095551466424304e-20 -1.0255695055077891e-18 1;
+	setAttr -k on ".pos" 0.1;
+createNode joint -n "twist_1_outJoint" -p "twist_0_outJoint";
+	rename -uid "75109629-4D90-C592-D14B-45854270F466";
+	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	addAttr -ci true -sn "pos" -ln "pos" -min 0 -max 100 -at "double";
+	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
+	setAttr ".mxrl" -type "double3" 360 360 360 ;
+	setAttr ".smd" 7;
+	setAttr ".bps" -type "matrix" 0.99999999999993439 0 -3.6232600767104704e-07 0 0 0.99996960163116455 0 0
+		 3.6231499355142716e-07 0 0.99996960163109894 0 0.35561430253326332 2.193859418593791e-20 -1.2884831130252656e-07 1;
+	setAttr -k on ".pos" 0.2;
+createNode joint -n "twist_2_outJoint" -p "twist_1_outJoint";
+	rename -uid "6CF60DBD-40DB-6C10-0176-5F9F886B604A";
+	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	addAttr -ci true -sn "pos" -ln "pos" -min 0 -max 100 -at "double";
+	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
+	setAttr ".mxrl" -type "double3" 360 360 360 ;
+	setAttr ".smd" 7;
+	setAttr ".bps" -type "matrix" 0.99999999999993439 0 -3.6232600293214763e-07 0 0 0.99996960163116455 0 0
+		 3.6231498881267185e-07 0 0.99996960163109894 0 0.87477846797879277 1.6492808945738963e-21 -3.1695498931693838e-07 1;
+	setAttr -k on ".pos" 0.3;
+createNode joint -n "twist_3_outJoint" -p "twist_2_outJoint";
+	rename -uid "AD472537-49A2-B753-0CC4-B1B8625DB97C";
+	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	addAttr -ci true -sn "pos" -ln "pos" -min 0 -max 100 -at "double";
+	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
+	setAttr ".mxrl" -type "double3" 360 360 360 ;
+	setAttr ".smd" 7;
+	setAttr ".bps" -type "matrix" 0.99999999999993716 0 -3.5439787774778538e-07 0 0 0.99996960163116455 0 0
+		 3.5438710463038311e-07 0 0.99996960163110171 0 1.6230619142940546 -2.2813198089869744e-18 -5.8711179215021363e-07 1;
+	setAttr -k on ".pos" 0.4;
+createNode joint -n "twist_4_outJoint" -p "twist_3_outJoint";
+	rename -uid "29764CE8-494D-5F78-0F47-B6A8C6AF3C57";
+	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	addAttr -ci true -sn "pos" -ln "pos" -min 0 -max 100 -at "double";
+	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
+	setAttr ".mxrl" -type "double3" 360 360 360 ;
+	setAttr ".smd" 7;
+	setAttr ".bps" -type "matrix" 0.99999999999996758 0 -2.545112628663806e-07 0 0 0.99996960163116455 0 0
+		 2.5450352613913923e-07 0 0.99996960163113213 0 2.0360373836291892 -3.7131550845022918e-17 -7.2186966685689251e-07 1;
+	setAttr -k on ".pos" 0.5;
+createNode joint -n "twist_5_outJoint" -p "twist_4_outJoint";
+	rename -uid "0B00A699-4AE8-A76B-444A-1887700E6E36";
+	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	addAttr -ci true -sn "pos" -ln "pos" -min 0 -max 100 -at "double";
+	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
+	setAttr ".mxrl" -type "double3" 360 360 360 ;
+	setAttr ".smd" 7;
+	setAttr ".jo" -type "double3" 11.278447436618336 -7.6631472915429164 -8.1157847573177371 ;
+	setAttr ".bps" -type "matrix" 1 0 0 0 0 0.99996960163116455 0 0 0 0 0.99996960163116455 0
+		 2.1996167103448254 -8.7892656116158234e-17 -7.4430469354683578e-07 1;
+	setAttr -k on ".pos" 0.6;
+createNode joint -n "twist_6_outJoint" -p "twist_5_outJoint";
+	rename -uid "67DC5CE8-4171-F60F-8B6A-859D548A71DE";
+	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	addAttr -ci true -sn "pos" -ln "pos" -min 0 -max 100 -at "double";
+	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
+	setAttr ".mxrl" -type "double3" 360 360 360 ;
+	setAttr ".smd" 7;
+	setAttr ".bps" -type "matrix" 0.99999999999995115 0 3.1263263873738035e-07 0 0 0.99996960163116455 0 0
+		 -3.1262313521511804e-07 0 0.9999696016311157 0 2.3759826986522445 -3.0325435594382318e-17 -7.1412011423125903e-07 1;
+	setAttr -k on ".pos" 0.7;
+createNode joint -n "twist_7_outJoint" -p "twist_6_outJoint";
+	rename -uid "EA31BAD0-4DC5-9534-2B37-FF97A1FCB2CB";
+	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	addAttr -ci true -sn "pos" -ln "pos" -min 0 -max 100 -at "double";
+	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
+	setAttr ".mxrl" -type "double3" 360 360 360 ;
+	setAttr ".smd" 7;
+	setAttr ".bps" -type "matrix" 0.99999999999991684 0 4.0771208512660012e-07 0 0 0.99996960163116455 0 0
+		 -4.0769969134425777e-07 0 0.9999696016310814 0 2.8304395695194025 -6.3082392577166269e-19 -5.3996442508762242e-07 1;
+	setAttr -k on ".pos" 0.8;
+createNode joint -n "twist_8_outJoint" -p "twist_7_outJoint";
+	rename -uid "21E737B0-4D4D-D90C-6779-81B76CA30BEF";
+	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	addAttr -ci true -sn "pos" -ln "pos" -min 0 -max 100 -at "double";
+	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
+	setAttr ".mxrl" -type "double3" 360 360 360 ;
+	setAttr ".smd" 7;
+	setAttr ".bps" -type "matrix" 0.9999999999999154 0 4.1120470471378883e-07 0 0 0.99996960163116455 0 0
+		 -4.1119220476150805e-07 0 0.99996960163107995 0 3.462066058350814 -1.0084296608336714e-34 -2.8050626920138995e-07 1;
+	setAttr -k on ".pos" 0.9;
+createNode joint -n "twist_9_outJoint" -p "twist_8_outJoint";
+	rename -uid "5581AD8F-48B7-73B8-4877-35AF49F2D9D6";
+	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	addAttr -ci true -sn "pos" -ln "pos" -min 0 -max 100 -at "double";
+	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
+	setAttr ".mxrl" -type "double3" 360 360 360 ;
+	setAttr ".smd" 7;
+	setAttr ".bps" -type "matrix" 0.9999999999999154 0 4.112047074076732e-07 0 0 0.99996960163116455 0 0
+		 -4.1119220745531057e-07 0 0.99996960163107995 0 3.8650354791933927 -7.0889575158818096e-34 -1.1480334698512045e-07 1;
+	setAttr -k on ".pos" 0.95;
+createNode joint -n "end_outJoint" -p "twist_9_outJoint";
+	rename -uid "8E0A9647-4413-3F43-AC48-BB8981414A44";
 	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
 	setAttr ".uoc" 1;
 	setAttr ".oc" 6;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
 	setAttr ".ssc" no;
-	setAttr ".bps" -type "matrix" 1.0000259339796214 0 -0.0029881482422647126 0 0 1 0 0
-		 0.0029880574101934557 0 0.9999955357464918 0 2.236129877159025 0 0.005211601042381415 1;
-	setAttr ".ds" 2;
-createNode joint -n "end_outJoint" -p "middle_outJoint";
-	rename -uid "E8F88622-413B-36B9-CC07-8FAD2BF0A9BF";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".uoc" 1;
-	setAttr ".oc" 6;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
+	setAttr ".bps" -type "matrix" 1.0000276823691665 0 0.0023306988404748073 0 0 1 0 0
+		 -0.0023306279931854523 0 0.99999728408289057 0 0 0 0 1;
 createNode transform -n "fk_out_grp" -p "output";
 	rename -uid "6B73D897-4733-CCDA-9155-41ACD5BC362B";
 	setAttr ".v" no;
@@ -3103,176 +3280,22 @@ createNode transform -n "end_out" -p "output";
 createNode locator -n "end_outShape" -p "end_out";
 	rename -uid "82A0E8C6-43B8-1EAC-AF2E-A0A59BBC4B15";
 	setAttr -k off ".v";
-createNode transform -n "twist_joints" -p "output";
-	rename -uid "4651F112-4E88-2290-489E-9D8E7EF96D38";
-createNode joint -n "twistUp_0_skinJoint" -p "twist_joints";
-	rename -uid "52534C0E-40DE-1300-BBC5-1CB3CB8EB300";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "curvePosition" -ln "curvePosition" -min 0 -max 100 -at "double";
-	setAttr -s 2 ".iog";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.99999999999993439 0 -3.6232601223622836e-07 0 0 0.99996960163116455 0 0
-		 3.6231499811646972e-07 0 0.99996960163109894 0 -5.3067252399122155e-18 5.4095551466424304e-20 -1.0255695055077891e-18 1;
-	setAttr -k on ".curvePosition";
-createNode joint -n "twistUp_1_skinJoint" -p "twist_joints";
-	rename -uid "02D0AD9C-473E-65F1-2160-AE83564D785E";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "curvePosition" -ln "curvePosition" -min 0 -max 100 -at "double";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.99999999999993439 0 -3.6232600767104704e-07 0 0 0.99996960163116455 0 0
-		 3.6231499355142716e-07 0 0.99996960163109894 0 0.35561430253326332 2.193859418593791e-20 -1.2884831130252656e-07 1;
-	setAttr -k on ".curvePosition" 13.3;
-createNode joint -n "twistUp_2_skinJoint" -p "twist_joints";
-	rename -uid "14D14F05-440C-4804-C973-9F90EB7B8421";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "curvePosition" -ln "curvePosition" -min 0 -max 100 -at "double";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.99999999999993439 0 -3.6232600293214763e-07 0 0 0.99996960163116455 0 0
-		 3.6231498881267185e-07 0 0.99996960163109894 0 0.87477846797879277 1.6492808945738963e-21 -3.1695498931693838e-07 1;
-	setAttr -k on ".curvePosition" 28.900000000000002;
-createNode joint -n "twistUp_3_skinJoint" -p "twist_joints";
-	rename -uid "3A2780A7-42B9-E9FF-2D6E-BDAD02CCF0CD";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "curvePosition" -ln "curvePosition" -min 0 -max 100 -at "double";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.99999999999993716 0 -3.5439787774778538e-07 0 0 0.99996960163116455 0 0
-		 3.5438710463038311e-07 0 0.99996960163110171 0 1.6230619142940546 -2.2813198089869744e-18 -5.8711179215021363e-07 1;
-	setAttr -k on ".curvePosition" 50.699999999999996;
-createNode joint -n "twistUp_4_skinJoint" -p "twist_joints";
-	rename -uid "A71B1183-4A94-9183-F48B-B0A691EF23C1";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "curvePosition" -ln "curvePosition" -min 0 -max 100 -at "double";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.99999999999996758 0 -2.545112628663806e-07 0 0 0.99996960163116455 0 0
-		 2.5450352613913923e-07 0 0.99996960163113213 0 2.0360373836291892 -3.7131550845022918e-17 -7.2186966685689251e-07 1;
-	setAttr -k on ".curvePosition" 70.300000000000011;
-createNode joint -n "twistDown_0_skinJoint" -p "twist_joints";
-	rename -uid "DE2B032E-45B3-EE53-426E-D9BA3A62954D";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "curvePosition" -ln "curvePosition" -min 0 -max 100 -at "double";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 1 0 0 0 0 0.99996960163116455 0 0 0 0 0.99996960163116455 0
-		 2.1996167103448254 -8.7892656116158234e-17 -7.4430469354683578e-07 1;
-	setAttr -k on ".curvePosition" 31;
-createNode joint -n "twistDown_1_skinJoint" -p "twist_joints";
-	rename -uid "728DDF8E-4552-67E0-0EA9-159BF39CF7D8";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "curvePosition" -ln "curvePosition" -min 0 -max 100 -at "double";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.99999999999995115 0 3.1263263873738035e-07 0 0 0.99996960163116455 0 0
-		 -3.1262313521511804e-07 0 0.9999696016311157 0 2.3759826986522445 -3.0325435594382318e-17 -7.1412011423125903e-07 1;
-	setAttr -k on ".curvePosition" 50.900000000000006;
-createNode joint -n "twistDown_2_skinJoint" -p "twist_joints";
-	rename -uid "7857C251-43F9-A728-2AC1-C389A20F89F6";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "curvePosition" -ln "curvePosition" -min 0 -max 100 -at "double";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.99999999999991684 0 4.0771208512660012e-07 0 0 0.99996960163116455 0 0
-		 -4.0769969134425777e-07 0 0.9999696016310814 0 2.8304395695194025 -6.3082392577166269e-19 -5.3996442508762242e-07 1;
-	setAttr -k on ".curvePosition" 70.7;
-createNode joint -n "twistDown_3_skinJoint" -p "twist_joints";
-	rename -uid "B1BA3F3F-44ED-24A3-4A05-81B7EBDA8410";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "curvePosition" -ln "curvePosition" -min 0 -max 100 -at "double";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.9999999999999154 0 4.1120470471378883e-07 0 0 0.99996960163116455 0 0
-		 -4.1119220476150805e-07 0 0.99996960163107995 0 3.462066058350814 -1.0084296608336714e-34 -2.8050626920138995e-07 1;
-	setAttr -k on ".curvePosition" 86.4;
-createNode joint -n "twistDown_4_skinJoint" -p "twist_joints";
-	rename -uid "A2F32116-4587-A827-4D85-9CA1D1247FFC";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "curvePosition" -ln "curvePosition" -min 0 -max 100 -at "double";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.9999999999999154 0 4.112047074076732e-07 0 0 0.99996960163116455 0 0
-		 -4.1119220745531057e-07 0 0.99996960163107995 0 3.8650354791933927 -7.0889575158818096e-34 -1.1480334698512045e-07 1;
-	setAttr -k on ".curvePosition" 100;
-createNode joint -n "twistKnee_skinJoint" -p "twist_joints";
-	rename -uid "DBEEDE6D-4C9E-7792-B39C-7B8174CBC8DA";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "radiusWeight" -ln "radiusWeight" -min 0 -max 1 -at "double";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".ssc" no;
-	setAttr ".bps" -type "matrix" 1 0 0 0 0 0.99996960163116455 0 0 0 0 0.99996960163116455 0
-		 2.1996167103448254 -8.7892656116158234e-17 -7.4430469354683578e-07 1;
-	setAttr -k on ".radiusWeight";
-createNode joint -n "twistKnee_y_2_skinJoint" -p "twistKnee_skinJoint";
-	rename -uid "4421BD4D-4653-7923-AB13-FF914914E5C3";
-	addAttr -ci true -sn "driverAngle" -ln "driverAngle" -at "double";
-	addAttr -ci true -sn "angleMin" -ln "angleMin" -at "double";
-	addAttr -ci true -sn "angleMax" -ln "angleMax" -at "double";
-	addAttr -ci true -sn "posMin" -ln "posMin" -at "double";
-	addAttr -ci true -sn "posMax" -ln "posMax" -at "double";
-	addAttr -ci true -sn "slideMax" -ln "slideMax" -at "double";
-	addAttr -ci true -sn "slideMin" -ln "slideMin" -at "double";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".jo" -type "double3" 0 -3.1805546814635168e-15 0 ;
-	setAttr -cb on ".driverAngle";
-	setAttr -cb on ".angleMin" 130;
-	setAttr -cb on ".angleMax" 40;
-	setAttr -cb on ".posMin" -0.1;
-	setAttr -cb on ".posMax" -1;
-	setAttr -cb on ".slideMax";
-	setAttr -cb on ".slideMin";
-createNode joint -n "twistKnee_y_1_skinJoint" -p "twistKnee_skinJoint";
-	rename -uid "A6A122AB-4D93-A1C3-C97A-18A903B437E2";
-	addAttr -ci true -sn "driverAngle" -ln "driverAngle" -at "double";
-	addAttr -ci true -sn "angleMin" -ln "angleMin" -at "double";
-	addAttr -ci true -sn "angleMax" -ln "angleMax" -at "double";
-	addAttr -ci true -sn "posMin" -ln "posMin" -at "double";
-	addAttr -ci true -sn "posMax" -ln "posMax" -at "double";
-	addAttr -ci true -sn "slideMax" -ln "slideMax" -at "double";
-	addAttr -ci true -sn "slideMin" -ln "slideMin" -at "double";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".jo" -type "double3" 0 -3.1805546814635168e-15 0 ;
-	setAttr -cb on ".driverAngle";
-	setAttr -cb on ".angleMin" 150;
-	setAttr -cb on ".angleMax" 40;
-	setAttr -cb on ".posMin" 0.1;
-	setAttr -cb on ".posMax" 1;
-	setAttr -cb on ".slideMax";
-	setAttr -cb on ".slideMin";
 createNode reverse -n "ikFk_reverse";
 	rename -uid "B34D5FBD-48FF-FE61-FFB0-EA8B05D9ED51";
 createNode ikRPsolver -n "ikRPsolver1";
 	rename -uid "8D8B7F0A-42B8-C98C-B401-A1BAFD9E81A8";
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "16DCD2D3-4631-FB86-2291-E58ADD422F37";
+	rename -uid "41991876-44D9-8807-1D7A-27B528EA76DD";
 	setAttr -s 6 ".lnk";
 	setAttr -s 6 ".slnk";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "9791AA2E-4291-14D7-D5CC-54B16320C058";
+	rename -uid "A4199664-45C2-BB3C-D412-BBB752A8C4B0";
 	setAttr ".cdl" 5;
 	setAttr -s 5 ".dli[1:4]"  5 3 2 4;
 createNode displayLayer -n "defaultLayer";
 	rename -uid "C96E594B-4CFB-7E18-16C6-CD9B48091A1E";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "C4DE3D9C-4827-8550-EF19-C1BF224363D0";
+	rename -uid "627FBB79-4E17-A6BF-D651-86BB67B30747";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "8E4F4BE6-43F1-363F-82A2-F39206547257";
 	setAttr ".g" yes;
@@ -3338,10 +3361,6 @@ createNode objectSet -n "ikFkSwitchSet";
 	setAttr ".ihi" 0;
 	setAttr -s 8 ".dsm";
 	setAttr ".an" -type "string" "gControlSet";
-createNode objectSet -n "skinJointsSet";
-	rename -uid "38FACABF-44CA-AD93-E25F-3EA0A49F9EC5";
-	setAttr ".ihi" 0;
-	setAttr -s 11 ".dsm";
 createNode decomposeMatrix -n "decomposeMatrix42";
 	rename -uid "71308060-44D7-C042-2BE6-2FB1A5F7BAC1";
 createNode unitConversion -n "unitConversion432";
@@ -3587,9 +3606,9 @@ createNode objectSet -n "add_moduleControlSet";
 	setAttr ".ihi" 0;
 	setAttr -s 10 ".dsm";
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "EF70865E-4606-3427-40E0-3D83C47CA7DD";
+	rename -uid "19D8588B-4B84-2E3D-F585-9FA7DB0F23A3";
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "E82673EC-4FA0-BFE6-51AE-B5871144B145";
+	rename -uid "EF12A019-4F25-DE1E-C38D-01BA20026DBF";
 createNode renderLayerManager -n "twistUp_renderLayerManager";
 	rename -uid "9AEF7D5A-4481-D497-B94A-8FBD3B867557";
 createNode renderLayer -n "twistUp_defaultRenderLayer";
@@ -3600,7 +3619,7 @@ createNode multMatrix -n "twistUp_multMatrix5";
 	setAttr -s 2 ".i";
 createNode decomposeMatrix -n "twistUp_decomposeMatrix5";
 	rename -uid "F241B2D0-4538-7774-120F-9ABA57CD6071";
-createNode quatToEuler -n "twistUp_quatToEuler1";
+createNode quatToEuler -n "twist_quatToEuler";
 	rename -uid "56640431-4C9D-4570-2DAC-A6B388EF7A0F";
 createNode quatToEuler -n "twistUp_quatToEuler2";
 	rename -uid "162602BA-4490-FC5A-99EC-5A87A2EAF1E3";
@@ -3612,36 +3631,6 @@ createNode shapeEditorManager -n "twistUp_shapeEditorManager";
 	rename -uid "8A4EB232-4ED1-03C4-B7B9-5C87A3B6F9C2";
 createNode poseInterpolatorManager -n "twistUp_poseInterpolatorManager";
 	rename -uid "32F1CB26-4E42-143C-B477-81A7EBC5EBB6";
-createNode motionPath -n "twistUp_curve_0_mpath";
-	rename -uid "BB78B019-4D51-3D60-7593-D9AAB8A23F48";
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-createNode motionPath -n "twistUp_curve_1_mpath";
-	rename -uid "60D1E8AF-4A19-8A65-604E-FBB156606F49";
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-createNode motionPath -n "twistUp_curve_2_mpath";
-	rename -uid "41DBE454-4A5F-FB00-221C-F19F83D47DB8";
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-createNode motionPath -n "twistUp_curve_3_mpath";
-	rename -uid "E65B4CAB-490D-1929-64FB-8AAA44046D67";
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-createNode motionPath -n "twistUp_curve_4_mpath";
-	rename -uid "5571E16F-49CC-30DF-DEB2-EAA8C813ED5E";
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
 createNode unitConversion -n "twistUp_unitConversion18";
 	rename -uid "8F1BE87A-49D4-FC3F-1289-209DE2749E35";
 	setAttr ".cf" 0.5;
@@ -3675,38 +3664,6 @@ createNode shapeEditorManager -n "twistDown_shapeEditorManager";
 	rename -uid "744FB908-4CE7-5208-6B4F-84B2CF1009F2";
 createNode poseInterpolatorManager -n "twistDown_poseInterpolatorManager";
 	rename -uid "2DEF5171-4CD9-F570-BB2B-6CAAD5018B16";
-createNode motionPath -n "twistDown_curve_0_mpath";
-	rename -uid "9A9684B4-4B43-864A-BD84-99A5A20FCDAF";
-	setAttr ".u" 0.655;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-createNode motionPath -n "twistDown_curve_1_mpath";
-	rename -uid "D21C67D5-4559-3DA2-D28D-5B9C99909465";
-	setAttr ".u" 0.75450000000000006;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-createNode motionPath -n "twistDown_curve_2_mpath";
-	rename -uid "0070E3D5-4A63-26C3-89CA-72960F71B28F";
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-createNode motionPath -n "twistDown_curve_3_mpath";
-	rename -uid "907C9915-48D6-4F8A-E4A2-BBB95D89CA55";
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-createNode motionPath -n "twistDown_curve_4_mpath";
-	rename -uid "0A14AAE0-4322-B7B2-5055-11B1DCC17473";
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
 createNode unitConversion -n "twistDown_unitConversion18";
 	rename -uid "39765CEF-49FE-9156-BA86-50A1B47720C8";
 	setAttr ".cf" 0.5;
@@ -3781,7 +3738,7 @@ createNode blendMatrix -n "blendMatrix6";
 	rename -uid "59386C8F-4D90-2761-40DF-1D8400729CBE";
 createNode blendMatrix -n "blendMatrix8";
 	rename -uid "E1265FF5-4F64-AF98-82AD-5A8F39440714";
-createNode multiplyDivide -n "multiplyDivide369";
+createNode multiplyDivide -n "volume_multiplyDivide";
 	rename -uid "F0323E05-4EF5-4504-D080-2AB262DE2AAC";
 createNode distanceBetween -n "distanceBetween3";
 	rename -uid "2EDECD91-4D56-4A38-F2D3-C89776FA9FA9";
@@ -3789,84 +3746,24 @@ createNode distanceBetween -n "distanceBetween3";
 		 3.4206316112950219e-09 0 0.99999999999999989 0 1.2531623287412819 0 9.3959197694035763e-09 1;
 createNode multiplyDivide -n "multiplyDivide373";
 	rename -uid "EC9F6E6D-4B19-2E09-94FD-478F8D97634F";
-createNode dagPose -n "bindPose1";
-	rename -uid "5247F8AA-41EA-FDE7-F3B1-51AFD77BDD64";
-	setAttr -s 13 ".wm";
-	setAttr ".wm[0]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1;
-	setAttr ".wm[1]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1;
-	setAttr ".wm[2]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1;
-	setAttr -s 13 ".xm";
-	setAttr ".xm[0]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[1]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[2]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[3]" -type "matrix" "xform" 1 0.99996960163116455 0.99996960163116455 -5.1197014183729445e-27
-		 3.6232600293215552e-07 -1.4130096589649702e-20 0 0.87477846797879277 1.6492808945738963e-21
-		 -3.1695498931693838e-07 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[4]" -type "matrix" "xform" 1 0.99996960163116455 0.99996960163116455 6.4745658201336352e-40
-		 2.2562470444440427e-09 2.8696174189245402e-31 0 2.1996167103448254 -8.7892656116158234e-17
-		 -7.4430469354683578e-07 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[5]" -type "matrix" "xform" 1 0.99996960163116455 0.99996960163116455 -7.0615897623593753e-23
-		 -3.1263263873738543e-07 2.2587500111564801e-16 0 2.3759826986522445 -3.0325435594382318e-17
-		 -7.1412011423125903e-07 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[6]" -type "matrix" "xform" 1 0.99996960163116455 0.99996960163116455 -3.3315689627078178e-24
-		 -4.0771208512661145e-07 8.1713765283001625e-18 0 2.8304395695194025 -6.3082392577166269e-19
-		 -5.3996442508762242e-07 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[7]" -type "matrix" "xform" 1 0.99996960163116455 0.99996960163116455 -4.1124594845508465e-26
-		 3.6232601223623625e-07 -1.1350163514811674e-19 0 -5.3067252399122155e-18 5.4095551466424304e-20
-		 -1.0255695055077891e-18 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[8]" -type "matrix" "xform" 1 0.99996960163116455 0.99996960163116455 9.7238648564745766e-40
-		 -4.112047074076848e-07 -2.3647260552477628e-33 0 3.8650354791933927 -7.0889575158818096e-34
-		 -1.1480334698512045e-07 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[9]" -type "matrix" "xform" 1 0.99996960163116455 0.99996960163116455 -6.1663687551574819e-23
-		 2.5451126286638335e-07 -2.4228274559286788e-16 0 2.0360373836291892 -3.7131550845022918e-17
-		 -7.2186966685689251e-07 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[10]" -type "matrix" "xform" 1 0.99996960163116455 0.99996960163116455 -2.4617743376797353e-26
-		 3.6232600767105493e-07 -6.7943627715368447e-20 0 0.35561430253326332 2.193859418593791e-20
-		 -1.2884831130252656e-07 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[11]" -type "matrix" "xform" 1 0.99996960163116455 0.99996960163116455 -6.6371902828894142e-24
-		 3.5439787774779279e-07 -1.8728075701437774e-17 0 1.6230619142940546 -2.2813198089869744e-18
-		 -5.8711179215021363e-07 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[12]" -type "matrix" "xform" 1 0.99996960163116455 0.99996960163116455 3.0241068072879356e-40
-		 -4.1120470471380043e-07 -7.3542612052379289e-34 0 3.462066058350814 -1.0084296608336714e-34
-		 -2.8050626920138995e-07 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr -s 13 ".m";
-	setAttr -s 13 ".p";
-	setAttr -s 13 ".g[0:12]" yes yes yes no no no no no no no no no no;
-	setAttr ".bp" yes;
 createNode multDoubleLinear -n "multDoubleLinear459";
 	rename -uid "8D3DBFD4-41EB-8488-4F12-D08E60E80695";
 createNode unitConversion -n "unitConversion447";
 	rename -uid "59FF3A66-42C1-1C77-069D-5D9A7B0C3AFA";
 	setAttr ".cf" 57.295779513082323;
-createNode unitConversion -n "unitConversion448";
-	rename -uid "1CA15DA2-419F-AA9C-7715-0E9F83184584";
-	setAttr ".cf" -1;
-createNode unitConversion -n "unitConversion449";
-	rename -uid "C843E988-4445-F8F0-CB10-4FB4D817D52A";
-	setAttr ".cf" 1.29;
-createNode unitConversion -n "unitConversion450";
-	rename -uid "9D53E36A-4BE4-3B0C-6FE5-F9B63F05E84E";
-createNode unitConversion -n "unitConversion451";
-	rename -uid "D3CF4FC1-46EB-F349-5CB8-6BB513595D41";
-	setAttr ".cf" -1.29;
 createNode renderLayer -n "defaultRenderLayer1";
 	rename -uid "1F5E7F28-49EB-EF77-2F6F-EFA8CE69D22D";
 	setAttr ".g" yes;
 createNode plusMinusAverage -n "plusMinusAverage1";
 	rename -uid "BF6885DF-4BB7-4705-76CA-BD8ABBD6D9B2";
 	setAttr ".op" 2;
-	setAttr -s 2 ".i3";
-	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3[1]" -type "float3"  4.68976068 0.31540188 -1.99127376;
 createNode angleBetween -n "angleBetween1";
 	rename -uid "00843370-4878-F79F-91F4-5AA7A7CFE29E";
 createNode plusMinusAverage -n "plusMinusAverage2";
 	rename -uid "C28A44D6-4EF2-24DF-A6F1-9395C27340A2";
 	setAttr ".op" 2;
-	setAttr -s 2 ".i3";
-	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3[1]" -type "float3"  4.68976068 0.31540188 -1.99127376;
 createNode setRange -n "setRange1";
 	rename -uid "8FB11D06-43C4-E71E-DB31-5E94D743451E";
 createNode unitConversion -n "unitConversion452";
@@ -3874,6 +3771,146 @@ createNode unitConversion -n "unitConversion452";
 	setAttr ".cf" 57.295779513082323;
 createNode setRange -n "setRange2";
 	rename -uid "57F46EAE-4A21-AD6B-E7DC-B68E7A35A259";
+createNode blendColors -n "blendColors3";
+	rename -uid "5D8F483D-415B-C13D-35DB-7DB235F5570A";
+	setAttr ".c1" -type "float3" 0.81900001 0.69999999 0.56 ;
+	setAttr ".c2" -type "float3" 0.83999997 0.755 0.66000003 ;
+createNode multDoubleLinear -n "multDoubleLinear466";
+	rename -uid "4F65DB8E-400A-0231-0A4E-F39168449F27";
+createNode multDoubleLinear -n "multDoubleLinear467";
+	rename -uid "23D90645-4107-5445-C323-56BC772D5E47";
+createNode reverse -n "reverse1";
+	rename -uid "5685D95D-4F1E-CFC9-7308-188EFFE62BB3";
+createNode blendColors -n "blendColors4";
+	rename -uid "F68F694F-4FA0-7BAD-6158-2EA51CB54948";
+	setAttr ".c1" -type "float3" 0.442 0.294 0.178 ;
+	setAttr ".c2" -type "float3" 0.352 0.25400001 0.168 ;
+createNode ngst2SkinLayerData -n "ngSkinToolsData_skinCluster2";
+	rename -uid "A6E16D79-4992-9327-7A5A-9AAAAF564BD8";
+	setAttr ".ld" -type "ngst2SkinLayerDataStorage" 16 3981 {
+"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"};
+	setAttr ".imo" -type "string" "{\"_InfluenceMappingConfig__mirror_axis\": 0, \"dg_destination_attribute\": \"oppositeInfluence\", \"globs\": [[\"L_*\", \"R_*\"], [\"l_*\", \"r_*\"], [\"lf_*\", \"rt_*\"], [\"*_lf\", \"*_rt\"], [\"Left*\", \"Right*\"]]}";
+createNode ngst2SkinLayerData -n "ngSkinToolsData_skinCluster3";
+	rename -uid "9900332E-4739-FF4C-1F4A-B28A27061144";
+	setAttr ".ld" -type "ngst2SkinLayerDataStorage" 16 28605 {
+"mMkCZJIBAAACAAAADAAAAEJhc2Ugd2VpZ2h0cwEAEQEE8D8RCgEsAAsRDTQAAOD9Je06AAAAwOUT8wEIDAB7FvEFCAj5d+YBCAzgowbYAQgMgEvT1QEIDOCopfABCBAAMPcBOwFHCMYsBAEIDOAHx/QBGAyAZ1zUAQgMADWmnAEIDKAPyXIBCAgAbgkJCABsCQgEgGoNCABtCQgAQA0IDACTjpMBMAhAeFYFcAxAJuZ0AWAMIEwDewEIDECaOngBCAwA5yhwAQgMwFoxYgEIDADeg14BCAzAZVlsAQgIgCujBSgMwJheegEQDODZMm4BCAxgPOtSAQgMQMFQJQEIDOBIhvIBcAjAjB4F8AgAawgFCASgaQkIBMBtCQgIoBA1JSAMoPbOMgE4DADtVmEBCAzAIwfpBQgIfcjvBQgIApTsAQgMQNJo4wUICPii1gEIDGBF79EBCAzg+YzZAQgMwH254gEICOAsKgUoDABcytcBEAwAxsDBAQgMQIZumwUIBIA+CdAITcZVARAMoJ6SVAEICGA+kQUIDCB7X1YBEAhAiOwF6AwAKfWyBRAEGCQFUBBgIfVPPCGoCLfTUwEIDOAK01EBCAwgqpdIBQgIdGo9AQgMQBVHNgUICNWbOgEIDODk+UABCAgA9agFCAjAQgAFIAzAeMYiARgM4A5EAgEICIAO5QVoDAB6U78BeAwAlzO7AQgIgAJMBQgMAFjJwwEQDCD6aPEBCAwAL0IhATgIwJtFBVgMALEBqwEQDEBsF7ABCAygcU2tBQgILNesAQgMYD8vwwUICE765gEIEMDdWQQ9QbAIJYYYAQgMAMswJQEIDGDEwisBCAggXh8FCAxgEOskARAMoPOkGQEIDMApDgoBCAwAYNb1AUgMQN/D3wEIDOBPNMYBCAwgidWuBQgI8/uaAQgMQDjcoAEIDICAaCwBOAxAaKY0AQgMwPq/QAEIDACQSEsFCAh/Q1YBCAxgOt5hAQgM4JQ/awEIDGDpQHMBCAygfZN4AQgMYB5GewEIDADol3kBCAzgDGd0BQgIpWlsAQgIYFezBUAMYFMzVAEQDIChY0YBCAxA5Cs7AQgMgFJNMwUICHwmLgEIDMBZyykBCAgABxoFQAyA2DdxARAIgCBaBVgMYOZkdgEQCCAqigVwDAAHVoABEAxgi7OGAQgMIJwokAUICGUllgEIDGDDD5oBCAyAYFqYAQgMQCWJkgEIDOAIoIkFCAgdTIEBCAgAqrgJWAhmIm4FEAiIJGcBCAzgOCxlAQgIgOADBQgMIGr7ZgUQCIvmsQEIDABs1akBCAzAO1yiAQgMoLLwmQEIDIBYK5MFCAQXDwVwDMD0n5UBEAxgwTCfAQgMgA==",
+"DG+qAQgMYEIMsgEIDECMPLABCAzgZWGkAQgIgMtUBbgIoOvhBcgIII5NBVgMYBF2oAEgDADJzqcBCAiAS8oFOAxgHMK0ARAM4NkWtQEIEIDLiAA+YSAIOz/0ARAMwAh55gEIDED4G9oBCAygT+rLAQgMgFNDvwEIDADUjbYBCAzAe7a7AQgMYM1T0gEIDEBVsdwBCAzAdnrWAQgMgCbBzQUIBJgxBUgMYMkh7AEQDKBq5PcBCAzg7A8BAXgMgDQHBwEIDGBV8QoBCAgAdNYFCAxACPUGARAMgAzUZwEIDCBisWEFCAgIFVoBCAzAJ4FUAQgMoEljUQEICOCVLgUICIA7hQUYDMCj7FgFGAiDUV4FCASNvAlICGx6bAEQDIBQyHIBCAwAhFN3AQgMgIaIeQEIDACGNnoBCAigP10JEAQgngkgCEQAdQEYCGAMGgU4DIDINW4FEAhPrZsBCAyghY+ZAQgMgAq4mAEICMCSgQUQDGCsEZwBEAwATTqgAQgM4BRUowUICO0HpwEIDKDox6oFCAhlDK4BCAwA6jmwAQgMQJULsQEICADmAwkIBORNBRgIYEftBSgMIBRoqwEgCICZ+glICG2lpAEQDKDWtqEBCAxAZeWeAQgM4BhU9wEICEBXdQkICL2n9gEQDIBsN/QBCAwgR4DwBQgI6THpAQgMQNAb4wEIDKAX594BCAzghr3aAQgMoFgc2QEIDAC34dgBCAjAPY8FGAjgf9EJKARYXQU4CMClZgVICCBJWgVYDEBVx/MBMAiAFl0FeAjA/OAFiAigB00FCAwApQA04ZwIoPIWBQgMQA19MwUQCHIsMgUICGRNMAEIDEB+YywBCAzgfocoAQgMAH+FJQEIDIBKPSMBCAxAVdchAQgI4FotBQgIgKVkBQgMQL+UIgEYDABzwyQFCAg+3icFCAgEeCsBCAxgVd0uAQgIoKH5BWgIYP9QBXgIABJdBYgMQHJZTAEgDCBKg00FCAS64wUICGC2LAUIDIBaREsBGAwA3qZIAQgMIIg0RgEIDKALLUQBCAxgFsVBAQgMgEcfQAEIDMD3RD0BCAxANv07AQgMoKJJPAEIDOCSID4BCAjAgggFMAwg2K5DBRAIsJFFAQgMIKlNRwEIDGD4DEkBCAzg2MZKAQgMwO1eagEIDIAksW0BCAxAbPFwAQgMgD5DcwEIDCDKoXUBCAzgRv93AQgMgAtXegUICNiIfAEIDKC8UH4BCAzgj1R/BQgEZDsFCAzAJ9h9ARAMwNNBewUIBAXXBUAMYFsndAEQCCAEyQVoDOCxW2wBEAxAxxlpAQgMwElzZwEIDCBPDWgBCAxA8NagAQgIIFmWBQgIYGDaBQgMoK+toQ==",
+"ARgMgOdZowEIDCCF/aUBCAzA7kKpAQgMQHuZrAEIDCBDea8BCAyACMiwAQgMQGZqsQEICGCgsgUICKDxrgUICIDEWgUICAATowUoDADX/a4BKAzAwsWqAQgMIFVLpgEICGDdNQVwCGAWuQWADMDChtIBGAhAF7MFCAwArlTTARAMAJ1A1AEIDEAVU9UBCAxgpGjWAQgMIKZm1wUICKo42AEICEBq0wUIDMC+NdkBEAggoWYFCAigm2UFCAiAyCgFCAgA1qgFKAgA6OMFQAhgvuUFUAhgsMEJYAQBlwVwCGCujAmABL3RBZAMgPRV6gFYCMBiVwUICKBFRwUICODMKQUIDIC5/ekBIAhAp8gFCAjA/pMFCAjgXGYFCAhADUAFCAjgCSAFCAjA3wsFCAjgNwcFCAhAdRMFCAjA0y8FCAgAKF0FCAjgqKEFCAhAVucFCAigUyUFcAggg0MFCAhgN1AFCAyAkdHuBYB6CAARKAiAPc8FMAjgJMQFCAhgHbAFCAhAg5kFCAiAfo0FCAggCpEFCAjgraUFCAhgUrkFCAjAQ8gFCAQgrglIBECFCYAVYA2IFQgIADCHEuAKCGI47wGoDOCRSy+BkAwgWHIiAQgM4NMtIAEICCA/1AkQCEQEHAEQCGD5WcWYCABcTeUgDOD37AIBGAzgZZILAQgMQM2RFAEIDIAnjx8BCAzAUbQrAQgMgPRjNQUICKV1PQUICLTEQQEIDMBfpEMFCAT8+QUIDKCZpEIBEAygbSxABQgMl+Q4PhqwDAzgLuqkDiwKDEBjP6wBCAzAM62qAQgM4KJKowUICJwQmAEIDKB94JcBCAwAsMSxAQgI4HgAEmwKDMC3X8UBEAzA2lK2AQgIgCNKBSgM4FB3agUQCGu/WQEICGDyfAUIBODvCQgEYO4JCATg8QkIAIANCAzg1AdiATAMgIFyjwUICD5RLQ4cCgzg36IzBQgIZn8yAQgMACjOKgEIDOD/OCEBCAwA5cUfAQgIYMTYBTAMwBDqOQEQDMAUzjsBCAzgxg8wAQgMAIC9FAEIDIBfYOsFYAhl2ckBCAhA2YkJyAQXggUIBIAWCQgEoBkJCAzA/GbIBSgI99ztAQgMAFTpFwFIDAA2faEBCAxgLgSnAQgMQI2ypQEIDICj2Z8BCAwA4/6UBQgIOVuSAQgIQGa7EvQKDKAmoqMBEAzg3SakAQgMoFUvmQEIDGB9LIMFCAiaCmAFCAjevTgFCAi0Fy4BCAiAEGQF4AgAF2MFCAiALwcFGAgg64MSXAwMYHTZagUoCE2RjwEIDMA8SgYOBAkMAKqnDAEICCD3+RKcCwhAzQkS3AsMQCfo+gEoDKC4hvYBCAzARrX7AQgMIA==",
+"98ABATAIgOJ5BQgM4HY29wEYDIADIOQBCAwAmqbEAQgI4BkYJQAMALqSkAEQDADY0Y4BCAiAEtQFCAwAuIORARAIAOXWEmQMDOB4wdcBEAhAwhsFcAzgvLliAWgIQIEtEtwKCCAACRbMCgiWe2QBGAyA4OhwAQgMoAhjiwEICGAqixKMCggARq0SHAoMoFSZwgUYCB3FxwEICKCSQwUICADFgQUYDEBhNbgBGAxg2kOrBQgEPD8SxAoIALEOEpwLCKDV0QVgDMApP1gBIAwA/LFKAQgMwHDrVQEIDIA+ItgBCAzgYybgAQgIgAjGFrQKCPpq8AEQDMB3Y/gFCASUKmW0CACnChJUCgyAgnsRYWwMwOt5FQEIDICoWxcBCAgAgPkFEAxAlgMSARAIwCOGBTAIoH8GBUAIwIouErQKDKDtaO0BWAyA5KrjBQgEYcsS9AoI4C3ZEvQKDOA3/9QBGAggaKEFaAjgV1aFJAwgpbQWAVgMoO9bGAEIDABhhRsFCAjsHyEBCAzA84QmAQgM4E/nLQEIDGDMNjMBCAxA/8s1AQgMIIBnNAUICHozMAEIDKA/NSgFCATVHYW0DEBM7RoBEAhAjz0FcAyghZ4QBRAIPkMOAQgMAPnVDAEICEDFWQUQDIC+u0wBEAwANXFGAQgI4O+/iYQIeJs4ARAIIIKiBYAIgIewCQgIFj43ARgMQN+TPgEICMCewwU4CADA9wVIDCA/FUoBGAiA8JyF7AyAhWM5ARAMIOo0NgEICMBW7gXACODlrwXQDIBBNTsBGAjgAFqlDAhg9GMFQAwAQnBOARgMYPeNkgEIDAAT94gBCAxgUzB+AQgIgOY+EnwLDMDCLWQBEAwgrkdZAQgIoDrWEvQLCKBUBgUQDMB7nGsBGAxA5kp0AQgMwDckbwUIBMp2EkQMDIBWxGgBEAzgBn13AQgMYO9AggEIDED7DIkBCAwgzUqRAQgMAIPOlQEICIC3HxLUCwygFB2XARAIQJ+8EtQKDADK7u4BEAwgFdPnAQgIQGwhEgQLDKCuIuABEAyAYfnfAQgIAHqUBRgMgL496AEQDEARlOwBCAjgFTEFSAjA1q8SjAsMYDJW+QEYDKCBf/4BCAzAQ3gAwbQIICe+CQgENEUJCAjpFf8FIAil+PwBCAyAeoP6AQgIwEmQElQLCEDukBIcCwigNdYS9AoIoPHHBQgIAMCZBRgI4A1REgQLDID80ykBYAzg1wAtAQgIAF87EgQLDECN2DEBEAigMiMSBAsIoLD8BQgIINiGEqQLCCDWRgUICEDyZAUYCMBtcRI0CwiAjKMFQAiAqAwSVAsIwCghEmQLCADZqxa0CwhX0yYBWAxAoURlAQgMoA==",
+"DdZkAQgIYDQbBQgMgMyxYgUQCHi9YAEIDEBwdl0BCAyA+V5aAQgM4Mu0WAEIDABV9lcBCAgg2wMFEAhAdHsFCAygtYhZARgMgLVmWwEIDCDxdF4BCAxgFmdhAQgMQIHWYwEICKDL2AWADOCt/mYBEAgACTgStAoIYBL4BRgMIOHamwEYCGApNQUIDMC7KZoFEAjP0ZgBCAyAwFKXAQgMwJnSlQEIDKA1fJQFCAjCZ5MBCAxA+4GSAQgMoKjekQEICAD4gwUICEBjmwUICCAYTQUgCMDupwUwCIB+lQVICADJuQVYDID2ipkBOAggK+YFeAjA8L0FiAwAuAycBRgI0guyAQgIAAbiEvQKCMD1jAUICGCCEgUICOCNeRIECwiAUbkSPAsIQNuwEgwLDEAmr60BOAjAdg8SXAsI4FmDEhwLDIDi0qgFGAgy2qcBCAhgaPEFCAjAHjYSjAsMwMHfqwEYCAB7QgVQCGAlrgVgCMDjYQVwCEBd0wUICABECQmYCM7iygEwDGBXA8wBCAzAi2HNAQgMAGDLzgUICGIM0AEICIAPnAUIDCB3ENEFEARwYQUICGB7hgUICMBrfQUICACcRgUICMD05QUwCIDyXwUIDKAPds8BOAhAeQUFWAgg/JAFcAygSkfLARgIgJ1fBYgMAJLeyQEQCMCZFQUQDECXWegBEAgg3GwFCAiATWIFCAjgBDgFCAxgzOLnASAIQMFfBQgMwIvD5gEQCKDeKAkICNek5QEQCCBQQgUICIA0AgUIDOCb4OQFGAQu2QUICKD/7AUICICxIwUgCKBqhAUICODARAVICEDEIgVgCEA8yQUICMCsIgWACCBVXwUoCGDMRAUICCAK2gVICCA2OQUIDOBsd+MBaAygKqviAQgMQC/o4QEICID2PwUIDAAUvuABEAhgjWYFCAhAAzcJCAScMQkIBFBeBQgIoL/BBQgIgHBbBTgIYF4gBVAIICQABWAIwFvgBQgIoH+iBXgIwFAoCZAIWWjGAWAIwDdjCQgE+ZwFCAygFgTHARgIAAyXCQgIEjnIARAIgO7EBQgIAKEpKYgEUXAFCAiALqUFCAhAoMIFCAhgf8YFCAgg6LAFCAjAboEFCATgBQk4CGDAhgVICCBMxQVgCCDXBgUICIB6pQWACGC4ewUIDMDK06IBeAQAywkIACANCBEQAOANIACgDQgIgGb4BTAI4D+lEhwODODo2KQBQAiAqi4WNA4EduIFCAgAHK0FCAggwHYSrA4IQMRLBSgIQEllBTgIYIXxBUgIQIzUBQgRiABgDWgRCAwgZIlMDrAKCIBp4YVQDACPcLahwAhgpPMS1BEIYGwZFuwRCNvGtQEYCAAEWRIEEg==",
+"CMDDoRJMEgiA6MflIAigvg/FoAhAAGgS7BEMwG7YpgEwCGAm4AVADIB9e7sBEAyA08DDAQgMACMiyQEIDGCkAMwBCAiAIMEFCAzARKrLBRAEqCkFIAwA4vrFARAQYEtawT4OWBkOcBYEM1ASFAsMwP1pqA4sCgjAPd0FCAyAV2+mARAIAHpPEjwLCCBLHAUoDOCP+bMBGAzg9mjCAQgIIICAEpwKDEAsSLgBEAjAdOQFKAwAtvuXARAMAI1DlgEICGA6PQUIBAA5CQgEwDcJCADgDRAAgA0ICEDslQUoDCCGkpwBOAzgix4gDnwJCKDGrhIQFwzgiSomARAMwALPIgEIDGCK5h0BCAwAAIEeAQgIYNMYFigXCMq3NgEQDEC6czgBCAyga8AtAQgMgG9PFwEIDGCQlwABCAjAYGISbAsIYEbSEiQLCIDN0AkIAMwJCAQgzwkICIA/AQkoCJ11/AGYDIBuExABQAxAnx6RAQgMIItXlwEICIBc3AUIDKCfFpQBEAwA9LaPAQgIYAgBBQgIoCTNFtAVBKSmEsgVDCC4NKEBIAgA2iYFGAwAQI+CARAIwMyYEpwLCCDa4hIcCwwgfoxTBRgEqHQJCAB5CQgIQDB/BRAIILMwBSgI4IDrEswLCEDqPhIYFwwgQBP1BTgIelX8AQgIIOriBQgIwGxkEkwLDCBUW/MBGAxg3zDyAQgIAJMFEhQLDOCznv0BEAjgpGMFCAgATvAFKAwAgF3iARgIQPJAEvwLCCDE1xIIFwhgZpES9AsIQHj/EtgWCOCB/QUICECHfAUYCOCzQRLoFgzAPszKAUAMwMb35AEICIDGWxLgFQwgPZlWQZwM4LY3VwEICAAlHgkICExbXwEQCIBR3xLsCQwAcJuAARAMAAWsjAEIDIDA8ZMBCAjAjlkSxAkMoA/VlgEQCED3xgUYDICJHY4BEAygRVGEAQgIwHcfEhwKDICYu2UBEAhgSkQFgAzAz6U6ARAIwNdMEtQKCKAAlBLECgxA5FW/ARgMALifxAUICKBEygUICN9p0AEIDMDGrtQFCARZHhI4FQhA6RQSJAoMQJDj4gEYDEBC2+QBCAwgJ2DlAQgIYOhDBRAMoAv64QEQCKChQRJoFQwgyjPYARAM4KZM0gEICCAuQwVoDGBSgMIBEAyAL0y7AQgIIB37hVQMwN+NuAEQCIBPQBKsCgjgPM0SmBUMIP3R8QEYDEDKq/IBCAgAvYQShAoIgEzIFkQKCB/a+wEYCKAF4RJsCgxAKYMBoRQI4FbpBQgIYGXgFowKBP5YEqwKCKBWLgUwDGBTQ/gBOAgA8+IFUAhgSEwFaAwgWfLsARgIoEOWEiAWCGBOJxIMCwygxQ==",
+"MOoBGAwAGAAVAWAMAGaiEgEIDKCpUw8FCAiyXQoBCAyAHtIIAQgIQD/4BRAMYOW8DgEQDKCjYhEBCAyAjK4TAQgMIClDFAEICMAsKwVICMCSMQVIDABSbg0BGAxAe+MMAQgIAESXBUgMINWPBwEQDCDm7QYBCAzgrhQLAQgIgGIsBVgIYDFoBVAIACJ5EngVCEB+xxKYFQjg/OUSwBUIwJFKFgQLBKxNEuwKCCCupRJcCwggd8oFCAhgsMcSZAsIwMfoEhwLCCAT3xIsCwgAr0wSdAsIQGE5EpQLCGA0bwUoCKA3xAUoCOAgIQVYDABBfTUBkAwAn288AQgIQJjABYAIgDwcBZAIoC2fEoAWCIDwMhJUCgxASo6PBSgI1YmKAQgMAEdihgEIDMCGQoMBCAhAdM0JCAgMSIkBEAwg3AmQAQgEYCYWlAoIgCpPEpQKCADIFRKsCghACboFIAgA7OoFEAiAUoMJaAQWWAUICID5GgUICGC3fAkIBGYnBUAIoOGvBQgIYFmMBQgM4GYHugFoCIADcwUIDMBIHrsBEAxgMx68AQgMIJBavQEIDADkob4FCAjhvL8FCAjpNMAFCASjPwUICKAqAAUICECOGAkgBOI6BTAIoLU1BUAIgJ8LBVAIAH4HBWAMQFHPuQFACGAhOwUICMCuKgUICADgYQUICKCVsQUICACD5xaAFQStDRKQFQjgzDQJCARwYQkIBMOUBQgIINfKBQgIoMX5CQgE6hQSyBUIAG8SBQgIwN7uCRgEmLAFCAhgeGQFCAjAbhcFCAjgNNIFaAjgz5kFCAgA0HMFCAigdWcFCAhAn3QJCARPlAkIBHG+BQgEACcWjAkIwGIFFowJBNwxBQgIIDhiBQgIAJiSCQgEkL8FCAigR+QFCAhAsvwFCAggRQoSvAkIQHYLBQgIAJX/BRgEgHIJKAiATrkFEAhgsIAFCAgAS0AFCAjA5wIFCAjgVNYSDAoIYJ+9BQgIQJK4BQgIwEvFBQgIIJ2AEhAWCED0pwUICKCM1AkICDcA6yWABBEoCQgEDUgFCAhATl8FCAiA+nkFCAjg5rEFCAjAXO4FCAxAVzTsATgIIPBcBQgI4PJUBQgIIG8WBQgI4I2YBSgIwEz7BWgIIKGgBQgIAJVuCQgEQVwJCAS2ZAUICCAo/BJcCwig16gFCAiA7z4FCAjAGs0SfAsIQMdgBQgIgEgBBQgMwOOy5gGACMAhfAUICKC2YwkIBMZqCQgEW5AFCAiAXs8FCAjAuSIFOAgAnoUFCAhgwvEFCAggzl8FaAjghcUFCAigpRAWUBcEjz4FCAhgeDQFCAigOVYSnAwIgI0YBQgIQLYuCQgEz5wFCAiAXHsS1A==",
+"DAigkswS5AwIIJBVEvQMCMD/1BIEDQhgyY4SFA0IQGUNEiwNCOBeZQUICMCSmQUICODLrQUICIBXoAUICKDOZgUICACB9QU4CKBqBQUICAAIwxasDQSu+QVwCIDT9wWACKDNzBL0Cghg+hESBAsIYHmtEiQOCADiUhJEDghgRM0SXA4IAPbnEhwOCEAT+xIMDgyAIOi0IUgMoAqCtgEIDEDarrcBCAzAA2a4AQgIgNeXCQgEiisFCAggiBgFIAwAH2m1ASAMAGRFswEICEAU4gVYCABPJwVoCGDkYhKcDgggL+MFkAwg9uZfASgI4PKbBQgIoGB5EvQPCKA2JhbUDwRfcRKoGgiAjXMSwBoIYGYzEuAaCAAdpqkQCBy9iAFADIDlYI0BCAigA0aF+AigYLwFCAzggcyPARgMgJS8iwUIBHsApVgIIN4sFkAbBOKaEnAbCGDn6hL4GgjAQxkSbBAIIEDYEswQCABAHhKoHACgOggAAOANEADADQgRKAiAtcEFMAgg0GgSPBEIwPGOxTgIoHBlxQgIwFZPEigcCAC2eRJYHAyANBg3AZgMYC4ILwEICECQdRJsEQxg4JcjARAIIIYgBQgEwD8JiAAADQgAQA0IDKDlHG8OsAoIAIY45TgI4KSiEkwRDMC6FFQBQAgAy3sFyAiA1BoSLBEIoIMGErQRDGCmlFUBIAzAjO5PAQgMIPtfUAUIBOwLBTgIQGubErwRCGBAiSWQCEBqNiUgDAB1Ym4BKAgAkcwSSBwIIHdOBQgIwH4NFsgcBCG3CSgEpSklwAig2CglUBRAAdlgPwMOkgwUAADACaVREhwKCPcbUgEICACxRQUICCDDIQkIBDbZBSAIAP8JBRAIYB0bEvwKDIBpPloBMAygs55bAQgI4NGlEsQiCCD7YgUoDOCV5VABGAggA7sFCAhAI7oFCASAIgkIAAANCBEYAAANIAgAxL8JKARADQV4CIAHuBL0CgzglTe0AVAMQCwAtQUIBG0+BRAIwET9EuwKDOAulrMBGAzAFOy6BQgImRHDBQgIVUPEAQgMIAs0vQUIBLkuBTAIwISxEjQLDMBR96gBGAiAzdoFCATAZgkIBOBlCQgEgGgJCAigceAFIAygGnWpATAMQO8IrQEICCBCTRIwFgyA9ecZDoQJCOAWoxKYFghA8vsFEAgA+WISIBcIoCv/BQgIANKPFiwbCNIBJwEwCKCv5AUICICUtAUYCABv6xL4FgwA5KQDASAMwMV8/wFoDKABpf4BCAgAhZsFCASAbAkICAAPngUQCEDY+wUICMAhlRIUIgjAYEYWgBcI6tdzAUgIIJJtEpQhDIDvc3wBEAigs4gFEAjAWYwSpAsIYA==",
+"mIEFCAzAVLN9ASAIIMftEtAVCMBZ+wUIDIAmAXsBGAiAjncW/CEELSISRCIMQOrjUAEYDAB9Ak8BCAiAa80SgBYIAETMCQgE5ecJCASaXwUoCGDVTxJsDAygQcVmATAMYGDOzQEIDKBSudMBCAwAKXzVAQgMYGQZ1wEIDKCyr98BCAgg6MMS/AoI4BfzEuAVDGBR3QNB/AyAH10JAQgIAEhUEpQKCGCupBJ8CggA5rAS7AoIYJyrCSgEOK4SXAsIAHxRErwLCKCftgVYCKCIpBL8CwzgO+i3AWgMwLB5tAEIDCBLqsEFCAQaBoUUDIC+Ij8BaAjADw0SlCAIQBGhFqwgBHNvEsQgDMByO1EFIAhvn1MBCAiAO4Vl1Ayg4ZNWARAIQOGXCQgEzKAFGAhAZ+kJKASElwU4CABIgwVICAAjORKkIAhAihuFnAyA1j84BUAEd9MWUBYIuc4uARAIwNRTBRAI4J4DZdQIwFyGZeQIgKgphVwMwC1laAEoCACJFRLcIAjghX2pvAgVGW8BGAwgZpdwAQgMYNwYcQEICACX5QUQCKD+OAkIBPv4iVwEWmiFTAzgU09rASgIoBc0BVgIQE5ohbwIwOoAiZQI/ZZdASAMgGR0XAEICACIEIXsDGAXC4ABEAzABf1/AQgIQNMzpewIoMMpEjwhCECf0xIcIQjgEofFTAiAmvoJKAR68QU4DAA5XIEBOAgAJ5UFEAhgOLoFQAhgz+wFMAhAeWQFEAhAhT4FCAjgOBQFWAwAra54BTgIb0F2AQgIQPW4BQgMAFuHeQEQCICPdwVACAAy3hJ4EgjgUIkWzCAI52qdASAIQGtkElgSCIDlHhJYFgjg2pISoBYI4GxWBRAMoLcXlgEoDGDGHZcBCAgA3XUFGAyAzcuRARAIQLu+BQgIYLTrBTgIIGnpBSgIgJyQBVgIYIyrBQgIoM2lEpgWCICIqBLUIQjgLE4FkAgAK5ESGBMIYKsnEmQIDKBTjdAFWARGixKsCAgAafISZAgIIC7aEswICICIrQUICAChPgUYCMBVMxLcCAiAxTwFMAhgVq8FCAiAsTcFCAigmLcFIAgghRkJEARckQUICMDV0AUICIACHAVwCKDOhQUICGA9/QUICCBEVAWQCIC3agUICCBtuxIAFQjAF24FCAgAMgEFCAxA2vHeAbAMAN7Z3QEIDKDx8twBCAgAE18FCAggrC4FCARgHgkQCECz1wUQCMCZcwUwCEDYEAVACMA02wkICN2+3wFACCA5QQVgCCBGsQUICMCK9AUICEDADhKAFQhAYAkJCARp7QUYCIC+OQU4CGBVzgVICIB8VwUICKDy3AVoCKDqZQUICMBR+gWACOCgpg==",
+"BQgIoCZ8BQgIgCyRBQgIYMrpBQgIACl5BTAIgNEhBUgIwGPGBQgI4O9QBWgIAJi3BQgIYFn4CQgEUAcJiATD/AUQCAAmywUICGBskQUICICwUCVICIDEBwUICKDotiVoCIBKYwUICCAgEgUICOAxkiWYCOA+IAUICACn3iXACKCv0wUICEDsAQUYCOAoYwUICKBu8QUICCAKUgVABEA3CVgIwA8bBWgIwMtxBQgIII+pBQgIYIi+BQgIwNCyBQgIoOiLBQgIAE6XEkQKCGCksBKECggAqsUSTAoIAA/6EpwKCABMXQUIDGAf9rEhoAjgE7cFCAiAhGwFCAigusEWdAoEnvwS+BgIgD4pEkgZCMDFHhaECgQKiQUICMCqqwUgCGCl5QU4CAAMbQVwCCBC3gWACMBklRL8Cggg6rMFCAhgOVIFCAhAKo9l2AggRBwSlCUIwCcThSgIoFLpEpQKDKB07IcBmAiA+JYSdAoMAGWQjgEQCEDEPRKUCggAp4EFCAhgtB8FCAigi2oFIAyAbx6MASgIACvZEuQPCGAzywVIDODG3oUBGAig7p8FYAjgXakFcAiAxZSFyAhgEboJkARmKRI0Jgxgdsk5ATAIwGshEuwQCIDZNRJsCghgQXcSlCYMQNv3TgEgCOCnBRKQGwiA6S6lOAhAm7KlYAig4AapcATRrRIcJgjgObUFCAhgYo8FGAjAasASgBsIYBeQCTAEPPqlkAjAs8OlkAggrX/FcAiAZdMS5BAMAEs8QgFwCCDEYxYECwR3PRLUEQgAfeUS5BEMgN3QFgEgCIC4mxb0JwhO6S4BEAjARVvFiAjgX4zFmAhgyekWpCcEDkcFWAiga/nFwAggUc4F0AigmNwFEAiA6VwFIAgAIanF2AwAgyhDAVAIACO0CYAIWXUzARAI4FsAEqQLDCAHdhwBEAhgmjoSRAsMoLskpeGICAAZfgUIDIBojLIBEAhAyd0SYBcMgAv03QEQCGAAQBIIHgxg+lcEAUAIQAVjEnwSDABKCxkBEAzAx64fAQgIIHG3EtQoCIBroAUICCCuKwkYCNhAGAEgDEAEOhABCAhgPdcSnBMIoEXoEngICKB/NBKgCAzg+hq9AXAMoImMrQEIDIDy6zkFCAD0CQgEwPMJCABgDQgAAA0YFSgIQLpSATAIQAltEpgfCKBCYRKwGAxARUjAARgIAGT9BdgI4BNOEnAYCKCJ/QXwDAAGRZoBIAigUPgSkB8MoBkoSAEQDCA7CjoBCASA8Ql4BIDvCQgEQPAJCAwgimEqDjgKCMBOWgUwCOC+RWWwCIBfsWWYCCAoc2VoCMAeExI0DghgVVVlWAjAfxZp6AR8eWWQCCBEkgUICA==",
+"gJF+BUAIIHzDBSAI4ImoZaAIgDi+EnwOCKCYdBI0EggAZbQSRBIIQEkVBQgIAFUjFrQSBA+yBWgIgJu6BTgIIAnaBYAU4BkGtD8EFpQMDCA41aIBtAjgsO8FCAig1/wFCAhg1fgFCAggt+oJCARZ+gUIDEDrz6MBMAzAsDClAQgIIOSVBQgMYGxJpAEQCKBKIgUgCAC7sgUwCADQpAUIBCB1CQgEAHQNCABzCQgAwA0IAGANCAiA5aUFMAjAfbYFCAyAOZb5AVgMQL6t+gEIDMDAKvsFCASGBQUICICplwUYBOBpDRAIYAH/ASAI4HeEEgwjCIC5OhLcCwggQUoSGCcIQA2vBTAMYNn09wEoCEDMbgUICOBhZQUIBMA3CQgEoDYJCARAOAkICMC9ZgUgCAAbiAkIBA1JEmgYCEDPTRJoFwyAaL9TQRwMIATSVAEICABLiQUICEDZtgUYCIDtTAUQCMCJRBL0IQxA3BtgASgIoGaxBQgIAMb8BRgIwCzNBVAIoGK1EmQiCIACc0VMCMDfMAUICIC+LQUIBMC0CQgIgFwuCRAEmEMFCAwAdihJAVgIIHnEEuwiCIBQORJwLQyAcvqsARgMQKuArwEIDIDo564BCAhAyxtlXAgAz7kFCAiALkNlBAigY64SkBcIgDHwBQgMwG5dsQEwCMDRbIkcBORQZSQIQJgkEtQbDIAdVZQBIAgg2EQFCATAagkICKCqSgUQCGCyrwUIDKD5jpcBKAgAMVMSYC4IoIHmEhQiDAB6rwKBDAgAS9OFVAwgwzkHBRAEs/2lLAxAjc0bBRAER8YSqBYIQEptEpQLDMCfoDUBGAigs9ESPAwIwH89BQgIACriEvQhCIA/zBagFgSK9gU4CACG/oX0CABxsqWMCICL0RKsDAyg8+vtAZgIQG5mEuAXCMD0C4XkDOB932IBYAjAHcbJDARv2RK0CwjAK9ISmBEMgOGdeAUgBFUhEgwLDKCNI38FEAQvq8WsCKA7OhJUCwhgjS0FCAgAYosFGAjgucoSRAsIYCSIycwETWkSsCwMwCq+cgFACODNLRJEDAjgR0/FbAggEgQSHCIIwI7JFugQBIGVEvwLCGA36+k8BKeI5VQIQOkVEtgWCIBHQhLIFgjAl2sSFAsIQHq1EjQLCABu8hZMCwSL2RIkCwgAFDYSHAsIIAP3BRAIgO9VBQgIwEqUBSgIQGqSBTgIwO0aBUgI4Pj9FmwLBGfQ5bwIACzx5bQIwKuPEmASCIDzvuW0COBRehKgEgxgYc2jAdAIAALOEmQLCMCswwUICIDERgUICEBGQAkIBMroBQgIwGPWErgTCKBVfBYoEwRIlQUICIC2ygkYBL/tBSgIgA==",
+"0NkFCAggvAgFGAhAragFEAigmEMFcAgg9SUSZAwMgDd+ngGACKB8QBJsDAwgchafARAI4Ke2BSAIABc6EqAXDCDWcr8BGAggJWMWmBcEHcilRAiAe9ClbAgAvJAFCAhgIjMSgBcIQA2dCQgAsgkICKBmzKVsCOCbZqVsCIALiqXcCKArEAUoCMCTzgVQCCA30gUICAB5MgUICOA44QkIBBX3pbwIgLwCBYgIYI0iBZgIwKfRElAXCMBOHxKwFwiAGwgWmC0IHifaAbAMYNu92wEICOCszwkIBJlmBRgIABmXCSgErzcSwC0IgNOkBUAIYMaEBRAIQPXVBQgI4G8+BQgIYHvIBSAIoH2rBQgIQKFtBQgIYPPFEggYCMDCCAUICECOewWQCEAUUgUICOBiGRIMDQjglQESDA0IoEFaEiQLCKDd2xIUCwRgfxbUDAigjLsSHAsEgIUW+BUIYBIvBRAIwD2mCSgEGj4FCAggj0EFCAgA5zIFCAhg+M8FUAhgnlgFCAjA1gIFCAjgcJ8FcAjA9woFCAiAPWgFiAigRPAWCBYE98YFCAig6b4l0AjAWHISeBkIAPpkJWAIwEEuJWAI4HuPBQgIQCLFBQgIoHrRBQgIYCTDBQgIgFChBQgIYE90BQgIgCk+BQgIAK/3BUgI4EJnBQgIoAzuBWAIoFecBQgI4PxcBQgIQDkUBQgIAE3HBYgIYGKQBQgIQHdxBQgIAA3zEpAWCOD0DRK0JAjA0zgFCAigV2YFCAjgP4kFCAiADJUJCASuiwUICADEdQUICEDvSwUICICPGAUICKDM6wVQCGB/0AUICODVygkIBHvZCQgE3/UFCAjA8BAFMAiA8hcFCATg/wmACIDT/AUgCEBK7wUICAA/+WXQDECz84RBaAhAah4FCAgA450SlAsIgAxwBQgI4NaIBQgIQNa5BQgI4JWLCQgIxUOCBTgEhpaF+AhAOBcSDBAMIHiregUYBPrlBQgIoGfKBRgIoFLZpSgIQDmMBXgIYCFNEgwMCABQ6wUICOBrvQUICKBk/oVwCEBg4xLUCgiApeil+AggHncSNAsMgGZZSgFgDMAsnVIBCAig3xUSdCcIgHmtpTgI4Nh6EngXCMDbyAUICCA18xLECwjgHa0SABYIIDxREiQMCMD3vBIYFgiAEQ4SRBIMYFDmUQFQCCCaShI4FggAsnQFaAggNagSbAsMQOWyOgEgCKD3dsWACAAU/xIEEwgA/ooSuB4IoBZgxXAI4MZsxeAIgHgXEkgeCKA9VhIEDAjAaDYSODQIIBa+EkAXCGBbvsXgDOBUnTYBWAhgX64FEAiAs80F+AhgvMLlCAjgzLASSBcIACK6EtgdCGBIzg==",
+"ElAXCIDPQRJ0CwgAQLkSpAsIgN9P6WgINO31wfAIwFkiEgAgDIBVkscBEAyAAELWBQgI/EDnBQgEE8QSCDUIoCrOEtwTCEA1HRLIHghgdxcSaB4MwAXhFwGYCODPxRL8CwhgcsQFCAggsD0S5AsI4EGkBeAIAGJcEmQMCMB0UeV4DCAWjwUBOAggWgYSAAgMQMaV7wFwDAAVmt8FCAi2Qs8BCAwguahUBQgEiZ8SSCEMoC1ubQEQDOAu9IgBCAiA1XYSkAgIQGshEtAgDOB1YtEBGAggiD8SgCAMwCev5QEQCOBo8eXYCIDKZOXoDCBEeuwBGAhAupAS2B8IQE+3FtggBOaVErAgDGCK5cgBIAggYVoSpBQMYJEJmAEQCABirBLUFQyApQVkARAkICv1kj0AAABgLQkIBKAsCQgAYA0IERAAAA0oCEBfXBLEFggALm4F2AzA4nd3AUgMgG5yiwEICODL/xLMKwjgW4wS4CEIIJDoBXAMAGcqYwEgDMC8zjsBCAggDrMShBYMIF/qmgGABAAqCXgEwCcJCASAKAkIDOBUs4ABIAhgkTUSZC0IYA5lpTAIAFAJBQgI4DeDBQgIILkVpVgIoDGsBQgIgMWUBQgIIMgbBQgIQFcSBQgIgEUmBQgIIMroBTgIQC+WBQgIwMtmBQgIoKRHBQgIAL5ABQgIII1IBQgIoFREBQgIgMQ7BQgIIH1SBQgIYIZ/BQgUQL2NzT8FFpQMDIAXyS4B5AgADMoFCARAvA0IAJANCAALCQgIAELLBSAIwNXXBQgIQELrBQgIAGTyBQgIgEjiBQgIQJDRBQgEgBoJWAhAsscFEASgpAkIBECjCQgEwKEJCASAogkIAEANCASAtA0QBEjIBTgIgLt9EqAXCEADhgUICGBliwUIBEBuCQgIABaJBRAIIDaSBQgIQF7NBQgIgAAjJcwIoHc/BQgIgM74CRgEaacFCAjgQXkFCAiAZm4FCAhgc20JCABsCQgEQGsJCACgDRAEwH8JEARAzwkwCCAXdQUwCCCvC2XUCCBgLgUICIAcRAUICABsRwUICOBPQgUICMBkXwUICOBv8QkIBIa4EhAPCKDW8gUICIADSQkIBBR0BSAIILztEigPCGDExQUIBCBvFqgnBKAfCQgEQB4JCATgJgkIBCD+CQgIoMPIBTAIgBnlBQgIICbhhfwMwAGACIUEBO3iBQgIQDL7BQgIoA3vBQgIAMxKEnAYDIBk2QoBKAjgpdkSeBgIAPFShUQIwHV0EoAYCCBB8gUwCMAmMgVYCEBykhIcIwiAEHYFCAgAh3MFCASAbgkIBGDqCQgIoK96BRgIIPqmBQgIwOosBUAIAPd8pdQIoOVHEg==",
+"TDkIAIudEmARDOAM4E8FiAQfQ8UMCODnGxK4LQhg2KIWGBgElSESABgIoAEAEvgXCGCX2hIsDAiAo7cFCAgAWxIFGAjAgJAFKAgg0QESSBgI4FyEEtwLCOAyPBJAEghA/d8S2BEIgJ5dEjQjCADOyhLQEQhgn6ISCBkIYNqBErQLCKCxnBLcCgjgOFES9AoIoIOFEuQeCGCqUuXUDEAGaq4BsAigx1sSgBAIYAchElgQCKCZiQUICGDhlQUICMDgPgUICGDmfAkoBLWjBTgIwO2WBUgIYAL/BVgIwFkaEmQLCAC3SBJAFwhAqyMS8C0IAKYlEiwMCCCwhxIsDAggBIcSzAoIIFP/EvwICMC25BI0CQzAyTXCAZAMIFREwwEICOCv/QUIDGBXccQBEAiAGLgFCAhAleIFCAggR/MFCAgA+NQFCAhAzGgFCAhgoLMFOAjAjtEJUAiZycEBQAggu5YFaAhgCZIFeAjgLiUFiAyABrW6ASAIoADtBQgIgL1KFiQgCDOuywEYCGBBW4WECICr+YXcCABLBBKcCggg/yMFCARA+hYYFgSgIAkYCMB+DgUYCKBoPgUICGAmcAkIBC09BQgIAOaPErwKBAA6qUQIoAi/BWAEwBoWQBgIAP2EBXgMQAj3yQWABBExBQgIQIdlBQgI4ICUEkw5CKArghJcOQjA+y4SfAsIoP01EqwLCIAzrhLcCwhAG9EFCAiAV1QFCAgArQYFCAiAeQcFCAhAxi8SzDkIgNDNEhQMCIDY4wkQBB8dBSAIAJvrFuQLBGLVBQgIAFwiBWAI4Dd9BRAIYPvWEuQLBAAgGmQ6AC0WfDoIoKcKJVgIIHxsJVAIABYwEhwNCOC4wRb8DASn6hKwEgjAwPkJCARKHxIMDQhA89sFKAiAG+sFOAiAesoSwBIIYFxJBRAIADNrEiwNCEAqDwkQBJ+WBQgIgGu2BQgIQIQPBTAIoALpBQgIQMOhBYgIwLT1BQgIYDHVBQgI4Jk+ZRAIACPNEtgsCOC8KQUICADSrhL0DQjgj78FCAiAjakFGAiA9URF2AggkuESTA4IIFzNEnQOCOCNpgUICEB6bwUYCMDGQQUoCEBMbgVgCMCYpwVACKDZ5wVQCCBlGgUICECbMQUICCAL3wUICGDyogUoCADxLAU4CCC0hhY8DwQhwAkIBGKgBQgIIPd9BQgIgKrIBQgIwE/FEsQhCMA4oBLcDwggakoSfA8IIGd8BQgI4PgKBQgIYDoQBSAMYK72jUFQDID9M4wBCAgg/uYSVCcIQLACBQgIIPOtEqwPCIBGNgUQCKAJbBaoFwT+2AUwCIAR1AlACAP9eAFACOBgFhLAGwigOPkFEAhAJ90FCA==",
+"CKBP+gUICGBuYwUgCAAQ/QUICCBmghLMCwjAfpgFCAjgsx4FCAigJjUFIAjAtyMFOAjAvikS7BAIYOJnEsAXCOBR8xLAFwiAFeMFCAhAzkEFGAggWvsJCASq1gUwCMAXkAVADOC/nFIBoATAShqMCwShLhKUCwjgjcASlAsIgEC/BQgI4JUpBRgIgEK+BQgI4P7jCQgAAQkoCMBW6anYBHlIpWgIIBMmEmgXCGDnYhIwGAgguNMFEAggY8HFEAggICIFWAgg5agFSAhAuJsFiAigKhfJEASnEQUICKCBQRKEKggAY+ESbAsIQIQJxbgIgAinEgwLCCA+bhKUCwjAEeYS6DQIIIB3EkwpCGCgWhL8CwigUqkFCAzAAqUqAegIYCwRErwSCMBhYhIUIwxAToIgARgMgOcvHQEIDMCIvxoBCAgA1zESdAsIoBfIElwqCMBl6eUoCOAUrRJUEwjAEgISaBcMQJAaug5gCQygfKy8AQgIYK+q5egIoAMhEngXCEAFyxLEKwjAm9YSlAsIwBH/EiQrCEDzxAlABJ9sFgwMBJ7xBQgIwBqsBegIAOyCBSAIICyMEtQLCMBemgU4CCCD/BJcKwzgGg3xAXAIgIJYElwMDEArtdoFEATA6xLQLwgA3NISmBcIQErcEvwKCEAqmxI4MAzAM0GiASgMQEKmswEICAAcpxJICAjgYloS7AsIwK+eBUgIAIfNBbgIYAgQEvQLDMBWeOYBMAigrg4FCARAixakLAggLZwFKAiADBUW0BgEKa0S9AwIIA9lEvwsCIDNHyUQCMAfxhKoIAhAS90SRBUIYKC4FrwUCHMyHwFYDMBmjSEBCAiAQ+IScDgIACP/EtQLCCB9iRL4NwiA4lUS1AsMoNPFngEoBGDIFjxDCCC/EwnIBDxqBWAMgJkbuQEgCABn0AUQCGAQDhJ0DAyAZ8ytARgMYAcbowEICKCv8yUQCIB6nRJgOAzANghiBRgI9JRFAQgIgE0xEqAKDKD8KOcOHCUIgAApBQgEIP8JEAQA/gkIAEANCATA+wkQDGAZ/OEOJAwIAOEpEqA5DMCGu0QBUAzAfetXAQgMQNzIXgEICIDkghakFgjwdEcBEAhgoSIFcAwgBTgFBRAIgsTGBUgIUvtHBQgNYARA9wloBKD4CQgIYHTvEngjDKAAM9sBKAjgjFfleAjgyr0FCAgA5MLlQAggtWsFCAgAq78FGAhgmH0FCAiACZ8FCAhgQMcFCASgbA0IBAFfBRAIYL2c5XAMYGTIzGEYCMAUTgUICODsXQUICMAK/wUIBIAWFtgfCICCrgU4COCiqQUICCAzTAUIFIBqKs4/BhaUDAjAMhESuA8EADMJCBEQAA==",
+"QBEQDQgAYA0oBKAtCSgEgCsJCABAEQgALAkQBAAxCQgAgA0IAMANCACADUAREABAERgNCBE4BGAwCUAAwA0ICABeQRJ4EARAXAkIBABbCQgAwA0QBIBdCRAEAFgJCARAPQkIBGAaCQgEQAwJCASAJQ0IAEUJCAQAWgkIBEBfCQgEIGAJCABgDQgAwA0YPhAAAIANkBGYDAAFWHMhjAjg9lcFCARA7g0IAPEJCASA9QkIBCDYCQgEwFkJCAgAtVYFMASAdwkIBEDrCQgEoIoJIAQg9wkIBKAYCWAEwB0JCABgDQgREADgDRAVGAAaCSgEQBIJCAggkU/l3AQgGwkICEDXTgUQBIDfCQgEwOsJCARgMwkIBACWFkw1CGBHSAkoBCJHBQgIIIBJBQgIwPBMBQgE4GkJUAggTFAFEARgdgkIBMB6CQgAoA0IAEANCAAgESAAWgkgBCAICQgI4B0IZQwIYPgCBQgI4HIDBQgIIPEYBQgIQApJBQgIIHaEBQgIAHuuBQgIgCTDBQgIwBnPBQgIoF7fBQgIwOXsBQgIoA30BQgIgL7rBQgI4BXVBQgEoOkWxCIIQKaCBRAIAPxWCQgEJDUFCAjABB8FCAgAHBEJCATUfBKoLQiAjqoSgC0MwBOV4yXwCPl14gEICADZcxIsIgzAaqDgARAI4AEABQgMQNQi3wUQBAOlEtwhCEBThAUICOC4wQUICEBfYQUgCICyMwUwCCAb6gUICODlzwVQCICe2QVgCGDu7wVwCKBs7QWACCC8nwWQCCDs1QUIDMBgDucBaAxgXiXmAQgIAIQlBRgIAGMvCTAEdlUFQAgg3qIFUAjgqRoFCAggl7wJaASjhwUICOCSewUICIDvmQUICMAU6QUICCCdbAUwCGBlHgVICABMAwVYCIDhFgVoCODoNgV4CGDMMwWICCCdxwUICEBergUICADeRwU4CCDKcAVICEBeuAVYCOA/HgUICMAcnwX4CICNTAUICAAUEwUICGBE2SUgCGCyrgUICMDftAUICABItgUIBCAQKWgIAI5UBTAIAN7dBQgI4BqfCVgEypgFcAiAQrMFgAjAMpEJuASnuQUICOBZJwUICCA1SxakIgQUexLkDAhgKksl+AjgnOmpbARJKQkIBM5QBQgIAOLABQgIoNAYpUwIwOZ5BQgIQM8TBQgIwKXkpYQIoOv3BQgIwBXMCTAE/YsFIAhASfsFCAig/HIFaAgA/FwFeAiAp0oJiARp3wUICOCW1gUIDAC3NaAh2AzARK2ZAQgMYO3ZkwEICEDUBRIcCwjg0IAS7AoIgD7/BQgIIBiQEjwLCEDoJRLwGgwgR1GcATAIgEe0EigaCIBgyRJkDwxgZA==",
+"SpUBGAggrM4S5A4IYHZ/CRgETOoFCAhAW6AFcAgAraIFQAgA9nMFiAyA5xmiATgI4OQzBQgIQCIBEgAXCKBtrRLwGwhAHgYSzAoEwNEW9AoIIF6pEvwKCMBU9xLsCgiAi9ISUBwIYPxPEhAXDOBqXIMFUAQbSQUICGBx/QlQBA7IEjgXCOBwCAkwBN73EnQLCMAMuxZ0CwRmbwloBGkFBRgIgGywBTAIYJaLBUAIYJgYBWAMAGPbZgFgCMAJWhKUEAiALKwW1BAE6oISAB0IgGRYCQgELmsFGAgAfn0FKAigMrQSBCkM4PTWaAFACIDAHwUICCBi1AUgCCBvcQUwCCCb4hIsIwzgzftgASgIYER8BQgIAD2kBQgIYO3/BSAIIJFBEvAcCEAKbAmQBHRNBWAIgMyiEnQLCID29RKECwig7hgFCAhACucSLBEI4F2hBQgIwOuHEqQRCGDCogUgCAD/iAU4CKB99gUIBGCSFrwLBKCNFiQMCEA4TAUwCEDScRIMDAhAVTgS9BEI4FXBEkwjCEDFQQUQCGAu1QUgCCB+EAVYCGDFJwVQCCAFvwUICIBnfhLECwwgkKQnBeAEKr4SKDUIgLmHEuQLCKDnWwUICGAEMQUYDOC4hCYBKAiAyk8FMAgAuCwFEAgA0cwS5AsI4GV4EuQLCEDpKRKwHghA45oW5AsEew0FEATgdxYEDAhALV8FWAigAAsFSAgg8yUFiAiACXUSPAwIwNGTBQgIYOY7EuwrCIDHfhLgFgjAtGISBAsIYDhKEhgXCOAKJRLwHgzAke75DswJCKC2KxLMCwzAcF4CAagIYF/KBQgIQEB9ElA3DAAf/f0BKAggAcMS5AsEANYWFEIIoIQOEugYCICYkxL4GAhAYIwWyDcET7sSSDcIgE0fFig4CAOL3AFACADmORJ8CwiAeqcS+BYIAPh9EuQKCGBxwxZgIAT3PxJ8Cwgg98oSXDwIIIrhEvwLCIAT3RIgGAigLrYF2AwA8lvZAVAIoF0MEgwMCMA0NwXoCEDmJAUgCKCZBBKAOAzgbrzOASgIAMgyEowsCCAxhxLsCwwgoh++ARgIQM69EuggCCAZDhJ0CwjA2jQS9AsIgLaKEvAXCGAGshKYTwygZq12ATAI4DFpEogYCEC8phIgGAyA/QamARgIQMQUBUgIoAIIEtQLCECAWxLoOAig/ysS1CQIIMqAEnwNCCDY+xL8CwhgtmESaCEIgKtYEoAhCCC6hxKwIQyAt7WkAVAIgET9JRAI4MHoFhwNCO2ofwEYDEBh9W8BCAggWd8WEFEIeFn2DlQLDAA1jg0BGAwArv4pAQgIII89ErQLCMDuYRJURAjgScoSrC4MoNlXgQ==",
+"ASAIgHvGBcgIIOdeBWAMoNw1kAUYBD6LBRAIQFWGEmxEDMCd1IIBGAwgEA14AQgIALHmJRAIAE+DEugiCADUcBIMDQjgNrYSmEoMgAJwBAUoCDJzgQ6UDARANQkIBCA0CQgEQDMJCACgDQgEwDEJEAxg9xO3AcgIgLiNEnAjDIDg+xoBSAxAXBUvAQgMAGnlMwEIDGC1WjABCAzAAsUdAQgMgCHwAgEICMAKjRLIUQzgAaycAUgI4KlVEkg9BMAwCWAEgC0JCASgLgkICACEthKUDgiAHngSBDEIgFplEnwlDODCorBhAAwgdV+0AQgIADB6EugfCMA2BAkIBB+TEuQSCGBYvRJEFQgg38QFCAgA8qQJQARmzQkgBI6cEhwTDGBO0bgBSAjAqeMSxBIM4ASVvQEQCKB9LgUICIAfCgUYCGB5LAUoCODtAhI8Ewig4B8JQBCZP7Q/BxaUDAhgLcES9BwEAC4JCBEQAMBaGAAEICw2KAAAgA04AOANGADgDTgAgA0QAEANCADADQgAYA0IEUgRCAAADRgEwCsJYBUQBH5CFvAuAH8JCADgDRAAYA0QAIANCAAgDQgREATggAkwBECBCQgAgBEQDSgAQA1IAAANCBEQAGANEAAgDQgAgA0IESAEwH0JUADgEQgEmvMSoBME4JsJCASAnAkIACANCABgDQgEQJ4JGARApgkIBICxCQgE4LUJCASArgkIBECkCQgAwA04AGANYABADQgEwJkJIBEQEQgAIA0gEQgAgA0QDOBRn8dBHAQgWwkIBMBgDQgAXgkIAAARCAB4CRAE4NEJCAigQqAFOASAbQkIBCAkDQgAtQkgBCBkCQgEoEYJCARAQQkIACANCF4QAAQAQwkoBEBJDQgEaQQSRAoEgO0JCAhgSgMFEAygDvbgAbgIoJfUBQgIANOdCQgEe18FCAiAYycFCATgNxaoLQjgb8MSrAoEQFIWtAoIoALMCRAEdgcFKAigCTgFCAiADnIJCAT6qAUICGAW0wUICCCe7QUICACh+wUICGD0AQWICEBWSRJUCgiAsnQSTAoIICkBEkQKCEBXyQUICCAEcxI8CgjgpfEFCAhgj0cWeBcEa30FCAgAtJsFCAigH6cFCAgAe6EFCAiAR4cJCARhUgUICKCw+QlABC52BQgIAF/IBWAIgHL+ErwKCKC8cwWABMC7DZAElNkW9AoE+01l1AggKguFTAxAYDC5ITgIQHNlhQQIoANvhRQIAFgmEmQiCGA2PhLgGAgAf7gFCAjg1gQS+BgIQDUlBQgIIPoZBQgIwHTdBSAIAG9oBQgIIDh4BUAI4MWeBVAIgLFLBWAIgBbIiWQEc26JZAQYwIXkCGB+Zw==",
+"CQgEOcQS3AoIwFLgEhQLCABC6xbcCgQF1BbUCgQovBLUDgggyUoSKBcIILWTEigaDKC4iKgByAggvyYS9DgIYHA+BQgIgB9YBQgIYMEhCQgEh1sFKAiA/sgFQAhAC1EFUAhgbRplmAxga1ObAUgIYDkPEnwLDEDJNJQBEAggBfsSlAsIwGLBEjQLCCB1nBI0CwgAMQUFCAiAnFYSnCcIoMc0hYAI4BmaEmAzCOAXxhJgMwigtDEFCAhAQDUSaDMIAMhyEmwKBOBIFnwKCKAJYAkYCNDQcgFwCODW4gVoCGDXUAlYBO+DEtAbCCCnwwkoBNSHEtAbCIDbowVYCKD9NAU4CIDJcRLsCQhgo4sSqBUI4F+tEswoCIDO9hJcCQhgcCISGBUIYL9YEnwJCABiihJQFQgAzbAWXCEEXRASKBYIIACsEvQJCEBBVRLQFQhAFlQSjAkIwIF3EkAtCEAEsxZILgT1IxJgFgjAxkgFaAgg4iwFMAgAhfcFUAggvn4SVAoIwInGBZgIoC/KBYAMwGfI6uE0CGBA2BJ8IQiADQQSEDYI4B1EBQgMAKsm4QEgCODueBLMCQgA46wS9AkIgLgvEugWCEBTThLwFQiApV8S/AkIwO1fFlQhBNBZCQgEvX0S/AkI4GKcEpgVCCD+oBJ4FQhA1ewJCASjiuV8CGDDWQVACECNzRJ0Iggg9ekFgAigQrsSvAkIQPIHEigWCKBYHRK0CQjg1+kSmB4IQL7uEswJCMAWUBLAFgjAvO8SDAoIwPMvBWAEgLEWxEIIYP/yBUgIgFi2BTAM4IeBxgHYCGBpNQVQCKCoOhJcCghgO6cSkDYIALv+BWAIwGmIEjQKCMAUXhJMCgjARQcFYAhAa6cSdCIIAGLvEtwJCMCEjRLsCQiAMccSwBUIoBnRBQgI4JLTBRgIIGLpEvQJCMAV/BLoFgyggxjCAYAI4OEIBXAI4DjgBSAIIPOEBTAMQI+9swUgBKt6EkwKCCCAVhIoRwhgCasFCAgg9z0JIASJ7gkwAM8WMC8IIMweBWAMAO5xlQFACABDlhZUCwgm8Y4BEAiAnF4SmBYI4AvyBQgIAGYtEuwJDOBfWJMBIAjgDcgJOAQfVAUICEArXAVACIBgqQUwCMDArBJ0RAjgJS0SPAoMwGpggAE4CEBhTBIcCgygwEKHARAIwHzuEsxECMCG6hLcCwjgSQoFUAhg3XQSzEQIAE24EoBPCMCWoRJcVAhAprMSpAoMoMRuUQFADGDyDVsBCAiAP0gSfAsIQPnCEihPDOAZw3ABGAzgan5xAQgIIK/GFgQLCL1yaQUQBFLxEhgXDOAOClwBEAzA1u1VAQgIgLbqEhAwCCBfqwVgCA==",
+"AOsjEig5CACnbBIsLQhgJogSKFAIQAy4BZAI4PELFiRGBPvKEmwuCKDdOBJcCgwgXm0PAVAIAGjCFggYBFLoFpQKBB+YEpwjDOB+okMBIAjgCigJ0ARNQAUICMBrfRJYFwjgIoMWwFAEn4cS0DAIwNXKEswKCIAFmQlIBOmoErQLDKDfxiIBSAyAckMYAQgIQHsCEtQLDOBAEQMBEAyApgXQDtwKDMDqr9EBCAigTKwSYFII4OqlEvRGCOC42AUoDGD0lhIBMAjg7dUSJAsMYG93JAEQCMBuRhKYUQhA11kFcAjgAc8SIDsIYIeGBSAIgKaHEig7DCAyQhkBMAigJH0FSAyAfu4JARAIYL3xElQvCGCSNBJ8DAigsSUS2FII4IgeEvBSDIC3e2AFmAR9lwUIDMDPVXUBEAxA+5yTAQgIIMa6EiA8COD6kxJ8XQhAPWUSiBgMYMvZ7gUgCCjk9QEIDMCcOfoBCAiAT/gFCAggAC4SfC8MgLsK8wEYDAAWVOoBCAzALpjfAQgI4Db0BVAMIA1KuAEQDGBtdZ4BCAxAYSqEAQgMYG04bwEIDKDo6CYS2EoA7wkIBGDtCQgEIOoJCADgDQgEgOcJEAhgjUoSpGAMIGYpZQFADGCQGogBCAwAXQ2bAQgIQJGcFvxICB3QmQUQCEXXhQEIDGC+i2kBCAjA+JESjGAIgJNAEhBVDEBZtYIOFA0RYATg4AloBCDiCQgI4LJnEqgzDECrBxwBQAhADjUSjFsIoMyKFuQPCGchMMGgDAC0C0ABCAggZi8WhCgE/PsWCDUEAnEFIAiA6IASHCgMgMjCNgUoADUa5FsEVikS2BwIAOCJEsQQCADevxLQHAjAYHcS5BAIQKWSEnAiCABZqBJUKQjgzt8FgAjAZesFcAxAWitFAVAU4Lx0RT8IFpQMCMAs9xL0CD4IAACgDRg+CAAAQA0YETAEQC02QAAAAA0QPjgAERARQBEIAAANUBEIACANEACADQgMQDMa6AG0ACA6CAB+GABeIAA+SAAAYA1YETA+EAARMBEgPhAADACrXu0BoATgqgkIERAAwA0QEQgRIAAgDTAAgA0IAKANCABgDQgRID5IABFAERgREBFgEQgRIBEIBEDQFpBEBCDRCQgAgA0IERARCARA1AkgBODeCQgEAOwJCASA8QkIBGDpCQgEwNwJCASA0wkIEWAEoM8JEACAWggAAMANGBEoAOANEAggQLgSXAsEQD4JCAgAKLwFEAhgBdgFCAjgISMSFAwI4JypCQgE7lESnAsIYNnzBQgIwL1tRcAIANy9BQgIQN3MBQgIgAyqBQgE4PMWaBkIgEvCBTAIgEckCQgEQpMFUAiglygFCA==",
+"CODL6AVwCIA6yQUIBGBTCYgI4OZgElAQCODBBxYgEATYUhJsCwxAL8i2IfgIwNUbEgQMCAB6KBKkCwgAdNgS1CIMAMgbvgUgBF/nBQgIQKY2EtQLCMCzBQUICEBgVgUYDIDEK70BKAjgYZEFQAgg8JYFUAjAglESZAwIgF3gBXAIAAqCBYAIoPuoCZAEH7gSFDoEoJkWWEkI4BkcEmQLDICfVJkBUAxg9EWeAQgI4HilEpwLCADk7RLMIgiA4c8SHCMIQAMzFvwLBP8MEtQLCCAeXAUICGCUJAUICABraAUgCGClLhLsCwjgTpMS7AsIQG+IFkwMBB0aElwMCED/IRL0CwhAz20W9AsEm9sS0DII4Fp1ErAXCMAvSRLUCwiggSESlAsI4BRCEtgWDMC3T4ABoAggLe4SIBcMwGYZhwEQCOBntRL0IghgPJgS+BcMQAbDjAEYCCAE6gUICEBuFxL0IggAzLQFEAjAcXUFKAjgeBMFOAwgF3uFATAI4CwEEigXCMDF8BJQFwggdAwS5AsI4O9eEvQLCIDelgkIBJlepTQI4C+pEkAWCOAO8hJAFgiA3eIFEAhA50USbCIIgKBRElwiCMB6PxLkQAigfoUWLDoELr2lXAhgNOWpbASGKwUQCAAX5hIEKAjg8zGlrAjARVkWmC4EcZKltAigm9IFaAjg0RQFWAig/hsJUARXfKW8CGADNAVoCGAbbBJkCwiAGkQS9AsIoIhjEogVCGD0khIcQgiA7yoSPAoIIP4SEqgUCEB5gxJoFQggep0SBAwIIOeuBTgIwJP6ErQLCECOQBKkCwwAY8LREhQIBHg3EmwhCMBZYRIAFgwgHa/tARgMwH4h4wEIDGAWy9oFCASfBRJQTgggnXkSHAwIYDLPEhwiCACTAgmABBqEEjwLCIDZtBIAFgygUdCgATgI4FEvEjBkDODkjqoBEAigwM4SME4IQDGrEqwLCCDuQhLcCwhA0n0S0C4MwAUKvgEoCIAM+hJAFgigt3oSrAsIYD17ErwLCID9whKAFQigNo0ScBUIYHa0EnAVCMCWhhIgNwiALpwFIAjgj/YFmAjgOOUFgAjA2BQW3FIEHgoS2DYMwFAbjwFoCOBpYAUICMDC/wUYDCB8LJ8FGAQEWBKoLgyAqRuoBRAE3F8FEAgA5MgSHCIIwGfEEhQLDMBj1ZUBIAhAGmsFEAxAbceTARAI4Lm+ErwLCEBHEQUICIC+xwVgCID8DwVADGBoTaIBKAiA2lQSfAsIAHu3FqQLBBeJEqQLCODoPRIwFgjA/fIFCAhAdcISrAsIYHxBCTAESrAW3AsIlauNAUgIwKL+BRAIQH/vBSAIoHYTBVAIIKSuBVAIwA==",
+"MyIS9AsIYNpZEsRECGDPdhJ8LAhgsfES3CwIoAs8BSgIoOvrBTgIoNl6CUgITmRfAWAIYJRvEtwLCGAwCRJkIgigOq8SPCMIwFmbEqwLCECOmBJsIghAFCEFMAgASLQSuBYIIFZrBQgMwOYMXgFICCBLxhIYMAhABG0S1AsIYBM7EgRFDCD8l00BIAiAd/4SLEUIoDrHEvwLCIBMvAVgCACN7wlgBLFCBUgIAGhFEog5CGBh+BLcCgiAW48SOGEIgFS4EqwiCCDojRaAFgiiEiUBWAgAZBoSeBYMALZWNgEQCECyMxL8CwyAhIc8ARAIIGoDEiw8DCA5/TQBEAjgUM0S3AsIoP05EnQLDAA6ViMBGAygiFYgAQgIgF+mFjAXCDp2GAUQBHCtEigwDOD5OBABEAgguSIFkAygJkbFEgwKCKqUxAEIDMA3XcsBCAiAUhYSdAsM4Pnh6AEQCGBNbhI4Owxg4T0GAUAIoBPgErQMCKAq4xLECwxAmQ4TARgI4H/sBWAIQCKlBWAIAMHCEswjDCCHEgEBIAgAePISdAsIABoHEowLDGD8Ke0BYAjAcf0WrAsI6wvVARAIgMypBYgMQH+llwEQCEA8qxaYMAR4zBbERwSBYxIUSAyAA6rPBSAIlOrdAQgIAEQpBbAMQDyo8AUQBIbYEtQLCIBT1BJUDAhgM7EFEAxAaCDxASAMgM/a6wEIDGDUauUBCAjgADwS9AsIAGV9BYgIALIxBYgMIOpFvwEgDICZobABCAzAqsqhAQgMYNk8KAEICMDP6QUICGDecBKUCwzArdheARgMoMLhfQUIBJrSBcgMoFA0rAEQDGA1IrkBCAwAVOrBAQgI4CSSJYgMgLtSxgEQCIAaKyWQDCDvA8ABEAigTUgSXGAMQLK2qgEQCACs8hKoawyg7ZKDARAI4N2GEqxgDKCUH04BEAyg2+s2AQgMALxIoQ4AZAQgwQkIBOC+CQgEIL0JCABADRAEALsNEAjeafAORAwMYHE4MQFACGC1tRI4VQigFD0SaFUIAIx/EuBsCOCXjxK0DAgAQHUSNEoMIDbQNQEwCMDlOxLUYQxAJpLMAUgMgGx7TQEIBGC6CWAEYLQJCARAtgkICOBk1hI8LQggnVMSXCYIYFQCFgA0BC/UFtQSBC22EhgcCACvNhL0KAigRjUSeDQIAPZiElwvCICW5QUgDECV6/5BYAhAu1ESvC8MQBERE+FoCAAvRhLoOwhAZa4WNEAEJSUSGDUMAFjcHgEgCMCDGQVwCCBcfBJQNAgAbDEJOASichJ4NAhAuhgFOBTgfKEhPwkWlAwMoAb/5wE8AIA6CAARGBEIESA+EAARGF4IABEwXggAAMANeA==",
+"EQg+KAAIQP3/EkQKAKANCACADQgREADgDRARGAAADRARIAQA/glAFSA6EAAAYA0wETgAIA0QEXgROD4oABEwCOBethLkCQDADQgAoA0IBCBfCRgAAA0IAIANGABADQgREBEgETgRGAAgDSgEwF0JSD44ABEgAAA6KAAAoA0wAOANCAjAqfoSmBUEwKo2CAAAYA0QAOANCACgDQgREAQArQkwBGCuCQgAwA0QBACsCRAVQA1gAAANQABADRAAgA0IEYARKAAgDRgAYA0ICECv2RKcJwhgn9cJCATT7gUICOCamRKoRAgAKFgS7AkIAIYsEuwJCOBX+xK0CQjgtqwS0A8IYFnvErwJCCAExhJwDwhAUfAFCAhgOpUFCAjg4JIFIAhASCMFMAjAZ3MJQAixxD9B+AjgvmwFYAiA9P0FcAhAdUMFCAjgbfQFiAggNQwSQBYIAN7rZUQMIB6PHwU4BKAaEowgCMACvRKcIAzA8H8qARgIIOcKEqhECIAQeBJgEAjgdGkWhDgEw8EFCAiAA3QFCAgAwY0FIAhAJFAFMAgAWukFQAhgdVAWrCAEqNYFYAggE5gSmBYIIIBZZfwIgFfjCZAE0OgSuBYIwIFKErQKCACcdhLsVwggrhuFbAxAcr8FAZAIYNYHhWwIAJoihWwIQIvkhRQIoJf9EhAXCGBwOIU0CIBTfgUICMC+1wlgBLBkBSAIgF9cBTAIQCMUBUAIoD4WEjgXCEBYrIW0COB9cRJwFwggyokSBCoI4EtwEjgXCKD4RBK0CgzgWR7JgcwIwFUCEgQLDOAMKdkBEAwggp/iAQgIwKAvFjQLBL6jEhQLDOAgnvMBGAjgXbAShDkIYKHEFvAWBN2DBQgIYEM6BQgIIKVlBSAIQHDoBTAIwL2bBXAMQKHh7AFACIDvgxZQFwSg5hLECwgACZIS4BYIwP6xBZAIILIwEuAWCMCGNhLcbwhATocSjAoIAIDzEtwgCADezRJcCwxgFWGpAVAIwK9cBRAIoDOCBSAIYCN4BTAI4NPzEnwgCECpKhL0CgigiUgSbAoIwMwEEjQLDIAJrLQBQAjgT7USjAsIgPsxEswgCCCplRKoFggA5WYFWAggNhgSxAsIYJnGElQhCMC4/xLsCgxgMV4xAUAMAFvnKgEICKBq0xJYFQhA/7USfAkIQMkXEngVCGB1LxLUCAiAPyoSpAkIwDedEjQJCKBzpxKUCQhAqiwWVAkEo9YSIGcMgM1hJgFQCABH8RJ4FQiA8E4W8BUEbS8SHAoMQPFiQQEgDCBdJjIBCAjAc9MSABUIQKRhEhAVCID2ThLkCQhAvicShCAIAAs4EpgUCAACjRL8CAzA+B7Z4UQIYKTpBQ==",
+"CAgAInQS/FsI4HKhErQICGBhpBIgFQjgdVUSVAkIgLWnEpAVCMCrLxKkRAigZq8FGAhgU7MFsAygo+QbAYgMoAOdFgEICGDxaQUgCCDJCBL8CAzAOWPnAXAIwG7fEiwJCMDWaQWYCCCTUwWACOAmMRLQZwjgjykWABUIsAHHATAIoIHCBQgIILZPEjAWCKCPuRIsCgjAvTIFyAyAy8njASgI4DiEFgRdBOFBEkgWCCBd3AUQCADZ3RJ0CQjgexwFiAjgVW0pCAQdkgU4DKBh7NYBQAhg6BESXHMIICYuFowJBAtaBZgIQEwTEjQJDEAuLL4BKAjgrcESTAkIgKBpEuQhCADDoBKoFQhA68ASJAoMAM7swgUoBLYyBbgIAH4NElxdCEBFBhLcCQhAC88FCAwAFbXOASgIoE2wEgAXCIBb3AWACIAuUAUQCACJrAkoBP9QEqwJCMBwBAVYCKCbdAWQCOBwvQUIDGCS/5YBSAjgbeYSmBYMQArnkAEQDKBAK48BCAjgdMsFEAhgeW4S/F4IQLlwEuAVDCB6wp0FIAhAlp4BCAiAPKQSbCIIgG5nBSAIYKQXBQgIgFevCRgEKKASIBYIgIYGEtxGCCC+4xaUCgSKYhI8dQhgfMoSSBYIgBYVEjwLCMCH+xI0Ciwg8/5CPQAAAOAiBEQBCAhAkzgWYGoINj1UARAIIPGHEmAXCABz5xJoFgygcmtyBRgIEyN3AQgMQAFveQEICOCbGwUICCA1MwUYCKColxKQFwiAwtoShHYIIDDdEgR3DCC+dnEFMARqIxI8CgzAKyBiARAIAEHfFnhUCAxrTAEQCCD55AWQDGDOkP8ONAoMwCIQ/gEICKDgYxIYbAzgAYQSASgMYJKxIwEICCCZqhKUdwgANJcF0Aig1J0SlHcIQHE8FoBUBLvUEpwKCAD/2wUICOBlKAUICIBbMAUgDMDZXE8BSAhgPWElAAwAB5VDARAMAA0rNwEICKBMUxJEYQwAg0cUARAIQN1UErhsDICoudMBmAwgJ5XUAQgIoKFUEoBsCKCj4hL8YAwAWWYKATAMgNyQGQEIDCDzQCUBCAigFHASvHcMoFEaMwEQCGDFixY0CwRnahKsCwiAG+sFEAhARDkF2AigLGsShAsMoKVfKwEwCEAKGAX4DEDTzRYBEAwAhiUHAQgMwJuu9AGIDCBVAeIFCAjpqmMBCAygze1iAQgMQHaleQEIDOCW3JgFCARWxxKEYghA5lcFwAwA6+7oARgIQP00BcAI4N2AElAYCOBWqQXwDKD7pAkBaAjgxLQFCAggd9IFGAiAvqoFKAgg7AYFOAwgHFTmAUgMYNK90AEIDKAUgLEBCAgAaVkWaG4IoA==",
+"c3YFEL4BAAiUNCwBOAigiAsSpFcIgMXmCVAEMhYS4G4MoMl2rwUgBGW9Ekx6DABqQJsBEAhgznwSEBkMIA9jWgEQDIA+uxoBCAzAlXSYDqgZXgEACKDISBKUWgjAoOYFeAxAcHF4oUAI4KndEjwQCOAQYanwBGyaEhwQCEC28MkICOmYSQEoCCByTxKgGwigS0cWRBAIMHhdARgIAEEREngcDIDnvWcBEAzAyb5qAQgIAIYgEmgcCGDkHhJYVQjAOsUFKAgApdUSqGsIgHuqEpgcCEAGhRL4VQwgeY6CATgUgJ5Ugz4KDcYE2ESlVAgAe0sFCAjgpE8FCATAKwkIBIDlCRgIQHxRBRgIACSUBQgIgLD/BQgMYLMh7CHkCACvwAUQCACgZQUICMASPwUICCCWOQUIBKBpCQgEgGgJCAAADQgAgA0YFSAA2QkgCED3PQU4CAAYYRIQcghg6qMFCAjAo8kFCASAUwkICADTtAkQBCLeBQgMYO8aPwHkCCB9eRLcHAiAmrkFCAjgjsAFGAiAD/cFKAgAWRIFCAwgUuI8ATAIwJfeBQgEgIMJCATAggkIBICFCQgEIPkJCAiAvOcFKAgAZRYFQAgA7GkSoBIIgFWREmQeCID5MxK4EghgAj0FCAjgffoFGAhAaXgFEAiAe0YS5B4IAI5oEsweCMCw3QUICGDNwgUYCODyqAUwCMBc3RLoKAgA1RoFCAggBQMFCAhgygEJCADGCQgEQPgJCAhglAcFGAgA/T8JCAhnGooF2ARRVxIYFQRgthqQKgjIidsBGAhAK7AFCAgAxi8FCAhA8OIFCAgAmA4SEBUIwL3IEjQKCEBSIBYwFQBDFigVCEB/VBLQKgiA+FIW5CAElqsSbAoIoItlBQgIALxfBQgEII4JCAhgMmEJEAQNegUICODuJhYcCgQqQBLYYwggjTUSOCwIQCMyEmQcCMBatBKcCwiAHvsS6GEIYPkGEsBECCCJThKUDAhA8GASLBwIYBalEnAWCADarxJkVwwg+8tYDoQLCMB3RwkIBKYBBRgIAAL+EqgWCGAecAU4CIAh9QVIDMDHbDMBMAhAPQwSVAwIoI+mEhwjDICX4BoBGAiAKb4WfAwEcI0SOEYIIPX5EkhKCAD5ZRLILwgAsl4SBCQI4Cj+ErgvDMCYD5sBOAgA6HQSpCQIII4WFuBJBPbhBQgIoLHMBQgI4FTSFsAYCLfynAUwBAIzErw+CMBPsBJoGAjAYa0SaBgIwKMoEhAYCODk3RL4FwwgM4qAATAIIA3+ErgvCKApZxJALwyg79mpARgIoExlElRTCAACQxJIGQxgw4qxARgIwIeZEmAZCMBReRIAKghAhScWeBkEOw==",
+"mQUICKBzxgUICGAksAUIBKB2FmAqCOCJ0gUwCAAy9QVACKDWwAlQBFQpBWAMAMeCrAVgBGG5ElgZBEBJFoAZCKCp1hJQGQgAApMSYBkMwGW4vQEoCKBY5xIgGgigsZESDCYIgGbeBQgMYGQcwQEgCMDgWAUICICAlQUICMB6uAkIBHixBQgIgPR7BQgI4GVXBQgIACtJBQgIQN0XBQgIwFqSBVAI4NhJBWgIwCS2FrAaBAfxEngaCOBfJBJkJggA3XUFCAggjtYSzD0IYIMXEiwnCECzfgUICOBsigUICADDOAUICIA24hJEJwjAy80FCAigX+AJCARK3QUICABFnwUICCDBQgUICAAyFQUICMBjnAUICABmCgVICAAMLAUICIC6BgUIBODuFpxVCABuaQUoCGCEQwkIBGpRBQgEoA4JWAyAqq3PISAIgKweCRgEBBMFCARAJRbEbQTgnRZ0OAjghbgWvBEEWBwFMAhAR0cJCAS/BQUICKDH/AUgCICDWwkQBB4SBUgEILgWXEAIgM8WBRAIQEEIBQgIoEHqBSgIAAmNBQgIoGodBQgIAK7jBUgIAIwWBRAIwLY+JWgIYE3sCQgEaIMp8ATGIRIIHAgggeEFCAjgVsIlmAgAvkYlqAjANXkFCATguxYcKAjAiykFEAiALqkFKAggFQkFCAjAmDAFQAgA/i8JWAQhRgVoCAA7QhZYHATbwSXIBODYFlxBCMACAgUYCMCgjgUICECtEGUgCECU5AUIDMDfq6ohUAhgLl4SVEIIIJ8GRcgIIGKsBQgIQBQ6ZUgIYOaCBQgIoLNQBQgIgCygBSAIAJ6OBTgIQP9bBUgIIC07BVgI4OVLaQgELJsSYBwIACMvBQgIQNkYBQgIIPVTCQgEV88JCATvUAkwBCCFFuAcBHTgBQgIICkshQgIQCluBQgEwHSJGAjgUvEFEAggYyaFcAhASjwFCAjgQhMFCAgAgqsFIAiAXBwFCAjAS4MFUAigOveFqAhgAIYFCAjAcDkFCAiAgRgFCAgAWiQFCAhAKF0FCAigGbcJCASdHgVADEAljnAhMAjgOQwFCAhALjkSPEQIgMHJEswoCAC/2wUICMC6YgUYCEBVAgUoCIBJ4AkQBOOlFpAcCNmJagFICEBktRbkKARRPhJgMwgAzuISmDMIAFOFEqgzCMDRYBLgUAiAvnUFWAiAfXkFUAxA/g9xAUAIALo0BQgI4P79BRgMwDM3HAEYCEAOPxJwFQgASOoSlCII4NkYxTgIQD4LFnQSBMUdEpQSCOAOBRLAHAhgWGEWAB0EMogFCAggbsYFGAggtcISxBIIIOmwErwSDACInz4FYAR0cxKsEgxA4VU5ARAMoA==",
+"Wtw2BQgIwoEyAQgIYEeQEvBKCKAtxhIoFgigutYFmAiAjK/lgAjgVlMWcBwEiRgSeDIIgCDEFkQRBMdpEkQSCKAuDRLsEQig2JESFBIIQHIPEmgWCGDfWwXYCGDb2wUICEAM1hKkEgigYhoFIAjgT13JsATl/gU4DGAvwxMBkAgA4RESlCkIgInhEpwSDCDXv/jh+AjgsoYS6BwIQId7EphKCADRNxI8EQjAbh0W3CcEhtESYBwIgNQG5agIoILqEnAdCEDubxKEPwjgCfwS/BIIwHr5EnQpCIDi5hKUEghgAjYS3D8MAGnxAwGACCAFdgUYCEAxMAXgDCB1+foBgAwg/C71AQgMwHG+7gEICIBeyxJgCAjAxSsSgDMI4GsUEiwSCAAZwRIoHQjADIQScAkEoLQW8HsMgGkPVgE4CODOSxI4MgjAjOYSOAkIQCe8EtAcDMCTsrsBIAzAtArIAQgIYO4gFngIBKIUEjQpCGCRtwVoCAA9sQkQBOZpBegIAIaWEtQpCEAt0hIEKQjAJMUlEAiAXrgSbBIM4JTUgAVQBBb2EgBLDAAoqUsBEAjAX1kSuBkEIGIJCASAYQkIAEANCABgDRgAIA0QCIA/MxKMEQjAVkkSmAoIAMmVEiQoDADjgXUBUAgAPdUSwBwI4EI+EpBLDGCslGUBGAjAAAYSHCgIQPHpElwSCGCYdhJ4GgwAx0VqDoALBIBeCXgEYFwJCARAXQkIBMCBFqQQCMD0vRKsJgxghdTYIaAIgJmvEoRFCKDOAhZsRQTRZBLcRQgA8sAFCAjgmK8FGAggVsAFMAjAnagFCAjgwyUFCAhgL9MFIAiAY2MFCAhgUkASrEUIQD4NBUAMYKpI1AFoCGA+PAUICABH1QkIBBHZBSAIwB3eBTAIIJFoBUAEoNMW4H8AARqXDAEBDjcZIE5ldyBMYXllchkZAPABWAUBBJIBFsCKAAsFDv4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAIIBAAhAZAUW7AgE/4gS/AgIwBx/EuRTDKD6Z1CB1AjgJBwSdAgIoKRZEsQICICFqeX0DACfkicBIAyATFo8BQgEVyoJKAjdKejBHBUBBDa5Egw+DCCx3J8BKAzAFdWhBQgEE9gSlA0IQMceEpQNDEA1vqUBGAgAvTsJGAQ9kRL0JgjAWlISZCcMgEnGjwEgCOC2vhLMPQigTP4SdAkIYKB/Ehw9CIBvyBLkPAjgksgSDAkMgPyHRAEwCIB0bRJEPQzARnVyARAIoEMDEjwPCKC8eBY0DwRKbxIkDwigPJASbCcIwI0QBZAI4EUfBZAI4Pb6BQ==",
+"CAigYwYFCAhgVGQFKAjgMJcWLA8EWBcFCAigjZEFUAggUtoSFA8IoP4NBXAIwDbrBaAIQHbgEoQmCEDqAhLcCQwASINVAZAIgByAEmQKDOA50HMBEAwAWDCDAQgM4DL5kQEI/gEAPgEACGCvARLsCQjA9HIWSGEE5wISNAoIICsgEuQQCACihxKsCQiAdz4W+DEEDLk20AH+AQD+AQD+AQD+AQD+AQD+AQD+AQD+AQD+AQD+AQD+AQD+AQD+AQD+AQD+AQD+AQD+AQD+AQD+AQD+AQB6AQAMQEu2aKW4CDMTfAUIBNSIEjQtCKArG8nIBBrrxUgIgF6YEsQUCEBxbBLUFAigJdcFCAhgzk8FCAgg5NcS3BQIYOu/EtwUCIDFVBKELgQA/smQCABh3QVQCEACAQVgCACk8RaEFQTSrRJ4OQigqkoSdBYIgO0MEpxDEACelVg/DlSX/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEAigEADOByv1OhPAhAfRESyDIIwCIHEpRVCGB/qRKoGghgsCUSqBYMYEiUpwEoCGDVHwUQCADh7qVcCKBAwRKkCwiAfxgWMBYIA0UlASgRAQjAYygSoDMIwH7XEsgy3gEACIBpfxJwFwiAe7IS2BcMAHUgwQFoCKBrtxKMWQwg6dzGARAIgCoEEnRCDMB8sMUBEAjg95sJKAT53BIoGAhgXgYS6BoMAFsDrgEgBAAkFhwNCGDcitKgAAiAqCESHA0IAHVZEggYBKBEFpgYDMB7BsMBYAggJ/cFoAiAzwoFoAhAOWQFGAgAUfcW8BgEJ0YW6BgEvOUS6BgIgLWKCeAIGeCxAUD+AQBCAQAEBwQSqBYMQFesnQFgCCBSHiVYCOBOtwUICMD+8QUYCIB+VhI0DQRgFBbsKf4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAJ4BAAjgmxMSPF8IQMWAyYAETN+p4ABOFmSOCEBOqhawHdoBAAhA3bkSzAwIYFVGxdAI4Lv+xTgIYFbtxegIwK8kxXAIwKGtxXAIoPLMEvyLCKB0dwWYJkcZRgEABJqZAQEEuT8BJAB4DsAMMGNsb3Nlc3RQb2ludA0dMAEhAQQO5IoBBA5YfgEEDsxxAQQOQGUBBA60WAEEDihMAQQOnD8BBA7ZGQEEDoQmAQQOwBksCwAAAAwAAAAMAAAA"};
+	setAttr ".imo" -type "string" "{\"_InfluenceMappingConfig__mirror_axis\": 0, \"dg_destination_attribute\": \"oppositeInfluence\", \"globs\": [[\"L_*\", \"R_*\"], [\"l_*\", \"r_*\"], [\"lf_*\", \"rt_*\"], [\"*_lf\", \"*_rt\"], [\"Left*\", \"Right*\"]]}";
+createNode blendColors -n "blendColors5";
+	rename -uid "46D31AD1-478C-385F-CB41-59A589E5D066";
+createNode blendColors -n "blendColors6";
+	rename -uid "C53FCBDA-4235-2EBF-B799-0AB04B95C234";
+createNode unitConversion -n "unitConversion453";
+	rename -uid "9D69E675-4A71-F9EE-EE82-B89DE13218F5";
+	setAttr ".cf" 0.017453292519943295;
+createNode multDoubleLinear -n "multDoubleLinear478";
+	rename -uid "026E427B-49CE-CB35-16DB-DCB3C34694E5";
+createNode condition -n "reverse_condition";
+	rename -uid "A957ED41-4C33-992D-9F09-60B970605081";
+	setAttr ".op" 4;
+	setAttr ".ct" -type "float3" 180 0 0 ;
+	setAttr ".cf" -type "float3" 0 0 0 ;
+createNode multMatrix -n "aim_world_connector_multMatrix";
+	rename -uid "D36FD702-4904-E155-A961-94A9084E30D3";
+	setAttr -s 2 ".i";
+createNode unitConversion -n "unitConversion454";
+	rename -uid "4837F307-4ECF-0B3B-118C-9E8365B96708";
+	setAttr ".cf" -1;
+createNode multiplyDivide -n "pasted__size_multiplyDivide";
+	rename -uid "CB431E3D-4165-18A4-5243-07AD1A208D5F";
+createNode multDoubleLinear -n "pasted__multDoubleLinear438";
+	rename -uid "9E0FC157-44F0-EB99-1486-5484CCD5E2AD";
+createNode decomposeMatrix -n "pasted__mainPoser_decomposeMatrix";
+	rename -uid "53F36A5A-439C-8173-50D2-4EBE0BABFE84";
+createNode sweepMeshCreator -n "pasted__sweepMeshCreator1";
+	rename -uid "ADFEBA5C-4CC4-16BC-E732-759C8A7F70C9";
+	setAttr ".profileRectWidth" 2;
+	setAttr ".profileRectHeight" 2;
+	setAttr ".profileRectCornerRadius" 0.4;
+	setAttr ".profileWaveAmplitude" 0.25;
+	setAttr -s 2 ".taperCurve[0:1]"  0 1 1 1 1 1;
+	setAttr ".interpolationDistance" 3;
+createNode cluster -n "mainPoser_clusterHandleCluster";
+	rename -uid "5D576044-404A-B78F-CBB3-78874D6B60A6";
+	setAttr ".ip[0].gtg" -type "string" "";
+	setAttr ".rel" yes;
+	setAttr ".gm[0]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1;
+	setAttr ".ait" 0;
+createNode objectSet -n "cluster4Set";
+	rename -uid "A07D1D99-4881-7312-13EE-D0B1BA48D4DE";
+	setAttr ".ihi" 0;
+	setAttr ".vo" yes;
+createNode groupParts -n "groupParts42";
+	rename -uid "8309FD7C-4BC0-955A-4AFA-0BB218798CE8";
+	setAttr ".ihi" 0;
+	setAttr ".ic" -type "componentList" 1 "cv[*]";
+createNode groupId -n "groupId42";
+	rename -uid "0477F951-4A1A-29B1-22B3-90944132D1F2";
+	setAttr ".ihi" 0;
+createNode tweak -n "tweak24";
+	rename -uid "A20F2129-47CA-9FB6-957D-37A9757361D3";
+createNode objectSet -n "tweakSet24";
+	rename -uid "D8EB776E-4BE4-686A-17DA-109380A2323B";
+	setAttr ".ihi" 0;
+	setAttr ".vo" yes;
+createNode groupParts -n "cluster4GroupParts";
+	rename -uid "D30F2C7D-4029-ACA9-1253-29B9D090E7C3";
+	setAttr ".ihi" 0;
+	setAttr ".ic" -type "componentList" 1 "cv[0:16]";
+createNode groupId -n "cluster4GroupId";
+	rename -uid "2BACF571-4079-4D35-C2DF-EB9B6414C18C";
+	setAttr ".ihi" 0;
+createNode makeNurbSphere -n "makeNurbSphere1";
+	rename -uid "48B05EA6-4358-6585-083E-DDA3657A0F40";
+createNode makeNurbSphere -n "makeNurbSphere2";
+	rename -uid "BDF96844-427D-7CC2-94C1-1A9DAA0B0573";
+createNode multiplyDivide -n "pasted__size_multiplyDivide1";
+	rename -uid "6D531F62-4047-2A20-644B-D4B22B44E188";
+	setAttr ".i1" -type "float3" 0.5 0.56 0.25 ;
+	setAttr ".i2" -type "float3" 0.5 0.25999999 0.25999999 ;
+createNode makeNurbSphere -n "makeNurbSphere3";
+	rename -uid "B42DCE2B-40F4-B85F-7ACD-9F8E00EBEA21";
+createNode decomposeMatrix -n "decomposeMatrix45";
+	rename -uid "12466FBC-472E-43C9-4685-A09AFAC3CEDA";
+createNode unitConversion -n "unitConversion435";
+	rename -uid "EF30D383-4478-4CAA-7A98-D18B9E9F8B6A";
+	setAttr ".cf" 57.295779513082323;
+createNode multMatrix -n "multMatrix34";
+	rename -uid "C27A9465-4FD4-0A20-A0A4-3FAEE94427E0";
+createNode distanceBetween -n "distanceBetween4";
+	rename -uid "38B2EE20-4022-9F6F-A6DB-298D2BF82E13";
+createNode multMatrix -n "multMatrix42";
+	rename -uid "6731CFBC-4606-686E-3CD7-60906F2FFADF";
+	setAttr -s 2 ".i";
 createNode dagPose -n "bindPose2";
 	rename -uid "BD530B67-413A-DF1F-039E-118C8582E660";
 	setAttr -s 16 ".wm";
@@ -3955,28 +3992,53 @@ createNode dagPose -n "bindPose2";
 	setAttr -s 16 ".g[0:15]" yes yes yes no no no no no no no no no no 
 		no no no;
 	setAttr ".bp" yes;
-createNode blendColors -n "blendColors3";
-	rename -uid "5D8F483D-415B-C13D-35DB-7DB235F5570A";
-	setAttr ".c1" -type "float3" 0.81900001 0.69999999 0.56 ;
-	setAttr ".c2" -type "float3" 0.83999997 0.755 0.66000003 ;
-createNode multDoubleLinear -n "multDoubleLinear466";
-	rename -uid "4F65DB8E-400A-0231-0A4E-F39168449F27";
-createNode multDoubleLinear -n "multDoubleLinear467";
-	rename -uid "23D90645-4107-5445-C323-56BC772D5E47";
-createNode reverse -n "reverse1";
-	rename -uid "5685D95D-4F1E-CFC9-7308-188EFFE62BB3";
-createNode blendColors -n "blendColors4";
-	rename -uid "F68F694F-4FA0-7BAD-6158-2EA51CB54948";
-	setAttr ".c1" -type "float3" 0.442 0.294 0.178 ;
-	setAttr ".c2" -type "float3" 0.352 0.25400001 0.168 ;
-createNode ngst2SkinLayerData -n "ngSkinToolsData_skinCluster2";
-	rename -uid "A6E16D79-4992-9327-7A5A-9AAAAF564BD8";
-	setAttr ".ld" -type "ngst2SkinLayerDataStorage" 16 3981 {
-"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"};
-	setAttr ".imo" -type "string" "{\"_InfluenceMappingConfig__mirror_axis\": 0, \"dg_destination_attribute\": \"oppositeInfluence\", \"globs\": [[\"L_*\", \"R_*\"], [\"l_*\", \"r_*\"], [\"lf_*\", \"rt_*\"], [\"*_lf\", \"*_rt\"], [\"Left*\", \"Right*\"]]}";
+createNode dagPose -n "bindPose1";
+	rename -uid "5247F8AA-41EA-FDE7-F3B1-51AFD77BDD64";
+	setAttr -s 13 ".wm";
+	setAttr ".wm[0]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1;
+	setAttr ".wm[1]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1;
+	setAttr ".wm[2]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1;
+	setAttr -s 13 ".xm";
+	setAttr ".xm[0]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+		 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
+	setAttr ".xm[1]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+		 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
+	setAttr ".xm[2]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+		 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
+	setAttr ".xm[3]" -type "matrix" "xform" 1 0.99996960163116455 0.99996960163116455 -5.1197014183729445e-27
+		 3.6232600293215552e-07 -1.4130096589649702e-20 0 0.87477846797879277 1.6492808945738963e-21
+		 -3.1695498931693838e-07 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
+	setAttr ".xm[4]" -type "matrix" "xform" 1 0.99996960163116455 0.99996960163116455 6.4745658201336352e-40
+		 2.2562470444440427e-09 2.8696174189245402e-31 0 2.1996167103448254 -8.7892656116158234e-17
+		 -7.4430469354683578e-07 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
+	setAttr ".xm[5]" -type "matrix" "xform" 1 0.99996960163116455 0.99996960163116455 -7.0615897623593753e-23
+		 -3.1263263873738543e-07 2.2587500111564801e-16 0 2.3759826986522445 -3.0325435594382318e-17
+		 -7.1412011423125903e-07 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
+	setAttr ".xm[6]" -type "matrix" "xform" 1 0.99996960163116455 0.99996960163116455 -3.3315689627078178e-24
+		 -4.0771208512661145e-07 8.1713765283001625e-18 0 2.8304395695194025 -6.3082392577166269e-19
+		 -5.3996442508762242e-07 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
+	setAttr ".xm[7]" -type "matrix" "xform" 1 0.99996960163116455 0.99996960163116455 -4.1124594845508465e-26
+		 3.6232601223623625e-07 -1.1350163514811674e-19 0 -5.3067252399122155e-18 5.4095551466424304e-20
+		 -1.0255695055077891e-18 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
+	setAttr ".xm[8]" -type "matrix" "xform" 1 0.99996960163116455 0.99996960163116455 9.7238648564745766e-40
+		 -4.112047074076848e-07 -2.3647260552477628e-33 0 3.8650354791933927 -7.0889575158818096e-34
+		 -1.1480334698512045e-07 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
+	setAttr ".xm[9]" -type "matrix" "xform" 1 0.99996960163116455 0.99996960163116455 -6.1663687551574819e-23
+		 2.5451126286638335e-07 -2.4228274559286788e-16 0 2.0360373836291892 -3.7131550845022918e-17
+		 -7.2186966685689251e-07 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
+	setAttr ".xm[10]" -type "matrix" "xform" 1 0.99996960163116455 0.99996960163116455 -2.4617743376797353e-26
+		 3.6232600767105493e-07 -6.7943627715368447e-20 0 0.35561430253326332 2.193859418593791e-20
+		 -1.2884831130252656e-07 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
+	setAttr ".xm[11]" -type "matrix" "xform" 1 0.99996960163116455 0.99996960163116455 -6.6371902828894142e-24
+		 3.5439787774779279e-07 -1.8728075701437774e-17 0 1.6230619142940546 -2.2813198089869744e-18
+		 -5.8711179215021363e-07 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
+	setAttr ".xm[12]" -type "matrix" "xform" 1 0.99996960163116455 0.99996960163116455 3.0241068072879356e-40
+		 -4.1120470471380043e-07 -7.3542612052379289e-34 0 3.462066058350814 -1.0084296608336714e-34
+		 -2.8050626920138995e-07 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
+	setAttr -s 13 ".m";
+	setAttr -s 13 ".p";
+	setAttr -s 13 ".g[0:12]" yes yes yes no no no no no no no no no no;
+	setAttr ".bp" yes;
 createNode dagPose -n "bindPose3";
 	rename -uid "3F920A78-44A1-F029-52DB-E28355E17E88";
 	setAttr -s 16 ".wm";
@@ -4053,447 +4115,347 @@ createNode dagPose -n "bindPose3";
 		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1.0000303992929245 1.0000303992929245 yes;
 	setAttr ".xm[15]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 0 0.10000002384185791 0
 		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1.0000303992929245 1.0000303992929245 yes;
-	setAttr -s 16 ".m";
+	setAttr -s 14 ".m";
 	setAttr -s 16 ".p";
 	setAttr -s 16 ".g[0:15]" yes yes yes no no no no no no no no no no 
 		no no no;
 	setAttr ".bp" yes;
-createNode ngst2SkinLayerData -n "ngSkinToolsData_skinCluster3";
-	rename -uid "9900332E-4739-FF4C-1F4A-B28A27061144";
-	setAttr ".ld" -type "ngst2SkinLayerDataStorage" 16 28605 {
-"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"};
-	setAttr ".imo" -type "string" "{\"_InfluenceMappingConfig__mirror_axis\": 0, \"dg_destination_attribute\": \"oppositeInfluence\", \"globs\": [[\"L_*\", \"R_*\"], [\"l_*\", \"r_*\"], [\"lf_*\", \"rt_*\"], [\"*_lf\", \"*_rt\"], [\"Left*\", \"Right*\"]]}";
-createNode blendColors -n "blendColors5";
-	rename -uid "46D31AD1-478C-385F-CB41-59A589E5D066";
-createNode blendColors -n "blendColors6";
-	rename -uid "C53FCBDA-4235-2EBF-B799-0AB04B95C234";
-createNode multDoubleLinear -n "multDoubleLinear468";
-	rename -uid "D13EC1B8-49E0-32EE-EF3D-4AB459E07DAF";
-	setAttr ".i2" 0.005;
-createNode multDoubleLinear -n "multDoubleLinear469";
-	rename -uid "6B0EB990-438B-6FFB-EA25-8CBE9A3EF79E";
-	setAttr ".i2" 0.005;
-createNode multDoubleLinear -n "multDoubleLinear470";
-	rename -uid "B8B00346-4F0A-F820-15A5-2082CAA3CF7A";
-	setAttr ".i2" 0.005;
-createNode multDoubleLinear -n "multDoubleLinear471";
-	rename -uid "EDF54F26-41A8-7483-F66A-7A9BC7EC24EF";
-	setAttr ".i2" 0.005;
-createNode multDoubleLinear -n "multDoubleLinear472";
-	rename -uid "2B8718D7-4BBF-02FE-0F7D-8DA2D67048E5";
-	setAttr ".i2" 0.005;
-createNode multDoubleLinear -n "multDoubleLinear473";
-	rename -uid "8D8FF759-44D7-2AB8-1497-A2B08F641671";
-	setAttr ".i2" 0.005;
-createNode multDoubleLinear -n "multDoubleLinear474";
-	rename -uid "4655FECC-4EF4-EAB8-214B-8F914CC50088";
-	setAttr ".i2" 0.005;
-createNode multDoubleLinear -n "multDoubleLinear475";
-	rename -uid "84EA6133-4460-6D4C-FEA1-CCB6258561EB";
-	setAttr ".i2" 0.005;
-createNode multDoubleLinear -n "multDoubleLinear476";
-	rename -uid "2FD47134-4931-3585-4C91-0EAC70209BAB";
-	setAttr ".i2" 0.005;
-createNode multDoubleLinear -n "multDoubleLinear477";
-	rename -uid "56809BD8-40E9-AC80-A3DE-3FB5FCD273E2";
-	setAttr ".i2" 0.005;
-createNode unitConversion -n "unitConversion453";
-	rename -uid "9D69E675-4A71-F9EE-EE82-B89DE13218F5";
-	setAttr ".cf" 0.017453292519943295;
-createNode multDoubleLinear -n "multDoubleLinear478";
-	rename -uid "026E427B-49CE-CB35-16DB-DCB3C34694E5";
-createNode addDoubleLinear -n "addDoubleLinear5";
-	rename -uid "FFAAA2B0-436A-B28C-C9DA-03A1E8C0215D";
-	setAttr ".ihi" 2;
-	setAttr ".i2" 0.5;
-createNode addDoubleLinear -n "addDoubleLinear6";
-	rename -uid "1B69E028-4639-377A-8154-7F9AFA85247D";
-	setAttr ".ihi" 2;
-	setAttr ".i2" 0.5;
-createNode addDoubleLinear -n "addDoubleLinear7";
-	rename -uid "6479BF74-4484-0A5F-DF9F-9A968EC366F0";
-	setAttr ".ihi" 2;
-	setAttr ".i2" 0.5;
-createNode condition -n "reverse_condition";
-	rename -uid "A957ED41-4C33-992D-9F09-60B970605081";
-	setAttr ".op" 4;
-	setAttr ".ct" -type "float3" 180 0 0 ;
-	setAttr ".cf" -type "float3" 0 0 0 ;
-createNode multMatrix -n "aim_world_connector_multMatrix";
-	rename -uid "D36FD702-4904-E155-A961-94A9084E30D3";
-	setAttr -s 2 ".i";
-createNode unitConversion -n "unitConversion454";
-	rename -uid "4837F307-4ECF-0B3B-118C-9E8365B96708";
-	setAttr ".cf" -1;
-createNode multiplyDivide -n "pasted__size_multiplyDivide";
-	rename -uid "CB431E3D-4165-18A4-5243-07AD1A208D5F";
-createNode multDoubleLinear -n "pasted__multDoubleLinear438";
-	rename -uid "9E0FC157-44F0-EB99-1486-5484CCD5E2AD";
-createNode decomposeMatrix -n "pasted__mainPoser_decomposeMatrix";
-	rename -uid "53F36A5A-439C-8173-50D2-4EBE0BABFE84";
-createNode sweepMeshCreator -n "pasted__sweepMeshCreator1";
-	rename -uid "ADFEBA5C-4CC4-16BC-E732-759C8A7F70C9";
-	setAttr ".profileRectWidth" 2;
-	setAttr ".profileRectHeight" 2;
-	setAttr ".profileRectCornerRadius" 0.4;
-	setAttr ".profileWaveAmplitude" 0.25;
-	setAttr -s 2 ".taperCurve[0:1]"  0 1 1 1 1 1;
-	setAttr ".interpolationDistance" 3;
-createNode cluster -n "mainPoser_clusterHandleCluster";
-	rename -uid "5D576044-404A-B78F-CBB3-78874D6B60A6";
-	setAttr ".ip[0].gtg" -type "string" "";
-	setAttr ".rel" yes;
-	setAttr ".gm[0]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1;
-	setAttr ".ait" 0;
-createNode objectSet -n "cluster4Set";
-	rename -uid "A07D1D99-4881-7312-13EE-D0B1BA48D4DE";
-	setAttr ".ihi" 0;
-	setAttr ".vo" yes;
-createNode groupParts -n "groupParts42";
-	rename -uid "8309FD7C-4BC0-955A-4AFA-0BB218798CE8";
-	setAttr ".ihi" 0;
-	setAttr ".ic" -type "componentList" 1 "cv[*]";
-createNode groupId -n "groupId42";
-	rename -uid "0477F951-4A1A-29B1-22B3-90944132D1F2";
-	setAttr ".ihi" 0;
-createNode tweak -n "tweak24";
-	rename -uid "A20F2129-47CA-9FB6-957D-37A9757361D3";
-createNode objectSet -n "tweakSet24";
-	rename -uid "D8EB776E-4BE4-686A-17DA-109380A2323B";
-	setAttr ".ihi" 0;
-	setAttr ".vo" yes;
-createNode groupParts -n "cluster4GroupParts";
-	rename -uid "D30F2C7D-4029-ACA9-1253-29B9D090E7C3";
-	setAttr ".ihi" 0;
-	setAttr ".ic" -type "componentList" 1 "cv[0:16]";
-createNode groupId -n "cluster4GroupId";
-	rename -uid "2BACF571-4079-4D35-C2DF-EB9B6414C18C";
-	setAttr ".ihi" 0;
-createNode makeNurbSphere -n "makeNurbSphere1";
-	rename -uid "48B05EA6-4358-6585-083E-DDA3657A0F40";
-createNode makeNurbSphere -n "makeNurbSphere2";
-	rename -uid "BDF96844-427D-7CC2-94C1-1A9DAA0B0573";
-createNode multiplyDivide -n "pasted__size_multiplyDivide1";
-	rename -uid "6D531F62-4047-2A20-644B-D4B22B44E188";
-	setAttr ".i1" -type "float3" 0.5 0.56 0.25 ;
-	setAttr ".i2" -type "float3" 0.5 0.25999999 0.25999999 ;
-createNode makeNurbSphere -n "makeNurbSphere3";
-	rename -uid "B42DCE2B-40F4-B85F-7ACD-9F8E00EBEA21";
-createNode decomposeMatrix -n "decomposeMatrix45";
-	rename -uid "12466FBC-472E-43C9-4685-A09AFAC3CEDA";
-createNode unitConversion -n "unitConversion435";
-	rename -uid "EF30D383-4478-4CAA-7A98-D18B9E9F8B6A";
-	setAttr ".cf" 57.295779513082323;
-createNode multMatrix -n "multMatrix34";
-	rename -uid "C27A9465-4FD4-0A20-A0A4-3FAEE94427E0";
-createNode distanceBetween -n "distanceBetween4";
-	rename -uid "38B2EE20-4022-9F6F-A6DB-298D2BF82E13";
-createNode motionPath -n "twistDown_curve_0_mpath1";
-	rename -uid "FFF7E5EC-4B0C-B3A1-5062-9BBE0511990C";
-	setAttr ".u" 0.5;
+createNode motionPath -n "twist_10_mpath";
+	rename -uid "0A14AAE0-4322-B7B2-5055-11B1DCC17473";
+	setAttr ".f" yes;
 	setAttr ".fa" 0;
 	setAttr ".ua" 1;
 	setAttr ".wut" 2;
-createNode pairBlend -n "pairBlend1";
-	rename -uid "93868B54-4442-6EFC-780E-32B26F58CEF6";
-	setAttr ".w" 0.5;
-	setAttr ".ri" 1;
-createNode condition -n "condition3";
-	rename -uid "70D38D93-47FF-8C95-DE49-FC8B42C056A8";
-	setAttr ".op" 3;
-createNode condition -n "condition2";
-	rename -uid "829503B8-4408-6099-AC45-5BAF71381C46";
-	setAttr ".op" 3;
-createNode condition -n "condition1";
-	rename -uid "E6D459C7-4B8A-C4B5-44A5-E99BDF3C070F";
-	setAttr ".op" 2;
-createNode condition -n "condition4";
-	rename -uid "C2097C4D-426A-5E9A-0D32-679666B441AC";
-	setAttr ".op" 2;
-createNode condition -n "condition6";
-	rename -uid "E8F0226A-4F51-9F40-6AC5-41B039019660";
-	setAttr ".op" 3;
-createNode condition -n "condition5";
-	rename -uid "05F7812A-4BC0-9059-3EA9-7981BAB20259";
-	setAttr ".op" 3;
+createNode motionPath -n "twist_9_mpath";
+	rename -uid "907C9915-48D6-4F8A-E4A2-BBB95D89CA55";
+	setAttr ".f" yes;
+	setAttr ".fa" 0;
+	setAttr ".ua" 1;
+	setAttr ".wut" 2;
+createNode motionPath -n "twist_8_mpath";
+	rename -uid "0070E3D5-4A63-26C3-89CA-72960F71B28F";
+	setAttr ".f" yes;
+	setAttr ".fa" 0;
+	setAttr ".ua" 1;
+	setAttr ".wut" 2;
+createNode motionPath -n "twist_7_mpath";
+	rename -uid "D21C67D5-4559-3DA2-D28D-5B9C99909465";
+	setAttr ".f" yes;
+	setAttr ".fa" 0;
+	setAttr ".ua" 1;
+	setAttr ".wut" 2;
+createNode motionPath -n "twist_6_mpath";
+	rename -uid "9A9684B4-4B43-864A-BD84-99A5A20FCDAF";
+	setAttr ".f" yes;
+	setAttr ".fa" 0;
+	setAttr ".ua" 1;
+	setAttr ".wut" 2;
+createNode motionPath -n "twist_5_mpath";
+	rename -uid "5571E16F-49CC-30DF-DEB2-EAA8C813ED5E";
+	setAttr ".f" yes;
+	setAttr ".fa" 0;
+	setAttr ".ua" 1;
+	setAttr ".wut" 2;
+createNode motionPath -n "twist_4_mpath";
+	rename -uid "E65B4CAB-490D-1929-64FB-8AAA44046D67";
+	setAttr ".f" yes;
+	setAttr ".fa" 0;
+	setAttr ".ua" 1;
+	setAttr ".wut" 2;
+createNode motionPath -n "twist_3_mpath";
+	rename -uid "41DBE454-4A5F-FB00-221C-F19F83D47DB8";
+	setAttr ".f" yes;
+	setAttr ".fa" 0;
+	setAttr ".ua" 1;
+	setAttr ".wut" 2;
+createNode motionPath -n "twist_2_mpath";
+	rename -uid "60D1E8AF-4A19-8A65-604E-FBB156606F49";
+	setAttr ".f" yes;
+	setAttr ".fa" 0;
+	setAttr ".ua" 1;
+	setAttr ".wut" 2;
+createNode motionPath -n "twist_1_mpath";
+	rename -uid "BB78B019-4D51-3D60-7593-D9AAB8A23F48";
+	setAttr ".f" yes;
+	setAttr ".fa" 0;
+	setAttr ".ua" 1;
+	setAttr ".wut" 2;
+createNode objectSet -n "skinJointsSet";
+	rename -uid "38FACABF-44CA-AD93-E25F-3EA0A49F9EC5";
+	setAttr ".ihi" 0;
+	setAttr -s 12 ".dsm";
+createNode decomposeMatrix -n "decomposeMatrix52";
+	rename -uid "00093AB2-405B-8D1A-A72C-C8B6E69DDB7F";
+createNode decomposeMatrix -n "decomposeMatrix50";
+	rename -uid "1FC1FFBC-4950-468D-08FB-32A9A650D032";
+createNode multMatrix -n "root_outJoint_twistUp_1_twistJoint_multMatrix";
+	rename -uid "CB81E897-4F6A-F6DA-4C52-799A64A12680";
+	setAttr -s 2 ".i";
+createNode decomposeMatrix -n "decomposeMatrix57";
+	rename -uid "ED1417D4-4A24-E67E-6598-F2A44B0F5D97";
+createNode multMatrix -n "root_outJoint_twistUp_2_twistJoint_multMatrix";
+	rename -uid "3F1A2104-43AF-D005-EB10-6CA27602B0B2";
+	setAttr -s 2 ".i";
+createNode decomposeMatrix -n "decomposeMatrix55";
+	rename -uid "1FF37E12-49FF-C34B-29C3-DB96F069E2B1";
+createNode multMatrix -n "root_outJoint_twistUp_3_twistJoint_multMatrix";
+	rename -uid "CA3AB2F5-4948-81F8-D3ED-89B19BBDDB0B";
+	setAttr -s 2 ".i";
+createNode decomposeMatrix -n "decomposeMatrix59";
+	rename -uid "000BD4E5-4659-3F4C-67ED-D792A736AD92";
+createNode multMatrix -n "root_outJoint_twistUp_4_twistJoint_multMatrix";
+	rename -uid "BECC4CA2-43E0-81D1-08E6-FCBF6E9BF786";
+	setAttr -s 2 ".i";
+createNode decomposeMatrix -n "decomposeMatrix60";
+	rename -uid "0580D7A0-4019-473F-D3B9-02AD403462CF";
+createNode multMatrix -n "root_outJoint_twistDown_0_twistJoint_multMatrix";
+	rename -uid "83DA98DB-44AE-EF14-B60E-D18BF8898815";
+	setAttr -s 2 ".i";
+createNode decomposeMatrix -n "decomposeMatrix56";
+	rename -uid "1454491B-4E96-BE39-CFEF-0F9F02F140F7";
+createNode multMatrix -n "root_outJoint_twistDown_1_twistJoint_multMatrix";
+	rename -uid "42E34106-469E-8D21-7C52-DD8EDC527C7F";
+	setAttr -s 2 ".i";
+createNode decomposeMatrix -n "decomposeMatrix58";
+	rename -uid "FBD92758-48E5-664F-8650-4D96F07479E2";
+createNode multMatrix -n "root_outJoint_twistDown_2_twistJoint_multMatrix";
+	rename -uid "E9EF56B0-4E12-EFFC-4A29-B087C7E24FFD";
+	setAttr -s 2 ".i";
+createNode decomposeMatrix -n "decomposeMatrix51";
+	rename -uid "85AD3A50-494B-6934-EA6F-FFB914F39A9C";
+createNode multMatrix -n "root_outJoint_twistDown_3_twistJoint_multMatrix";
+	rename -uid "E552F4B5-4D4E-13D3-7F1C-36ADD9C393BD";
+	setAttr -s 2 ".i";
+createNode decomposeMatrix -n "decomposeMatrix54";
+	rename -uid "13605158-45D2-290B-FAC5-0EBDE8E20838";
+createNode multMatrix -n "root_outJoint_twistDown_4_twistJoint_multMatrix";
+	rename -uid "1A0D1A55-449B-5D5B-AB08-D3A50E5D4B4A";
+	setAttr -s 2 ".i";
+createNode decomposeMatrix -n "root_outJoint_decMat1";
+	rename -uid "9E9F5DB4-4D4E-7952-A897-80AFBBC5C805";
+createNode multMatrix -n "root_outJoint_multMat1";
+	rename -uid "F22A9B32-4CC8-9CAB-03CC-F6B87C0B0C7E";
+	setAttr -s 2 ".i";
+createNode multDoubleLinear -n "multDoubleLinear479";
+	rename -uid "B435FA9C-46C0-0D43-01A9-C39194BBC6EC";
 createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
-	rename -uid "8B9E0492-4502-F110-FBCB-D9A9A060A3B1";
+	rename -uid "ED531B4B-40B4-E940-FB50-448BF30B011D";
 	setAttr -s 8 ".tgi";
 	setAttr ".tgi[0].tn" -type "string" "Untitled_1";
-	setAttr ".tgi[0].vl" -type "double2" 96119.318524882983 2415.4760944937698 ;
-	setAttr ".tgi[0].vh" -type "double2" 101525.91171663768 3879.7617505939993 ;
-	setAttr -s 10 ".tgi[0].ni";
-	setAttr ".tgi[0].ni[0].x" 98635.7109375;
-	setAttr ".tgi[0].ni[0].y" 2525.71435546875;
+	setAttr ".tgi[0].vl" -type "double2" 99694.822045809706 1891.6665914985899 ;
+	setAttr ".tgi[0].vh" -type "double2" 104556.36031416798 3208.3332058456258 ;
+	setAttr ".tgi[0].ni[0].x" 101463.7734375;
+	setAttr ".tgi[0].ni[0].y" 2565.658447265625;
 	setAttr ".tgi[0].ni[0].nvs" 18304;
-	setAttr ".tgi[0].ni[1].x" 98576.953125;
-	setAttr ".tgi[0].ni[1].y" 3596.347412109375;
-	setAttr ".tgi[0].ni[1].nvs" 18305;
-	setAttr ".tgi[0].ni[2].x" 98130.9453125;
-	setAttr ".tgi[0].ni[2].y" 3822.852783203125;
-	setAttr ".tgi[0].ni[2].nvs" 18305;
-	setAttr ".tgi[0].ni[3].x" 98682.0859375;
-	setAttr ".tgi[0].ni[3].y" 3217.885009765625;
-	setAttr ".tgi[0].ni[3].nvs" 18304;
-	setAttr ".tgi[0].ni[4].x" 98635.7109375;
-	setAttr ".tgi[0].ni[4].y" 2785.71435546875;
-	setAttr ".tgi[0].ni[4].nvs" 18304;
-	setAttr ".tgi[0].ni[5].x" 98632.421875;
-	setAttr ".tgi[0].ni[5].y" 3017.14404296875;
-	setAttr ".tgi[0].ni[5].nvs" 18304;
-	setAttr ".tgi[0].ni[6].x" 98635.7109375;
-	setAttr ".tgi[0].ni[6].y" 2655.71435546875;
-	setAttr ".tgi[0].ni[6].nvs" 18304;
-	setAttr ".tgi[0].ni[7].x" 99098.65625;
-	setAttr ".tgi[0].ni[7].y" 3870.953125;
-	setAttr ".tgi[0].ni[7].nvs" 18305;
-	setAttr ".tgi[0].ni[8].x" 98752.8671875;
-	setAttr ".tgi[0].ni[8].y" 3007.634033203125;
-	setAttr ".tgi[0].ni[8].nvs" 18305;
-	setAttr ".tgi[0].ni[9].x" 98146.1796875;
-	setAttr ".tgi[0].ni[9].y" 3268.4248046875;
-	setAttr ".tgi[0].ni[9].nvs" 18305;
 	setAttr ".tgi[1].tn" -type "string" "Untitled_2";
-	setAttr ".tgi[1].vl" -type "double2" 68139.466156849754 -4491.666488183876 ;
-	setAttr ".tgi[1].vh" -type "double2" 71572.433053402929 -3561.9046203673888 ;
-	setAttr -s 7 ".tgi[1].ni";
-	setAttr ".tgi[1].ni[0].x" 70094.3671875;
-	setAttr ".tgi[1].ni[0].y" -4090.336181640625;
-	setAttr ".tgi[1].ni[0].nvs" 18305;
-	setAttr ".tgi[1].ni[1].x" 69398.5703125;
-	setAttr ".tgi[1].ni[1].y" -3958.571533203125;
-	setAttr ".tgi[1].ni[1].nvs" 18304;
-	setAttr ".tgi[1].ni[2].x" 69400.25;
-	setAttr ".tgi[1].ni[2].y" -4065.88232421875;
-	setAttr ".tgi[1].ni[2].nvs" 18304;
-	setAttr ".tgi[1].ni[3].x" 69725.0390625;
-	setAttr ".tgi[1].ni[3].y" -3871.260498046875;
-	setAttr ".tgi[1].ni[3].nvs" 18305;
-	setAttr ".tgi[1].ni[4].x" 69697.3125;
-	setAttr ".tgi[1].ni[4].y" -4259.24365234375;
-	setAttr ".tgi[1].ni[4].nvs" 18304;
-	setAttr ".tgi[1].ni[5].x" 69398.5703125;
-	setAttr ".tgi[1].ni[5].y" -3857.142822265625;
-	setAttr ".tgi[1].ni[5].nvs" 18304;
-	setAttr ".tgi[1].ni[6].x" 69386.8046875;
-	setAttr ".tgi[1].ni[6].y" -4255.54638671875;
-	setAttr ".tgi[1].ni[6].nvs" 18304;
+	setAttr ".tgi[1].vl" -type "double2" 70417.625406983178 -7617.85684015071 ;
+	setAttr ".tgi[1].vh" -type "double2" 80426.416218060767 -4907.1426621505279 ;
 	setAttr ".tgi[2].tn" -type "string" "Untitled_3";
-	setAttr ".tgi[2].vl" -type "double2" 46374.173981431719 245.2380854932093 ;
-	setAttr ".tgi[2].vh" -type "double2" 49811.53648220584 1176.1904294528679 ;
-	setAttr -s 3 ".tgi[2].ni";
-	setAttr ".tgi[2].ni[0].x" 47755.125;
-	setAttr ".tgi[2].ni[0].y" 1143.781494140625;
-	setAttr ".tgi[2].ni[0].nvs" 18305;
-	setAttr ".tgi[2].ni[1].x" 48301.765625;
-	setAttr ".tgi[2].ni[1].y" 942.100830078125;
-	setAttr ".tgi[2].ni[1].nvs" 18304;
-	setAttr ".tgi[2].ni[2].x" 48147.14453125;
-	setAttr ".tgi[2].ni[2].y" 674.28570556640625;
-	setAttr ".tgi[2].ni[2].nvs" 18304;
+	setAttr ".tgi[2].vl" -type "double2" 47056.912049540246 149.99999403953197 ;
+	setAttr ".tgi[2].vh" -type "double2" 50494.27455031436 1080.9523379991906 ;
 	setAttr ".tgi[3].tn" -type "string" "Untitled_4";
-	setAttr ".tgi[3].vl" -type "double2" 36637.086456260775 -3014.2855945087663 ;
-	setAttr ".tgi[3].vh" -type "double2" 40070.053352813964 -2084.5237266922791 ;
-	setAttr -s 16 ".tgi[3].ni";
-	setAttr ".tgi[3].ni[0].x" 38570.421875;
-	setAttr ".tgi[3].ni[0].y" -2457.983154296875;
+	setAttr ".tgi[3].vl" -type "double2" 37762.635956567865 -2938.3351093343326 ;
+	setAttr ".tgi[3].vh" -type "double2" 38816.628075156346 -2059.3454557190366 ;
+	setAttr -s 34 ".tgi[3].ni";
+	setAttr ".tgi[3].ni[0].x" 37824.68359375;
+	setAttr ".tgi[3].ni[0].y" -2519.920166015625;
 	setAttr ".tgi[3].ni[0].nvs" 18304;
-	setAttr ".tgi[3].ni[1].x" 38562.85546875;
-	setAttr ".tgi[3].ni[1].y" -2254.28564453125;
+	setAttr ".tgi[3].ni[1].x" 38597.14453125;
+	setAttr ".tgi[3].ni[1].y" -788.5714111328125;
 	setAttr ".tgi[3].ni[1].nvs" 18304;
-	setAttr ".tgi[3].ni[2].x" 38562.85546875;
-	setAttr ".tgi[3].ni[2].y" -2660;
+	setAttr ".tgi[3].ni[2].x" 38597.14453125;
+	setAttr ".tgi[3].ni[2].y" -890;
 	setAttr ".tgi[3].ni[2].nvs" 18304;
-	setAttr ".tgi[3].ni[3].x" 38562.85546875;
-	setAttr ".tgi[3].ni[3].y" -2558.571533203125;
+	setAttr ".tgi[3].ni[3].x" 38597.14453125;
+	setAttr ".tgi[3].ni[3].y" -991.4285888671875;
 	setAttr ".tgi[3].ni[3].nvs" 18304;
-	setAttr ".tgi[3].ni[4].x" 38562.85546875;
-	setAttr ".tgi[3].ni[4].y" -2152.857177734375;
+	setAttr ".tgi[3].ni[4].x" 38597.14453125;
+	setAttr ".tgi[3].ni[4].y" -1092.857177734375;
 	setAttr ".tgi[3].ni[4].nvs" 18304;
-	setAttr ".tgi[3].ni[5].x" 38562.85546875;
-	setAttr ".tgi[3].ni[5].y" -2355.71435546875;
+	setAttr ".tgi[3].ni[5].x" 38597.14453125;
+	setAttr ".tgi[3].ni[5].y" -1194.2857666015625;
 	setAttr ".tgi[3].ni[5].nvs" 18304;
-	setAttr ".tgi[3].ni[6].x" 38255.71484375;
-	setAttr ".tgi[3].ni[6].y" -2355.71435546875;
+	setAttr ".tgi[3].ni[6].x" 38597.14453125;
+	setAttr ".tgi[3].ni[6].y" -1295.7142333984375;
 	setAttr ".tgi[3].ni[6].nvs" 18304;
-	setAttr ".tgi[3].ni[7].x" 38255.71484375;
-	setAttr ".tgi[3].ni[7].y" -2761.428466796875;
+	setAttr ".tgi[3].ni[7].x" 38597.14453125;
+	setAttr ".tgi[3].ni[7].y" -1397.142822265625;
 	setAttr ".tgi[3].ni[7].nvs" 18304;
-	setAttr ".tgi[3].ni[8].x" 38255.71484375;
-	setAttr ".tgi[3].ni[8].y" -2457.142822265625;
+	setAttr ".tgi[3].ni[8].x" 38597.14453125;
+	setAttr ".tgi[3].ni[8].y" -1498.5714111328125;
 	setAttr ".tgi[3].ni[8].nvs" 18304;
-	setAttr ".tgi[3].ni[9].x" 37904.03515625;
-	setAttr ".tgi[3].ni[9].y" -2370.588134765625;
-	setAttr ".tgi[3].ni[9].nvs" 18305;
-	setAttr ".tgi[3].ni[10].x" 38562.85546875;
-	setAttr ".tgi[3].ni[10].y" -2761.428466796875;
-	setAttr ".tgi[3].ni[10].nvs" 18304;
-	setAttr ".tgi[3].ni[11].x" 38255.71484375;
-	setAttr ".tgi[3].ni[11].y" -2254.28564453125;
+	setAttr ".tgi[3].ni[9].x" 38597.14453125;
+	setAttr ".tgi[3].ni[9].y" -1600;
+	setAttr ".tgi[3].ni[9].nvs" 18304;
+	setAttr ".tgi[3].ni[10].x" 37929.87890625;
+	setAttr ".tgi[3].ni[10].y" -1883.4205322265625;
+	setAttr ".tgi[3].ni[10].nvs" 18305;
+	setAttr ".tgi[3].ni[11].x" 38597.14453125;
+	setAttr ".tgi[3].ni[11].y" -1701.4285888671875;
 	setAttr ".tgi[3].ni[11].nvs" 18304;
-	setAttr ".tgi[3].ni[12].x" 38255.71484375;
-	setAttr ".tgi[3].ni[12].y" -2660;
+	setAttr ".tgi[3].ni[12].x" 38597.14453125;
+	setAttr ".tgi[3].ni[12].y" -1802.857177734375;
 	setAttr ".tgi[3].ni[12].nvs" 18304;
-	setAttr ".tgi[3].ni[13].x" 38255.71484375;
-	setAttr ".tgi[3].ni[13].y" -2152.857177734375;
+	setAttr ".tgi[3].ni[13].x" 37970.10546875;
+	setAttr ".tgi[3].ni[13].y" -2716.158447265625;
 	setAttr ".tgi[3].ni[13].nvs" 18304;
-	setAttr ".tgi[3].ni[14].x" 38562.85546875;
-	setAttr ".tgi[3].ni[14].y" -2891.428466796875;
+	setAttr ".tgi[3].ni[14].x" 38597.14453125;
+	setAttr ".tgi[3].ni[14].y" -2005.7142333984375;
 	setAttr ".tgi[3].ni[14].nvs" 18304;
-	setAttr ".tgi[3].ni[15].x" 38255.71484375;
-	setAttr ".tgi[3].ni[15].y" -2558.571533203125;
+	setAttr ".tgi[3].ni[15].x" 38597.14453125;
+	setAttr ".tgi[3].ni[15].y" -2107.142822265625;
 	setAttr ".tgi[3].ni[15].nvs" 18304;
+	setAttr ".tgi[3].ni[16].x" 38597.14453125;
+	setAttr ".tgi[3].ni[16].y" -2208.571533203125;
+	setAttr ".tgi[3].ni[16].nvs" 18304;
+	setAttr ".tgi[3].ni[17].x" 38597.14453125;
+	setAttr ".tgi[3].ni[17].y" -2310;
+	setAttr ".tgi[3].ni[17].nvs" 18304;
+	setAttr ".tgi[3].ni[18].x" 38597.14453125;
+	setAttr ".tgi[3].ni[18].y" -2411.428466796875;
+	setAttr ".tgi[3].ni[18].nvs" 18304;
+	setAttr ".tgi[3].ni[19].x" 38597.14453125;
+	setAttr ".tgi[3].ni[19].y" -2512.857177734375;
+	setAttr ".tgi[3].ni[19].nvs" 18304;
+	setAttr ".tgi[3].ni[20].x" 38597.14453125;
+	setAttr ".tgi[3].ni[20].y" -2614.28564453125;
+	setAttr ".tgi[3].ni[20].nvs" 18304;
+	setAttr ".tgi[3].ni[21].x" 38700;
+	setAttr ".tgi[3].ni[21].y" -3860;
+	setAttr ".tgi[3].ni[21].nvs" 18304;
+	setAttr ".tgi[3].ni[22].x" 38597.14453125;
+	setAttr ".tgi[3].ni[22].y" -2715.71435546875;
+	setAttr ".tgi[3].ni[22].nvs" 18304;
+	setAttr ".tgi[3].ni[23].x" 38597.14453125;
+	setAttr ".tgi[3].ni[23].y" -2817.142822265625;
+	setAttr ".tgi[3].ni[23].nvs" 18304;
+	setAttr ".tgi[3].ni[24].x" 38597.14453125;
+	setAttr ".tgi[3].ni[24].y" -2918.571533203125;
+	setAttr ".tgi[3].ni[24].nvs" 18304;
+	setAttr ".tgi[3].ni[25].x" 38597.14453125;
+	setAttr ".tgi[3].ni[25].y" -3020;
+	setAttr ".tgi[3].ni[25].nvs" 18304;
+	setAttr ".tgi[3].ni[26].x" 38597.14453125;
+	setAttr ".tgi[3].ni[26].y" -3121.428466796875;
+	setAttr ".tgi[3].ni[26].nvs" 18304;
+	setAttr ".tgi[3].ni[27].x" 38285.71484375;
+	setAttr ".tgi[3].ni[27].y" -2234.28564453125;
+	setAttr ".tgi[3].ni[27].nvs" 18304;
+	setAttr ".tgi[3].ni[28].x" 38111.37109375;
+	setAttr ".tgi[3].ni[28].y" -2621.42431640625;
+	setAttr ".tgi[3].ni[28].nvs" 18304;
+	setAttr ".tgi[3].ni[29].x" 38597.14453125;
+	setAttr ".tgi[3].ni[29].y" -3324.28564453125;
+	setAttr ".tgi[3].ni[29].nvs" 18304;
+	setAttr ".tgi[3].ni[30].x" 38597.14453125;
+	setAttr ".tgi[3].ni[30].y" -3425.71435546875;
+	setAttr ".tgi[3].ni[30].nvs" 18304;
+	setAttr ".tgi[3].ni[31].x" 38597.14453125;
+	setAttr ".tgi[3].ni[31].y" -3527.142822265625;
+	setAttr ".tgi[3].ni[31].nvs" 18304;
+	setAttr ".tgi[3].ni[32].x" 38597.14453125;
+	setAttr ".tgi[3].ni[32].y" -3628.571533203125;
+	setAttr ".tgi[3].ni[32].nvs" 18304;
+	setAttr ".tgi[3].ni[33].x" 38597.14453125;
+	setAttr ".tgi[3].ni[33].y" -3730;
+	setAttr ".tgi[3].ni[33].nvs" 18304;
 	setAttr ".tgi[4].tn" -type "string" "Untitled_5";
-	setAttr ".tgi[4].vl" -type "double2" -280.76921961246433 269.04760835663154 ;
-	setAttr ".tgi[4].vh" -type "double2" 3152.1976769407206 1198.809476173119 ;
-	setAttr -s 5 ".tgi[4].ni";
-	setAttr ".tgi[4].ni[0].x" 1025.7142333984375;
-	setAttr ".tgi[4].ni[0].y" 807.14288330078125;
+	setAttr ".tgi[4].vl" -type "double2" 1251.8772424335502 100.60330245489874 ;
+	setAttr ".tgi[4].vh" -type "double2" 2365.32258935351 1029.1747049806008 ;
+	setAttr -s 4 ".tgi[4].ni";
+	setAttr ".tgi[4].ni[0].x" 1940.083984375;
+	setAttr ".tgi[4].ni[0].y" 730.2520751953125;
 	setAttr ".tgi[4].ni[0].nvs" 18305;
-	setAttr ".tgi[4].ni[1].x" 1001.3445434570312;
-	setAttr ".tgi[4].ni[1].y" 1388.9915771484375;
+	setAttr ".tgi[4].ni[1].x" 1353.5294189453125;
+	setAttr ".tgi[4].ni[1].y" 759.49578857421875;
 	setAttr ".tgi[4].ni[1].nvs" 18305;
-	setAttr ".tgi[4].ni[2].x" 1332.857177734375;
-	setAttr ".tgi[4].ni[2].y" 965.71429443359375;
-	setAttr ".tgi[4].ni[2].nvs" 18305;
-	setAttr ".tgi[4].ni[3].x" 1650.92431640625;
-	setAttr ".tgi[4].ni[3].y" 895.79833984375;
+	setAttr ".tgi[4].ni[2].x" 1430;
+	setAttr ".tgi[4].ni[2].y" 892.85711669921875;
+	setAttr ".tgi[4].ni[2].nvs" 18304;
+	setAttr ".tgi[4].ni[3].x" 1758.5714111328125;
+	setAttr ".tgi[4].ni[3].y" 901.4285888671875;
 	setAttr ".tgi[4].ni[3].nvs" 18304;
-	setAttr ".tgi[4].ni[4].x" 1025.7142333984375;
-	setAttr ".tgi[4].ni[4].y" 908.5714111328125;
-	setAttr ".tgi[4].ni[4].nvs" 18304;
 	setAttr ".tgi[5].tn" -type "string" "Untitled_6";
-	setAttr ".tgi[5].vl" -type "double2" -3435.530999015391 -4133.3331690894456 ;
-	setAttr ".tgi[5].vh" -type "double2" -2.5641024622063924 -3203.5713012729584 ;
-	setAttr -s 9 ".tgi[5].ni";
-	setAttr ".tgi[5].ni[0].x" -2201.428466796875;
-	setAttr ".tgi[5].ni[0].y" -3440;
-	setAttr ".tgi[5].ni[0].nvs" 18304;
-	setAttr ".tgi[5].ni[1].x" -1894.2857666015625;
-	setAttr ".tgi[5].ni[1].y" -3700;
+	setAttr ".tgi[5].vl" -type "double2" 3882.0513496444019 -4921.0964122436144 ;
+	setAttr ".tgi[5].vh" -type "double2" 4995.4966965643616 -3992.5250097179119 ;
+	setAttr -s 5 ".tgi[5].ni";
+	setAttr ".tgi[5].ni[0].x" 4316.05029296875;
+	setAttr ".tgi[5].ni[0].y" -4202.94140625;
+	setAttr ".tgi[5].ni[0].nvs" 18305;
+	setAttr ".tgi[5].ni[1].x" 3997.142822265625;
+	setAttr ".tgi[5].ni[1].y" -4437.14306640625;
 	setAttr ".tgi[5].ni[1].nvs" 18304;
-	setAttr ".tgi[5].ni[2].x" -2201.428466796875;
-	setAttr ".tgi[5].ni[2].y" -3570;
+	setAttr ".tgi[5].ni[2].x" 3999.663818359375;
+	setAttr ".tgi[5].ni[2].y" -4067.058837890625;
 	setAttr ".tgi[5].ni[2].nvs" 18304;
-	setAttr ".tgi[5].ni[3].x" -1587.142822265625;
-	setAttr ".tgi[5].ni[3].y" -3830;
-	setAttr ".tgi[5].ni[3].nvs" 18304;
-	setAttr ".tgi[5].ni[4].x" -1894.2857666015625;
-	setAttr ".tgi[5].ni[4].y" -3570;
+	setAttr ".tgi[5].ni[3].x" 4611.4287109375;
+	setAttr ".tgi[5].ni[3].y" -4261.4287109375;
+	setAttr ".tgi[5].ni[3].nvs" 18305;
+	setAttr ".tgi[5].ni[4].x" 3989.579833984375;
+	setAttr ".tgi[5].ni[4].y" -4277.73095703125;
 	setAttr ".tgi[5].ni[4].nvs" 18304;
-	setAttr ".tgi[5].ni[5].x" -1894.2857666015625;
-	setAttr ".tgi[5].ni[5].y" -3440;
-	setAttr ".tgi[5].ni[5].nvs" 18304;
-	setAttr ".tgi[5].ni[6].x" -1587.142822265625;
-	setAttr ".tgi[5].ni[6].y" -3440;
-	setAttr ".tgi[5].ni[6].nvs" 18304;
-	setAttr ".tgi[5].ni[7].x" -1587.142822265625;
-	setAttr ".tgi[5].ni[7].y" -3700;
-	setAttr ".tgi[5].ni[7].nvs" 18304;
-	setAttr ".tgi[5].ni[8].x" -1587.142822265625;
-	setAttr ".tgi[5].ni[8].y" -3570;
-	setAttr ".tgi[5].ni[8].nvs" 18304;
 	setAttr ".tgi[6].tn" -type "string" "Untitled_7";
-	setAttr ".tgi[6].vl" -type "double2" 7214.7957182016635 4066.9430426184235 ;
-	setAttr ".tgi[6].vh" -type "double2" 8845.4537499863636 5415.6534656140011 ;
-	setAttr -s 18 ".tgi[6].ni";
-	setAttr ".tgi[6].ni[0].x" 7423.3642578125;
-	setAttr ".tgi[6].ni[0].y" 5167.44921875;
-	setAttr ".tgi[6].ni[0].nvs" 18305;
-	setAttr ".tgi[6].ni[1].x" 8042.85693359375;
-	setAttr ".tgi[6].ni[1].y" 5892.85693359375;
+	setAttr ".tgi[6].vl" -type "double2" 2121.0724980084692 2357.1036832522609 ;
+	setAttr ".tgi[6].vh" -type "double2" 3234.517844928429 3285.675085777963 ;
+	setAttr -s 5 ".tgi[6].ni";
+	setAttr ".tgi[6].ni[0].x" 2427.142822265625;
+	setAttr ".tgi[6].ni[0].y" 2898.571533203125;
+	setAttr ".tgi[6].ni[0].nvs" 18304;
+	setAttr ".tgi[6].ni[1].x" 2427.142822265625;
+	setAttr ".tgi[6].ni[1].y" 2695.71435546875;
 	setAttr ".tgi[6].ni[1].nvs" 18304;
-	setAttr ".tgi[6].ni[2].x" 8042.85693359375;
-	setAttr ".tgi[6].ni[2].y" 5791.4287109375;
+	setAttr ".tgi[6].ni[2].x" 2427.142822265625;
+	setAttr ".tgi[6].ni[2].y" 2797.142822265625;
 	setAttr ".tgi[6].ni[2].nvs" 18304;
-	setAttr ".tgi[6].ni[3].x" 8042.85693359375;
-	setAttr ".tgi[6].ni[3].y" 5690;
+	setAttr ".tgi[6].ni[3].x" 2445.63037109375;
+	setAttr ".tgi[6].ni[3].y" 3098.3193359375;
 	setAttr ".tgi[6].ni[3].nvs" 18304;
-	setAttr ".tgi[6].ni[4].x" 8042.85693359375;
-	setAttr ".tgi[6].ni[4].y" 5588.5712890625;
-	setAttr ".tgi[6].ni[4].nvs" 18304;
-	setAttr ".tgi[6].ni[5].x" 8042.85693359375;
-	setAttr ".tgi[6].ni[5].y" 5487.14306640625;
-	setAttr ".tgi[6].ni[5].nvs" 18304;
-	setAttr ".tgi[6].ni[6].x" 8042.85693359375;
-	setAttr ".tgi[6].ni[6].y" 5385.71435546875;
-	setAttr ".tgi[6].ni[6].nvs" 18304;
-	setAttr ".tgi[6].ni[7].x" 8042.85693359375;
-	setAttr ".tgi[6].ni[7].y" 5284.28564453125;
-	setAttr ".tgi[6].ni[7].nvs" 18304;
-	setAttr ".tgi[6].ni[8].x" 8042.85693359375;
-	setAttr ".tgi[6].ni[8].y" 5182.85693359375;
-	setAttr ".tgi[6].ni[8].nvs" 18304;
-	setAttr ".tgi[6].ni[9].x" 8042.85693359375;
-	setAttr ".tgi[6].ni[9].y" 5081.4287109375;
-	setAttr ".tgi[6].ni[9].nvs" 18304;
-	setAttr ".tgi[6].ni[10].x" 8042.85693359375;
-	setAttr ".tgi[6].ni[10].y" 4980;
-	setAttr ".tgi[6].ni[10].nvs" 18304;
-	setAttr ".tgi[6].ni[11].x" 8042.85693359375;
-	setAttr ".tgi[6].ni[11].y" 4878.5712890625;
-	setAttr ".tgi[6].ni[11].nvs" 18304;
-	setAttr ".tgi[6].ni[12].x" 8042.85693359375;
-	setAttr ".tgi[6].ni[12].y" 4777.14306640625;
-	setAttr ".tgi[6].ni[12].nvs" 18304;
-	setAttr ".tgi[6].ni[13].x" 8042.85693359375;
-	setAttr ".tgi[6].ni[13].y" 4675.71435546875;
-	setAttr ".tgi[6].ni[13].nvs" 18304;
-	setAttr ".tgi[6].ni[14].x" 8042.85693359375;
-	setAttr ".tgi[6].ni[14].y" 4574.28564453125;
-	setAttr ".tgi[6].ni[14].nvs" 18304;
-	setAttr ".tgi[6].ni[15].x" 7621.072265625;
-	setAttr ".tgi[6].ni[15].y" 4579.46435546875;
-	setAttr ".tgi[6].ni[15].nvs" 18305;
-	setAttr ".tgi[6].ni[16].x" 8042.85693359375;
-	setAttr ".tgi[6].ni[16].y" 4371.4287109375;
-	setAttr ".tgi[6].ni[16].nvs" 18304;
-	setAttr ".tgi[6].ni[17].x" 8042.85693359375;
-	setAttr ".tgi[6].ni[17].y" 4270;
-	setAttr ".tgi[6].ni[17].nvs" 18304;
+	setAttr ".tgi[6].ni[4].x" 2787.226806640625;
+	setAttr ".tgi[6].ni[4].y" 2928.4033203125;
+	setAttr ".tgi[6].ni[4].nvs" 18305;
 	setAttr ".tgi[7].tn" -type "string" "Untitled_8";
-	setAttr ".tgi[7].vl" -type "double2" 29395.031581540734 -1382.2248623407584 ;
-	setAttr ".tgi[7].vh" -type "double2" 30517.720625680409 -453.65345981505595 ;
-	setAttr -s 4 ".tgi[7].ni";
-	setAttr ".tgi[7].ni[0].x" 29861.427734375;
-	setAttr ".tgi[7].ni[0].y" -1214.2857666015625;
+	setAttr ".tgi[7].vl" -type "double2" 45876.516769088921 2152.5132768613498 ;
+	setAttr ".tgi[7].vh" -type "double2" 47357.994444395896 3388.009753249431 ;
+	setAttr -s 13 ".tgi[7].ni";
+	setAttr ".tgi[7].ni[0].x" 46634.5234375;
+	setAttr ".tgi[7].ni[0].y" 3215.468994140625;
 	setAttr ".tgi[7].ni[0].nvs" 18304;
-	setAttr ".tgi[7].ni[1].x" 29702.521484375;
-	setAttr ".tgi[7].ni[1].y" -564.45379638671875;
+	setAttr ".tgi[7].ni[1].x" 46623.4140625;
+	setAttr ".tgi[7].ni[1].y" 3489.2841796875;
 	setAttr ".tgi[7].ni[1].nvs" 18304;
-	setAttr ".tgi[7].ni[2].x" 29668.908203125;
-	setAttr ".tgi[7].ni[2].y" -1044.7899169921875;
+	setAttr ".tgi[7].ni[2].x" 46633.4765625;
+	setAttr ".tgi[7].ni[2].y" 3023.356201171875;
 	setAttr ".tgi[7].ni[2].nvs" 18304;
-	setAttr ".tgi[7].ni[3].x" 30124.7890625;
-	setAttr ".tgi[7].ni[3].y" -741.59661865234375;
-	setAttr ".tgi[7].ni[3].nvs" 18305;
+	setAttr ".tgi[7].ni[3].x" 46633.4765625;
+	setAttr ".tgi[7].ni[3].y" 2921.927734375;
+	setAttr ".tgi[7].ni[3].nvs" 18304;
+	setAttr ".tgi[7].ni[4].x" 46033.55859375;
+	setAttr ".tgi[7].ni[4].y" 2862.147705078125;
+	setAttr ".tgi[7].ni[4].nvs" 18305;
+	setAttr ".tgi[7].ni[5].x" 46034.02734375;
+	setAttr ".tgi[7].ni[5].y" 3460.56005859375;
+	setAttr ".tgi[7].ni[5].nvs" 18305;
+	setAttr ".tgi[7].ni[6].x" 46633.4765625;
+	setAttr ".tgi[7].ni[6].y" 2820.4990234375;
+	setAttr ".tgi[7].ni[6].nvs" 18304;
+	setAttr ".tgi[7].ni[7].x" 46635.71484375;
+	setAttr ".tgi[7].ni[7].y" 2690;
+	setAttr ".tgi[7].ni[7].nvs" 18304;
+	setAttr ".tgi[7].ni[8].x" 46997.14453125;
+	setAttr ".tgi[7].ni[8].y" 2817.142822265625;
+	setAttr ".tgi[7].ni[8].nvs" 18304;
+	setAttr ".tgi[7].ni[9].x" 46635.71484375;
+	setAttr ".tgi[7].ni[9].y" 2588.571533203125;
+	setAttr ".tgi[7].ni[9].nvs" 18304;
+	setAttr ".tgi[7].ni[10].x" 46635.71484375;
+	setAttr ".tgi[7].ni[10].y" 2487.142822265625;
+	setAttr ".tgi[7].ni[10].nvs" 18304;
+	setAttr ".tgi[7].ni[11].x" 46635.71484375;
+	setAttr ".tgi[7].ni[11].y" 2385.71435546875;
+	setAttr ".tgi[7].ni[11].nvs" 18304;
+	setAttr ".tgi[7].ni[12].x" 46635.71484375;
+	setAttr ".tgi[7].ni[12].y" 2284.28564453125;
+	setAttr ".tgi[7].ni[12].nvs" 18304;
 select -ne :time1;
 	setAttr -av -k on ".cch";
 	setAttr -k on ".fzn";
@@ -4600,7 +4562,7 @@ select -ne :defaultRenderUtilityList1;
 	setAttr -cb on ".ihi";
 	setAttr -av -k on ".nds";
 	setAttr -cb on ".bnm";
-	setAttr -s 128 ".u";
+	setAttr -s 111 ".u";
 select -ne :defaultRenderingList1;
 	setAttr -k on ".ihi";
 	setAttr -s 4 ".r";
@@ -5061,6 +5023,7 @@ connectAttr "middle_group_parentConstraint1.crz" "middle_group.rz";
 connectAttr "mirror_condition.ocr" "middle_group.sy";
 connectAttr "mirror_condition.ocr" "middle_group.sz";
 connectAttr "bifrostGraphShape.main_bend_center" "curve1_2_offset.t";
+connectAttr "multDoubleLinear479.o" "middle_bend.v";
 connectAttr "bifrostGraphShape.corner_wide_negated" "locator2.tx";
 connectAttr "bifrostGraphShape.corner_wide" "locator3.tx";
 connectAttr "mirror_condition.ocr" "middleBend_hardLoc.sy";
@@ -5142,12 +5105,10 @@ connectAttr "bifrostGraphShape.out_upper_slide_1" "upperBend_3_hardLoc.tx";
 connectAttr "middle.addBendControls" "offset_group.v";
 connectAttr "bifrostGraphShape.bend_lower_1" "lower_curve_1_offset.t";
 connectAttr "blendMatrix6.omat" "lower_curve_1_offset.opm";
-connectAttr "unitConversion448.o" "lower_curve_1_offset.ry";
 connectAttr "bifrostGraphShape.bend_lower_2" "lower_curve_2_offset.t";
 connectAttr "blendMatrix5.omat" "lower_curve_2_offset.opm";
 connectAttr "bifrostGraphShape.bend_lower_3" "lower_curve_3_offset.t";
 connectAttr "blendMatrix8.omat" "lower_curve_3_offset.opm";
-connectAttr "unitConversion449.o" "lower_curve_3_offset.ry";
 connectAttr "blendMatrix4.omat" "upper_curve_4_offset.opm";
 connectAttr "bifrostGraphShape.corner_wide_out" "upper_curve_4_offset.tz";
 connectAttr "twistDown_root_connector_aimConstraint1.crx" "twistDown_root_connector.rx"
@@ -5226,12 +5187,10 @@ connectAttr "twistDown_root_connector_aimConstraint1.w0" "twistDown_root_connect
 connectAttr "middle.wm" "twistDown_root_connector_aimConstraint1.wum";
 connectAttr "bifrostGraphShape.bend_upper_3" "upper_curve_3_offset.t";
 connectAttr "blendMatrix3.omat" "upper_curve_3_offset.opm";
-connectAttr "unitConversion450.o" "upper_curve_3_offset.ry";
 connectAttr "bifrostGraphShape.bend_upper_2" "upper_curve_2_offset.t";
 connectAttr "blendMatrix2.omat" "upper_curve_2_offset.opm";
 connectAttr "bifrostGraphShape.bend_upper_1" "upper_curve_1_offset.t";
 connectAttr "blendMatrix1.omat" "upper_curve_1_offset.opm";
-connectAttr "unitConversion451.o" "upper_curve_1_offset.ry";
 connectAttr "root_connector_decomposeMatrix.osx" "ik_joints.sx";
 connectAttr "root_connector_decomposeMatrix.osy" "ik_joints.sy";
 connectAttr "root_connector_decomposeMatrix.osz" "ik_joints.sz";
@@ -5516,17 +5475,107 @@ connectAttr "multDoubleLinear478.o" "bifrostGraphShape.angle";
 connectAttr "root_connector_decomposeMatrix.osx" "bifrostGraphShape.global_scale"
 		;
 connectAttr "middle.middleBend" "bifrostGraphShape.middle_bend";
-connectAttr "middle.noCorner" "bifrostGraphShape.smooth_mode";
+connectAttr "middle.noEllbow" "bifrostGraphShape.smooth_mode";
 connectAttr "middle.wm" "bifrostGraphShape.middle_matrix";
 connectAttr "a_finalJoint.wm" "bifrostGraphShape.start_matrix";
 connectAttr "end_finalJoint.wm" "bifrostGraphShape.end_matrix";
 connectAttr "middle.radius" "bifrostGraphShape.radius";
-connectAttr "upperBend.t" "bifrostGraphShape.in_upper_bend";
-connectAttr "lowerBend.t" "bifrostGraphShape.in_lower_bend";
+connectAttr "upper_bend.t" "bifrostGraphShape.in_upper_bend";
+connectAttr "lower_bend.t" "bifrostGraphShape.in_lower_bend";
 connectAttr "middle.sharpCorner" "bifrostGraphShape.sharp_corner";
 connectAttr "middle.startWeight" "bifrostGraphShape.startWeight";
 connectAttr "middle.endWeight" "bifrostGraphShape.endWeight";
 connectAttr "distanceBetween4.d" "bifrostGraphShape.init_length";
+connectAttr "twist_1_mpath.ac" "twist_0_joint.t";
+connectAttr "twist_1_mpath.msg" "twist_0_joint.sml";
+connectAttr "twist_1_mpath.rx" "twist_0_joint.rx";
+connectAttr "twist_1_mpath.ry" "twist_0_joint.ry";
+connectAttr "twist_1_mpath.rz" "twist_0_joint.rz";
+connectAttr "twist_1_mpath.ro" "twist_0_joint.ro";
+connectAttr "final_joints.sx" "twist_0_joint.sx";
+connectAttr "volume_multiplyDivide.oy" "twist_0_joint.sy";
+connectAttr "volume_multiplyDivide.oy" "twist_0_joint.sz";
+connectAttr "twist_2_mpath.ac" "twist_1_joint.t";
+connectAttr "twist_2_mpath.msg" "twist_1_joint.sml";
+connectAttr "twist_2_mpath.rx" "twist_1_joint.rx";
+connectAttr "twist_2_mpath.ry" "twist_1_joint.ry";
+connectAttr "twist_2_mpath.rz" "twist_1_joint.rz";
+connectAttr "twist_2_mpath.ro" "twist_1_joint.ro";
+connectAttr "final_joints.sx" "twist_1_joint.sx";
+connectAttr "volume_multiplyDivide.oy" "twist_1_joint.sy";
+connectAttr "volume_multiplyDivide.oy" "twist_1_joint.sz";
+connectAttr "twist_3_mpath.ac" "twist_2_joint.t";
+connectAttr "twist_3_mpath.msg" "twist_2_joint.sml";
+connectAttr "twist_3_mpath.rx" "twist_2_joint.rx";
+connectAttr "twist_3_mpath.ry" "twist_2_joint.ry";
+connectAttr "twist_3_mpath.rz" "twist_2_joint.rz";
+connectAttr "twist_3_mpath.ro" "twist_2_joint.ro";
+connectAttr "final_joints.sx" "twist_2_joint.sx";
+connectAttr "volume_multiplyDivide.oy" "twist_2_joint.sy";
+connectAttr "volume_multiplyDivide.oy" "twist_2_joint.sz";
+connectAttr "twist_4_mpath.ac" "twist_3_joint.t";
+connectAttr "twist_4_mpath.msg" "twist_3_joint.sml";
+connectAttr "twist_4_mpath.rx" "twist_3_joint.rx";
+connectAttr "twist_4_mpath.ry" "twist_3_joint.ry";
+connectAttr "twist_4_mpath.rz" "twist_3_joint.rz";
+connectAttr "twist_4_mpath.ro" "twist_3_joint.ro";
+connectAttr "final_joints.sx" "twist_3_joint.sx";
+connectAttr "volume_multiplyDivide.oy" "twist_3_joint.sy";
+connectAttr "volume_multiplyDivide.oy" "twist_3_joint.sz";
+connectAttr "twist_5_mpath.ac" "twist_4_joint.t";
+connectAttr "twist_5_mpath.msg" "twist_4_joint.sml";
+connectAttr "twist_5_mpath.rx" "twist_4_joint.rx";
+connectAttr "twist_5_mpath.ry" "twist_4_joint.ry";
+connectAttr "twist_5_mpath.rz" "twist_4_joint.rz";
+connectAttr "twist_5_mpath.ro" "twist_4_joint.ro";
+connectAttr "final_joints.sx" "twist_4_joint.sx";
+connectAttr "volume_multiplyDivide.oy" "twist_4_joint.sy";
+connectAttr "volume_multiplyDivide.oy" "twist_4_joint.sz";
+connectAttr "twist_6_mpath.ac" "twist_5_joint.t";
+connectAttr "twist_6_mpath.msg" "twist_5_joint.sml";
+connectAttr "twist_6_mpath.rx" "twist_5_joint.rx";
+connectAttr "twist_6_mpath.ry" "twist_5_joint.ry";
+connectAttr "twist_6_mpath.rz" "twist_5_joint.rz";
+connectAttr "twist_6_mpath.ro" "twist_5_joint.ro";
+connectAttr "final_joints.sx" "twist_5_joint.sx";
+connectAttr "volume_multiplyDivide.ox" "twist_5_joint.sy";
+connectAttr "volume_multiplyDivide.ox" "twist_5_joint.sz";
+connectAttr "twist_7_mpath.ac" "twist_6_joint.t";
+connectAttr "twist_7_mpath.msg" "twist_6_joint.sml";
+connectAttr "twist_7_mpath.rx" "twist_6_joint.rx";
+connectAttr "twist_7_mpath.ry" "twist_6_joint.ry";
+connectAttr "twist_7_mpath.rz" "twist_6_joint.rz";
+connectAttr "twist_7_mpath.ro" "twist_6_joint.ro";
+connectAttr "final_joints.sx" "twist_6_joint.sx";
+connectAttr "volume_multiplyDivide.ox" "twist_6_joint.sy";
+connectAttr "volume_multiplyDivide.ox" "twist_6_joint.sz";
+connectAttr "twist_8_mpath.ac" "twist_7_joint.t";
+connectAttr "twist_8_mpath.msg" "twist_7_joint.sml";
+connectAttr "twist_8_mpath.rx" "twist_7_joint.rx";
+connectAttr "twist_8_mpath.ry" "twist_7_joint.ry";
+connectAttr "twist_8_mpath.rz" "twist_7_joint.rz";
+connectAttr "twist_8_mpath.ro" "twist_7_joint.ro";
+connectAttr "final_joints.sx" "twist_7_joint.sx";
+connectAttr "volume_multiplyDivide.ox" "twist_7_joint.sy";
+connectAttr "volume_multiplyDivide.ox" "twist_7_joint.sz";
+connectAttr "twist_9_mpath.ac" "twist_8_joint.t";
+connectAttr "twist_9_mpath.msg" "twist_8_joint.sml";
+connectAttr "twist_9_mpath.rx" "twist_8_joint.rx";
+connectAttr "twist_9_mpath.ry" "twist_8_joint.ry";
+connectAttr "twist_9_mpath.rz" "twist_8_joint.rz";
+connectAttr "twist_9_mpath.ro" "twist_8_joint.ro";
+connectAttr "final_joints.sx" "twist_8_joint.sx";
+connectAttr "volume_multiplyDivide.ox" "twist_8_joint.sy";
+connectAttr "volume_multiplyDivide.ox" "twist_8_joint.sz";
+connectAttr "twist_10_mpath.ac" "twist_9_joint.t";
+connectAttr "twist_10_mpath.msg" "twist_9_joint.sml";
+connectAttr "twist_10_mpath.rx" "twist_9_joint.rx";
+connectAttr "twist_10_mpath.ry" "twist_9_joint.ry";
+connectAttr "twist_10_mpath.rz" "twist_9_joint.rz";
+connectAttr "twist_10_mpath.ro" "twist_9_joint.ro";
+connectAttr "final_joints.sx" "twist_9_joint.sx";
+connectAttr "volume_multiplyDivide.ox" "twist_9_joint.sy";
+connectAttr "volume_multiplyDivide.ox" "twist_9_joint.sz";
 connectAttr "final_joints.s" "outJoints.s";
 connectAttr "root_outJoint_decMat.ory" "root_outJoint.ry";
 connectAttr "root_outJoint_decMat.orz" "root_outJoint.rz";
@@ -5537,20 +5586,116 @@ connectAttr "root_outJoint_decMat.otx" "root_outJoint.tx";
 connectAttr "root_outJoint_decMat.osx" "root_outJoint.sx";
 connectAttr "root_outJoint_decMat.osy" "root_outJoint.sy";
 connectAttr "root_outJoint_decMat.osz" "root_outJoint.sz";
-connectAttr "b_finalJoint.ty" "middle_outJoint.ty";
-connectAttr "b_finalJoint.tz" "middle_outJoint.tz";
-connectAttr "b_finalJoint.tx" "middle_outJoint.tx";
-connectAttr "b_finalJoint.ry" "middle_outJoint.ry";
-connectAttr "b_finalJoint.rz" "middle_outJoint.rz";
-connectAttr "b_finalJoint.rx" "middle_outJoint.rx";
-connectAttr "root_outJoint.s" "middle_outJoint.is";
-connectAttr "end_finalJoint.ty" "end_outJoint.ty";
-connectAttr "end_finalJoint.tz" "end_outJoint.tz";
-connectAttr "end_finalJoint.tx" "end_outJoint.tx";
-connectAttr "middle_outJoint.s" "end_outJoint.is";
-connectAttr "end_finalJoint.ry" "end_outJoint.ry";
-connectAttr "end_finalJoint.rz" "end_outJoint.rz";
-connectAttr "end_finalJoint.rx" "end_outJoint.rx";
+connectAttr "decomposeMatrix52.otx" "twist_0_outJoint.tx";
+connectAttr "decomposeMatrix52.oty" "twist_0_outJoint.ty";
+connectAttr "decomposeMatrix52.otz" "twist_0_outJoint.tz";
+connectAttr "decomposeMatrix52.orx" "twist_0_outJoint.rx";
+connectAttr "decomposeMatrix52.ory" "twist_0_outJoint.ry";
+connectAttr "decomposeMatrix52.orz" "twist_0_outJoint.rz";
+connectAttr "decomposeMatrix52.osx" "twist_0_outJoint.sx";
+connectAttr "decomposeMatrix52.osy" "twist_0_outJoint.sy";
+connectAttr "decomposeMatrix52.osz" "twist_0_outJoint.sz";
+connectAttr "root_outJoint.s" "twist_0_outJoint.is";
+connectAttr "decomposeMatrix50.otx" "twist_1_outJoint.tx";
+connectAttr "decomposeMatrix50.oty" "twist_1_outJoint.ty";
+connectAttr "decomposeMatrix50.otz" "twist_1_outJoint.tz";
+connectAttr "decomposeMatrix50.orx" "twist_1_outJoint.rx";
+connectAttr "decomposeMatrix50.ory" "twist_1_outJoint.ry";
+connectAttr "decomposeMatrix50.orz" "twist_1_outJoint.rz";
+connectAttr "decomposeMatrix50.osx" "twist_1_outJoint.sx";
+connectAttr "decomposeMatrix50.osy" "twist_1_outJoint.sy";
+connectAttr "decomposeMatrix50.osz" "twist_1_outJoint.sz";
+connectAttr "twist_0_outJoint.s" "twist_1_outJoint.is";
+connectAttr "decomposeMatrix57.otx" "twist_2_outJoint.tx";
+connectAttr "decomposeMatrix57.oty" "twist_2_outJoint.ty";
+connectAttr "decomposeMatrix57.otz" "twist_2_outJoint.tz";
+connectAttr "decomposeMatrix57.orx" "twist_2_outJoint.rx";
+connectAttr "decomposeMatrix57.ory" "twist_2_outJoint.ry";
+connectAttr "decomposeMatrix57.orz" "twist_2_outJoint.rz";
+connectAttr "decomposeMatrix57.osx" "twist_2_outJoint.sx";
+connectAttr "decomposeMatrix57.osy" "twist_2_outJoint.sy";
+connectAttr "decomposeMatrix57.osz" "twist_2_outJoint.sz";
+connectAttr "twist_1_outJoint.s" "twist_2_outJoint.is";
+connectAttr "decomposeMatrix55.otx" "twist_3_outJoint.tx";
+connectAttr "decomposeMatrix55.oty" "twist_3_outJoint.ty";
+connectAttr "decomposeMatrix55.otz" "twist_3_outJoint.tz";
+connectAttr "decomposeMatrix55.orx" "twist_3_outJoint.rx";
+connectAttr "decomposeMatrix55.ory" "twist_3_outJoint.ry";
+connectAttr "decomposeMatrix55.orz" "twist_3_outJoint.rz";
+connectAttr "decomposeMatrix55.osx" "twist_3_outJoint.sx";
+connectAttr "decomposeMatrix55.osy" "twist_3_outJoint.sy";
+connectAttr "decomposeMatrix55.osz" "twist_3_outJoint.sz";
+connectAttr "twist_2_outJoint.s" "twist_3_outJoint.is";
+connectAttr "decomposeMatrix59.otx" "twist_4_outJoint.tx";
+connectAttr "decomposeMatrix59.oty" "twist_4_outJoint.ty";
+connectAttr "decomposeMatrix59.otz" "twist_4_outJoint.tz";
+connectAttr "decomposeMatrix59.orx" "twist_4_outJoint.rx";
+connectAttr "decomposeMatrix59.ory" "twist_4_outJoint.ry";
+connectAttr "decomposeMatrix59.orz" "twist_4_outJoint.rz";
+connectAttr "decomposeMatrix59.osx" "twist_4_outJoint.sx";
+connectAttr "decomposeMatrix59.osy" "twist_4_outJoint.sy";
+connectAttr "decomposeMatrix59.osz" "twist_4_outJoint.sz";
+connectAttr "twist_3_outJoint.s" "twist_4_outJoint.is";
+connectAttr "decomposeMatrix60.otx" "twist_5_outJoint.tx";
+connectAttr "decomposeMatrix60.oty" "twist_5_outJoint.ty";
+connectAttr "decomposeMatrix60.otz" "twist_5_outJoint.tz";
+connectAttr "decomposeMatrix60.orx" "twist_5_outJoint.rx";
+connectAttr "decomposeMatrix60.ory" "twist_5_outJoint.ry";
+connectAttr "decomposeMatrix60.orz" "twist_5_outJoint.rz";
+connectAttr "decomposeMatrix60.osx" "twist_5_outJoint.sx";
+connectAttr "decomposeMatrix60.osy" "twist_5_outJoint.sy";
+connectAttr "decomposeMatrix60.osz" "twist_5_outJoint.sz";
+connectAttr "twist_4_outJoint.s" "twist_5_outJoint.is";
+connectAttr "decomposeMatrix56.otx" "twist_6_outJoint.tx";
+connectAttr "decomposeMatrix56.oty" "twist_6_outJoint.ty";
+connectAttr "decomposeMatrix56.otz" "twist_6_outJoint.tz";
+connectAttr "decomposeMatrix56.orx" "twist_6_outJoint.rx";
+connectAttr "decomposeMatrix56.ory" "twist_6_outJoint.ry";
+connectAttr "decomposeMatrix56.orz" "twist_6_outJoint.rz";
+connectAttr "decomposeMatrix56.osx" "twist_6_outJoint.sx";
+connectAttr "decomposeMatrix56.osy" "twist_6_outJoint.sy";
+connectAttr "decomposeMatrix56.osz" "twist_6_outJoint.sz";
+connectAttr "twist_5_outJoint.s" "twist_6_outJoint.is";
+connectAttr "decomposeMatrix58.otx" "twist_7_outJoint.tx";
+connectAttr "decomposeMatrix58.oty" "twist_7_outJoint.ty";
+connectAttr "decomposeMatrix58.otz" "twist_7_outJoint.tz";
+connectAttr "decomposeMatrix58.orx" "twist_7_outJoint.rx";
+connectAttr "decomposeMatrix58.ory" "twist_7_outJoint.ry";
+connectAttr "decomposeMatrix58.orz" "twist_7_outJoint.rz";
+connectAttr "decomposeMatrix58.osx" "twist_7_outJoint.sx";
+connectAttr "decomposeMatrix58.osy" "twist_7_outJoint.sy";
+connectAttr "decomposeMatrix58.osz" "twist_7_outJoint.sz";
+connectAttr "twist_6_outJoint.s" "twist_7_outJoint.is";
+connectAttr "decomposeMatrix51.otx" "twist_8_outJoint.tx";
+connectAttr "decomposeMatrix51.oty" "twist_8_outJoint.ty";
+connectAttr "decomposeMatrix51.otz" "twist_8_outJoint.tz";
+connectAttr "decomposeMatrix51.orx" "twist_8_outJoint.rx";
+connectAttr "decomposeMatrix51.ory" "twist_8_outJoint.ry";
+connectAttr "decomposeMatrix51.orz" "twist_8_outJoint.rz";
+connectAttr "decomposeMatrix51.osx" "twist_8_outJoint.sx";
+connectAttr "decomposeMatrix51.osy" "twist_8_outJoint.sy";
+connectAttr "decomposeMatrix51.osz" "twist_8_outJoint.sz";
+connectAttr "twist_7_outJoint.s" "twist_8_outJoint.is";
+connectAttr "decomposeMatrix54.otx" "twist_9_outJoint.tx";
+connectAttr "decomposeMatrix54.oty" "twist_9_outJoint.ty";
+connectAttr "decomposeMatrix54.otz" "twist_9_outJoint.tz";
+connectAttr "decomposeMatrix54.orx" "twist_9_outJoint.rx";
+connectAttr "decomposeMatrix54.ory" "twist_9_outJoint.ry";
+connectAttr "decomposeMatrix54.orz" "twist_9_outJoint.rz";
+connectAttr "decomposeMatrix54.osx" "twist_9_outJoint.sx";
+connectAttr "decomposeMatrix54.osy" "twist_9_outJoint.sy";
+connectAttr "decomposeMatrix54.osz" "twist_9_outJoint.sz";
+connectAttr "twist_8_outJoint.s" "twist_9_outJoint.is";
+connectAttr "root_outJoint_decMat1.ory" "end_outJoint.ry";
+connectAttr "root_outJoint_decMat1.orz" "end_outJoint.rz";
+connectAttr "root_outJoint_decMat1.orx" "end_outJoint.rx";
+connectAttr "root_outJoint_decMat1.oty" "end_outJoint.ty";
+connectAttr "root_outJoint_decMat1.otz" "end_outJoint.tz";
+connectAttr "root_outJoint_decMat1.otx" "end_outJoint.tx";
+connectAttr "root_outJoint_decMat1.osx" "end_outJoint.sx";
+connectAttr "root_outJoint_decMat1.osy" "end_outJoint.sy";
+connectAttr "root_outJoint_decMat1.osz" "end_outJoint.sz";
+connectAttr "twist_9_outJoint.s" "end_outJoint.is";
 connectAttr "decomposeMatrix42.otx" "fk_out_grp.tx";
 connectAttr "decomposeMatrix42.oty" "fk_out_grp.ty";
 connectAttr "decomposeMatrix42.otz" "fk_out_grp.tz";
@@ -5582,107 +5727,6 @@ connectAttr "decomposeMatrix44.osx" "ikRev_out.sx";
 connectAttr "root_connector_decomposeMatrix.osy" "end_out.sy";
 connectAttr "root_connector_decomposeMatrix.osz" "end_out.sz";
 connectAttr "root_connector_decomposeMatrix.osx" "end_out.sx";
-connectAttr "twistUp_curve_0_mpath.ac" "twistUp_0_skinJoint.t";
-connectAttr "twistUp_curve_0_mpath.msg" "twistUp_0_skinJoint.sml";
-connectAttr "twistUp_curve_0_mpath.rx" "twistUp_0_skinJoint.rx";
-connectAttr "twistUp_curve_0_mpath.ry" "twistUp_0_skinJoint.ry";
-connectAttr "twistUp_curve_0_mpath.rz" "twistUp_0_skinJoint.rz";
-connectAttr "twistUp_curve_0_mpath.ro" "twistUp_0_skinJoint.ro";
-connectAttr "final_joints.sx" "twistUp_0_skinJoint.sx";
-connectAttr "multiplyDivide369.oy" "twistUp_0_skinJoint.sy";
-connectAttr "multiplyDivide369.oy" "twistUp_0_skinJoint.sz";
-connectAttr "twistUp_curve_1_mpath.ac" "twistUp_1_skinJoint.t";
-connectAttr "twistUp_curve_1_mpath.msg" "twistUp_1_skinJoint.sml";
-connectAttr "twistUp_curve_1_mpath.rx" "twistUp_1_skinJoint.rx";
-connectAttr "twistUp_curve_1_mpath.ry" "twistUp_1_skinJoint.ry";
-connectAttr "twistUp_curve_1_mpath.rz" "twistUp_1_skinJoint.rz";
-connectAttr "twistUp_curve_1_mpath.ro" "twistUp_1_skinJoint.ro";
-connectAttr "final_joints.sx" "twistUp_1_skinJoint.sx";
-connectAttr "multiplyDivide369.oy" "twistUp_1_skinJoint.sy";
-connectAttr "multiplyDivide369.oy" "twistUp_1_skinJoint.sz";
-connectAttr "twistUp_curve_2_mpath.ac" "twistUp_2_skinJoint.t";
-connectAttr "twistUp_curve_2_mpath.msg" "twistUp_2_skinJoint.sml";
-connectAttr "twistUp_curve_2_mpath.rx" "twistUp_2_skinJoint.rx";
-connectAttr "twistUp_curve_2_mpath.ry" "twistUp_2_skinJoint.ry";
-connectAttr "twistUp_curve_2_mpath.rz" "twistUp_2_skinJoint.rz";
-connectAttr "twistUp_curve_2_mpath.ro" "twistUp_2_skinJoint.ro";
-connectAttr "final_joints.sx" "twistUp_2_skinJoint.sx";
-connectAttr "multiplyDivide369.oy" "twistUp_2_skinJoint.sy";
-connectAttr "multiplyDivide369.oy" "twistUp_2_skinJoint.sz";
-connectAttr "twistUp_curve_3_mpath.ac" "twistUp_3_skinJoint.t";
-connectAttr "twistUp_curve_3_mpath.msg" "twistUp_3_skinJoint.sml";
-connectAttr "twistUp_curve_3_mpath.rx" "twistUp_3_skinJoint.rx";
-connectAttr "twistUp_curve_3_mpath.ry" "twistUp_3_skinJoint.ry";
-connectAttr "twistUp_curve_3_mpath.rz" "twistUp_3_skinJoint.rz";
-connectAttr "twistUp_curve_3_mpath.ro" "twistUp_3_skinJoint.ro";
-connectAttr "final_joints.sx" "twistUp_3_skinJoint.sx";
-connectAttr "multiplyDivide369.oy" "twistUp_3_skinJoint.sy";
-connectAttr "multiplyDivide369.oy" "twistUp_3_skinJoint.sz";
-connectAttr "twistUp_curve_4_mpath.ac" "twistUp_4_skinJoint.t";
-connectAttr "twistUp_curve_4_mpath.msg" "twistUp_4_skinJoint.sml";
-connectAttr "twistUp_curve_4_mpath.rx" "twistUp_4_skinJoint.rx";
-connectAttr "twistUp_curve_4_mpath.ry" "twistUp_4_skinJoint.ry";
-connectAttr "twistUp_curve_4_mpath.rz" "twistUp_4_skinJoint.rz";
-connectAttr "twistUp_curve_4_mpath.ro" "twistUp_4_skinJoint.ro";
-connectAttr "final_joints.sx" "twistUp_4_skinJoint.sx";
-connectAttr "multiplyDivide369.oy" "twistUp_4_skinJoint.sy";
-connectAttr "multiplyDivide369.oy" "twistUp_4_skinJoint.sz";
-connectAttr "twistDown_curve_0_mpath.ac" "twistDown_0_skinJoint.t";
-connectAttr "twistDown_curve_0_mpath.msg" "twistDown_0_skinJoint.sml";
-connectAttr "twistDown_curve_0_mpath.rx" "twistDown_0_skinJoint.rx";
-connectAttr "twistDown_curve_0_mpath.ry" "twistDown_0_skinJoint.ry";
-connectAttr "twistDown_curve_0_mpath.rz" "twistDown_0_skinJoint.rz";
-connectAttr "twistDown_curve_0_mpath.ro" "twistDown_0_skinJoint.ro";
-connectAttr "final_joints.sx" "twistDown_0_skinJoint.sx";
-connectAttr "multiplyDivide369.ox" "twistDown_0_skinJoint.sy";
-connectAttr "multiplyDivide369.ox" "twistDown_0_skinJoint.sz";
-connectAttr "twistDown_curve_1_mpath.ac" "twistDown_1_skinJoint.t";
-connectAttr "twistDown_curve_1_mpath.msg" "twistDown_1_skinJoint.sml";
-connectAttr "twistDown_curve_1_mpath.rx" "twistDown_1_skinJoint.rx";
-connectAttr "twistDown_curve_1_mpath.ry" "twistDown_1_skinJoint.ry";
-connectAttr "twistDown_curve_1_mpath.rz" "twistDown_1_skinJoint.rz";
-connectAttr "twistDown_curve_1_mpath.ro" "twistDown_1_skinJoint.ro";
-connectAttr "final_joints.sx" "twistDown_1_skinJoint.sx";
-connectAttr "multiplyDivide369.ox" "twistDown_1_skinJoint.sy";
-connectAttr "multiplyDivide369.ox" "twistDown_1_skinJoint.sz";
-connectAttr "twistDown_curve_2_mpath.ac" "twistDown_2_skinJoint.t";
-connectAttr "twistDown_curve_2_mpath.msg" "twistDown_2_skinJoint.sml";
-connectAttr "twistDown_curve_2_mpath.rx" "twistDown_2_skinJoint.rx";
-connectAttr "twistDown_curve_2_mpath.ry" "twistDown_2_skinJoint.ry";
-connectAttr "twistDown_curve_2_mpath.rz" "twistDown_2_skinJoint.rz";
-connectAttr "twistDown_curve_2_mpath.ro" "twistDown_2_skinJoint.ro";
-connectAttr "final_joints.sx" "twistDown_2_skinJoint.sx";
-connectAttr "multiplyDivide369.ox" "twistDown_2_skinJoint.sy";
-connectAttr "multiplyDivide369.ox" "twistDown_2_skinJoint.sz";
-connectAttr "twistDown_curve_3_mpath.ac" "twistDown_3_skinJoint.t";
-connectAttr "twistDown_curve_3_mpath.msg" "twistDown_3_skinJoint.sml";
-connectAttr "twistDown_curve_3_mpath.rx" "twistDown_3_skinJoint.rx";
-connectAttr "twistDown_curve_3_mpath.ry" "twistDown_3_skinJoint.ry";
-connectAttr "twistDown_curve_3_mpath.rz" "twistDown_3_skinJoint.rz";
-connectAttr "twistDown_curve_3_mpath.ro" "twistDown_3_skinJoint.ro";
-connectAttr "final_joints.sx" "twistDown_3_skinJoint.sx";
-connectAttr "multiplyDivide369.ox" "twistDown_3_skinJoint.sy";
-connectAttr "multiplyDivide369.ox" "twistDown_3_skinJoint.sz";
-connectAttr "twistDown_curve_4_mpath.ac" "twistDown_4_skinJoint.t";
-connectAttr "twistDown_curve_4_mpath.msg" "twistDown_4_skinJoint.sml";
-connectAttr "twistDown_curve_4_mpath.rx" "twistDown_4_skinJoint.rx";
-connectAttr "twistDown_curve_4_mpath.ry" "twistDown_4_skinJoint.ry";
-connectAttr "twistDown_curve_4_mpath.rz" "twistDown_4_skinJoint.rz";
-connectAttr "twistDown_curve_4_mpath.ro" "twistDown_4_skinJoint.ro";
-connectAttr "final_joints.sx" "twistDown_4_skinJoint.sx";
-connectAttr "multiplyDivide369.ox" "twistDown_4_skinJoint.sy";
-connectAttr "multiplyDivide369.ox" "twistDown_4_skinJoint.sz";
-connectAttr "twistDown_curve_0_mpath1.ac" "twistKnee_skinJoint.t";
-connectAttr "pairBlend1.or" "twistKnee_skinJoint.r";
-connectAttr "middle_volume_outJoint.s" "twistKnee_skinJoint.s";
-connectAttr "unitConversion452.o" "twistKnee_y_2_skinJoint.driverAngle";
-connectAttr "setRange2.ox" "twistKnee_y_2_skinJoint.tx";
-connectAttr "setRange2.oy" "twistKnee_y_2_skinJoint.tz";
-connectAttr "twistKnee_skinJoint.s" "twistKnee_y_2_skinJoint.is";
-connectAttr "unitConversion452.o" "twistKnee_y_1_skinJoint.driverAngle" -l on;
-connectAttr "setRange1.ox" "twistKnee_y_1_skinJoint.tx";
-connectAttr "setRange1.oy" "twistKnee_y_1_skinJoint.tz";
-connectAttr "twistKnee_skinJoint.s" "twistKnee_y_1_skinJoint.is";
 connectAttr "control.ikFk" "ikFk_reverse.ix";
 relationship "link" ":lightLinker1" ":initialShadingGroup.message" ":defaultLightSet.message";
 relationship "link" ":lightLinker1" ":initialParticleSE.message" ":defaultLightSet.message";
@@ -5738,17 +5782,6 @@ connectAttr "ik_aim.iog" "ikFkSwitchSet.dsm" -na;
 connectAttr "ik_root.iog" "ikFkSwitchSet.dsm" -na;
 connectAttr "ik_end.iog" "ikFkSwitchSet.dsm" -na;
 connectAttr "middle.iog" "ikFkSwitchSet.dsm" -na;
-connectAttr "twistUp_0_skinJoint.iog" "skinJointsSet.dsm" -na;
-connectAttr "twistUp_1_skinJoint.iog" "skinJointsSet.dsm" -na;
-connectAttr "twistUp_2_skinJoint.iog" "skinJointsSet.dsm" -na;
-connectAttr "twistUp_3_skinJoint.iog" "skinJointsSet.dsm" -na;
-connectAttr "twistUp_4_skinJoint.iog" "skinJointsSet.dsm" -na;
-connectAttr "twistDown_0_skinJoint.iog" "skinJointsSet.dsm" -na;
-connectAttr "twistDown_1_skinJoint.iog" "skinJointsSet.dsm" -na;
-connectAttr "twistDown_2_skinJoint.iog" "skinJointsSet.dsm" -na;
-connectAttr "twistDown_3_skinJoint.iog" "skinJointsSet.dsm" -na;
-connectAttr "twistDown_4_skinJoint.iog" "skinJointsSet.dsm" -na;
-connectAttr "twistKnee_skinJoint.iog" "skinJointsSet.dsm" -na;
 connectAttr "end_fkJoint.wm" "decomposeMatrix42.imat";
 connectAttr "middle_poser.twist" "unitConversion432.i";
 connectAttr "middle_poserOrient_locShape.wp" "rootMiddle_vector.i3[0]";
@@ -5905,41 +5938,22 @@ connectAttr "upperBend_2.iog" "add_moduleControlSet.dsm" -na;
 connectAttr "upperBend_3.iog" "add_moduleControlSet.dsm" -na;
 connectAttr "lowerBend_1.iog" "add_moduleControlSet.dsm" -na;
 connectAttr "upperBend_1.iog" "add_moduleControlSet.dsm" -na;
-connectAttr "upperBend.iog" "add_moduleControlSet.dsm" -na;
-connectAttr "lowerBend.iog" "add_moduleControlSet.dsm" -na;
+connectAttr "upper_bend.iog" "add_moduleControlSet.dsm" -na;
+connectAttr "lower_bend.iog" "add_moduleControlSet.dsm" -na;
 connectAttr "twistUp_renderLayerManager.rlmi[0]" "twistUp_defaultRenderLayer.rlid"
 		;
 connectAttr "twistUp_end_connector.m" "twistUp_multMatrix5.i[0]";
 connectAttr "twistUp_inverseMatrix1.omat" "twistUp_multMatrix5.i[1]";
 connectAttr "twistUp_multMatrix5.o" "twistUp_decomposeMatrix5.imat";
-connectAttr "twistUp_decomposeMatrix5.oqw" "twistUp_quatToEuler1.iqw";
-connectAttr "twistUp_decomposeMatrix5.oqx" "twistUp_quatToEuler1.iqx";
+connectAttr "twistUp_decomposeMatrix5.oqw" "twist_quatToEuler.iqw";
+connectAttr "twistUp_decomposeMatrix5.oqx" "twist_quatToEuler.iqx";
 connectAttr "twistUp_decomposeMatrix6.oqw" "twistUp_quatToEuler2.iqw";
 connectAttr "twistUp_decomposeMatrix6.oqx" "twistUp_quatToEuler2.iqx";
 connectAttr "twistUp_multMatrix6.o" "twistUp_decomposeMatrix6.imat";
 connectAttr "twistUp_start_connector.m" "twistUp_multMatrix6.i[0]";
-connectAttr "final_curveShape.ws" "twistUp_curve_0_mpath.gp";
-connectAttr "twistUp_startUp_loc.wm" "twistUp_curve_0_mpath.wum";
-connectAttr "multDoubleLinear468.o" "twistUp_curve_0_mpath.u";
-connectAttr "final_curveShape.ws" "twistUp_curve_1_mpath.gp";
-connectAttr "twistUp_startUp_loc.wm" "twistUp_curve_1_mpath.wum";
-connectAttr "twistUp_unitConversion19.o" "twistUp_curve_1_mpath.ft";
-connectAttr "multDoubleLinear471.o" "twistUp_curve_1_mpath.u";
-connectAttr "final_curveShape.ws" "twistUp_curve_2_mpath.gp";
-connectAttr "twistUp_startUp_loc.wm" "twistUp_curve_2_mpath.wum";
-connectAttr "twistUp_unitConversion18.o" "twistUp_curve_2_mpath.ft";
-connectAttr "multDoubleLinear470.o" "twistUp_curve_2_mpath.u";
-connectAttr "final_curveShape.ws" "twistUp_curve_3_mpath.gp";
-connectAttr "twistUp_startUp_loc.wm" "twistUp_curve_3_mpath.wum";
-connectAttr "twistUp_unitConversion20.o" "twistUp_curve_3_mpath.ft";
-connectAttr "multDoubleLinear472.o" "twistUp_curve_3_mpath.u";
-connectAttr "final_curveShape.ws" "twistUp_curve_4_mpath.gp";
-connectAttr "twistUp_startUp_loc.wm" "twistUp_curve_4_mpath.wum";
-connectAttr "twistUp_quatToEuler1.orx" "twistUp_curve_4_mpath.ft";
-connectAttr "multDoubleLinear469.o" "twistUp_curve_4_mpath.u";
-connectAttr "twistUp_quatToEuler1.orx" "twistUp_unitConversion18.i";
-connectAttr "twistUp_quatToEuler1.orx" "twistUp_unitConversion19.i";
-connectAttr "twistUp_quatToEuler1.orx" "twistUp_unitConversion20.i";
+connectAttr "twist_quatToEuler.orx" "twistUp_unitConversion18.i";
+connectAttr "twist_quatToEuler.orx" "twistUp_unitConversion19.i";
+connectAttr "twist_quatToEuler.orx" "twistUp_unitConversion20.i";
 connectAttr "twistUp_startUp_loc.m" "twistUp_inverseMatrix1.imat";
 connectAttr "twistDown_renderLayerManager.rlmi[0]" "twistDown_defaultRenderLayer.rlid"
 		;
@@ -5952,23 +5966,6 @@ connectAttr "twistDown_decomposeMatrix6.oqw" "twistDown_quatToEuler2.iqw";
 connectAttr "twistDown_decomposeMatrix6.oqx" "twistDown_quatToEuler2.iqx";
 connectAttr "twistDown_multMatrix6.o" "twistDown_decomposeMatrix6.imat";
 connectAttr "twistDown_start_connector.m" "twistDown_multMatrix6.i[0]";
-connectAttr "final_curveShape.ws" "twistDown_curve_0_mpath.gp";
-connectAttr "twistDown_startUp_loc.wm" "twistDown_curve_0_mpath.wum";
-connectAttr "final_curveShape.ws" "twistDown_curve_1_mpath.gp";
-connectAttr "twistDown_startUp_loc.wm" "twistDown_curve_1_mpath.wum";
-connectAttr "twistDown_unitConversion19.o" "twistDown_curve_1_mpath.ft";
-connectAttr "final_curveShape.ws" "twistDown_curve_2_mpath.gp";
-connectAttr "twistDown_startUp_loc.wm" "twistDown_curve_2_mpath.wum";
-connectAttr "twistDown_unitConversion18.o" "twistDown_curve_2_mpath.ft";
-connectAttr "addDoubleLinear6.o" "twistDown_curve_2_mpath.u";
-connectAttr "final_curveShape.ws" "twistDown_curve_3_mpath.gp";
-connectAttr "twistDown_startUp_loc.wm" "twistDown_curve_3_mpath.wum";
-connectAttr "twistDown_unitConversion20.o" "twistDown_curve_3_mpath.ft";
-connectAttr "addDoubleLinear5.o" "twistDown_curve_3_mpath.u";
-connectAttr "final_curveShape.ws" "twistDown_curve_4_mpath.gp";
-connectAttr "twistDown_startUp_loc.wm" "twistDown_curve_4_mpath.wum";
-connectAttr "twistDown_quatToEuler1.orx" "twistDown_curve_4_mpath.ft";
-connectAttr "addDoubleLinear7.o" "twistDown_curve_4_mpath.u";
 connectAttr "twistDown_quatToEuler1.orx" "twistDown_unitConversion18.i";
 connectAttr "twistDown_quatToEuler1.orx" "twistDown_unitConversion19.i";
 connectAttr "twistDown_quatToEuler1.orx" "twistDown_unitConversion20.i";
@@ -5982,193 +5979,59 @@ connectAttr "soft_curveShape.ws" "soft_curve_5_mpath.gp";
 connectAttr "soft_curveShape.ws" "soft_curve_6_mpath.gp";
 connectAttr "upperBend_1_hardLoc.wm" "blendMatrix1.imat";
 connectAttr "upperBend_1_softLoc.wm" "blendMatrix1.tgt[0].tmat";
-connectAttr "middle.noCorner" "blendMatrix1.env";
+connectAttr "middle.noEllbow" "blendMatrix1.env";
 connectAttr "upperBend_2_hardLoc.wm" "blendMatrix2.imat";
 connectAttr "upperBend_2_softLoc.wm" "blendMatrix2.tgt[0].tmat";
-connectAttr "middle.noCorner" "blendMatrix2.env";
+connectAttr "middle.noEllbow" "blendMatrix2.env";
 connectAttr "upperBend_3_hardLoc.wm" "blendMatrix3.imat";
 connectAttr "upperBend_3_softLoc.wm" "blendMatrix3.tgt[0].tmat";
-connectAttr "middle.noCorner" "blendMatrix3.env";
+connectAttr "middle.noEllbow" "blendMatrix3.env";
 connectAttr "middleBend_hardLoc.wm" "blendMatrix4.imat";
 connectAttr "middleBend_softLoc.wm" "blendMatrix4.tgt[0].tmat";
-connectAttr "middle.noCorner" "blendMatrix4.env";
+connectAttr "middle.noEllbow" "blendMatrix4.env";
 connectAttr "lowerBend_2_hardLoc.wm" "blendMatrix5.imat";
 connectAttr "lowerBend_2_softLoc.wm" "blendMatrix5.tgt[0].tmat";
-connectAttr "middle.noCorner" "blendMatrix5.env";
+connectAttr "middle.noEllbow" "blendMatrix5.env";
 connectAttr "lowerBend_1_hardLoc.wm" "blendMatrix6.imat";
 connectAttr "lowerBend_1_softLoc.wm" "blendMatrix6.tgt[0].tmat";
-connectAttr "middle.noCorner" "blendMatrix6.env";
+connectAttr "middle.noEllbow" "blendMatrix6.env";
 connectAttr "lowerBend_3_hardLoc.wm" "blendMatrix8.imat";
 connectAttr "lowerBend_3_softLoc.wm" "blendMatrix8.tgt[0].tmat";
-connectAttr "middle.noCorner" "blendMatrix8.env";
-connectAttr "root_connector_decomposeMatrix.osx" "multiplyDivide369.i1x";
-connectAttr "root_connector_decomposeMatrix.osx" "multiplyDivide369.i1y";
-connectAttr "root_connector_decomposeMatrix.osx" "multiplyDivide369.i1z";
-connectAttr "volume_blendColors.opr" "multiplyDivide369.i2x";
-connectAttr "volume_blendColors.opg" "multiplyDivide369.i2y";
+connectAttr "middle.noEllbow" "blendMatrix8.env";
+connectAttr "root_connector_decomposeMatrix.osx" "volume_multiplyDivide.i1x";
+connectAttr "root_connector_decomposeMatrix.osx" "volume_multiplyDivide.i1y";
+connectAttr "root_connector_decomposeMatrix.osx" "volume_multiplyDivide.i1z";
+connectAttr "volume_blendColors.opr" "volume_multiplyDivide.i2x";
+connectAttr "volume_blendColors.opg" "volume_multiplyDivide.i2y";
 connectAttr "locatorShape3.wp" "distanceBetween3.p2";
 connectAttr "ik_end_outShape.wp" "distanceBetween3.p1";
-connectAttr "mod.msg" "bindPose1.m[0]";
-connectAttr "output.msg" "bindPose1.m[1]";
-connectAttr "twist_joints.msg" "bindPose1.m[2]";
-connectAttr "twistUp_2_skinJoint.msg" "bindPose1.m[3]";
-connectAttr "twistDown_0_skinJoint.msg" "bindPose1.m[4]";
-connectAttr "twistDown_1_skinJoint.msg" "bindPose1.m[5]";
-connectAttr "twistDown_2_skinJoint.msg" "bindPose1.m[6]";
-connectAttr "twistUp_0_skinJoint.msg" "bindPose1.m[7]";
-connectAttr "twistDown_4_skinJoint.msg" "bindPose1.m[8]";
-connectAttr "twistUp_4_skinJoint.msg" "bindPose1.m[9]";
-connectAttr "twistUp_1_skinJoint.msg" "bindPose1.m[10]";
-connectAttr "twistUp_3_skinJoint.msg" "bindPose1.m[11]";
-connectAttr "twistDown_3_skinJoint.msg" "bindPose1.m[12]";
-connectAttr "bindPose1.w" "bindPose1.p[0]";
-connectAttr "bindPose1.m[0]" "bindPose1.p[1]";
-connectAttr "bindPose1.m[1]" "bindPose1.p[2]";
-connectAttr "bindPose1.m[2]" "bindPose1.p[3]";
-connectAttr "bindPose1.m[2]" "bindPose1.p[4]";
-connectAttr "bindPose1.m[2]" "bindPose1.p[5]";
-connectAttr "bindPose1.m[2]" "bindPose1.p[6]";
-connectAttr "bindPose1.m[2]" "bindPose1.p[7]";
-connectAttr "bindPose1.m[2]" "bindPose1.p[8]";
-connectAttr "bindPose1.m[2]" "bindPose1.p[9]";
-connectAttr "bindPose1.m[2]" "bindPose1.p[10]";
-connectAttr "bindPose1.m[2]" "bindPose1.p[11]";
-connectAttr "bindPose1.m[2]" "bindPose1.p[12]";
-connectAttr "twistUp_2_skinJoint.bps" "bindPose1.wm[3]";
-connectAttr "twistDown_0_skinJoint.bps" "bindPose1.wm[4]";
-connectAttr "twistDown_1_skinJoint.bps" "bindPose1.wm[5]";
-connectAttr "twistDown_2_skinJoint.bps" "bindPose1.wm[6]";
-connectAttr "twistUp_0_skinJoint.bps" "bindPose1.wm[7]";
-connectAttr "twistDown_4_skinJoint.bps" "bindPose1.wm[8]";
-connectAttr "twistUp_4_skinJoint.bps" "bindPose1.wm[9]";
-connectAttr "twistUp_1_skinJoint.bps" "bindPose1.wm[10]";
-connectAttr "twistUp_3_skinJoint.bps" "bindPose1.wm[11]";
-connectAttr "twistDown_3_skinJoint.bps" "bindPose1.wm[12]";
 connectAttr "middle.mainBendControls" "multDoubleLinear459.i1";
-connectAttr "middle.noCorner" "multDoubleLinear459.i2";
+connectAttr "middle.noEllbow" "multDoubleLinear459.i2";
 connectAttr "b_finalJoint.ry" "unitConversion447.i";
-connectAttr "bifrostGraphShape.bend_lower_2z" "unitConversion448.i";
-connectAttr "bifrostGraphShape.bend_lower_3z" "unitConversion449.i";
-connectAttr "bifrostGraphShape.bend_upper_2z" "unitConversion450.i";
-connectAttr "bifrostGraphShape.bend_upper_1z" "unitConversion451.i";
 connectAttr "blendColors6.op" "plusMinusAverage1.i3[0]";
-connectAttr "twistKnee_skinJoint.t" "plusMinusAverage1.i3[1]";
 connectAttr "plusMinusAverage1.o3" "angleBetween1.v1";
 connectAttr "plusMinusAverage2.o3" "angleBetween1.v2";
 connectAttr "blendColors5.op" "plusMinusAverage2.i3[0]";
-connectAttr "twistKnee_skinJoint.t" "plusMinusAverage2.i3[1]";
 connectAttr "unitConversion452.o" "setRange1.vx";
 connectAttr "unitConversion452.o" "setRange1.vy";
 connectAttr "unitConversion452.o" "setRange1.vz";
-connectAttr "condition1.ocr" "setRange1.omx";
-connectAttr "condition1.ocr" "setRange1.omy";
-connectAttr "condition1.ocg" "setRange1.onx";
-connectAttr "condition1.ocg" "setRange1.ony";
-connectAttr "condition3.ocg" "setRange1.nx";
-connectAttr "condition2.ocg" "setRange1.ny";
-connectAttr "condition3.ocr" "setRange1.mx";
-connectAttr "condition2.ocr" "setRange1.my";
 connectAttr "angleBetween1.a" "unitConversion452.i";
 connectAttr "unitConversion452.o" "setRange2.vx";
 connectAttr "unitConversion452.o" "setRange2.vy";
 connectAttr "unitConversion452.o" "setRange2.vz";
-connectAttr "condition4.ocr" "setRange2.omx";
-connectAttr "condition4.ocr" "setRange2.omy";
-connectAttr "condition4.ocg" "setRange2.onx";
-connectAttr "condition4.ocg" "setRange2.ony";
-connectAttr "condition5.ocg" "setRange2.nx";
-connectAttr "condition6.ocg" "setRange2.ny";
-connectAttr "condition5.ocr" "setRange2.mx";
-connectAttr "condition6.ocr" "setRange2.my";
-connectAttr "mod.msg" "bindPose2.m[0]";
-connectAttr "output.msg" "bindPose2.m[1]";
-connectAttr "twist_joints.msg" "bindPose2.m[2]";
-connectAttr "twistUp_0_skinJoint.msg" "bindPose2.m[3]";
-connectAttr "twistUp_1_skinJoint.msg" "bindPose2.m[4]";
-connectAttr "twistUp_2_skinJoint.msg" "bindPose2.m[5]";
-connectAttr "twistUp_3_skinJoint.msg" "bindPose2.m[6]";
-connectAttr "twistUp_4_skinJoint.msg" "bindPose2.m[7]";
-connectAttr "twistDown_0_skinJoint.msg" "bindPose2.m[8]";
-connectAttr "twistDown_1_skinJoint.msg" "bindPose2.m[9]";
-connectAttr "twistDown_2_skinJoint.msg" "bindPose2.m[10]";
-connectAttr "twistDown_3_skinJoint.msg" "bindPose2.m[11]";
-connectAttr "twistDown_4_skinJoint.msg" "bindPose2.m[12]";
-connectAttr "bindPose2.w" "bindPose2.p[0]";
-connectAttr "bindPose2.m[0]" "bindPose2.p[1]";
-connectAttr "bindPose2.m[1]" "bindPose2.p[2]";
-connectAttr "bindPose2.m[2]" "bindPose2.p[3]";
-connectAttr "bindPose2.m[2]" "bindPose2.p[4]";
-connectAttr "bindPose2.m[2]" "bindPose2.p[5]";
-connectAttr "bindPose2.m[2]" "bindPose2.p[6]";
-connectAttr "bindPose2.m[2]" "bindPose2.p[7]";
-connectAttr "bindPose2.m[2]" "bindPose2.p[8]";
-connectAttr "bindPose2.m[2]" "bindPose2.p[9]";
-connectAttr "bindPose2.m[2]" "bindPose2.p[10]";
-connectAttr "bindPose2.m[2]" "bindPose2.p[11]";
-connectAttr "bindPose2.m[2]" "bindPose2.p[12]";
-connectAttr "bindPose2.m[2]" "bindPose2.p[13]";
-connectAttr "bindPose2.m[13]" "bindPose2.p[14]";
-connectAttr "bindPose2.m[13]" "bindPose2.p[15]";
 connectAttr "multDoubleLinear467.o" "blendColors3.b";
 connectAttr "middle.sharpCorner" "multDoubleLinear466.i2";
 connectAttr "multDoubleLinear466.o" "multDoubleLinear467.i1";
 connectAttr "reverse1.ox" "multDoubleLinear467.i2";
-connectAttr "middle.noCorner" "reverse1.ix";
+connectAttr "middle.noEllbow" "reverse1.ix";
 connectAttr "multDoubleLinear467.o" "blendColors4.b";
-connectAttr "mod.msg" "bindPose3.m[0]";
-connectAttr "output.msg" "bindPose3.m[1]";
-connectAttr "twist_joints.msg" "bindPose3.m[2]";
-connectAttr "twistUp_0_skinJoint.msg" "bindPose3.m[3]";
-connectAttr "twistUp_1_skinJoint.msg" "bindPose3.m[4]";
-connectAttr "twistUp_2_skinJoint.msg" "bindPose3.m[5]";
-connectAttr "twistUp_3_skinJoint.msg" "bindPose3.m[6]";
-connectAttr "twistUp_4_skinJoint.msg" "bindPose3.m[7]";
-connectAttr "twistDown_0_skinJoint.msg" "bindPose3.m[8]";
-connectAttr "twistDown_1_skinJoint.msg" "bindPose3.m[9]";
-connectAttr "twistDown_2_skinJoint.msg" "bindPose3.m[10]";
-connectAttr "twistDown_3_skinJoint.msg" "bindPose3.m[11]";
-connectAttr "twistDown_4_skinJoint.msg" "bindPose3.m[12]";
-connectAttr "twistKnee_skinJoint.msg" "bindPose3.m[13]";
-connectAttr "twistKnee_y_2_skinJoint.msg" "bindPose3.m[14]";
-connectAttr "twistKnee_y_1_skinJoint.msg" "bindPose3.m[15]";
-connectAttr "bindPose3.w" "bindPose3.p[0]";
-connectAttr "bindPose3.m[0]" "bindPose3.p[1]";
-connectAttr "bindPose3.m[1]" "bindPose3.p[2]";
-connectAttr "bindPose3.m[2]" "bindPose3.p[3]";
-connectAttr "bindPose3.m[2]" "bindPose3.p[4]";
-connectAttr "bindPose3.m[2]" "bindPose3.p[5]";
-connectAttr "bindPose3.m[2]" "bindPose3.p[6]";
-connectAttr "bindPose3.m[2]" "bindPose3.p[7]";
-connectAttr "bindPose3.m[2]" "bindPose3.p[8]";
-connectAttr "bindPose3.m[2]" "bindPose3.p[9]";
-connectAttr "bindPose3.m[2]" "bindPose3.p[10]";
-connectAttr "bindPose3.m[2]" "bindPose3.p[11]";
-connectAttr "bindPose3.m[2]" "bindPose3.p[12]";
-connectAttr "bindPose3.m[2]" "bindPose3.p[13]";
-connectAttr "bindPose3.m[13]" "bindPose3.p[14]";
-connectAttr "bindPose3.m[13]" "bindPose3.p[15]";
-connectAttr "twistDown_1_skinJoint.t" "blendColors5.c1";
-connectAttr "twistDown_0_skinJoint.t" "blendColors5.c2";
-connectAttr "twistKnee_skinJoint.radiusWeight" "blendColors5.b";
-connectAttr "twistUp_3_skinJoint.t" "blendColors6.c1";
-connectAttr "twistUp_4_skinJoint.t" "blendColors6.c2";
-connectAttr "twistKnee_skinJoint.radiusWeight" "blendColors6.b";
-connectAttr "twistUp_0_skinJoint.curvePosition" "multDoubleLinear468.i1";
-connectAttr "twistUp_4_skinJoint.curvePosition" "multDoubleLinear469.i1";
-connectAttr "twistUp_2_skinJoint.curvePosition" "multDoubleLinear470.i1";
-connectAttr "twistUp_1_skinJoint.curvePosition" "multDoubleLinear471.i1";
-connectAttr "twistUp_3_skinJoint.curvePosition" "multDoubleLinear472.i1";
-connectAttr "twistDown_1_skinJoint.curvePosition" "multDoubleLinear473.i1";
-connectAttr "twistDown_0_skinJoint.curvePosition" "multDoubleLinear474.i1";
-connectAttr "twistDown_2_skinJoint.curvePosition" "multDoubleLinear475.i1";
-connectAttr "twistDown_3_skinJoint.curvePosition" "multDoubleLinear476.i1";
-connectAttr "twistDown_4_skinJoint.curvePosition" "multDoubleLinear477.i1";
+connectAttr "twist_6_joint.t" "blendColors5.c1";
+connectAttr "twist_5_joint.t" "blendColors5.c2";
+connectAttr "twist_3_joint.t" "blendColors6.c1";
+connectAttr "twist_4_joint.t" "blendColors6.c2";
 connectAttr "mirror_condition.ocg" "unitConversion453.i";
 connectAttr "unitConversion447.o" "multDoubleLinear478.i1";
 connectAttr "mirror_condition.ocr" "multDoubleLinear478.i2";
-connectAttr "multDoubleLinear476.o" "addDoubleLinear5.i1";
-connectAttr "multDoubleLinear475.o" "addDoubleLinear6.i1";
-connectAttr "multDoubleLinear477.o" "addDoubleLinear7.i1";
 connectAttr "root_poser.tz" "reverse_condition.ft";
 connectAttr "middle_poser.tz" "reverse_condition.st";
 connectAttr "end_poser.wm" "aim_world_connector_multMatrix.i[0]";
@@ -6213,160 +6076,304 @@ connectAttr "decomposeMatrix45.or" "unitConversion435.i";
 connectAttr "root_poserOrient.wim" "multMatrix34.i[1]";
 connectAttr "root_poser.t" "distanceBetween4.p1";
 connectAttr "end_poser.t" "distanceBetween4.p2";
-connectAttr "final_curveShape.ws" "twistDown_curve_0_mpath1.gp";
-connectAttr "twistDown_startUp_loc.wm" "twistDown_curve_0_mpath1.wum";
-connectAttr "twistUp_4_skinJoint.r" "pairBlend1.ir1";
-connectAttr "twistDown_0_skinJoint.r" "pairBlend1.ir2";
-connectAttr "twistKnee_y_1_skinJoint.angleMax" "condition3.ft";
-connectAttr "twistKnee_y_1_skinJoint.angleMin" "condition3.st";
-connectAttr "twistKnee_y_1_skinJoint.slideMax" "condition3.ctr";
-connectAttr "twistKnee_y_1_skinJoint.slideMin" "condition3.ctg";
-connectAttr "twistKnee_y_1_skinJoint.slideMin" "condition3.cfr";
-connectAttr "twistKnee_y_1_skinJoint.slideMax" "condition3.cfg";
-connectAttr "twistKnee_y_1_skinJoint.angleMax" "condition2.ft";
-connectAttr "twistKnee_y_1_skinJoint.angleMin" "condition2.st";
-connectAttr "twistKnee_y_1_skinJoint.posMax" "condition2.ctr";
-connectAttr "twistKnee_y_1_skinJoint.posMin" "condition2.ctg";
-connectAttr "twistKnee_y_1_skinJoint.posMin" "condition2.cfr";
-connectAttr "twistKnee_y_1_skinJoint.posMax" "condition2.cfg";
-connectAttr "twistKnee_y_1_skinJoint.angleMax" "condition1.ft";
-connectAttr "twistKnee_y_1_skinJoint.angleMin" "condition1.st";
-connectAttr "twistKnee_y_1_skinJoint.angleMax" "condition1.ctr";
-connectAttr "twistKnee_y_1_skinJoint.angleMin" "condition1.ctg";
-connectAttr "twistKnee_y_1_skinJoint.angleMin" "condition1.cfr";
-connectAttr "twistKnee_y_1_skinJoint.angleMax" "condition1.cfg";
-connectAttr "twistKnee_y_2_skinJoint.angleMax" "condition4.ft";
-connectAttr "twistKnee_y_2_skinJoint.angleMin" "condition4.st";
-connectAttr "twistKnee_y_2_skinJoint.angleMax" "condition4.ctr";
-connectAttr "twistKnee_y_2_skinJoint.angleMin" "condition4.ctg";
-connectAttr "twistKnee_y_2_skinJoint.angleMin" "condition4.cfr";
-connectAttr "twistKnee_y_2_skinJoint.angleMax" "condition4.cfg";
-connectAttr "twistKnee_y_2_skinJoint.angleMax" "condition6.ft";
-connectAttr "twistKnee_y_2_skinJoint.angleMin" "condition6.st";
-connectAttr "twistKnee_y_2_skinJoint.posMax" "condition6.ctr";
-connectAttr "twistKnee_y_2_skinJoint.posMin" "condition6.ctg";
-connectAttr "twistKnee_y_2_skinJoint.posMin" "condition6.cfr";
-connectAttr "twistKnee_y_2_skinJoint.posMax" "condition6.cfg";
-connectAttr "twistKnee_y_2_skinJoint.angleMax" "condition5.ft";
-connectAttr "twistKnee_y_2_skinJoint.angleMin" "condition5.st";
-connectAttr "twistKnee_y_2_skinJoint.slideMax" "condition5.ctr";
-connectAttr "twistKnee_y_2_skinJoint.slideMin" "condition5.ctg";
-connectAttr "twistKnee_y_2_skinJoint.slideMin" "condition5.cfr";
-connectAttr "twistKnee_y_2_skinJoint.slideMax" "condition5.cfg";
-connectAttr "root_poserShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn";
-connectAttr "distanceBetween4.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
+connectAttr "twist_0_joint.wm" "multMatrix42.i[0]";
+connectAttr "root_outJoint.wim" "multMatrix42.i[1]";
+connectAttr "mod.msg" "bindPose2.m[0]";
+connectAttr "output.msg" "bindPose2.m[1]";
+connectAttr "twist_joints.msg" "bindPose2.m[2]";
+connectAttr "twist_0_joint.msg" "bindPose2.m[3]";
+connectAttr "twist_1_joint.msg" "bindPose2.m[4]";
+connectAttr "twist_2_joint.msg" "bindPose2.m[5]";
+connectAttr "twist_3_joint.msg" "bindPose2.m[6]";
+connectAttr "twist_4_joint.msg" "bindPose2.m[7]";
+connectAttr "twist_5_joint.msg" "bindPose2.m[8]";
+connectAttr "twist_6_joint.msg" "bindPose2.m[9]";
+connectAttr "twist_7_joint.msg" "bindPose2.m[10]";
+connectAttr "twist_8_joint.msg" "bindPose2.m[11]";
+connectAttr "twist_9_joint.msg" "bindPose2.m[12]";
+connectAttr "bindPose2.w" "bindPose2.p[0]";
+connectAttr "bindPose2.m[0]" "bindPose2.p[1]";
+connectAttr "bindPose2.m[1]" "bindPose2.p[2]";
+connectAttr "bindPose2.m[2]" "bindPose2.p[3]";
+connectAttr "bindPose2.m[2]" "bindPose2.p[4]";
+connectAttr "bindPose2.m[2]" "bindPose2.p[5]";
+connectAttr "bindPose2.m[2]" "bindPose2.p[6]";
+connectAttr "bindPose2.m[2]" "bindPose2.p[7]";
+connectAttr "bindPose2.m[2]" "bindPose2.p[8]";
+connectAttr "bindPose2.m[2]" "bindPose2.p[9]";
+connectAttr "bindPose2.m[2]" "bindPose2.p[10]";
+connectAttr "bindPose2.m[2]" "bindPose2.p[11]";
+connectAttr "bindPose2.m[2]" "bindPose2.p[12]";
+connectAttr "bindPose2.m[2]" "bindPose2.p[13]";
+connectAttr "bindPose2.m[13]" "bindPose2.p[14]";
+connectAttr "bindPose2.m[13]" "bindPose2.p[15]";
+connectAttr "mod.msg" "bindPose1.m[0]";
+connectAttr "output.msg" "bindPose1.m[1]";
+connectAttr "twist_joints.msg" "bindPose1.m[2]";
+connectAttr "twist_2_joint.msg" "bindPose1.m[3]";
+connectAttr "twist_5_joint.msg" "bindPose1.m[4]";
+connectAttr "twist_6_joint.msg" "bindPose1.m[5]";
+connectAttr "twist_7_joint.msg" "bindPose1.m[6]";
+connectAttr "twist_0_joint.msg" "bindPose1.m[7]";
+connectAttr "twist_9_joint.msg" "bindPose1.m[8]";
+connectAttr "twist_4_joint.msg" "bindPose1.m[9]";
+connectAttr "twist_1_joint.msg" "bindPose1.m[10]";
+connectAttr "twist_3_joint.msg" "bindPose1.m[11]";
+connectAttr "twist_8_joint.msg" "bindPose1.m[12]";
+connectAttr "bindPose1.w" "bindPose1.p[0]";
+connectAttr "bindPose1.m[0]" "bindPose1.p[1]";
+connectAttr "bindPose1.m[1]" "bindPose1.p[2]";
+connectAttr "bindPose1.m[2]" "bindPose1.p[3]";
+connectAttr "bindPose1.m[2]" "bindPose1.p[4]";
+connectAttr "bindPose1.m[2]" "bindPose1.p[5]";
+connectAttr "bindPose1.m[2]" "bindPose1.p[6]";
+connectAttr "bindPose1.m[2]" "bindPose1.p[7]";
+connectAttr "bindPose1.m[2]" "bindPose1.p[8]";
+connectAttr "bindPose1.m[2]" "bindPose1.p[9]";
+connectAttr "bindPose1.m[2]" "bindPose1.p[10]";
+connectAttr "bindPose1.m[2]" "bindPose1.p[11]";
+connectAttr "bindPose1.m[2]" "bindPose1.p[12]";
+connectAttr "twist_2_joint.bps" "bindPose1.wm[3]";
+connectAttr "twist_5_joint.bps" "bindPose1.wm[4]";
+connectAttr "twist_6_joint.bps" "bindPose1.wm[5]";
+connectAttr "twist_7_joint.bps" "bindPose1.wm[6]";
+connectAttr "twist_0_joint.bps" "bindPose1.wm[7]";
+connectAttr "twist_9_joint.bps" "bindPose1.wm[8]";
+connectAttr "twist_4_joint.bps" "bindPose1.wm[9]";
+connectAttr "twist_1_joint.bps" "bindPose1.wm[10]";
+connectAttr "twist_3_joint.bps" "bindPose1.wm[11]";
+connectAttr "twist_8_joint.bps" "bindPose1.wm[12]";
+connectAttr "mod.msg" "bindPose3.m[0]";
+connectAttr "output.msg" "bindPose3.m[1]";
+connectAttr "twist_joints.msg" "bindPose3.m[2]";
+connectAttr "twist_0_joint.msg" "bindPose3.m[3]";
+connectAttr "twist_1_joint.msg" "bindPose3.m[4]";
+connectAttr "twist_2_joint.msg" "bindPose3.m[5]";
+connectAttr "twist_3_joint.msg" "bindPose3.m[6]";
+connectAttr "twist_4_joint.msg" "bindPose3.m[7]";
+connectAttr "twist_5_joint.msg" "bindPose3.m[8]";
+connectAttr "twist_6_joint.msg" "bindPose3.m[9]";
+connectAttr "twist_7_joint.msg" "bindPose3.m[10]";
+connectAttr "twist_8_joint.msg" "bindPose3.m[11]";
+connectAttr "twist_9_joint.msg" "bindPose3.m[12]";
+connectAttr "bindPose3.w" "bindPose3.p[0]";
+connectAttr "bindPose3.m[0]" "bindPose3.p[1]";
+connectAttr "bindPose3.m[1]" "bindPose3.p[2]";
+connectAttr "bindPose3.m[2]" "bindPose3.p[3]";
+connectAttr "bindPose3.m[2]" "bindPose3.p[4]";
+connectAttr "bindPose3.m[2]" "bindPose3.p[5]";
+connectAttr "bindPose3.m[2]" "bindPose3.p[6]";
+connectAttr "bindPose3.m[2]" "bindPose3.p[7]";
+connectAttr "bindPose3.m[2]" "bindPose3.p[8]";
+connectAttr "bindPose3.m[2]" "bindPose3.p[9]";
+connectAttr "bindPose3.m[2]" "bindPose3.p[10]";
+connectAttr "bindPose3.m[2]" "bindPose3.p[11]";
+connectAttr "bindPose3.m[2]" "bindPose3.p[12]";
+connectAttr "bindPose3.m[2]" "bindPose3.p[13]";
+connectAttr "bindPose3.m[13]" "bindPose3.p[14]";
+connectAttr "bindPose3.m[13]" "bindPose3.p[15]";
+connectAttr "final_curveShape.ws" "twist_10_mpath.gp";
+connectAttr "twistDown_startUp_loc.wm" "twist_10_mpath.wum";
+connectAttr "twistDown_quatToEuler1.orx" "twist_10_mpath.ft";
+connectAttr "twist_9_outJoint.pos" "twist_10_mpath.u";
+connectAttr "middle.slidingEllbow" "twist_10_mpath.fm";
+connectAttr "final_curveShape.ws" "twist_9_mpath.gp";
+connectAttr "twistDown_startUp_loc.wm" "twist_9_mpath.wum";
+connectAttr "twistDown_unitConversion20.o" "twist_9_mpath.ft";
+connectAttr "twist_8_outJoint.pos" "twist_9_mpath.u";
+connectAttr "middle.slidingEllbow" "twist_9_mpath.fm";
+connectAttr "final_curveShape.ws" "twist_8_mpath.gp";
+connectAttr "twistDown_startUp_loc.wm" "twist_8_mpath.wum";
+connectAttr "twistDown_unitConversion18.o" "twist_8_mpath.ft";
+connectAttr "twist_7_outJoint.pos" "twist_8_mpath.u";
+connectAttr "middle.slidingEllbow" "twist_8_mpath.fm";
+connectAttr "final_curveShape.ws" "twist_7_mpath.gp";
+connectAttr "twistDown_startUp_loc.wm" "twist_7_mpath.wum";
+connectAttr "twistDown_unitConversion19.o" "twist_7_mpath.ft";
+connectAttr "twist_6_outJoint.pos" "twist_7_mpath.u";
+connectAttr "middle.slidingEllbow" "twist_7_mpath.fm";
+connectAttr "final_curveShape.ws" "twist_6_mpath.gp";
+connectAttr "twistDown_startUp_loc.wm" "twist_6_mpath.wum";
+connectAttr "twist_5_outJoint.pos" "twist_6_mpath.u";
+connectAttr "middle.slidingEllbow" "twist_6_mpath.fm";
+connectAttr "final_curveShape.ws" "twist_5_mpath.gp";
+connectAttr "twistUp_startUp_loc.wm" "twist_5_mpath.wum";
+connectAttr "twist_quatToEuler.orx" "twist_5_mpath.ft";
+connectAttr "twist_4_outJoint.pos" "twist_5_mpath.u";
+connectAttr "middle.slidingEllbow" "twist_5_mpath.fm";
+connectAttr "final_curveShape.ws" "twist_4_mpath.gp";
+connectAttr "twistUp_startUp_loc.wm" "twist_4_mpath.wum";
+connectAttr "twistUp_unitConversion20.o" "twist_4_mpath.ft";
+connectAttr "twist_3_outJoint.pos" "twist_4_mpath.u";
+connectAttr "middle.slidingEllbow" "twist_4_mpath.fm";
+connectAttr "final_curveShape.ws" "twist_3_mpath.gp";
+connectAttr "twistUp_startUp_loc.wm" "twist_3_mpath.wum";
+connectAttr "twistUp_unitConversion18.o" "twist_3_mpath.ft";
+connectAttr "twist_2_outJoint.pos" "twist_3_mpath.u";
+connectAttr "middle.slidingEllbow" "twist_3_mpath.fm";
+connectAttr "final_curveShape.ws" "twist_2_mpath.gp";
+connectAttr "twistUp_startUp_loc.wm" "twist_2_mpath.wum";
+connectAttr "twistUp_unitConversion19.o" "twist_2_mpath.ft";
+connectAttr "twist_1_outJoint.pos" "twist_2_mpath.u";
+connectAttr "middle.slidingEllbow" "twist_2_mpath.fm";
+connectAttr "final_curveShape.ws" "twist_1_mpath.gp";
+connectAttr "twistUp_startUp_loc.wm" "twist_1_mpath.wum";
+connectAttr "twist_0_outJoint.pos" "twist_1_mpath.u";
+connectAttr "middle.slidingEllbow" "twist_1_mpath.fm";
+connectAttr "twist_0_outJoint.iog" "skinJointsSet.dsm" -na;
+connectAttr "twist_1_outJoint.iog" "skinJointsSet.dsm" -na;
+connectAttr "twist_2_outJoint.iog" "skinJointsSet.dsm" -na;
+connectAttr "twist_3_outJoint.iog" "skinJointsSet.dsm" -na;
+connectAttr "twist_4_outJoint.iog" "skinJointsSet.dsm" -na;
+connectAttr "twist_5_outJoint.iog" "skinJointsSet.dsm" -na;
+connectAttr "twist_6_outJoint.iog" "skinJointsSet.dsm" -na;
+connectAttr "twist_7_outJoint.iog" "skinJointsSet.dsm" -na;
+connectAttr "twist_8_outJoint.iog" "skinJointsSet.dsm" -na;
+connectAttr "twist_9_outJoint.iog" "skinJointsSet.dsm" -na;
+connectAttr "root_outJoint.iog" "skinJointsSet.dsm" -na;
+connectAttr "end_outJoint.iog" "skinJointsSet.dsm" -na;
+connectAttr "multMatrix42.o" "decomposeMatrix52.imat";
+connectAttr "root_outJoint_twistUp_1_twistJoint_multMatrix.o" "decomposeMatrix50.imat"
 		;
-connectAttr "root_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn";
-connectAttr "multMatrix41.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn";
-connectAttr "end_pose_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[4].dn"
+connectAttr "twist_1_joint.wm" "root_outJoint_twistUp_1_twistJoint_multMatrix.i[0]"
 		;
-connectAttr "aim_world_connector_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn"
+connectAttr "twist_0_outJoint.wim" "root_outJoint_twistUp_1_twistJoint_multMatrix.i[1]"
 		;
-connectAttr "end_poserNurbsShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[6].dn"
+connectAttr "root_outJoint_twistUp_2_twistJoint_multMatrix.o" "decomposeMatrix57.imat"
 		;
-connectAttr "bifrostGraphShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[7].dn"
+connectAttr "twist_2_joint.wm" "root_outJoint_twistUp_2_twistJoint_multMatrix.i[0]"
 		;
-connectAttr "end_pose_loc.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[8].dn";
-connectAttr "end_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[9].dn";
-connectAttr "lower_curve_1_offset.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn"
+connectAttr "twist_1_outJoint.wim" "root_outJoint_twistUp_2_twistJoint_multMatrix.i[1]"
 		;
-connectAttr "lowerBend_1_hardLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn"
+connectAttr "root_outJoint_twistUp_3_twistJoint_multMatrix.o" "decomposeMatrix55.imat"
 		;
-connectAttr "lowerBend_1_softLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn"
+connectAttr "twist_3_joint.wm" "root_outJoint_twistUp_3_twistJoint_multMatrix.i[0]"
 		;
-connectAttr "blendMatrix6.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn";
-connectAttr "unitConversion448.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn"
+connectAttr "twist_2_outJoint.wim" "root_outJoint_twistUp_3_twistJoint_multMatrix.i[1]"
 		;
-connectAttr "middle.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn";
-connectAttr "bifrostGraphShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[6].dn"
+connectAttr "root_outJoint_twistUp_4_twistJoint_multMatrix.o" "decomposeMatrix59.imat"
 		;
-connectAttr "bifrostGraphShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn"
+connectAttr "twist_4_joint.wm" "root_outJoint_twistUp_4_twistJoint_multMatrix.i[0]"
 		;
-connectAttr "lowerBend_1_hardLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn"
+connectAttr "twist_3_outJoint.wim" "root_outJoint_twistUp_4_twistJoint_multMatrix.i[1]"
 		;
-connectAttr "lowerBend_1_hardLocShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn"
+connectAttr "root_outJoint_twistDown_0_twistJoint_multMatrix.o" "decomposeMatrix60.imat"
 		;
-connectAttr "lowerBend_3_softLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[0].dn"
+connectAttr "twist_5_joint.wm" "root_outJoint_twistDown_0_twistJoint_multMatrix.i[0]"
 		;
-connectAttr "lowerBend_2_softLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[1].dn"
+connectAttr "twist_4_joint.wim" "root_outJoint_twistDown_0_twistJoint_multMatrix.i[1]"
 		;
-connectAttr "upperBend_2_softLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[2].dn"
+connectAttr "root_outJoint_twistDown_1_twistJoint_multMatrix.o" "decomposeMatrix56.imat"
 		;
-connectAttr "middleBend_softLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[3].dn"
+connectAttr "twist_6_joint.wm" "root_outJoint_twistDown_1_twistJoint_multMatrix.i[0]"
 		;
-connectAttr "upperBend_3_softLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[4].dn"
+connectAttr "twist_5_outJoint.wim" "root_outJoint_twistDown_1_twistJoint_multMatrix.i[1]"
 		;
-connectAttr "lowerBend_1_softLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[5].dn"
+connectAttr "root_outJoint_twistDown_2_twistJoint_multMatrix.o" "decomposeMatrix58.imat"
 		;
-connectAttr "soft_curve_4_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[6].dn"
+connectAttr "twist_7_joint.wm" "root_outJoint_twistDown_2_twistJoint_multMatrix.i[0]"
 		;
-connectAttr "soft_curve_0_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[7].dn"
+connectAttr "twist_6_outJoint.wim" "root_outJoint_twistDown_2_twistJoint_multMatrix.i[1]"
 		;
-connectAttr "soft_curve_6_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[8].dn"
+connectAttr "root_outJoint_twistDown_3_twistJoint_multMatrix.o" "decomposeMatrix51.imat"
 		;
-connectAttr "soft_curveShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[9].dn";
-connectAttr "upperBend_1_softLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[10].dn"
+connectAttr "twist_8_joint.wm" "root_outJoint_twistDown_3_twistJoint_multMatrix.i[0]"
 		;
-connectAttr "soft_curve_5_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[11].dn"
+connectAttr "twist_7_outJoint.wim" "root_outJoint_twistDown_3_twistJoint_multMatrix.i[1]"
 		;
-connectAttr "soft_curve_1_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[12].dn"
+connectAttr "root_outJoint_twistDown_4_twistJoint_multMatrix.o" "decomposeMatrix54.imat"
 		;
-connectAttr "soft_curve_2_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[13].dn"
+connectAttr "twist_9_joint.wm" "root_outJoint_twistDown_4_twistJoint_multMatrix.i[0]"
 		;
-connectAttr "soft_curve.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[14].dn";
-connectAttr "soft_curve_3_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[15].dn"
+connectAttr "twist_8_outJoint.wim" "root_outJoint_twistDown_4_twistJoint_multMatrix.i[1]"
 		;
-connectAttr "lowerBend_3_softLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[0].dn"
+connectAttr "root_outJoint_multMat1.o" "root_outJoint_decMat1.imat";
+connectAttr "end_finalJoint.wm" "root_outJoint_multMat1.i[0]";
+connectAttr "end_outJoint.pim" "root_outJoint_multMat1.i[1]";
+connectAttr "middle.mainBendControls" "multDoubleLinear479.i1";
+connectAttr "middle.noEllbow" "multDoubleLinear479.i2";
+connectAttr "final_curveShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn"
 		;
+connectAttr "multDoubleLinear479.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[0].dn"
+		;
+connectAttr "bifrostGraphShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[1].dn"
+		;
+connectAttr "blendMatrix6.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[2].dn";
+connectAttr "ikFkSwitchSet.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[3].dn";
+connectAttr "twist_8_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[4].dn";
+connectAttr "twist_4_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[5].dn";
+connectAttr "twist_6_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[6].dn";
+connectAttr "blendMatrix3.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[7].dn";
+connectAttr "twist_5_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[8].dn";
+connectAttr "blendMatrix2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[9].dn";
+connectAttr "middle.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[10].dn";
+connectAttr "twist_7_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[11].dn";
+connectAttr "blendMatrix8.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[12].dn";
+connectAttr "middle_bend.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[13].dn";
+connectAttr "twist_3_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[14].dn";
+connectAttr "end_connector_parentConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[15].dn"
+		;
+connectAttr "reverse1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[16].dn";
+connectAttr "curve1_3_offset.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[17].dn"
+		;
+connectAttr "offset_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[18].dn";
+connectAttr "add_moduleControlSet.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[19].dn"
+		;
+connectAttr "multDoubleLinear466.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[20].dn"
+		;
+connectAttr "middleShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[21].dn";
+connectAttr "twist_1_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[22].dn";
+connectAttr "blendMatrix1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[23].dn";
+connectAttr "twistDown_root_connector_aimConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[24].dn"
+		;
+connectAttr "twist_2_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[25].dn";
+connectAttr "blendMatrix5.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[26].dn";
+connectAttr "middle_bendShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[27].dn"
+		;
+connectAttr "curve1_1_offset.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[28].dn"
+		;
+connectAttr "multDoubleLinear459.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[29].dn"
+		;
+connectAttr "twistUp_root_connector_aimConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[30].dn"
+		;
+connectAttr "twist_9_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[31].dn";
+connectAttr "twist_10_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[32].dn";
+connectAttr "blendMatrix4.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[33].dn";
+connectAttr "middle_bend.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[0].dn";
 connectAttr "middle.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[1].dn";
-connectAttr "blendMatrix8.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[2].dn";
-connectAttr "lower_curve_3_offset.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[3].dn"
+connectAttr "middleShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[2].dn";
+connectAttr "middle_bendShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[3].dn"
 		;
-connectAttr "lowerBend_3_hardLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[4].dn"
+connectAttr "blendMatrix6.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[0].dn";
+connectAttr "lowerBend_1_softLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[1].dn"
 		;
-connectAttr "locator2.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[0].dn";
-connectAttr "locatorShape3.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[1].dn";
-connectAttr "locator3.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[2].dn";
-connectAttr "locatorShape1.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[3].dn";
-connectAttr "end_group_aimConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[4].dn"
+connectAttr "middle.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[2].dn";
+connectAttr "lower_curve_1_offset.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[3].dn"
 		;
-connectAttr "root_group_aimConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[5].dn"
+connectAttr "lowerBend_1_hardLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[4].dn"
 		;
-connectAttr "root_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[6].dn";
-connectAttr "distanceBetween3.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[7].dn"
+connectAttr "middle.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[0].dn";
+connectAttr "final_curveShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[1].dn"
 		;
-connectAttr "end_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[8].dn";
-connectAttr "mirror_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[0].dn"
+connectAttr "twistUp_startUp_loc.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[2].dn"
 		;
-connectAttr "fk_b_ikFkSwitchHelper.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[1].dn"
+connectAttr "twist_0_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[3].dn"
 		;
-connectAttr "ik_aim_mirror.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[2].dn";
-connectAttr "end_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[3].dn";
-connectAttr "ik_aim_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[4].dn";
-connectAttr "end_fkJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[5].dn";
-connectAttr "ik_end_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[6].dn";
-connectAttr "ik_end_out.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[7].dn";
-connectAttr "fk_a_ikFkSwitchHelper.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[8].dn"
+connectAttr "twist_1_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[4].dn";
+connectAttr "twist_7_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[0].dn";
+connectAttr "twist_1_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[1].dn";
+connectAttr "twist_5_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[2].dn";
+connectAttr "twist_9_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[3].dn";
+connectAttr "final_curveShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[4].dn"
 		;
-connectAttr "multDoubleLinear478.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[9].dn"
-		;
-connectAttr "middleBend_hardLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[10].dn"
-		;
-connectAttr "middle_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[11].dn";
-connectAttr "ik_end_mirror.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[12].dn";
-connectAttr "multDoubleLinear435.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[13].dn"
-		;
-connectAttr "root_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[14].dn";
-connectAttr "world_composeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[15].dn"
-		;
-connectAttr "middle_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[16].dn";
-connectAttr "ik_out.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[17].dn";
-connectAttr "twist_joints.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[0].dn";
-connectAttr "twistUp_curve_0_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[1].dn"
-		;
-connectAttr "root_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[2].dn";
-connectAttr "twistUp_0_skinJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[3].dn"
-		;
+connectAttr "middle.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[5].dn";
+connectAttr "twist_10_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[6].dn";
+connectAttr "twist_8_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[7].dn";
+connectAttr "middleShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[8].dn";
+connectAttr "twist_3_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[9].dn";
+connectAttr "twist_4_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[10].dn";
+connectAttr "twist_6_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[11].dn";
+connectAttr "twist_2_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[12].dn";
 connectAttr "green_rsSG.pa" ":renderPartition.st" -na;
 connectAttr "blue_rsSG.pa" ":renderPartition.st" -na;
 connectAttr "red_rsSG.pa" ":renderPartition.st" -na;
@@ -6447,7 +6454,7 @@ connectAttr "initScaleEnd_mult.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "decomposeMatrix49.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multiplyDivide353.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "twistUp_decomposeMatrix5.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "twistUp_quatToEuler1.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "twist_quatToEuler.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "twistUp_quatToEuler2.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "twistUp_decomposeMatrix6.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "twistUp_unitConversion18.msg" ":defaultRenderUtilityList1.u" -na;
@@ -6462,25 +6469,15 @@ connectAttr "twistDown_unitConversion18.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "twistDown_unitConversion19.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "twistDown_unitConversion20.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "twistDown_inverseMatrix1.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multiplyDivide369.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "volume_multiplyDivide.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear459.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "distanceBetween3.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multiplyDivide373.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "unitConversion448.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "unitConversion449.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "unitConversion450.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "unitConversion451.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "plusMinusAverage1.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "angleBetween1.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "plusMinusAverage2.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "setRange1.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "condition1.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "condition2.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "condition3.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "setRange2.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "condition4.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "condition5.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "condition6.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "blendColors3.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear466.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear467.msg" ":defaultRenderUtilityList1.u" -na;
@@ -6488,20 +6485,7 @@ connectAttr "reverse1.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "blendColors4.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "blendColors5.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "blendColors6.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear468.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear469.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear470.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear471.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear472.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear473.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear474.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear475.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear476.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear477.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear478.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "addDoubleLinear5.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "addDoubleLinear6.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "addDoubleLinear7.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "reverse_condition.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "unitConversion454.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "pasted__size_multiplyDivide.msg" ":defaultRenderUtilityList1.u" -na
@@ -6511,6 +6495,8 @@ connectAttr "pasted__multDoubleLinear438.msg" ":defaultRenderUtilityList1.u" -na
 connectAttr "pasted__size_multiplyDivide1.msg" ":defaultRenderUtilityList1.u" -na
 		;
 connectAttr "distanceBetween4.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix42.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear479.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "defaultRenderLayer.msg" ":defaultRenderingList1.r" -na;
 connectAttr "twistUp_defaultRenderLayer.msg" ":defaultRenderingList1.r" -na;
 connectAttr "twistDown_defaultRenderLayer.msg" ":defaultRenderingList1.r" -na;
