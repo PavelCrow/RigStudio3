@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: fingers.ma
-//Last modified: Mon, Aug 11, 2025 06:06:18 AM
+//Last modified: Fri, Oct 03, 2025 09:46:34 AM
 //Codeset: 1251
 requires maya "2022";
 requires -nodeType "sweepMeshCreator" -dataType "sweepMeshData" -dataType "sweepProfileData"
@@ -10,9 +10,9 @@ currentUnit -l centimeter -a degree -t pal;
 fileInfo "application" "maya";
 fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
-fileInfo "cutIdentifier" "202303271415-baa69b5798";
+fileInfo "cutIdentifier" "202110272215-ad32f8f1e6";
 fileInfo "osv" "Windows 10 Pro v2009 (Build: 26100)";
-fileInfo "UUID" "D9B12D23-4CB1-FBFB-EFDF-0DAA755AE167";
+fileInfo "UUID" "276D908A-48EE-5883-A849-87AA6017F497";
 createNode transform -n "mod";
 	rename -uid "AEB94CF3-4469-D7D9-6076-95A1B694D245";
 	addAttr -ci true -sn "version" -ln "version" -dt "string";
@@ -20,6 +20,7 @@ createNode transform -n "mod";
 	setAttr -l on ".version" -type "string" "1.0";
 createNode transform -n "posers" -p "mod";
 	rename -uid "D7853ADA-49F6-897E-4F12-E7AC1BAA48B4";
+	setAttr ".v" no;
 createNode transform -n "mainPoser" -p "posers";
 	rename -uid "F0F00D91-4B38-ECC4-B2EA-E083C23249F2";
 	addAttr -ci true -sn "size" -ln "size" -dv 1 -min 0 -at "double";
@@ -2256,17 +2257,84 @@ createNode transform -n "thumbFinger_1_group" -p "controls";
 	rename -uid "90799C8D-4B7B-1588-874D-338AD6DAE43E";
 createNode transform -n "thumbFinger_1_group_2" -p "thumbFinger_1_group";
 	rename -uid "B96EAC23-4D79-1A60-204E-63BB0C9A4190";
-createNode transform -n "thumbFinger_1" -p "thumbFinger_1_group_2";
-	rename -uid "7CDD038D-4DBB-1AD5-1594-6BA591A41ABA";
+createNode transform -n "thumbFinger_1_closed" -p "thumbFinger_1_group_2";
+	rename -uid "25B9EE2B-4918-2755-0455-FDBEBEE84C72";
 	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
 	setAttr -l on -k off ".v";
+	setAttr -s 2 ".iog";
 	setAttr -k on ".t";
+	setAttr -k on ".r" -type "double3" 0 0 -90 ;
 	setAttr -k on ".r";
 	setAttr ".ro" 2;
 	setAttr -k on ".s";
 	setAttr -l on ".internalName" -type "string" "thumbFinger_1";
+createNode nurbsCurve -n "thumbFinger_1_closedShape" -p "thumbFinger_1_closed";
+	rename -uid "538D73CF-40A2-FE93-EB44-A2A06CBBE36B";
+	setAttr -k off ".v" no;
+	setAttr ".ove" yes;
+	setAttr ".ovc" 14;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		4.0194225941339692e-18 0.092420947682493954 -0.092420947682494065
+		6.3635196433253381e-18 0.13070295765995757 2.87894324563895e-17
+		4.0194225941339754e-18 0.092420947682493967 0.092420947682493967
+		-1.6397282935425918e-18 5.3340701647916606e-17 0.13070295765995757
+		-7.2988791812191686e-18 -0.092420947682493967 0.092420947682493995
+		-9.6429762304105483e-18 -0.13070295765995757 5.3261139765149508e-17
+		-7.2988791812191794e-18 -0.092420947682493995 -0.092420947682493954
+		-1.6397282935426091e-18 -5.4734559078045844e-17 -0.13070295765995757
+		4.0194225941339692e-18 0.092420947682493954 -0.092420947682494065
+		6.3635196433253381e-18 0.13070295765995757 2.87894324563895e-17
+		4.0194225941339754e-18 0.092420947682493967 0.092420947682493967
+		;
+createNode transform -n "thumbFinger_1_group_3" -p "thumbFinger_1_group_2";
+	rename -uid "EB3A447A-4407-B3F4-2C72-C89F84A15A8E";
+createNode transform -n "thumbFinger_1" -p "thumbFinger_1_group_3";
+	rename -uid "7CDD038D-4DBB-1AD5-1594-6BA591A41ABA";
+	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
+	setAttr -l on -k off ".v";
+	setAttr -k on ".t" -type "double3" 0 1.3877787807814457e-17 1.3877787807814457e-17 ;
+	setAttr -k on ".t";
+	setAttr -k on ".r";
+	setAttr ".ro" 2;
+	setAttr -k on ".s" -type "double3" 1 1.0000000000000002 1 ;
+	setAttr -k on ".s";
+	setAttr -l on ".internalName" -type "string" "thumbFinger_1";
 createNode transform -n "thumbFinger_2_group" -p "thumbFinger_1";
 	rename -uid "BF363C20-44B7-8F9A-5426-E681C70C1A11";
+createNode transform -n "thumbFinger_2_closed" -p "thumbFinger_2_group";
+	rename -uid "1EE1C2FE-42A0-7A6C-EE72-F1BF0120AE54";
+	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
+	setAttr -l on -k off ".v";
+	setAttr -k on ".t";
+	setAttr -k on ".r" -type "double3" 0 0 -90 ;
+	setAttr -k on ".r";
+	setAttr ".ro" 2;
+	setAttr -k on ".s";
+	setAttr -l on ".internalName" -type "string" "thumbFinger_1";
+createNode nurbsCurve -n "thumbFinger_2_closedShape" -p "thumbFinger_2_closed";
+	rename -uid "1E4AAFCA-44FD-F8ED-4246-4F9CDA140C3E";
+	setAttr -k off ".v" no;
+	setAttr ".ove" yes;
+	setAttr ".ovc" 14;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		4.0194225941339692e-18 0.092420947682493954 -0.092420947682494065
+		6.3635196433253381e-18 0.13070295765995757 2.87894324563895e-17
+		4.0194225941339754e-18 0.092420947682493967 0.092420947682493967
+		-1.6397282935425918e-18 5.3340701647916606e-17 0.13070295765995757
+		-7.2988791812191686e-18 -0.092420947682493967 0.092420947682493995
+		-9.6429762304105483e-18 -0.13070295765995757 5.3261139765149508e-17
+		-7.2988791812191794e-18 -0.092420947682493995 -0.092420947682493954
+		-1.6397282935426091e-18 -5.4734559078045844e-17 -0.13070295765995757
+		4.0194225941339692e-18 0.092420947682493954 -0.092420947682494065
+		6.3635196433253381e-18 0.13070295765995757 2.87894324563895e-17
+		4.0194225941339754e-18 0.092420947682493967 0.092420947682493967
+		;
 createNode transform -n "thumbFinger_2_group_2" -p "thumbFinger_2_group";
 	rename -uid "26A30A21-43B0-AB4D-2EA8-24B8C490225F";
 createNode transform -n "thumbFinger_2" -p "thumbFinger_2_group_2";
@@ -2279,6 +2347,37 @@ createNode transform -n "thumbFinger_2" -p "thumbFinger_2_group_2";
 	setAttr -l on ".internalName" -type "string" "thumbFinger_2";
 createNode transform -n "thumbFinger_3_group" -p "thumbFinger_2";
 	rename -uid "0BFB068F-4FB1-6E4C-1047-EB98CEF3C8EE";
+createNode transform -n "thumbFinger_3_closed" -p "thumbFinger_3_group";
+	rename -uid "78269E4E-4805-964E-9414-0FBF0D83EA94";
+	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
+	setAttr -l on -k off ".v";
+	setAttr -k on ".t";
+	setAttr -k on ".r" -type "double3" 0 0 -90 ;
+	setAttr -k on ".r";
+	setAttr ".ro" 2;
+	setAttr -k on ".s";
+	setAttr -l on ".internalName" -type "string" "thumbFinger_1";
+createNode nurbsCurve -n "thumbFinger_3_closedShape" -p "thumbFinger_3_closed";
+	rename -uid "055C369B-4D66-EA6F-6CFE-318569CAC355";
+	setAttr -k off ".v" no;
+	setAttr ".ove" yes;
+	setAttr ".ovc" 14;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		4.0194225941339692e-18 0.092420947682493954 -0.092420947682494065
+		6.3635196433253381e-18 0.13070295765995757 2.87894324563895e-17
+		4.0194225941339754e-18 0.092420947682493967 0.092420947682493967
+		-1.6397282935425918e-18 5.3340701647916606e-17 0.13070295765995757
+		-7.2988791812191686e-18 -0.092420947682493967 0.092420947682493995
+		-9.6429762304105483e-18 -0.13070295765995757 5.3261139765149508e-17
+		-7.2988791812191794e-18 -0.092420947682493995 -0.092420947682493954
+		-1.6397282935426091e-18 -5.4734559078045844e-17 -0.13070295765995757
+		4.0194225941339692e-18 0.092420947682493954 -0.092420947682494065
+		6.3635196433253381e-18 0.13070295765995757 2.87894324563895e-17
+		4.0194225941339754e-18 0.092420947682493967 0.092420947682493967
+		;
 createNode transform -n "thumbFinger_3_group_2" -p "thumbFinger_3_group";
 	rename -uid "7E59D4BA-41E3-202F-B191-688FA87FBCE1";
 createNode transform -n "thumbFinger_3" -p "thumbFinger_3_group_2";
@@ -2371,10 +2470,44 @@ createNode transform -n "indexFinger_1_group" -p "indexFingerRoot";
 	rename -uid "5A6FFDAA-4A33-807A-058D-408884B5802E";
 createNode transform -n "indexFinger_1_group_2" -p "indexFinger_1_group";
 	rename -uid "9613CC31-4D49-2DD5-F008-88BF16BB5B80";
-createNode transform -n "indexFinger_1" -p "indexFinger_1_group_2";
+createNode transform -n "indexFinger_1_closed" -p "indexFinger_1_group_2";
+	rename -uid "CB84F99C-46A3-0ACE-8922-D389470584A2";
+	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
+	setAttr -l on -k off ".v";
+	setAttr -k on ".t";
+	setAttr -k on ".r" -type "double3" 0 0 -90 ;
+	setAttr -k on ".r";
+	setAttr ".ro" 2;
+	setAttr -k on ".s";
+	setAttr -l on ".internalName" -type "string" "indexFinger_1";
+createNode nurbsCurve -n "indexFinger_1_closedShape" -p "indexFinger_1_closed";
+	rename -uid "59BA6A45-4607-B862-0C34-AD8641B47D95";
+	setAttr -k off ".v" no;
+	setAttr ".ove" yes;
+	setAttr ".ovc" 14;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		5.6591508876765747e-18 0.092420947682493954 -0.092420947682494065
+		8.0032479368679459e-18 0.13070295765995757 1.4911644648575e-17
+		5.6591508876765786e-18 0.092420947682493967 0.092420947682493967
+		2.3087082090219562e-33 3.7823185546559397e-17 0.13070295765995757
+		-5.659150887676577e-18 -0.092420947682493967 0.092420947682493995
+		-8.0032479368679536e-18 -0.13070295765995757 3.9383351957335032e-17
+		-5.6591508876765786e-18 -0.092420947682493995 -0.092420947682493954
+		-4.3089928967313074e-33 -7.0252075179402973e-17 -0.13070295765995757
+		5.6591508876765747e-18 0.092420947682493954 -0.092420947682494065
+		8.0032479368679459e-18 0.13070295765995757 1.4911644648575e-17
+		5.6591508876765786e-18 0.092420947682493967 0.092420947682493967
+		;
+createNode transform -n "indexFinger_1_group_3" -p "indexFinger_1_group_2";
+	rename -uid "7BDDFC41-4728-E73C-6DC5-07B443891A55";
+createNode transform -n "indexFinger_1" -p "indexFinger_1_group_3";
 	rename -uid "D2A8224C-42AA-EA1D-354C-3E907EB89F0C";
 	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
 	setAttr -l on -k off ".v";
+	setAttr -s 2 ".iog";
 	setAttr -k on ".t";
 	setAttr -k on ".r";
 	setAttr ".ro" 2;
@@ -2382,18 +2515,85 @@ createNode transform -n "indexFinger_1" -p "indexFinger_1_group_2";
 	setAttr -l on ".internalName" -type "string" "indexFinger_1";
 createNode transform -n "indexFinger_2_group" -p "indexFinger_1";
 	rename -uid "D02931BB-4C41-2546-DED6-F9A658E22F21";
+createNode transform -n "indexFinger_2_closed" -p "indexFinger_2_group";
+	rename -uid "527C7A6B-4BE7-EBBC-F0E3-AAB78655C726";
+	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
+	setAttr -l on -k off ".v";
+	setAttr -s 2 ".iog";
+	setAttr -k on ".t" -type "double3" -0.0069305512450451925 0.0025906990299384477 
+		-0.026162730603233993 ;
+	setAttr -k on ".t";
+	setAttr -k on ".r" -type "double3" 1.7754786249217638 -1.6904411940783894 -83.857407944359593 ;
+	setAttr -k on ".r";
+	setAttr -k on ".s";
+	setAttr -l on ".internalName" -type "string" "indexFinger_2";
+createNode nurbsCurve -n "indexFinger_2_closedShape" -p "indexFinger_2_closed";
+	rename -uid "781EA2F5-47EB-D47D-1A27-3B85A068359F";
+	setAttr -k off ".v" no;
+	setAttr ".ove" yes;
+	setAttr ".ovc" 14;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		5.6591508876765747e-18 0.092420947682493954 -0.092420947682494065
+		8.0032479368679459e-18 0.13070295765995757 1.4911644648575e-17
+		5.6591508876765786e-18 0.092420947682493967 0.092420947682493967
+		2.3087082090219562e-33 3.7823185546559397e-17 0.13070295765995757
+		-5.659150887676577e-18 -0.092420947682493967 0.092420947682493995
+		-8.0032479368679536e-18 -0.13070295765995757 3.9383351957335032e-17
+		-5.6591508876765786e-18 -0.092420947682493995 -0.092420947682493954
+		-4.3089928967313074e-33 -7.0252075179402973e-17 -0.13070295765995757
+		5.6591508876765747e-18 0.092420947682493954 -0.092420947682494065
+		8.0032479368679459e-18 0.13070295765995757 1.4911644648575e-17
+		5.6591508876765786e-18 0.092420947682493967 0.092420947682493967
+		;
 createNode transform -n "indexFinger_2_group_2" -p "indexFinger_2_group";
 	rename -uid "843AA710-4E3E-0CF3-7FFF-64886CA772D6";
 createNode transform -n "indexFinger_2" -p "indexFinger_2_group_2";
 	rename -uid "F9A002EB-492E-1A58-ECAC-A4A0A693763D";
 	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
 	setAttr -l on -k off ".v";
+	setAttr -s 2 ".iog";
 	setAttr -k on ".t";
 	setAttr -k on ".r";
 	setAttr -k on ".s";
 	setAttr -l on ".internalName" -type "string" "indexFinger_2";
 createNode transform -n "indexFinger_3_group" -p "indexFinger_2";
 	rename -uid "472D5E22-4685-4D6C-F89D-138AD83A056B";
+createNode transform -n "indexFinger_3_closed" -p "indexFinger_3_group";
+	rename -uid "E0F26157-4B72-62F6-4359-FCB700AE01D9";
+	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
+	setAttr -l on -k off ".v";
+	setAttr -s 2 ".iog";
+	setAttr -k on ".t" -type "double3" -5.5511151231257827e-17 5.5511151231257827e-17 
+		-5.5511151231257827e-17 ;
+	setAttr -k on ".t";
+	setAttr -k on ".r" -type "double3" 0 0 -90 ;
+	setAttr -k on ".r";
+	setAttr -k on ".s";
+	setAttr -l on ".internalName" -type "string" "indexFinger_3";
+createNode nurbsCurve -n "indexFinger_3_closedShape" -p "indexFinger_3_closed";
+	rename -uid "88445B3E-4CB6-E232-3FA2-C8B1F34C877C";
+	setAttr -k off ".v" no;
+	setAttr ".ove" yes;
+	setAttr ".ovc" 14;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		5.6591508876765747e-18 0.092420947682493954 -0.092420947682494065
+		8.0032479368679459e-18 0.13070295765995757 1.4911644648575e-17
+		5.6591508876765786e-18 0.092420947682493967 0.092420947682493967
+		2.3087082090219562e-33 3.7823185546559397e-17 0.13070295765995757
+		-5.659150887676577e-18 -0.092420947682493967 0.092420947682493995
+		-8.0032479368679536e-18 -0.13070295765995757 3.9383351957335032e-17
+		-5.6591508876765786e-18 -0.092420947682493995 -0.092420947682493954
+		-4.3089928967313074e-33 -7.0252075179402973e-17 -0.13070295765995757
+		5.6591508876765747e-18 0.092420947682493954 -0.092420947682494065
+		8.0032479368679459e-18 0.13070295765995757 1.4911644648575e-17
+		5.6591508876765786e-18 0.092420947682493967 0.092420947682493967
+		;
 createNode transform -n "indexFinger_3_group_2" -p "indexFinger_3_group";
 	rename -uid "594CFDA9-4552-20C3-6C7B-85968C85F3C1";
 createNode transform -n "indexFinger_3" -p "indexFinger_3_group_2";
@@ -2509,10 +2709,44 @@ createNode transform -n "middleFinger_1_group" -p "middleFingerRoot";
 	rename -uid "3AF5CCC0-4922-7F70-2F9F-DD99988A177A";
 createNode transform -n "middleFinger_1_group_2" -p "middleFinger_1_group";
 	rename -uid "2406E8F8-4DC7-8872-4016-1F8A76F9EB3D";
-createNode transform -n "middleFinger_1" -p "middleFinger_1_group_2";
+createNode transform -n "middleFinger_1_closed" -p "middleFinger_1_group_2";
+	rename -uid "9BCFE0E7-4231-5DB6-C2BF-6B9E8D8C4FF7";
+	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
+	setAttr -l on -k off ".v";
+	setAttr -s 2 ".iog";
+	setAttr -k on ".t";
+	setAttr -k on ".r" -type "double3" 0 0 -90 ;
+	setAttr -k on ".r";
+	setAttr -k on ".s";
+	setAttr -l on ".internalName" -type "string" "middleFinger_3";
+createNode nurbsCurve -n "middleFinger_1_closedShape" -p "middleFinger_1_closed";
+	rename -uid "01012168-4D74-6ADE-721D-889DA9B76B67";
+	setAttr -k off ".v" no;
+	setAttr ".ove" yes;
+	setAttr ".ovc" 14;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		5.6591508876765747e-18 0.092420947682493954 -0.092420947682494065
+		8.0032479368679459e-18 0.13070295765995757 1.4911644648575e-17
+		5.6591508876765786e-18 0.092420947682493967 0.092420947682493967
+		2.3087082090219562e-33 3.7823185546559397e-17 0.13070295765995757
+		-5.659150887676577e-18 -0.092420947682493967 0.092420947682493995
+		-8.0032479368679536e-18 -0.13070295765995757 3.9383351957335032e-17
+		-5.6591508876765786e-18 -0.092420947682493995 -0.092420947682493954
+		-4.3089928967313074e-33 -7.0252075179402973e-17 -0.13070295765995757
+		5.6591508876765747e-18 0.092420947682493954 -0.092420947682494065
+		8.0032479368679459e-18 0.13070295765995757 1.4911644648575e-17
+		5.6591508876765786e-18 0.092420947682493967 0.092420947682493967
+		;
+createNode transform -n "middleFinger_1_group_3" -p "middleFinger_1_group_2";
+	rename -uid "7D6047F0-46F3-815D-3654-EFBBECBFB28C";
+createNode transform -n "middleFinger_1" -p "middleFinger_1_group_3";
 	rename -uid "F023A976-43DE-7177-3FC5-B89D1EB95531";
 	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
 	setAttr -l on -k off ".v";
+	setAttr -s 2 ".iog";
 	setAttr -k on ".t";
 	setAttr -k on ".r";
 	setAttr ".ro" 2;
@@ -2520,6 +2754,36 @@ createNode transform -n "middleFinger_1" -p "middleFinger_1_group_2";
 	setAttr -l on ".internalName" -type "string" "middleFinger_1";
 createNode transform -n "middleFinger_2_group" -p "middleFinger_1";
 	rename -uid "A26E80C5-4E78-A450-688A-1BA7816A0831";
+createNode transform -n "middleFinger_2_closed" -p "middleFinger_2_group";
+	rename -uid "3DA1BD7E-4D38-E324-54AA-55B9ABB8AD99";
+	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
+	setAttr -l on -k off ".v";
+	setAttr -k on ".t";
+	setAttr -k on ".r" -type "double3" 0 0 -90 ;
+	setAttr -k on ".r";
+	setAttr -k on ".s";
+	setAttr -l on ".internalName" -type "string" "middleFinger_3";
+createNode nurbsCurve -n "middleFinger_2_closedShape" -p "middleFinger_2_closed";
+	rename -uid "64EFFBDE-4EA0-CFB4-1E44-B5AB612FF55E";
+	setAttr -k off ".v" no;
+	setAttr ".ove" yes;
+	setAttr ".ovc" 14;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		5.6591508876765747e-18 0.092420947682493954 -0.092420947682494065
+		8.0032479368679459e-18 0.13070295765995757 1.4911644648575e-17
+		5.6591508876765786e-18 0.092420947682493967 0.092420947682493967
+		2.3087082090219562e-33 3.7823185546559397e-17 0.13070295765995757
+		-5.659150887676577e-18 -0.092420947682493967 0.092420947682493995
+		-8.0032479368679536e-18 -0.13070295765995757 3.9383351957335032e-17
+		-5.6591508876765786e-18 -0.092420947682493995 -0.092420947682493954
+		-4.3089928967313074e-33 -7.0252075179402973e-17 -0.13070295765995757
+		5.6591508876765747e-18 0.092420947682493954 -0.092420947682494065
+		8.0032479368679459e-18 0.13070295765995757 1.4911644648575e-17
+		5.6591508876765786e-18 0.092420947682493967 0.092420947682493967
+		;
 createNode transform -n "middleFinger_2_group_2" -p "middleFinger_2_group";
 	rename -uid "A136FB78-4E20-65F7-0621-2BAD46A547B2";
 createNode transform -n "middleFinger_2" -p "middleFinger_2_group_2";
@@ -2532,6 +2796,37 @@ createNode transform -n "middleFinger_2" -p "middleFinger_2_group_2";
 	setAttr -l on ".internalName" -type "string" "middleFinger_2";
 createNode transform -n "middleFinger_3_group" -p "middleFinger_2";
 	rename -uid "5FC00FFE-4411-E0C5-FCC0-8E8B46E211CF";
+createNode transform -n "middleFinger_3_closed" -p "middleFinger_3_group";
+	rename -uid "215AA93F-491F-52AB-239A-FA9B9A8237EA";
+	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
+	setAttr -l on -k off ".v";
+	setAttr -s 2 ".iog";
+	setAttr -k on ".t";
+	setAttr -k on ".r" -type "double3" 0 0 -90 ;
+	setAttr -k on ".r";
+	setAttr -k on ".s";
+	setAttr -l on ".internalName" -type "string" "middleFinger_3";
+createNode nurbsCurve -n "middleFinger_3_closedShape" -p "middleFinger_3_closed";
+	rename -uid "0DFDC1F5-443A-0A93-D3BD-2B91ADC7639D";
+	setAttr -k off ".v" no;
+	setAttr ".ove" yes;
+	setAttr ".ovc" 14;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		5.6591508876765747e-18 0.092420947682493954 -0.092420947682494065
+		8.0032479368679459e-18 0.13070295765995757 1.4911644648575e-17
+		5.6591508876765786e-18 0.092420947682493967 0.092420947682493967
+		2.3087082090219562e-33 3.7823185546559397e-17 0.13070295765995757
+		-5.659150887676577e-18 -0.092420947682493967 0.092420947682493995
+		-8.0032479368679536e-18 -0.13070295765995757 3.9383351957335032e-17
+		-5.6591508876765786e-18 -0.092420947682493995 -0.092420947682493954
+		-4.3089928967313074e-33 -7.0252075179402973e-17 -0.13070295765995757
+		5.6591508876765747e-18 0.092420947682493954 -0.092420947682494065
+		8.0032479368679459e-18 0.13070295765995757 1.4911644648575e-17
+		5.6591508876765786e-18 0.092420947682493967 0.092420947682493967
+		;
 createNode transform -n "middleFinger_3_group_2" -p "middleFinger_3_group";
 	rename -uid "7A66A4C7-4A96-A435-2BA3-0C8CC94BA520";
 createNode transform -n "middleFinger_3" -p "middleFinger_3_group_2";
@@ -2647,10 +2942,44 @@ createNode transform -n "ringFinger_1_group" -p "ringFingerRoot";
 	rename -uid "100D16A3-455D-5C79-D72A-42AEE470CCF9";
 createNode transform -n "ringFinger_1_group_2" -p "ringFinger_1_group";
 	rename -uid "0B5B1209-4CB7-38D8-102F-1988B5F2C7B3";
-createNode transform -n "ringFinger_1" -p "ringFinger_1_group_2";
+createNode transform -n "ringFinger_1_closed" -p "ringFinger_1_group_2";
+	rename -uid "C8C6132C-4344-C13C-3085-AB8EFEDB3297";
+	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
+	setAttr -l on -k off ".v";
+	setAttr -k on ".t";
+	setAttr -k on ".r" -type "double3" 0 0 -90 ;
+	setAttr -k on ".r";
+	setAttr ".ro" 2;
+	setAttr -k on ".s";
+	setAttr -l on ".internalName" -type "string" "ringFinger_1";
+createNode nurbsCurve -n "ringFinger_1_closedShape" -p "ringFinger_1_closed";
+	rename -uid "35EC2A27-4007-CE8F-872B-7DBC1C2C9A39";
+	setAttr -k off ".v" no;
+	setAttr ".ove" yes;
+	setAttr ".ovc" 14;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		5.6591508876765747e-18 0.092420947682493954 -0.092420947682494065
+		8.0032479368679459e-18 0.13070295765995757 1.4911644648575e-17
+		5.6591508876765786e-18 0.092420947682493967 0.092420947682493967
+		2.3087082090219562e-33 3.7823185546559397e-17 0.13070295765995757
+		-5.659150887676577e-18 -0.092420947682493967 0.092420947682493995
+		-8.0032479368679536e-18 -0.13070295765995757 3.9383351957335032e-17
+		-5.6591508876765786e-18 -0.092420947682493995 -0.092420947682493954
+		-4.3089928967313074e-33 -7.0252075179402973e-17 -0.13070295765995757
+		5.6591508876765747e-18 0.092420947682493954 -0.092420947682494065
+		8.0032479368679459e-18 0.13070295765995757 1.4911644648575e-17
+		5.6591508876765786e-18 0.092420947682493967 0.092420947682493967
+		;
+createNode transform -n "ringFinger_1_group_3" -p "ringFinger_1_group_2";
+	rename -uid "82762D8D-4DF7-18A2-B537-7BB5C3601BC3";
+createNode transform -n "ringFinger_1" -p "ringFinger_1_group_3";
 	rename -uid "8523DBEF-498F-AF84-9D7A-D7BA31B1EFD2";
 	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
 	setAttr -l on -k off ".v";
+	setAttr -s 2 ".iog";
 	setAttr -k on ".t";
 	setAttr -k on ".r";
 	setAttr ".ro" 2;
@@ -2658,6 +2987,38 @@ createNode transform -n "ringFinger_1" -p "ringFinger_1_group_2";
 	setAttr -l on ".internalName" -type "string" "ringFinger_1";
 createNode transform -n "ringFinger_2_group" -p "ringFinger_1";
 	rename -uid "2129030C-45F0-9B6C-7C52-DE99E037C766";
+createNode transform -n "ringFinger_2_closed" -p "ringFinger_2_group";
+	rename -uid "95F08693-469E-6153-714A-4AADFDCCC378";
+	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
+	setAttr -l on -k off ".v";
+	setAttr -k on ".t" -type "double3" 4.8792580198409041e-08 0 8.4256301935425881e-10 ;
+	setAttr -k on ".t";
+	setAttr -k on ".r" -type "double3" 0 0 -90 ;
+	setAttr -k on ".r";
+	setAttr ".ro" 2;
+	setAttr -k on ".s";
+	setAttr -l on ".internalName" -type "string" "ringFinger_1";
+createNode nurbsCurve -n "ringFinger_2_closedShape" -p "ringFinger_2_closed";
+	rename -uid "0F1A22CF-4409-100F-05DE-59839722D24E";
+	setAttr -k off ".v" no;
+	setAttr ".ove" yes;
+	setAttr ".ovc" 14;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		5.6591508876765747e-18 0.092420947682493954 -0.092420947682494065
+		8.0032479368679459e-18 0.13070295765995757 1.4911644648575e-17
+		5.6591508876765786e-18 0.092420947682493967 0.092420947682493967
+		2.3087082090219562e-33 3.7823185546559397e-17 0.13070295765995757
+		-5.659150887676577e-18 -0.092420947682493967 0.092420947682493995
+		-8.0032479368679536e-18 -0.13070295765995757 3.9383351957335032e-17
+		-5.6591508876765786e-18 -0.092420947682493995 -0.092420947682493954
+		-4.3089928967313074e-33 -7.0252075179402973e-17 -0.13070295765995757
+		5.6591508876765747e-18 0.092420947682493954 -0.092420947682494065
+		8.0032479368679459e-18 0.13070295765995757 1.4911644648575e-17
+		5.6591508876765786e-18 0.092420947682493967 0.092420947682493967
+		;
 createNode transform -n "ringFinger_2_group_2" -p "ringFinger_2_group";
 	rename -uid "EB56FD2C-4AB0-BD22-8462-51899E0209AA";
 createNode transform -n "ringFinger_2" -p "ringFinger_2_group_2";
@@ -2670,6 +3031,38 @@ createNode transform -n "ringFinger_2" -p "ringFinger_2_group_2";
 	setAttr -l on ".internalName" -type "string" "ringFinger_2";
 createNode transform -n "ringFinger_3_group" -p "ringFinger_2";
 	rename -uid "B02EAFF5-46B0-BF47-A6F4-51AE3E0C15B4";
+createNode transform -n "ringFinger_3_closed" -p "ringFinger_3_group";
+	rename -uid "D397D0CD-4BF3-E6F9-1582-319BC2080D35";
+	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
+	setAttr -l on -k off ".v";
+	setAttr -k on ".t" -type "double3" 1.1088643336876203e-09 0 8.4256301935425881e-10 ;
+	setAttr -k on ".t";
+	setAttr -k on ".r" -type "double3" 0 0 -90 ;
+	setAttr -k on ".r";
+	setAttr ".ro" 2;
+	setAttr -k on ".s";
+	setAttr -l on ".internalName" -type "string" "ringFinger_1";
+createNode nurbsCurve -n "ringFinger_3_closedShape" -p "ringFinger_3_closed";
+	rename -uid "C5C13092-4BBE-8F98-7612-8E8D0185F8BD";
+	setAttr -k off ".v" no;
+	setAttr ".ove" yes;
+	setAttr ".ovc" 14;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		5.6591508876765747e-18 0.092420947682493954 -0.092420947682494065
+		8.0032479368679459e-18 0.13070295765995757 1.4911644648575e-17
+		5.6591508876765786e-18 0.092420947682493967 0.092420947682493967
+		2.3087082090219562e-33 3.7823185546559397e-17 0.13070295765995757
+		-5.659150887676577e-18 -0.092420947682493967 0.092420947682493995
+		-8.0032479368679536e-18 -0.13070295765995757 3.9383351957335032e-17
+		-5.6591508876765786e-18 -0.092420947682493995 -0.092420947682493954
+		-4.3089928967313074e-33 -7.0252075179402973e-17 -0.13070295765995757
+		5.6591508876765747e-18 0.092420947682493954 -0.092420947682494065
+		8.0032479368679459e-18 0.13070295765995757 1.4911644648575e-17
+		5.6591508876765786e-18 0.092420947682493967 0.092420947682493967
+		;
 createNode transform -n "ringFinger_3_group_2" -p "ringFinger_3_group";
 	rename -uid "BB50A809-4F88-CD34-CE68-9B93D1FFAC1F";
 createNode transform -n "ringFinger_3" -p "ringFinger_3_group_2";
@@ -2825,7 +3218,40 @@ createNode transform -n "pinkyFinger_1_group" -p "pinkyFingerRoot";
 	rename -uid "68B3A777-47B6-5319-E032-C9B5D85BF0C2";
 createNode transform -n "pinkyFinger_1_group_2" -p "pinkyFinger_1_group";
 	rename -uid "0D3124D7-4511-86F7-3E35-EBB8C8ABC634";
-createNode transform -n "pinkyFinger_1" -p "pinkyFinger_1_group_2";
+createNode transform -n "pinkyFinger_1_closed" -p "pinkyFinger_1_group_2";
+	rename -uid "60F13F4A-4930-7D5F-873C-90A04A0D2B46";
+	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
+	setAttr -l on -k off ".v";
+	setAttr -k on ".t";
+	setAttr -k on ".r" -type "double3" 0 0 -90 ;
+	setAttr -k on ".r";
+	setAttr ".ro" 2;
+	setAttr -k on ".s";
+	setAttr -l on ".internalName" -type "string" "pinkyFinger_1";
+createNode nurbsCurve -n "pinkyFinger_1_closedShape" -p "pinkyFinger_1_closed";
+	rename -uid "BF19B895-4D40-389F-2809-2CA8389567CE";
+	setAttr -k off ".v" no;
+	setAttr ".ove" yes;
+	setAttr ".ovc" 14;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		5.6591508876765747e-18 0.092420947682493954 -0.092420947682494065
+		8.0032479368679459e-18 0.13070295765995757 1.4911644648575e-17
+		5.6591508876765786e-18 0.092420947682493967 0.092420947682493967
+		2.3087082090219562e-33 3.7823185546559397e-17 0.13070295765995757
+		-5.659150887676577e-18 -0.092420947682493967 0.092420947682493995
+		-8.0032479368679536e-18 -0.13070295765995757 3.9383351957335032e-17
+		-5.6591508876765786e-18 -0.092420947682493995 -0.092420947682493954
+		-4.3089928967313074e-33 -7.0252075179402973e-17 -0.13070295765995757
+		5.6591508876765747e-18 0.092420947682493954 -0.092420947682494065
+		8.0032479368679459e-18 0.13070295765995757 1.4911644648575e-17
+		5.6591508876765786e-18 0.092420947682493967 0.092420947682493967
+		;
+createNode transform -n "pinkyFinger_1_group_3" -p "pinkyFinger_1_group_2";
+	rename -uid "8F4BD8CF-4F90-CC6C-DF72-9C8A85DCAC92";
+createNode transform -n "pinkyFinger_1" -p "pinkyFinger_1_group_3";
 	rename -uid "50E92791-4ACE-638F-899A-3E9956C7CA4A";
 	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
 	setAttr -l on -k off ".v";
@@ -2836,11 +3262,42 @@ createNode transform -n "pinkyFinger_1" -p "pinkyFinger_1_group_2";
 	setAttr -l on ".internalName" -type "string" "pinkyFinger_1";
 createNode transform -n "pinkyFinger_2_group" -p "pinkyFinger_1";
 	rename -uid "243D240B-4061-3EC6-E828-0C8FD8074875";
+createNode transform -n "pinkyFinger_2_closed" -p "pinkyFinger_2_group";
+	rename -uid "28846A39-4588-D190-F928-C1A6B8C91A99";
+	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
+	setAttr -l on -k off ".v";
+	setAttr -s 2 ".iog";
+	setAttr -k on ".t" -type "double3" -3.0121681815487023e-08 0 8.1388856765229889e-10 ;
+	setAttr -k on ".t";
+	setAttr -k on ".r" -type "double3" 0 0 -90 ;
+	setAttr -k on ".r";
+	setAttr ".ro" 2;
+	setAttr -k on ".s";
+	setAttr -l on ".internalName" -type "string" "pinkyFinger_1";
+createNode nurbsCurve -n "pinkyFinger_2_closedShape" -p "pinkyFinger_2_closed";
+	rename -uid "2E3AA41E-4E97-2A5C-AEE1-23916849F42D";
+	setAttr -k off ".v" no;
+	setAttr ".ove" yes;
+	setAttr ".ovc" 14;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		5.6591508876765747e-18 0.092420947682493954 -0.092420947682494065
+		8.0032479368679459e-18 0.13070295765995757 1.4911644648575e-17
+		5.6591508876765786e-18 0.092420947682493967 0.092420947682493967
+		2.3087082090219562e-33 3.7823185546559397e-17 0.13070295765995757
+		-5.659150887676577e-18 -0.092420947682493967 0.092420947682493995
+		-8.0032479368679536e-18 -0.13070295765995757 3.9383351957335032e-17
+		-5.6591508876765786e-18 -0.092420947682493995 -0.092420947682493954
+		-4.3089928967313074e-33 -7.0252075179402973e-17 -0.13070295765995757
+		5.6591508876765747e-18 0.092420947682493954 -0.092420947682494065
+		8.0032479368679459e-18 0.13070295765995757 1.4911644648575e-17
+		5.6591508876765786e-18 0.092420947682493967 0.092420947682493967
+		;
 createNode transform -n "pinkyFinger_2_group_2" -p "pinkyFinger_2_group";
 	rename -uid "20654A5B-4932-5AD6-FEB1-11A908E6FEBD";
-createNode transform -n "pinkyFinger_2_group_3" -p "pinkyFinger_2_group_2";
-	rename -uid "EB974AA4-48FC-3344-37F2-EF978916CDBB";
-createNode transform -n "pinkyFinger_2" -p "pinkyFinger_2_group_3";
+createNode transform -n "pinkyFinger_2" -p "pinkyFinger_2_group_2";
 	rename -uid "707C762B-493B-4737-B3C9-F49834B632BF";
 	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
 	setAttr -l on -k off ".v";
@@ -2850,6 +3307,38 @@ createNode transform -n "pinkyFinger_2" -p "pinkyFinger_2_group_3";
 	setAttr -l on ".internalName" -type "string" "pinkyFinger_2";
 createNode transform -n "pinkyFinger_3_group" -p "pinkyFinger_2";
 	rename -uid "0BA1C4BC-41BB-DE7C-7372-7BAC8F62CFC1";
+createNode transform -n "pinkyFinger_3_closed" -p "pinkyFinger_3_group";
+	rename -uid "E792145E-45F4-3C7C-C8C8-EEA314E0F7DD";
+	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
+	setAttr -l on -k off ".v";
+	setAttr -s 2 ".iog";
+	setAttr -k on ".t";
+	setAttr -k on ".r" -type "double3" 0 0 -90 ;
+	setAttr -k on ".r";
+	setAttr ".ro" 2;
+	setAttr -k on ".s";
+	setAttr -l on ".internalName" -type "string" "pinkyFinger_1";
+createNode nurbsCurve -n "pinkyFinger_3_closedShape" -p "pinkyFinger_3_closed";
+	rename -uid "E52C1BB5-4F18-4ED0-BB7D-1B9259059776";
+	setAttr -k off ".v" no;
+	setAttr ".ove" yes;
+	setAttr ".ovc" 14;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		5.6591508876765747e-18 0.092420947682493954 -0.092420947682494065
+		8.0032479368679459e-18 0.13070295765995757 1.4911644648575e-17
+		5.6591508876765786e-18 0.092420947682493967 0.092420947682493967
+		2.3087082090219562e-33 3.7823185546559397e-17 0.13070295765995757
+		-5.659150887676577e-18 -0.092420947682493967 0.092420947682493995
+		-8.0032479368679536e-18 -0.13070295765995757 3.9383351957335032e-17
+		-5.6591508876765786e-18 -0.092420947682493995 -0.092420947682493954
+		-4.3089928967313074e-33 -7.0252075179402973e-17 -0.13070295765995757
+		5.6591508876765747e-18 0.092420947682493954 -0.092420947682494065
+		8.0032479368679459e-18 0.13070295765995757 1.4911644648575e-17
+		5.6591508876765786e-18 0.092420947682493967 0.092420947682493967
+		;
 createNode transform -n "pinkyFinger_3_group_2" -p "pinkyFinger_3_group";
 	rename -uid "366F2006-4742-90A5-B162-06950839B6A1";
 createNode transform -n "pinkyFinger_3" -p "pinkyFinger_3_group_2";
@@ -2949,11 +3438,11 @@ createNode transform -n "fingers_group" -p "controls";
 	setAttr ".t" -type "double3" 0.47933637847790406 0.36601239251768675 -0.0088306108877134193 ;
 createNode transform -n "fingers" -p "fingers_group";
 	rename -uid "27905F50-4C84-C468-842B-F98FD6F1265C";
-	addAttr -ci true -sn "thumb" -ln "thumb" -min -20 -max 100 -at "double";
-	addAttr -ci true -sn "index" -ln "index" -min -20 -max 100 -at "double";
-	addAttr -ci true -sn "middle" -ln "middle" -min -20 -max 100 -at "double";
-	addAttr -ci true -sn "ring" -ln "ring" -min -20 -max 100 -at "double";
-	addAttr -ci true -sn "pinky" -ln "pinky" -min -20 -max 100 -at "double";
+	addAttr -ci true -sn "thumb" -ln "thumb" -min -30 -max 90 -at "double";
+	addAttr -ci true -sn "index" -ln "index" -min -30 -max 90 -at "double";
+	addAttr -ci true -sn "middle" -ln "middle" -min -30 -max 90 -at "double";
+	addAttr -ci true -sn "ring" -ln "ring" -min -30 -max 90 -at "double";
+	addAttr -ci true -sn "pinky" -ln "pinky" -min -30 -max 90 -at "double";
 	addAttr -ci true -sn "thumbMult1" -ln "thumbMult1" -at "double";
 	addAttr -ci true -sn "thumbMult2" -ln "thumbMult2" -at "double";
 	addAttr -ci true -sn "thumbMult3" -ln "thumbMult3" -at "double";
@@ -2980,6 +3469,7 @@ createNode transform -n "fingers" -p "fingers_group";
 	addAttr -ci true -sn "spreadRingMult" -ln "spreadRingMult" -at "double";
 	addAttr -ci true -sn "spreadPinkyMult" -ln "spreadPinkyMult" -at "double";
 	setAttr -l on -k off ".v";
+	setAttr -s 2 ".iog";
 	setAttr -l on -k off ".tx";
 	setAttr -l on -k off ".ty";
 	setAttr -l on -k off ".tz";
@@ -3074,6 +3564,7 @@ createNode joint -n "thumbFinger_1_outJoint" -p "root_outJoint";
 createNode joint -n "thumbFinger_2_outJoint" -p "thumbFinger_1_outJoint";
 	rename -uid "63A51357-4C24-90BC-6CCC-BDAD21F4EE00";
 	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr -s 2 ".iog";
 	setAttr ".uoc" 1;
 	setAttr ".oc" 6;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
@@ -3086,6 +3577,7 @@ createNode joint -n "thumbFinger_2_outJoint" -p "thumbFinger_1_outJoint";
 createNode joint -n "thumbFinger_3_outJoint" -p "thumbFinger_2_outJoint";
 	rename -uid "C1E1640D-425A-B2AF-751A-38B20E946E8C";
 	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr -s 2 ".iog";
 	setAttr ".uoc" 1;
 	setAttr ".oc" 6;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
@@ -3123,6 +3615,7 @@ createNode joint -n "indexFingerRoot_outJoint" -p "root_outJoint";
 createNode joint -n "indexFinger_1_outJoint" -p "indexFingerRoot_outJoint";
 	rename -uid "9D2D92CE-4F2B-189E-CC43-409588CDF923";
 	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr -s 2 ".iog";
 	setAttr ".uoc" 1;
 	setAttr ".oc" 6;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
@@ -3134,6 +3627,7 @@ createNode joint -n "indexFinger_1_outJoint" -p "indexFingerRoot_outJoint";
 createNode joint -n "indexFinger_2_outJoint" -p "indexFinger_1_outJoint";
 	rename -uid "F1713E59-415C-178B-9EA8-28B458DE0D0D";
 	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr -s 2 ".iog";
 	setAttr ".uoc" 1;
 	setAttr ".oc" 6;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
@@ -3183,6 +3677,7 @@ createNode joint -n "middleFingerRoot_outJoint" -p "root_outJoint";
 createNode joint -n "middleFinger_1_outJoint" -p "middleFingerRoot_outJoint";
 	rename -uid "B8C66E97-4D70-52D8-E9DB-259090E01787";
 	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr -s 2 ".iog";
 	setAttr ".uoc" 1;
 	setAttr ".oc" 6;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
@@ -3194,6 +3689,7 @@ createNode joint -n "middleFinger_1_outJoint" -p "middleFingerRoot_outJoint";
 createNode joint -n "middleFinger_2_outJoint" -p "middleFinger_1_outJoint";
 	rename -uid "C1BC011E-445A-3CCD-7D23-81963A0D2440";
 	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr -s 2 ".iog";
 	setAttr ".uoc" 1;
 	setAttr ".oc" 6;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
@@ -3254,6 +3750,7 @@ createNode joint -n "ringFinger_1_outJoint" -p "ringFingerRoot_outJoint";
 createNode joint -n "ringFinger_2_outJoint" -p "ringFinger_1_outJoint";
 	rename -uid "9650280C-4DA9-60A5-D692-49BD50720BCB";
 	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr -s 2 ".iog";
 	setAttr ".uoc" 1;
 	setAttr ".oc" 6;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
@@ -3303,6 +3800,7 @@ createNode joint -n "pinkyFingerRoot_outJoint" -p "root_outJoint";
 createNode joint -n "pinkyFinger_1_outJoint" -p "pinkyFingerRoot_outJoint";
 	rename -uid "744364B8-4D11-7943-8DFD-C5829119DA18";
 	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr -s 2 ".iog";
 	setAttr ".uoc" 1;
 	setAttr ".oc" 6;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
@@ -3314,6 +3812,7 @@ createNode joint -n "pinkyFinger_1_outJoint" -p "pinkyFingerRoot_outJoint";
 createNode joint -n "pinkyFinger_2_outJoint" -p "pinkyFinger_1_outJoint";
 	rename -uid "7E09F2B2-42C3-1841-19D0-9CB9511BDC29";
 	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr -s 2 ".iog";
 	setAttr ".uoc" 1;
 	setAttr ".oc" 6;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
@@ -3351,15 +3850,15 @@ createNode joint -n "pinkyFinger_end_outJoint" -p "pinkyFinger_3_outJoint";
 createNode transform -s -n "persp";
 	rename -uid "B4CB8A02-4ED4-5B47-4588-78A2DF4DAB63";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 4.7009152659405578 2.0917319097971316 5.1338545417697059 ;
-	setAttr ".r" -type "double3" -18.600000000000076 40.00000000000027 -2.0759596326511982e-15 ;
+	setAttr ".t" -type "double3" 5.1707469544678597 1.6186364107732429 0.69037526230364077 ;
+	setAttr ".r" -type "double3" -31.799999999998157 83.199999999998866 -5.3723785223647081e-14 ;
 createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "FD5AF2A7-4477-D351-B960-8095957B3EBF";
 	setAttr -k off ".v" no;
 	setAttr ".fl" 34.999999999999986;
 	setAttr ".ncp" 0.001;
 	setAttr ".fcp" 50000;
-	setAttr ".coi" 5.7928671375380354;
+	setAttr ".coi" 3.9385242588575191;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -3368,7 +3867,7 @@ createNode camera -s -n "perspShape" -p "persp";
 createNode transform -s -n "top";
 	rename -uid "4399C4E0-4AC2-2D79-E31C-0DA7ED948171";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 0.65911486133936981 2.2520725518810769 0.039422549224904541 ;
+	setAttr ".t" -type "double3" 1.8469706821425222 4.6151995176940046 0.29403893723133057 ;
 	setAttr ".r" -type "double3" -90 90 0 ;
 	setAttr ".rp" -type "double3" 3.1554436208840458e-30 3.1554436208840493e-30 0 ;
 	setAttr ".rpt" -type "double3" -3.1554436208840458e-30 -6.3108872417680986e-30 7.0064923216240838e-46 ;
@@ -3379,7 +3878,7 @@ createNode camera -s -n "topShape" -p "top";
 	setAttr ".ncp" 0.001;
 	setAttr ".fcp" 50000;
 	setAttr ".coi" 100.1;
-	setAttr ".ow" 2.2169596930784077;
+	setAttr ".ow" 5.071991290829871;
 	setAttr ".imn" -type "string" "top";
 	setAttr ".den" -type "string" "top_depth";
 	setAttr ".man" -type "string" "top_mask";
@@ -3424,21 +3923,21 @@ createNode camera -s -n "sideShape" -p "side";
 	setAttr ".hc" -type "string" "viewSet -s %camera";
 	setAttr ".o" yes;
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "EAC9C4E4-4FA8-6998-E94F-81912D7D764C";
+	rename -uid "2F256840-4561-4154-9031-5C9D86558600";
 	setAttr -s 2 ".lnk";
 	setAttr -s 2 ".slnk";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "414A5900-4F58-C2B4-65F3-90A09F459DE1";
+	rename -uid "288F511B-45EF-857E-61F9-849202191EE9";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "E07D4D85-463A-EC21-D440-F88CC183AD0E";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "13849BFC-467A-2104-E080-0AA8A34900BC";
+	rename -uid "295B9C4A-45C5-9243-9494-3B8AA1C21AB2";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "D7EABF89-4D44-5996-B10A-06AB47230C35";
 	setAttr ".g" yes;
 createNode script -n "sceneConfigurationScriptNode";
 	rename -uid "E9CAD617-4DBC-A87A-DD6D-D19908C6C63C";
-	setAttr ".b" -type "string" "playbackOptions -min 1 -max 120 -ast 0 -aet 140 ";
+	setAttr ".b" -type "string" "playbackOptions -min 1 -max 29 -ast 0 -aet 140 ";
 	setAttr ".st" 6;
 createNode objectSet -n "sets";
 	rename -uid "339CEF37-4ED0-5286-C0A6-42972AA1962C";
@@ -3457,7 +3956,7 @@ createNode multMatrix -n "pinkyFinger_1_skinJoint_multMat";
 createNode objectSet -n "thumb_moduleControlSet";
 	rename -uid "B8977D35-4E6D-B2AA-992E-9994E426DED3";
 	setAttr ".ihi" 0;
-	setAttr -s 3 ".dsm";
+	setAttr -s 6 ".dsm";
 	setAttr ".an" -type "string" "gControlSet";
 createNode objectSet -n "moduleControlSet";
 	rename -uid "1CE65CA5-43CC-84A3-23C7-00A250534604";
@@ -3905,7 +4404,7 @@ createNode decomposeMatrix -n "thumbFinger_1_outJoint_decMat";
 	rename -uid "FDBCC414-4A78-08E9-9485-27BEFDD63410";
 createNode multMatrix -n "thumbFinger_1_outJoint_multMat";
 	rename -uid "2E1C8D7F-4F34-5695-68BE-97BD48B2E0C4";
-	setAttr -s 4 ".i";
+	setAttr -s 5 ".i";
 createNode decomposeMatrix -n "thumbFinger_2_outJoint_decMat";
 	rename -uid "22DDCF12-4A11-8109-3CEE-B289513EC347";
 createNode multMatrix -n "thumbFinger_2_outJoint_multMat";
@@ -3925,7 +4424,7 @@ createNode decomposeMatrix -n "indexFinger_1_outJoint_decMat";
 	rename -uid "30ABBA19-4687-239A-CB34-6C9267354BEF";
 createNode multMatrix -n "indexFinger_1_outJoint_multMat";
 	rename -uid "9C58BC64-401A-FD3B-A7F5-4E953ABA4E97";
-	setAttr -s 4 ".i";
+	setAttr -s 5 ".i";
 createNode decomposeMatrix -n "indexFinger_3_outJoint_decMat";
 	rename -uid "99A5E64E-40DC-E874-0028-71AA9EFA42F2";
 createNode multMatrix -n "indexFinger_3_outJoint_multMat";
@@ -3940,7 +4439,7 @@ createNode decomposeMatrix -n "middleFinger_1_outJoint_decMat";
 	rename -uid "B0DC5A4C-42D8-806D-E193-2B93909BFDBC";
 createNode multMatrix -n "middleFinger_1_outJoint_multMat";
 	rename -uid "83E41431-4070-0961-B8C7-39B94EC680B7";
-	setAttr -s 4 ".i";
+	setAttr -s 5 ".i";
 createNode decomposeMatrix -n "middleFinger_2_outJoint_decMat";
 	rename -uid "FB8BD06F-43FE-D078-2DA8-B08D5F91CB02";
 createNode multMatrix -n "middleFinger_2_outJoint_multMat";
@@ -3960,7 +4459,7 @@ createNode decomposeMatrix -n "ringFinger_1_outJoint_decMat";
 	rename -uid "F3EB8BB4-4126-DDCB-81DB-2198279B4F38";
 createNode multMatrix -n "ringFinger_1_outJoint_multMat";
 	rename -uid "A73FB1AF-4F6A-FC9C-F3C2-A58F3614A168";
-	setAttr -s 4 ".i";
+	setAttr -s 5 ".i";
 createNode decomposeMatrix -n "ringFinger_2_outJoint_decMat";
 	rename -uid "86AF260D-4CD1-4E7E-2218-CC9BF085C9D3";
 createNode multMatrix -n "ringFinger_2_outJoint_multMat";
@@ -3980,12 +4479,12 @@ createNode decomposeMatrix -n "pinkyFinger_1_outJoint_decMat";
 	rename -uid "9867741D-49EA-6F3B-02BF-F6B751A56076";
 createNode multMatrix -n "pinkyFinger_1_outJoint_multMat";
 	rename -uid "0B57A719-4EEE-6151-2B86-8A855EB91E96";
-	setAttr -s 4 ".i";
+	setAttr -s 5 ".i";
 createNode decomposeMatrix -n "pinkyFinger_2_outJoint_decMat";
 	rename -uid "73F1E5A9-4F13-DEF0-47C2-7AB20D3D5C4E";
 createNode multMatrix -n "pinkyFinger_2_outJoint_multMat";
 	rename -uid "A4CAFA1C-432E-5288-FBE1-28A3F1313E7F";
-	setAttr -s 5 ".i";
+	setAttr -s 4 ".i";
 createNode decomposeMatrix -n "pinkyFinger_3_outJoint_decMat";
 	rename -uid "B19D8C7B-4660-5840-A815-E484104D42AF";
 createNode multMatrix -n "pinkyFinger_3_outJoint_multMat";
@@ -4019,22 +4518,22 @@ createNode multMatrix -n "pinkyFinger_end_outJoint_multMat";
 createNode objectSet -n "index_moduleControlSet";
 	rename -uid "D706DE67-4253-AF2E-3249-B7B9E2A301F8";
 	setAttr ".ihi" 0;
-	setAttr -s 4 ".dsm";
+	setAttr -s 7 ".dsm";
 	setAttr ".an" -type "string" "gControlSet";
 createNode objectSet -n "middle_moduleControlSet";
 	rename -uid "C50812BF-4F31-B6E2-361D-11A39A47C9D4";
 	setAttr ".ihi" 0;
-	setAttr -s 4 ".dsm";
+	setAttr -s 7 ".dsm";
 	setAttr ".an" -type "string" "gControlSet";
 createNode objectSet -n "ring_moduleControlSet";
 	rename -uid "55DAF7A6-48B5-D875-07C0-95848E3FC0AB";
 	setAttr ".ihi" 0;
-	setAttr -s 4 ".dsm";
+	setAttr -s 7 ".dsm";
 	setAttr ".an" -type "string" "gControlSet";
 createNode objectSet -n "pinky_moduleControlSet";
 	rename -uid "625BADB2-4341-EF49-22E2-97B79375930D";
 	setAttr ".ihi" 0;
-	setAttr -s 4 ".dsm";
+	setAttr -s 7 ".dsm";
 	setAttr ".an" -type "string" "gControlSet";
 createNode pairBlend -n "pairBlend1";
 	rename -uid "77C04C33-46A1-5B47-5DD0-D6912A967E3B";
@@ -4080,81 +4579,6 @@ createNode multMatrix -n "pinky_root_outJoint_multMat1";
 	setAttr -s 5 ".i";
 createNode decomposeMatrix -n "pinky_root_outJoint_decMat1";
 	rename -uid "497B3F67-4DC6-3BF9-A11C-08B5AA72526B";
-createNode multDoubleLinear -n "multDoubleLinear2";
-	rename -uid "F96613B1-4CE2-5882-9670-14B2BCDA8CF7";
-createNode unitConversion -n "unitConversion1426";
-	rename -uid "378403D7-4ABB-7275-9EAA-988708823DAE";
-	setAttr ".cf" 0.017453292519943295;
-createNode multDoubleLinear -n "multDoubleLinear3";
-	rename -uid "460BDF6D-47D2-94E6-C7AC-5AA84722DB86";
-createNode multDoubleLinear -n "multDoubleLinear4";
-	rename -uid "0D4D0792-4F0F-BAC7-C0F9-43BD1510EAEC";
-createNode unitConversion -n "unitConversion1427";
-	rename -uid "0794B98F-4D26-3382-5435-1D8AD9431638";
-	setAttr ".cf" 0.017453292519943295;
-createNode unitConversion -n "unitConversion1428";
-	rename -uid "E21FE371-410E-B5B7-4448-7EA47C30D233";
-	setAttr ".cf" 0.017453292519943295;
-createNode multDoubleLinear -n "multDoubleLinear5";
-	rename -uid "94CC3FE2-48BF-408E-66E2-8392AE589DD4";
-createNode multDoubleLinear -n "multDoubleLinear6";
-	rename -uid "1AE98A8B-4FFD-07C7-58DE-47AD8D18982F";
-createNode multDoubleLinear -n "multDoubleLinear7";
-	rename -uid "7C6E04E8-4F5E-332C-2988-B792A502E184";
-createNode unitConversion -n "unitConversion1429";
-	rename -uid "4E56D9CD-4530-3B73-569E-17AC85D791D0";
-	setAttr ".cf" 0.017453292519943295;
-createNode unitConversion -n "unitConversion1430";
-	rename -uid "75C8D626-4E4E-DFC5-D970-92AE2CD30E64";
-	setAttr ".cf" 0.017453292519943295;
-createNode unitConversion -n "unitConversion1431";
-	rename -uid "40016D54-45DD-6992-A1A2-7DBB65465CF3";
-	setAttr ".cf" 0.017453292519943295;
-createNode multDoubleLinear -n "multDoubleLinear8";
-	rename -uid "2CCB2365-4B45-CE2F-F3E9-F381C7B9D840";
-createNode multDoubleLinear -n "multDoubleLinear9";
-	rename -uid "CDCCA9D6-4321-92FD-7DB1-5CBA0EEC8C96";
-createNode multDoubleLinear -n "multDoubleLinear10";
-	rename -uid "F331B63D-4502-7A58-CC2A-4B8A696681B1";
-createNode unitConversion -n "unitConversion1432";
-	rename -uid "BC8981C3-45DE-E6EF-0017-2AB0850A2AAE";
-	setAttr ".cf" 0.017453292519943295;
-createNode unitConversion -n "unitConversion1433";
-	rename -uid "0A394EE3-4401-6B97-DA82-CB947ABB77C9";
-	setAttr ".cf" 0.017453292519943295;
-createNode unitConversion -n "unitConversion1434";
-	rename -uid "0EFDA732-4D21-A396-F14E-ABB9C100F02F";
-	setAttr ".cf" 0.017453292519943295;
-createNode multDoubleLinear -n "multDoubleLinear11";
-	rename -uid "B638718F-4881-D0A1-5DBC-0EB44DCC23A5";
-createNode multDoubleLinear -n "multDoubleLinear12";
-	rename -uid "25371F9A-4E6C-E4BA-D88A-EEBAD7F6E306";
-createNode multDoubleLinear -n "multDoubleLinear13";
-	rename -uid "128F2E2D-4BC5-D73D-FE00-BAB0011EB0AB";
-createNode unitConversion -n "unitConversion1435";
-	rename -uid "0A4612D6-4254-5AE0-1A8C-43838DCB888F";
-	setAttr ".cf" 0.017453292519943295;
-createNode unitConversion -n "unitConversion1436";
-	rename -uid "4069224B-462F-28A3-B3AB-EA84CDF7D3EF";
-	setAttr ".cf" 0.017453292519943295;
-createNode unitConversion -n "unitConversion1437";
-	rename -uid "C8CE92A6-410A-6DFB-F128-12A8B95A62F4";
-	setAttr ".cf" 0.017453292519943295;
-createNode multDoubleLinear -n "multDoubleLinear14";
-	rename -uid "3FB887B5-4752-937F-B1D8-A09FD4641911";
-createNode multDoubleLinear -n "multDoubleLinear15";
-	rename -uid "E90036A5-47BE-89E6-A5FA-8799D1D1A3B3";
-createNode multDoubleLinear -n "multDoubleLinear16";
-	rename -uid "E3B2D574-48C4-482B-1A7F-E9A7E36E3B09";
-createNode unitConversion -n "unitConversion1438";
-	rename -uid "9C947459-410A-9EE7-843F-DB9D340E1BC8";
-	setAttr ".cf" 0.017453292519943295;
-createNode unitConversion -n "unitConversion1439";
-	rename -uid "4D93EAB6-4859-0C9B-001E-E5BD11F9CDA0";
-	setAttr ".cf" 0.017453292519943295;
-createNode unitConversion -n "unitConversion1440";
-	rename -uid "755A7EF3-47A3-FD23-1F8C-29BDB6E671E2";
-	setAttr ".cf" 0.017453292519943295;
 createNode multDoubleLinear -n "multDoubleLinear17";
 	rename -uid "4F66A7D3-452B-D6BE-73F5-C5A672E2BA40";
 createNode unitConversion -n "unitConversion1441";
@@ -4201,9 +4625,9 @@ createNode unitConversion -n "unitConversion1449";
 	rename -uid "C646E771-46D2-3A0E-A6F4-9089BABA4380";
 	setAttr ".cf" 0.017453292519943295;
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "D27D760B-42CD-458A-18C7-85A143567832";
+	rename -uid "8B3A4772-4798-DFBA-6A32-E0A75384A3DA";
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "79EBFD3C-4D27-2103-82BD-8C8A0A9B26CB";
+	rename -uid "2D318B65-4064-F539-C8BC-A59E466F6442";
 createNode makeNurbSphere -n "makeNurbSphere1";
 	rename -uid "C96A8F96-4C18-2F6D-A4FA-9AA6E1AF2AF0";
 createNode multiplyDivide -n "multiplyDivide1";
@@ -4330,347 +4754,543 @@ createNode multDoubleLinear -n "multDoubleLinear40";
 	rename -uid "82973D77-4767-7281-DA5A-03A1EC44B760";
 createNode multDoubleLinear -n "multDoubleLinear41";
 	rename -uid "DC1B041E-43E8-AC9A-D2FE-A1AF7B75B4BA";
+createNode blendMatrix -n "blendMatrix1";
+	rename -uid "76BAA171-44F0-1EFF-F636-8F886E4A2996";
+createNode setRange -n "setRange1";
+	rename -uid "99A386AD-48BE-42FD-775C-1699C396058F";
+	setAttr ".m" -type "float3" 1 1 1 ;
+	setAttr ".om" -type "float3" 90 90 90 ;
+createNode decomposeMatrix -n "decomposeMatrix1";
+	rename -uid "5E9E0C9F-46E9-A1F6-79B9-2182B7DC0C16";
+createNode decomposeMatrix -n "decomposeMatrix2";
+	rename -uid "0ABA470F-4919-541E-9003-478EE6C2FBD3";
+createNode blendMatrix -n "blendMatrix2";
+	rename -uid "6076DA94-4B10-2E29-A368-29ABB8F1BA66";
+createNode blendMatrix -n "blendMatrix3";
+	rename -uid "6E22049F-44CB-B6C9-0BC3-E983597FA26C";
+	setAttr ".imat" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 -5.5511151231257827e-17 5.5511151231257827e-17 -5.5511151231257827e-17 1;
+createNode decomposeMatrix -n "decomposeMatrix3";
+	rename -uid "F5D0F8F3-42AA-BB26-5A7C-89A0813DF82A";
+createNode decomposeMatrix -n "decomposeMatrix4";
+	rename -uid "502B1B85-4ED9-8BDF-D6D4-A89ED14CA42C";
+createNode decomposeMatrix -n "decomposeMatrix5";
+	rename -uid "31529233-4E94-70FD-23A4-00B92661C15F";
+createNode blendMatrix -n "blendMatrix4";
+	rename -uid "032CA10E-45AA-603D-D3B2-D78573F348A4";
+	setAttr ".imat" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 -5.5511151231257827e-17 5.5511151231257827e-17 -5.5511151231257827e-17 1;
+createNode blendMatrix -n "blendMatrix5";
+	rename -uid "BCED973C-4D7A-63CC-FE02-ED9AF457491D";
+createNode decomposeMatrix -n "decomposeMatrix6";
+	rename -uid "EBC09D3E-4A2B-0970-6BC0-9EB07B9C14EE";
+createNode blendMatrix -n "blendMatrix6";
+	rename -uid "DA75CF31-4BF4-2D1F-2A38-52B395C29AB1";
+createNode setRange -n "setRange2";
+	rename -uid "F62E3E0A-4FE4-E491-98A1-0B8BC16F25D4";
+	setAttr ".m" -type "float3" 1 1 1 ;
+	setAttr ".om" -type "float3" 90 90 90 ;
+createNode decomposeMatrix -n "decomposeMatrix7";
+	rename -uid "2B1A0F5E-462E-FA3B-2AC7-44984C1743FF";
+createNode decomposeMatrix -n "decomposeMatrix8";
+	rename -uid "9BB00A57-4431-463C-1706-09B2319A23D9";
+createNode decomposeMatrix -n "decomposeMatrix9";
+	rename -uid "5B223573-4907-4A30-3F2C-F184304B8A0D";
+createNode blendMatrix -n "blendMatrix7";
+	rename -uid "D82D743D-4570-9AAB-53D1-5DB49884B9E9";
+	setAttr ".imat" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 -5.5511151231257827e-17 5.5511151231257827e-17 -5.5511151231257827e-17 1;
+createNode blendMatrix -n "blendMatrix8";
+	rename -uid "F802E439-42DC-529E-BAB2-14B760FBDC6E";
+createNode blendMatrix -n "blendMatrix9";
+	rename -uid "3F8339B6-4E83-4E96-FEA7-8FB4C905EEA4";
+createNode setRange -n "setRange3";
+	rename -uid "E1355BA3-4978-CCA2-B0A1-588124342E4C";
+	setAttr ".m" -type "float3" 1 1 1 ;
+	setAttr ".om" -type "float3" 90 90 90 ;
+createNode decomposeMatrix -n "decomposeMatrix10";
+	rename -uid "EE049C38-4F0F-D49A-FE9D-CEAFAF72CE49";
+createNode decomposeMatrix -n "decomposeMatrix11";
+	rename -uid "F66A7690-4FFD-FDD2-4C09-3BA3F57B7184";
+createNode blendMatrix -n "blendMatrix10";
+	rename -uid "97C4D633-4FF6-B5FC-AD73-E48EE39BF736";
+createNode blendMatrix -n "blendMatrix11";
+	rename -uid "6F9FA817-4B5E-C6A3-063C-F5A351FE2A2D";
+	setAttr ".imat" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 -5.5511151231257827e-17 5.5511151231257827e-17 -5.5511151231257827e-17 1;
+createNode decomposeMatrix -n "decomposeMatrix12";
+	rename -uid "139600A0-478B-277D-D7C6-4384E7643BBE";
+createNode blendMatrix -n "blendMatrix12";
+	rename -uid "6C5DC75B-4C1F-0F62-BC24-49B5D0F61B4A";
+createNode setRange -n "setRange4";
+	rename -uid "1626C678-4995-9D73-5FD9-709A92C531A9";
+	setAttr ".m" -type "float3" 1 1 1 ;
+	setAttr ".om" -type "float3" 90 90 90 ;
+createNode decomposeMatrix -n "decomposeMatrix13";
+	rename -uid "0128A9E3-4289-18F8-F8C5-818173C94677";
+createNode decomposeMatrix -n "decomposeMatrix14";
+	rename -uid "4B9841A0-446A-6F3B-9DE6-CFA26A621DC5";
+createNode blendMatrix -n "blendMatrix13";
+	rename -uid "4FEFF357-4165-7EC6-158D-9C9231820EFD";
+	setAttr ".imat" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 -5.5511151231257827e-17 5.5511151231257827e-17 -5.5511151231257827e-17 1;
+createNode blendMatrix -n "blendMatrix14";
+	rename -uid "8C90FA96-4139-38E8-1ABE-D8BFB83C3284";
+createNode blendMatrix -n "blendMatrix15";
+	rename -uid "1D042E8F-4031-5E94-7CDC-54AD48B789B2";
+createNode decomposeMatrix -n "decomposeMatrix15";
+	rename -uid "FA680A06-4079-9634-E412-0DA37CAFE3BE";
+createNode setRange -n "setRange5";
+	rename -uid "214A0857-4480-B338-DEBC-B4BD010551A0";
+	setAttr ".m" -type "float3" 1 1 1 ;
+	setAttr ".om" -type "float3" 90 90 90 ;
+createNode multMatrix -n "multMatrix1";
+	rename -uid "D6A84960-4019-1905-AD54-D2AB17A7B710";
+	setAttr -s 2 ".i";
+createNode composeMatrix -n "composeMatrix3";
+	rename -uid "2D37454C-4CB2-4B1A-77E1-BBBAF1C40493";
+createNode multMatrix -n "multMatrix2";
+	rename -uid "DE7252AC-4DE3-2A1F-42EA-038F0C1D6798";
+	setAttr -s 2 ".i";
+createNode multMatrix -n "multMatrix4";
+	rename -uid "03EE1E7D-4A81-9547-EB0F-E79093B32B1A";
+	setAttr -s 2 ".i";
+createNode clamp -n "clamp1";
+	rename -uid "01F238F3-48C1-D895-6A34-5B9A37EF2073";
+	setAttr ".mn" -type "float3" -90 -90 -90 ;
+createNode unitConversion -n "unitConversion1450";
+	rename -uid "CF805C48-47F2-8DA4-CF3B-3EA468A71C10";
+	setAttr ".cf" -0.018;
+createNode multMatrix -n "multMatrix5";
+	rename -uid "09BEC70C-4470-552D-C6B0-A4A756DF658A";
+	setAttr -s 2 ".i";
+createNode multMatrix -n "multMatrix6";
+	rename -uid "0DE735D9-454F-EA15-DA94-9B90AB801500";
+	setAttr -s 2 ".i";
+createNode multMatrix -n "multMatrix7";
+	rename -uid "73DB331F-4E29-B315-AC06-BEACE4889814";
+	setAttr -s 2 ".i";
+createNode composeMatrix -n "composeMatrix4";
+	rename -uid "51F4910D-4ED6-015C-670D-E4AA9A64DD24";
+createNode unitConversion -n "unitConversion1451";
+	rename -uid "B9C35777-4671-92FC-4E9E-AC9988039DD7";
+	setAttr ".cf" -0.018;
+createNode multMatrix -n "multMatrix8";
+	rename -uid "755D36B7-4DB0-EA22-70A9-B683C41000D7";
+	setAttr -s 2 ".i";
+createNode multMatrix -n "multMatrix9";
+	rename -uid "28740CD3-426D-E036-672F-EA929BBA3BD2";
+	setAttr -s 2 ".i";
+createNode multMatrix -n "multMatrix10";
+	rename -uid "6C1AF6DF-438E-4B1B-3223-0EB95E6E0922";
+	setAttr -s 2 ".i";
+createNode unitConversion -n "unitConversion1452";
+	rename -uid "653B878B-4750-5A4D-9BBD-19B6AB553914";
+	setAttr ".cf" -0.018;
+createNode composeMatrix -n "composeMatrix5";
+	rename -uid "396645E3-4736-F00B-267F-C89761F70626";
+createNode multMatrix -n "multMatrix11";
+	rename -uid "F021C9A6-4144-066C-3675-F7B9C64FBB03";
+	setAttr -s 2 ".i";
+createNode multMatrix -n "multMatrix12";
+	rename -uid "8BE41D35-4D27-BAEF-23CF-518C8489DB48";
+	setAttr -s 2 ".i";
+createNode multMatrix -n "multMatrix13";
+	rename -uid "B5B880CF-4766-73E8-0719-8D941A7C1319";
+	setAttr -s 2 ".i";
+createNode composeMatrix -n "composeMatrix6";
+	rename -uid "0FE7CC53-4ADA-76F5-3ADF-A18AA8924A70";
+createNode unitConversion -n "unitConversion1453";
+	rename -uid "3A6AB65B-4A7D-62FF-37F5-A4A7544D5757";
+	setAttr ".cf" -0.018;
+createNode clamp -n "clamp2";
+	rename -uid "DA0EF63B-4F75-1588-E933-D7B2B3DF2D51";
+	setAttr ".mn" -type "float3" -90 -90 -90 ;
+	setAttr ".ip" -type "float3" 0 0 45.799999 ;
+createNode multMatrix -n "multMatrix14";
+	rename -uid "E254C7B2-4BE9-EC78-A404-23BC96CB1E77";
+	setAttr -s 2 ".i";
+createNode multMatrix -n "multMatrix15";
+	rename -uid "5DB9D54A-46C2-17B0-269C-A5B7D8DBA141";
+	setAttr -s 2 ".i";
+createNode multMatrix -n "multMatrix16";
+	rename -uid "C2646EA8-4352-1A34-4BFA-D093C694BBD4";
+	setAttr -s 2 ".i";
+createNode composeMatrix -n "composeMatrix7";
+	rename -uid "5D0F242B-4C18-B147-095E-6E872D441584";
+createNode unitConversion -n "unitConversion1454";
+	rename -uid "2725F141-4AEF-74CE-DA28-0F8FBB374C82";
+	setAttr ".cf" -0.018;
 createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
-	rename -uid "902AD7CF-474D-6AFA-93CA-AEB340B1B21A";
+	rename -uid "63C131F5-4C14-80C1-A50B-6896D1149FE2";
 	setAttr -s 4 ".tgi";
 	setAttr ".tgi[0].tn" -type "string" "Untitled_1";
-	setAttr ".tgi[0].vl" -type "double2" 3123.2141616089057 -2298.8094324630442 ;
-	setAttr ".tgi[0].vh" -type "double2" 4394.6426825154467 -983.33329425917907 ;
+	setAttr ".tgi[0].vl" -type "double2" 3125.5951138952478 -2294.0475278903609 ;
+	setAttr ".tgi[0].vh" -type "double2" 4394.6426825154467 -989.28567497503366 ;
 	setAttr -s 13 ".tgi[0].ni";
-	setAttr ".tgi[0].ni[0].x" 4063.361328125;
-	setAttr ".tgi[0].ni[0].y" -1579.3277587890625;
-	setAttr ".tgi[0].ni[0].nvs" 18305;
-	setAttr ".tgi[0].ni[1].x" 3810.6171875;
-	setAttr ".tgi[0].ni[1].y" -1478.864501953125;
+	setAttr ".tgi[0].ni[0].x" 3828.671630859375;
+	setAttr ".tgi[0].ni[0].y" -1759.3311767578125;
+	setAttr ".tgi[0].ni[0].nvs" 18304;
+	setAttr ".tgi[0].ni[1].x" 3835.023681640625;
+	setAttr ".tgi[0].ni[1].y" -2044.3218994140625;
 	setAttr ".tgi[0].ni[1].nvs" 18304;
-	setAttr ".tgi[0].ni[2].x" 3604.20166015625;
-	setAttr ".tgi[0].ni[2].y" -1280.420166015625;
+	setAttr ".tgi[0].ni[2].x" 4066.72265625;
+	setAttr ".tgi[0].ni[2].y" -1879.916015625;
 	setAttr ".tgi[0].ni[2].nvs" 18305;
-	setAttr ".tgi[0].ni[3].x" 3834.10009765625;
-	setAttr ".tgi[0].ni[3].y" -1183.439697265625;
+	setAttr ".tgi[0].ni[3].x" 3231.428466796875;
+	setAttr ".tgi[0].ni[3].y" -1524.2857666015625;
 	setAttr ".tgi[0].ni[3].nvs" 18304;
-	setAttr ".tgi[0].ni[4].x" 3828.671630859375;
-	setAttr ".tgi[0].ni[4].y" -1759.3311767578125;
-	setAttr ".tgi[0].ni[4].nvs" 18304;
+	setAttr ".tgi[0].ni[4].x" 4038.1513671875;
+	setAttr ".tgi[0].ni[4].y" -1010.0840454101562;
+	setAttr ".tgi[0].ni[4].nvs" 18305;
 	setAttr ".tgi[0].ni[5].x" 4038.99169921875;
 	setAttr ".tgi[0].ni[5].y" -1292.184814453125;
 	setAttr ".tgi[0].ni[5].nvs" 18305;
-	setAttr ".tgi[0].ni[6].x" 4038.1513671875;
-	setAttr ".tgi[0].ni[6].y" -1010.0840454101562;
+	setAttr ".tgi[0].ni[6].x" 3576.4892578125;
+	setAttr ".tgi[0].ni[6].y" -994.34527587890625;
 	setAttr ".tgi[0].ni[6].nvs" 18305;
-	setAttr ".tgi[0].ni[7].x" 3576.4892578125;
-	setAttr ".tgi[0].ni[7].y" -994.34527587890625;
+	setAttr ".tgi[0].ni[7].x" 3586.470703125;
+	setAttr ".tgi[0].ni[7].y" -1868.1512451171875;
 	setAttr ".tgi[0].ni[7].nvs" 18305;
-	setAttr ".tgi[0].ni[8].x" 3835.023681640625;
-	setAttr ".tgi[0].ni[8].y" -2044.3218994140625;
-	setAttr ".tgi[0].ni[8].nvs" 18304;
+	setAttr ".tgi[0].ni[8].x" 3604.20166015625;
+	setAttr ".tgi[0].ni[8].y" -1280.420166015625;
+	setAttr ".tgi[0].ni[8].nvs" 18305;
 	setAttr ".tgi[0].ni[9].x" 3605.88232421875;
 	setAttr ".tgi[0].ni[9].y" -1556.638671875;
 	setAttr ".tgi[0].ni[9].nvs" 18305;
-	setAttr ".tgi[0].ni[10].x" 4066.72265625;
-	setAttr ".tgi[0].ni[10].y" -1879.916015625;
-	setAttr ".tgi[0].ni[10].nvs" 18305;
-	setAttr ".tgi[0].ni[11].x" 3586.470703125;
-	setAttr ".tgi[0].ni[11].y" -1868.1512451171875;
-	setAttr ".tgi[0].ni[11].nvs" 18305;
-	setAttr ".tgi[0].ni[12].x" 3231.428466796875;
-	setAttr ".tgi[0].ni[12].y" -1524.2857666015625;
-	setAttr ".tgi[0].ni[12].nvs" 18304;
+	setAttr ".tgi[0].ni[10].x" 3810.6171875;
+	setAttr ".tgi[0].ni[10].y" -1478.864501953125;
+	setAttr ".tgi[0].ni[10].nvs" 18304;
+	setAttr ".tgi[0].ni[11].x" 3834.10009765625;
+	setAttr ".tgi[0].ni[11].y" -1183.439697265625;
+	setAttr ".tgi[0].ni[11].nvs" 18304;
+	setAttr ".tgi[0].ni[12].x" 4063.361328125;
+	setAttr ".tgi[0].ni[12].y" -1579.3277587890625;
+	setAttr ".tgi[0].ni[12].nvs" 18305;
 	setAttr ".tgi[1].tn" -type "string" "Untitled_2";
-	setAttr ".tgi[1].vl" -type "double2" 1756.5060711206252 -1871.4284970646845 ;
-	setAttr ".tgi[1].vh" -type "double2" 2750.6366069244732 -842.85710936501061 ;
-	setAttr -s 31 ".tgi[1].ni";
-	setAttr ".tgi[1].ni[0].x" 2308.9326171875;
-	setAttr ".tgi[1].ni[0].y" -249.43907165527344;
-	setAttr ".tgi[1].ni[0].nvs" 18304;
-	setAttr ".tgi[1].ni[1].x" 1295.7142333984375;
-	setAttr ".tgi[1].ni[1].y" -925.71429443359375;
+	setAttr ".tgi[1].vl" -type "double2" 2342.7140875882469 -2218.9277181707448 ;
+	setAttr ".tgi[1].vh" -type "double2" 3686.4115288901462 -1073.2597608878757 ;
+	setAttr -s 6 ".tgi[1].ni";
+	setAttr ".tgi[1].ni[0].x" 3288.8681640625;
+	setAttr ".tgi[1].ni[0].y" -1253.3714599609375;
+	setAttr ".tgi[1].ni[0].nvs" 18305;
+	setAttr ".tgi[1].ni[1].x" 2937.142822265625;
+	setAttr ".tgi[1].ni[1].y" -1325.7142333984375;
 	setAttr ".tgi[1].ni[1].nvs" 18304;
-	setAttr ".tgi[1].ni[2].x" 2290;
-	setAttr ".tgi[1].ni[2].y" -977.14288330078125;
+	setAttr ".tgi[1].ni[2].x" 2630;
+	setAttr ".tgi[1].ni[2].y" -1325.7142333984375;
 	setAttr ".tgi[1].ni[2].nvs" 18304;
-	setAttr ".tgi[1].ni[3].x" 1612.857177734375;
-	setAttr ".tgi[1].ni[3].y" -587.14288330078125;
-	setAttr ".tgi[1].ni[3].nvs" 18304;
-	setAttr ".tgi[1].ni[4].x" 1954.2857666015625;
-	setAttr ".tgi[1].ni[4].y" -744.28570556640625;
+	setAttr ".tgi[1].ni[3].x" 3269.1689453125;
+	setAttr ".tgi[1].ni[3].y" -1468.436767578125;
+	setAttr ".tgi[1].ni[3].nvs" 18305;
+	setAttr ".tgi[1].ni[4].x" 2322.857177734375;
+	setAttr ".tgi[1].ni[4].y" -1477.142822265625;
 	setAttr ".tgi[1].ni[4].nvs" 18304;
-	setAttr ".tgi[1].ni[5].x" 1295.7142333984375;
-	setAttr ".tgi[1].ni[5].y" -587.14288330078125;
-	setAttr ".tgi[1].ni[5].nvs" 18304;
-	setAttr ".tgi[1].ni[6].x" 1295.7142333984375;
-	setAttr ".tgi[1].ni[6].y" -764.28570556640625;
-	setAttr ".tgi[1].ni[6].nvs" 18304;
-	setAttr ".tgi[1].ni[7].x" 2590.167724609375;
-	setAttr ".tgi[1].ni[7].y" -1011.0932006835938;
-	setAttr ".tgi[1].ni[7].nvs" 18305;
-	setAttr ".tgi[1].ni[8].x" 2935.71435546875;
-	setAttr ".tgi[1].ni[8].y" -980.3966064453125;
-	setAttr ".tgi[1].ni[8].nvs" 18305;
-	setAttr ".tgi[1].ni[9].x" 1295.7142333984375;
-	setAttr ".tgi[1].ni[9].y" -1027.142822265625;
-	setAttr ".tgi[1].ni[9].nvs" 18304;
-	setAttr ".tgi[1].ni[10].x" 3679.48388671875;
-	setAttr ".tgi[1].ni[10].y" -821.93280029296875;
-	setAttr ".tgi[1].ni[10].nvs" 18305;
-	setAttr ".tgi[1].ni[11].x" 3239.2421875;
-	setAttr ".tgi[1].ni[11].y" -736.08514404296875;
-	setAttr ".tgi[1].ni[11].nvs" 18305;
-	setAttr ".tgi[1].ni[12].x" 1954.2857666015625;
-	setAttr ".tgi[1].ni[12].y" -1104.2857666015625;
-	setAttr ".tgi[1].ni[12].nvs" 18304;
-	setAttr ".tgi[1].ni[13].x" 2935.71435546875;
-	setAttr ".tgi[1].ni[13].y" -608.5714111328125;
-	setAttr ".tgi[1].ni[13].nvs" 18304;
-	setAttr ".tgi[1].ni[14].x" 2336.6240234375;
-	setAttr ".tgi[1].ni[14].y" -1467.2806396484375;
-	setAttr ".tgi[1].ni[14].nvs" 18305;
-	setAttr ".tgi[1].ni[15].x" 2290;
-	setAttr ".tgi[1].ni[15].y" -875.71429443359375;
-	setAttr ".tgi[1].ni[15].nvs" 18304;
-	setAttr ".tgi[1].ni[16].x" 1954.2857666015625;
-	setAttr ".tgi[1].ni[16].y" -952.85711669921875;
-	setAttr ".tgi[1].ni[16].nvs" 18304;
-	setAttr ".tgi[1].ni[17].x" 3267.142822265625;
-	setAttr ".tgi[1].ni[17].y" -658.5714111328125;
-	setAttr ".tgi[1].ni[17].nvs" 18304;
-	setAttr ".tgi[1].ni[18].x" 2290;
-	setAttr ".tgi[1].ni[18].y" -514.28570556640625;
-	setAttr ".tgi[1].ni[18].nvs" 18304;
-	setAttr ".tgi[1].ni[19].x" 2290;
-	setAttr ".tgi[1].ni[19].y" -1180;
-	setAttr ".tgi[1].ni[19].nvs" 18304;
-	setAttr ".tgi[1].ni[20].x" 1954.2857666015625;
-	setAttr ".tgi[1].ni[20].y" -541.4285888671875;
-	setAttr ".tgi[1].ni[20].nvs" 18304;
-	setAttr ".tgi[1].ni[21].x" 1612.857177734375;
-	setAttr ".tgi[1].ni[21].y" -841.4285888671875;
-	setAttr ".tgi[1].ni[21].nvs" 18304;
-	setAttr ".tgi[1].ni[22].x" 1612.857177734375;
-	setAttr ".tgi[1].ni[22].y" -942.85711669921875;
-	setAttr ".tgi[1].ni[22].nvs" 18304;
-	setAttr ".tgi[1].ni[23].x" 2290;
-	setAttr ".tgi[1].ni[23].y" -717.14288330078125;
-	setAttr ".tgi[1].ni[23].nvs" 18304;
-	setAttr ".tgi[1].ni[24].x" 1938.6583251953125;
-	setAttr ".tgi[1].ni[24].y" -1198.213623046875;
-	setAttr ".tgi[1].ni[24].nvs" 18305;
-	setAttr ".tgi[1].ni[25].x" 1612.857177734375;
-	setAttr ".tgi[1].ni[25].y" -1044.2857666015625;
-	setAttr ".tgi[1].ni[25].nvs" 18304;
-	setAttr ".tgi[1].ni[26].x" 2290;
-	setAttr ".tgi[1].ni[26].y" -615.71429443359375;
-	setAttr ".tgi[1].ni[26].nvs" 18304;
-	setAttr ".tgi[1].ni[27].x" 1612.857177734375;
-	setAttr ".tgi[1].ni[27].y" -1145.7142333984375;
-	setAttr ".tgi[1].ni[27].nvs" 18304;
-	setAttr ".tgi[1].ni[28].x" 1954.2857666015625;
-	setAttr ".tgi[1].ni[28].y" -1205.7142333984375;
-	setAttr ".tgi[1].ni[28].nvs" 18304;
-	setAttr ".tgi[1].ni[29].x" 2597.142822265625;
-	setAttr ".tgi[1].ni[29].y" -595.71429443359375;
-	setAttr ".tgi[1].ni[29].nvs" 18304;
-	setAttr ".tgi[1].ni[30].x" 1627.803955078125;
-	setAttr ".tgi[1].ni[30].y" -371.69979858398438;
-	setAttr ".tgi[1].ni[30].nvs" 18305;
+	setAttr ".tgi[1].ni[5].x" 3266.05859375;
+	setAttr ".tgi[1].ni[5].y" -1627.9263916015625;
+	setAttr ".tgi[1].ni[5].nvs" 18305;
 	setAttr ".tgi[2].tn" -type "string" "Untitled_3";
-	setAttr ".tgi[2].vl" -type "double2" 1350.2240359827717 -6194.0473729182895 ;
-	setAttr ".tgi[2].vh" -type "double2" 3459.29958242774 -4011.9046024859954 ;
-	setAttr -s 32 ".tgi[2].ni";
-	setAttr ".tgi[2].ni[0].x" 1398.5714111328125;
-	setAttr ".tgi[2].ni[0].y" -3954.28564453125;
+	setAttr ".tgi[2].vl" -type "double2" 3415.3402141952315 -8752.2738766094189 ;
+	setAttr ".tgi[2].vh" -type "double2" 4759.4232897220527 -7607.1606935275904 ;
+	setAttr -s 4 ".tgi[2].ni";
+	setAttr ".tgi[2].ni[0].x" 4037.142822265625;
+	setAttr ".tgi[2].ni[0].y" -8079.21533203125;
 	setAttr ".tgi[2].ni[0].nvs" 18304;
-	setAttr ".tgi[2].ni[1].x" 3307.94384765625;
-	setAttr ".tgi[2].ni[1].y" -4452.0302734375;
+	setAttr ".tgi[2].ni[1].x" 3422.857177734375;
+	setAttr ".tgi[2].ni[1].y" -7687.14306640625;
 	setAttr ".tgi[2].ni[1].nvs" 18305;
-	setAttr ".tgi[2].ni[2].x" 2075.71435546875;
-	setAttr ".tgi[2].ni[2].y" -4750;
-	setAttr ".tgi[2].ni[2].nvs" 18305;
-	setAttr ".tgi[2].ni[3].x" 1728.5714111328125;
-	setAttr ".tgi[2].ni[3].y" -4180;
+	setAttr ".tgi[2].ni[2].x" 4385.73779296875;
+	setAttr ".tgi[2].ni[2].y" -8070.57421875;
+	setAttr ".tgi[2].ni[2].nvs" 18304;
+	setAttr ".tgi[2].ni[3].x" 3730;
+	setAttr ".tgi[2].ni[3].y" -8077.14306640625;
 	setAttr ".tgi[2].ni[3].nvs" 18304;
-	setAttr ".tgi[2].ni[4].x" 2075.71435546875;
-	setAttr ".tgi[2].ni[4].y" -4648.5712890625;
-	setAttr ".tgi[2].ni[4].nvs" 18304;
-	setAttr ".tgi[2].ni[5].x" 432.85714721679688;
-	setAttr ".tgi[2].ni[5].y" -4157.14306640625;
-	setAttr ".tgi[2].ni[5].nvs" 18304;
-	setAttr ".tgi[2].ni[6].x" 1398.5714111328125;
-	setAttr ".tgi[2].ni[6].y" -4474.28564453125;
-	setAttr ".tgi[2].ni[6].nvs" 18304;
-	setAttr ".tgi[2].ni[7].x" 2075.71435546875;
-	setAttr ".tgi[2].ni[7].y" -4445.71435546875;
-	setAttr ".tgi[2].ni[7].nvs" 18304;
-	setAttr ".tgi[2].ni[8].x" 2762.857177734375;
-	setAttr ".tgi[2].ni[8].y" -4435.71435546875;
-	setAttr ".tgi[2].ni[8].nvs" 18304;
-	setAttr ".tgi[2].ni[9].x" 2432.47802734375;
-	setAttr ".tgi[2].ni[9].y" -4934.37744140625;
-	setAttr ".tgi[2].ni[9].nvs" 18305;
-	setAttr ".tgi[2].ni[10].x" 2415.71435546875;
-	setAttr ".tgi[2].ni[10].y" -4635.71435546875;
-	setAttr ".tgi[2].ni[10].nvs" 18304;
-	setAttr ".tgi[2].ni[11].x" 1728.5714111328125;
-	setAttr ".tgi[2].ni[11].y" -4511.4287109375;
-	setAttr ".tgi[2].ni[11].nvs" 18304;
-	setAttr ".tgi[2].ni[12].x" 740;
-	setAttr ".tgi[2].ni[12].y" -4048.571533203125;
-	setAttr ".tgi[2].ni[12].nvs" 18304;
-	setAttr ".tgi[2].ni[13].x" 740;
-	setAttr ".tgi[2].ni[13].y" -3845.71435546875;
-	setAttr ".tgi[2].ni[13].nvs" 18304;
-	setAttr ".tgi[2].ni[14].x" 1728.5714111328125;
-	setAttr ".tgi[2].ni[14].y" -4398.5712890625;
-	setAttr ".tgi[2].ni[14].nvs" 18304;
-	setAttr ".tgi[2].ni[15].x" 1072.857177734375;
-	setAttr ".tgi[2].ni[15].y" -4474.28564453125;
-	setAttr ".tgi[2].ni[15].nvs" 18304;
-	setAttr ".tgi[2].ni[16].x" 2415.71435546875;
-	setAttr ".tgi[2].ni[16].y" -4284.28564453125;
-	setAttr ".tgi[2].ni[16].nvs" 18304;
-	setAttr ".tgi[2].ni[17].x" 432.85714721679688;
-	setAttr ".tgi[2].ni[17].y" -4055.71435546875;
-	setAttr ".tgi[2].ni[17].nvs" 18304;
-	setAttr ".tgi[2].ni[18].x" 1398.5714111328125;
-	setAttr ".tgi[2].ni[18].y" -4258.5712890625;
-	setAttr ".tgi[2].ni[18].nvs" 18304;
-	setAttr ".tgi[2].ni[19].x" 2075.71435546875;
-	setAttr ".tgi[2].ni[19].y" -4252.85693359375;
-	setAttr ".tgi[2].ni[19].nvs" 18304;
-	setAttr ".tgi[2].ni[20].x" 740;
-	setAttr ".tgi[2].ni[20].y" -3947.142822265625;
-	setAttr ".tgi[2].ni[20].nvs" 18304;
-	setAttr ".tgi[2].ni[21].x" 1398.5714111328125;
-	setAttr ".tgi[2].ni[21].y" -4157.14306640625;
-	setAttr ".tgi[2].ni[21].nvs" 18304;
-	setAttr ".tgi[2].ni[22].x" 1072.857177734375;
-	setAttr ".tgi[2].ni[22].y" -3960;
-	setAttr ".tgi[2].ni[22].nvs" 18304;
-	setAttr ".tgi[2].ni[23].x" 740;
-	setAttr ".tgi[2].ni[23].y" -4150;
-	setAttr ".tgi[2].ni[23].nvs" 18304;
-	setAttr ".tgi[2].ni[24].x" 432.85714721679688;
-	setAttr ".tgi[2].ni[24].y" -4258.5712890625;
-	setAttr ".tgi[2].ni[24].nvs" 18304;
-	setAttr ".tgi[2].ni[25].x" 2762.857177734375;
-	setAttr ".tgi[2].ni[25].y" -4537.14306640625;
-	setAttr ".tgi[2].ni[25].nvs" 18305;
-	setAttr ".tgi[2].ni[26].x" 1072.857177734375;
-	setAttr ".tgi[2].ni[26].y" -4202.85693359375;
-	setAttr ".tgi[2].ni[26].nvs" 18304;
-	setAttr ".tgi[2].ni[27].x" 1398.5714111328125;
-	setAttr ".tgi[2].ni[27].y" -4360;
-	setAttr ".tgi[2].ni[27].nvs" 18304;
-	setAttr ".tgi[2].ni[28].x" 1398.5714111328125;
-	setAttr ".tgi[2].ni[28].y" -4055.71435546875;
-	setAttr ".tgi[2].ni[28].nvs" 18304;
-	setAttr ".tgi[2].ni[29].x" 3046.415771484375;
-	setAttr ".tgi[2].ni[29].y" -4777.41357421875;
-	setAttr ".tgi[2].ni[29].nvs" 18305;
-	setAttr ".tgi[2].ni[30].x" 2075.71435546875;
-	setAttr ".tgi[2].ni[30].y" -4547.14306640625;
-	setAttr ".tgi[2].ni[30].nvs" 18304;
-	setAttr ".tgi[2].ni[31].x" 1072.857177734375;
-	setAttr ".tgi[2].ni[31].y" -4061.428466796875;
-	setAttr ".tgi[2].ni[31].nvs" 18304;
 	setAttr ".tgi[3].tn" -type "string" "Untitled_4";
-	setAttr ".tgi[3].vl" -type "double2" 223.67040437234039 -1079.7019546887659 ;
-	setAttr ".tgi[3].vh" -type "double2" 1405.02776039225 142.58257565018548 ;
-	setAttr -s 29 ".tgi[3].ni";
-	setAttr ".tgi[3].ni[0].x" -465.71429443359375;
-	setAttr ".tgi[3].ni[0].y" -2.8571429252624512;
-	setAttr ".tgi[3].ni[0].nvs" 18304;
-	setAttr ".tgi[3].ni[1].x" -465.71429443359375;
-	setAttr ".tgi[3].ni[1].y" 301.42855834960938;
+	setAttr ".tgi[3].vl" -type "double2" -363.27494903609738 -1448.5803328662901 ;
+	setAttr ".tgi[3].vh" -type "double2" 1369.7561231380107 27.903348515662532 ;
+	setAttr -s 93 ".tgi[3].ni";
+	setAttr ".tgi[3].ni[0].x" 2021.5550537109375;
+	setAttr ".tgi[3].ni[0].y" -865.0654296875;
+	setAttr ".tgi[3].ni[0].nvs" 18305;
+	setAttr ".tgi[3].ni[1].x" 598.026123046875;
+	setAttr ".tgi[3].ni[1].y" -873.14923095703125;
 	setAttr ".tgi[3].ni[1].nvs" 18304;
-	setAttr ".tgi[3].ni[2].x" -465.71429443359375;
-	setAttr ".tgi[3].ni[2].y" -205.71427917480469;
+	setAttr ".tgi[3].ni[2].x" 1761.384765625;
+	setAttr ".tgi[3].ni[2].y" -2502.373046875;
 	setAttr ".tgi[3].ni[2].nvs" 18304;
-	setAttr ".tgi[3].ni[3].x" 423.88958740234375;
-	setAttr ".tgi[3].ni[3].y" -510.26947021484375;
-	setAttr ".tgi[3].ni[3].nvs" 18305;
-	setAttr ".tgi[3].ni[4].x" 224.88377380371094;
-	setAttr ".tgi[3].ni[4].y" -259.3658447265625;
+	setAttr ".tgi[3].ni[3].x" 1761.384765625;
+	setAttr ".tgi[3].ni[3].y" -2372.373046875;
+	setAttr ".tgi[3].ni[3].nvs" 18304;
+	setAttr ".tgi[3].ni[4].x" 1073.1513671875;
+	setAttr ".tgi[3].ni[4].y" -2267.760498046875;
 	setAttr ".tgi[3].ni[4].nvs" 18304;
-	setAttr ".tgi[3].ni[5].x" -788.5714111328125;
-	setAttr ".tgi[3].ni[5].y" 270;
-	setAttr ".tgi[3].ni[5].nvs" 18304;
-	setAttr ".tgi[3].ni[6].x" -1118.5714111328125;
-	setAttr ".tgi[3].ni[6].y" 127.14286041259766;
-	setAttr ".tgi[3].ni[6].nvs" 18304;
-	setAttr ".tgi[3].ni[7].x" -788.5714111328125;
-	setAttr ".tgi[3].ni[7].y" -22.857143402099609;
+	setAttr ".tgi[3].ni[5].x" 1640.1318359375;
+	setAttr ".tgi[3].ni[5].y" -1506.3583984375;
+	setAttr ".tgi[3].ni[5].nvs" 18305;
+	setAttr ".tgi[3].ni[6].x" 488.37460327148438;
+	setAttr ".tgi[3].ni[6].y" -2123.3310546875;
+	setAttr ".tgi[3].ni[6].nvs" 18305;
+	setAttr ".tgi[3].ni[7].x" 1745.41259765625;
+	setAttr ".tgi[3].ni[7].y" -2208.645263671875;
 	setAttr ".tgi[3].ni[7].nvs" 18304;
-	setAttr ".tgi[3].ni[8].x" -1425.7142333984375;
-	setAttr ".tgi[3].ni[8].y" 101.42857360839844;
+	setAttr ".tgi[3].ni[8].x" 1107.7576904296875;
+	setAttr ".tgi[3].ni[8].y" -2476.71630859375;
 	setAttr ".tgi[3].ni[8].nvs" 18304;
-	setAttr ".tgi[3].ni[9].x" -135.71427917480469;
-	setAttr ".tgi[3].ni[9].y" 11.428571701049805;
-	setAttr ".tgi[3].ni[9].nvs" 18304;
-	setAttr ".tgi[3].ni[10].x" 72.493782043457031;
-	setAttr ".tgi[3].ni[10].y" -394.18414306640625;
+	setAttr ".tgi[3].ni[9].x" 586.944091796875;
+	setAttr ".tgi[3].ni[9].y" -1695.713623046875;
+	setAttr ".tgi[3].ni[9].nvs" 18305;
+	setAttr ".tgi[3].ni[10].x" 1102.28271484375;
+	setAttr ".tgi[3].ni[10].y" -2112.443359375;
 	setAttr ".tgi[3].ni[10].nvs" 18304;
-	setAttr ".tgi[3].ni[11].x" 898.5714111328125;
-	setAttr ".tgi[3].ni[11].y" 65.714286804199219;
-	setAttr ".tgi[3].ni[11].nvs" 18304;
-	setAttr ".tgi[3].ni[12].x" 575.892578125;
-	setAttr ".tgi[3].ni[12].y" 9.489954948425293;
-	setAttr ".tgi[3].ni[12].nvs" 18305;
-	setAttr ".tgi[3].ni[13].x" -1118.5714111328125;
-	setAttr ".tgi[3].ni[13].y" 228.57142639160156;
-	setAttr ".tgi[3].ni[13].nvs" 18304;
-	setAttr ".tgi[3].ni[14].x" 882.6697998046875;
-	setAttr ".tgi[3].ni[14].y" -67.517486572265625;
+	setAttr ".tgi[3].ni[11].x" 2010.0672607421875;
+	setAttr ".tgi[3].ni[11].y" -1484.8155517578125;
+	setAttr ".tgi[3].ni[11].nvs" 18305;
+	setAttr ".tgi[3].ni[12].x" 1742.1192626953125;
+	setAttr ".tgi[3].ni[12].y" -4056.611328125;
+	setAttr ".tgi[3].ni[12].nvs" 18304;
+	setAttr ".tgi[3].ni[13].x" 427.41421508789062;
+	setAttr ".tgi[3].ni[13].y" -3631.495849609375;
+	setAttr ".tgi[3].ni[13].nvs" 18305;
+	setAttr ".tgi[3].ni[14].x" 1087.3538818359375;
+	setAttr ".tgi[3].ni[14].y" -4041.197509765625;
 	setAttr ".tgi[3].ni[14].nvs" 18305;
-	setAttr ".tgi[3].ni[15].x" -465.71429443359375;
-	setAttr ".tgi[3].ni[15].y" 200;
+	setAttr ".tgi[3].ni[15].x" 1089.389404296875;
+	setAttr ".tgi[3].ni[15].y" -3893.561767578125;
 	setAttr ".tgi[3].ni[15].nvs" 18304;
-	setAttr ".tgi[3].ni[16].x" -465.71429443359375;
-	setAttr ".tgi[3].ni[16].y" 98.571426391601562;
+	setAttr ".tgi[3].ni[16].x" 1712.3551025390625;
+	setAttr ".tgi[3].ni[16].y" -3930.26708984375;
 	setAttr ".tgi[3].ni[16].nvs" 18304;
-	setAttr ".tgi[3].ni[17].x" 1367.8271484375;
-	setAttr ".tgi[3].ni[17].y" -14.341036796569824;
-	setAttr ".tgi[3].ni[17].nvs" 18305;
-	setAttr ".tgi[3].ni[18].x" -135.71427917480469;
-	setAttr ".tgi[3].ni[18].y" 122.85713958740234;
+	setAttr ".tgi[3].ni[17].x" 1731.85986328125;
+	setAttr ".tgi[3].ni[17].y" -3766.95703125;
+	setAttr ".tgi[3].ni[17].nvs" 18304;
+	setAttr ".tgi[3].ni[18].x" 1076.2708740234375;
+	setAttr ".tgi[3].ni[18].y" -3773.899658203125;
 	setAttr ".tgi[3].ni[18].nvs" 18304;
-	setAttr ".tgi[3].ni[19].x" -135.71427917480469;
-	setAttr ".tgi[3].ni[19].y" -94.285713195800781;
-	setAttr ".tgi[3].ni[19].nvs" 18304;
-	setAttr ".tgi[3].ni[20].x" -135.71427917480469;
-	setAttr ".tgi[3].ni[20].y" 225.71427917480469;
-	setAttr ".tgi[3].ni[20].nvs" 18304;
-	setAttr ".tgi[3].ni[21].x" 551.4285888671875;
-	setAttr ".tgi[3].ni[21].y" 167.14285278320312;
-	setAttr ".tgi[3].ni[21].nvs" 18304;
-	setAttr ".tgi[3].ni[22].x" 1135.4683837890625;
-	setAttr ".tgi[3].ni[22].y" -342.3740234375;
-	setAttr ".tgi[3].ni[22].nvs" 18304;
-	setAttr ".tgi[3].ni[23].x" 211.42857360839844;
-	setAttr ".tgi[3].ni[23].y" 21.428571701049805;
+	setAttr ".tgi[3].ni[19].x" 1112.27978515625;
+	setAttr ".tgi[3].ni[19].y" -1894.34423828125;
+	setAttr ".tgi[3].ni[19].nvs" 18305;
+	setAttr ".tgi[3].ni[20].x" 1416.4119873046875;
+	setAttr ".tgi[3].ni[20].y" -2447.8271484375;
+	setAttr ".tgi[3].ni[20].nvs" 18305;
+	setAttr ".tgi[3].ni[21].x" 1421.072998046875;
+	setAttr ".tgi[3].ni[21].y" -2259.564453125;
+	setAttr ".tgi[3].ni[21].nvs" 18305;
+	setAttr ".tgi[3].ni[22].x" 1424.56884765625;
+	setAttr ".tgi[3].ni[22].y" -2013.0391845703125;
+	setAttr ".tgi[3].ni[22].nvs" 18305;
+	setAttr ".tgi[3].ni[23].x" 845.03570556640625;
+	setAttr ".tgi[3].ni[23].y" -1937.01953125;
 	setAttr ".tgi[3].ni[23].nvs" 18304;
-	setAttr ".tgi[3].ni[24].x" -788.5714111328125;
-	setAttr ".tgi[3].ni[24].y" 168.57142639160156;
+	setAttr ".tgi[3].ni[24].x" 781.13006591796875;
+	setAttr ".tgi[3].ni[24].y" -3542.00439453125;
 	setAttr ".tgi[3].ni[24].nvs" 18304;
-	setAttr ".tgi[3].ni[25].x" -1425.7142333984375;
+	setAttr ".tgi[3].ni[25].x" 786.558349609375;
+	setAttr ".tgi[3].ni[25].y" -2840.147705078125;
 	setAttr ".tgi[3].ni[25].nvs" 18304;
-	setAttr ".tgi[3].ni[26].x" 211.42857360839844;
-	setAttr ".tgi[3].ni[26].y" 122.85713958740234;
-	setAttr ".tgi[3].ni[26].nvs" 18304;
-	setAttr ".tgi[3].ni[27].x" -1425.7142333984375;
-	setAttr ".tgi[3].ni[27].y" 202.85714721679688;
-	setAttr ".tgi[3].ni[27].nvs" 18304;
-	setAttr ".tgi[3].ni[28].x" 193.08056640625;
-	setAttr ".tgi[3].ni[28].y" -166.84721374511719;
-	setAttr ".tgi[3].ni[28].nvs" 18304;
+	setAttr ".tgi[3].ni[26].x" 1392.4730224609375;
+	setAttr ".tgi[3].ni[26].y" -3204.71728515625;
+	setAttr ".tgi[3].ni[26].nvs" 18305;
+	setAttr ".tgi[3].ni[27].x" 1393.720947265625;
+	setAttr ".tgi[3].ni[27].y" -2982.369384765625;
+	setAttr ".tgi[3].ni[27].nvs" 18305;
+	setAttr ".tgi[3].ni[28].x" 1392.4730224609375;
+	setAttr ".tgi[3].ni[28].y" -2784.980224609375;
+	setAttr ".tgi[3].ni[28].nvs" 18305;
+	setAttr ".tgi[3].ni[29].x" 1080.486572265625;
+	setAttr ".tgi[3].ni[29].y" -2757.311767578125;
+	setAttr ".tgi[3].ni[29].nvs" 18305;
+	setAttr ".tgi[3].ni[30].x" 2.5236611366271973;
+	setAttr ".tgi[3].ni[30].y" -135.23524475097656;
+	setAttr ".tgi[3].ni[30].nvs" 18305;
+	setAttr ".tgi[3].ni[31].x" 1051.5858154296875;
+	setAttr ".tgi[3].ni[31].y" -3495.283935546875;
+	setAttr ".tgi[3].ni[31].nvs" 18305;
+	setAttr ".tgi[3].ni[32].x" 1381.49560546875;
+	setAttr ".tgi[3].ni[32].y" -4117.892578125;
+	setAttr ".tgi[3].ni[32].nvs" 18305;
+	setAttr ".tgi[3].ni[33].x" 1372.634521484375;
+	setAttr ".tgi[3].ni[33].y" -3549.134521484375;
+	setAttr ".tgi[3].ni[33].nvs" 18305;
+	setAttr ".tgi[3].ni[34].x" 764.29840087890625;
+	setAttr ".tgi[3].ni[34].y" 283.58010864257812;
+	setAttr ".tgi[3].ni[34].nvs" 18304;
+	setAttr ".tgi[3].ni[35].x" 881.60430908203125;
+	setAttr ".tgi[3].ni[35].y" -1169.719970703125;
+	setAttr ".tgi[3].ni[35].nvs" 18305;
+	setAttr ".tgi[3].ni[36].x" 1677.8465576171875;
+	setAttr ".tgi[3].ni[36].y" -1162.843505859375;
+	setAttr ".tgi[3].ni[36].nvs" 18305;
+	setAttr ".tgi[3].ni[37].x" 1378.4129638671875;
+	setAttr ".tgi[3].ni[37].y" -3870.91796875;
+	setAttr ".tgi[3].ni[37].nvs" 18305;
+	setAttr ".tgi[3].ni[38].x" 499.14108276367188;
+	setAttr ".tgi[3].ni[38].y" 372.6480712890625;
+	setAttr ".tgi[3].ni[38].nvs" 18305;
+	setAttr ".tgi[3].ni[39].x" 1959.2034912109375;
+	setAttr ".tgi[3].ni[39].y" -88.284828186035156;
+	setAttr ".tgi[3].ni[39].nvs" 18304;
+	setAttr ".tgi[3].ni[40].x" 584.85003662109375;
+	setAttr ".tgi[3].ni[40].y" -339.41461181640625;
+	setAttr ".tgi[3].ni[40].nvs" 18305;
+	setAttr ".tgi[3].ni[41].x" 1965.4122314453125;
+	setAttr ".tgi[3].ni[41].y" 12.460263252258301;
+	setAttr ".tgi[3].ni[41].nvs" 18304;
+	setAttr ".tgi[3].ni[42].x" 586.77178955078125;
+	setAttr ".tgi[3].ni[42].y" 151.44978332519531;
+	setAttr ".tgi[3].ni[42].nvs" 18304;
+	setAttr ".tgi[3].ni[43].x" 795.0135498046875;
+	setAttr ".tgi[3].ni[43].y" -3647.955078125;
+	setAttr ".tgi[3].ni[43].nvs" 18305;
+	setAttr ".tgi[3].ni[44].x" 805.29388427734375;
+	setAttr ".tgi[3].ni[44].y" -4091.729248046875;
+	setAttr ".tgi[3].ni[44].nvs" 18304;
+	setAttr ".tgi[3].ni[45].x" 2105.204833984375;
+	setAttr ".tgi[3].ni[45].y" -3782.771484375;
+	setAttr ".tgi[3].ni[45].nvs" 18304;
+	setAttr ".tgi[3].ni[46].x" 2109.860107421875;
+	setAttr ".tgi[3].ni[46].y" -4076.631591796875;
+	setAttr ".tgi[3].ni[46].nvs" 18304;
+	setAttr ".tgi[3].ni[47].x" 795.78912353515625;
+	setAttr ".tgi[3].ni[47].y" -3882.435302734375;
+	setAttr ".tgi[3].ni[47].nvs" 18304;
+	setAttr ".tgi[3].ni[48].x" 2104.73828125;
+	setAttr ".tgi[3].ni[48].y" -3924.314697265625;
+	setAttr ".tgi[3].ni[48].nvs" 18304;
+	setAttr ".tgi[3].ni[49].x" 2014.1231689453125;
+	setAttr ".tgi[3].ni[49].y" -2504.33349609375;
+	setAttr ".tgi[3].ni[49].nvs" 18304;
+	setAttr ".tgi[3].ni[50].x" 800.676513671875;
+	setAttr ".tgi[3].ni[50].y" -2248.787109375;
+	setAttr ".tgi[3].ni[50].nvs" 18304;
+	setAttr ".tgi[3].ni[51].x" 563.55084228515625;
+	setAttr ".tgi[3].ni[51].y" -1040.6453857421875;
+	setAttr ".tgi[3].ni[51].nvs" 18305;
+	setAttr ".tgi[3].ni[52].x" 782.0423583984375;
+	setAttr ".tgi[3].ni[52].y" -2065.546630859375;
+	setAttr ".tgi[3].ni[52].nvs" 18304;
+	setAttr ".tgi[3].ni[53].x" 1999.4820556640625;
+	setAttr ".tgi[3].ni[53].y" -2188.870361328125;
+	setAttr ".tgi[3].ni[53].nvs" 18304;
+	setAttr ".tgi[3].ni[54].x" 806.00054931640625;
+	setAttr ".tgi[3].ni[54].y" -2492.349365234375;
+	setAttr ".tgi[3].ni[54].nvs" 18304;
+	setAttr ".tgi[3].ni[55].x" 2006.1370849609375;
+	setAttr ".tgi[3].ni[55].y" -2357.45654296875;
+	setAttr ".tgi[3].ni[55].nvs" 18304;
+	setAttr ".tgi[3].ni[56].x" 851.72125244140625;
+	setAttr ".tgi[3].ni[56].y" -1471.6182861328125;
+	setAttr ".tgi[3].ni[56].nvs" 18305;
+	setAttr ".tgi[3].ni[57].x" 889.79730224609375;
+	setAttr ".tgi[3].ni[57].y" -847.37213134765625;
+	setAttr ".tgi[3].ni[57].nvs" 18305;
+	setAttr ".tgi[3].ni[58].x" 1672.397216796875;
+	setAttr ".tgi[3].ni[58].y" -882.9573974609375;
+	setAttr ".tgi[3].ni[58].nvs" 18304;
+	setAttr ".tgi[3].ni[59].x" 1721.4166259765625;
+	setAttr ".tgi[3].ni[59].y" -3282.873779296875;
+	setAttr ".tgi[3].ni[59].nvs" 18304;
+	setAttr ".tgi[3].ni[60].x" 2018.5145263671875;
+	setAttr ".tgi[3].ni[60].y" -1171.605224609375;
+	setAttr ".tgi[3].ni[60].nvs" 18305;
+	setAttr ".tgi[3].ni[61].x" 586.72039794921875;
+	setAttr ".tgi[3].ni[61].y" -1411.5145263671875;
+	setAttr ".tgi[3].ni[61].nvs" 18304;
+	setAttr ".tgi[3].ni[62].x" 894.55865478515625;
+	setAttr ".tgi[3].ni[62].y" -180.21916198730469;
+	setAttr ".tgi[3].ni[62].nvs" 18304;
+	setAttr ".tgi[3].ni[63].x" 1682.2364501953125;
+	setAttr ".tgi[3].ni[63].y" -95.965873718261719;
+	setAttr ".tgi[3].ni[63].nvs" 18304;
+	setAttr ".tgi[3].ni[64].x" 902.0609130859375;
+	setAttr ".tgi[3].ni[64].y" -50.973434448242188;
+	setAttr ".tgi[3].ni[64].nvs" 18304;
+	setAttr ".tgi[3].ni[65].x" 894.55865478515625;
+	setAttr ".tgi[3].ni[65].y" 73.66778564453125;
+	setAttr ".tgi[3].ni[65].nvs" 18304;
+	setAttr ".tgi[3].ni[66].x" 354.52667236328125;
+	setAttr ".tgi[3].ni[66].y" 58.062412261962891;
+	setAttr ".tgi[3].ni[66].nvs" 18305;
+	setAttr ".tgi[3].ni[67].x" 1966.9276123046875;
+	setAttr ".tgi[3].ni[67].y" -192.24519348144531;
+	setAttr ".tgi[3].ni[67].nvs" 18304;
+	setAttr ".tgi[3].ni[68].x" 1674.734130859375;
+	setAttr ".tgi[3].ni[68].y" 27.484287261962891;
+	setAttr ".tgi[3].ni[68].nvs" 18304;
+	setAttr ".tgi[3].ni[69].x" 1680.6378173828125;
+	setAttr ".tgi[3].ni[69].y" -190.16522216796875;
+	setAttr ".tgi[3].ni[69].nvs" 18304;
+	setAttr ".tgi[3].ni[70].x" 469.3599853515625;
+	setAttr ".tgi[3].ni[70].y" -2567.1962890625;
+	setAttr ".tgi[3].ni[70].nvs" 18305;
+	setAttr ".tgi[3].ni[71].x" 777.93475341796875;
+	setAttr ".tgi[3].ni[71].y" -2967.010009765625;
+	setAttr ".tgi[3].ni[71].nvs" 18304;
+	setAttr ".tgi[3].ni[72].x" 775.03314208984375;
+	setAttr ".tgi[3].ni[72].y" -3112.262939453125;
+	setAttr ".tgi[3].ni[72].nvs" 18304;
+	setAttr ".tgi[3].ni[73].x" 1725.160400390625;
+	setAttr ".tgi[3].ni[73].y" -3139.146240234375;
+	setAttr ".tgi[3].ni[73].nvs" 18304;
+	setAttr ".tgi[3].ni[74].x" 1098.4500732421875;
+	setAttr ".tgi[3].ni[74].y" -3280.98583984375;
+	setAttr ".tgi[3].ni[74].nvs" 18304;
+	setAttr ".tgi[3].ni[75].x" 2062.75732421875;
+	setAttr ".tgi[3].ni[75].y" -3144.02294921875;
+	setAttr ".tgi[3].ni[75].nvs" 18304;
+	setAttr ".tgi[3].ni[76].x" 1102.8564453125;
+	setAttr ".tgi[3].ni[76].y" -3141.646728515625;
+	setAttr ".tgi[3].ni[76].nvs" 18304;
+	setAttr ".tgi[3].ni[77].x" 1729.32666015625;
+	setAttr ".tgi[3].ni[77].y" -2995.843017578125;
+	setAttr ".tgi[3].ni[77].nvs" 18304;
+	setAttr ".tgi[3].ni[78].x" 2051.140869140625;
+	setAttr ".tgi[3].ni[78].y" -3046.55078125;
+	setAttr ".tgi[3].ni[78].nvs" 18304;
+	setAttr ".tgi[3].ni[79].x" 1273.3846435546875;
+	setAttr ".tgi[3].ni[79].y" -242.48640441894531;
+	setAttr ".tgi[3].ni[79].nvs" 18305;
+	setAttr ".tgi[3].ni[80].x" 1274.7208251953125;
+	setAttr ".tgi[3].ni[80].y" -29.642980575561523;
+	setAttr ".tgi[3].ni[80].nvs" 18305;
+	setAttr ".tgi[3].ni[81].x" 682.61102294921875;
+	setAttr ".tgi[3].ni[81].y" -699.89666748046875;
+	setAttr ".tgi[3].ni[81].nvs" 18304;
+	setAttr ".tgi[3].ni[82].x" 995.458251953125;
+	setAttr ".tgi[3].ni[82].y" 212.59649658203125;
+	setAttr ".tgi[3].ni[82].nvs" 18305;
+	setAttr ".tgi[3].ni[83].x" 321.85610961914062;
+	setAttr ".tgi[3].ni[83].y" -327.60446166992188;
+	setAttr ".tgi[3].ni[83].nvs" 18305;
+	setAttr ".tgi[3].ni[84].x" 1263.576904296875;
+	setAttr ".tgi[3].ni[84].y" -1498.4290771484375;
+	setAttr ".tgi[3].ni[84].nvs" 18305;
+	setAttr ".tgi[3].ni[85].x" 990.90777587890625;
+	setAttr ".tgi[3].ni[85].y" -634.085693359375;
+	setAttr ".tgi[3].ni[85].nvs" 18305;
+	setAttr ".tgi[3].ni[86].x" 1293.237548828125;
+	setAttr ".tgi[3].ni[86].y" -843.91363525390625;
+	setAttr ".tgi[3].ni[86].nvs" 18305;
+	setAttr ".tgi[3].ni[87].x" 1275.7918701171875;
+	setAttr ".tgi[3].ni[87].y" -1227.260009765625;
+	setAttr ".tgi[3].ni[87].nvs" 18305;
+	setAttr ".tgi[3].ni[88].x" 1284.0740966796875;
+	setAttr ".tgi[3].ni[88].y" 180.91819763183594;
+	setAttr ".tgi[3].ni[88].nvs" 18305;
+	setAttr ".tgi[3].ni[89].x" 1090.7686767578125;
+	setAttr ".tgi[3].ni[89].y" -2996.874755859375;
+	setAttr ".tgi[3].ni[89].nvs" 18304;
+	setAttr ".tgi[3].ni[90].x" 467.45846557617188;
+	setAttr ".tgi[3].ni[90].y" -2967.40625;
+	setAttr ".tgi[3].ni[90].nvs" 18305;
+	setAttr ".tgi[3].ni[91].x" 2047.7904052734375;
+	setAttr ".tgi[3].ni[91].y" -3247.402587890625;
+	setAttr ".tgi[3].ni[91].nvs" 18304;
+	setAttr ".tgi[3].ni[92].x" 774.9130859375;
+	setAttr ".tgi[3].ni[92].y" -3286.3310546875;
+	setAttr ".tgi[3].ni[92].nvs" 18304;
 select -ne :time1;
 	setAttr -av -k on ".cch";
 	setAttr -k on ".fzn";
 	setAttr -av -k on ".ihi";
 	setAttr -av -k on ".nds";
 	setAttr -cb on ".bnm";
-	setAttr -k on ".o" 34;
-	setAttr -av -k on ".unw" 34;
+	setAttr -k on ".o" 1;
+	setAttr -av -k on ".unw" 1;
 	setAttr -av -k on ".etw";
 	setAttr -av -k on ".tps";
 	setAttr -av -k on ".tms";
@@ -4769,7 +5389,7 @@ select -ne :defaultRenderUtilityList1;
 	setAttr -cb on ".ihi";
 	setAttr -av -k on ".nds";
 	setAttr -cb on ".bnm";
-	setAttr -s 54 ".u";
+	setAttr -s 61 ".u";
 select -ne :defaultRenderingList1;
 	setAttr -av -k on ".cch";
 	setAttr -k on ".ihi";
@@ -5730,8 +6350,16 @@ connectAttr "thumbFinger_1_group_decMat.osx" "thumbFinger_1_group.sx";
 connectAttr "thumbFinger_1_group_decMat.osy" "thumbFinger_1_group.sy";
 connectAttr "thumbFinger_1_group_decMat.osz" "thumbFinger_1_group.sz";
 connectAttr "thumbFinger_mainPoser.lodv" "thumbFinger_1_group.v";
-connectAttr "unitConversion1426.o" "thumbFinger_1_group_2.rz";
 connectAttr "unitConversion1441.o" "thumbFinger_1_group_2.ry";
+connectAttr "decomposeMatrix14.otx" "thumbFinger_1_group_3.tx";
+connectAttr "decomposeMatrix14.oty" "thumbFinger_1_group_3.ty";
+connectAttr "decomposeMatrix14.otz" "thumbFinger_1_group_3.tz";
+connectAttr "decomposeMatrix14.orx" "thumbFinger_1_group_3.rx";
+connectAttr "decomposeMatrix14.ory" "thumbFinger_1_group_3.ry";
+connectAttr "decomposeMatrix14.orz" "thumbFinger_1_group_3.rz";
+connectAttr "decomposeMatrix14.osx" "thumbFinger_1_group_3.sx";
+connectAttr "decomposeMatrix14.osy" "thumbFinger_1_group_3.sy";
+connectAttr "decomposeMatrix14.osz" "thumbFinger_1_group_3.sz";
 connectAttr "thumbFinger_2_offset_decMat.otx" "thumbFinger_2_group.tx";
 connectAttr "thumbFinger_2_offset_decMat.oty" "thumbFinger_2_group.ty";
 connectAttr "thumbFinger_2_offset_decMat.otz" "thumbFinger_2_group.tz";
@@ -5741,7 +6369,15 @@ connectAttr "thumbFinger_2_offset_decMat.orz" "thumbFinger_2_group.rz";
 connectAttr "thumbFinger_2_offset_decMat.osx" "thumbFinger_2_group.sx";
 connectAttr "thumbFinger_2_offset_decMat.osy" "thumbFinger_2_group.sy";
 connectAttr "thumbFinger_2_offset_decMat.osz" "thumbFinger_2_group.sz";
-connectAttr "unitConversion1427.o" "thumbFinger_2_group_2.rz";
+connectAttr "decomposeMatrix13.orz" "thumbFinger_2_group_2.rz";
+connectAttr "decomposeMatrix13.orx" "thumbFinger_2_group_2.rx";
+connectAttr "decomposeMatrix13.ory" "thumbFinger_2_group_2.ry";
+connectAttr "decomposeMatrix13.otx" "thumbFinger_2_group_2.tx";
+connectAttr "decomposeMatrix13.oty" "thumbFinger_2_group_2.ty";
+connectAttr "decomposeMatrix13.otz" "thumbFinger_2_group_2.tz";
+connectAttr "decomposeMatrix13.osx" "thumbFinger_2_group_2.sx";
+connectAttr "decomposeMatrix13.osy" "thumbFinger_2_group_2.sy";
+connectAttr "decomposeMatrix13.osz" "thumbFinger_2_group_2.sz";
 connectAttr "thumbFinger_3_offset_decMat.otx" "thumbFinger_3_group.tx";
 connectAttr "thumbFinger_3_offset_decMat.oty" "thumbFinger_3_group.ty";
 connectAttr "thumbFinger_3_offset_decMat.otz" "thumbFinger_3_group.tz";
@@ -5751,7 +6387,15 @@ connectAttr "thumbFinger_3_offset_decMat.orz" "thumbFinger_3_group.rz";
 connectAttr "thumbFinger_3_offset_decMat.osx" "thumbFinger_3_group.sx";
 connectAttr "thumbFinger_3_offset_decMat.osy" "thumbFinger_3_group.sy";
 connectAttr "thumbFinger_3_offset_decMat.osz" "thumbFinger_3_group.sz";
-connectAttr "unitConversion1428.o" "thumbFinger_3_group_2.rz";
+connectAttr "decomposeMatrix15.orz" "thumbFinger_3_group_2.rz";
+connectAttr "decomposeMatrix15.orx" "thumbFinger_3_group_2.rx";
+connectAttr "decomposeMatrix15.ory" "thumbFinger_3_group_2.ry";
+connectAttr "decomposeMatrix15.otx" "thumbFinger_3_group_2.tx";
+connectAttr "decomposeMatrix15.oty" "thumbFinger_3_group_2.ty";
+connectAttr "decomposeMatrix15.otz" "thumbFinger_3_group_2.tz";
+connectAttr "decomposeMatrix15.osx" "thumbFinger_3_group_2.sx";
+connectAttr "decomposeMatrix15.osy" "thumbFinger_3_group_2.sy";
+connectAttr "decomposeMatrix15.osz" "thumbFinger_3_group_2.sz";
 connectAttr "indexFingerRoot_group_decMat.otx" "indexFingerRoot_group.tx";
 connectAttr "indexFingerRoot_group_decMat.oty" "indexFingerRoot_group.ty";
 connectAttr "indexFingerRoot_group_decMat.otz" "indexFingerRoot_group.tz";
@@ -5772,8 +6416,16 @@ connectAttr "indexFinger_1_group_decMat.orz" "indexFinger_1_group.rz";
 connectAttr "indexFinger_1_group_decMat.osx" "indexFinger_1_group.sx";
 connectAttr "indexFinger_1_group_decMat.osy" "indexFinger_1_group.sy";
 connectAttr "indexFinger_1_group_decMat.osz" "indexFinger_1_group.sz";
-connectAttr "unitConversion1429.o" "indexFinger_1_group_2.rz";
 connectAttr "unitConversion1449.o" "indexFinger_1_group_2.ry";
+connectAttr "decomposeMatrix2.orx" "indexFinger_1_group_3.rx";
+connectAttr "decomposeMatrix2.ory" "indexFinger_1_group_3.ry";
+connectAttr "decomposeMatrix2.orz" "indexFinger_1_group_3.rz";
+connectAttr "decomposeMatrix2.otx" "indexFinger_1_group_3.tx";
+connectAttr "decomposeMatrix2.oty" "indexFinger_1_group_3.ty";
+connectAttr "decomposeMatrix2.otz" "indexFinger_1_group_3.tz";
+connectAttr "decomposeMatrix2.osx" "indexFinger_1_group_3.sx";
+connectAttr "decomposeMatrix2.osy" "indexFinger_1_group_3.sy";
+connectAttr "decomposeMatrix2.osz" "indexFinger_1_group_3.sz";
 connectAttr "indexFinger_2_group_decMat.otx" "indexFinger_2_group.tx";
 connectAttr "indexFinger_2_group_decMat.oty" "indexFinger_2_group.ty";
 connectAttr "indexFinger_2_group_decMat.otz" "indexFinger_2_group.tz";
@@ -5783,7 +6435,15 @@ connectAttr "indexFinger_2_group_decMat.orz" "indexFinger_2_group.rz";
 connectAttr "indexFinger_2_group_decMat.osx" "indexFinger_2_group.sx";
 connectAttr "indexFinger_2_group_decMat.osy" "indexFinger_2_group.sy";
 connectAttr "indexFinger_2_group_decMat.osz" "indexFinger_2_group.sz";
-connectAttr "unitConversion1430.o" "indexFinger_2_group_2.rz";
+connectAttr "decomposeMatrix1.orz" "indexFinger_2_group_2.rz";
+connectAttr "decomposeMatrix1.orx" "indexFinger_2_group_2.rx";
+connectAttr "decomposeMatrix1.ory" "indexFinger_2_group_2.ry";
+connectAttr "decomposeMatrix1.otx" "indexFinger_2_group_2.tx";
+connectAttr "decomposeMatrix1.oty" "indexFinger_2_group_2.ty";
+connectAttr "decomposeMatrix1.otz" "indexFinger_2_group_2.tz";
+connectAttr "decomposeMatrix1.osx" "indexFinger_2_group_2.sx";
+connectAttr "decomposeMatrix1.osy" "indexFinger_2_group_2.sy";
+connectAttr "decomposeMatrix1.osz" "indexFinger_2_group_2.sz";
 connectAttr "indexFinger_3_group_decMat.otx" "indexFinger_3_group.tx";
 connectAttr "indexFinger_3_group_decMat.oty" "indexFinger_3_group.ty";
 connectAttr "indexFinger_3_group_decMat.otz" "indexFinger_3_group.tz";
@@ -5793,7 +6453,15 @@ connectAttr "indexFinger_3_group_decMat.orz" "indexFinger_3_group.rz";
 connectAttr "indexFinger_3_group_decMat.osx" "indexFinger_3_group.sx";
 connectAttr "indexFinger_3_group_decMat.osy" "indexFinger_3_group.sy";
 connectAttr "indexFinger_3_group_decMat.osz" "indexFinger_3_group.sz";
-connectAttr "unitConversion1431.o" "indexFinger_3_group_2.rz";
+connectAttr "decomposeMatrix3.orz" "indexFinger_3_group_2.rz";
+connectAttr "decomposeMatrix3.orx" "indexFinger_3_group_2.rx";
+connectAttr "decomposeMatrix3.ory" "indexFinger_3_group_2.ry";
+connectAttr "decomposeMatrix3.otx" "indexFinger_3_group_2.tx";
+connectAttr "decomposeMatrix3.oty" "indexFinger_3_group_2.ty";
+connectAttr "decomposeMatrix3.otz" "indexFinger_3_group_2.tz";
+connectAttr "decomposeMatrix3.osx" "indexFinger_3_group_2.sx";
+connectAttr "decomposeMatrix3.osy" "indexFinger_3_group_2.sy";
+connectAttr "decomposeMatrix3.osz" "indexFinger_3_group_2.sz";
 connectAttr "middleFingerRoot_group_decMat.otx" "middleFingerRoot_group.tx";
 connectAttr "middleFingerRoot_group_decMat.oty" "middleFingerRoot_group.ty";
 connectAttr "middleFingerRoot_group_decMat.otz" "middleFingerRoot_group.tz";
@@ -5815,8 +6483,16 @@ connectAttr "middleFinger_1_group_decMat.orz" "middleFinger_1_group.rz";
 connectAttr "middleFinger_1_group_decMat.osx" "middleFinger_1_group.sx";
 connectAttr "middleFinger_1_group_decMat.osy" "middleFinger_1_group.sy";
 connectAttr "middleFinger_1_group_decMat.osz" "middleFinger_1_group.sz";
-connectAttr "unitConversion1432.o" "middleFinger_1_group_2.rz";
 connectAttr "unitConversion1448.o" "middleFinger_1_group_2.ry";
+connectAttr "decomposeMatrix6.otx" "middleFinger_1_group_3.tx";
+connectAttr "decomposeMatrix6.oty" "middleFinger_1_group_3.ty";
+connectAttr "decomposeMatrix6.otz" "middleFinger_1_group_3.tz";
+connectAttr "decomposeMatrix6.orx" "middleFinger_1_group_3.rx";
+connectAttr "decomposeMatrix6.ory" "middleFinger_1_group_3.ry";
+connectAttr "decomposeMatrix6.orz" "middleFinger_1_group_3.rz";
+connectAttr "decomposeMatrix6.osx" "middleFinger_1_group_3.sx";
+connectAttr "decomposeMatrix6.osy" "middleFinger_1_group_3.sy";
+connectAttr "decomposeMatrix6.osz" "middleFinger_1_group_3.sz";
 connectAttr "middleFinger_2_group_decMat.otx" "middleFinger_2_group.tx";
 connectAttr "middleFinger_2_group_decMat.oty" "middleFinger_2_group.ty";
 connectAttr "middleFinger_2_group_decMat.otz" "middleFinger_2_group.tz";
@@ -5826,7 +6502,15 @@ connectAttr "middleFinger_2_group_decMat.orz" "middleFinger_2_group.rz";
 connectAttr "middleFinger_2_group_decMat.osx" "middleFinger_2_group.sx";
 connectAttr "middleFinger_2_group_decMat.osy" "middleFinger_2_group.sy";
 connectAttr "middleFinger_2_group_decMat.osz" "middleFinger_2_group.sz";
-connectAttr "unitConversion1433.o" "middleFinger_2_group_2.rz";
+connectAttr "decomposeMatrix4.orz" "middleFinger_2_group_2.rz";
+connectAttr "decomposeMatrix4.orx" "middleFinger_2_group_2.rx";
+connectAttr "decomposeMatrix4.ory" "middleFinger_2_group_2.ry";
+connectAttr "decomposeMatrix4.otx" "middleFinger_2_group_2.tx";
+connectAttr "decomposeMatrix4.oty" "middleFinger_2_group_2.ty";
+connectAttr "decomposeMatrix4.otz" "middleFinger_2_group_2.tz";
+connectAttr "decomposeMatrix4.osx" "middleFinger_2_group_2.sx";
+connectAttr "decomposeMatrix4.osy" "middleFinger_2_group_2.sy";
+connectAttr "decomposeMatrix4.osz" "middleFinger_2_group_2.sz";
 connectAttr "middleFinger_3_group_decMat.otx" "middleFinger_3_group.tx";
 connectAttr "middleFinger_3_group_decMat.oty" "middleFinger_3_group.ty";
 connectAttr "middleFinger_3_group_decMat.otz" "middleFinger_3_group.tz";
@@ -5836,7 +6520,15 @@ connectAttr "middleFinger_3_group_decMat.orz" "middleFinger_3_group.rz";
 connectAttr "middleFinger_3_group_decMat.osx" "middleFinger_3_group.sx";
 connectAttr "middleFinger_3_group_decMat.osy" "middleFinger_3_group.sy";
 connectAttr "middleFinger_3_group_decMat.osz" "middleFinger_3_group.sz";
-connectAttr "unitConversion1434.o" "middleFinger_3_group_2.rz";
+connectAttr "decomposeMatrix5.orz" "middleFinger_3_group_2.rz";
+connectAttr "decomposeMatrix5.orx" "middleFinger_3_group_2.rx";
+connectAttr "decomposeMatrix5.ory" "middleFinger_3_group_2.ry";
+connectAttr "decomposeMatrix5.otx" "middleFinger_3_group_2.tx";
+connectAttr "decomposeMatrix5.oty" "middleFinger_3_group_2.ty";
+connectAttr "decomposeMatrix5.otz" "middleFinger_3_group_2.tz";
+connectAttr "decomposeMatrix5.osx" "middleFinger_3_group_2.sx";
+connectAttr "decomposeMatrix5.osy" "middleFinger_3_group_2.sy";
+connectAttr "decomposeMatrix5.osz" "middleFinger_3_group_2.sz";
 connectAttr "ringFingerRoot_group_decMat.otx" "ringFingerRoot_group.tx";
 connectAttr "ringFingerRoot_group_decMat.oty" "ringFingerRoot_group.ty";
 connectAttr "ringFingerRoot_group_decMat.otz" "ringFingerRoot_group.tz";
@@ -5858,8 +6550,16 @@ connectAttr "ringFinger_1_group_decMat.orz" "ringFinger_1_group.rz";
 connectAttr "ringFinger_1_group_decMat.osx" "ringFinger_1_group.sx";
 connectAttr "ringFinger_1_group_decMat.osy" "ringFinger_1_group.sy";
 connectAttr "ringFinger_1_group_decMat.osz" "ringFinger_1_group.sz";
-connectAttr "unitConversion1435.o" "ringFinger_1_group_2.rz";
 connectAttr "unitConversion1447.o" "ringFinger_1_group_2.ry";
+connectAttr "decomposeMatrix8.otx" "ringFinger_1_group_3.tx";
+connectAttr "decomposeMatrix8.oty" "ringFinger_1_group_3.ty";
+connectAttr "decomposeMatrix8.otz" "ringFinger_1_group_3.tz";
+connectAttr "decomposeMatrix8.orx" "ringFinger_1_group_3.rx";
+connectAttr "decomposeMatrix8.ory" "ringFinger_1_group_3.ry";
+connectAttr "decomposeMatrix8.orz" "ringFinger_1_group_3.rz";
+connectAttr "decomposeMatrix8.osx" "ringFinger_1_group_3.sx";
+connectAttr "decomposeMatrix8.osy" "ringFinger_1_group_3.sy";
+connectAttr "decomposeMatrix8.osz" "ringFinger_1_group_3.sz";
 connectAttr "ringFinger_2_group_decMat.otx" "ringFinger_2_group.tx";
 connectAttr "ringFinger_2_group_decMat.oty" "ringFinger_2_group.ty";
 connectAttr "ringFinger_2_group_decMat.otz" "ringFinger_2_group.tz";
@@ -5869,7 +6569,15 @@ connectAttr "ringFinger_2_group_decMat.orz" "ringFinger_2_group.rz";
 connectAttr "ringFinger_2_group_decMat.osx" "ringFinger_2_group.sx";
 connectAttr "ringFinger_2_group_decMat.osy" "ringFinger_2_group.sy";
 connectAttr "ringFinger_2_group_decMat.osz" "ringFinger_2_group.sz";
-connectAttr "unitConversion1436.o" "ringFinger_2_group_2.rz";
+connectAttr "decomposeMatrix9.orz" "ringFinger_2_group_2.rz";
+connectAttr "decomposeMatrix9.orx" "ringFinger_2_group_2.rx";
+connectAttr "decomposeMatrix9.ory" "ringFinger_2_group_2.ry";
+connectAttr "decomposeMatrix9.otx" "ringFinger_2_group_2.tx";
+connectAttr "decomposeMatrix9.oty" "ringFinger_2_group_2.ty";
+connectAttr "decomposeMatrix9.otz" "ringFinger_2_group_2.tz";
+connectAttr "decomposeMatrix9.osx" "ringFinger_2_group_2.sx";
+connectAttr "decomposeMatrix9.osy" "ringFinger_2_group_2.sy";
+connectAttr "decomposeMatrix9.osz" "ringFinger_2_group_2.sz";
 connectAttr "ringFinger_3_group_decMat.otx" "ringFinger_3_group.tx";
 connectAttr "ringFinger_3_group_decMat.oty" "ringFinger_3_group.ty";
 connectAttr "ringFinger_3_group_decMat.otz" "ringFinger_3_group.tz";
@@ -5879,7 +6587,15 @@ connectAttr "ringFinger_3_group_decMat.orz" "ringFinger_3_group.rz";
 connectAttr "ringFinger_3_group_decMat.osx" "ringFinger_3_group.sx";
 connectAttr "ringFinger_3_group_decMat.osy" "ringFinger_3_group.sy";
 connectAttr "ringFinger_3_group_decMat.osz" "ringFinger_3_group.sz";
-connectAttr "unitConversion1437.o" "ringFinger_3_group_2.rz";
+connectAttr "decomposeMatrix7.orz" "ringFinger_3_group_2.rz";
+connectAttr "decomposeMatrix7.orx" "ringFinger_3_group_2.rx";
+connectAttr "decomposeMatrix7.ory" "ringFinger_3_group_2.ry";
+connectAttr "decomposeMatrix7.otx" "ringFinger_3_group_2.tx";
+connectAttr "decomposeMatrix7.oty" "ringFinger_3_group_2.ty";
+connectAttr "decomposeMatrix7.otz" "ringFinger_3_group_2.tz";
+connectAttr "decomposeMatrix7.osx" "ringFinger_3_group_2.sx";
+connectAttr "decomposeMatrix7.osy" "ringFinger_3_group_2.sy";
+connectAttr "decomposeMatrix7.osz" "ringFinger_3_group_2.sz";
 connectAttr "pinkyFingerRoot_group_decMat.otx" "pinkyFingerRoot_group.tx";
 connectAttr "pinkyFingerRoot_group_decMat.oty" "pinkyFingerRoot_group.ty";
 connectAttr "pinkyFingerRoot_group_decMat.otz" "pinkyFingerRoot_group.tz";
@@ -5901,8 +6617,16 @@ connectAttr "pinkyFinger_1_group_decMat.orz" "pinkyFinger_1_group.rz";
 connectAttr "pinkyFinger_1_group_decMat.osx" "pinkyFinger_1_group.sx";
 connectAttr "pinkyFinger_1_group_decMat.osy" "pinkyFinger_1_group.sy";
 connectAttr "pinkyFinger_1_group_decMat.osz" "pinkyFinger_1_group.sz";
-connectAttr "unitConversion1438.o" "pinkyFinger_1_group_2.rz";
 connectAttr "unitConversion1446.o" "pinkyFinger_1_group_2.ry";
+connectAttr "decomposeMatrix12.otx" "pinkyFinger_1_group_3.tx";
+connectAttr "decomposeMatrix12.oty" "pinkyFinger_1_group_3.ty";
+connectAttr "decomposeMatrix12.otz" "pinkyFinger_1_group_3.tz";
+connectAttr "decomposeMatrix12.orx" "pinkyFinger_1_group_3.rx";
+connectAttr "decomposeMatrix12.ory" "pinkyFinger_1_group_3.ry";
+connectAttr "decomposeMatrix12.orz" "pinkyFinger_1_group_3.rz";
+connectAttr "decomposeMatrix12.osx" "pinkyFinger_1_group_3.sx";
+connectAttr "decomposeMatrix12.osy" "pinkyFinger_1_group_3.sy";
+connectAttr "decomposeMatrix12.osz" "pinkyFinger_1_group_3.sz";
 connectAttr "pinkyFinger_2_group_decMat.otx" "pinkyFinger_2_group.tx";
 connectAttr "pinkyFinger_2_group_decMat.oty" "pinkyFinger_2_group.ty";
 connectAttr "pinkyFinger_2_group_decMat.otz" "pinkyFinger_2_group.tz";
@@ -5912,7 +6636,15 @@ connectAttr "pinkyFinger_2_group_decMat.orz" "pinkyFinger_2_group.rz";
 connectAttr "pinkyFinger_2_group_decMat.osx" "pinkyFinger_2_group.sx";
 connectAttr "pinkyFinger_2_group_decMat.osy" "pinkyFinger_2_group.sy";
 connectAttr "pinkyFinger_2_group_decMat.osz" "pinkyFinger_2_group.sz";
-connectAttr "unitConversion1439.o" "pinkyFinger_2_group_2.rz";
+connectAttr "decomposeMatrix11.orz" "pinkyFinger_2_group_2.rz";
+connectAttr "decomposeMatrix11.orx" "pinkyFinger_2_group_2.rx";
+connectAttr "decomposeMatrix11.ory" "pinkyFinger_2_group_2.ry";
+connectAttr "decomposeMatrix11.otx" "pinkyFinger_2_group_2.tx";
+connectAttr "decomposeMatrix11.oty" "pinkyFinger_2_group_2.ty";
+connectAttr "decomposeMatrix11.otz" "pinkyFinger_2_group_2.tz";
+connectAttr "decomposeMatrix11.osx" "pinkyFinger_2_group_2.sx";
+connectAttr "decomposeMatrix11.osy" "pinkyFinger_2_group_2.sy";
+connectAttr "decomposeMatrix11.osz" "pinkyFinger_2_group_2.sz";
 connectAttr "pinkyFinger_3_group_decMat.otx" "pinkyFinger_3_group.tx";
 connectAttr "pinkyFinger_3_group_decMat.oty" "pinkyFinger_3_group.ty";
 connectAttr "pinkyFinger_3_group_decMat.otz" "pinkyFinger_3_group.tz";
@@ -5922,7 +6654,15 @@ connectAttr "pinkyFinger_3_group_decMat.orz" "pinkyFinger_3_group.rz";
 connectAttr "pinkyFinger_3_group_decMat.osx" "pinkyFinger_3_group.sx";
 connectAttr "pinkyFinger_3_group_decMat.osy" "pinkyFinger_3_group.sy";
 connectAttr "pinkyFinger_3_group_decMat.osz" "pinkyFinger_3_group.sz";
-connectAttr "unitConversion1440.o" "pinkyFinger_3_group_2.rz";
+connectAttr "decomposeMatrix10.orz" "pinkyFinger_3_group_2.rz";
+connectAttr "decomposeMatrix10.orx" "pinkyFinger_3_group_2.rx";
+connectAttr "decomposeMatrix10.ory" "pinkyFinger_3_group_2.ry";
+connectAttr "decomposeMatrix10.otx" "pinkyFinger_3_group_2.tx";
+connectAttr "decomposeMatrix10.oty" "pinkyFinger_3_group_2.ty";
+connectAttr "decomposeMatrix10.otz" "pinkyFinger_3_group_2.tz";
+connectAttr "decomposeMatrix10.osx" "pinkyFinger_3_group_2.sx";
+connectAttr "decomposeMatrix10.osy" "pinkyFinger_3_group_2.sy";
+connectAttr "decomposeMatrix10.osz" "pinkyFinger_3_group_2.sz";
 connectAttr "root_connector.wm" "system.opm";
 connectAttr "root_connector_decomposeMatrix.osx" "outJoints.sx";
 connectAttr "root_connector_decomposeMatrix.osy" "outJoints.sy";
@@ -6158,6 +6898,9 @@ connectAttr "pinkyFinger_1_outJoint.pim" "pinkyFinger_1_skinJoint_multMat.i[1]";
 connectAttr "thumbFinger_1.iog" "thumb_moduleControlSet.dsm" -na;
 connectAttr "thumbFinger_2.iog" "thumb_moduleControlSet.dsm" -na;
 connectAttr "thumbFinger_3.iog" "thumb_moduleControlSet.dsm" -na;
+connectAttr "thumbFinger_1_closed.iog" "thumb_moduleControlSet.dsm" -na;
+connectAttr "thumbFinger_2_closed.iog" "thumb_moduleControlSet.dsm" -na;
+connectAttr "thumbFinger_3_closed.iog" "thumb_moduleControlSet.dsm" -na;
 connectAttr "thumb_moduleControlSet.msg" "moduleControlSet.dnsm" -na;
 connectAttr "pinky_moduleControlSet.msg" "moduleControlSet.dnsm" -na;
 connectAttr "ring_moduleControlSet.msg" "moduleControlSet.dnsm" -na;
@@ -6367,9 +7110,10 @@ connectAttr "pinkyFingerB_poserOrient.wim" "pinkyFinger_3_group_multMat.i[1]";
 connectAttr "thumbFinger_1_outJoint_multMat.o" "thumbFinger_1_outJoint_decMat.imat"
 		;
 connectAttr "thumbFinger_1.m" "thumbFinger_1_outJoint_multMat.i[0]";
-connectAttr "thumbFinger_1_group_2.m" "thumbFinger_1_outJoint_multMat.i[1]";
-connectAttr "thumbFinger_1_group.m" "thumbFinger_1_outJoint_multMat.i[2]";
-connectAttr "composeMatrix1.omat" "thumbFinger_1_outJoint_multMat.i[3]";
+connectAttr "thumbFinger_1_group_3.m" "thumbFinger_1_outJoint_multMat.i[1]";
+connectAttr "thumbFinger_1_group_2.m" "thumbFinger_1_outJoint_multMat.i[2]";
+connectAttr "thumbFinger_1_group.m" "thumbFinger_1_outJoint_multMat.i[3]";
+connectAttr "composeMatrix1.omat" "thumbFinger_1_outJoint_multMat.i[4]";
 connectAttr "thumbFinger_2_outJoint_multMat.o" "thumbFinger_2_outJoint_decMat.imat"
 		;
 connectAttr "thumbFinger_2.m" "thumbFinger_2_outJoint_multMat.i[0]";
@@ -6390,9 +7134,10 @@ connectAttr "composeMatrix1.omat" "index_root_outJoint_multMat.i[3]";
 connectAttr "indexFinger_1_outJoint_multMat.o" "indexFinger_1_outJoint_decMat.imat"
 		;
 connectAttr "indexFinger_1.m" "indexFinger_1_outJoint_multMat.i[0]";
-connectAttr "indexFinger_1_group_2.m" "indexFinger_1_outJoint_multMat.i[1]";
-connectAttr "indexFinger_1_group.m" "indexFinger_1_outJoint_multMat.i[2]";
-connectAttr "composeMatrix2.omat" "indexFinger_1_outJoint_multMat.i[3]";
+connectAttr "indexFinger_1_group_3.m" "indexFinger_1_outJoint_multMat.i[1]";
+connectAttr "indexFinger_1_group_2.m" "indexFinger_1_outJoint_multMat.i[2]";
+connectAttr "indexFinger_1_group.m" "indexFinger_1_outJoint_multMat.i[3]";
+connectAttr "composeMatrix2.omat" "indexFinger_1_outJoint_multMat.i[4]";
 connectAttr "indexFinger_3_outJoint_multMat.o" "indexFinger_3_outJoint_decMat.imat"
 		;
 connectAttr "indexFinger_3.m" "indexFinger_3_outJoint_multMat.i[0]";
@@ -6410,9 +7155,10 @@ connectAttr "composeMatrix1.omat" "middle_rooit_outJoint_multMat.i[4]";
 connectAttr "middleFinger_1_outJoint_multMat.o" "middleFinger_1_outJoint_decMat.imat"
 		;
 connectAttr "middleFinger_1.m" "middleFinger_1_outJoint_multMat.i[0]";
-connectAttr "middleFinger_1_group_2.m" "middleFinger_1_outJoint_multMat.i[1]";
-connectAttr "middleFinger_1_group.m" "middleFinger_1_outJoint_multMat.i[2]";
-connectAttr "composeMatrix2.omat" "middleFinger_1_outJoint_multMat.i[3]";
+connectAttr "middleFinger_1_group_3.m" "middleFinger_1_outJoint_multMat.i[1]";
+connectAttr "middleFinger_1_group_2.m" "middleFinger_1_outJoint_multMat.i[2]";
+connectAttr "middleFinger_1_group.m" "middleFinger_1_outJoint_multMat.i[3]";
+connectAttr "composeMatrix2.omat" "middleFinger_1_outJoint_multMat.i[4]";
 connectAttr "middleFinger_2_outJoint_multMat.o" "middleFinger_2_outJoint_decMat.imat"
 		;
 connectAttr "middleFinger_2.m" "middleFinger_2_outJoint_multMat.i[0]";
@@ -6434,9 +7180,10 @@ connectAttr "composeMatrix1.omat" "ring_root_outJoint_multMat.i[4]";
 connectAttr "ringFinger_1_outJoint_multMat.o" "ringFinger_1_outJoint_decMat.imat"
 		;
 connectAttr "ringFinger_1.m" "ringFinger_1_outJoint_multMat.i[0]";
-connectAttr "ringFinger_1_group_2.m" "ringFinger_1_outJoint_multMat.i[1]";
-connectAttr "ringFinger_1_group.m" "ringFinger_1_outJoint_multMat.i[2]";
-connectAttr "composeMatrix2.omat" "ringFinger_1_outJoint_multMat.i[3]";
+connectAttr "ringFinger_1_group_3.m" "ringFinger_1_outJoint_multMat.i[1]";
+connectAttr "ringFinger_1_group_2.m" "ringFinger_1_outJoint_multMat.i[2]";
+connectAttr "ringFinger_1_group.m" "ringFinger_1_outJoint_multMat.i[3]";
+connectAttr "composeMatrix2.omat" "ringFinger_1_outJoint_multMat.i[4]";
 connectAttr "ringFinger_2_outJoint_multMat.o" "ringFinger_2_outJoint_decMat.imat"
 		;
 connectAttr "ringFinger_2.m" "ringFinger_2_outJoint_multMat.i[0]";
@@ -6458,16 +7205,16 @@ connectAttr "composeMatrix1.omat" "pinky_root_outJoint_multMat.i[4]";
 connectAttr "pinkyFinger_1_outJoint_multMat.o" "pinkyFinger_1_outJoint_decMat.imat"
 		;
 connectAttr "pinkyFinger_1.m" "pinkyFinger_1_outJoint_multMat.i[0]";
-connectAttr "pinkyFinger_1_group_2.m" "pinkyFinger_1_outJoint_multMat.i[1]";
-connectAttr "pinkyFinger_1_group.m" "pinkyFinger_1_outJoint_multMat.i[2]";
-connectAttr "composeMatrix2.omat" "pinkyFinger_1_outJoint_multMat.i[3]";
+connectAttr "pinkyFinger_1_group_3.m" "pinkyFinger_1_outJoint_multMat.i[1]";
+connectAttr "pinkyFinger_1_group_2.m" "pinkyFinger_1_outJoint_multMat.i[2]";
+connectAttr "pinkyFinger_1_group.m" "pinkyFinger_1_outJoint_multMat.i[3]";
+connectAttr "composeMatrix2.omat" "pinkyFinger_1_outJoint_multMat.i[4]";
 connectAttr "pinkyFinger_2_outJoint_multMat.o" "pinkyFinger_2_outJoint_decMat.imat"
 		;
 connectAttr "pinkyFinger_2.m" "pinkyFinger_2_outJoint_multMat.i[0]";
-connectAttr "pinkyFinger_2_group_3.m" "pinkyFinger_2_outJoint_multMat.i[1]";
-connectAttr "pinkyFinger_2_group_2.m" "pinkyFinger_2_outJoint_multMat.i[2]";
-connectAttr "pinkyFinger_2_group.m" "pinkyFinger_2_outJoint_multMat.i[3]";
-connectAttr "composeMatrix2.omat" "pinkyFinger_2_outJoint_multMat.i[4]";
+connectAttr "pinkyFinger_2_group_2.m" "pinkyFinger_2_outJoint_multMat.i[1]";
+connectAttr "pinkyFinger_2_group.m" "pinkyFinger_2_outJoint_multMat.i[2]";
+connectAttr "composeMatrix2.omat" "pinkyFinger_2_outJoint_multMat.i[3]";
 connectAttr "pinkyFinger_3_outJoint_multMat.o" "pinkyFinger_3_outJoint_decMat.imat"
 		;
 connectAttr "pinkyFinger_3.m" "pinkyFinger_3_outJoint_multMat.i[0]";
@@ -6503,18 +7250,30 @@ connectAttr "indexFinger_1.iog" "index_moduleControlSet.dsm" -na;
 connectAttr "indexFinger_2.iog" "index_moduleControlSet.dsm" -na;
 connectAttr "indexFinger_3.iog" "index_moduleControlSet.dsm" -na;
 connectAttr "indexFingerRoot.iog" "index_moduleControlSet.dsm" -na;
+connectAttr "indexFinger_2_closed.iog" "index_moduleControlSet.dsm" -na;
+connectAttr "indexFinger_1_closed.iog" "index_moduleControlSet.dsm" -na;
+connectAttr "indexFinger_3_closed.iog" "index_moduleControlSet.dsm" -na;
 connectAttr "middleFingerRoot.iog" "middle_moduleControlSet.dsm" -na;
 connectAttr "middleFinger_1.iog" "middle_moduleControlSet.dsm" -na;
 connectAttr "middleFinger_2.iog" "middle_moduleControlSet.dsm" -na;
 connectAttr "middleFinger_3.iog" "middle_moduleControlSet.dsm" -na;
+connectAttr "middleFinger_3_closed.iog" "middle_moduleControlSet.dsm" -na;
+connectAttr "middleFinger_1_closed.iog" "middle_moduleControlSet.dsm" -na;
+connectAttr "middleFinger_2_closed.iog" "middle_moduleControlSet.dsm" -na;
 connectAttr "ringFingerRoot.iog" "ring_moduleControlSet.dsm" -na;
 connectAttr "ringFinger_1.iog" "ring_moduleControlSet.dsm" -na;
 connectAttr "ringFinger_2.iog" "ring_moduleControlSet.dsm" -na;
 connectAttr "ringFinger_3.iog" "ring_moduleControlSet.dsm" -na;
+connectAttr "ringFinger_1_closed.iog" "ring_moduleControlSet.dsm" -na;
+connectAttr "ringFinger_2_closed.iog" "ring_moduleControlSet.dsm" -na;
+connectAttr "ringFinger_3_closed.iog" "ring_moduleControlSet.dsm" -na;
 connectAttr "pinkyFingerRoot.iog" "pinky_moduleControlSet.dsm" -na;
 connectAttr "pinkyFinger_1.iog" "pinky_moduleControlSet.dsm" -na;
 connectAttr "pinkyFinger_2.iog" "pinky_moduleControlSet.dsm" -na;
 connectAttr "pinkyFinger_3.iog" "pinky_moduleControlSet.dsm" -na;
+connectAttr "pinkyFinger_1_closed.iog" "pinky_moduleControlSet.dsm" -na;
+connectAttr "pinkyFinger_2_closed.iog" "pinky_moduleControlSet.dsm" -na;
+connectAttr "pinkyFinger_3_closed.iog" "pinky_moduleControlSet.dsm" -na;
 connectAttr "clench.r" "pairBlend1.ir2";
 connectAttr "clench.r" "pairBlend2.ir2";
 connectAttr "mod.mirror" "mirror_condition.ft";
@@ -6550,51 +7309,6 @@ connectAttr "pinkyFingerRoot_clench.m" "pinky_root_outJoint_multMat1.i[2]";
 connectAttr "pinkyFingerRoot_group.m" "pinky_root_outJoint_multMat1.i[3]";
 connectAttr "composeMatrix1.omat" "pinky_root_outJoint_multMat1.i[4]";
 connectAttr "pinky_root_outJoint_multMat1.o" "pinky_root_outJoint_decMat1.imat";
-connectAttr "fingers.thumb" "multDoubleLinear2.i1";
-connectAttr "fingers.thumbMult1" "multDoubleLinear2.i2";
-connectAttr "multDoubleLinear2.o" "unitConversion1426.i";
-connectAttr "fingers.thumb" "multDoubleLinear3.i1";
-connectAttr "fingers.thumbMult2" "multDoubleLinear3.i2";
-connectAttr "fingers.thumb" "multDoubleLinear4.i1";
-connectAttr "fingers.thumbMult3" "multDoubleLinear4.i2";
-connectAttr "multDoubleLinear3.o" "unitConversion1427.i";
-connectAttr "multDoubleLinear4.o" "unitConversion1428.i";
-connectAttr "fingers.index" "multDoubleLinear5.i1";
-connectAttr "fingers.indexMult3" "multDoubleLinear5.i2";
-connectAttr "fingers.index" "multDoubleLinear6.i1";
-connectAttr "fingers.indexMult1" "multDoubleLinear6.i2";
-connectAttr "fingers.index" "multDoubleLinear7.i1";
-connectAttr "fingers.indexMult2" "multDoubleLinear7.i2";
-connectAttr "multDoubleLinear6.o" "unitConversion1429.i";
-connectAttr "multDoubleLinear7.o" "unitConversion1430.i";
-connectAttr "multDoubleLinear5.o" "unitConversion1431.i";
-connectAttr "fingers.middle" "multDoubleLinear8.i1";
-connectAttr "fingers.middleMult2" "multDoubleLinear8.i2";
-connectAttr "fingers.middle" "multDoubleLinear9.i1";
-connectAttr "fingers.middleMult3" "multDoubleLinear9.i2";
-connectAttr "fingers.middle" "multDoubleLinear10.i1";
-connectAttr "fingers.middleMult1" "multDoubleLinear10.i2";
-connectAttr "multDoubleLinear10.o" "unitConversion1432.i";
-connectAttr "multDoubleLinear8.o" "unitConversion1433.i";
-connectAttr "multDoubleLinear9.o" "unitConversion1434.i";
-connectAttr "fingers.ring" "multDoubleLinear11.i1";
-connectAttr "fingers.ringMult2" "multDoubleLinear11.i2";
-connectAttr "fingers.ring" "multDoubleLinear12.i1";
-connectAttr "fingers.ringMult3" "multDoubleLinear12.i2";
-connectAttr "fingers.ring" "multDoubleLinear13.i1";
-connectAttr "fingers.ringMult1" "multDoubleLinear13.i2";
-connectAttr "multDoubleLinear13.o" "unitConversion1435.i";
-connectAttr "multDoubleLinear11.o" "unitConversion1436.i";
-connectAttr "multDoubleLinear12.o" "unitConversion1437.i";
-connectAttr "fingers.pinky" "multDoubleLinear14.i1";
-connectAttr "fingers.pinkyMult3" "multDoubleLinear14.i2";
-connectAttr "fingers.pinky" "multDoubleLinear15.i1";
-connectAttr "fingers.pinkyMult1" "multDoubleLinear15.i2";
-connectAttr "fingers.pinky" "multDoubleLinear16.i1";
-connectAttr "fingers.pinkyMult2" "multDoubleLinear16.i2";
-connectAttr "multDoubleLinear15.o" "unitConversion1438.i";
-connectAttr "multDoubleLinear16.o" "unitConversion1439.i";
-connectAttr "multDoubleLinear14.o" "unitConversion1440.i";
 connectAttr "fingers.spread" "multDoubleLinear17.i1";
 connectAttr "fingers.spreadThumbMult" "multDoubleLinear17.i2";
 connectAttr "multDoubleLinear17.o" "unitConversion1441.i";
@@ -6774,197 +7488,295 @@ connectAttr "mirror_condition.ocr" "multDoubleLinear40.i2";
 connectAttr "indexFinger_3_outJoint_decMat.osz" "multDoubleLinear40.i1";
 connectAttr "mirror_condition.ocr" "multDoubleLinear41.i2";
 connectAttr "ringFinger_3_outJoint_decMat.osz" "multDoubleLinear41.i1";
-connectAttr "pinkyFinger_2_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn"
+connectAttr "setRange1.oy" "blendMatrix1.env";
+connectAttr "indexFinger_2_closed.m" "blendMatrix1.tgt[0].tmat";
+connectAttr "fingers.index" "setRange1.vx";
+connectAttr "fingers.index" "setRange1.vy";
+connectAttr "fingers.index" "setRange1.vz";
+connectAttr "multMatrix13.o" "decomposeMatrix1.imat";
+connectAttr "multMatrix12.o" "decomposeMatrix2.imat";
+connectAttr "setRange1.ox" "blendMatrix2.env";
+connectAttr "indexFinger_1_closed.m" "blendMatrix2.tgt[0].tmat";
+connectAttr "setRange1.oz" "blendMatrix3.env";
+connectAttr "indexFinger_3_closed.m" "blendMatrix3.tgt[0].tmat";
+connectAttr "multMatrix11.o" "decomposeMatrix3.imat";
+connectAttr "multMatrix16.o" "decomposeMatrix4.imat";
+connectAttr "multMatrix15.o" "decomposeMatrix5.imat";
+connectAttr "setRange2.oz" "blendMatrix4.env";
+connectAttr "middleFinger_3_closed.m" "blendMatrix4.tgt[0].tmat";
+connectAttr "setRange2.ox" "blendMatrix5.env";
+connectAttr "middleFinger_1_closed.m" "blendMatrix5.tgt[0].tmat";
+connectAttr "multMatrix14.o" "decomposeMatrix6.imat";
+connectAttr "setRange2.oy" "blendMatrix6.env";
+connectAttr "middleFinger_2_closed.m" "blendMatrix6.tgt[0].tmat";
+connectAttr "fingers.middle" "setRange2.vx";
+connectAttr "fingers.middle" "setRange2.vy";
+connectAttr "fingers.middle" "setRange2.vz";
+connectAttr "multMatrix10.o" "decomposeMatrix7.imat";
+connectAttr "multMatrix8.o" "decomposeMatrix8.imat";
+connectAttr "multMatrix9.o" "decomposeMatrix9.imat";
+connectAttr "setRange3.oy" "blendMatrix7.env";
+connectAttr "ringFinger_2_closed.m" "blendMatrix7.tgt[0].tmat";
+connectAttr "setRange3.oz" "blendMatrix8.env";
+connectAttr "ringFinger_3_closed.m" "blendMatrix8.tgt[0].tmat";
+connectAttr "setRange3.ox" "blendMatrix9.env";
+connectAttr "ringFinger_1_closed.m" "blendMatrix9.tgt[0].tmat";
+connectAttr "fingers.ring" "setRange3.vx";
+connectAttr "fingers.ring" "setRange3.vy";
+connectAttr "fingers.ring" "setRange3.vz";
+connectAttr "multMatrix6.o" "decomposeMatrix10.imat";
+connectAttr "multMatrix5.o" "decomposeMatrix11.imat";
+connectAttr "setRange4.oz" "blendMatrix10.env";
+connectAttr "pinkyFinger_3_closed.m" "blendMatrix10.tgt[0].tmat";
+connectAttr "setRange4.oy" "blendMatrix11.env";
+connectAttr "pinkyFinger_2_closed.m" "blendMatrix11.tgt[0].tmat";
+connectAttr "multMatrix7.o" "decomposeMatrix12.imat";
+connectAttr "setRange4.ox" "blendMatrix12.env";
+connectAttr "pinkyFinger_1_closed.m" "blendMatrix12.tgt[0].tmat";
+connectAttr "fingers.pinky" "setRange4.vx";
+connectAttr "fingers.pinky" "setRange4.vy";
+connectAttr "fingers.pinky" "setRange4.vz";
+connectAttr "multMatrix2.o" "decomposeMatrix13.imat";
+connectAttr "multMatrix1.o" "decomposeMatrix14.imat";
+connectAttr "setRange5.oz" "blendMatrix13.env";
+connectAttr "thumbFinger_3_closed.m" "blendMatrix13.tgt[0].tmat";
+connectAttr "setRange5.ox" "blendMatrix14.env";
+connectAttr "thumbFinger_1_closed.m" "blendMatrix14.tgt[0].tmat";
+connectAttr "setRange5.oy" "blendMatrix15.env";
+connectAttr "thumbFinger_2_closed.m" "blendMatrix15.tgt[0].tmat";
+connectAttr "multMatrix4.o" "decomposeMatrix15.imat";
+connectAttr "fingers.thumb" "setRange5.vx";
+connectAttr "fingers.thumb" "setRange5.vy";
+connectAttr "fingers.thumb" "setRange5.vz";
+connectAttr "blendMatrix14.omat" "multMatrix1.i[0]";
+connectAttr "composeMatrix3.omat" "multMatrix1.i[1]";
+connectAttr "unitConversion1450.o" "composeMatrix3.irz";
+connectAttr "blendMatrix15.omat" "multMatrix2.i[0]";
+connectAttr "composeMatrix3.omat" "multMatrix2.i[1]";
+connectAttr "blendMatrix13.omat" "multMatrix4.i[0]";
+connectAttr "composeMatrix3.omat" "multMatrix4.i[1]";
+connectAttr "fingers.thumb" "clamp1.ipr";
+connectAttr "fingers.pinky" "clamp1.ipg";
+connectAttr "fingers.ring" "clamp1.ipb";
+connectAttr "clamp1.opr" "unitConversion1450.i";
+connectAttr "blendMatrix11.omat" "multMatrix5.i[0]";
+connectAttr "composeMatrix4.omat" "multMatrix5.i[1]";
+connectAttr "blendMatrix10.omat" "multMatrix6.i[0]";
+connectAttr "composeMatrix4.omat" "multMatrix6.i[1]";
+connectAttr "blendMatrix12.omat" "multMatrix7.i[0]";
+connectAttr "composeMatrix4.omat" "multMatrix7.i[1]";
+connectAttr "unitConversion1451.o" "composeMatrix4.irz";
+connectAttr "clamp1.opg" "unitConversion1451.i";
+connectAttr "blendMatrix9.omat" "multMatrix8.i[0]";
+connectAttr "composeMatrix5.omat" "multMatrix8.i[1]";
+connectAttr "blendMatrix7.omat" "multMatrix9.i[0]";
+connectAttr "composeMatrix5.omat" "multMatrix9.i[1]";
+connectAttr "blendMatrix8.omat" "multMatrix10.i[0]";
+connectAttr "composeMatrix5.omat" "multMatrix10.i[1]";
+connectAttr "clamp1.opb" "unitConversion1452.i";
+connectAttr "unitConversion1452.o" "composeMatrix5.irz";
+connectAttr "blendMatrix3.omat" "multMatrix11.i[0]";
+connectAttr "composeMatrix6.omat" "multMatrix11.i[1]";
+connectAttr "blendMatrix2.omat" "multMatrix12.i[0]";
+connectAttr "composeMatrix6.omat" "multMatrix12.i[1]";
+connectAttr "blendMatrix1.omat" "multMatrix13.i[0]";
+connectAttr "composeMatrix6.omat" "multMatrix13.i[1]";
+connectAttr "unitConversion1453.o" "composeMatrix6.irz";
+connectAttr "clamp2.opr" "unitConversion1453.i";
+connectAttr "fingers.index" "clamp2.ipr";
+connectAttr "fingers.middle" "clamp2.ipg";
+connectAttr "blendMatrix5.omat" "multMatrix14.i[0]";
+connectAttr "composeMatrix7.omat" "multMatrix14.i[1]";
+connectAttr "blendMatrix4.omat" "multMatrix15.i[0]";
+connectAttr "composeMatrix7.omat" "multMatrix15.i[1]";
+connectAttr "blendMatrix6.omat" "multMatrix16.i[0]";
+connectAttr "composeMatrix7.omat" "multMatrix16.i[1]";
+connectAttr "unitConversion1454.o" "composeMatrix7.irz";
+connectAttr "clamp2.opg" "unitConversion1454.i";
+connectAttr "multDoubleLinear37.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn"
 		;
-connectAttr "multDoubleLinear35.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
+connectAttr "multDoubleLinear36.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
 		;
-connectAttr "indexFinger_2_outJoint_decMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn"
+connectAttr "ringFinger_2_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn"
 		;
-connectAttr "multDoubleLinear34.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn"
+connectAttr "mirror_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn"
 		;
-connectAttr "multDoubleLinear37.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[4].dn"
+connectAttr "middleFinger_2_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[4].dn"
 		;
 connectAttr "indexFinger_2_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn"
 		;
-connectAttr "middleFinger_2_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[6].dn"
+connectAttr "middleFinger_2_outJoint_decMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[6].dn"
 		;
-connectAttr "middleFinger_2_outJoint_decMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[7].dn"
+connectAttr "ringFinger_2_outJoint_decMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[7].dn"
 		;
-connectAttr "multDoubleLinear36.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[8].dn"
+connectAttr "indexFinger_2_outJoint_decMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[8].dn"
 		;
 connectAttr "pinkyFinger_2_outJoint_decMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[9].dn"
 		;
-connectAttr "ringFinger_2_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[10].dn"
+connectAttr "multDoubleLinear35.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[10].dn"
 		;
-connectAttr "ringFinger_2_outJoint_decMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[11].dn"
+connectAttr "multDoubleLinear34.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[11].dn"
 		;
-connectAttr "mirror_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[12].dn"
+connectAttr "pinkyFinger_2_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[12].dn"
 		;
-connectAttr "composeMatrix1.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn";
-connectAttr "indexFingerA_poserOrient.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn"
+connectAttr "thumbFinger_1_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn"
 		;
-connectAttr "indexFinger_1_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn"
+connectAttr "unitConversion1441.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn"
 		;
-connectAttr "indexFingerRoot_group_multMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn"
+connectAttr "multDoubleLinear17.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn"
 		;
-connectAttr "unitConversion1442.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn"
+connectAttr "thumbFinger_3_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn"
 		;
-connectAttr "root_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn";
-connectAttr "indexFingerRoot_poserOrient.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[6].dn"
+connectAttr "fingers.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn";
+connectAttr "thumbFinger_2_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn"
 		;
-connectAttr "indexFinger_1_outJoint_multMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[7].dn"
+connectAttr "unitConversion1450.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn"
 		;
-connectAttr "indexFinger_1_outJoint_decMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[8].dn"
+connectAttr "fingers.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn";
+connectAttr "composeMatrix3.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn";
+connectAttr "clamp1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn";
+connectAttr "indexFinger_3_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[0].dn"
 		;
-connectAttr "fingers.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[9].dn";
-connectAttr "indexFinger_1_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[10].dn"
+connectAttr "indexFinger_3_closed.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[1].dn"
 		;
-connectAttr "multDoubleLinear31.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[11].dn"
+connectAttr "decomposeMatrix7.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[2].dn"
 		;
-connectAttr "unitConversion1449.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[12].dn"
+connectAttr "decomposeMatrix9.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[3].dn"
 		;
-connectAttr "index_root_outJoint_decMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[13].dn"
+connectAttr "blendMatrix7.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[4].dn";
+connectAttr "decomposeMatrix1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[5].dn"
 		;
-connectAttr "composeMatrix2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[14].dn";
-connectAttr "indexFinger_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[15].dn";
-connectAttr "indexFinger_1_group_decMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[16].dn"
+connectAttr "setRange3.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[6].dn";
+connectAttr "decomposeMatrix8.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[7].dn"
 		;
-connectAttr "indexFingerRoot_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[17].dn"
+connectAttr "blendMatrix8.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[8].dn";
+connectAttr "indexFinger_2_closed.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[9].dn"
 		;
-connectAttr "indexFingerRoot_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[18].dn"
+connectAttr "blendMatrix9.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[10].dn";
+connectAttr "indexFinger_2_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[11].dn"
 		;
-connectAttr "indexFinger_1_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[19].dn"
+connectAttr "decomposeMatrix15.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[12].dn"
 		;
-connectAttr "indexFingerRoot_group_decMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[20].dn"
+connectAttr "setRange5.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[13].dn";
+connectAttr "blendMatrix13.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[14].dn";
+connectAttr "blendMatrix15.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[15].dn";
+connectAttr "decomposeMatrix13.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[16].dn"
 		;
-connectAttr "multDoubleLinear18.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[21].dn"
+connectAttr "decomposeMatrix14.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[17].dn"
 		;
-connectAttr "indexFinger_1_group_multMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[22].dn"
+connectAttr "blendMatrix14.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[18].dn";
+connectAttr "composeMatrix5.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[19].dn";
+connectAttr "multMatrix10.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[20].dn";
+connectAttr "multMatrix9.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[21].dn";
+connectAttr "multMatrix8.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[22].dn";
+connectAttr "unitConversion1452.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[23].dn"
 		;
-connectAttr "indexFingerRoot.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[23].dn"
+connectAttr "unitConversion1450.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[24].dn"
 		;
-connectAttr "mirror_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[24].dn"
+connectAttr "unitConversion1451.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[25].dn"
 		;
-connectAttr "multDoubleLinear25.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[25].dn"
+connectAttr "multMatrix6.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[26].dn";
+connectAttr "multMatrix5.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[27].dn";
+connectAttr "multMatrix7.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[28].dn";
+connectAttr "composeMatrix4.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[29].dn";
+connectAttr "fingers.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[30].dn";
+connectAttr "composeMatrix3.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[31].dn";
+connectAttr "multMatrix4.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[32].dn";
+connectAttr "multMatrix1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[33].dn";
+connectAttr "unitConversion1454.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[34].dn"
 		;
-connectAttr "indexFingerRoot_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[26].dn"
+connectAttr "blendMatrix2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[35].dn";
+connectAttr "decomposeMatrix2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[36].dn"
 		;
-connectAttr "multDoubleLinear6.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[27].dn"
+connectAttr "multMatrix2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[37].dn";
+connectAttr "middleFinger_1_closed.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[38].dn"
 		;
-connectAttr "unitConversion1429.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[28].dn"
+connectAttr "middleFinger_2_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[39].dn"
 		;
-connectAttr "index_root_outJoint_multMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[29].dn"
+connectAttr "middleFinger_3_closed.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[40].dn"
 		;
-connectAttr "mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[30].dn";
-connectAttr "thumbFinger_1_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn"
+connectAttr "middleFinger_1_group_3.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[41].dn"
 		;
-connectAttr "thumbFinger_2_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn"
+connectAttr "middleFinger_2_closed.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[42].dn"
 		;
-connectAttr "composeMatrix2.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn";
-connectAttr "thumbFinger_1_outJoint_multMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn"
+connectAttr "thumbFinger_1_closed.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[43].dn"
 		;
-connectAttr "thumbFinger_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[4].dn";
-connectAttr "root_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[5].dn";
-connectAttr "thumbFinger_2_offset_multMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[6].dn"
+connectAttr "thumbFinger_3_closed.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[44].dn"
 		;
-connectAttr "thumbFinger_2_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[7].dn"
+connectAttr "thumbFinger_1_group_3.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[45].dn"
 		;
-connectAttr "thumbFinger_1_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[8].dn"
+connectAttr "thumbFinger_3_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[46].dn"
 		;
-connectAttr "mirror_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[9].dn"
+connectAttr "thumbFinger_2_closed.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[47].dn"
 		;
-connectAttr "thumbFinger_2_outJoint_multMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[10].dn"
+connectAttr "thumbFinger_2_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[48].dn"
 		;
-connectAttr "thumbFinger_2_offset_decMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[11].dn"
+connectAttr "ringFinger_3_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[49].dn"
 		;
-connectAttr "multDoubleLinear2.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[12].dn"
+connectAttr "ringFinger_2_closed.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[50].dn"
 		;
-connectAttr "mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[13].dn";
-connectAttr "unitConversion1427.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[14].dn"
+connectAttr "setRange1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[51].dn";
+connectAttr "ringFinger_1_closed.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[52].dn"
 		;
-connectAttr "thumbFingerB_poserOrient.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[15].dn"
+connectAttr "ringFinger_1_group_3.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[53].dn"
 		;
-connectAttr "multDoubleLinear27.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[16].dn"
+connectAttr "ringFinger_3_closed.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[54].dn"
 		;
-connectAttr "fingers.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[17].dn";
-connectAttr "thumbFinger_1_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[18].dn"
+connectAttr "ringFinger_2_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[55].dn"
 		;
-connectAttr "thumbFinger_1_outJoint_decMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[19].dn"
+connectAttr "blendMatrix1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[56].dn";
+connectAttr "blendMatrix3.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[57].dn";
+connectAttr "decomposeMatrix3.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[58].dn"
 		;
-connectAttr "multDoubleLinear17.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[20].dn"
+connectAttr "decomposeMatrix10.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[59].dn"
 		;
-connectAttr "thumbFinger_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[21].dn";
-connectAttr "unitConversion1441.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[22].dn"
+connectAttr "indexFinger_1_group_3.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[60].dn"
 		;
-connectAttr "thumbFinger_1_group_multMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[23].dn"
+connectAttr "indexFinger_1_closed.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[61].dn"
 		;
-connectAttr "thumbFingerA_poserOrient.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[24].dn"
+connectAttr "blendMatrix4.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[62].dn";
+connectAttr "decomposeMatrix4.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[63].dn"
 		;
-connectAttr "thumbFinger_2_outJoint_decMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[25].dn"
+connectAttr "blendMatrix6.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[64].dn";
+connectAttr "blendMatrix5.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[65].dn";
+connectAttr "setRange2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[66].dn";
+connectAttr "middleFinger_3_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[67].dn"
 		;
-connectAttr "thumbFinger_1_group_decMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[26].dn"
+connectAttr "decomposeMatrix6.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[68].dn"
 		;
-connectAttr "multDoubleLinear3.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[27].dn"
+connectAttr "decomposeMatrix5.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[69].dn"
 		;
-connectAttr "composeMatrix1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[28].dn";
-connectAttr "multDoubleLinear28.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[29].dn"
+connectAttr "clamp1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[70].dn";
+connectAttr "pinkyFinger_1_closed.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[71].dn"
 		;
-connectAttr "thumbFinger_2_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[30].dn"
+connectAttr "pinkyFinger_2_closed.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[72].dn"
 		;
-connectAttr "unitConversion1426.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[31].dn"
+connectAttr "decomposeMatrix11.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[73].dn"
 		;
-connectAttr "thumbFinger_3_offset_multMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[0].dn"
+connectAttr "blendMatrix10.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[74].dn";
+connectAttr "pinkyFinger_2_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[75].dn"
 		;
-connectAttr "thumbFinger_2_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[1].dn"
+connectAttr "blendMatrix11.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[76].dn";
+connectAttr "decomposeMatrix12.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[77].dn"
 		;
-connectAttr "multDoubleLinear4.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[2].dn"
+connectAttr "pinkyFinger_1_group_3.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[78].dn"
 		;
-connectAttr "mirror_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[3].dn"
+connectAttr "multMatrix15.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[79].dn";
+connectAttr "multMatrix16.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[80].dn";
+connectAttr "unitConversion1453.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[81].dn"
 		;
-connectAttr "thumbFinger_3.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[4].dn";
-connectAttr "unitConversion1427.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[5].dn"
+connectAttr "composeMatrix7.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[82].dn";
+connectAttr "clamp2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[83].dn";
+connectAttr "multMatrix13.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[84].dn";
+connectAttr "composeMatrix6.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[85].dn";
+connectAttr "multMatrix11.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[86].dn";
+connectAttr "multMatrix12.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[87].dn";
+connectAttr "multMatrix14.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[88].dn";
+connectAttr "blendMatrix12.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[89].dn";
+connectAttr "setRange4.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[90].dn";
+connectAttr "pinkyFinger_3_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[91].dn"
 		;
-connectAttr "thumbFinger_2_offset_multMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[6].dn"
-		;
-connectAttr "thumbFingerC_poserOrient.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[7].dn"
-		;
-connectAttr "fingers.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[8].dn";
-connectAttr "thumbFinger_3_offset_decMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[9].dn"
-		;
-connectAttr "composeMatrix2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[10].dn";
-connectAttr "thumbFinger_2_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[11].dn"
-		;
-connectAttr "thumbFinger_3_outJoint_multMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[12].dn"
-		;
-connectAttr "multDoubleLinear3.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[13].dn"
-		;
-connectAttr "thumbFinger_3_outJoint_decMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[14].dn"
-		;
-connectAttr "thumbFinger_2_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[15].dn"
-		;
-connectAttr "thumbFinger_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[16].dn";
-connectAttr "thumbFinger_3_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[17].dn"
-		;
-connectAttr "thumbFinger_2_outJoint_multMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[18].dn"
-		;
-connectAttr "unitConversion1428.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[19].dn"
-		;
-connectAttr "mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[20].dn";
-connectAttr "multDoubleLinear28.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[21].dn"
-		;
-connectAttr "multDoubleLinear29.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[22].dn"
-		;
-connectAttr "thumbFinger_3_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[23].dn"
-		;
-connectAttr "thumbFinger_2_offset_decMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[24].dn"
-		;
-connectAttr "thumbFingerB_poserOrient.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[25].dn"
-		;
-connectAttr "thumbFinger_2_outJoint_decMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[26].dn"
-		;
-connectAttr "thumbFingerA_poserOrient.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[27].dn"
-		;
-connectAttr "thumbFinger_3_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[28].dn"
+connectAttr "pinkyFinger_3_closed.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[92].dn"
 		;
 connectAttr "root_connector_decomposeMatrix.msg" ":defaultRenderUtilityList1.u" 
 		-na;
@@ -6972,21 +7784,6 @@ connectAttr "mirror_condition.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear1.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "composeMatrix1.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "composeMatrix2.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear2.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear3.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear4.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear5.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear6.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear7.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear8.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear9.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear10.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear11.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear12.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear13.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear14.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear15.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear16.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear17.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear18.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear19.msg" ":defaultRenderUtilityList1.u" -na;
@@ -7021,5 +7818,27 @@ connectAttr "multDoubleLinear38.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear39.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear40.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear41.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "setRange1.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "setRange2.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "setRange3.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "setRange4.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "setRange5.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix1.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix2.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix4.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "clamp1.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix5.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix6.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix7.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix8.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix9.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix10.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix11.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix12.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix13.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "clamp2.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix14.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix15.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix16.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "defaultRenderLayer.msg" ":defaultRenderingList1.r" -na;
 // End of fingers.ma

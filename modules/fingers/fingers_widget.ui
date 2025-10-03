@@ -7,16 +7,35 @@
     <x>0</x>
     <y>0</y>
     <width>343</width>
-    <height>291</height>
+    <height>273</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="leftMargin">
+    <number>2</number>
+   </property>
    <property name="topMargin">
     <number>5</number>
    </property>
+   <property name="rightMargin">
+    <number>2</number>
+   </property>
+   <property name="bottomMargin">
+    <number>2</number>
+   </property>
+   <item>
+    <widget class="QPushButton" name="closePose_btn">
+     <property name="text">
+      <string>Edit Close Pose</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
    <item>
     <widget class="QFrame" name="delete_frame">
      <property name="frameShape">

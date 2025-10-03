@@ -1,11 +1,14 @@
 import maya.cmds as cmds
+import maya.mel as mel
 import pymel.core as pm
 from functools import partial
 import maya.OpenMayaUI as OpenMayaUI
 import os
+import maya.api.OpenMaya as om
 
 from ...ui.groupLabel import GroupLabel
-from ... import utils, module, controller
+from ... import utils, module, controller, tools
+
 
 version = int(cmds.about(v=True).split(" ")[0])
 if version <= 2024:
@@ -62,13 +65,16 @@ class Wing2(module.Module) :
 		self.widget.armSurf_btn.clicked.connect(self.toggle_arm_surf)
 		self.widget.featherPlanes_btn.clicked.connect(self.toggle_feathers_planes)
 
-		self.widget.match_btn.clicked.connect(self.match)
+		self.widget.matchSelected_btn.clicked.connect(partial(self.match, "sel"))
+		self.widget.matchAll_btn.clicked.connect(partial(self.match, "all"))
+		self.widget.leftToRight_btn.clicked.connect(self.fromLeftToRight)
 
 		self.widget.addLayer_btn.clicked.connect(self.add_layer)
 		self.widget.removeLastLayer_btn.clicked.connect(self.removeLastLayer)
 		self.widget.copy_btn.clicked.connect(self.copy)
 		self.widget.paste_btn.clicked.connect(self.paste)
 		self.widget.rebuild_btn.clicked.connect(partial(self.rebuildWithNewOptions, mainInstance, w))
+		# self.widget.combine_btn.clicked.connect(self.combineLayer)
 
 		self.widget.wide_slider.valueChanged.connect(partial(self.slider_update, "wide"))
 		self.widget.slideMin_slider.valueChanged.connect(partial(self.slider_update, "slideMin"))
@@ -514,11 +520,32 @@ class Wing2(module.Module) :
 			elif utils.getObjectSide(name) == "r":
 				opp_name = utils.getOpposite(name)
 				for d_name in ["wide", "slideMin", "slideMax", "lengthMin", "lengthMax", "offsetRoot", "offsetTip", "twistRoot", "twistTip", "bend"]:
+					# if "offset" in d_name:
+					# 	m = cmds.createNode("multDoubleLinear")
+					# 	cmds.connectAttr(f"{opp_name}_layer_{layer_id}_control.{d_name}", m+".input1")
+					# 	cmds.setAttr(m+".input2", -1)
+					# 	cmds.connectAttr(m+".output", f"{name}_layer_{layer_id}_control.{d_name}")
+					# else:
 					cmds.connectAttr(f"{opp_name}_layer_{layer_id}_control.{d_name}", f"{name}_layer_{layer_id}_control.{d_name}")
 				
-				connections = cmds.listConnections(f"{name}_mainPoser.flatten", plugs=True, destination=False)
-				if not connections:
-					cmds.connectAttr(f"{opp_name}_mainPoser.flatten", f"{name}_mainPoser.flatten")
+				# connections = cmds.listConnections(f"{name}_mainPoser.flatten", plugs=True, destination=False)
+				# if not connections:
+				# 	cmds.connectAttr(f"{opp_name}_mainPoser.flatten", f"{name}_mainPoser.flatten")
+				# 	cmds.connectAttr(f"{opp_name}_mainPoser.dysplayPosers", f"{name}_mainPoser.dysplayPosers")
+
+				# def connectOppClosedPosers(c):
+				# 	print(333, c)
+				# 	cmds.connectAttr(f"{opp_name}_{c}.t", f"{name}_{c}.t")
+				# 	try:
+				# 		cmds.connectAttr(f"{opp_name}_{c}.r", f"{name}_{c}.r")
+				# 	except: pass
+
+				# for c in ["clav_closed", "ik_root_closed", "ik_aim_closed", "ik_end_closed", 
+			  	# 			"main_4_closed", "main_3_closed", "main_2_closed", "main_1_closed"]:
+				# 	connectOppClosedPosers(c)
+				# for i in range(1, 8):
+				# 	for n in range(1, 4):
+				# 		connectOppClosedPosers("feathers_{i}_{n}_closed")
 
 		pm.select(layer_c)
 
@@ -563,13 +590,57 @@ class Wing2(module.Module) :
 
 	def connect(self, target, opposite=False, makeSeamless=False):
 		super(self.__class__, self).connect(target, opposite, makeSeamless)
-		return
+		
 		# # Connect inbetween attrs
 		if opposite:
-			oppModuleName = utils.getOpposite(self.name)
-			for i in range(1, 5):
-				for n in range(1, 5):
-					cmds.connectAttr(oppModuleName+"_mod.inbetween_%s_%s" %(i, n), self.name+"_mod.inbetween_%s_%s" %(i, n), f=1)
+			name = self.name
+			opp_name = utils.getOpposite(self.name)
+			connections = cmds.listConnections(f"{name}_mainPoser.flatten", plugs=True, destination=False)
+			if not connections:
+				cmds.connectAttr(f"{opp_name}_mainPoser.flatten", f"{name}_mainPoser.flatten")
+
+			def connectOppClosedPosers(c):
+				cmds.connectAttr(f"{opp_name}_{c}.t", f"{name}_{c}.t")
+				try:
+					cmds.connectAttr(f"{opp_name}_{c}.r", f"{name}_{c}.r")
+				except: pass
+
+			cm = pm.createNode("composeMatrix")
+			cm.inputScaleX.set(-1)
+
+			def connectOppClosedPosersByMatrix(c):
+				mm = pm.createNode("multMatrix")
+				dm = pm.createNode("decomposeMatrix")
+				p = pm.listRelatives(f"{name}_{c}", p=1)[0]
+
+				pm.connectAttr(f"{opp_name}_{c}.worldMatrix[0]", mm.matrixIn[0])
+				cm.outputMatrix >> mm.matrixIn[1]
+				p.worldInverseMatrix[0] >> mm.matrixIn[2]
+				mm.matrixSum >> dm.inputMatrix
+				pm.connectAttr(dm.outputTranslate, f"{name}_{c}.t")
+
+				if c == "ik_end_closed":
+					uc = pm.createNode("multDoubleLinear")
+					uc.input2.set(-1)
+					add = pm.createNode("addDoubleLinear")
+					add.input2.set(180)
+					pm.connectAttr(dm.outputRotateX, uc.input1)
+					pm.connectAttr(uc.output, f"{name}_{c}.rx")
+					pm.connectAttr(dm.outputRotateY, add.input1)
+					pm.connectAttr(add.output, f"{name}_{c}.ry")
+					pm.connectAttr(dm.outputRotateZ, f"{name}_{c}.rz")
+
+			for c in ["clav_closed", "ik_root_closed", 
+						"main_4_closed", "main_3_closed", "main_2_closed", "main_1_closed"]:
+				connectOppClosedPosers(c)
+
+			for c in ["ik_aim_closed", "ik_end_closed"]:
+				connectOppClosedPosersByMatrix(c)
+
+			for i in range(1, 8):
+				for n in range(1, 4):
+					# print(33333, f"feathers_{i}_{n}_closed")
+					connectOppClosedPosers(f"feathers_{i}_{n}_closed")
 		
 	def deleteLayer(self, mainInstance=None, widget=None, layer_id=1, update=True):
 		# print("DELETE", layer_id)
@@ -683,9 +754,185 @@ class Wing2(module.Module) :
 
 		self.select_layer(self.layer_id)
 
-	def match(self):
-		print(111, self.layer_id)
+	def fromLeftToRight(self):
+		for i in range(100):
+			if not cmds.objExists(self.name+"_layer_%s_feather_%s" %(self.layer_id,i)):
+				break
+			s = pm.PyNode(self.name+"_layer_%s_feather_%s" %(self.layer_id,i))
+			t = pm.PyNode(utils.getOpposite(self.name)+"_layer_%s_feather_%s" %(self.layer_id,i))
+			t.length.set(s.length.get())
+			t.middle_1_pos.set(s.middle_1_pos.get())
+			t.middle_2_pos.set(s.middle_2_pos.get())
+			t.tip_pos.set(s.tip_pos.get())
+			t.root_pos.set(s.root_pos.get())
+			t.wide.set(s.wide.get())
+			t.lengthMin.set(s.lengthMin.get())
+			t.bend.set(s.bend.get())
 
+	def match(self, type):
+		def project_on_plane(source_mesh, target_mesh):
+			"""
+			Проецирует вершины source_mesh на плоскость, определяемую target_mesh.
+
+			Args:
+				source_mesh (str): Имя исходного объекта (который проецируем).
+				target_mesh (str): Имя целевого объекта (который задает плоскость).
+			"""
+			
+			# 1. Определяем плоскость по целевому объекту
+			# Получаем путь к DAG-ноде объекта для доступа через API
+			sel_list = om.MSelectionList()
+			sel_list.add(target_mesh)
+			target_dag_path = sel_list.getDagPath(0)
+			
+			# Используем MFnMesh для получения нормали первого полигона в мировых координатах
+			mfn_mesh = om.MFnMesh(target_dag_path)
+			plane_normal = mfn_mesh.getPolygonNormal(0, om.MSpace.kWorld)
+			
+			# Находим центр bounding box целевого объекта. Эта точка будет лежать на нашей плоскости.
+			bbox_center_raw = cmds.xform(target_mesh, query=True, boundingBox=True, worldSpace=True)
+			plane_point = om.MPoint(
+				(bbox_center_raw[0] + bbox_center_raw[3]) / 2.0,
+				(bbox_center_raw[1] + bbox_center_raw[4]) / 2.0,
+				(bbox_center_raw[2] + bbox_center_raw[5]) / 2.0
+			)
+
+			# 2. Проецируем вершины исходного объекта
+			# Получаем список всех вершин
+			source_vertices = cmds.ls(f'{source_mesh}.vtx[*]', flatten=True)
+			
+			# Направление луча для проекции - инвертированная нормаль плоскости
+			ray_direction = -plane_normal
+			
+			for vtx in source_vertices:
+				# Получаем начальную позицию вершины (точка, из которой пускаем луч)
+				start_pos_raw = cmds.pointPosition(vtx, world=True)
+				ray_origin = om.MPoint(start_pos_raw)
+				
+				# --- Математика пересечения луча и плоскости ---
+				# Формула для нахождения точки пересечения:
+				# t = ((plane_point - ray_origin) * plane_normal) / (ray_direction * plane_normal)
+				# IntersectionPoint = ray_origin + ray_direction * t
+				
+				dot_denom = ray_direction * plane_normal
+				
+				# Проверка, чтобы избежать деления на ноль (если луч параллелен плоскости)
+				if abs(dot_denom) < 1e-6:
+					continue
+					
+				w = plane_point - ray_origin
+				dot_nom = w * plane_normal
+				t = dot_nom / dot_denom
+				
+				# Рассчитываем конечную точку пересечения
+				hit_point = ray_origin + ray_direction * t
+				
+				# Перемещаем вершину в рассчитанную точку
+				cmds.move(hit_point.x, hit_point.y, hit_point.z, vtx, absolute=True, worldSpace=True)
+				
+			cmds.refresh()
+			# print(f"Проекция {source_mesh} на плоскость {target_mesh} завершена.")
+
+		# for i in range()
+
+		if type == "sel":
+			selection = cmds.ls(selection=True, long=True)
+			if len(selection) != 2:
+				cmds.warning("Select feather geo and plain.")
+				return
+				
+			source_mesh, target_mesh = selection
+			
+			project_on_plane(source_mesh, target_mesh)
+				
+			# copy skin
+			cmds.select(target_mesh, source_mesh)
+			tools.copySkin()
+
+		elif type == "all":
+			feathersCount = int(self.widget.feathersCount_lineEdit.text())
+			
+			for i in range(feathersCount):
+				source_mesh = f"l_feather_{self.layer_id}_{i}_geo"
+				if not cmds.objExists(source_mesh):
+					cmds.warning("Missed feather geometry "+source_mesh)
+					return
+				
+			if self.symmetrical:
+				for i in range(feathersCount):
+					source_mesh = f"r_feather_{self.layer_id}_{i}_geo"
+					if not cmds.objExists(source_mesh):
+						cmds.warning("Missed feather geometry "+source_mesh)
+						return
+
+			for i in range(feathersCount):
+				source_mesh = f"l_feather_{self.layer_id}_{i}_geo"
+				target_mesh =  self.name+f"_layer_{self.layer_id}_feather_{i}_geo"
+				cmds.select(source_mesh)
+				cmds.DeleteHistory()
+				project_on_plane(source_mesh, target_mesh)
+				cmds.select(target_mesh, source_mesh)
+				tools.copySkin()
+
+			if self.symmetrical:
+				for i in range(feathersCount):
+					source_mesh = f"r_feather_{self.layer_id}_{i}_geo"
+					target_mesh =  utils.getOpposite(self.name)+f"_layer_{self.layer_id}_feather_{i}_geo"
+					cmds.select(source_mesh)
+					cmds.DeleteHistory()
+					project_on_plane(source_mesh, target_mesh)
+					cmds.select(target_mesh, source_mesh)
+					tools.copySkin()
+
+	def combineLayer(self): # not used
+		def run(geo_name, par):
+			selection = cmds.ls(sl=True)
+			joint_list = []
+			
+			for item in selection:       
+				findSkinStart = mel.eval('findRelatedSkinCluster ' + item)
+				
+				if cmds.objExists (findSkinStart):
+					print (findSkinStart)
+		
+				matrix_array = cmds.getAttr(findSkinStart + ".matrix", mi = True)
+
+				for i in matrix_array:
+					list = cmds.connectionInfo(findSkinStart + ".matrix[" + str(i) + "]", sourceFromDestination = True)
+					joint = list.split(".")
+					joint_list.append(joint[0])         
+							
+
+			if (len(selection) > 0):
+					print (selection)
+					for i in range(1):
+						duplicateObj = cmds.duplicate (selection)
+						createGrp = cmds.group (duplicateObj)        
+						combine = cmds.polyUnite (createGrp, name = geo_name)
+						deleteHistory = cmds.delete (combine, ch=True)
+						deleteGrp = cmds.select (cmds.delete (createGrp))
+						newskin = cmds.skinCluster(joint_list,geo_name, n=geo_name + "_SKC")
+						newSelect = cmds.select (joint_list, selection, geo_name, add= True )
+						transfer = cmds.copySkinWeights (nm=True, sa ="closestPoint", ia ="closestJoint")
+						delete = cmds.delete (selection)
+						selectnewobj = cmds.select (geo_name)
+						cleanSkinEnd = mel.eval('removeUnusedInfluences ')
+
+						deselect = cmds.select (cl=True)
+
+			if par:
+				cmds.parent(geo_name, par)
+
+		geo_name = f"l_feathers_{self.layer_id}_geo"
+		cmds.select(f"l_feather_{self.layer_id}_*_geo")
+		par = cmds.listRelatives(f"l_feather_{self.layer_id}_0_geo", p=1)[0] or None
+		run(geo_name, par)
+
+		if self.symmetrical:
+			geo_name = f"r_feathers_{self.layer_id}_geo"
+			cmds.select(f"r_feather_{self.layer_id}_*_geo")
+			par = cmds.listRelatives(f"r_feather_{self.layer_id}_0_geo", p=1)[0] or None
+			run(geo_name, par)
 
 class InputDialog(QtWidgets.QDialog):
 	def __init__(self, widget=None, parent=None):

@@ -680,3 +680,6 @@ Mirror, Symmetry and IkFkSwitch buttons feature
 New Wing2 module
 Modules tree ui fixes
 LimbCurved module
+
+---Version 3.16.1
+Fixed Spine module orient joints
