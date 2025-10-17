@@ -68,12 +68,12 @@ class Foot(module.Module) :
 			ik_end = utils.getControlNameFromInternal(targetModuleName, "ik_end")
 			cmds.setAttr(ik_end+"Shape.v", False)
 					
-		# if target_mod_type in ['limbCurved']:
-		# 	con = cmds.listRelatives(targetModuleName+'_twistDown_end_connector', type="parentConstraint")
-		# 	cmds.delete(con)
-		# 	con = cmds.parentConstraint(self.name+"_root_outJoint", targetModuleName+'_twistDown_end_connector', mo=0)[0]
-		# 	cmds.connectAttr(targetModuleName+"_mirror_condition.outColorG", con+".target[0].targetOffsetRotateY")
-		# 	cmds.connectAttr(targetModuleName+"_reverse_condition.outColorR", con+".target[0].targetOffsetRotateX")
+		if target_mod_type in ['limbCurved']:
+			con = cmds.listRelatives(targetModuleName+'_twistDown_end_connector', type="parentConstraint")
+			cmds.delete(con)
+			con = cmds.parentConstraint(self.name+"_root_outJoint", targetModuleName+'_twistDown_end_connector', mo=0)[0]
+			cmds.connectAttr(targetModuleName+"_mirror_condition.outColorG", con+".target[0].targetOffsetRotateY")
+			cmds.connectAttr(targetModuleName+"_reverse_condition.outColorR", con+".target[0].targetOffsetRotateX")
 					
 		# if target_mod_type in ['limbCurvedQuadrupped']:
 		# 	con = cmds.listRelatives(targetModuleName+'_twistDown_end_connector', type="parentConstraint")

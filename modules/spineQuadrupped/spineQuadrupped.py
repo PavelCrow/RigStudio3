@@ -18,7 +18,7 @@ class SpineQuadrupped(module.Module) :
 		
 		# reroot end skin joint after connect
 		last_id = len(cmds.listRelatives(self.name+"_bendJoints"))
-		cmds.parent(self.name+"_end_skinJoint", self.name+"_local_%s_skinJoint" %last_id)
+		cmds.parent(self.name+"_end_skinJoint", self.name+"_chain_%s_skinJoint" %last_id)
 		utils.removeTransformParentJoint(self.name+"_end_skinJoint")
 	
 	def connectSignals(self, mainInstance, w): #
@@ -62,10 +62,10 @@ class SpineQuadrupped(module.Module) :
 		
 		cmds.parent(name+'_end_skinJoint', name+'_root_skinJoint')
 		utils.removeTransformParentJoint(name+'_end_skinJoint')
-		cmds.delete(name+'_local_1_skinJoint')
+		cmds.delete(name+'_chain_1_skinJoint')
 		# cmds.parent(name+'_end_outJoint', name+'_root_outJoint')
 		# utils.removeTransformParentJoint(name+'_end_outJoint')
-		cmds.delete(name+'_local_1_outJoint')
+		cmds.delete(name+'_chain_1_outJoint')
 		
 		# joints
 		for f in cmds.listRelatives(name+'_bendJoints'):
@@ -76,7 +76,7 @@ class SpineQuadrupped(module.Module) :
 		for i in range(count):
 			f = cmds.createNode("follicle")
 			fT = cmds.listRelatives(f, p=1)[0]
-			fT = cmds.rename(fT, name+'_local_%s_follicle' %(i+1))
+			fT = cmds.rename(fT, name+'_chain_%s_follicle' %(i+1))
 			f = fT + "Shape"
 			utils.addModuleNameAttr(fT, name)
 			cmds.connectAttr(f+".outTranslate", fT+".t")
@@ -131,7 +131,7 @@ class SpineQuadrupped(module.Module) :
 		for i in range(count):
 			f = cmds.createNode("follicle")
 			fT = cmds.listRelatives(f, p=1)[0]
-			fT = cmds.rename(fT, name+'_local_%s_initFollicle' %(i+1))
+			fT = cmds.rename(fT, name+'_chain_%s_initFollicle' %(i+1))
 			f = fT + "Shape"
 			utils.addModuleNameAttr(fT, name)
 			
@@ -158,7 +158,7 @@ class SpineQuadrupped(module.Module) :
 			cmds.setAttr( f+".parameterU", u )
 			cmds.delete(near)
 			
-			l = cmds.spaceLocator(n=name+'_local_%s_initLoc' %(i+1))[0]
+			l = cmds.spaceLocator(n=name+'_chain_%s_initLoc' %(i+1))[0]
 			locs.append(l)
 			utils.addModuleNameAttr(l, name)
 			cmds.parent(l, fT)
@@ -183,7 +183,7 @@ class SpineQuadrupped(module.Module) :
 		out_joints = []
 		cmds.select(name+'_root_outJoint')
 		for i in range(count):
-			j_out = cmds.joint(n=name+'_local_%s_outJoint' %(i+1))
+			j_out = cmds.joint(n=name+'_chain_%s_outJoint' %(i+1))
 			utils.addModuleNameAttr(j_out, name)
 			out_joints.append(j_out)
 	
@@ -195,15 +195,15 @@ class SpineQuadrupped(module.Module) :
 		skin_joints = []
 		cmds.select(name+'_root_skinJoint')
 		for i in range(count):
-			j = cmds.joint(n=name+'_local_%s_skinJoint' %(i+1))
+			j = cmds.joint(n=name+'_chain_%s_skinJoint' %(i+1))
 			utils.addModuleNameAttr(j, name)
 			skin_joints.append(j)
 	
 		for i in range(count):
 			utils.connectByMatrix(skin_joints[i], [bend_joints[i], skin_joints[i]], ['worldMatrix[0]', 'parentInverseMatrix[0]'], name)
-			cmds.disconnectAttr(name+"_local_%s_skinJoint_decMat.outputScaleX" %(i+1), skin_joints[i]+".scaleX")
-			cmds.disconnectAttr(name+"_local_%s_skinJoint_decMat.outputScaleY" %(i+1), skin_joints[i]+".scaleY")
-			cmds.disconnectAttr(name+"_local_%s_skinJoint_decMat.outputScaleZ" %(i+1), skin_joints[i]+".scaleZ")
+			cmds.disconnectAttr(name+"_chain_%s_skinJoint_decMat.outputScaleX" %(i+1), skin_joints[i]+".scaleX")
+			cmds.disconnectAttr(name+"_chain_%s_skinJoint_decMat.outputScaleY" %(i+1), skin_joints[i]+".scaleY")
+			cmds.disconnectAttr(name+"_chain_%s_skinJoint_decMat.outputScaleZ" %(i+1), skin_joints[i]+".scaleZ")
 			cmds.connectAttr(name+"_squash_blendTwoAttr.output", skin_joints[i]+".scaleY")
 			cmds.connectAttr(name+"_squash_blendTwoAttr.output", skin_joints[i]+".scaleZ")
 	
@@ -213,7 +213,7 @@ class SpineQuadrupped(module.Module) :
 		# cmds.parent(name+'_end_outJoint', out_joints[count-1])
 		# utils.removeTransformParentJoint(name+'_end_outJoint')
 
-		# hide last local out joint
+		# hide last chain out joint
 		cmds.setAttr(name+'_end_outJoint.drawStyle', 2)
 	
 	def delete(self):
@@ -231,7 +231,7 @@ class SpineQuadrupped(module.Module) :
 		
 		cmds.setAttr(self.name+"_root_skinJoint.segmentScaleCompensate", 0)
 		
-		cmds.parent(self.name+"_end_skinJoint", self.name+"_local_%s_skinJoint" %last_id)
+		cmds.parent(self.name+"_end_skinJoint", self.name+"_chain_%s_skinJoint" %last_id)
 		utils.removeTransformParentJoint(self.name+"_end_skinJoint")
 
 	def bake(self):

@@ -421,6 +421,67 @@ class Twist(object):
         # module override
         mod = utils.getModuleInstance(moduleName)
         mod.twistOverride(t_name, data)
+
+        if data and "controlsShapeData" in data:
+            # set controls shapes
+            for ctrl in data['controlsShapeData']:
+                # print (ctrl, "---- > " , data['controlsShapeData'][ctrl])
+                ctrlName = data['controlsNamesData'][ctrl]
+                ctrlName = utils.getRealNameFromTemplated(t_name, ctrlName)
+                # print (ctrl, "---- > " , ctrlName)
+                if not cmds.objExists(ctrlName):
+                    continue
+                cmd = data['controlsShapeData'][ctrl]
+                
+                utils.setUserAttr(ctrlName, 'customShapeCommand', cmd, type="string")
+                
+                control = utils.getControlInstance(ctrlName)
+                if control:
+                    control.setShape(cmd)
+
+
+            # controls visibility and color
+            controlNames = [t_name+"_twist", t_name+"_twist_1", t_name+"_twist_2", t_name+"_twist_3"]
+            for cName in controlNames:
+                # try:
+                intName = utils.getInternalNameFromControl(cName)
+                
+                if intName not in data['controlsNamesData']:
+                    # cmds.warning("Missed control data to load "+ cName)
+                    continue
+
+                savedName_templated = data['controlsNamesData'][intName]
+                savedName = utils.getRealNameFromTemplated(t_name, savedName_templated)
+                # if sym and not "MODNAME" in savedName_templated:
+                #     savedName = utils.getOpposite(savedName)
+
+                shapes = cmds.listRelatives(cName, s=1)
+
+                for s in shapes:
+                    try:
+                        if not cmds.listConnections(s+'.v'):
+                            cmds.setAttr(s+'.v', data['controlsVisData'][intName])		
+                    except: 
+                        cmds.warning(s+" shape cannot change visibility")
+
+                    if data['controlsColorData'][intName]:
+                        cmds.setAttr(s+".overrideEnabled", 1)
+                    else:
+                        cmds.setAttr(s+".overrideEnabled", 1)
+                    cmds.setAttr(s+'.overrideColor', data['controlsColorData'][intName])				
+
+                # attributes
+                default_attrs = utils.getVisibleAttrs(cName)
+                for a in default_attrs:
+                    if intName+"."+a in data['controlsAttrData']:
+                        try:
+                            cmds.setAttr(cName+"."+a, data['controlsAttrData'][intName+"."+a])
+                        except: 
+                            cmds.warning(cName+"."+a+" is cannot set data "+str(data['controlsAttrData'][intName+"."+a]))
+                    else:
+                        cmds.setAttr(cName+"."+a, keyable=0, lock=1)
+
+
         
         # select item in list
         self.updateList()
@@ -781,7 +842,6 @@ class Twist(object):
             twData['endOffsetR'] = cmds.xform(opp + "_end_connectorLoc", query=True, worldSpace=True, rotation=True)
 
 
-        
         jointsPos = []
         for i in range(jointsCount):
             pos = cmds.getAttr(twName+"_twist_%s_twJoint.pos" %i)
@@ -802,6 +862,45 @@ class Twist(object):
             twData['endTarget'] = utils.getTemplatedNameFromReal(module_name, twData['endTarget'])
             twData['rootOrientTarget'] = utils.getTemplatedNameFromReal(module_name, twData['rootOrientTarget'])
             twData['endOrientTarget'] = utils.getTemplatedNameFromReal(module_name, twData['endOrientTarget'])
+
+        def getControlsShapeData():
+            controlsAttrData = {}
+            controlsNamesData = {}
+            controlsVisData = {}
+            controlsColorData = {}
+            controlsShapeData = {}
+
+            controlNames = [twName+"_twist", twName+"_twist_1", twName+"_twist_2", twName+"_twist_3"]
+            for cName in controlNames:
+                # name
+                control = cmds.getAttr(cName + ".internalName")
+                controlsNamesData[control] = utils.getTemplatedNameFromReal(twName, cName)
+                # attributes
+                for attr in utils.getVisibleAttrs(cName):
+                    attrVar = cmds.getAttr(cName + "." + attr)
+                    controlsAttrData[(control + "." + attr)] = attrVar
+                # visibility
+                shapes = cmds.listRelatives(cName, s=1)
+                if shapes:
+                    vis = cmds.getAttr(shapes[0]+'.v')		
+                    controlsVisData[control] = vis
+                    # color
+                    if cmds.getAttr(shapes[0]+".overrideEnabled"):
+                        color = cmds.getAttr(shapes[0]+'.overrideColor')
+                    else:
+                        color = 0
+                    controlsColorData[control] = color
+                    # shape
+                    controlsShapeData[control] = utils.curveShapeToCommand(cName)
+
+            return controlsAttrData, controlsNamesData, controlsVisData, controlsColorData, controlsShapeData
+        
+        controlsData = getControlsShapeData()
+        twData['controlsAttrData'] = controlsData[0]	
+        twData['controlsNamesData'] = controlsData[1]	
+        twData['controlsVisData'] = controlsData[2]
+        twData['controlsColorData'] = controlsData[3]	
+        twData['controlsShapeData'] = controlsData[4]	
         
         return twData
 

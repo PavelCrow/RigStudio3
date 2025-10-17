@@ -364,9 +364,12 @@ def getModuleName(obj): #
 	# 	j = p.replace("joints", "outJoint")
 
 	path = cmds.ls(j, l=1) or []
+	if path:
+		moduleName = path[0].split("rig|modules|")[-1].split("_mod|")[0]
+	else:
+		moduleName = None
+		cmds.warning("utils|getModuleName - Missed "+j)
 
-	moduleName = path[0].split("rig|modules|")[-1].split("_mod|")[0]
-	# print(222,moduleName)
 	return moduleName
 
 def capitalizeName(name):

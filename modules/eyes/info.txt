@@ -2,3 +2,4 @@ ver=1.0=
 description=Eyes rig with automatic eyelids moving. Ik and Fk system.
 section=Face
 advanced=False
+type=Pro

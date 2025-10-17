@@ -2,3 +2,4 @@ ver=1.0=
 description=Point rig with one controller.
 section=Base
 advanced=False
+type=Standart

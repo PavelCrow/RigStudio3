@@ -250,21 +250,31 @@ class Module(object):
         target_initLoc = target[:-len(targetType)] + "initLoc"
         connector_parent = cmds.listRelatives(connector, p=1)[0]
 
+        # print(1111, target)
+        # print(111, target_outJoint)
+        # print(222, target_initLoc)
+        # print(333, target_joint)
+
         if cmds.objExists(target_add_poser):
             target_poser = target_add_poser
 
         if not cmds.objExists(target_poser):
             target_poser = utils.getClosestPoser(target_module_name, target_joint)
 
-        if cmds.objExists(target_module_name+"_mod.useClosestInitLocs"):
-            if cmds.getAttr(target_module_name+"_mod.useClosestInitLocs"):
-                target_outJoint = ""
+        # if cmds.objExists(target_module_name+"_mod.useClosestInitLocs"):
+        #     print(13)
+        #     if cmds.getAttr(target_module_name+"_mod.useClosestInitLocs"):
+        #         target_outJoint = ""
 
         if not cmds.objExists(target_outJoint):
             target_outJoint = utils.getClosestOutJoint(target_module_name, target)
             target_initLoc = target_outJoint.replace("outJoint", "initLoc")
             target_joint = target_outJoint.replace("outJoint", "skinJoint")
 
+        # print(1111, target)
+        # print(111, target_outJoint)
+        # print(222, target_initLoc)
+        # print(333, target_joint)
         
         # save position
         initMatrix = cmds.xform(self.name+'_mainPoser', query=True, ws=True, m=True)
@@ -489,7 +499,7 @@ class Module(object):
             addCtrlsData = []
             self.getAdditionalControls()
 
-            # Создаем список тсоритованный по глубине
+            # Создаем список отсоритованный по глубине
             hierarchy = {}
             root_add_controls = []
             for c in self.additionalControls:

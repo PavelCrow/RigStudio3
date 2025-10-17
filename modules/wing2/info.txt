@@ -1,4 +1,5 @@
 ver=1.0=
-description=Description
+description=SMF Pro Wing module. Used Bifrost.
 section=Bird
 advanced=False
+type=Smf

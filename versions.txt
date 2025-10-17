@@ -683,3 +683,11 @@ LimbCurved module
 
 ---Version 3.16.1
 Fixed Spine module orient joints
+
+---Version 3.16.2
+Export fix
+Module Builder loading fix
+
+---Version 3.16.3
+Add controls creating fix
+Fixed connect foots modules to LimbCurved module

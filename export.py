@@ -1,7 +1,5 @@
 # Rig Studio EXPORT
-import shutil
-import glob
-import os, imp
+import shutil, os, subprocess
 import maya.cmds as cmds
 
 
@@ -16,6 +14,7 @@ def run(clearPy=False):
 	temp_folder = r"F:\Maya_Projects\rigStudio3_out\temp"
 	rs_free = r"F:\Maya_Projects\rigStudio3_out\free"
 	rs_pro = r"F:\Maya_Projects\rigStudio3_out\pro"
+	rs_smf = r"F:\Maya_Projects\rigStudio3_out\smf"
 	yd_folder = r"C:\Users\pavel\YandexDisk\RS\releases"
 	
 	# Удаление временной папки
@@ -33,35 +32,55 @@ def run(clearPy=False):
 	# Исключаем ненужные файлы и папки
 	exclude = ["__pycache__", ".idea", ".vscode", "_old", "licenses", "incrementalSave", ".mayaSwatches", 
 			".git", "*.psd", "*.pyc",
-			"rigStudio3.code-workspace", ".gitignore", "check.py", "main.py"]
+			"rigStudio3.code-workspace", ".gitignore"] #, "check.py", "main.py"]
 	
-	pro_modules = ["eyesGeometry", "wing", "birdFoot"]
-	extra_modules = ["browsSimple", "eyes", "mouth", "eyelidsSimple"]
-	
+
 	copy_project(rs_folder, rs_out, exclude)
 
-	os.makedirs(os.path.join(rs_out, "licenses"))
-
-	s= os.path.join(rs_folder, "__pycache__")
-	d= os.path.join(rs_out, "__pycache__")
-	shutil.copytree(s , d)
+	pro_modules = []
+	smf_modules = []
+	wip_modules = []
+	extra_modules = []
 	
-	# Очистка modules folder  
+	# Удаление Pro-модулей  
 	mod_folder = os.path.join(rs_out, "modules")
 	files = os.listdir(mod_folder)
+	for d in files:
+		if os.path.isdir(os.path.join(mod_folder, d)):
+			with open(os.path.join(mod_folder, d)+'/info.txt') as f:
+				lines = f.readlines()
+			for l in lines:
+				if 'type=' in l:
+					tp = l.split("=")[-1]
+					if tp == "Pro":
+						pro_modules.append(d)
+					elif tp == "Smf":
+						smf_modules.append(d)
+					elif tp == "Wip":
+						wip_modules.append(d)
+					elif tp == "Extra":
+						extra_modules.append(d)
+                
+	print("pro", pro_modules)
+	print("smf", smf_modules)
+	print("wip", wip_modules)
+	print("extra", extra_modules)
+
+	os.makedirs(os.path.join(rs_out, "licenses"))
+	os.makedirs(os.path.join(rs_out, "__pycache__"))
+
+	copmpile_pyc( os.path.join(rs_out, "main.py"))
+	copmpile_pyc( os.path.join(rs_out, "check.py"))
+
+	os.remove(os.path.join(rs_out, "main.py"))
+	os.remove(os.path.join(rs_out, "check.py"))
+
+	# Удаление модулей с префиксом "_"
 	for f in files:
 		if not os.path.isfile(os.path.join(mod_folder, f)):
 			if f[0] == '_':
 				shutil.rmtree(os.path.join(mod_folder, f))
 
-
-	# Удаление Pro-модулей  
-	mod_folder = os.path.join(rs_out, "modules")
-	files = os.listdir(mod_folder)
-	for f in files:
-		if f in pro_modules:
-			shutil.rmtree(os.path.join(mod_folder, f))
-	
 	# Получение версии из versions.txt
 	with open(rs_folder+'/versions.txt') as f:
 		lines = f.readlines()
@@ -71,76 +90,77 @@ def run(clearPy=False):
 			versions.append(l)
 	lastVestion = versions[-1].split('---')[1].strip() 
 	num = lastVestion.split("Version ")[1].split(" Beta")[0]
-	
-	# ✅ Создаём архив
-	archive = os.path.join(rs_pro, f"rigStudio{num}Pro")
+
+	# Удаление Wip-модулей  
+	for f in files:
+		if f in wip_modules:
+			shutil.rmtree(os.path.join(mod_folder, f))
+
+	# Создаём SMF архив
+	archive = os.path.join(rs_smf, f"rigStudio{num}SMF")
 	shutil.make_archive(archive, 'zip', temp_folder)
-	print(111, archive)
-	shutil.copy(archive+".zip", os.path.join(yd_folder, "rs 3 pro version"))
+	shutil.copy(archive+".zip", os.path.join(yd_folder, "rs 3 smf version"))
+
+	# Удаление Smf-модулей  
+	for f in files:
+		if f in smf_modules:
+			shutil.rmtree(os.path.join(mod_folder, f))
 
 	# Удаление Extra-модулей  
-	mod_folder = os.path.join(rs_out, "modules")
-	files = os.listdir(mod_folder)
 	for f in files:
 		if f in extra_modules:
 			shutil.rmtree(os.path.join(mod_folder, f))
+
+	# Создаём Pro архив
+	archive = os.path.join(rs_pro, f"rigStudio{num}Pro")
+	shutil.make_archive(archive, 'zip', temp_folder)
+	shutil.copy(archive+".zip", os.path.join(yd_folder, "rs 3 pro version"))
+
+	# Удаление Pro-модулей  
+	for f in files:
+		if f in pro_modules:
+			shutil.rmtree(os.path.join(mod_folder, f))
 	
-	# ✅ Создаём архив
+	# Создаём Free архив
 	archive = os.path.join(rs_free, f"rigStudio{num}Free")
 	shutil.make_archive(archive, 'zip', temp_folder)
 	shutil.copy(archive+".zip", os.path.join(yd_folder, "rs 3 free version"))
 
-	return
-	os.remove(rs_out_tool+"/full")
-	os.remove(rs_out_folder+'/rigStudio_picker/picker/full')
-	
-	# remove advanced modules
-	def moduleIsAdvanced(m_name):
-		with open(rs_out_tool+'/modules/'+m_name+'/info.txt') as f:
-			lines = f.readlines()	
-		if lines[3].split('\r')[0].split('=')[1] == "True":
-			return True
-		else:
-			return False
-		
-	files = os.listdir(rs_out_tool+"/modules")
-	modules = []
-	for f in files:
-		if not os.path.isfile(rs_out_tool+"/modules/"+f):
-			modules.append(f)
-	for m in modules:
-		if moduleIsAdvanced(m):
-			print (m, "Advanced")
-			dir = rs_out_tool+"/modules/"+m
-			if os.path.exists(dir):
-				shutil.rmtree(dir)		
-				
-	shutil.rmtree(rs_out_tool+"/matchRig")	
-	
-	# archive lite file
-	out_file = rs_folder.split("mayaScripts")[0] + '/Public/rigStudio'+num
-	shutil.make_archive(out_file, 'zip', rs_out_folder)	
-
 	print ("Export Done")
 
-def clear():
-	fileName = __name__.split('.')[0]
-	rs_folder = os.path.abspath(imp.find_module(fileName)[1])
 
-	# Remove .pyc files
 
-	filelist = glob.glob(rs_folder+"/*.pyc")
-	
-	for file in filelist:
-		print (file)
-		if file.split('\\')[-1] == 'Qt.pyc':
-			continue
-		os.remove(file)
 
-	filelist = glob.glob(rs_folder+"/rigStudio_picker/*.pyc")
-	
-	for file in filelist:
-		print (file)
-		if file.split('\\')[-1] == 'Qt.pyc':
-			continue
-		os.remove(file)
+def find_maya_python_executables():
+    """Находит пути к mayapy.exe для установленных версий Maya."""
+    maya_versions = {
+        "2022": "3.7",  # Python 3.7
+        "2023": "3.7",  # Python 3.7
+        "2024": "3.9",  # Python 3.9
+        "2025": "3.11"  # Python 3.11
+    }
+    maya_paths = {}
+    base_path = "C:/Program Files/Autodesk"
+
+    for version, python_version in maya_versions.items():
+        maya_path = os.path.join(base_path, f"Maya{version}", "bin", "mayapy.exe")
+        if os.path.exists(maya_path):
+            maya_paths[version] = (maya_path, python_version)
+        else:
+            print(f"Не найден mayapy.exe для Maya {version} по пути: {maya_path}")
+
+    return maya_paths
+
+def copmpile_pyc(source_file):
+	# Находим mayapy.exe для установленных версий Maya
+	maya_paths = find_maya_python_executables()
+
+	# Компилируем для каждой версии
+	for maya_version, (python_exe, python_version) in maya_paths.items():
+		print(f"Компилируем {source_file} для Maya {maya_version} (Python {python_version})...")
+		pyc_name = f"{os.path.splitext(os.path.basename(source_file))[0]}.cpython-{python_version.replace('.', '')}.pyc"
+		subprocess.run([
+			python_exe,
+			"-m", "py_compile",
+			source_file
+		], check=True)

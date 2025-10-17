@@ -2,3 +2,4 @@ ver=1.0=
 description=Advanced ik-fk limb rig. Using for arms and legs. 
 section=Body
 advanced=False
+type=Standart

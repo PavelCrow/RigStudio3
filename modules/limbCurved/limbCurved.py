@@ -157,6 +157,11 @@ class LimbCurved(module.Module) :
 	
 	def setOptions(self, optionsData):
 		self.update_aim_distance(optionsData['aimDistance'])
+
+		self.rebuildWithNewOptions(joints_count=optionsData['jointsCount'])
+		# if self.symmetrical and not self.opposite:
+		# 	self.rebuildWithNewOptions(name=utils.getOpposite(self.name), joints_count=optionsData['jointsCount'])
+
 		
 	@ utils.oneStepUndo
 	def rebuildWithNewOptions(self, widget=None, name=None, joints_count=None):
@@ -233,7 +238,8 @@ class LimbCurved(module.Module) :
 			self.rebuildWithNewOptions(name=opp_name, joints_count=joints_count)
 			cmds.parent(name+"_root_skinJoint", self.parent.replace("outJoint", "skinJoint"))
 		else:
-			cmds.parent(name+"_root_skinJoint", utils.getOpposite(self.parent).replace("outJoint", "skinJoint"))
+			if cmds.objExists(utils.getOpposite(self.parent).replace("outJoint", "skinJoint")):
+				cmds.parent(name+"_root_skinJoint", utils.getOpposite(self.parent).replace("outJoint", "skinJoint"))
 		
 		utils.removeTransformParentJoint(name+"_root_outJoint")
 		utils.resetAttrs(name+"_root_skinJoint", jointOrient=True)

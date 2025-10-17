@@ -489,6 +489,7 @@ class Template(object):
 			create_twists(data["twistsData"]) 
 			create_ibtws(data["ibtwsData"])
 		create_oss(modulesData)
+		# set_modules(modulesData, load="options")
 		set_modules(modulesData, load="controlVis")
 
 		# update joints placement
