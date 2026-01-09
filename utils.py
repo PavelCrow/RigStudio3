@@ -670,7 +670,10 @@ def selectSkinJoints():
 
 def removeTransformParentJoint(jnt): #
 	tr = cmds.listRelatives(jnt, p=1)[0]
-	if 'transform' in tr:
+	if tr[:9] == 'transform':
+		if len(cmds.listRelatives(tr)) > 1:
+			cmds.warning("More than one childrens")
+			return
 		tr_par = cmds.listRelatives(tr, p=1)[0]
 		resetAttrs(tr, debug=1)
 		cmds.parent(jnt, tr_par)
@@ -1148,6 +1151,7 @@ def create_default_sets():
 
 def nameIsOk(name): #
 	if name == "" or " " in name or "-" in name or name[0].isdigit():
+		print("Wrong", name)
 		return False
 	else:
 		return True

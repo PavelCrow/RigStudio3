@@ -335,6 +335,8 @@ class Twist(object):
         cmds.connectAttr(root_initLoc+".worldMatrix[0]", db+".inMatrix2")
         cmds.connectAttr(db+".distance", t_name+"_length_multDoubleLinear.input2")
 
+        cmds.connectAttr(moduleName+"_mainPoser_decomposeMatrix.outputScaleX", t_name+"_global_scale_multiplyDivide.input2X")
+
         # save data
         utils.setUserAttr(t_name+"_mod", "endTarget", end_outJoint)
         utils.setUserAttr(t_name+"_mod", "target", start_j)
@@ -839,7 +841,10 @@ class Twist(object):
                 cmds.warning("Missed "+ opp + "_rootUpLoc")
                 return
             twData['rootOffsetR'] = cmds.xform(opp + "_rootUpLoc", query=True, worldSpace=True, rotation=True)
-            twData['endOffsetR'] = cmds.xform(opp + "_end_connectorLoc", query=True, worldSpace=True, rotation=True)
+            if cmds.objExists(opp + "_end_connectorLoc"):
+                twData['endOffsetR'] = cmds.xform(opp + "_end_connectorLoc", query=True, worldSpace=True, rotation=True)
+            else:
+                print ("Missed ", opp + "_end_connectorLoc")
 
 
         jointsPos = []

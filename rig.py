@@ -62,6 +62,11 @@ class Rig:
             cmds.warning("Rig is already exists")
             return
         
+        for o in ['rig', 'geo', 'main']:
+            if cmds.objExists(o):
+                cmds.warning(o + " is already exists")
+                return
+        
         # create main group
         root = cmds.group(empty=True, n=self.root)
 
@@ -379,7 +384,9 @@ class Rig:
                 for mod in self.modules:
                     joints = cmds.listRelatives(mod+"_outJoints", allDescendents=1, type="joint")
                     for j in joints:
-                        cmds.setAttr(j+".drawStyle", 2)
+                        try:
+                            cmds.setAttr(j+".drawStyle", 2)
+                        except: pass
         else:
             if self.singleHierarhy:
                 cmds.showHidden('skeleton')
@@ -388,7 +395,9 @@ class Rig:
                 for mod in self.modules:
                     joints = cmds.listRelatives(mod+"_outJoints", allDescendents=1, type="joint")
                     for j in joints:
-                        cmds.setAttr(j+".drawStyle", 0)
+                        try:
+                            cmds.setAttr(j+".drawStyle", 0)
+                        except: pass
 
         if cmds.listRelatives("twists"):
             if not self.singleHierarhy:
@@ -396,10 +405,12 @@ class Rig:
                     tw_j = tw_name.replace("mod", "outJoint")
                     cmds.setAttr(tw_j+".drawStyle", 2)
                     for j in cmds.listRelatives(tw_name.replace("mod", "joints"), allDescendents=1, type="joint"):
-                        if state:
-                            cmds.setAttr(j+".drawStyle", 0)
-                        else:
-                            cmds.setAttr(j+".drawStyle", 2)
+                        try:
+                            if state:
+                                cmds.setAttr(j+".drawStyle", 0)
+                            else:
+                                cmds.setAttr(j+".drawStyle", 2)
+                        except: pass
 
         if cmds.objExists(self.root + ".jointsVis"):
             cmds.setAttr(self.root + ".jointsVis", state)

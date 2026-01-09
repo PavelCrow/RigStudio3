@@ -637,8 +637,7 @@ Fixed opposite module connect axises
 Fingers module update
 New tools buttons in Tools sections.
 
----Version 3.12.1
-Updated ui tools buttons
+---Version 3.12.1Updated ui tools buttons
 
 ---Version 3.12.2
 Fixed single hierarchy visibility joints
@@ -691,3 +690,20 @@ Module Builder loading fix
 ---Version 3.16.3
 Add controls creating fix
 Fixed connect foots modules to LimbCurved module
+
+---Version 3.17.0
+Removing Licenses
+
+---Version 3.17.1
+Fixed loading modules with locked joint drawstyle attribute
+
+---Version 3.17.2
+Removed transform groups from skeleton hierarchy
+Fixed symmetrical module options from template loading
+
+---Version 3.18.1
+All main lists in interface now is sizable
+Fixed add controls flip on foot module
+Fixed stretch volume scale on twists joints
+Fixed chainIk joints stretch values
+Updated mouth module

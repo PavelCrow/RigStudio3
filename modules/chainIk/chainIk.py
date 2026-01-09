@@ -501,6 +501,11 @@ class ChainIk(module.Module) :
 		initCrv_info.arcLength >> initCurveScaled.input1X
 		pm.connectAttr(name+"_mainPoser_decomposeMatrix.outputScaleX", initCurveScaled.input2X)
 		
+		curveScaled = pm.createNode('multiplyDivide', n=name+'_curveScaled')
+		curveScaled.operation.set(2)
+		crvInfo.arcLength >> curveScaled.input1X
+		pm.connectAttr(name+"_mainPoser_decomposeMatrix.outputScaleX", curveScaled.input2X)
+
 		chainLength_mult = pm.createNode("multiplyDivide", n = name+'_chainLength')
 		chainLength_mult.operation.set(2)		
 		initCurveScaled.outputX >> chainLength_mult.input1X
@@ -527,12 +532,12 @@ class ChainIk(module.Module) :
 		
 		stretchVolume_mult = pm.createNode('multiplyDivide', n=name+'_stretchVolumeMult')
 		stretchVolume_mult.operation.set(2)		
-		stretchVolume_mult.input1X.set(crvInfo.arcLength.get())
+		initCurveScaled.outputX >> stretchVolume_mult.input1X
 		
 		blend2 = pm.createNode('blendColors', n=name+'_blendColors2')
 		dynCtrl.stretchVolume >> blend2.blender		
-		crvInfo.arcLength >> blend2.color1R
-		blend2.color2R.set(crvInfo.arcLength.get())
+		curveScaled.outputX >> blend2.color1R
+		initCurveScaled.outputX >> blend2.color2R
 		blend2.outputR >> stretchVolume_mult.input2X	
 
 		# add offset attribute

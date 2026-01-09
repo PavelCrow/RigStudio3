@@ -16,6 +16,7 @@ def run(clearPy=False):
 	rs_pro = r"F:\Maya_Projects\rigStudio3_out\pro"
 	rs_smf = r"F:\Maya_Projects\rigStudio3_out\smf"
 	yd_folder = r"C:\Users\pavel\YandexDisk\RS\releases"
+	dropbox_folder = r"C:\Users\pavel\Dropbox\Public\RS\releases"
 	
 	# Удаление временной папки
 	if os.path.exists(rs_out):
@@ -66,13 +67,13 @@ def run(clearPy=False):
 	print("wip", wip_modules)
 	print("extra", extra_modules)
 
-	os.makedirs(os.path.join(rs_out, "licenses"))
-	os.makedirs(os.path.join(rs_out, "__pycache__"))
+	# os.makedirs(os.path.join(rs_out, "licenses"))
+	# os.makedirs(os.path.join(rs_out, "__pycache__"))
 
-	copmpile_pyc( os.path.join(rs_out, "main.py"))
-	copmpile_pyc( os.path.join(rs_out, "check.py"))
+	# copmpile_pyc( os.path.join(rs_out, "main.py"))
+	# copmpile_pyc( os.path.join(rs_out, "check.py"))
 
-	os.remove(os.path.join(rs_out, "main.py"))
+	# os.remove(os.path.join(rs_out, "main.py"))
 	os.remove(os.path.join(rs_out, "check.py"))
 
 	# Удаление модулей с префиксом "_"
@@ -112,19 +113,20 @@ def run(clearPy=False):
 			shutil.rmtree(os.path.join(mod_folder, f))
 
 	# Создаём Pro архив
-	archive = os.path.join(rs_pro, f"rigStudio{num}Pro")
+	archive = os.path.join(rs_pro, f"rigStudio{num}")
 	shutil.make_archive(archive, 'zip', temp_folder)
-	shutil.copy(archive+".zip", os.path.join(yd_folder, "rs 3 pro version"))
+	shutil.copy(archive+".zip", os.path.join(yd_folder, "rs 3 public version"))
+	shutil.copy(archive+".zip", os.path.join(dropbox_folder, "rs 3 public version"))
 
-	# Удаление Pro-модулей  
-	for f in files:
-		if f in pro_modules:
-			shutil.rmtree(os.path.join(mod_folder, f))
+	# # Удаление Pro-модулей  
+	# for f in files:
+	# 	if f in pro_modules:
+	# 		shutil.rmtree(os.path.join(mod_folder, f))
 	
-	# Создаём Free архив
-	archive = os.path.join(rs_free, f"rigStudio{num}Free")
-	shutil.make_archive(archive, 'zip', temp_folder)
-	shutil.copy(archive+".zip", os.path.join(yd_folder, "rs 3 free version"))
+	# # Создаём Free архив
+	# archive = os.path.join(rs_free, f"rigStudio{num}Free")
+	# shutil.make_archive(archive, 'zip', temp_folder)
+	# shutil.copy(archive+".zip", os.path.join(yd_folder, "rs 3 free version"))
 
 	print ("Export Done")
 

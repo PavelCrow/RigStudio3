@@ -216,7 +216,7 @@ class Wing(module.Module) :
 		self.updateOptionsPage()
 		
 	def generateFingers(self, feathersCount, chainLengh, layer_id=1):
-		# print("GENERATE", feathersCount, chainLengh, layer_id)
+		print("GENERATE", feathersCount, chainLengh, layer_id)
 		name = self.name
 		wing_name = name+"_layer_"+str(layer_id)
 		detail_group = name+'_layer_%s_group' %layer_id
@@ -240,6 +240,11 @@ class Wing(module.Module) :
 		utils.removeTransformParentJoint(root_j)
 		cmds.setAttr(root_j+".drawStyle", 2)
 		cmds.sets(root_j, e=1, forceElement=name+'_nodesSet')
+
+		if layer_id == 1:
+			loft = self.name+"_loft"
+			if not cmds.objExists(self.name+"_loft"):
+				cmds.createNode("loft", n=self.name+"_loft")
 
 		for f in range(feathersCount):
 			step = 1.0/(feathersCount-1)*f
@@ -350,6 +355,9 @@ class Wing(module.Module) :
 					pm.connectAttr(name+'_sample_%s_crvShape.worldSpace[0]' %n, pc1.inputCurve)
 					pc1.parameter.set(step)
 					pm.connectAttr(pc1.positionX, '%s_%s_pointOnCurveInfo.parameter' %(cur_f,n))
+
+			if layer_id == 1:
+				pm.connectAttr(crv.worldSpace[0], loft+".inputCurve[%s]" %f)
 
 			pm.parent(joints[0], root_j)
 			utils.removeTransformParentJoint(joints[0].name())
@@ -472,6 +480,10 @@ class Wing(module.Module) :
 			for i in range(chainLengh-1):
 				cmds.connectAttr(mult4+".outputY", cur_f+"_%s_ikJoint.translateX" %(i+1))
 		
+		if layer_id == 1:
+			cmds.connectAttr(loft+".outputSurface", self.name+"_surfShape.create")
+
+
 		cmds.undoInfo(closeChunk=True)
 
 	def addSkinJoints(self):

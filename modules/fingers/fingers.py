@@ -86,8 +86,8 @@ class Fingers(module.Module) :
 		optionsData['middle'] = cmds.getAttr(self.name+"_middleFingerRoot_skinJoint.v")
 		optionsData['ring'] = cmds.getAttr(self.name+"_ringFingerRoot_skinJoint.v")
 		optionsData['pinky'] = cmds.getAttr(self.name+"_pinkyFingerRoot_skinJoint.v")
-		optionsData['middle_value'] = cmds.getAttr(self.name+"_middle_pairBlend.weight")
-		optionsData['ring_value'] = cmds.getAttr(self.name+"_ring_pairBlend.weight")
+		# optionsData['middle_value'] = cmds.getAttr(self.name+"_middle_pairBlend.weight")
+		# optionsData['ring_value'] = cmds.getAttr(self.name+"_ring_pairBlend.weight")
 		
 		data['optionsData'] = optionsData	
 
@@ -122,8 +122,8 @@ class Fingers(module.Module) :
 			clench_ctrl = utils.getControlNameFromInternal(self.name, 'clench')
 			cmds.setAttr("%s_group.v" %(clench_ctrl), v)
 	
-			cmds.setAttr(self.name+"_ring_pairBlend.weight", options["ring_value"])
-			cmds.setAttr(self.name+"_middle_pairBlend.weight", options["middle_value"])
+			# cmds.setAttr(self.name+"_ring_pairBlend.weight", options["ring_value"])
+			# cmds.setAttr(self.name+"_middle_pairBlend.weight", options["middle_value"])
 			
 			if cmds.objExists(opp_name):
 				switch(opp_name, "thumb", options["thumb"], True)
@@ -135,8 +135,8 @@ class Fingers(module.Module) :
 				clench_ctrl = utils.getControlNameFromInternal(opp_name, 'clench')
 				cmds.setAttr("%s_group.v" %(clench_ctrl), v)		
 		
-				cmds.setAttr(opp_name+"_ring_pairBlend.weight", options["ring_value"])
-				cmds.setAttr(opp_name+"_middle_pairBlend.weight", options["middle_value"])
+				# cmds.setAttr(opp_name+"_ring_pairBlend.weight", options["ring_value"])
+				# cmds.setAttr(opp_name+"_middle_pairBlend.weight", options["middle_value"])
 			
 	def addSDKGroup(self):
 		import pymel.core as pm

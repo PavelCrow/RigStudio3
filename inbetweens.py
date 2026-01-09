@@ -587,6 +587,7 @@ class Inbetweens(object):
 			root_s_j = cmds.joint(n=root_s_j)
 			cmds.sets(root_s_j, e=1, forceElement=set)
 			pm.parent(root_s_j, par_s_j)
+			utils.removeTransformParentJoint(root_s_j)
 			utils.resetAttrs(root_s_j, jointOrient=True)
 
 			mod_name = utils.getModuleName(data["parent_j"])

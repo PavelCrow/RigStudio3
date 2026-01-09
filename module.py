@@ -93,7 +93,9 @@ class Module(object):
         if singleHierarhy:    
             for j in cmds.listRelatives(self.name+"_outJoints", allDescendents=1):
                 if cmds.objectType(j) == "joint":
-                    cmds.setAttr(j+".drawStyle", 2)
+                    try:
+                        cmds.setAttr(j+".drawStyle", 2)
+                    except: pass
 
         cmds.refresh()
 
@@ -193,10 +195,12 @@ class Module(object):
             cmds.sets(sj, e=1, forceElement='skinJointsSet')
             cmds.sets(sj, e=1, rm=self.name+'_skinJointsSet')
             
-            if self.main.rig.singleHierarhy and cmds.getAttr(sj.replace("skinJoint", "outJoint")+".drawStyle") == 0:
-                cmds.setAttr(sj+".drawStyle", 0)
-            else:
-                cmds.setAttr(sj+".drawStyle", 2)
+            try:
+                if self.main.rig.singleHierarhy and cmds.getAttr(sj.replace("skinJoint", "outJoint")+".drawStyle") == 0:
+                    cmds.setAttr(sj+".drawStyle", 0)
+                else:
+                    cmds.setAttr(sj+".drawStyle", 2)
+            except: pass
 
         cmds.delete(joints_grp)
 
@@ -364,7 +368,9 @@ class Module(object):
         # disconnect
         parentModule = utils.getModuleName(target)
         cmds.disconnectAttr(parentModule+'_mainPoser.worldMatrix', self.name+"_posers.offsetParentMatrix")
-        cmds.delete(self.name+'_root_connector_multMat')
+
+        if cmds.objExists(self.name+'_root_connector_multMat'):
+            cmds.delete(self.name+'_root_connector_multMat')
 
         # reset matrixes
         m = cmds.xform(self.name+'_mainPoser', ws=1, q=1, m=1)
@@ -741,6 +747,18 @@ class Module(object):
 
         # get multmatrix of the connector
         conn = cmds.listConnections(self.name+'_root_connector.offsetParentMatrix', source=1, destination=0) or []
+
+        if not conn and self.type == "fingersIK":
+            if cmds.objExists(self.name+"_root_connector_multMat"):
+                parents = cmds.listConnections(self.name+"_root_connector_multMat.matrixIn[0]", source=1, destination=0) or [] 
+                if parents: 
+                    parent = parents[0]
+                    # check another connection
+                    parentModule = utils.getModuleName(parent)
+                    if utils.getModuleInstance(parentModule).type == "limb":
+                        parent = parentModule + "_end_outJoint"
+                        return parent
+
         if conn:
             mm = conn[0]
             # get taget node from multmatrix
@@ -811,6 +829,7 @@ class Module(object):
             p_j = cmds.listRelatives(self_root_j, p=1)[0] # end_joint
             pp_j = cmds.listRelatives(p_j, p=1)[0] # parent of the end_joint
             cmds.parent(self_root_j, pp_j)
+            utils.removeTransformParentJoint(self_root_j)
             # move the useless joint to output group and hide it
             # print(3333, self.name, p_j, parentModule_name+"_output")
             cmds.parent(p_j, parentModule_name+"_output")
@@ -825,6 +844,7 @@ class Module(object):
                 pp_j_opp = cmds.listRelatives(p_j_opp, p=1)[0] # parent of the end_joint
                 # print("--------------- check--", self_root_j_opp, p_j_opp, pp_j_opp)
                 cmds.parent(self_root_j_opp, pp_j_opp)
+                utils.removeTransformParentJoint(self_root_j_opp)
                 if parent_module.symmetrical:
                     cmds.parent(utils.getOpposite(p_j), utils.getOpposite(parentModule_name+"_output"))
                     cmds.hide(utils.getOpposite(p_j))
@@ -842,16 +862,21 @@ class Module(object):
                 else:
                     pp_j = "skeleton"
                 cmds.parent(parent_j, pp_j)
+                utils.removeTransformParentJoint(parent_j)
+
                 
                 if self.symmetrical and parent_module.symmetrical:
                     cmds.parent(utils.getOpposite(parent_j), utils.getOpposite(pp_j))
+                    utils.removeTransformParentJoint(utils.getOpposite(parent_j))
             else:
                 p_j = cmds.listRelatives(self.parent, p=1)[0].replace("outJoint", "skinJoint")
                 cmds.parent(parent_j, p_j)
+                utils.removeTransformParentJoint(parent_j)
 
                 if self.symmetrical:
                     if not cmds.listRelatives(utils.getOpposite(parent_j), p=1)[0] == utils.getOpposite(p_j):
                         cmds.parent(utils.getOpposite(parent_j), utils.getOpposite(p_j))
+                        utils.removeTransformParentJoint(utils.getOpposite(parent_j))
 
                 # delete poser constraint
                 con = cmds.listRelatives(parent_p, type="pointConstraint")[0]
@@ -865,9 +890,11 @@ class Module(object):
 
             # restore root joint
             cmds.parent(self_root_j, parent_j)
+            utils.removeTransformParentJoint(self_root_j)
 
             if self.symmetrical:
                 cmds.parent(utils.getOpposite(self_root_j), utils.getOpposite(parent_j))
+                utils.removeTransformParentJoint(utils.getOpposite(self_root_j))
                 cmds.showHidden(utils.getOpposite(parent_j))
                 cmds.setAttr(utils.getOpposite(parent_p)+'.lodVisibility', 1)
             

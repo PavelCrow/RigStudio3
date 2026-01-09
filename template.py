@@ -41,7 +41,7 @@ class Template(object):
 
 		self.main.moduleTemplatesMenuUpdate()
 
-	def module_load(self, templateName=None, moduleName=None):
+	def module_load(self, templateName=None, moduleName=None, custom=False):
 		sel = cmds.ls(sl=1)
 
 		if not moduleName:
@@ -51,9 +51,16 @@ class Template(object):
 			mod = self.main.rig.modules[moduleName]
 
 		# read data
-		path = os.path.join(self.rootPath,'templates', 'modules', mod.type + '_' + templateName + '.tmpl')
-		with open(path, mode='r') as f:
-			mData = json.load(f)
+		if custom:
+			t_path = QtWidgets.QFileDialog.getOpenFileName(self.main.win, "Module Template", os.path.join(self.rootPath,'templates','modules'), "*.tmpl")[0]
+			if not t_path:
+				return
+			with open(t_path, mode='r') as f:
+				mData = json.load(f)
+		else:
+			path = os.path.join(self.rootPath,'templates', 'modules', mod.type + '_' + templateName + '.tmpl')
+			with open(path, mode='r') as f:
+				mData = json.load(f)
 
 		# set module paraneters
 		mod.setData(mData)
@@ -172,6 +179,12 @@ class Template(object):
 		rigName = self.main.rig.name
 		if "root" in data:
 			self.main.rig.root = data["root"]
+			
+		for o in ['rig', 'geo', 'main']:
+			if cmds.objExists(o):
+				cmds.warning(o + " is already exists")
+				return
+
 		self.main.rig.create(self.main.win.singleHierarhy_radioButton.isChecked())
 		self.main.rig.rename(rigName)
 
@@ -328,7 +341,7 @@ class Template(object):
 					modulesData.append([mod, mData])
 
 					# fix divide by zero, by setting not zero random positions
-					cmds.setAttr(mData['name']+"_mainPoser.tx", random.random())
+					cmds.setAttr(mData['name']+"_mainPoser.tz", random.random())
 
 				cmds.progressBar(progressControl, edit=True, step=1)
 			cmds.progressBar(progressControl2, edit=True, step=1)
@@ -491,6 +504,7 @@ class Template(object):
 		create_oss(modulesData)
 		# set_modules(modulesData, load="options")
 		set_modules(modulesData, load="controlVis")
+		set_modules(modulesData, load="options")
 
 		# update joints placement
 		cmds.refresh()

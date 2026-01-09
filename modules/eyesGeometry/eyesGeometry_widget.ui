@@ -15,18 +15,11 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0">
      <item>
       <widget class="QCheckBox" name="useGeometry_checkBox">
        <property name="text">
         <string>Use Geometry</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="deformShape_checkBox">
-       <property name="text">
-        <string>Deform Shape</string>
        </property>
       </widget>
      </item>

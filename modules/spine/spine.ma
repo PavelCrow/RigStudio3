@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: spine.ma
-//Last modified: Fri, Oct 03, 2025 06:04:40 AM
+//Last modified: Tue, Oct 21, 2025 08:32:00 PM
 //Codeset: 1251
 requires maya "2022";
 requires -nodeType "sweepMeshCreator" -dataType "sweepMeshData" -dataType "sweepProfileData"
@@ -13,7 +13,7 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202110272215-ad32f8f1e6";
 fileInfo "osv" "Windows 10 Pro v2009 (Build: 26100)";
-fileInfo "UUID" "A6031808-4B87-41C7-FD31-6EA2692BF62E";
+fileInfo "UUID" "4483593C-471D-B256-A1A9-0396F1AC77B1";
 createNode transform -n "mod";
 	rename -uid "C55DD497-492A-4EC0-E01E-33B4860B4331";
 	addAttr -ci true -sn "version" -ln "version" -dt "string";
@@ -2517,7 +2517,6 @@ createNode joint -n "root_outJoint" -p "outJoints";
 	setAttr ".s" -type "double3" 0.99999999999999933 0.99999999999999933 0.99999999999999967 ;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
 	setAttr ".bps" -type "matrix" 5.8116296351744994e-16 1.3086626529693604 1.4529074087936241e-16 0
 		 -4.3587222263808726e-16 0 1.3086626529693604 0 1.3086626529693604 -4.3587222263808726e-16 5.8116296351744994e-16 0
 		 0 1.4381153442047454 -0.053282215027789577 1;
@@ -2528,7 +2527,6 @@ createNode joint -n "local_1_outJoint" -p "root_outJoint";
 	setAttr ".oc" 6;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
 	setAttr ".smd" 7;
 	setAttr ".bps" -type "matrix" 1 0 1.1102230246251563e-16 0 1.110223024625156e-16 1 2.2204460492503141e-16 0
 		 -2.2204460492503126e-16 -1.1102230246251563e-16 1 0 -1.801911150559539e-17 0.20000000000000001 1.3877787807814457e-17 1;
@@ -2539,7 +2537,6 @@ createNode joint -n "local_2_outJoint" -p "local_1_outJoint";
 	setAttr ".oc" 6;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
 	setAttr ".smd" 7;
 	setAttr ".bps" -type "matrix" 1 0 1.1102230246251563e-16 0 1.110223024625156e-16 1 2.2204460492503141e-16 0
 		 -2.2204460492503126e-16 -1.1102230246251563e-16 1 0 -1.2779255513307275e-17 0.49999999999999994 3.4694469519536142e-17 1;
@@ -2550,7 +2547,6 @@ createNode joint -n "local_3_outJoint" -p "local_2_outJoint";
 	setAttr ".oc" 6;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
 	setAttr ".smd" 7;
 	setAttr ".bps" -type "matrix" 1 -4.4408920985006262e-16 1.1102230246251563e-16 0
 		 5.5511151231257827e-16 1 2.2204460492503141e-16 0 -2.2204460492503131e-16 -1.1102230246251563e-16 1 0
@@ -2558,12 +2554,10 @@ createNode joint -n "local_3_outJoint" -p "local_2_outJoint";
 createNode joint -n "local_4_outJoint" -p "local_3_outJoint";
 	rename -uid "397D8543-4376-141D-40DC-6EB0B0EB8F40";
 	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr -s 2 ".iog";
 	setAttr ".uoc" 1;
 	setAttr ".oc" 6;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
 	setAttr ".bps" -type "matrix" 5.0083313344102273e-16 1.3086626529693606 0 0 -5.0083313344102253e-16 0 1.3086626529693604 0
 		 1.1277759565698935 -5.8116296351744994e-16 5.8116296351744994e-16 0 1.28255683619515e-15 2.4287496299346061 0.065118794613545639 1;
 createNode joint -n "local_5_outJoint" -p "local_4_outJoint";
@@ -2573,7 +2567,6 @@ createNode joint -n "local_5_outJoint" -p "local_4_outJoint";
 	setAttr ".oc" 6;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
 	setAttr ".bps" -type "matrix" 5.0083313344102273e-16 1.3086626529693606 0 0 -5.0083313344102253e-16 0 1.3086626529693604 0
 		 1.1277759565698935 -5.8116296351744994e-16 5.8116296351744994e-16 0 1.28255683619515e-15 2.4287496299346061 0.065118794613545639 1;
 createNode joint -n "local_end_outJoint" -p "local_5_outJoint";
@@ -2595,8 +2588,8 @@ createNode joint -n "end_outJoint" -p "outJoints";
 createNode transform -s -n "persp";
 	rename -uid "742B74BF-4D6B-9A22-954F-B78DD4DB06E5";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 4.9884524040025973 6.8791690933457321 13.146618658277552 ;
-	setAttr ".r" -type "double3" -10.199999999999998 -339.19999999999618 4.2528713665170018e-16 ;
+	setAttr ".t" -type "double3" 10.83394959592435 8.3628308004062823 12.070259341509532 ;
+	setAttr ".r" -type "double3" -13.800000000000107 -318.79999999999393 -1.0567821835600413e-15 ;
 	setAttr ".rp" -type "double3" -3.3306690738754696e-16 -4.4408920985006262e-16 -1.7763568394002505e-15 ;
 	setAttr ".rpt" -type "double3" -6.7928001781737458e-16 -1.7125212621107998e-16 3.3031043487526458e-16 ;
 createNode camera -s -n "perspShape" -p "persp";
@@ -2604,7 +2597,7 @@ createNode camera -s -n "perspShape" -p "persp";
 	setAttr -k off ".v";
 	setAttr ".rnd" no;
 	setAttr ".cap" -type "double2" 1.41732 0.94488 ;
-	setAttr ".coi" 14.887133303934505;
+	setAttr ".coi" 17.271983075722474;
 	setAttr ".imn" -type "string" "persp1";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -2671,15 +2664,15 @@ createNode objectSet -n "ik_moduleControlSet";
 	setAttr -s 3 ".dsm";
 	setAttr ".an" -type "string" "gControlSet";
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "83A310BE-4C80-7DBE-690E-D29B7DCC0CCB";
+	rename -uid "068EDA4E-40A4-06EA-1EAE-9284C10182C5";
 	setAttr -s 25 ".lnk";
 	setAttr -s 25 ".slnk";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "87C754A5-443D-23DD-B181-2AA756BC08E8";
+	rename -uid "388054B6-43E8-BB16-9A36-20AD45395F4B";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "B1DB931A-42AC-3765-6A0C-0E9123FB8239";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "D0250270-4ADB-4E6C-B92B-8280F8EBBE0B";
+	rename -uid "8C542465-450C-B7F6-42CE-789C1D970747";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "86635CA8-42FC-A04E-4E62-638EF51ABD39";
 	setAttr ".g" yes;
@@ -3588,9 +3581,9 @@ createNode quatToEuler -n "quatToEuler1";
 createNode quatToEuler -n "quatToEuler2";
 	rename -uid "B6413183-48DD-EA41-0FE0-4184DB6868AC";
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "0DCC4F48-46B0-F83D-D9FE-CF859F81FE43";
+	rename -uid "C1976D2F-413E-E7F0-BC4D-82AFBB892513";
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "D0DD30ED-4912-E015-5684-FAB58EA84B8F";
+	rename -uid "94B7CF76-40A3-80C4-C676-EEA5FAECE733";
 createNode makeNurbSphere -n "makeNurbSphere1";
 	rename -uid "8DBE1D78-4612-053F-6D5F-088A4D6E19AF";
 	setAttr ".ax" -type "double3" 0 1 0 ;

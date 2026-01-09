@@ -4,7 +4,6 @@
 #
 # Author: Pavel Korolev
 # Creation Date: 29.01.2022
-# Last Updated: 02.12.2024
 #
 # License: Portions of the Rig Studio codebase are distributed under the MIT License and are freely available for use.
 # However, access to closed modules and the full version of the program requires purchasing a commercial license.
@@ -22,6 +21,7 @@
 # Contact for feedback:
 # Email: pavel.crow@gmail.com
 # Website: rigstudio.ru
+# Course: https://boosty.to/pavelcrow
 #
 # This software is licensed under the terms of the LICENSE file.
 # © 2024 Pavel Korolev. All rights reserved.
@@ -36,30 +36,30 @@ import os
 from importlib import reload
 
 rootPath = os.path.normpath(os.path.dirname(__file__))
-if os.path.exists(os.path.join(rootPath, "main.py")):
-    from . import ui, utils, main, rig, module, parents, twist, tools, moduleBuilder, inbetweens, driver, template, attributes, sets, controller, additionalControl, posers, check
-    reload(ui)
-    reload(utils)
-    reload(module)
-    reload(rig)
-    reload(twist)
-    reload(inbetweens)
-    reload(parents)
-    reload(attributes)
-    reload(tools)
-    reload(sets)
-    reload(moduleBuilder)
-    reload(driver)
-    reload(template)
-    reload(controller)
-    reload(additionalControl)
-    reload(posers)
-    reload(main)
-    reload(check)
+# if os.path.exists(os.path.join(rootPath, "main.py")):
+from . import ui, utils, main, rig, module, parents, twist, tools, moduleBuilder, inbetweens, driver, template, attributes, sets, controller, additionalControl, posers
+reload(ui)
+reload(utils)
+reload(module)
+reload(rig)
+reload(twist)
+reload(inbetweens)
+reload(parents)
+reload(attributes)
+reload(tools)
+reload(sets)
+reload(moduleBuilder)
+reload(driver)
+reload(template)
+reload(controller)
+reload(additionalControl)
+reload(posers)
+reload(main)
+# reload(check)
 
-else:
-    from rigStudio3 import utils
-    main = utils.import_pyc("main")
+# else:
+#     from rigStudio3 import utils
+#     main = utils.import_pyc("main")
 
 
 def run():
