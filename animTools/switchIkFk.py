@@ -112,9 +112,17 @@ def getInputNode(obj, attr):
 	if cmds.connectionInfo( obj+"."+attr, isDestination=True):
 		inputAttr = cmds.connectionInfo( obj+"."+attr, sourceFromDestination=True)	
 		inputNode = inputAttr.split('.')[0]
-
 		return inputNode
+	return None
 
+def getOutputNodes(obj, attr):
+	"""Возвращает узел, подключенный К атрибуту obj.attr (destination)"""
+	if cmds.connectionInfo(obj+"."+attr, isSource=True):
+		outputAttrs = cmds.connectionInfo(obj+"."+attr, destinationFromSource=True)
+		outputNodes = []
+		for a in outputAttrs:
+			outputNodes.append(a.split('.')[0])
+		return outputNodes
 	return None
 
 def getParent(module_name):
@@ -189,6 +197,98 @@ def switchIkFk(simple=False):
 	if sels:
 		cmds.select(sels)
 
+def get_lengths(control):
+
+	quad = cmds.objExists(control+".length3")
+	lengths = []
+
+	def get_element_scale(part):
+		out_nodes = getOutputNodes(control, f"length{part}")
+		for node in out_nodes:
+			if cmds.objectType(node) == "multDoubleLinear":
+				scale = cmds.getAttr(node + ".input1")
+				return scale
+
+	init_scale1 = get_element_scale(part=1)
+	
+	def get_local_length(j):
+		vector = cmds.getAttr(j+".t")[0]
+		x,y,z = vector
+		length = math.sqrt(x**2 + y**2 + z**2)
+		return length
+
+	if cmds.objExists(m_name + "_b_finalJoint"):
+		local_length_1 = get_local_length(m_name + "_b_finalJoint")
+		length_1 = local_length_1 / init_scale1
+		if length_1 < 0: length_1 *= -1
+		
+		init_scale2 = get_element_scale(part=2)
+		if quad:
+			local_length_2 = get_local_length(m_name + "_c_finalJoint")
+		else:
+			local_length_2 = get_local_length(m_name + "_end_finalJoint")
+		length_2 = local_length_2 / init_scale2
+		if length_2 < 0: length_2 *= -1
+
+		lengths = [length_1, length_2]
+
+		if quad:
+			local_length_3 = get_element_scale(part=3)
+			cur_scale3 = get_local_length(m_name + "_end_finalJoint")
+			length_3 = cur_scale3 / local_length_3	
+			if length_3 < 0: length_3 *= -1
+			lengths.append(length_3)
+	else:
+		############### УСТАРЕВШИЙ КОД, для поддержки старых ригов ###############
+		import pymel.core.datatypes as dt
+		import pymel.core as pm
+		p0 = pm.xform(m_name+'_root_outJoint', ws=1, q=1, t=1)        
+		p1 = pm.xform(m_name+'_knee_outJoint', ws=1, q=1, t=1)
+		v0 = dt.Vector(p0)
+		v1 = dt.Vector(p1)
+		v = v1 - v0
+		l = v.length()
+		scl = cmds.getAttr(m_name+"_root_connector_decomposeMatrix.outputScaleX")
+		scl_converted = l/scl
+		length_1 = scl_converted/init_scale1
+		
+		if not quad:
+			p0 = pm.xform(m_name+'_b_finalJoint', ws=1, q=1, t=1)        
+			p1 = pm.xform(m_name+'_end_outJoint', ws=1, q=1, t=1)
+			v0 = dt.Vector(p0)
+			v1 = dt.Vector(p1)
+			v = v1 - v0
+			l = v.length()
+			scl_converted = l/scl
+			init_scale2 = cmds.getAttr(m_name + "_initScaleEnd_mult.input1")
+			length_3 = scl_converted/init_scale2
+			print (444, length_1, length_3)
+			
+		else:
+			p0 = pm.xform(m_name+'_knee_outJoint', ws=1, q=1, t=1)        
+			p1 = pm.xform(m_name+'_ankle_outJoint', ws=1, q=1, t=1)
+			v0 = dt.Vector(p0)
+			v1 = dt.Vector(p1)
+			v = v1 - v0
+			l = v.length()
+			scl_converted = l/scl
+			init_scale2 = cmds.getAttr(m_name + "_initScale2_mult.input1")
+			length_3 = scl_converted/init_scale2
+
+			p0 = pm.xform(m_name+'_ankle_outJoint', ws=1, q=1, t=1)        
+			p1 = pm.xform(m_name+'_end_outJoint', ws=1, q=1, t=1)
+			v0 = dt.Vector(p0)
+			v1 = dt.Vector(p1)
+			v = v1 - v0
+			l = v.length()
+			scl_converted = l/scl
+			init_scale2 = cmds.getAttr(m_name + "_initScaleEnd_mult.input1")
+			length_2 = scl_converted/init_scale2
+			print (44444, length_1, length_3, length_2 )
+		##########################################################################
+	
+	return lengths
+
 def from_fk_to_ik(control):
 	print ("--- switch fk to ik ---")
 
@@ -245,6 +345,11 @@ def from_fk_to_ik(control):
 	m_name = ns + getModuleName(control)
 	quad = cmds.objExists(control+".length3")
 
+	if quad:
+		length_1, length_2, length_3 = get_lengths(control)
+	else:
+		length_1, length_2 = get_lengths(control)
+
 	if cmds.objExists(m_name + "_a_finalJoint"):
 		joint_1 = m_name + '_a_finalJoint'
 		if quad:
@@ -299,6 +404,15 @@ def from_fk_to_ik(control):
 		snapIkElbow(joint_1, joint_2, joint_last, aim_ctrl)
 
 	cmds.setAttr(control + ".ikFk", 1)
+	
+	cmds.setAttr(control + ".length1", length_1)
+	if quad: 
+		cmds.setAttr(control + ".length2", length_2)
+		cmds.setAttr(control + ".length3", length_3)
+	else:
+		cmds.setAttr(control + ".length2", length_2)
+
+	
 
 def from_ik_to_fk(control):
 	print ("--- switch ik to fk ---22")
@@ -307,28 +421,28 @@ def from_ik_to_fk(control):
 	ns = getNS(control)
 	m_name = ns + getModuleName(control)
 	foot_m = getConnectedFootModule(control)
-
 	quad = cmds.objExists(control+".length3")
-	#print 00, control, control+".lehgth3", cmds.objExists(control+".lehgth3")
-	# get init scale values
-	init_tB = cmds.getAttr(m_name + "_initScale1_mult.input1")
+
 	if cmds.objExists(m_name + "_b_finalJoint"):
-		cur_tB = cmds.getAttr(m_name + "_b_finalJoint.tx")
-		l1 = cur_tB / init_tB
-		if l1 < 0: l1 *= -1
-		init_tEnd = cmds.getAttr(m_name + "_initScaleEnd_mult.input1")
-		cur_tEnd = cmds.getAttr(m_name + "_end_finalJoint.tx")
-		lEnd = cur_tEnd / init_tEnd
-		#print (m_name + "_initScaleEnd_mult.input1", init_tEnd, cur_tEnd)
-		if lEnd < 0: lEnd *= -1
 		if quad:
-			init_tC = cmds.getAttr(m_name + "_initScale2_mult.input1")
-			cur_tC = cmds.getAttr(m_name + "_c_finalJoint.tx")
-			l2 = cur_tC / init_tC	
-			if l2 < 0: l2 *= -1
+			length_1, length_2, length_3 = get_lengths(control)
+		else:
+			length_1, length_2 = get_lengths(control)
 	else:
+		############### УСТАРЕВШИЙ КОД, для поддержки старых ригов ###############
 		import pymel.core.datatypes as dt
 		import pymel.core as pm
+
+		def get_element_scale(part):
+			out_nodes = getOutputNodes(control, f"length{part}")
+			for node in out_nodes:
+				if cmds.objectType(node) == "multDoubleLinear":
+					scale = cmds.getAttr(node + ".input1")
+					return scale
+		
+
+		init_scale1 = get_element_scale(part=1)
+				
 		p0 = pm.xform(m_name+'_root_outJoint', ws=1, q=1, t=1)        
 		p1 = pm.xform(m_name+'_knee_outJoint', ws=1, q=1, t=1)
 		v0 = dt.Vector(p0)
@@ -337,7 +451,7 @@ def from_ik_to_fk(control):
 		l = v.length()
 		scl = cmds.getAttr(m_name+"_root_connector_decomposeMatrix.outputScaleX")
 		scl_converted = l/scl
-		l1 = scl_converted/init_tB
+		length_1 = scl_converted/init_scale1
 		
 		if not quad:
 			p0 = pm.xform(m_name+'_b_finalJoint', ws=1, q=1, t=1)        
@@ -347,9 +461,9 @@ def from_ik_to_fk(control):
 			v = v1 - v0
 			l = v.length()
 			scl_converted = l/scl
-			init_tEnd = cmds.getAttr(m_name + "_initScaleEnd_mult.input1")
-			l2 = scl_converted/init_tEnd
-			print (444, l1, l2)
+			init_scale2 = cmds.getAttr(m_name + "_initScaleEnd_mult.input1")
+			length_3 = scl_converted/init_scale2
+			print (444, length_1, length_3)
 			
 		else:
 			p0 = pm.xform(m_name+'_knee_outJoint', ws=1, q=1, t=1)        
@@ -359,8 +473,8 @@ def from_ik_to_fk(control):
 			v = v1 - v0
 			l = v.length()
 			scl_converted = l/scl
-			init_tEnd = cmds.getAttr(m_name + "_initScale2_mult.input1")
-			l2 = scl_converted/init_tEnd
+			init_scale2 = cmds.getAttr(m_name + "_initScale2_mult.input1")
+			length_3 = scl_converted/init_scale2
 
 			p0 = pm.xform(m_name+'_ankle_outJoint', ws=1, q=1, t=1)        
 			p1 = pm.xform(m_name+'_end_outJoint', ws=1, q=1, t=1)
@@ -369,10 +483,11 @@ def from_ik_to_fk(control):
 			v = v1 - v0
 			l = v.length()
 			scl_converted = l/scl
-			init_tEnd = cmds.getAttr(m_name + "_initScaleEnd_mult.input1")
-			lEnd = scl_converted/init_tEnd
-			print (44444, l1, l2, lEnd )
-	
+			init_scale2 = cmds.getAttr(m_name + "_initScaleEnd_mult.input1")
+			length_2 = scl_converted/init_scale2
+			print (44444, length_1, length_3, length_2 )
+		##########################################################################
+
 	# snapping fk controls
 	snap( getControlNameFromInternal(m_name, "fk_a") )
 	snap( getControlNameFromInternal(m_name, "fk_b") )		
@@ -385,12 +500,12 @@ def from_ik_to_fk(control):
 	else:
 		snap( getControlNameFromInternal(m_name, "fk_end") )
 	
-	cmds.setAttr(control + ".length1", l1)
+	cmds.setAttr(control + ".length1", length_1)
 	if quad: 
-		cmds.setAttr(control + ".length2", l2)
-		cmds.setAttr(control + ".length3", lEnd)
+		cmds.setAttr(control + ".length2", length_2)
+		cmds.setAttr(control + ".length3", length_3)
 	else:
-		cmds.setAttr(control + ".length2", lEnd)
+		cmds.setAttr(control + ".length2", length_2)
 
 	cmds.setAttr(control + ".ikFk", 0)
 
@@ -542,6 +657,7 @@ def snapElbowKnee():
 ##################################
 # Symmetry Mirror
 ##################################
+
 '''
 def getMatrix(node):
 	# Gets the world matrix of an object based on name.

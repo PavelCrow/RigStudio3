@@ -67,8 +67,8 @@ class ChainIk(module.Module) :
 
 			if i > 1:
 				cmds.parent( poser, poser.replace(str(i+1)+"_poser", str(i)+"_poser") )
-			else:
-				cmds.duplicate(self.name+"_root_initLoc", n=self.name+"_element_1_initLoc")
+			# else:
+			# 	cmds.duplicate(self.name+"_root_initLoc", n=self.name+"_element_1_initLoc")
 
 		cmds.parent( self.name+'_element_2_poser', self.name+'_root_poser' )
 		

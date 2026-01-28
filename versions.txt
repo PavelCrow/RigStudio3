@@ -707,3 +707,7 @@ Fixed add controls flip on foot module
 Fixed stretch volume scale on twists joints
 Fixed chainIk joints stretch values
 Updated mouth module
+
+---Version 3.18.2
+Removed duplicated init locs in ChainIK module
+updated switch IkFk script for transformed fk controls

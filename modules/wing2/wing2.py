@@ -64,6 +64,7 @@ class Wing2(module.Module) :
 		self.widget.wingSurf_btn.clicked.connect(self.toggle_wing_surf)
 		self.widget.armSurf_btn.clicked.connect(self.toggle_arm_surf)
 		self.widget.featherPlanes_btn.clicked.connect(self.toggle_feathers_planes)
+		self.widget.featherJoints_btn.clicked.connect(self.toggle_feathers_joints)
 
 		self.widget.matchSelected_btn.clicked.connect(partial(self.match, "sel"))
 		self.widget.matchAll_btn.clicked.connect(partial(self.match, "all"))
@@ -98,6 +99,11 @@ class Wing2(module.Module) :
 		self.widget.twistTip_spinBox.valueChanged.connect(partial(self.spinbox_update, "twistTip"))
 		self.widget.bend_spinBox.valueChanged.connect(partial(self.spinbox_update, "bend"))
 
+		self.widget.autotwist_root_slider.valueChanged.connect(partial(self.autotwistSlider_update, "root"))
+		self.widget.autotwist_tip_slider.valueChanged.connect(partial(self.autotwistSlider_update, "tip"))
+		self.widget.autotwist_root_spinBox.valueChanged.connect(partial(self.autotwistSpinBox_update, "root"))
+		self.widget.autotwist_tip_spinBox.valueChanged.connect(partial(self.autotwistSpinBox_update, "tip"))
+
 		self.widget.aimDistance_spinBox.valueChanged.connect(self.update_aim_distance)
 	
 	def updateOptionsPage(self, widget=None):
@@ -107,10 +113,16 @@ class Wing2(module.Module) :
 			return
 		
 		self.widget.aimDistance_spinBox.setValue(cmds.getAttr(self.name+"_mod.aim_offset"))
+		self.widget.autotwist_root_slider.setValue(cmds.getAttr(self.name+"_bifrostGraphShape.auto_twist_root")*10)
+		self.widget.autotwist_tip_slider.setValue(cmds.getAttr(self.name+"_bifrostGraphShape.auto_twist_tip")*10)
 		
 		planes = cmds.ls(f"{self.name}_layer_*_feather_*_geo")
 		if planes:
 			self.widget.featherPlanes_btn.setChecked(cmds.getAttr(planes[0]+".visibility"))
+			
+		joints = cmds.ls(f"{self.name}_layer_*_feather_*_outJoint")
+		if joints:
+			self.widget.featherJoints_btn.setChecked(cmds.getAttr(joints[0]+".visibility"))
 		
 		self.widget.wingSurf_btn.setChecked(cmds.getAttr(self.name+"_surf.visibility"))
 		self.widget.armSurf_btn.setChecked(cmds.getAttr(self.name+"_arm_surf.visibility"))
@@ -126,7 +138,7 @@ class Wing2(module.Module) :
 		self.widget.tableWidget.setRowCount(0)
 
 		# add feathers widgets
-		path = os.path.join(self.mainInstance.rootPath, "modules", self.type, self.type + "_addLayer_widget.ui")
+		# path = os.path.join(self.mainInstance.rootPath, "modules", self.type, self.type + "_addLayer_widget.ui")
 		self.layers_widgets = []
 		for i, l in enumerate(self.options['layersData']):
 			count = self.widget.tableWidget.rowCount()
@@ -204,6 +216,19 @@ class Wing2(module.Module) :
 			opp_planes = cmds.ls(f"{utils.getOpposite(self.name)}_layer_*_feather_*_geo")
 			for p in opp_planes:
 				cmds.setAttr(p+".visibility", en)
+
+	def toggle_feathers_joints(self):
+		en = self.widget.featherJoints_btn.isChecked()
+
+		joints = cmds.ls(f"{self.name}_layer_*_feather_*_outJoint")
+				
+		for j in joints:
+			cmds.setAttr(j+".visibility", en)
+		
+		if self.symmetrical:
+			opp_joints = cmds.ls(f"{utils.getOpposite(self.name)}_layer_*_feather_*_outJoint")
+			for j in opp_joints:
+				cmds.setAttr(j+".visibility", en)
 
 	def toggle_wing_surf(self):
 		en = self.widget.wingSurf_btn.isChecked()
@@ -290,6 +315,8 @@ class Wing2(module.Module) :
 		optionsData = {}
 		optionsData['layersData'] = layersData
 		optionsData['aimDistance'] = cmds.getAttr(self.name+"_mod.aim_offset")
+		optionsData['autoTwistRoot'] = cmds.getAttr(self.name+"_bifrostGraphShape.auto_twist_root")
+		optionsData['autoTwistTip'] = cmds.getAttr(self.name+"_bifrostGraphShape.auto_twist_tip")
 		
 		return optionsData
 	
@@ -307,6 +334,13 @@ class Wing2(module.Module) :
 
 		self.update_aim_distance(data['aimDistance'])
 		
+		cmds.setAttr(f"{self.name}_bifrostGraphShape.auto_twist_root", data['autoTwistRoot'])
+		cmds.setAttr(f"{self.name}_bifrostGraphShape.auto_twist_tip", data['autoTwistTip'])
+		if self.opposite:
+			opp_name = utils.getOpposite(self.name)
+			cmds.setAttr(f"{opp_name}_bifrostGraphShape.auto_twist_root", data['autoTwistRoot'])
+			cmds.setAttr(f"{opp_name}_bifrostGraphShape.auto_twist_tip", data['autoTwistTip'])
+
 		layersCount = self.layersCount = len(cmds.listRelatives(self.name+"_feathers_controls") or [])
 		for i in range(layersCount):
 			self.removeLastLayer()
@@ -450,6 +484,7 @@ class Wing2(module.Module) :
 							
 				j = pm.joint(n=c+"_outJoint")
 				pm.parent(j,c)
+				j.v.set(0)
 				j_in = pm.duplicate(c+"_outJoint", n=c+"_in_outJoint")[0]
 				j_out = pm.duplicate(c+"_outJoint", n=c+"_out_outJoint")[0]
 				pm.setAttr(c.v, keyable=0, channelBox=0)
@@ -520,32 +555,9 @@ class Wing2(module.Module) :
 			elif utils.getObjectSide(name) == "r":
 				opp_name = utils.getOpposite(name)
 				for d_name in ["wide", "slideMin", "slideMax", "lengthMin", "lengthMax", "offsetRoot", "offsetTip", "twistRoot", "twistTip", "bend"]:
-					# if "offset" in d_name:
-					# 	m = cmds.createNode("multDoubleLinear")
-					# 	cmds.connectAttr(f"{opp_name}_layer_{layer_id}_control.{d_name}", m+".input1")
-					# 	cmds.setAttr(m+".input2", -1)
-					# 	cmds.connectAttr(m+".output", f"{name}_layer_{layer_id}_control.{d_name}")
-					# else:
 					cmds.connectAttr(f"{opp_name}_layer_{layer_id}_control.{d_name}", f"{name}_layer_{layer_id}_control.{d_name}")
-				
-				# connections = cmds.listConnections(f"{name}_mainPoser.flatten", plugs=True, destination=False)
-				# if not connections:
-				# 	cmds.connectAttr(f"{opp_name}_mainPoser.flatten", f"{name}_mainPoser.flatten")
-				# 	cmds.connectAttr(f"{opp_name}_mainPoser.dysplayPosers", f"{name}_mainPoser.dysplayPosers")
 
-				# def connectOppClosedPosers(c):
-				# 	print(333, c)
-				# 	cmds.connectAttr(f"{opp_name}_{c}.t", f"{name}_{c}.t")
-				# 	try:
-				# 		cmds.connectAttr(f"{opp_name}_{c}.r", f"{name}_{c}.r")
-				# 	except: pass
 
-				# for c in ["clav_closed", "ik_root_closed", "ik_aim_closed", "ik_end_closed", 
-			  	# 			"main_4_closed", "main_3_closed", "main_2_closed", "main_1_closed"]:
-				# 	connectOppClosedPosers(c)
-				# for i in range(1, 8):
-				# 	for n in range(1, 4):
-				# 		connectOppClosedPosers("feathers_{i}_{n}_closed")
 
 		pm.select(layer_c)
 
@@ -607,15 +619,16 @@ class Wing2(module.Module) :
 
 			cm = pm.createNode("composeMatrix")
 			cm.inputScaleX.set(-1)
+			cm.inputScaleZ.set(-1)
 
 			def connectOppClosedPosersByMatrix(c):
 				mm = pm.createNode("multMatrix")
 				dm = pm.createNode("decomposeMatrix")
 				p = pm.listRelatives(f"{name}_{c}", p=1)[0]
 
-				pm.connectAttr(f"{opp_name}_{c}.worldMatrix[0]", mm.matrixIn[0])
+				pm.connectAttr(f"{opp_name}_{c}.matrix", mm.matrixIn[0])
 				cm.outputMatrix >> mm.matrixIn[1]
-				p.worldInverseMatrix[0] >> mm.matrixIn[2]
+				p.inverseMatrix >> mm.matrixIn[2]
 				mm.matrixSum >> dm.inputMatrix
 				pm.connectAttr(dm.outputTranslate, f"{name}_{c}.t")
 
@@ -639,8 +652,10 @@ class Wing2(module.Module) :
 
 			for i in range(1, 8):
 				for n in range(1, 4):
-					# print(33333, f"feathers_{i}_{n}_closed")
 					connectOppClosedPosers(f"feathers_{i}_{n}_closed")
+
+			for i in range(1, 14):
+				connectOppClosedPosers(f"armEdge_{i}_closed")					
 		
 	def deleteLayer(self, mainInstance=None, widget=None, layer_id=1, update=True):
 		# print("DELETE", layer_id)
@@ -712,6 +727,22 @@ class Wing2(module.Module) :
 		try:
 			cmds.setAttr(c+"."+type, value)
 		except: pass
+
+	def autotwistSpinBox_update(self, type, value):
+		eval(f"self.widget.autotwist_{type}_slider.setValue({value*10})")
+		try:
+			cmds.setAttr(f"{self.name}_bifrostGraphShape.auto_twist_{type}", value)
+			if self.symmetrical:
+				opp_name = utils.getOpposite(self.name)
+				cmds.setAttr(f"{opp_name}_bifrostGraphShape.auto_twist_{type}", value)
+		except: pass
+
+	def autotwistSlider_update(self, type, v):
+		if self.opposite:
+			return
+
+		value = round(v * 0.1, 3)
+		eval(f"self.widget.autotwist_{type}_spinBox.setValue({value})")
 
 	def update_aim_distance(self, v=None):
 		def setValue(v):
