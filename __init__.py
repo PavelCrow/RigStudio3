@@ -33,36 +33,29 @@
 # rigStudio3.run()
 
 import os
-from importlib import reload
+import importlib
 
 rootPath = os.path.normpath(os.path.dirname(__file__))
-# if os.path.exists(os.path.join(rootPath, "main.py")):
-from . import ui, utils, main, rig, module, parents, twist, tools, moduleBuilder, inbetweens, driver, template, attributes, sets, controller, additionalControl, posers
-reload(ui)
-reload(utils)
-reload(module)
-reload(rig)
-reload(twist)
-reload(inbetweens)
-reload(parents)
-reload(attributes)
-reload(tools)
-reload(sets)
-reload(moduleBuilder)
-reload(driver)
-reload(template)
-reload(controller)
-reload(additionalControl)
-reload(posers)
-reload(main)
-# reload(check)
 
-# else:
-#     from rigStudio3 import utils
-#     main = utils.import_pyc("main")
-
+def reload_modules():
+    """Перезагрузка модулей"""
+    modules = ['ui', 'utils', 'rig', 'module', 'tools', 'parents', 'twist', 
+               'inbetweens', 'driver', 'template', 'attributes', 'sets', 
+               'controller', 'additionalControl', 'posers']
+    for mod_name in modules:
+        try:
+            mod = __import__(f'rigStudio3.{mod_name}', fromlist=[''])
+            importlib.reload(mod)
+            # print(f"✓ {mod_name}")
+        except Exception as e:
+            pass
+            # print(f"✗ {mod_name}: {e}")
 
 def run():
+    reload_modules()
+    main = importlib.import_module('rigStudio3.main')
+    importlib.reload(main)
+
     global rs_win
     try:
         import rigStudio3

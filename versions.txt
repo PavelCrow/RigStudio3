@@ -711,3 +711,4 @@ Updated mouth module
 ---Version 3.18.2
 Removed duplicated init locs in ChainIK module
 updated switch IkFk script for transformed fk controls
+__init__ update
