@@ -53,7 +53,7 @@ def reload_modules():
 
 def run():
     reload_modules()
-    main = importlib.import_module('rigStudio3.main')
+    from . import main
     importlib.reload(main)
 
     global rs_win
