@@ -31,7 +31,7 @@
 # Python commamd:
 # import rigStudio3
 # rigStudio3.run()
-pr
+
 import os
 import importlib
 
