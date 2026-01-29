@@ -31,7 +31,7 @@
 # Python commamd:
 # import rigStudio3
 # rigStudio3.run()
-
+pr
 import os
 import importlib
 
@@ -53,7 +53,7 @@ def reload_modules():
 
 def run():
     reload_modules()
-    from . import main
+    from rigStudio3 import main
     importlib.reload(main)
 
     global rs_win
@@ -65,3 +65,44 @@ def run():
         pass
     rs_win = main.MainWindow()
 
+
+
+
+'''
+from . import ui, utils, main, rig, module, parents, twist, tools, moduleBuilder, inbetweens, driver, template, attributes, sets, controller, additionalControl, posers
+reload(ui)
+reload(utils)
+reload(module)
+reload(rig)
+reload(twist)
+reload(inbetweens)
+reload(parents)
+reload(attributes)
+reload(tools)
+reload(sets)
+reload(moduleBuilder)
+reload(driver)
+reload(template)
+reload(controller)
+reload(additionalControl)
+reload(posers)
+reload(main)
+# reload(check)
+
+# else:
+#     from rigStudio3 import utils
+#     main = utils.import_pyc("main")
+
+
+def run():
+    global rs_win
+    try:
+        import rigStudio3
+        rigStudio3.rs_win.win.close()
+        rigStudio3.rs_win.win.deleteLater()
+    except:
+        pass
+    rs_win = main.MainWindow()
+
+
+    '''
