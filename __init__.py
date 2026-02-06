@@ -32,10 +32,14 @@
 # import rigStudio3
 # rigStudio3.run()
 
-import os
+import os, sys
+from pathlib import Path
 import importlib
 
 rootPath = os.path.normpath(os.path.dirname(__file__))
+scripts_folder = Path(rootPath).resolve().parent
+if str(scripts_folder) not in sys.path:
+    sys.path.insert(0, str(scripts_folder))
 
 def reload_modules():
     """Перезагрузка модулей"""
@@ -53,6 +57,7 @@ def reload_modules():
 
 def run():
     reload_modules()
+
     from rigStudio3 import main
     importlib.reload(main)
 
