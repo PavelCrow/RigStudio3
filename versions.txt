@@ -717,3 +717,4 @@ __init__ update
 Maya 2026 support
 returned modules icons
 updated chainIk module
+switchIkFk script update

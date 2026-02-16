@@ -205,7 +205,7 @@ def switchIkFk(simple=False):
 	if sels:
 		cmds.select(sels)
 
-def get_lengths(control):
+def get_lengths(control, m_name):
 
 	quad = cmds.objExists(control+".length3")
 	lengths = []
@@ -354,9 +354,9 @@ def from_fk_to_ik(control):
 	quad = cmds.objExists(control+".length3")
 
 	if quad:
-		length_1, length_2, length_3 = get_lengths(control)
+		length_1, length_2, length_3 = get_lengths(control, m_name)
 	else:
-		length_1, length_2 = get_lengths(control)
+		length_1, length_2 = get_lengths(control, m_name)
 
 	if cmds.objExists(m_name + "_a_finalJoint"):
 		joint_1 = m_name + '_a_finalJoint'
@@ -433,9 +433,9 @@ def from_ik_to_fk(control):
 
 	if cmds.objExists(m_name + "_b_finalJoint"):
 		if quad:
-			length_1, length_2, length_3 = get_lengths(control)
+			length_1, length_2, length_3 = get_lengths(control, m_name)
 		else:
-			length_1, length_2 = get_lengths(control)
+			length_1, length_2 = get_lengths(control, m_name)
 	else:
 		############### УСТАРЕВШИЙ КОД, для поддержки старых ригов ###############
 		import pymel.core.datatypes as dt
