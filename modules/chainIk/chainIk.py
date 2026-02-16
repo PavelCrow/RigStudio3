@@ -57,7 +57,7 @@ class ChainIk(module.Module) :
 					pm.rename(o, o.replace("root", 'element_'+str(i+1)))
 
 			mns = cmds.createNode("makeNurbSphere", name=poser+"_makeNurbSphere")
-			mult = cmds.createNode("multDoubleLinear", name=poser+"_multDoubleLinear")
+			mult = utils.createNode("multDoubleLinear", name=poser+"_multDoubleLinear")
 			cmds.connectAttr(self.name+"_mainPoser.globalSize", mult+".input1")
 			cmds.connectAttr(poser+".size", mult+".input2")
 			cmds.connectAttr(mult+".output", mns+".radius")
@@ -67,8 +67,8 @@ class ChainIk(module.Module) :
 
 			if i > 1:
 				cmds.parent( poser, poser.replace(str(i+1)+"_poser", str(i)+"_poser") )
-			# else:
-			# 	cmds.duplicate(self.name+"_root_initLoc", n=self.name+"_element_1_initLoc")
+			else:
+				cmds.duplicate(self.name+"_root_initLoc", n=self.name+"_element_1_initLoc")
 
 		cmds.parent( self.name+'_element_2_poser', self.name+'_root_poser' )
 		
@@ -130,7 +130,7 @@ class ChainIk(module.Module) :
 				utils.connectByMatrix(self.name+'_element_1_group', [self.name+'_root_connector'] )
 
 				decMat = pm.createNode('decomposeMatrix', n=ctrl+"_scale_decomposeMatrix")
-				mult = pm.createNode('multDoubleLinear', n=ctrl+"_scale_multDoubleLinear")
+				mult = utils.createNode('multDoubleLinear', n=ctrl+"_scale_multDoubleLinear", pymel=True)
 				cond = pm.createNode('condition', n=ctrl+"_scale_condition")
 				c = pm.PyNode(ctrl)
 
@@ -511,7 +511,7 @@ class ChainIk(module.Module) :
 		initCurveScaled.outputX >> chainLength_mult.input1X
 		chainLength_mult.input2X.set(chainsCount-1)
 
-		lenght_mult = pm.createNode("multDoubleLinear", n = name+'_length_mult')
+		lenght_mult = utils.createNode("multDoubleLinear", n = name+'_length_mult', pymel=True)
 		dynCtrl.length >> lenght_mult.input1
 		chainLength_mult.outputX >> lenght_mult.input2
 		lenght_mult.output >> blend.color2R
@@ -521,11 +521,11 @@ class ChainIk(module.Module) :
 		pm.connectAttr(name+"_mainPoser_decomposeMatrix.outputScaleX", currentScale_mult.input1X)
 		pm.connectAttr(name+"_decomposeMatrix.outputScaleX", currentScale_mult.input2X)
 		
-		offsetLenght_mult = pm.createNode("multDoubleLinear", n = name+'_offsetLenghtMult')
+		offsetLenght_mult = utils.createNode("multDoubleLinear", n = name+'_offsetLenghtMult', pymel=True)
 		offsetCurve_mult.outputX >> offsetLenght_mult.input1
 		chainLength_mult.outputX >> offsetLenght_mult.input2
 		
-		stretch_mult = pm.createNode("multDoubleLinear", n = name+'_stretchMult')
+		stretch_mult = utils.createNode("multDoubleLinear", n = name+'_stretchMult', pymel=True)
 		offsetLenght_mult.output >> stretch_mult.input1
 		currentScale_mult.outputX >> stretch_mult.input2
 		stretch_mult.output >> blend.color1R
@@ -546,7 +546,7 @@ class ChainIk(module.Module) :
 			stretchVolume_mult.outputX >> joints[i].sz
 			joints[i].segmentScaleCompensate.set(1)
 			if i > 0:
-				mult6 = pm.createNode('addDoubleLinear', n=joints[i]+'_offsetTransform')
+				mult6 = utils.createNode('addDoubleLinear', n=joints[i]+'_offsetTransform', pymel=True)
 				blend.outputR >> mult6.input1
 				joints[i].addAttr("offset", k=1)
 				joints[i].offset >> mult6.input2
@@ -760,7 +760,7 @@ class ChainIk(module.Module) :
 		l_c.stretchVolume >> r_c.stretchVolume
 		l_c.autoTwist >> r_c.autoTwist
 		
-		mult_roll = pm.createNode('multDoubleLinear')
+		mult_roll = utils.createNode('multDoubleLinear')
 		utils.addModuleNameAttr(mult_roll, self.name)	
 		mult_roll.input2.set(-1)
 		l_c.roll >> mult_roll.input1

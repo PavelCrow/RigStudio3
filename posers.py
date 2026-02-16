@@ -190,8 +190,8 @@ def reconnectSize():
 				if n.name().split("_")[-1] == "cluster":
 					line_clusters.append(n)
 		
-		mult1 = pm.createNode("multDoubleLinear", n=p.name()+"_sizeMult")
-		mult2 = pm.createNode("multDoubleLinear", n=p.name()+"_scaleCorrect")
+		mult1 = utils.createNode("multDoubleLinear", n=p.name()+"_sizeMult", pymel=True)
+		mult2 = utils.createNode("multDoubleLinear", n=p.name()+"_scaleCorrect", pymel=True)
 		
 		p.lineWidth >> mult1.input1
 		p.size >> mult1.input2

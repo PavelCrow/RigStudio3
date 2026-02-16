@@ -286,7 +286,7 @@ class Eyelids2(module.Module) :
 					plus.output3D >> mult.input1
 					pm.connectAttr(self.name+'_mainPoser.scaleRotate', mult.input2X)
 					pm.connectAttr(self.name+'_mainPoser.scaleRotate', mult.input2Y)
-					mult2 = pm.createNode('multDoubleLinear',n=self.name+'_%s_%s_lid_%s_rotate_multDoubleLinear' %(side,dir,i))
+					mult2 = utils.createNode('multDoubleLinear',n=self.name+'_%s_%s_lid_%s_rotate_multDoubleLinear' %(side,dir,i), pymel=True)
 					mult.outputX >> root_j.ry
 					mult.outputY >> mult2.input1
 					mult2.input2.set(-1)

@@ -175,7 +175,7 @@ class Mouth(module.Module) :
 				pm.connectAttr('mouth_mainPoser_decomposeMatrix.outputScale', gr.s)
 				
 				if "r" in side:
-					m = pm.createNode("multDoubleLinear")
+					m = utils.createNode("multDoubleLinear", pymel=True)
 					pm.connectAttr('mouth_mainPoser_decomposeMatrix.outputScaleX', m.input1)
 					m.input2.set(-1)
 					m.output >> gr.sx

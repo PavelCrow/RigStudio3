@@ -9,6 +9,8 @@ from . import controller, additionalControl
 modulePath = os.path.normpath(os.path.dirname(__file__))
 #moduleName = __name__.split('.')[0]
 
+version = int(cmds.about(v=True).split(" ")[0])
+
 def pyToAttr(objAttr, data):
 	"""
 	Write (pickle) Python data to the given Maya obj.attr.  This data can
@@ -1255,3 +1257,26 @@ def get_version():
 
 	lastVestion = versions[-1].split('---')[1]
 	return lastVestion
+
+def createNode(type, name=None, n=None, pymel=False):
+	if version >= 2026:
+		if type == "multDoubleLinear": type = "multDL"
+		if type == "addDoubleLinear": type = "addDL"
+
+	if n: name = n
+	if not name: name = type
+
+	if pymel:
+		node = pm.createNode(type, name=name)
+	else:
+		node = cmds.createNode(type, name=name)
+
+	return node
+
+def objectType(node):
+	result = pm.objectType(node) == type
+
+	if version >= 2026:
+		if type == "multDL": type = "multDoubleLinear"
+
+	return result

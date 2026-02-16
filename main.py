@@ -2528,7 +2528,7 @@ class MainWindow:
                     parent.addChild(items[name])
 
                 # set module Icon
-                # item.setIcon(0, QtGui.QIcon(self.rootPath + '/ui/icons/module_%s.png' % m.type))
+                item.setIcon(0, QtGui.QIcon(self.rootPath + '/ui/icons/module_%s.png' % m.type))
                 
                 if m.opposite:
                     item.setForeground(0, QtGui.QBrush(QtGui.QColor("#6C6B6B")))

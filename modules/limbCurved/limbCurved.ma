@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: limbCurved.ma
-//Last modified: Wed, Sep 24, 2025 09:02:50 PM
+//Last modified: Sun, Feb 08, 2026 06:29:43 AM
 //Codeset: 1251
 requires maya "2022";
 requires -nodeType "inverseMatrix" "matrixNodes" "1.0";
@@ -15,13 +15,13 @@ fileInfo "application" "maya";
 fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202110272215-ad32f8f1e6";
-fileInfo "osv" "Windows 10 Pro v2009 (Build: 26100)";
-fileInfo "UUID" "C558F57A-4F55-D2AF-08FA-6EA94F2D078B";
+fileInfo "osv" "Windows 10 Pro v2009 (Build: 26200)";
+fileInfo "UUID" "5B209D10-493D-D27B-45C0-709E67F5EF56";
 createNode transform -s -n "persp";
 	rename -uid "9930C439-4773-B55F-3AF3-1197E8D2931A";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 10.451772364555062 12.184674670336815 9.5116198322527321 ;
-	setAttr ".r" -type "double3" -52.200000000027963 379.59999999990157 0 ;
+	setAttr ".t" -type "double3" 14.723914700829132 11.934230377973215 17.281353952215376 ;
+	setAttr ".r" -type "double3" -34.20000000002797 386.39999999989391 0 ;
 	setAttr ".rp" -type "double3" 1.1102230246251563e-16 0 8.8817841970012523e-16 ;
 	setAttr ".rpt" -type "double3" 5.7589012943859782e-16 4.8375017868310666e-16 -2.7025092621108523e-16 ;
 createNode camera -s -n "perspShape" -p "persp";
@@ -30,7 +30,7 @@ createNode camera -s -n "perspShape" -p "persp";
 	setAttr ".fl" 34.999999999999979;
 	setAttr ".ncp" 0.001;
 	setAttr ".fcp" 50000;
-	setAttr ".coi" 18.361026456835937;
+	setAttr ".coi" 24.58322484706985;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -2827,7 +2827,6 @@ createNode bifrostGraphShape -n "bifrostGraphShape" -p "bifrostGraph";
 	addAttr -r false -ci true -k true -sn "JobPorts__Math_epsilonFloat" -ln "JobPorts__Math_epsilonFloat" 
 		-at "float";
 	setAttr -k off ".v";
-	setAttr -s 2 ".iog";
 	setAttr ".covm[0]"  0 1 1;
 	setAttr ".cdvm[0]"  0 1 1;
 	setAttr ".sc" -type "string" (
@@ -2836,15 +2835,15 @@ createNode bifrostGraphShape -n "bifrostGraphShape" -p "bifrostGraph";
 		+ "                                                {\n                                                    \"metaName\": \"end_matrix\"\n                                                },\n                                                {\n                                                    \"metaName\": \"middle_bend\"\n                                                },\n                                                {\n                                                    \"metaName\": \"smooth_mode\"\n                                                },\n                                                {\n                                                    \"metaName\": \"radius\"\n                                                },\n                                                {\n                                                    \"metaName\": \"sharp_corner\"\n                                                },\n                                                {\n                                                    \"metaName\": \"startWeight\"\n                                                },\n"
 		+ "                                                {\n                                                    \"metaName\": \"endWeight\"\n                                                },\n                                                {\n                                                    \"metaName\": \"init_length\"\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"input1\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n"
 		+ "                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-948.189 1803.1\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"in_upper_bend\"\n                                                },\n                                                {\n                                                    \"metaName\": \"in_lower_bend\"\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                }\n                            ]\n                        },\n                        {\n                            \"metaName\": \"io_onodes\",\n                            \"metadata\": [\n"
-		+ "                                {\n                                    \"metaName\": \"output\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"main_bend_upper\"\n                                                },\n                                                {\n                                                    \"metaName\": \"main_bend_lower\"\n                                                },\n                                                {\n                                                    \"metaName\": \"main_bend_center\"\n"
-		+ "                                                },\n                                                {\n                                                    \"metaName\": \"corner_wide\"\n                                                },\n                                                {\n                                                    \"metaName\": \"corner_wide_out\"\n                                                },\n                                                {\n                                                    \"metaName\": \"corner_wide_negated\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_lower_slide_1\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_lower_slide_2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_lower_slide_3\"\n"
-		+ "                                                },\n                                                {\n                                                    \"metaName\": \"out_upper_slide_1\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_upper_slide_2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_upper_slide_3\"\n                                                }\n                                            ]\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"545.001 376.133\"\n                                        }\n                                    ]\n"
-		+ "                                },\n                                {\n                                    \"metaName\": \"output1\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"314.438 1318.6\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"bend_lower_1\"\n"
+		+ "                                {\n                                    \"metaName\": \"output\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"545.001 376.133\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"main_bend_upper\"\n                                                },\n"
+		+ "                                                {\n                                                    \"metaName\": \"main_bend_lower\"\n                                                },\n                                                {\n                                                    \"metaName\": \"main_bend_center\"\n                                                },\n                                                {\n                                                    \"metaName\": \"corner_wide\"\n                                                },\n                                                {\n                                                    \"metaName\": \"corner_wide_out\"\n                                                },\n                                                {\n                                                    \"metaName\": \"corner_wide_negated\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_lower_slide_1\"\n"
+		+ "                                                },\n                                                {\n                                                    \"metaName\": \"out_lower_slide_2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_lower_slide_3\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_upper_slide_1\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_upper_slide_2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_upper_slide_3\"\n                                                }\n                                            ]\n                                        }\n"
+		+ "                                    ]\n                                },\n                                {\n                                    \"metaName\": \"output1\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"314.438 1318.6\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"bend_lower_1\"\n"
 		+ "                                                },\n                                                {\n                                                    \"metaName\": \"bend_lower_2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"bend_lower_3\"\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"output2\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n"
 		+ "                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"295.2 1805.29\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"bend_upper_1\"\n                                                },\n                                                {\n                                                    \"metaName\": \"bend_upper_2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"bend_upper_3\"\n                                                }\n                                            ]\n                                        }\n"
 		+ "                                    ]\n                                }\n                            ]\n                        }\n                    ]\n                },\n                {\n                    \"metaName\": \"backdrop3\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"type\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"backdrop\"\n                        },\n                        {\n                            \"metaName\": \"title\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"Upper bend\"\n                        },\n                        {\n                            \"metaName\": \"coords\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-637.167 3283.59 2214.29 1111.97\"\n                        }\n                    ]\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n"
 		+ "                    \"metaValue\": \"BifrostGraph,User::Compounds,print\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Constants,float\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Math,lerp\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Logic,if\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::FCurve,evaluate_fcurve\"\n                },\n                {\n                    \"metaName\": \"internal\",\n                    \"metaValue\": \"true\"\n                },\n                {\n                    \"metaName\": \"ViewportRect\",\n"
-		+ "                    \"metaType\": \"string\",\n                    \"metaValue\": \"-276.992 357.191 554.732 950.848\"\n                }\n            ],\n            \"ports\": [\n                {\n                    \"portName\": \"angle\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"main_bend_upper\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"main_bend_lower\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"main_bend_center\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"bend_upper_1\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"Math::float3\"\n"
+		+ "                    \"metaType\": \"string\",\n                    \"metaValue\": \"-1469.45 -93.2179 2122.39 3197.96\"\n                }\n            ],\n            \"ports\": [\n                {\n                    \"portName\": \"angle\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"main_bend_upper\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"main_bend_lower\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"main_bend_center\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"bend_upper_1\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"Math::float3\"\n"
 		+ "                },\n                {\n                    \"portName\": \"bend_upper_2\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"bend_upper_3\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"bend_lower_1\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"bend_lower_2\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"bend_lower_3\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"global_scale\",\n                    \"portDirection\": \"input\",\n"
 		+ "                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"start_matrix\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float4x4\"\n                },\n                {\n                    \"portName\": \"middle_matrix\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float4x4\"\n                },\n                {\n                    \"portName\": \"end_matrix\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float4x4\"\n                },\n                {\n                    \"portName\": \"middle_bend\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"smooth_mode\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"radius\",\n                    \"portDirection\": \"input\",\n"
 		+ "                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"corner_wide\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"corner_wide_out\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"corner_wide_negated\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"in_upper_bend\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"in_lower_bend\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"out_lower_slide_1\",\n                    \"portDirection\": \"output\",\n"
@@ -3005,24 +3004,19 @@ createNode bifrostGraphShape -n "bifrostGraphShape" -p "bifrostGraph";
 		+ "                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-778.697 587.06\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"main_bend_controls\",\n                    \"nodeType\": \"main_bend_controls\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-161.333 103.272\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"Corner_wide\",\n                    \"nodeType\": \"Corner_wide\",\n"
 		+ "                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-172.898 603.79\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"length\",\n                    \"nodeType\": \"length\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-777.883 75.1914\"\n                        }\n"
 		+ "                    ]\n                },\n                {\n                    \"nodeName\": \"lower_bend\",\n                    \"nodeType\": \"lower_bend\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-201.543 1318.02\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"upper_bend\",\n                    \"nodeType\": \"upper_bend\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n"
-		+ "                            \"metaType\": \"string\",\n                            \"metaValue\": \"-233.417 1799.62\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"print\",\n                    \"nodeType\": \"User::Compounds::print\",\n                    \"terminalStates\": [\n                        {\n                            \"name\": \"Core::Graph::terminal::final\",\n                            \"enabled\": \"true\"\n                        },\n                        {\n                            \"name\": \"Core::Graph::terminal::proxy\",\n                            \"enabled\": \"true\"\n                        },\n                        {\n                            \"name\": \"Core::Graph::terminal::diagnostic\",\n                            \"enabled\": \"false\"\n                        }\n                    ],\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n"
-		+ "                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1354.5 1333.4\"\n                        }\n                    ]\n                }\n            ],\n            \"connections\": [\n                {\n                    \"source\": \".middle_bend\",\n                    \"target\": \"bend_driver.middle_bend\"\n                },\n                {\n                    \"source\": \".smooth_mode\",\n                    \"target\": \"bend_driver.smooth_mode\"\n                },\n                {\n                    \"source\": \".angle\",\n                    \"target\": \"bend_driver.angle\"\n                },\n                {\n                    \"source\": \"bend_driver.output\",\n                    \"target\": \"main_bend_controls.output\"\n                },\n                {\n                    \"source\": \"main_bend_controls.vector3\",\n                    \"target\": \".main_bend_upper\"\n"
-		+ "                },\n                {\n                    \"source\": \"main_bend_controls.vector4\",\n                    \"target\": \".main_bend_lower\"\n                },\n                {\n                    \"source\": \"main_bend_controls.vector5\",\n                    \"target\": \".main_bend_center\"\n                },\n                {\n                    \"source\": \"Corner_wide.corner_wide\",\n                    \"target\": \".corner_wide\"\n                },\n                {\n                    \"source\": \".radius\",\n                    \"target\": \"Corner_wide.radius\"\n                },\n                {\n                    \"source\": \".smooth_mode\",\n                    \"target\": \"Corner_wide.smooth_mode\"\n                },\n                {\n                    \"source\": \"Corner_wide.negated\",\n                    \"target\": \".corner_wide_negated\"\n                },\n                {\n                    \"source\": \".global_scale\",\n                    \"target\": \"length.global_scale\"\n                },\n                {\n                    \"source\": \".start_matrix\",\n"
-		+ "                    \"target\": \"length.start_matrix\"\n                },\n                {\n                    \"source\": \".middle_matrix\",\n                    \"target\": \"length.middle_matrix\"\n                },\n                {\n                    \"source\": \".end_matrix\",\n                    \"target\": \"length.end_matrix\"\n                },\n                {\n                    \"source\": \"length.upper_length\",\n                    \"target\": \"main_bend_controls.upper_length\"\n                },\n                {\n                    \"source\": \"length.lower_length\",\n                    \"target\": \"main_bend_controls.lower_length\"\n                },\n                {\n                    \"source\": \"length.upper_length\",\n                    \"target\": \"Corner_wide.upper_length\"\n                },\n                {\n                    \"source\": \"length.lower_length\",\n                    \"target\": \"Corner_wide.lower_length\"\n                },\n                {\n                    \"source\": \"Corner_wide.lower_slide_1\",\n                    \"target\": \".out_lower_slide_1\"\n"
-		+ "                },\n                {\n                    \"source\": \".angle\",\n                    \"target\": \"Corner_wide.angle\"\n                },\n                {\n                    \"source\": \"Corner_wide.lower_slide_2\",\n                    \"target\": \".out_lower_slide_2\"\n                },\n                {\n                    \"source\": \"Corner_wide.lower_slide_3\",\n                    \"target\": \".out_lower_slide_3\"\n                },\n                {\n                    \"source\": \"Corner_wide.corner_wide_out\",\n                    \"target\": \".corner_wide_out\"\n                },\n                {\n                    \"source\": \".in_lower_bend\",\n                    \"target\": \"lower_bend.driver_control\"\n                },\n                {\n                    \"source\": \".radius\",\n                    \"target\": \"lower_bend.radius\"\n                },\n                {\n                    \"source\": \"lower_bend.bend_lower_2\",\n                    \"target\": \".bend_lower_2\"\n                },\n                {\n                    \"source\": \".smooth_mode\",\n"
-		+ "                    \"target\": \"lower_bend.smooth_mode\"\n                },\n                {\n                    \"source\": \"bend_driver.output\",\n                    \"target\": \"lower_bend.bend_driver\"\n                },\n                {\n                    \"source\": \".radius\",\n                    \"target\": \"upper_bend.radius\"\n                },\n                {\n                    \"source\": \".smooth_mode\",\n                    \"target\": \"upper_bend.smooth_mode\"\n                },\n                {\n                    \"source\": \"bend_driver.output\",\n                    \"target\": \"upper_bend.bend_driver\"\n                },\n                {\n                    \"source\": \".in_upper_bend\",\n                    \"target\": \"upper_bend.driver_control\"\n                },\n                {\n                    \"source\": \"upper_bend.bend_upper_2\",\n                    \"target\": \".bend_upper_2\"\n                },\n                {\n                    \"source\": \"upper_bend.bend_upper_3\",\n                    \"target\": \".bend_upper_3\"\n"
-		+ "                },\n                {\n                    \"source\": \"Corner_wide.upper_slide_2\",\n                    \"target\": \".out_upper_slide_2\"\n                },\n                {\n                    \"source\": \"Corner_wide.upper_slide_1\",\n                    \"target\": \".out_upper_slide_1\"\n                },\n                {\n                    \"source\": \"Corner_wide.upper_slide_3\",\n                    \"target\": \".out_upper_slide_3\"\n                },\n                {\n                    \"source\": \".sharp_corner\",\n                    \"target\": \"Corner_wide.small_radius\"\n                },\n                {\n                    \"source\": \"lower_bend.bend_lower_1\",\n                    \"target\": \".bend_lower_1\"\n                },\n                {\n                    \"source\": \"lower_bend.bend_lower_3\",\n                    \"target\": \".bend_lower_3\"\n                },\n                {\n                    \"source\": \".sharp_corner\",\n                    \"target\": \"lower_bend.sharp_corner\"\n                },\n                {\n"
-		+ "                    \"source\": \".sharp_corner\",\n                    \"target\": \"upper_bend.sharp_corner\"\n                },\n                {\n                    \"source\": \"upper_bend.bend_upper_1\",\n                    \"target\": \".bend_upper_1\"\n                },\n                {\n                    \"source\": \".startWeight\",\n                    \"target\": \"upper_bend.start_fix\"\n                },\n                {\n                    \"source\": \".endWeight\",\n                    \"target\": \"lower_bend.endWeight\"\n                },\n                {\n                    \"source\": \".init_length\",\n                    \"target\": \"print.single_value\"\n                }\n            ],\n            \"values\": [\n                {\n                    \"valueName\": \"bend_driver.middle_bend\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"bend_driver.smooth_mode\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n"
-		+ "                },\n                {\n                    \"valueName\": \"bend_driver.angle\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"main_bend_controls.output\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"Corner_wide.radius\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"Corner_wide.smooth_mode\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"Corner_wide.small_radius\",\n                    \"valueType\": \"bool\",\n                    \"value\": \"false\"\n                },\n                {\n                    \"valueName\": \"length.global_scale\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n"
-		+ "                },\n                {\n                    \"valueName\": \"length.start_matrix\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n"
-		+ "                    }\n                },\n                {\n                    \"valueName\": \"length.middle_matrix\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n"
-		+ "                        }\n                    }\n                },\n                {\n                    \"valueName\": \"length.end_matrix\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n"
-		+ "                        }\n                    }\n                },\n                {\n                    \"valueName\": \"lower_bend.driver_control\",\n                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n                        \"x\": \"0f\",\n                        \"y\": \"0f\",\n                        \"z\": \"0f\"\n                    }\n                },\n                {\n                    \"valueName\": \"lower_bend.radius\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"lower_bend.smooth_mode\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"lower_bend.bend_driver\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"upper_bend.driver_control\",\n                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n"
-		+ "                        \"x\": \"0f\",\n                        \"y\": \"0f\",\n                        \"z\": \"0f\"\n                    }\n                },\n                {\n                    \"valueName\": \"upper_bend.radius\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"upper_bend.smooth_mode\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"upper_bend.bend_driver\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"print.single_value\",\n                    \"valueType\": \"string\",\n                    \"value\": \"testValue\"\n                },\n                {\n                    \"valueName\": \"print.array_int\",\n                    \"valueType\": \"array<long>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"print.array_float\",\n"
-		+ "                    \"valueType\": \"array<float>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"print.array_bool\",\n                    \"valueType\": \"array<bool>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"print.array_string\",\n                    \"valueType\": \"array<string>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"print.array_float3\",\n                    \"valueType\": \"array<Math::float3>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"print.transform\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"1f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n"
-		+ "                            \"y\": \"1f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"1f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"1f\"\n                        }\n                    }\n                }\n            ],\n            \"reservedNodeNames\": [\n                {\n                    \"name\": \"input\"\n                },\n                {\n                    \"name\": \"output\"\n                },\n                {\n                    \"name\": \"output1\"\n                },\n                {\n                    \"name\": \"input1\"\n                },\n                {\n                    \"name\": \"output2\"\n                }\n"
-		+ "            ]\n        }\n    ]\n}\n");
-	setAttr ".dirtyFlag" yes;
+		+ "                            \"metaType\": \"string\",\n                            \"metaValue\": \"-233.417 1799.62\"\n                        }\n                    ]\n                }\n            ],\n            \"connections\": [\n                {\n                    \"source\": \".middle_bend\",\n                    \"target\": \"bend_driver.middle_bend\"\n                },\n                {\n                    \"source\": \".smooth_mode\",\n                    \"target\": \"bend_driver.smooth_mode\"\n                },\n                {\n                    \"source\": \".angle\",\n                    \"target\": \"bend_driver.angle\"\n                },\n                {\n                    \"source\": \"bend_driver.output\",\n                    \"target\": \"main_bend_controls.output\"\n                },\n                {\n                    \"source\": \"main_bend_controls.vector3\",\n                    \"target\": \".main_bend_upper\"\n                },\n                {\n                    \"source\": \"main_bend_controls.vector4\",\n                    \"target\": \".main_bend_lower\"\n"
+		+ "                },\n                {\n                    \"source\": \"main_bend_controls.vector5\",\n                    \"target\": \".main_bend_center\"\n                },\n                {\n                    \"source\": \"Corner_wide.corner_wide\",\n                    \"target\": \".corner_wide\"\n                },\n                {\n                    \"source\": \".radius\",\n                    \"target\": \"Corner_wide.radius\"\n                },\n                {\n                    \"source\": \".smooth_mode\",\n                    \"target\": \"Corner_wide.smooth_mode\"\n                },\n                {\n                    \"source\": \"Corner_wide.negated\",\n                    \"target\": \".corner_wide_negated\"\n                },\n                {\n                    \"source\": \".global_scale\",\n                    \"target\": \"length.global_scale\"\n                },\n                {\n                    \"source\": \".start_matrix\",\n                    \"target\": \"length.start_matrix\"\n                },\n                {\n                    \"source\": \".middle_matrix\",\n"
+		+ "                    \"target\": \"length.middle_matrix\"\n                },\n                {\n                    \"source\": \".end_matrix\",\n                    \"target\": \"length.end_matrix\"\n                },\n                {\n                    \"source\": \"length.upper_length\",\n                    \"target\": \"main_bend_controls.upper_length\"\n                },\n                {\n                    \"source\": \"length.lower_length\",\n                    \"target\": \"main_bend_controls.lower_length\"\n                },\n                {\n                    \"source\": \"length.upper_length\",\n                    \"target\": \"Corner_wide.upper_length\"\n                },\n                {\n                    \"source\": \"length.lower_length\",\n                    \"target\": \"Corner_wide.lower_length\"\n                },\n                {\n                    \"source\": \"Corner_wide.lower_slide_1\",\n                    \"target\": \".out_lower_slide_1\"\n                },\n                {\n                    \"source\": \".angle\",\n                    \"target\": \"Corner_wide.angle\"\n"
+		+ "                },\n                {\n                    \"source\": \"Corner_wide.lower_slide_2\",\n                    \"target\": \".out_lower_slide_2\"\n                },\n                {\n                    \"source\": \"Corner_wide.lower_slide_3\",\n                    \"target\": \".out_lower_slide_3\"\n                },\n                {\n                    \"source\": \"Corner_wide.corner_wide_out\",\n                    \"target\": \".corner_wide_out\"\n                },\n                {\n                    \"source\": \".in_lower_bend\",\n                    \"target\": \"lower_bend.driver_control\"\n                },\n                {\n                    \"source\": \".radius\",\n                    \"target\": \"lower_bend.radius\"\n                },\n                {\n                    \"source\": \"lower_bend.bend_lower_2\",\n                    \"target\": \".bend_lower_2\"\n                },\n                {\n                    \"source\": \".smooth_mode\",\n                    \"target\": \"lower_bend.smooth_mode\"\n                },\n                {\n"
+		+ "                    \"source\": \"bend_driver.output\",\n                    \"target\": \"lower_bend.bend_driver\"\n                },\n                {\n                    \"source\": \".radius\",\n                    \"target\": \"upper_bend.radius\"\n                },\n                {\n                    \"source\": \".smooth_mode\",\n                    \"target\": \"upper_bend.smooth_mode\"\n                },\n                {\n                    \"source\": \"bend_driver.output\",\n                    \"target\": \"upper_bend.bend_driver\"\n                },\n                {\n                    \"source\": \".in_upper_bend\",\n                    \"target\": \"upper_bend.driver_control\"\n                },\n                {\n                    \"source\": \"upper_bend.bend_upper_2\",\n                    \"target\": \".bend_upper_2\"\n                },\n                {\n                    \"source\": \"upper_bend.bend_upper_3\",\n                    \"target\": \".bend_upper_3\"\n                },\n                {\n                    \"source\": \"Corner_wide.upper_slide_2\",\n"
+		+ "                    \"target\": \".out_upper_slide_2\"\n                },\n                {\n                    \"source\": \"Corner_wide.upper_slide_1\",\n                    \"target\": \".out_upper_slide_1\"\n                },\n                {\n                    \"source\": \"Corner_wide.upper_slide_3\",\n                    \"target\": \".out_upper_slide_3\"\n                },\n                {\n                    \"source\": \".sharp_corner\",\n                    \"target\": \"Corner_wide.small_radius\"\n                },\n                {\n                    \"source\": \"lower_bend.bend_lower_1\",\n                    \"target\": \".bend_lower_1\"\n                },\n                {\n                    \"source\": \"lower_bend.bend_lower_3\",\n                    \"target\": \".bend_lower_3\"\n                },\n                {\n                    \"source\": \".sharp_corner\",\n                    \"target\": \"lower_bend.sharp_corner\"\n                },\n                {\n                    \"source\": \".sharp_corner\",\n                    \"target\": \"upper_bend.sharp_corner\"\n"
+		+ "                },\n                {\n                    \"source\": \"upper_bend.bend_upper_1\",\n                    \"target\": \".bend_upper_1\"\n                },\n                {\n                    \"source\": \".startWeight\",\n                    \"target\": \"upper_bend.start_fix\"\n                },\n                {\n                    \"source\": \".endWeight\",\n                    \"target\": \"lower_bend.endWeight\"\n                }\n            ],\n            \"values\": [\n                {\n                    \"valueName\": \"bend_driver.middle_bend\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"bend_driver.smooth_mode\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"bend_driver.angle\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"main_bend_controls.output\",\n"
+		+ "                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"Corner_wide.radius\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"Corner_wide.smooth_mode\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"Corner_wide.small_radius\",\n                    \"valueType\": \"bool\",\n                    \"value\": \"false\"\n                },\n                {\n                    \"valueName\": \"length.global_scale\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"length.start_matrix\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n"
+		+ "                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"length.middle_matrix\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n"
+		+ "                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"length.end_matrix\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n"
+		+ "                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"lower_bend.driver_control\",\n                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n                        \"x\": \"0f\",\n                        \"y\": \"0f\",\n                        \"z\": \"0f\"\n"
+		+ "                    }\n                },\n                {\n                    \"valueName\": \"lower_bend.radius\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"lower_bend.smooth_mode\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"lower_bend.bend_driver\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"upper_bend.driver_control\",\n                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n                        \"x\": \"0f\",\n                        \"y\": \"0f\",\n                        \"z\": \"0f\"\n                    }\n                },\n                {\n                    \"valueName\": \"upper_bend.radius\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n"
+		+ "                    \"valueName\": \"upper_bend.smooth_mode\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"upper_bend.bend_driver\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                }\n            ],\n            \"reservedNodeNames\": [\n                {\n                    \"name\": \"input\"\n                },\n                {\n                    \"name\": \"output\"\n                },\n                {\n                    \"name\": \"output1\"\n                },\n                {\n                    \"name\": \"input1\"\n                },\n                {\n                    \"name\": \"output2\"\n                }\n            ]\n        }\n    ]\n}\n");
 	setAttr -k on ".angle";
 	setAttr -k on ".global_scale";
 	setAttr -k on ".start_matrix";
@@ -3138,7 +3132,6 @@ createNode joint -n "twist_0_outJoint" -p "root_outJoint";
 	rename -uid "1C7694FC-47BF-2095-1E45-BA9029171956";
 	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
 	addAttr -ci true -sn "pos" -ln "pos" -min 0 -max 100 -at "double";
-	setAttr -s 2 ".iog";
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
 	setAttr ".smd" 7;
@@ -3285,17 +3278,17 @@ createNode reverse -n "ikFk_reverse";
 createNode ikRPsolver -n "ikRPsolver1";
 	rename -uid "8D8B7F0A-42B8-C98C-B401-A1BAFD9E81A8";
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "41991876-44D9-8807-1D7A-27B528EA76DD";
+	rename -uid "E5C2BF4A-445E-3B3C-95CC-88B80F97B91F";
 	setAttr -s 6 ".lnk";
 	setAttr -s 6 ".slnk";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "A4199664-45C2-BB3C-D412-BBB752A8C4B0";
+	rename -uid "F2BB0C82-45FD-5C8C-75C4-F0BCF585DAA0";
 	setAttr ".cdl" 5;
 	setAttr -s 5 ".dli[1:4]"  5 3 2 4;
 createNode displayLayer -n "defaultLayer";
 	rename -uid "C96E594B-4CFB-7E18-16C6-CD9B48091A1E";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "627FBB79-4E17-A6BF-D651-86BB67B30747";
+	rename -uid "2468DE75-4C96-FF9A-9CFB-00A0F9A49867";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "8E4F4BE6-43F1-363F-82A2-F39206547257";
 	setAttr ".g" yes;
@@ -3606,9 +3599,9 @@ createNode objectSet -n "add_moduleControlSet";
 	setAttr ".ihi" 0;
 	setAttr -s 10 ".dsm";
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "19D8588B-4B84-2E3D-F585-9FA7DB0F23A3";
+	rename -uid "79ACE2A5-4283-B5F0-9318-3E8E334D7AFB";
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "EF12A019-4F25-DE1E-C38D-01BA20026DBF";
+	rename -uid "895678D2-4FCF-46CB-7828-148888BA0E12";
 createNode renderLayerManager -n "twistUp_renderLayerManager";
 	rename -uid "9AEF7D5A-4481-D497-B94A-8FBD3B867557";
 createNode renderLayer -n "twistUp_defaultRenderLayer";
@@ -4239,222 +4232,222 @@ createNode multMatrix -n "root_outJoint_multMat1";
 createNode multDoubleLinear -n "multDoubleLinear479";
 	rename -uid "B435FA9C-46C0-0D43-01A9-C39194BBC6EC";
 createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
-	rename -uid "ED531B4B-40B4-E940-FB50-448BF30B011D";
+	rename -uid "5DE6F957-43B4-A1D1-7605-388D62C50779";
 	setAttr -s 8 ".tgi";
 	setAttr ".tgi[0].tn" -type "string" "Untitled_1";
-	setAttr ".tgi[0].vl" -type "double2" 99694.822045809706 1891.6665914985899 ;
-	setAttr ".tgi[0].vh" -type "double2" 104556.36031416798 3208.3332058456258 ;
+	setAttr ".tgi[0].vl" -type "double2" 99693.219481770822 1890.4761153554189 ;
+	setAttr ".tgi[0].vh" -type "double2" 104559.15335435006 3208.3332058456258 ;
 	setAttr ".tgi[0].ni[0].x" 101463.7734375;
 	setAttr ".tgi[0].ni[0].y" 2565.658447265625;
 	setAttr ".tgi[0].ni[0].nvs" 18304;
 	setAttr ".tgi[1].tn" -type "string" "Untitled_2";
-	setAttr ".tgi[1].vl" -type "double2" 70417.625406983178 -7617.85684015071 ;
-	setAttr ".tgi[1].vh" -type "double2" 80426.416218060767 -4907.1426621505279 ;
+	setAttr ".tgi[1].vl" -type "double2" 70416.022842944294 -7619.0473162938797 ;
+	setAttr ".tgi[1].vh" -type "double2" 80429.209258242816 -4907.1426621505261 ;
 	setAttr ".tgi[2].tn" -type "string" "Untitled_3";
-	setAttr ".tgi[2].vl" -type "double2" 47056.912049540246 149.99999403953197 ;
-	setAttr ".tgi[2].vh" -type "double2" 50494.27455031436 1080.9523379991906 ;
+	setAttr ".tgi[2].vl" -type "double2" 47055.309485501362 148.80951789636487 ;
+	setAttr ".tgi[2].vh" -type "double2" 50497.067590496416 1080.9523379991945 ;
 	setAttr ".tgi[3].tn" -type "string" "Untitled_4";
-	setAttr ".tgi[3].vl" -type "double2" 37762.635956567865 -2938.3351093343326 ;
-	setAttr ".tgi[3].vh" -type "double2" 38816.628075156346 -2059.3454557190366 ;
+	setAttr ".tgi[3].vl" -type "double2" 36666.298909312442 -2939.2855974889985 ;
+	setAttr ".tgi[3].vh" -type "double2" 39914.650428586188 -2059.5237276856897 ;
 	setAttr -s 34 ".tgi[3].ni";
-	setAttr ".tgi[3].ni[0].x" 37824.68359375;
-	setAttr ".tgi[3].ni[0].y" -2519.920166015625;
+	setAttr ".tgi[3].ni[0].x" 38597.14453125;
+	setAttr ".tgi[3].ni[0].y" -2614.28564453125;
 	setAttr ".tgi[3].ni[0].nvs" 18304;
 	setAttr ".tgi[3].ni[1].x" 38597.14453125;
-	setAttr ".tgi[3].ni[1].y" -788.5714111328125;
+	setAttr ".tgi[3].ni[1].y" -2208.571533203125;
 	setAttr ".tgi[3].ni[1].nvs" 18304;
 	setAttr ".tgi[3].ni[2].x" 38597.14453125;
 	setAttr ".tgi[3].ni[2].y" -890;
 	setAttr ".tgi[3].ni[2].nvs" 18304;
 	setAttr ".tgi[3].ni[3].x" 38597.14453125;
-	setAttr ".tgi[3].ni[3].y" -991.4285888671875;
+	setAttr ".tgi[3].ni[3].y" -1600;
 	setAttr ".tgi[3].ni[3].nvs" 18304;
 	setAttr ".tgi[3].ni[4].x" 38597.14453125;
-	setAttr ".tgi[3].ni[4].y" -1092.857177734375;
+	setAttr ".tgi[3].ni[4].y" -3628.571533203125;
 	setAttr ".tgi[3].ni[4].nvs" 18304;
 	setAttr ".tgi[3].ni[5].x" 38597.14453125;
-	setAttr ".tgi[3].ni[5].y" -1194.2857666015625;
+	setAttr ".tgi[3].ni[5].y" -3121.428466796875;
 	setAttr ".tgi[3].ni[5].nvs" 18304;
 	setAttr ".tgi[3].ni[6].x" 38597.14453125;
-	setAttr ".tgi[3].ni[6].y" -1295.7142333984375;
+	setAttr ".tgi[3].ni[6].y" -788.5714111328125;
 	setAttr ".tgi[3].ni[6].nvs" 18304;
 	setAttr ".tgi[3].ni[7].x" 38597.14453125;
-	setAttr ".tgi[3].ni[7].y" -1397.142822265625;
+	setAttr ".tgi[3].ni[7].y" -1295.7142333984375;
 	setAttr ".tgi[3].ni[7].nvs" 18304;
 	setAttr ".tgi[3].ni[8].x" 38597.14453125;
-	setAttr ".tgi[3].ni[8].y" -1498.5714111328125;
+	setAttr ".tgi[3].ni[8].y" -2005.7142333984375;
 	setAttr ".tgi[3].ni[8].nvs" 18304;
 	setAttr ".tgi[3].ni[9].x" 38597.14453125;
-	setAttr ".tgi[3].ni[9].y" -1600;
+	setAttr ".tgi[3].ni[9].y" -3324.28564453125;
 	setAttr ".tgi[3].ni[9].nvs" 18304;
-	setAttr ".tgi[3].ni[10].x" 37929.87890625;
-	setAttr ".tgi[3].ni[10].y" -1883.4205322265625;
-	setAttr ".tgi[3].ni[10].nvs" 18305;
-	setAttr ".tgi[3].ni[11].x" 38597.14453125;
-	setAttr ".tgi[3].ni[11].y" -1701.4285888671875;
+	setAttr ".tgi[3].ni[10].x" 37824.68359375;
+	setAttr ".tgi[3].ni[10].y" -2519.920166015625;
+	setAttr ".tgi[3].ni[10].nvs" 18304;
+	setAttr ".tgi[3].ni[11].x" 38285.71484375;
+	setAttr ".tgi[3].ni[11].y" -2234.28564453125;
 	setAttr ".tgi[3].ni[11].nvs" 18304;
 	setAttr ".tgi[3].ni[12].x" 38597.14453125;
-	setAttr ".tgi[3].ni[12].y" -1802.857177734375;
+	setAttr ".tgi[3].ni[12].y" -1701.4285888671875;
 	setAttr ".tgi[3].ni[12].nvs" 18304;
-	setAttr ".tgi[3].ni[13].x" 37970.10546875;
-	setAttr ".tgi[3].ni[13].y" -2716.158447265625;
+	setAttr ".tgi[3].ni[13].x" 38700;
+	setAttr ".tgi[3].ni[13].y" -3860;
 	setAttr ".tgi[3].ni[13].nvs" 18304;
 	setAttr ".tgi[3].ni[14].x" 38597.14453125;
-	setAttr ".tgi[3].ni[14].y" -2005.7142333984375;
+	setAttr ".tgi[3].ni[14].y" -1092.857177734375;
 	setAttr ".tgi[3].ni[14].nvs" 18304;
-	setAttr ".tgi[3].ni[15].x" 38597.14453125;
-	setAttr ".tgi[3].ni[15].y" -2107.142822265625;
+	setAttr ".tgi[3].ni[15].x" 37970.10546875;
+	setAttr ".tgi[3].ni[15].y" -2716.158447265625;
 	setAttr ".tgi[3].ni[15].nvs" 18304;
 	setAttr ".tgi[3].ni[16].x" 38597.14453125;
-	setAttr ".tgi[3].ni[16].y" -2208.571533203125;
+	setAttr ".tgi[3].ni[16].y" -2715.71435546875;
 	setAttr ".tgi[3].ni[16].nvs" 18304;
 	setAttr ".tgi[3].ni[17].x" 38597.14453125;
-	setAttr ".tgi[3].ni[17].y" -2310;
+	setAttr ".tgi[3].ni[17].y" -3425.71435546875;
 	setAttr ".tgi[3].ni[17].nvs" 18304;
 	setAttr ".tgi[3].ni[18].x" 38597.14453125;
-	setAttr ".tgi[3].ni[18].y" -2411.428466796875;
+	setAttr ".tgi[3].ni[18].y" -3527.142822265625;
 	setAttr ".tgi[3].ni[18].nvs" 18304;
 	setAttr ".tgi[3].ni[19].x" 38597.14453125;
-	setAttr ".tgi[3].ni[19].y" -2512.857177734375;
+	setAttr ".tgi[3].ni[19].y" -2107.142822265625;
 	setAttr ".tgi[3].ni[19].nvs" 18304;
 	setAttr ".tgi[3].ni[20].x" 38597.14453125;
-	setAttr ".tgi[3].ni[20].y" -2614.28564453125;
+	setAttr ".tgi[3].ni[20].y" -1194.2857666015625;
 	setAttr ".tgi[3].ni[20].nvs" 18304;
-	setAttr ".tgi[3].ni[21].x" 38700;
-	setAttr ".tgi[3].ni[21].y" -3860;
+	setAttr ".tgi[3].ni[21].x" 38597.14453125;
+	setAttr ".tgi[3].ni[21].y" -3020;
 	setAttr ".tgi[3].ni[21].nvs" 18304;
 	setAttr ".tgi[3].ni[22].x" 38597.14453125;
-	setAttr ".tgi[3].ni[22].y" -2715.71435546875;
+	setAttr ".tgi[3].ni[22].y" -2512.857177734375;
 	setAttr ".tgi[3].ni[22].nvs" 18304;
 	setAttr ".tgi[3].ni[23].x" 38597.14453125;
-	setAttr ".tgi[3].ni[23].y" -2817.142822265625;
+	setAttr ".tgi[3].ni[23].y" -1498.5714111328125;
 	setAttr ".tgi[3].ni[23].nvs" 18304;
 	setAttr ".tgi[3].ni[24].x" 38597.14453125;
-	setAttr ".tgi[3].ni[24].y" -2918.571533203125;
+	setAttr ".tgi[3].ni[24].y" -2310;
 	setAttr ".tgi[3].ni[24].nvs" 18304;
-	setAttr ".tgi[3].ni[25].x" 38597.14453125;
-	setAttr ".tgi[3].ni[25].y" -3020;
-	setAttr ".tgi[3].ni[25].nvs" 18304;
+	setAttr ".tgi[3].ni[25].x" 37929.87890625;
+	setAttr ".tgi[3].ni[25].y" -1883.4205322265625;
+	setAttr ".tgi[3].ni[25].nvs" 18305;
 	setAttr ".tgi[3].ni[26].x" 38597.14453125;
-	setAttr ".tgi[3].ni[26].y" -3121.428466796875;
+	setAttr ".tgi[3].ni[26].y" -2918.571533203125;
 	setAttr ".tgi[3].ni[26].nvs" 18304;
-	setAttr ".tgi[3].ni[27].x" 38285.71484375;
-	setAttr ".tgi[3].ni[27].y" -2234.28564453125;
+	setAttr ".tgi[3].ni[27].x" 38597.14453125;
+	setAttr ".tgi[3].ni[27].y" -1802.857177734375;
 	setAttr ".tgi[3].ni[27].nvs" 18304;
-	setAttr ".tgi[3].ni[28].x" 38111.37109375;
-	setAttr ".tgi[3].ni[28].y" -2621.42431640625;
+	setAttr ".tgi[3].ni[28].x" 38597.14453125;
+	setAttr ".tgi[3].ni[28].y" -2411.428466796875;
 	setAttr ".tgi[3].ni[28].nvs" 18304;
 	setAttr ".tgi[3].ni[29].x" 38597.14453125;
-	setAttr ".tgi[3].ni[29].y" -3324.28564453125;
+	setAttr ".tgi[3].ni[29].y" -2817.142822265625;
 	setAttr ".tgi[3].ni[29].nvs" 18304;
-	setAttr ".tgi[3].ni[30].x" 38597.14453125;
-	setAttr ".tgi[3].ni[30].y" -3425.71435546875;
+	setAttr ".tgi[3].ni[30].x" 38111.37109375;
+	setAttr ".tgi[3].ni[30].y" -2621.42431640625;
 	setAttr ".tgi[3].ni[30].nvs" 18304;
 	setAttr ".tgi[3].ni[31].x" 38597.14453125;
-	setAttr ".tgi[3].ni[31].y" -3527.142822265625;
+	setAttr ".tgi[3].ni[31].y" -1397.142822265625;
 	setAttr ".tgi[3].ni[31].nvs" 18304;
 	setAttr ".tgi[3].ni[32].x" 38597.14453125;
-	setAttr ".tgi[3].ni[32].y" -3628.571533203125;
+	setAttr ".tgi[3].ni[32].y" -3730;
 	setAttr ".tgi[3].ni[32].nvs" 18304;
 	setAttr ".tgi[3].ni[33].x" 38597.14453125;
-	setAttr ".tgi[3].ni[33].y" -3730;
+	setAttr ".tgi[3].ni[33].y" -991.4285888671875;
 	setAttr ".tgi[3].ni[33].nvs" 18304;
 	setAttr ".tgi[4].tn" -type "string" "Untitled_5";
-	setAttr ".tgi[4].vl" -type "double2" 1251.8772424335502 100.60330245489874 ;
-	setAttr ".tgi[4].vh" -type "double2" 2365.32258935351 1029.1747049806008 ;
+	setAttr ".tgi[4].vl" -type "double2" 93.040289343204165 99.999996026357238 ;
+	setAttr ".tgi[4].vh" -type "double2" 3526.0071858963888 1029.7618638428448 ;
 	setAttr -s 4 ".tgi[4].ni";
-	setAttr ".tgi[4].ni[0].x" 1940.083984375;
-	setAttr ".tgi[4].ni[0].y" 730.2520751953125;
-	setAttr ".tgi[4].ni[0].nvs" 18305;
-	setAttr ".tgi[4].ni[1].x" 1353.5294189453125;
-	setAttr ".tgi[4].ni[1].y" 759.49578857421875;
-	setAttr ".tgi[4].ni[1].nvs" 18305;
-	setAttr ".tgi[4].ni[2].x" 1430;
-	setAttr ".tgi[4].ni[2].y" 892.85711669921875;
-	setAttr ".tgi[4].ni[2].nvs" 18304;
-	setAttr ".tgi[4].ni[3].x" 1758.5714111328125;
-	setAttr ".tgi[4].ni[3].y" 901.4285888671875;
-	setAttr ".tgi[4].ni[3].nvs" 18304;
+	setAttr ".tgi[4].ni[0].x" 1430;
+	setAttr ".tgi[4].ni[0].y" 892.85711669921875;
+	setAttr ".tgi[4].ni[0].nvs" 18304;
+	setAttr ".tgi[4].ni[1].x" 1758.5714111328125;
+	setAttr ".tgi[4].ni[1].y" 901.4285888671875;
+	setAttr ".tgi[4].ni[1].nvs" 18304;
+	setAttr ".tgi[4].ni[2].x" 1940.083984375;
+	setAttr ".tgi[4].ni[2].y" 730.2520751953125;
+	setAttr ".tgi[4].ni[2].nvs" 18305;
+	setAttr ".tgi[4].ni[3].x" 1353.5294189453125;
+	setAttr ".tgi[4].ni[3].y" 759.49578857421875;
+	setAttr ".tgi[4].ni[3].nvs" 18305;
 	setAttr ".tgi[5].tn" -type "string" "Untitled_6";
-	setAttr ".tgi[5].vl" -type "double2" 3882.0513496444019 -4921.0964122436144 ;
-	setAttr ".tgi[5].vh" -type "double2" 4995.4966965643616 -3992.5250097179119 ;
+	setAttr ".tgi[5].vl" -type "double2" 2722.8020896077642 -4922.6188520117485 ;
+	setAttr ".tgi[5].vh" -type "double2" 6155.7689861609488 -3992.8569841952617 ;
 	setAttr -s 5 ".tgi[5].ni";
-	setAttr ".tgi[5].ni[0].x" 4316.05029296875;
-	setAttr ".tgi[5].ni[0].y" -4202.94140625;
-	setAttr ".tgi[5].ni[0].nvs" 18305;
-	setAttr ".tgi[5].ni[1].x" 3997.142822265625;
-	setAttr ".tgi[5].ni[1].y" -4437.14306640625;
-	setAttr ".tgi[5].ni[1].nvs" 18304;
-	setAttr ".tgi[5].ni[2].x" 3999.663818359375;
-	setAttr ".tgi[5].ni[2].y" -4067.058837890625;
+	setAttr ".tgi[5].ni[0].x" 3997.142822265625;
+	setAttr ".tgi[5].ni[0].y" -4437.14306640625;
+	setAttr ".tgi[5].ni[0].nvs" 18304;
+	setAttr ".tgi[5].ni[1].x" 4611.4287109375;
+	setAttr ".tgi[5].ni[1].y" -4261.4287109375;
+	setAttr ".tgi[5].ni[1].nvs" 18305;
+	setAttr ".tgi[5].ni[2].x" 3989.579833984375;
+	setAttr ".tgi[5].ni[2].y" -4277.73095703125;
 	setAttr ".tgi[5].ni[2].nvs" 18304;
-	setAttr ".tgi[5].ni[3].x" 4611.4287109375;
-	setAttr ".tgi[5].ni[3].y" -4261.4287109375;
+	setAttr ".tgi[5].ni[3].x" 4316.05029296875;
+	setAttr ".tgi[5].ni[3].y" -4202.94140625;
 	setAttr ".tgi[5].ni[3].nvs" 18305;
-	setAttr ".tgi[5].ni[4].x" 3989.579833984375;
-	setAttr ".tgi[5].ni[4].y" -4277.73095703125;
+	setAttr ".tgi[5].ni[4].x" 3999.663818359375;
+	setAttr ".tgi[5].ni[4].y" -4067.058837890625;
 	setAttr ".tgi[5].ni[4].nvs" 18304;
 	setAttr ".tgi[6].tn" -type "string" "Untitled_7";
-	setAttr ".tgi[6].vl" -type "double2" 2121.0724980084692 2357.1036832522609 ;
-	setAttr ".tgi[6].vh" -type "double2" 3234.517844928429 3285.675085777963 ;
+	setAttr ".tgi[6].vl" -type "double2" 962.08787385797484 2355.9522873352485 ;
+	setAttr ".tgi[6].vh" -type "double2" 4395.0547704111596 3285.7141551517357 ;
 	setAttr -s 5 ".tgi[6].ni";
-	setAttr ".tgi[6].ni[0].x" 2427.142822265625;
-	setAttr ".tgi[6].ni[0].y" 2898.571533203125;
-	setAttr ".tgi[6].ni[0].nvs" 18304;
+	setAttr ".tgi[6].ni[0].x" 2787.226806640625;
+	setAttr ".tgi[6].ni[0].y" 2928.4033203125;
+	setAttr ".tgi[6].ni[0].nvs" 18305;
 	setAttr ".tgi[6].ni[1].x" 2427.142822265625;
-	setAttr ".tgi[6].ni[1].y" 2695.71435546875;
+	setAttr ".tgi[6].ni[1].y" 2797.142822265625;
 	setAttr ".tgi[6].ni[1].nvs" 18304;
-	setAttr ".tgi[6].ni[2].x" 2427.142822265625;
-	setAttr ".tgi[6].ni[2].y" 2797.142822265625;
+	setAttr ".tgi[6].ni[2].x" 2445.63037109375;
+	setAttr ".tgi[6].ni[2].y" 3098.3193359375;
 	setAttr ".tgi[6].ni[2].nvs" 18304;
-	setAttr ".tgi[6].ni[3].x" 2445.63037109375;
-	setAttr ".tgi[6].ni[3].y" 3098.3193359375;
+	setAttr ".tgi[6].ni[3].x" 2427.142822265625;
+	setAttr ".tgi[6].ni[3].y" 2695.71435546875;
 	setAttr ".tgi[6].ni[3].nvs" 18304;
-	setAttr ".tgi[6].ni[4].x" 2787.226806640625;
-	setAttr ".tgi[6].ni[4].y" 2928.4033203125;
-	setAttr ".tgi[6].ni[4].nvs" 18305;
+	setAttr ".tgi[6].ni[4].x" 2427.142822265625;
+	setAttr ".tgi[6].ni[4].y" 2898.571533203125;
+	setAttr ".tgi[6].ni[4].nvs" 18304;
 	setAttr ".tgi[7].tn" -type "string" "Untitled_8";
-	setAttr ".tgi[7].vl" -type "double2" 45876.516769088921 2152.5132768613498 ;
-	setAttr ".tgi[7].vh" -type "double2" 47357.994444395896 3388.009753249431 ;
+	setAttr ".tgi[7].vl" -type "double2" 45876.188653234523 1790.2853562844323 ;
+	setAttr ".tgi[7].vh" -type "double2" 47359.521927625487 3749.0001378898505 ;
 	setAttr -s 13 ".tgi[7].ni";
-	setAttr ".tgi[7].ni[0].x" 46634.5234375;
-	setAttr ".tgi[7].ni[0].y" 3215.468994140625;
+	setAttr ".tgi[7].ni[0].x" 46633.4765625;
+	setAttr ".tgi[7].ni[0].y" 3023.356201171875;
 	setAttr ".tgi[7].ni[0].nvs" 18304;
-	setAttr ".tgi[7].ni[1].x" 46623.4140625;
-	setAttr ".tgi[7].ni[1].y" 3489.2841796875;
+	setAttr ".tgi[7].ni[1].x" 46633.4765625;
+	setAttr ".tgi[7].ni[1].y" 2820.4990234375;
 	setAttr ".tgi[7].ni[1].nvs" 18304;
-	setAttr ".tgi[7].ni[2].x" 46633.4765625;
-	setAttr ".tgi[7].ni[2].y" 3023.356201171875;
+	setAttr ".tgi[7].ni[2].x" 46635.71484375;
+	setAttr ".tgi[7].ni[2].y" 2690;
 	setAttr ".tgi[7].ni[2].nvs" 18304;
-	setAttr ".tgi[7].ni[3].x" 46633.4765625;
-	setAttr ".tgi[7].ni[3].y" 2921.927734375;
+	setAttr ".tgi[7].ni[3].x" 46635.71484375;
+	setAttr ".tgi[7].ni[3].y" 2385.71435546875;
 	setAttr ".tgi[7].ni[3].nvs" 18304;
-	setAttr ".tgi[7].ni[4].x" 46033.55859375;
-	setAttr ".tgi[7].ni[4].y" 2862.147705078125;
-	setAttr ".tgi[7].ni[4].nvs" 18305;
-	setAttr ".tgi[7].ni[5].x" 46034.02734375;
-	setAttr ".tgi[7].ni[5].y" 3460.56005859375;
-	setAttr ".tgi[7].ni[5].nvs" 18305;
-	setAttr ".tgi[7].ni[6].x" 46633.4765625;
-	setAttr ".tgi[7].ni[6].y" 2820.4990234375;
+	setAttr ".tgi[7].ni[4].x" 46997.14453125;
+	setAttr ".tgi[7].ni[4].y" 2817.142822265625;
+	setAttr ".tgi[7].ni[4].nvs" 18304;
+	setAttr ".tgi[7].ni[5].x" 46623.4140625;
+	setAttr ".tgi[7].ni[5].y" 3489.2841796875;
+	setAttr ".tgi[7].ni[5].nvs" 18304;
+	setAttr ".tgi[7].ni[6].x" 46635.71484375;
+	setAttr ".tgi[7].ni[6].y" 2588.571533203125;
 	setAttr ".tgi[7].ni[6].nvs" 18304;
-	setAttr ".tgi[7].ni[7].x" 46635.71484375;
-	setAttr ".tgi[7].ni[7].y" 2690;
+	setAttr ".tgi[7].ni[7].x" 46634.5234375;
+	setAttr ".tgi[7].ni[7].y" 3215.468994140625;
 	setAttr ".tgi[7].ni[7].nvs" 18304;
-	setAttr ".tgi[7].ni[8].x" 46997.14453125;
-	setAttr ".tgi[7].ni[8].y" 2817.142822265625;
-	setAttr ".tgi[7].ni[8].nvs" 18304;
+	setAttr ".tgi[7].ni[8].x" 46033.55859375;
+	setAttr ".tgi[7].ni[8].y" 2862.147705078125;
+	setAttr ".tgi[7].ni[8].nvs" 18305;
 	setAttr ".tgi[7].ni[9].x" 46635.71484375;
-	setAttr ".tgi[7].ni[9].y" 2588.571533203125;
+	setAttr ".tgi[7].ni[9].y" 2284.28564453125;
 	setAttr ".tgi[7].ni[9].nvs" 18304;
-	setAttr ".tgi[7].ni[10].x" 46635.71484375;
-	setAttr ".tgi[7].ni[10].y" 2487.142822265625;
-	setAttr ".tgi[7].ni[10].nvs" 18304;
-	setAttr ".tgi[7].ni[11].x" 46635.71484375;
-	setAttr ".tgi[7].ni[11].y" 2385.71435546875;
+	setAttr ".tgi[7].ni[10].x" 46034.02734375;
+	setAttr ".tgi[7].ni[10].y" 3460.56005859375;
+	setAttr ".tgi[7].ni[10].nvs" 18305;
+	setAttr ".tgi[7].ni[11].x" 46633.4765625;
+	setAttr ".tgi[7].ni[11].y" 2921.927734375;
 	setAttr ".tgi[7].ni[11].nvs" 18304;
 	setAttr ".tgi[7].ni[12].x" 46635.71484375;
-	setAttr ".tgi[7].ni[12].y" 2284.28564453125;
+	setAttr ".tgi[7].ni[12].y" 2487.142822265625;
 	setAttr ".tgi[7].ni[12].nvs" 18304;
 select -ne :time1;
 	setAttr -av -k on ".cch";
@@ -4562,7 +4555,7 @@ select -ne :defaultRenderUtilityList1;
 	setAttr -cb on ".ihi";
 	setAttr -av -k on ".nds";
 	setAttr -cb on ".bnm";
-	setAttr -s 111 ".u";
+	setAttr -s 107 ".u";
 select -ne :defaultRenderingList1;
 	setAttr -k on ".ihi";
 	setAttr -s 4 ".r";
@@ -6294,86 +6287,86 @@ connectAttr "middle.mainBendControls" "multDoubleLinear479.i1";
 connectAttr "middle.noEllbow" "multDoubleLinear479.i2";
 connectAttr "final_curveShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn"
 		;
-connectAttr "multDoubleLinear479.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[0].dn"
+connectAttr "multDoubleLinear466.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[0].dn"
 		;
-connectAttr "bifrostGraphShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[1].dn"
-		;
+connectAttr "reverse1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[1].dn";
 connectAttr "blendMatrix6.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[2].dn";
-connectAttr "ikFkSwitchSet.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[3].dn";
-connectAttr "twist_8_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[4].dn";
-connectAttr "twist_4_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[5].dn";
-connectAttr "twist_6_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[6].dn";
-connectAttr "blendMatrix3.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[7].dn";
-connectAttr "twist_5_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[8].dn";
-connectAttr "blendMatrix2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[9].dn";
-connectAttr "middle.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[10].dn";
-connectAttr "twist_7_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[11].dn";
-connectAttr "blendMatrix8.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[12].dn";
-connectAttr "middle_bend.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[13].dn";
-connectAttr "twist_3_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[14].dn";
-connectAttr "end_connector_parentConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[15].dn"
+connectAttr "blendMatrix2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[3].dn";
+connectAttr "twist_10_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[4].dn";
+connectAttr "blendMatrix5.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[5].dn";
+connectAttr "bifrostGraphShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[6].dn"
 		;
-connectAttr "reverse1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[16].dn";
-connectAttr "curve1_3_offset.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[17].dn"
+connectAttr "twist_6_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[7].dn";
+connectAttr "twist_3_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[8].dn";
+connectAttr "multDoubleLinear459.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[9].dn"
 		;
-connectAttr "offset_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[18].dn";
-connectAttr "add_moduleControlSet.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[19].dn"
+connectAttr "multDoubleLinear479.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[10].dn"
 		;
-connectAttr "multDoubleLinear466.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[20].dn"
+connectAttr "middle_bendShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[11].dn"
 		;
-connectAttr "middleShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[21].dn";
-connectAttr "twist_1_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[22].dn";
-connectAttr "blendMatrix1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[23].dn";
-connectAttr "twistDown_root_connector_aimConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[24].dn"
+connectAttr "twist_7_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[12].dn";
+connectAttr "middleShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[13].dn";
+connectAttr "twist_8_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[14].dn";
+connectAttr "middle_bend.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[15].dn";
+connectAttr "twist_1_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[16].dn";
+connectAttr "twistUp_root_connector_aimConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[17].dn"
 		;
-connectAttr "twist_2_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[25].dn";
-connectAttr "blendMatrix5.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[26].dn";
-connectAttr "middle_bendShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[27].dn"
+connectAttr "twist_9_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[18].dn";
+connectAttr "end_connector_parentConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[19].dn"
 		;
-connectAttr "curve1_1_offset.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[28].dn"
+connectAttr "twist_4_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[20].dn";
+connectAttr "twist_2_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[21].dn";
+connectAttr "add_moduleControlSet.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[22].dn"
 		;
-connectAttr "multDoubleLinear459.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[29].dn"
+connectAttr "twist_5_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[23].dn";
+connectAttr "curve1_3_offset.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[24].dn"
 		;
-connectAttr "twistUp_root_connector_aimConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[30].dn"
+connectAttr "middle.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[25].dn";
+connectAttr "twistDown_root_connector_aimConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[26].dn"
 		;
-connectAttr "twist_9_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[31].dn";
-connectAttr "twist_10_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[32].dn";
-connectAttr "blendMatrix4.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[33].dn";
-connectAttr "middle_bend.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[0].dn";
-connectAttr "middle.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[1].dn";
-connectAttr "middleShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[2].dn";
-connectAttr "middle_bendShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[3].dn"
+connectAttr "blendMatrix8.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[27].dn";
+connectAttr "offset_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[28].dn";
+connectAttr "blendMatrix1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[29].dn";
+connectAttr "curve1_1_offset.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[30].dn"
 		;
-connectAttr "blendMatrix6.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[0].dn";
-connectAttr "lowerBend_1_softLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[1].dn"
+connectAttr "blendMatrix3.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[31].dn";
+connectAttr "blendMatrix4.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[32].dn";
+connectAttr "ikFkSwitchSet.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[33].dn";
+connectAttr "middleShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[0].dn";
+connectAttr "middle_bendShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[1].dn"
 		;
-connectAttr "middle.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[2].dn";
-connectAttr "lower_curve_1_offset.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[3].dn"
+connectAttr "middle_bend.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[2].dn";
+connectAttr "middle.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[3].dn";
+connectAttr "lowerBend_1_softLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[0].dn"
 		;
-connectAttr "lowerBend_1_hardLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[4].dn"
+connectAttr "lower_curve_1_offset.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[1].dn"
 		;
-connectAttr "middle.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[0].dn";
-connectAttr "final_curveShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[1].dn"
+connectAttr "lowerBend_1_hardLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[2].dn"
 		;
-connectAttr "twistUp_startUp_loc.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[2].dn"
+connectAttr "blendMatrix6.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[3].dn";
+connectAttr "middle.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[4].dn";
+connectAttr "twist_1_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[0].dn";
+connectAttr "twistUp_startUp_loc.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[1].dn"
 		;
-connectAttr "twist_0_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[3].dn"
+connectAttr "twist_0_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[2].dn"
 		;
-connectAttr "twist_1_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[4].dn";
-connectAttr "twist_7_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[0].dn";
-connectAttr "twist_1_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[1].dn";
-connectAttr "twist_5_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[2].dn";
-connectAttr "twist_9_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[3].dn";
-connectAttr "final_curveShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[4].dn"
+connectAttr "final_curveShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[3].dn"
 		;
-connectAttr "middle.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[5].dn";
-connectAttr "twist_10_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[6].dn";
-connectAttr "twist_8_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[7].dn";
-connectAttr "middleShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[8].dn";
-connectAttr "twist_3_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[9].dn";
-connectAttr "twist_4_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[10].dn";
-connectAttr "twist_6_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[11].dn";
-connectAttr "twist_2_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[12].dn";
+connectAttr "middle.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[4].dn";
+connectAttr "twist_5_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[0].dn";
+connectAttr "twist_10_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[1].dn";
+connectAttr "twist_8_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[2].dn";
+connectAttr "twist_6_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[3].dn";
+connectAttr "middleShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[4].dn";
+connectAttr "twist_1_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[5].dn";
+connectAttr "twist_3_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[6].dn";
+connectAttr "twist_7_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[7].dn";
+connectAttr "final_curveShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[8].dn"
+		;
+connectAttr "twist_2_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[9].dn";
+connectAttr "middle.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[10].dn";
+connectAttr "twist_9_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[11].dn";
+connectAttr "twist_4_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[7].ni[12].dn";
 connectAttr "green_rsSG.pa" ":renderPartition.st" -na;
 connectAttr "blue_rsSG.pa" ":renderPartition.st" -na;
 connectAttr "red_rsSG.pa" ":renderPartition.st" -na;

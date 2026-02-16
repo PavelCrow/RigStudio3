@@ -1,4 +1,5 @@
 import pymel.core as pm
+from .. import utils
 
 def run():
 	# get three input joints
@@ -112,7 +113,7 @@ def run():
 	
 	# make connections
 	
-	mult = pm.createNode('multDoubleLinear')
+	mult = utils.createNode('multDoubleLinear', pymel=True)
 	mult.input2.set(-1)
 	ctrl.range >> mult.input1
 	mult.output >> cl_min_r[1].ry
@@ -130,7 +131,7 @@ def run():
 	ctrl.max >> max_circle[1].radius
 	ctrl.min >> min_circle[1].radius
 	
-	mult2 = pm.createNode('multDoubleLinear')
+	mult2 = utils.createNode('multDoubleLinear', pymel=True)
 	mult2.input2.set(2)
 	ctrl.range >> mult2.input1
 	mult2.output >> max_circle[1].sweep
@@ -153,14 +154,14 @@ def run():
 	remap = pm.createNode('remapValue')
 	rot_gr.ry >> remap.inputValue
 	
-	add = pm.createNode('addDoubleLinear')
+	add = utils.createNode('addDoubleLinear', pymel=True)
 	ctrl.ry >> add.input1
 	ctrl.range >> add.input2
 	add.output >> remap.inputMax
 	
-	mult = pm.createNode('multDoubleLinear')
+	mult = utils.createNode('multDoubleLinear', pymel=True)
 	mult.input2.set(-1)
-	add2 = pm.createNode('addDoubleLinear')
+	add2 = utils.createNode('addDoubleLinear', pymel=True)
 	ctrl.range >> mult.input1
 	mult.output >> add2.input1
 	ctrl.ry >> add2.input2

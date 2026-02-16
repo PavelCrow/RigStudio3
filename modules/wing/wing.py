@@ -458,7 +458,7 @@ class Wing(module.Module) :
 			cmds.connectAttr(ci+".arcLength", mult1+".input1X")
 			cmds.connectAttr(name+"_root_connector_decomposeMatrix.outputScaleX", mult1+".input2X")
 
-			mult2 = cmds.createNode("multDoubleLinear", n=cur_f+"_multDoubleLinear")
+			mult2 = utils.createNode("multDoubleLinear", n=cur_f+"_multDoubleLinear")
 			cmds.sets(mult2, e=1, forceElement=name+'_nodesSet')
 			cmds.connectAttr(mult1+".outputX", mult2+".input1")
 			if layer_id == 1:
@@ -466,7 +466,7 @@ class Wing(module.Module) :
 			else:
 				cmds.connectAttr(self.name+"_mod.layer_%s_length" %layer_id, mult2+".input2")
 
-			mult3 = cmds.createNode("multDoubleLinear", n=cur_f+"_multDoubleLinear_2")
+			mult3 = utils.createNode("multDoubleLinear", n=cur_f+"_multDoubleLinear_2")
 			cmds.sets(mult3, e=1, forceElement=name+'_nodesSet')
 			cmds.connectAttr(mult2+".output", mult3+".input1")
 			cmds.connectAttr( "%s_0_outJoint.length" %cur_f, mult3+".input2")

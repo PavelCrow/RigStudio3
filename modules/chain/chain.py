@@ -54,7 +54,7 @@ class Chain(module.Module) :
 					pm.rename(o, o.replace("root", 'element_'+str(i+1)))
 			
 			mns = cmds.createNode("makeNurbSphere", name=poser+"_makeNurbSphere")
-			mult = cmds.createNode("multDoubleLinear", name=poser+"_multDoubleLinear")
+			mult = utils.createNode("multDoubleLinear", name=poser+"_multDoubleLinear")
 			cmds.connectAttr(self.name+"_mainPoser.globalSize", mult+".input1")
 			cmds.connectAttr(poser+".size", mult+".input2")
 			cmds.connectAttr(mult+".output", mns+".radius")
@@ -131,7 +131,7 @@ class Chain(module.Module) :
 				utils.connectByMatrix(jnt, [mirror_mat, ctrl, jnt], ['outputMatrix', 'worldMatrix[0]', 'parentInverseMatrix[0]'], module_name=self.name, attrs=['t', 'r'] )
 				
 				decMat = pm.createNode('decomposeMatrix', n=ctrl+"_scale_decomposeMatrix")
-				mult = pm.createNode('multDoubleLinear', n=ctrl+"_scale_multDoubleLinear")
+				mult = utils.createNode('multDoubleLinear', n=ctrl+"_scale_multDoubleLinear", pymel=True)
 				cond = pm.createNode('condition', n=ctrl+"_scale_condition")
 				c = pm.PyNode(ctrl)
 				

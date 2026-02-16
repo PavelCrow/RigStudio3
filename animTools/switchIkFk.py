@@ -149,6 +149,14 @@ def getConnectedFootModule(control):
 	
 	return False
 
+def objectType(node):
+	type = cmds.objectType(node)
+	
+	version = int(cmds.about(v=True).split(" ")[0])
+	if version >= 2026:
+		if type == "multDL": type = "multDoubleLinear"
+
+	return type
 
 ##################################
 # Switch IKFK
@@ -205,7 +213,7 @@ def get_lengths(control):
 	def get_element_scale(part):
 		out_nodes = getOutputNodes(control, f"length{part}")
 		for node in out_nodes:
-			if cmds.objectType(node) == "multDoubleLinear":
+			if objectType(node) == "multDoubleLinear":
 				scale = cmds.getAttr(node + ".input1")
 				return scale
 
@@ -436,7 +444,7 @@ def from_ik_to_fk(control):
 		def get_element_scale(part):
 			out_nodes = getOutputNodes(control, f"length{part}")
 			for node in out_nodes:
-				if cmds.objectType(node) == "multDoubleLinear":
+				if objectType(node) == "multDoubleLinear":
 					scale = cmds.getAttr(node + ".input1")
 					return scale
 		

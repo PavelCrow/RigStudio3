@@ -62,7 +62,7 @@ class Tree(module.Module) :
 				cmds.setAttr(poser+'.tx', self.length/elementsCount*float(i)*4)	
 
 				mns = poser.replace("poser","makeNurbSphere1")
-				mult = cmds.createNode("multDoubleLinear", name=poser.replace("poser", "multDoubleLinear"))
+				mult = utils.createNode("multDoubleLinear", name=poser.replace("poser", "multDoubleLinear"))
 				cmds.connectAttr(self.name+"_mainPoser.globalSize", mult+".input1")
 				cmds.connectAttr(poser+".size", mult+".input2")
 				cmds.connectAttr(mult+".output", mns+".radius", f=1)
@@ -185,7 +185,7 @@ class Tree(module.Module) :
 		# connect outJoints group
 		utils.connectByMatrix(self.name+"_outJoints", [self.name+"_root"])
 		decMat = pm.PyNode(self.name+"_outJoints_decMat")
-		mult = pm.createNode('multDoubleLinear', n=self.name+"_multDoubleLinear")
+		mult = utils.createNode('multDoubleLinear', n=self.name+"_multDoubleLinear", pymel=True)
 		cond = pm.createNode('condition', n=ctrl+"_scale_condition")
 		cmds.sets(mult.name(), forceElement=self.name+'_nodesSet')
 		cmds.sets(cond.name(), forceElement=self.name+'_nodesSet')

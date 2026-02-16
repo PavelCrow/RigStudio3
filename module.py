@@ -176,7 +176,7 @@ class Module(object):
             cmds.connectAttr(mult+".outputZ", j+".scaleZ", f=1)
 
             if cmds.objExists(m_name+"_mirror_condition"):
-                mult2 = cmds.createNode('multDoubleLinear', n=j+"_jointInvReverseScale_multDoubleLinear")
+                mult2 = utils.createNode('multDoubleLinear', n=j+"_jointInvReverseScale_multDoubleLinear")
                 utils.addModuleNameAttr(mult2, m_name)
                 cmds.connectAttr(j+"_jointInvScale_multiplyDivide.outputZ", mult2+".input1", f=1)
                 cmds.connectAttr(m_name+"_mirror_condition.outColorR", mult2+".input2", f=1)

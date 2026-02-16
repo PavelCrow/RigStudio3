@@ -633,9 +633,9 @@ class Wing2(module.Module) :
 				pm.connectAttr(dm.outputTranslate, f"{name}_{c}.t")
 
 				if c == "ik_end_closed":
-					uc = pm.createNode("multDoubleLinear")
+					uc = utils.createNode("multDoubleLinear", pymel=True)
 					uc.input2.set(-1)
-					add = pm.createNode("addDoubleLinear")
+					add = utils.createNode("addDoubleLinear", pymel=True)
 					add.input2.set(180)
 					pm.connectAttr(dm.outputRotateX, uc.input1)
 					pm.connectAttr(uc.output, f"{name}_{c}.rx")

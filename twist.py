@@ -758,12 +758,12 @@ class Twist(object):
                 cmds.setAttr(mp+'.frontAxis', 0)
                 cmds.connectAttr(j+'.pos', mp+'.uValue')
 
-                mult = cmds.createNode('multDoubleLinear', n=twName+'_multDoubleLinear_%s' %i)
+                mult = utils.createNode('multDoubleLinear', n=twName+'_multDoubleLinear_%s' %i)
                 cmds.sets(mult, e=1, forceElement=twSet)
                 cmds.connectAttr(quat+'.outputRotateX', mult+'.input1')
                 cmds.connectAttr(j+'.pos', mult+'.input2')
 
-                mult2 = cmds.createNode('multDoubleLinear', n=twName+'_twistMultDoubleLinear_%s' %i)
+                mult2 = utils.createNode('multDoubleLinear', n=twName+'_twistMultDoubleLinear_%s' %i)
                 cmds.sets(mult2, e=1, forceElement=twSet)
                 cmds.connectAttr(mult+'.output', mult2+'.input1')
                 cmds.connectAttr(j+'.twistMultiplier', mult2+'.input2')
