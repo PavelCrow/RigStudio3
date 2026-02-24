@@ -1168,6 +1168,8 @@ def restoreSelection(sel): #
 		cmds.select(clear=1)
 
 def curveShapeToCommand(name): #
+	sel = cmds.ls(sl=1) or []
+
 	temp_crv = cmds.duplicate(name)[0]
 	parent = cmds.listRelatives( temp_crv, parent=True ) or []
 	if parent != []:
@@ -1212,6 +1214,9 @@ def curveShapeToCommand(name): #
 		pyCmds.append(pyCmd)
 	
 	cmds.delete(temp_crv)
+
+	if sel:
+		cmds.select(sel)
 
 	return pyCmds
 

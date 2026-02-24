@@ -718,3 +718,6 @@ Maya 2026 support
 returned modules icons
 updated chainIk module
 switchIkFk script update
+
+---Version 3.19.1
+New shelf icon
