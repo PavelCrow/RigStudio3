@@ -61,6 +61,8 @@ class ModuleBuilder(object):
 		self.win.connectPosers_btn.clicked.connect(self.connectPosers)
 		self.win.checkModule_btn.clicked.connect(self.check)
 		self.win.mirrorModule_btn.clicked.connect(self.mirror)
+		self.win.duplicatePoser_btn.clicked.connect(self.duplicatePoser)
+		self.win.renamePoser_btn.clicked.connect(self.renamePoser)
 
 	def updateCurrentModule(self):
 		try:
@@ -379,6 +381,12 @@ class ModuleBuilder(object):
 		
 	def createPoser(self):
 		posers.createPoser()
+		
+	def duplicatePoser(self):
+		posers.duplicatePoser()
+		
+	def renamePoser(self):
+		posers.renamePoser()
 		
 	def connectPosers(self):
 		posers.connectPosers()

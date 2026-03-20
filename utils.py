@@ -730,6 +730,17 @@ def connectByMatrix(obj, targets, inputs=[], useDM=True, attrs=['t', 'r', 's'], 
 	else:
 		cmds.connectAttr(targets[0]+".worldMatrix[0]", dMat+'.inputMatrix')	
 
+def simpleConnectToOffsetParentMatrixFromThreeObjects():
+	sel = cmds.ls(sl=1)
+	if len(sel) !=3:
+		cmds.warning("select three objects - source, parent and target")
+		return
+	source, parent, target = sel
+	mMat = cmds.createNode('multMatrix', n=target+"_multMat")
+	cmds.connectAttr(source+".worldMatrix[0]", mMat+'.matrixIn[0]')
+	cmds.connectAttr(parent+".worldInverseMatrix[0]", mMat+'.matrixIn[1]')
+	cmds.connectAttr(mMat+".matrixSum", target+'.offsetParentMatrix')
+
 def connectToOffsetParentMatrix(obj, targets, inputs=[], set=None): #
 	m_name = getModuleName(obj)
 	# print(4444, obj, m_name)

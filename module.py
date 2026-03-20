@@ -779,6 +779,10 @@ class Module(object):
                 if p.split("_")[-1] == "outJoint":
                     parents = [p.name()]
 
+            if not parents and self.type == "head":
+                if par[2]:
+                    parents = [par[2].name()]
+            
             if parents: 
                 parent = parents[0]
                 # check another connection

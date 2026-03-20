@@ -45,7 +45,7 @@ def reload_modules():
     """Перезагрузка модулей"""
     modules = ['ui', 'utils', 'rig', 'module', 'tools', 'parents', 'twist', 
                'inbetweens', 'driver', 'template', 'attributes', 'sets', 
-               'controller', 'additionalControl', 'posers']
+               'controller', 'additionalControl', 'posers', 'moduleBuilder']
     for mod_name in modules:
         try:
             mod = __import__(f'rigStudio3.{mod_name}', fromlist=[''])

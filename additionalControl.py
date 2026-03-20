@@ -1,5 +1,4 @@
 import maya.cmds as cmds
-import pymel.core as pm
 import maya.OpenMaya as om
 from functools import partial
 

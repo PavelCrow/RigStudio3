@@ -1,0 +1,4 @@
+ver=1.0=
+description=<text>Basic rig of one element.</br></text>
+section=Base
+advanced=True

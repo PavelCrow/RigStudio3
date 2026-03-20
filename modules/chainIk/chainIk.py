@@ -67,8 +67,8 @@ class ChainIk(module.Module) :
 
 			if i > 1:
 				cmds.parent( poser, poser.replace(str(i+1)+"_poser", str(i)+"_poser") )
-			else:
-				cmds.duplicate(self.name+"_root_initLoc", n=self.name+"_element_1_initLoc")
+			# else:
+				# cmds.duplicate(self.name+"_root_initLoc", n=self.name+"_element_1_initLoc")
 
 		cmds.parent( self.name+'_element_2_poser', self.name+'_root_poser' )
 		
@@ -170,11 +170,6 @@ class ChainIk(module.Module) :
 
 				p2 = self.name+'_element_'+str(i+1)+'_poser'
 				posers.connectPosers(p1, p2, name_m=self.name+"_")
-
-				cmds.setAttr(p1+'.lineWidth', 2)
-				cmds.setAttr(p2+'.lineWidth', 2)
-
-				cmds.sets(self.name+'_element_'+str(i+1)+"_nodesSet", e=1, forceElement=self.name+"_nodesSet")
 		
 		cmds.delete(self.name+'_root_outJoint')
 		cmds.rename(self.name+'_1_outJoint', self.name+'_root_outJoint')
@@ -203,8 +198,6 @@ class ChainIk(module.Module) :
 				poser = self.name+'_root_poser'
 			else:
 				poser = self.name+'_element_'+str(i+1)+'_poser'
-			cmds.connectAttr(self.name+'_mainPoser.lineSize', poser+'.lineWidth')
-			cmds.setAttr(poser+'.lineWidth', k=0, cb=0)
 		
 		self.create2()
 		
@@ -760,7 +753,7 @@ class ChainIk(module.Module) :
 		l_c.stretchVolume >> r_c.stretchVolume
 		l_c.autoTwist >> r_c.autoTwist
 		
-		mult_roll = utils.createNode('multDoubleLinear')
+		mult_roll = utils.createNode('multDoubleLinear', pymel=True)
 		utils.addModuleNameAttr(mult_roll, self.name)	
 		mult_roll.input2.set(-1)
 		l_c.roll >> mult_roll.input1

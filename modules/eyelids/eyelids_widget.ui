@@ -152,7 +152,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QPushButton" name="conect_btn">
+    <widget class="QPushButton" name="regenerate_btn">
      <property name="minimumSize">
       <size>
        <width>0</width>

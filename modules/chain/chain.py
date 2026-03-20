@@ -116,7 +116,8 @@ class Chain(module.Module) :
 				cmds.parent(ctrl+"_group", self.name + "_element_" + str(n-1))
 				cmds.setAttr(ctrl+"_group.ty", self.length/controlsCount)
 				cmds.parent(jnt, joints[i-1])
-				mirror_mat = cmds.createNode('composeMatrix')
+				mirror_mat = cmds.createNode('composeMatrix', n=jnt.replace("outJoint", "composeMatrix"))
+				cmds.sets(mirror_mat, e=1, forceElement=self.name+'_nodesSet')
 				
 				if self.name.split("_")[0] == 'r':
 					cmds.setAttr(mirror_mat+".inputScaleX", -1)
@@ -125,7 +126,7 @@ class Chain(module.Module) :
 				cmds.parent(ctrl+"_group", self.name+"_controls")
 				cmds.parent(jnt, self.name+"_outJoints")
 				utils.connectByMatrix(self.name+'_element_1_group', [self.name+'_root_connector'] )
-				mirror_mat = cmds.createNode('composeMatrix')
+				mirror_mat = cmds.createNode('composeMatrix', n=jnt.replace("outJoint", "composeMatrix"))
 				if self.name.split("_")[0] == 'r':
 					cmds.setAttr(mirror_mat+".inputScaleX", -1)
 				utils.connectByMatrix(jnt, [mirror_mat, ctrl, jnt], ['outputMatrix', 'worldMatrix[0]', 'parentInverseMatrix[0]'], module_name=self.name, attrs=['t', 'r'] )
@@ -134,7 +135,12 @@ class Chain(module.Module) :
 				mult = utils.createNode('multDoubleLinear', n=ctrl+"_scale_multDoubleLinear", pymel=True)
 				cond = pm.createNode('condition', n=ctrl+"_scale_condition")
 				c = pm.PyNode(ctrl)
-				
+
+				cmds.sets(mirror_mat, e=1, forceElement=self.name+'_nodesSet')
+				cmds.sets(mult.name(), e=1, forceElement=self.name+'_nodesSet')
+				cmds.sets(decMat.name(), e=1, forceElement=self.name+'_nodesSet')
+				cmds.sets(cond.name(), e=1, forceElement=self.name+'_nodesSet')
+
 				c.worldMatrix[0] >> decMat.inputMatrix
 				decMat.outputScaleZ >> mult.input1
 				mult.input2.set(-1)
@@ -169,11 +175,6 @@ class Chain(module.Module) :
 				# rigTools.posers.connectPosers(p1, p2, name_m=self.name+"_")
 				posers.connectPosers(p1, p2, name_m=self.name+"_")
 
-				cmds.setAttr(p1+'.lineWidth', 2)
-				cmds.setAttr(p2+'.lineWidth', 2)
-
-				cmds.sets(self.name+'_element_'+str(i+1)+"_nodesSet", e=1, forceElement=self.name+"_nodesSet")
-		
 		cmds.rename(self.name+'_element_1_outJoint', self.name+'_root_outJoint')
 				
 		cmds.sets(self.name+'_nodesSet', e=1, forceElement=self.name+'_sets')
@@ -233,8 +234,6 @@ class Chain(module.Module) :
 				poser = self.name+'_root_poser'
 			else:
 				poser = self.name+'_element_'+str(i+1)+'_poser'
-			cmds.connectAttr(self.name+'_mainPoser.lineSize', poser+'.lineWidth')
-			cmds.setAttr(poser+'.lineWidth', k=0, cb=0)
 
 		cmds.parent(self.root, 'modules')	
 

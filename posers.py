@@ -32,7 +32,7 @@ def createMainPoser(name=""):
 				return
 		else:
 			return
-	print(222)
+	
 	# import
 	path = os.path.join(rootPath, "rigTools", 'mainPoser.ma')
 	
@@ -47,20 +47,39 @@ def createMainPoser(name=""):
 		
 	return name+"_mainPoser"
 		
+def incrementPoserIfExists(name): #
+	suff = name.split('_')[-1]
+	if suff.isdigit():
+		rootName = name[:-len(suff)-1]
+	else:
+		suff = ""
+		rootName = name	
+
+	while cmds.objExists(name+"_poser"):
+		suff = name.split('_')[-1]
+		if suff.isdigit():
+			name = rootName + '_' + str( int(suff) + 1 )
+		else:
+			name += '_1'
+
+	return name
+
 def createPoser(name=""):
 	if not name:
 		name, ok = QtWidgets.QInputDialog.getText(None, "Add Poser", "Please enter poser name", QtWidgets.QLineEdit.Normal, "root")
-	
+		
 		if not cmds.objExists("mainPoser"):
 			cmds.warning("mainPoser is not exists")
 			return
 			
 		if ok:
 			if cmds.objExists(name+"_poser"):
-				QtWidgets.QMessageBox.information(None, "Warning", "This poser is exist.")
-				return
+				name = incrementPoserIfExists(name)
 	
-			if " " in name or "-" in name  or name[0].isdigit():
+			if " ":
+				name.replace(" ", "_")
+			
+			if "-" in name  or name[0].isdigit():
 				QtWidgets.QMessageBox.information(None, "Warning", "Wrong Name.")
 				return
 		else:
@@ -72,56 +91,116 @@ def createPoser(name=""):
 	
 	if cmds.objExists("mainPoser"):
 		cmds.parent(name+"_poser", "mainPoser")
+
+		mult = cmds.createNode("multDoubleLinear", n=name+"_size_multDoubleLinear")
+		cmds.connectAttr(name+"_poser.size", mult+".input1")
+		cmds.connectAttr("mainPoser.globalSize", mult+".input2")
+		cmds.connectAttr(mult+".output", name+"_makeNurbSphere.radius", f=1)
+
+	cmds.delete(name+"_nodesSet", name+"_sceneConfigurationScriptNode")
+
 	cmds.select(name+"_poser")
 	
 	return name+"_poser"
 
 def connectPosers(src=None, tgt=None, name_m=""):
-	if not src:
-		sel = cmds.ls(sl=1)
-		if len(sel) != 2:
-			cmds.warning("Select source and target nodes")
-			return
+	# if not src:
+	# 	sel = cmds.ls(sl=1)
+	# 	if len(sel) != 2:
+	# 		cmds.warning("Select source and target nodes")
+	# 		return
 			
-		src, tgt = sel	
+	# 	src, tgt = sel	
 
+	posers = cmds.ls(sl=1)
+
+	if not posers:
+		return
+	
 	if not cmds.objExists(name_m+"lines_group"):
 		cmds.group(empty=True, n=name_m+"lines_group")
-		cmds.parent(name_m+"lines_group", name_m+"mainPoser")
-			
-	# import
-	path = rootPath + '//rigTools//' + 'line.ma'		
-	utils.importFile(path, tgt.split("_poser")[0])
-	
-	
-	line = tgt.replace("poser","line")
-	cmds.parent(line, name_m+"lines_group")
-	
-	cmds.parent(line+"_start_cluster_group", src)
-	cmds.parent(line+"_end_cluster_group", tgt)
-	utils.resetAttrs(line + "_start_cluster_group")
-	utils.resetAttrs(line + "_end_cluster_group")
-	
-	utils.setUserAttr(src, "lineWidth", 1, type="float", lock=False, keyable=False, cb=True)
-	utils.setUserAttr(tgt, "lineWidth", 1, type="float", lock=False, keyable=False, cb=True)
-	
-	cmds.connectAttr(src+".lineWidth", line+"_start_cluster.sx")
-	cmds.connectAttr(src+".lineWidth", line+"_start_cluster.sy")
-	cmds.connectAttr(src+".lineWidth", line+"_start_cluster.sz")
-	cmds.connectAttr(tgt+".lineWidth", line+"_end_cluster.sx")
-	cmds.connectAttr(tgt+".lineWidth", line+"_end_cluster.sy")
-	cmds.connectAttr(tgt+".lineWidth", line+"_end_cluster.sz")
-	
-	if cmds.objExists("black_rsMat"):
-		cmds.delete(line+"_rsMat")
-		cmds.select(line)
-		cmds.hyperShade(assign="black_rsMat")
-	else:
-		cmds.rename(line+"_rsMat", "black_rsMat")	
+		cmds.parent(name_m+"lines_group", name_m+"posers")
+
+	for p in posers:
+		if p.split("_")[-1] != "poser":
+			cmds.warning("Select only posers")
+			return
+
+	locs = []
+	for p in posers:
+		l = p.replace("poser", "poserOrient")
+		locs.append(l)
 		
-	try:
-		cmds.select(sel)
-	except: pass
+	pos=[]
+	for l in locs:
+		l_pos = cmds.getAttr(l+".worldPosition")[0]
+		pos.append(l_pos)
+		
+	c = cmds.curve(d=1, p=pos)
+	c = cmds.rename(c, "posers_curve_#")
+	for i,l in enumerate(locs):
+		cmds.connectAttr(f"{l}.worldPosition[0]", f"{c}.controlPoints[{i}]")
+
+	sel = cmds.ls(type="sweepMeshCreator")
+	if sel: 
+		smc = sel[0]
+	else:
+		cmds.sweepMeshFromCurve()
+		smc = cmds.ls(sl=1)[0]
+		
+	size = cmds.getAttr(f"{smc}.inCurveArray", size=True)
+	cS = cmds.listRelatives(c)[0]
+	cmds.connectAttr(f"{cS}.worldSpace", f"{smc}.inCurveArray[{size}]")
+
+	mesh, poly = cmds.polyCube(n=c+"_sweepMesh")
+	meshS = cmds.listRelatives(mesh)[0]
+	cmds.DeleteHistory()
+	cmds.connectAttr(f"{smc}.outMeshArray[{size}]", f"{meshS}.inMesh")
+
+	shading_groups = cmds.listConnections(mesh, type='shadingEngine')
+	connections = cmds.listConnections(f"{meshS}.instObjGroups[0]", source=False, destination=True, plugs=True)
+	cmds.disconnectAttr(f"{meshS}.instObjGroups[0]", connections[0])
+	cmds.setAttr(f"{meshS}.overrideEnabled", 1)
+	cmds.setAttr(f"{meshS}.overrideDisplayType", 2)
+	cmds.parent(c, mesh, "lines_group")
+	cmds.hide(c)
+
+	cmds.select(posers)
+
+
+	# # import
+	# path = rootPath + '//rigTools//' + 'line.ma'		
+	# utils.importFile(path, tgt.split("_poser")[0])
+	
+	
+	# line = tgt.replace("poser","line")
+	# cmds.parent(line, name_m+"lines_group")
+	
+	# cmds.parent(line+"_start_cluster_group", src)
+	# cmds.parent(line+"_end_cluster_group", tgt)
+	# utils.resetAttrs(line + "_start_cluster_group")
+	# utils.resetAttrs(line + "_end_cluster_group")
+	
+	# utils.setUserAttr(src, "lineWidth", 1, type="float", lock=False, keyable=False, cb=True)
+	# utils.setUserAttr(tgt, "lineWidth", 1, type="float", lock=False, keyable=False, cb=True)
+	
+	# cmds.connectAttr(src+".lineWidth", line+"_start_cluster.sx")
+	# cmds.connectAttr(src+".lineWidth", line+"_start_cluster.sy")
+	# cmds.connectAttr(src+".lineWidth", line+"_start_cluster.sz")
+	# cmds.connectAttr(tgt+".lineWidth", line+"_end_cluster.sx")
+	# cmds.connectAttr(tgt+".lineWidth", line+"_end_cluster.sy")
+	# cmds.connectAttr(tgt+".lineWidth", line+"_end_cluster.sz")
+	
+	# if cmds.objExists("black_rsMat"):
+	# 	cmds.delete(line+"_rsMat")
+	# 	cmds.select(line)
+	# 	cmds.hyperShade(assign="black_rsMat")
+	# else:
+	# 	cmds.rename(line+"_rsMat", "black_rsMat")	
+		
+	# try:
+	# 	cmds.select(sel)
+	# except: pass
 		
 def orientPosers():
 	sel = cmds.ls(sl=1)
@@ -207,3 +286,61 @@ def reconnectSize():
 			
 def addCatcher():
 	pass
+
+def renamePoser():
+	sel = cmds.ls(sl=1)
+	
+	if not sel:
+		cmds.warning("Select poser to rename")
+		return
+			
+	poser = sel[0]
+
+	if "poser" not in poser:
+		cmds.warning("Select poser to rename")
+		return
+
+
+	name, ok = QtWidgets.QInputDialog.getText(None, "Rename Poser", "Please enter new poser name", QtWidgets.QLineEdit.Normal, poser.split("_poser")[0])
+
+	if name and ok:
+		if cmds.objExists(name+"_poser"):
+			name = incrementPoserIfExists(name)
+
+		if " ":
+			name.replace(" ", "_")
+		
+		if "-" in name  or name[0].isdigit():
+			QtWidgets.QMessageBox.information(None, "Warning", "Wrong Name.")
+			return
+
+	for o in ["initLoc", "poser", "poserOrient", "makeNurbSphere", "size_multDoubleLinear"]:
+		old_name = poser.split("_poser")[0]+"_"+o
+		new_name = name+"_"+o
+		if cmds.objExists(old_name):
+			cmds.rename(old_name, new_name)
+
+def duplicatePoser():
+	sel = cmds.ls(sl=1)
+	
+	if not sel:
+		cmds.warning("Select poser to duplicate")
+		return
+			
+	poser = sel[0]
+
+	if "poser" not in poser:
+		cmds.warning("Select poser to duplicate")
+		return
+	
+	new_poser_name = poser.split("_poser")[0]
+	
+	new_poser_name = incrementPoserIfExists(new_poser_name)
+	
+	new_poser = createPoser(new_poser_name)
+
+	con = cmds.pointConstraint(poser, new_poser, mo=0)
+	cmds.delete(con)
+
+	cmds.setAttr(new_poser+".size", cmds.getAttr(poser+".size"))
+	cmds.select(new_poser)

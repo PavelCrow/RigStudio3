@@ -721,3 +721,14 @@ switchIkFk script update
 
 ---Version 3.19.1
 New shelf icon
+
+---Version 3.20.0
+Duplicate poser feature in module builder
+Rename poser feature in module builder
+Connect poser update in module builder
+
+---Version 3.20.1
+Fix chain module
+Fix chainIk module
+new quadrupped templates
+FingersIK module

@@ -1,9 +1,8 @@
 # *.py[cod]
 # *$py.class
 # share/python-wheels/
-
-
-# __pycache__/ 
+*.pyc
+__pycache__/ 
 .vscode/
 .idea/
 incrementalSave
@@ -12,3 +11,10 @@ rigStudio3.code-workspace
 license_*
 check.py
 connections.py
+mim
+mxgdn_foot
+fkPlain
+fishWing
+fishTail
+fishBody
+fin

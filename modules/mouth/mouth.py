@@ -1,10 +1,12 @@
 import maya.cmds as cmds
+import maya.mel as mel
 import pymel.core as pm
 from functools import partial
 import maya.OpenMayaUI as OpenMayaUI
 import os
 
 from ... import utils, module
+from rigStudio3.ui.groupLabel import GroupLabel
 
 version = int(cmds.about(v=True).split(" ")[0])
 if version <= 2024:
@@ -43,48 +45,59 @@ class Mouth(module.Module) :
 		self.unic = False
 		self.jointsCount = 0
 		self.widget = None
+		self.topEdges = ''
+		self.bottomEdges = ''	
 
 	def connectSignals(self, mainInstance, w): #
 		self.mainInstance = mainInstance
 		self.widget = w
-		w.rebuild_btn.clicked.connect(partial(self.rebuildWithNewOptions, mainInstance, w))
+		w.setJointsCount_btn.clicked.connect(partial(self.rebuildWithNewOptions, mainInstance, w))
+
+		w.setTopEdges_btn.clicked.connect(partial(self.setEdges, w, "top"))
+		w.setBottomEdges_btn.clicked.connect(partial(self.setEdges, w, "bottom"))
+		w.manual_btn.clicked.connect(partial(self.manual_auto_toggle, w, "manual"))
+		w.auto_btn.clicked.connect(partial(self.manual_auto_toggle, w, "auto"))
+		w.rebuild_btn.clicked.connect(self.joint_from_edges)
+
+		w.stackedWidget.setCurrentIndex(0)
+
+		GroupLabel(self.widget.manual_label, self.widget.frame_3, self.widget.verticalLayout_6)
+
+		g = GroupLabel(self.widget.secondaryControls_label, self.widget.secondaryControls_groupFrame, self.widget.verticalLayout_9)
+		g.mousePressEvent(1)		
+
+		GroupLabel(self.widget.posers_label, self.widget.posers_groupFrame, self.widget.verticalLayout_10)
+
 
 	def updateOptionsPage(self, widget):
 		module_folder_path = os.path.dirname(__file__)
 		pixmap = QtGui.QPixmap(os.path.join(module_folder_path, 'helpImage.png'))
 		widget.image_label.setPixmap(pixmap)
+		pixmap2 = QtGui.QPixmap(os.path.join(module_folder_path, 'helpImage2.png'))
+		widget.image_label_2.setPixmap(pixmap2)
+		pixmap3 = QtGui.QPixmap(os.path.join(module_folder_path, 'helpImage3.png'))
+		widget.image_label_3.setPixmap(pixmap3)
 	
 		options = self.getOptions()
 		self.jointsCount = options['jointsCount']
 		
 		widget.jointsCount_spinBox.setValue(self.jointsCount)
-		
-		widget.frame_6.setVisible(False)
 
-		# # delete old feather widgets
-		# for x in range(self.widget.pos_verticalLayout.count()):
-		# 	w = self.widget.pos_verticalLayout.itemAt(x).widget()
-		# 	w.deleteLater()
-
-		# # add feathers widgets
-		# path = os.path.join(self.mainInstance.rootPath, "modules", self.type, "inbetweenJointPos_widget.ui")
-
-		# for i, pos in enumerate(options['posData']):
-		# 	id = i + 1
-		# 	w = load_ui_widget(path)
-		# 	self.widget.pos_verticalLayout.addWidget(w)
-
-		# 	w.label.setText("Pos "+str(id))
-
-		# 	w.slider.valueChanged.connect(partial(self.slider_update, w, id))
-		# 	w.lineEdit.editingFinished.connect(partial(self.sliderValue_update, w))
-
-		# 	w.slider.setValue(pos*10000)
+		widget.topEdges_lineEdit.setText(self.topEdges)
+		widget.bottomEdges_lineEdit.setText(self.bottomEdges)
 
 	def getOptions(self): #
 		self.jointsCount = int ( ( len(cmds.listRelatives(self.name+'_lipsExtra_controls')) - 2 ) / 4 )
 
-		optionsData = {}
+		if cmds.objExists(self.root+'.options'):
+			optionsData = utils.attrToPy(self.root+'.options')
+			self.topEdges = optionsData['topEdges']
+			self.bottomEdges = optionsData['bottomEdges']				
+		else:
+			optionsData = {}
+			optionsData['topEdges'] = ''
+			optionsData['bottomEdges'] = ''			
+
 		optionsData['jointsCount'] = self.jointsCount
 
 		posData = []
@@ -96,12 +109,68 @@ class Mouth(module.Module) :
 
 		return optionsData	
 	
+	def setOptions(self, optionsData):
+		
+		if 'topEdges' in optionsData:
+			self.topEdges = optionsData['topEdges']
+		else:
+			self.topEdges = ""
+			
+		if 'bottomEdges' in optionsData:
+			self.bottomEdges = optionsData['bottomEdges']
+		else:
+			self.bottomEdges = ""
+
+		utils.pyToAttr(self.root+'.options', optionsData)
+
+	def joint_from_edges(self):
+
+		def get_u_values(points):
+			mel.eval(f'select -r {points}')
+			init_crv = cmds.polyToCurve(degree=1,ch=0,n="crv_name")[0]
+			mel.eval('rebuildCurve -ch 1 -rpo 1 -rt 0 -end 1 -kr 0 -kcp 1 -kep 1 -kt 0 -s 4 -d 3 -tol 0.01 "crv_name";')
+
+			mel.eval(f'select -r {points}')
+			mel.eval('ConvertSelectionToVertices')
+			vtx_list = cmds.ls(sl=1, flatten=True)
+
+			vtx_pos = [(vtx, cmds.pointPosition(vtx, world=True)) for vtx in vtx_list]
+
+			# Сортируем по X
+			sorted_coords = [pos for vtx, pos in sorted(vtx_pos, key=lambda x: x[1][0])]
+			
+			info_node = f'{self.name}_nearestPointOnCurve'
+
+			u_values = []
+			for vtx_pos in sorted_coords:
+				cmds.setAttr(f"{info_node}.inPosition", *vtx_pos)
+				# Получаем U параметр (нормализованный 0-1)
+				u_value = cmds.getAttr(f"{info_node}.result.parameter") 
+				u_values.append(u_value)
+
+			# Удаляем nodes
+			cmds.delete(init_crv)			
+			
+			return u_values[1:-1]
+
+		t_u_values = get_u_values(self.topEdges)
+		# b_u_values = get_u_values(self.bottomEdges)
+
+		cmds.select(clear=1)
+		joints_count = len(t_u_values)
+
+		self.rebuildWithNewOptions(count=joints_count)
+
+		for i, v in enumerate(t_u_values):
+			cmds.setAttr(self.name+f"_l_t_lip_{i+1}_outJoint.pos", v)
+			print(111, self.name+f"_l_t_lip_{i+1}_outJoint.pos", v)
+
+
 	def rebuildWithNewOptions(self, mainInstance=None, widget=None, count=None):
 		if not count:
 			count = widget.jointsCount_spinBox.value()
 
 		m_name = self.name
-		print(3333, count)
 
 		def connectByMatrix(obj, targets, inputs=[]): 
 			dMat = cmds.createNode('decomposeMatrix', n=obj+"_decMat")
@@ -146,6 +215,10 @@ class Mouth(module.Module) :
 		conns_out = cmds.listConnections(bf.out_bot_lip_rotate.name(), plugs=1, connections=1, s=0, d=1) or []
 		node = pm.PyNode(conns_out[1].split(".")[0]).outputs()[0]
 		pm.disconnectAttr(conns_out[0], node.rotate)
+
+		length = cmds.getAttr(f"{bf}.pos", size=True) or 0
+		for i in range(length):
+			cmds.removeMultiInstance(f"{bf}.pos[{i}]")		
 
 		# create new
 		bf.left_joints_count.set(count)
@@ -230,3 +303,24 @@ class Mouth(module.Module) :
 
 		if self.widget:
 			self.updateOptionsPage(self.widget)
+
+	def setEdges(self, widget, side):
+		edges = cmds.ls(sl=1)
+
+		edges_string = ""
+		for e in edges:
+			edges_string += e
+			edges_string += " "
+	
+		options = self.getOptions()
+		options[side+'Edges'] = edges_string
+		self.setOptions(options)	
+
+		w_lineEdit = eval("widget.%sEdges_lineEdit" %side)
+		w_lineEdit.setText(edges_string)			
+	
+	def manual_auto_toggle(self, w, type):
+		if type == "manual":
+			w.stackedWidget.setCurrentIndex(0)
+		else:
+			w.stackedWidget.setCurrentIndex(1)
