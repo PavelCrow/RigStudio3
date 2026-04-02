@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
-//Name: mouth6.ma
-//Last modified: Mon, Mar 30, 2026 06:00:27 PM
+//Name: mouth.ma
+//Last modified: Mon, Mar 02, 2026 05:51:05 PM
 //Codeset: 1251
 requires maya "2022";
 requires -nodeType "inverseMatrix" "matrixNodes" "1.0";
@@ -9,6 +9,7 @@ requires -nodeType "sweepMeshCreator" -dataType "sweepMeshData" -dataType "sweep
 requires -nodeType "absOverride" -nodeType "absUniqueOverride" "renderSetup.py" "1.0";
 requires "stereoCamera" "10.0";
 requires -nodeType "ngst2SkinLayerData" -dataType "ngst2SkinLayerDataStorage" "ngSkinTools2" "2.4.0";
+requires -nodeType "eulerToQuat" "quatNodes" "1.0";
 requires -nodeType "bifrostGraphShape" -dataType "bifData" "bifrostGraph" "2.6.0.0-202212071624-fbc8dae";
 currentUnit -l centimeter -a degree -t pal;
 fileInfo "application" "maya";
@@ -16,30 +17,29 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202110272215-ad32f8f1e6";
 fileInfo "osv" "Windows 10 Pro v2009 (Build: 26200)";
-fileInfo "UUID" "A46E28F4-4335-A4F2-1D09-98ADC7820C83";
+fileInfo "UUID" "C9A35D6D-41E9-E15B-A358-97AED265EE21";
 createNode transform -s -n "persp";
 	rename -uid "1733E601-429C-7BF0-3C67-8BA284AE9334";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 1.2034987557447807 1.3810743941459054 7.5482284279052276 ;
-	setAttr ".r" -type "double3" -2.4000000000000004 2.4000000000008739 -1.2434949287704264e-17 ;
-	setAttr ".rp" -type "double3" -3.5527136788005009e-15 3.5527136788005009e-15 0 ;
-	setAttr ".rpt" -type "double3" 4.5456638697572816e-15 2.2829509451657628e-14 1.0490381903348529e-14 ;
+	setAttr ".t" -type "double3" -0.15332849546698679 4.9293175082475349 7.3959390388212984 ;
+	setAttr ".r" -type "double3" -33.000000000001386 -3.5999999999999859 -1.9917769928318759e-16 ;
+	setAttr ".rp" -type "double3" 3.5527136788005009e-15 -8.8817841970012523e-16 -7.1054273576010019e-15 ;
+	setAttr ".rpt" -type "double3" 2.3363394686372078e-15 2.1641432292868124e-14 9.5311580323571807e-15 ;
 createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "48333E54-45CD-F3F1-B5B8-D1B3A612D8DF";
 	setAttr -k off ".v" no;
-	setAttr ".pze" yes;
 	setAttr ".fl" 34.999999999999993;
 	setAttr ".fcp" 50000;
-	setAttr ".coi" 7.5555188290699418;
+	setAttr ".coi" 8.5948389259392926;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
-	setAttr ".tp" -type "double3" -2.0605631349891516 4.0774701276559968 0.44038952389626385 ;
+	setAttr ".tp" -type "double3" -0.049184155406625685 1.314432114271572 -0.49936441613483562 ;
 	setAttr ".hc" -type "string" "viewSet -p %camera";
 createNode transform -s -n "top";
 	rename -uid "E01C9DFB-4D91-DF21-5E0F-8E86699C55E2";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 0.61600192036589396 6.8965124780292317 0.097419649314275603 ;
+	setAttr ".t" -type "double3" 1.0126646093819982 7.4149976415002605 0.87877876834194724 ;
 	setAttr ".r" -type "double3" -90 0 0 ;
 createNode camera -s -n "topShape" -p "top";
 	rename -uid "D368FBB7-46BD-40F4-36D6-3196F14CF2F4";
@@ -47,7 +47,7 @@ createNode camera -s -n "topShape" -p "top";
 	setAttr ".rnd" no;
 	setAttr ".fcp" 50000;
 	setAttr ".coi" 1000.1;
-	setAttr ".ow" 6.6797127260986642;
+	setAttr ".ow" 7.7693572004635172;
 	setAttr ".imn" -type "string" "top";
 	setAttr ".den" -type "string" "top_depth";
 	setAttr ".man" -type "string" "top_mask";
@@ -56,14 +56,14 @@ createNode camera -s -n "topShape" -p "top";
 createNode transform -s -n "front";
 	rename -uid "DBE07B22-4B3C-7CEE-6E68-42854F2F1942";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 0.27267330817549251 0.59946589761666846 7.3448279744938967 ;
+	setAttr ".t" -type "double3" -0.29964867369254689 0.81214604423968595 8.9783231378318575 ;
 createNode camera -s -n "frontShape" -p "front";
 	rename -uid "73EAE3DF-42A7-BD3A-9E50-1183D3300ABE";
 	setAttr -k off ".v" no;
 	setAttr ".rnd" no;
 	setAttr ".fcp" 50000;
 	setAttr ".coi" 1000.1;
-	setAttr ".ow" 7.0987767306478391;
+	setAttr ".ow" 8.0945061001765719;
 	setAttr ".imn" -type "string" "front";
 	setAttr ".den" -type "string" "front_depth";
 	setAttr ".man" -type "string" "front_mask";
@@ -72,15 +72,15 @@ createNode camera -s -n "frontShape" -p "front";
 createNode transform -s -n "side";
 	rename -uid "57EB17B9-429C-7A66-FDA6-BBAE1981781D";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 17.928677545652562 0.54276515561543981 0.45001523089180562 ;
-	setAttr ".r" -type "double3" 0 90 0 ;
+	setAttr ".t" -type "double3" -8.759825027882636 1.1703559868002527 -0.33917271432820695 ;
+	setAttr ".r" -type "double3" 0 -90 0 ;
 createNode camera -s -n "sideShape" -p "side";
 	rename -uid "5C5AEA92-4898-5D25-7644-8F9C3383A4B3";
 	setAttr -k off ".v" no;
 	setAttr ".rnd" no;
 	setAttr ".fcp" 50000;
 	setAttr ".coi" 1000.1;
-	setAttr ".ow" 16.862769274247466;
+	setAttr ".ow" 9.0682044488875633;
 	setAttr ".imn" -type "string" "side";
 	setAttr ".den" -type "string" "side_depth";
 	setAttr ".man" -type "string" "side_mask";
@@ -249,7 +249,6 @@ createNode transform -n "mouth_poser" -p "root_poser";
 	setAttr -l on -k off ".rx";
 	setAttr -l on -k off ".ry";
 	setAttr -l on -k off ".rz";
-	setAttr -k on ".s" -type "double3" 0.99716706540765787 0.99716706540765787 0.99716706540765787 ;
 	setAttr -k on ".s";
 	setAttr -k off ".sy";
 	setAttr -k off ".sz";
@@ -394,6 +393,58 @@ createNode transform -n "b_mouth_initLoc" -p "b_mouth_poserOrient";
 createNode locator -n "b_mouth_initLocShape" -p "b_mouth_initLoc";
 	rename -uid "ABD0E2A9-4E61-0F32-9410-F89CFB36D33A";
 	setAttr -k off ".v";
+createNode transform -n "lip_middle_poser" -p "mouth_poser";
+	rename -uid "CC171E67-466E-1334-7319-88A0FA0A353C";
+	addAttr -ci true -sn "size" -ln "size" -dv 1 -min 0 -at "double";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	setAttr -k off ".v";
+	setAttr -k on ".t" -type "double3" 1.022330617899891 0.3890904258648209 0.26736375832430032 ;
+	setAttr -k on ".t";
+	setAttr ".r" -type "double3" -90 -86.341448837983691 0 ;
+	setAttr -l on -k off ".sx";
+	setAttr -l on -k off ".sy";
+	setAttr -l on -k off ".sz";
+	setAttr ".dh" yes;
+	setAttr -k on ".size" 0.5;
+	setAttr -l on ".moduleName" -type "string" "mouth";
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:58642fa128a4";
+createNode nurbsSurface -n "lip_middle_poserNurbsShape" -p "lip_middle_poser";
+	rename -uid "A24047F2-4B92-82B9-BD85-519582A27A21";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	setAttr -k off ".v";
+	setAttr ".ove" yes;
+	setAttr ".ovc" 10;
+	setAttr ".vir" yes;
+	setAttr ".vif" yes;
+	setAttr ".tw" yes;
+	setAttr ".covm[0]"  0 1 1;
+	setAttr ".cdvm[0]"  0 1 1;
+	setAttr ".dvu" 1;
+	setAttr ".dvv" 1;
+	setAttr ".cpr" 7;
+	setAttr ".cps" 2;
+	setAttr ".nufa" 4.5;
+	setAttr ".nvfa" 4.5;
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:d09fca5c420e";
+createNode transform -n "lip_middle_poserOrient" -p "lip_middle_poser";
+	rename -uid "46EDC134-44B5-E88D-499C-109401D69EF7";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode locator -n "lip_middle_poserOrientShape" -p "lip_middle_poserOrient";
+	rename -uid "44D933CD-4302-B21A-A932-4881EDF444FC";
+	setAttr -k off ".v" no;
+	setAttr ".ove" yes;
+	setAttr ".ovc" 14;
+	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
+createNode transform -n "lip_middle_initLoc" -p "lip_middle_poserOrient";
+	rename -uid "52397E99-408F-8236-13B3-548B21039D1E";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".v" no;
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode locator -n "lip_middle_initLocShape" -p "lip_middle_initLoc";
+	rename -uid "6E4B9B4F-4125-4FC4-E7F3-EB92D41B6802";
+	setAttr -k off ".v";
 createNode transform -n "c_lip_poser" -p "mouth_poser";
 	rename -uid "9258448F-4C67-ED00-F3D7-3CADDFACEB82";
 	addAttr -ci true -sn "size" -ln "size" -dv 1 -min 0 -at "double";
@@ -450,7 +501,7 @@ createNode transform -n "c_lip_initLoc" -p "c_lip_poserOrient";
 createNode locator -n "c_lip_initLocShape" -p "c_lip_initLoc";
 	rename -uid "76D5F4F3-4091-CECB-A900-BBA87A9B7E64";
 	setAttr -k off ".v";
-createNode transform -n "lip_corner_poser" -p "mouth_poser";
+createNode transform -n "l_lip_corner_poser" -p "mouth_poser";
 	rename -uid "51FD2D69-4E19-89BA-200E-159546EEF2FD";
 	addAttr -ci true -sn "size" -ln "size" -dv 1 -min 0 -at "double";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -458,16 +509,15 @@ createNode transform -n "lip_corner_poser" -p "mouth_poser";
 	addAttr -ci true -sn "moveFactor" -ln "moveFactor" -dv 1 -at "double";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
 	addAttr -ci true -sn "limitPosers" -ln "limitPosers" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "mouthLineFollow" -ln "mouthLineFollow" -min 0 -max 1 -at "bool";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 4;
-	setAttr -k on ".t" -type "double3" 2.4692144827712195 0.11665923107864695 0.026694038547760424 ;
+	setAttr -k on ".t" -type "double3" 2.0291543428947669 -0.1113370005437524 0.050940743335336991 ;
 	setAttr -k on ".t";
+	setAttr -k on ".r" -type "double3" -0.11511725078252592 23.731801239191576 0 ;
 	setAttr -k on ".r";
 	setAttr -k off ".ry";
 	setAttr -l on -k off ".rz";
-	setAttr -l on -k off ".rx";
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
@@ -478,8 +528,7 @@ createNode transform -n "lip_corner_poser" -p "mouth_poser";
 	setAttr -k on ".moveFactor" 3.99;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:cc59952e5a29";
 	setAttr -k on ".limitPosers" yes;
-	setAttr -k on ".mouthLineFollow";
-createNode nurbsSurface -n "lip_corner_poserNurbsShape" -p "lip_corner_poser";
+createNode nurbsSurface -n "l_lip_corner_poserNurbsShape" -p "l_lip_corner_poser";
 	rename -uid "1D7B4B1E-44AE-06E5-C227-36A705BC3038";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
 	setAttr -k off ".v";
@@ -497,18 +546,84 @@ createNode nurbsSurface -n "lip_corner_poserNurbsShape" -p "lip_corner_poser";
 	setAttr ".nufa" 4.5;
 	setAttr ".nvfa" 4.5;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:c367fd1ff242";
-createNode transform -n "lip_corner_poserOrient" -p "lip_corner_poser";
+createNode transform -n "l_lip_corner_poserOrient" -p "l_lip_corner_poser";
 	rename -uid "695EBFDB-417D-BC28-2392-53872C0978EB";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	setAttr -l on ".moduleName" -type "string" "mouth";
-createNode locator -n "lip_corner_poserOrientShape" -p "lip_corner_poserOrient";
+createNode locator -n "l_lip_corner_poserOrientShape" -p "l_lip_corner_poserOrient";
 	rename -uid "A26D4F86-4CA1-61EE-7665-D8A4AF87654A";
 	setAttr -k off ".v" no;
 	setAttr ".ove" yes;
 	setAttr ".ovc" 14;
-	setAttr -s 2 ".wp";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode aimConstraint -n "lip_corner_poser_aimConstraint" -p "lip_corner_poser";
+createNode transform -n "l_lip_corner_initLoc" -p "l_lip_corner_poserOrient";
+	rename -uid "BA7ED852-448F-9942-EB7A-03AA1197203E";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".v" no;
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode locator -n "l_lip_corner_initLocShape" -p "l_lip_corner_initLoc";
+	rename -uid "D3399801-40BF-FE3E-A3D2-FEB2D4453D33";
+	setAttr -k off ".v";
+createNode transform -n "l_lip_posers_up_loc" -p "l_lip_corner_poser";
+	rename -uid "7DFC5F33-4788-BEF6-3CBA-BB9416E0C4A6";
+	setAttr ".v" no;
+	setAttr ".t" -type "double3" 2.2204460492503131e-16 0.81080027238670938 -1.1102230246251559e-16 ;
+createNode locator -n "l_lip_posers_up_locShape" -p "l_lip_posers_up_loc";
+	rename -uid "088BD29B-4165-BDBE-3415-ADA3CA15585C";
+	setAttr -k off ".v";
+createNode transform -n "l_lip_posers_target_up_loc" -p "l_lip_corner_poser";
+	rename -uid "592C61BB-4E5E-F5A4-66B2-AF9D42542021";
+	setAttr ".v" no;
+createNode locator -n "l_lip_posers_target_up_locShape" -p "l_lip_posers_target_up_loc";
+	rename -uid "07EB2110-4891-E047-6F40-6D805DA3759E";
+	setAttr -k off ".v";
+createNode aimConstraint -n "l_lip_posers_up_loc1_aimConstraint1" -p "l_lip_posers_target_up_loc";
+	rename -uid "9801FD18-4745-F82B-758B-A0959A0FB37E";
+	addAttr -dcb 0 -ci true -sn "w0" -ln "l_lip_up_poserW0" -dv 1 -at "double";
+	setAttr -k on ".nds";
+	setAttr -k off ".v";
+	setAttr -k off ".tx";
+	setAttr -k off ".ty";
+	setAttr -k off ".tz";
+	setAttr -k off ".rx";
+	setAttr -k off ".ry";
+	setAttr -k off ".rz";
+	setAttr -k off ".sx";
+	setAttr -k off ".sy";
+	setAttr -k off ".sz";
+	setAttr ".erp" yes;
+	setAttr ".a" -type "double3" 0 1 0 ;
+	setAttr ".u" -type "double3" -1 0 0 ;
+	setAttr ".wut" 1;
+	setAttr ".rsrr" -type "double3" 0.27405499691668067 180 -5.0888874903416268e-14 ;
+	setAttr -k on ".w0";
+createNode transform -n "l_lip_posers_target_down_loc" -p "l_lip_corner_poser";
+	rename -uid "5CFD2635-4431-BC6B-537C-F18D8A6FD892";
+	setAttr ".v" no;
+createNode locator -n "l_lip_posers_target_down_locShape" -p "l_lip_posers_target_down_loc";
+	rename -uid "78DCBA03-4F83-5DEA-D887-BF8501A9CED1";
+	setAttr -k off ".v";
+createNode aimConstraint -n "l_lip_posers_target_down_loc_aimConstraint1" -p "l_lip_posers_target_down_loc";
+	rename -uid "6408268A-4865-5F60-570D-A29526DDC3C8";
+	addAttr -dcb 0 -ci true -sn "w0" -ln "l_lip_down_poserW0" -dv 1 -at "double";
+	setAttr -k on ".nds";
+	setAttr -k off ".v";
+	setAttr -k off ".tx";
+	setAttr -k off ".ty";
+	setAttr -k off ".tz";
+	setAttr -k off ".rx";
+	setAttr -k off ".ry";
+	setAttr -k off ".rz";
+	setAttr -k off ".sx";
+	setAttr -k off ".sy";
+	setAttr -k off ".sz";
+	setAttr ".erp" yes;
+	setAttr ".a" -type "double3" 0 -1 0 ;
+	setAttr ".u" -type "double3" -1 0 0 ;
+	setAttr ".wut" 1;
+	setAttr ".rsrr" -type "double3" 167.62609024343791 -3.5559997470261737e-15 -179.99999999999997 ;
+	setAttr -k on ".w0";
+createNode aimConstraint -n "l_lip_corner_poser_aimConstraint1" -p "l_lip_corner_poser";
 	rename -uid "8C51E7E6-4AB8-6F3C-FE78-9082CCF26CE0";
 	addAttr -dcb 0 -ci true -sn "w0" -ln "locator1W0" -dv 1 -at "double";
 	setAttr -k on ".nds";
@@ -528,6 +643,29 @@ createNode aimConstraint -n "lip_corner_poser_aimConstraint" -p "lip_corner_pose
 	setAttr ".wu" -type "double3" 1 0 0 ;
 	setAttr ".wut" 1;
 	setAttr ".rsrr" -type "double3" 0 19.60483930939667 0 ;
+	setAttr -k on ".w0";
+createNode transform -n "l_lip_posers_up_loc2" -p "l_lip_corner_poser";
+	rename -uid "DA21FDCB-463D-6880-05BC-328F2DEDEF05";
+createNode locator -n "l_lip_posers_up_loc2Shape" -p "l_lip_posers_up_loc2";
+	rename -uid "A786A0B0-4418-9830-8E78-A7BF7C9A3E91";
+	setAttr -k off ".v";
+createNode aimConstraint -n "l_lip_posers_up_loc2_aimConstraint1" -p "l_lip_posers_up_loc2";
+	rename -uid "92EFDE88-4CCC-E66B-1BBF-F2934E6ABA0B";
+	addAttr -dcb 0 -ci true -sn "w0" -ln "l_lip_front_poserW0" -dv 1 -at "double";
+	setAttr -k on ".nds";
+	setAttr -k off ".v";
+	setAttr -k off ".tx";
+	setAttr -k off ".ty";
+	setAttr -k off ".tz";
+	setAttr -k off ".rx";
+	setAttr -k off ".ry";
+	setAttr -k off ".rz";
+	setAttr -k off ".sx";
+	setAttr -k off ".sy";
+	setAttr -k off ".sz";
+	setAttr ".erp" yes;
+	setAttr ".a" -type "double3" -1 0 0 ;
+	setAttr ".rsrr" -type "double3" 0.11447673853630194 -0.012126745517076595 6.046894992937828 ;
 	setAttr -k on ".w0";
 createNode transform -n "lips_poser" -p "mouth_poser";
 	rename -uid "3B0FC806-470D-07AE-AE91-5EBBC40238B7";
@@ -580,7 +718,7 @@ createNode transform -n "b_tooth_poser" -p "mouth_poser";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
 	setAttr -k off ".v";
-	setAttr -k on ".t" -type "double3" 0 -0.21714851352727327 -2.8739328502285524 ;
+	setAttr -k on ".t" -type "double3" 0 -0.50987095295821083 -2.863141835279901 ;
 	setAttr -k on ".t";
 	setAttr -l on -k off ".tx";
 	setAttr ".r" -type "double3" 13.551040625891446 0 0 ;
@@ -893,11 +1031,13 @@ createNode transform -n "lip_1_poser" -p "mouth_poser";
 	rename -uid "BAD8768C-44CB-6580-1795-F9ACE095A6C1";
 	addAttr -ci true -sn "size" -ln "size" -dv 1 -min 0 -at "double";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	addAttr -ci true -sn "radius" -ln "radius" -dv 1 -min 1 -at "double";
+	addAttr -ci true -sn "moveFactor" -ln "moveFactor" -dv 1 -at "double";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 4;
-	setAttr -k on ".t" -type "double3" 0.80449906249287895 -0.30167179676667966 0.74103079092449065 ;
+	setAttr -k on ".t" -type "double3" 0.62721187535528533 -0.22414900088265588 0.57541158492235045 ;
 	setAttr -k on ".t";
 	setAttr ".r" -type "double3" 1.1378683000466325 19.596909925288635 1.6955187990567682 ;
 	setAttr -l on -k off ".sx";
@@ -906,8 +1046,10 @@ createNode transform -n "lip_1_poser" -p "mouth_poser";
 	setAttr ".dh" yes;
 	setAttr -k on ".size" 0.5;
 	setAttr -l on ".moduleName" -type "string" "mouth";
+	setAttr -k on ".radius" 48.149999999999991;
+	setAttr -k on ".moveFactor" 1.67;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:cc59952e5a29";
-createNode nurbsSurface -n "lip_1_poserShape" -p "lip_1_poser";
+createNode nurbsSurface -n "lip_1_poserNurbsShape" -p "lip_1_poser";
 	rename -uid "A4E04133-4744-1EFC-0015-9AAFCA4D9FB1";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
 	setAttr -k off ".v";
@@ -915,13 +1057,97 @@ createNode nurbsSurface -n "lip_1_poserShape" -p "lip_1_poser";
 	setAttr ".ovc" 10;
 	setAttr ".vir" yes;
 	setAttr ".vif" yes;
-	setAttr ".tw" yes;
 	setAttr ".covm[0]"  0 1 1;
 	setAttr ".cdvm[0]"  0 1 1;
 	setAttr ".dvu" 1;
 	setAttr ".dvv" 1;
 	setAttr ".cpr" 7;
 	setAttr ".cps" 2;
+	setAttr ".cc" -type "nurbsSurface" 
+		3 3 0 2 no 
+		9 0 0 0 1 2 3 4 4 4
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		
+		77
+		-0.036939226734063656 6.5091214323942856e-17 -6.3808226071832825e-17
+		-0.036939226734063656 6.5091214323942856e-17 -6.3808226071832825e-17
+		-0.036939226734063656 6.5091214323942856e-17 -6.3808226071832825e-17
+		-0.036939226734063656 6.5091214323942856e-17 -6.3808226071832825e-17
+		-0.036939226734063656 6.5091214323942856e-17 -6.3808226071832825e-17
+		-0.036939226734063656 6.5091214323942856e-17 -6.3808226071832825e-17
+		-0.036939226734063656 6.5091214323942856e-17 -6.3808226071832825e-17
+		-0.036939226734063656 6.5091214323942856e-17 -6.3808226071832825e-17
+		-0.036939226734063656 6.5091214323942856e-17 -6.3808226071832825e-17
+		-0.036939226734063656 6.5091214323942856e-17 -6.3808226071832825e-17
+		-0.036939226734063656 6.5091214323942856e-17 -6.3808226071832825e-17
+		-0.036939226734063656 0.0073847716646512065 -0.0073847716646512082
+		-0.036939226734063656 5.9868595515146379e-17 -0.010443644243178252
+		-0.036939226734063656 -0.0073847716646510912 -0.0073847716646512082
+		-0.036939226734063656 -0.010443644243178136 -6.2032382391372494e-17
+		-0.036939226734063656 -0.0073847716646510929 0.0073847716646510877
+		-0.036939226734063656 5.5727720755846965e-17 0.010443644243178134
+		-0.036939226734063656 0.0073847716646512039 0.0073847716646510894
+		-0.036939226734063656 0.010443644243178254 -5.761154695354097e-17
+		-0.036939226734063656 0.0073847716646512065 -0.0073847716646512082
+		-0.036939226734063656 5.9868595515146379e-17 -0.010443644243178252
+		-0.036939226734063656 -0.0073847716646510912 -0.0073847716646512082
+		-0.028946007483304979 0.022770446785464991 -0.022770446785464995
+		-0.028946007483304979 5.7993865197776477e-17 -0.03220227466529945
+		-0.028946007483304979 -0.022770446785464905 -0.022770446785464991
+		-0.028946007483304979 -0.032202274665299277 -5.9463847943841279e-17
+		-0.028946007483304979 -0.022770446785464905 0.022770446785464905
+		-0.028946007483304979 5.6755206037438308e-17 0.032202274665299284
+		-0.028946007483304979 0.022770446785464991 0.022770446785464901
+		-0.028946007483304979 0.032202274665299457 -5.736194885923398e-17
+		-0.028946007483304979 0.022770446785464991 -0.022770446785464995
+		-0.028946007483304979 5.7993865197776477e-17 -0.03220227466529945
+		-0.028946007483304979 -0.022770446785464905 -0.022770446785464991
+		-2.2485542731733423e-17 0.032033787832225089 -0.032033787832225089
+		-2.1673061260650608e-17 5.5227501983690081e-17 -0.045302617206514899
+		-2.2485542731733423e-17 -0.032033787832224901 -0.032033787832225082
+		-2.4447046518398414e-17 -0.045302617206514725 -5.4802012401770713e-17
+		-2.6408550305063405e-17 -0.032033787832224894 0.032033787832224901
+		-2.7221031776146223e-17 5.9011463607478316e-17 0.045302617206514725
+		-2.6408550305063402e-17 0.032033787832225089 0.032033787832224887
+		-2.4447046518398414e-17 0.045302617206514913 -5.7371555843830729e-17
+		-2.2485542731733423e-17 0.032033787832225089 -0.032033787832225089
+		-2.1673061260650608e-17 5.5227501983690081e-17 -0.045302617206514899
+		-2.2485542731733423e-17 -0.032033787832224901 -0.032033787832225082
+		0.028946007483304972 0.022770446785464988 -0.022770446785464995
+		0.028946007483304972 5.4065468025687021e-17 -0.03220227466529945
+		0.028946007483304972 -0.022770446785464905 -0.022770446785464978
+		0.028946007483304972 -0.032202274665299277 -5.1990587230499336e-17
+		0.028946007483304972 -0.022770446785464905 0.022770446785464908
+		0.028946007483304972 6.0683603209527764e-17 0.032202274665299284
+		0.028946007483304972 0.022770446785464998 0.022770446785464901
+		0.028946007483304972 0.032202274665299457 -5.7745482490070954e-17
+		0.028946007483304972 0.022770446785464988 -0.022770446785464995
+		0.028946007483304972 5.4065468025687021e-17 -0.03220227466529945
+		0.028946007483304972 -0.022770446785464905 -0.022770446785464978
+		0.036939226734063656 0.0073847716646511952 -0.0073847716646511987
+		0.036939226734063656 5.4855401418345217e-17 -0.010443644243178235
+		0.036939226734063656 -0.0073847716646510842 -0.0073847716646511952
+		0.036939226734063656 -0.010443644243178127 -5.2495437716286381e-17
+		0.036939226734063656 -0.0073847716646510799 0.0073847716646510859
+		0.036939226734063656 6.0740914852648151e-17 0.010443644243178131
+		0.036939226734063656 0.0073847716646511987 0.0073847716646510833
+		0.036939226734063656 0.010443644243178242 -5.8100990472057192e-17
+		0.036939226734063656 0.0073847716646511952 -0.0073847716646511987
+		0.036939226734063656 5.4855401418345217e-17 -0.010443644243178235
+		0.036939226734063656 -0.0073847716646510842 -0.0073847716646511952
+		0.036939226734063656 5.1242971302291688e-17 -5.2525959554401687e-17
+		0.036939226734063656 5.1242971302291688e-17 -5.2525959554401687e-17
+		0.036939226734063656 5.1242971302291688e-17 -5.2525959554401687e-17
+		0.036939226734063656 5.1242971302291688e-17 -5.2525959554401687e-17
+		0.036939226734063656 5.1242971302291688e-17 -5.2525959554401687e-17
+		0.036939226734063656 5.1242971302291688e-17 -5.2525959554401687e-17
+		0.036939226734063656 5.1242971302291688e-17 -5.2525959554401687e-17
+		0.036939226734063656 5.1242971302291688e-17 -5.2525959554401687e-17
+		0.036939226734063656 5.1242971302291688e-17 -5.2525959554401687e-17
+		0.036939226734063656 5.1242971302291688e-17 -5.2525959554401687e-17
+		0.036939226734063656 5.1242971302291688e-17 -5.2525959554401687e-17
+		
+		;
 	setAttr ".nufa" 4.5;
 	setAttr ".nvfa" 4.5;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:c367fd1ff242";
@@ -945,7 +1171,7 @@ createNode transform -n "lip_2_poser" -p "mouth_poser";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 4;
-	setAttr -k on ".t" -type "double3" 1.7310498850556124 -0.22466049286579093 0.45637479949769078 ;
+	setAttr -k on ".t" -type "double3" 1.4191256849240386 -0.18192777873558685 0.31912853274692132 ;
 	setAttr -k on ".t";
 	setAttr ".r" -type "double3" 1.1378683000466325 19.596909925288635 1.6955187990567682 ;
 	setAttr -l on -k off ".sx";
@@ -957,7 +1183,7 @@ createNode transform -n "lip_2_poser" -p "mouth_poser";
 	setAttr -k on ".radius" 48.149999999999991;
 	setAttr -k on ".moveFactor" 1.67;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:cc59952e5a29";
-createNode nurbsSurface -n "lip_2_poserShape" -p "lip_2_poser";
+createNode nurbsSurface -n "lip_2_poserNurbsShape" -p "lip_2_poser";
 	rename -uid "ACA39213-459E-AEFA-487F-F3A1687F4610";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
 	setAttr -k off ".v";
@@ -1075,10 +1301,579 @@ createNode transform -n "r_lip_corner_loc" -p "mouth_poser";
 createNode locator -n "r_lip_corner_locShape" -p "r_lip_corner_loc";
 	rename -uid "64F5DDB3-4776-01E5-1581-65A56C356D8F";
 	setAttr -k off ".v";
-createNode transform -n "l_lip_corner_poser_upLoc" -p "mouth_poser";
+createNode transform -n "l_lip_posers_group" -p "mouth_poser";
+	rename -uid "2DA3CDA4-402A-A7E2-8DFE-839AB09CF58D";
+createNode transform -n "l_lip_down_poser" -p "l_lip_posers_group";
+	rename -uid "E823FF18-459A-2F4F-91C1-2FA713754C17";
+	addAttr -ci true -sn "size" -ln "size" -dv 1 -min 0 -at "double";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	addAttr -ci true -sn "radius" -ln "radius" -dv 1 -min 1 -at "double";
+	addAttr -ci true -sn "moveFactor" -ln "moveFactor" -dv 1 -at "double";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	setAttr -k off ".v";
+	setAttr ".ove" yes;
+	setAttr ".ovc" 4;
+	setAttr -k on ".t" -type "double3" 0 -0.81699511879112274 -0.17906622067587852 ;
+	setAttr -k on ".t";
+	setAttr -l on -k off ".tx";
+	setAttr -l on -k off ".rx";
+	setAttr -l on -k off ".ry";
+	setAttr -l on -k off ".rz";
+	setAttr -l on -k off ".sx";
+	setAttr -l on -k off ".sy";
+	setAttr -l on -k off ".sz";
+	setAttr ".dh" yes;
+	setAttr -k on ".size" 0.5;
+	setAttr -l on ".moduleName" -type "string" "mouth";
+	setAttr -k on ".radius" 48.149999999999991;
+	setAttr -k on ".moveFactor" 3.99;
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:cc59952e5a29";
+createNode nurbsSurface -n "l_lip_down_poserNurbsShape" -p "l_lip_down_poser";
+	rename -uid "02686970-4DFE-C3E3-58CF-1492822AC67C";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	setAttr -k off ".v";
+	setAttr ".ove" yes;
+	setAttr ".ovc" 10;
+	setAttr ".vir" yes;
+	setAttr ".vif" yes;
+	setAttr ".covm[0]"  0 1 1;
+	setAttr ".cdvm[0]"  0 1 1;
+	setAttr ".dvu" 1;
+	setAttr ".dvv" 1;
+	setAttr ".cpr" 7;
+	setAttr ".cps" 2;
+	setAttr ".cc" -type "nurbsSurface" 
+		3 3 0 2 no 
+		9 0 0 0 1 2 3 4 4 4
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		
+		77
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 0.0099958396907682562 -0.009995839690768258
+		-0.05000000074505806 2.5272704203751133e-18 -0.014136252057991749
+		-0.05000000074505806 -0.0099958396907682528 -0.009995839690768258
+		-0.05000000074505806 -0.01413625205799175 -5.456117475088498e-18
+		-0.05000000074505806 -0.0099958396907682562 0.0099958396907682493
+		-0.05000000074505806 -3.0777126655116336e-18 0.014136252057991749
+		-0.05000000074505806 0.0099958396907682528 0.009995839690768251
+		-0.05000000074505806 0.01413625205799175 5.278132870982653e-19
+		-0.05000000074505806 0.0099958396907682562 -0.009995839690768258
+		-0.05000000074505806 2.5272704203751133e-18 -0.014136252057991749
+		-0.05000000074505806 -0.0099958396907682528 -0.009995839690768258
+		-0.039180581828397371 0.030821499443805613 -0.030821499443805616
+		-0.039180581828397371 -1.0317005049753758e-20 -0.043588182526104684
+		-0.039180581828397371 -0.030821499443805613 -0.030821499443805613
+		-0.039180581828397371 -0.043588182526104698 -1.9794143698814007e-18
+		-0.039180581828397371 -0.030821499443805613 0.030821499443805609
+		-0.039180581828397371 -1.6869346393509596e-18 0.043588182526104712
+		-0.039180581828397371 0.030821499443805613 0.030821499443805606
+		-0.039180581828397371 0.043588182526104698 8.6566293920823537e-19
+		-0.039180581828397371 0.030821499443805613 -0.030821499443805616
+		-0.039180581828397371 -1.0317005049753758e-20 -0.043588182526104684
+		-0.039180581828397371 -0.030821499443805613 -0.030821499443805613
+		8.8188107360427782e-18 0.043360123020693267 -0.043360123020693281
+		9.9185650555349409e-18 -3.7547961128885361e-18 -0.061320474042030261
+		8.8188107360427782e-18 -0.043360123020693274 -0.04336012302069326
+		6.1637689426464041e-18 -0.061320474042030282 4.3307280230539621e-18
+		3.50872714925003e-18 -0.043360123020693267 0.043360123020693274
+		2.4089728297578664e-18 1.3670784019943872e-18 0.061320474042030289
+		3.5087271492500308e-18 0.043360123020693274 0.04336012302069326
+		6.1637689426464041e-18 0.061320474042030282 8.5265916843484882e-19
+		8.8188107360427782e-18 0.043360123020693267 -0.043360123020693281
+		9.9185650555349409e-18 -3.7547961128885361e-18 -0.061320474042030261
+		8.8188107360427782e-18 -0.043360123020693274 -0.04336012302069326
+		0.039180581828397391 0.030821499443805609 -0.030821499443805616
+		0.039180581828397391 -5.3276958160747174e-18 -0.043588182526104684
+		0.039180581828397391 -0.030821499443805619 -0.030821499443805599
+		0.039180581828397391 -0.043588182526104698 8.1362018536313446e-18
+		0.039180581828397391 -0.030821499443805609 0.030821499443805623
+		0.039180581828397391 3.6304441716740076e-18 0.043588182526104712
+		0.039180581828397391 0.030821499443805619 0.030821499443805606
+		0.039180581828397391 0.043588182526104698 3.4652154067104934e-19
+		0.039180581828397391 0.030821499443805609 -0.030821499443805616
+		0.039180581828397391 -5.3276958160747174e-18 -0.043588182526104684
+		0.039180581828397391 -0.030821499443805619 -0.030821499443805599
+		0.05000000074505806 0.0099958396907682354 -0.0099958396907682424
+		0.05000000074505806 -4.2584620038510897e-18 -0.014136252057991721
+		0.05000000074505806 -0.0099958396907682441 -0.009995839690768232
+		0.05000000074505806 -0.014136252057991731 7.4528490361177701e-18
+		0.05000000074505806 -0.0099958396907682354 0.0099958396907682476
+		0.05000000074505806 3.7080197587145732e-18 0.014136252057991737
+		0.05000000074505806 0.0099958396907682441 0.0099958396907682389
+		0.05000000074505806 0.014136252057991731 -1.3468505014787903e-19
+		0.05000000074505806 0.0099958396907682354 -0.0099958396907682424
+		0.05000000074505806 -4.2584620038510897e-18 -0.014136252057991721
+		0.05000000074505806 -0.0099958396907682441 -0.009995839690768232
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		
+		;
+	setAttr ".nufa" 4.5;
+	setAttr ".nvfa" 4.5;
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:c367fd1ff242";
+createNode transform -n "l_lip_down_poserOrient" -p "l_lip_down_poser";
+	rename -uid "943AEA3F-4C0F-4DBB-DC04-E892FF3AEC0B";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode locator -n "l_lip_down_poserOrientShape" -p "l_lip_down_poserOrient";
+	rename -uid "110B1273-486A-9DFF-DECE-4ABC31FC4F49";
+	setAttr -k off ".v" no;
+	setAttr ".ove" yes;
+	setAttr ".ovc" 14;
+	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
+createNode transform -n "l_lip_up_poser" -p "l_lip_posers_group";
+	rename -uid "40769932-4660-F934-AE1B-9FB1562F8956";
+	addAttr -ci true -sn "size" -ln "size" -dv 1 -min 0 -at "double";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	addAttr -ci true -sn "radius" -ln "radius" -dv 1 -min 1 -at "double";
+	addAttr -ci true -sn "moveFactor" -ln "moveFactor" -dv 1 -at "double";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	setAttr -k off ".v";
+	setAttr ".ove" yes;
+	setAttr ".ovc" 4;
+	setAttr -k on ".t" -type "double3" 0 0.90485215882213943 -0.17794567629125285 ;
+	setAttr -k on ".t";
+	setAttr -l on -k off ".tx";
+	setAttr -l on -k off ".rx";
+	setAttr -l on -k off ".ry";
+	setAttr -l on -k off ".rz";
+	setAttr -l on -k off ".sx";
+	setAttr -l on -k off ".sy";
+	setAttr -l on -k off ".sz";
+	setAttr ".dh" yes;
+	setAttr -k on ".size" 0.5;
+	setAttr -l on ".moduleName" -type "string" "mouth";
+	setAttr -k on ".radius" 48.149999999999991;
+	setAttr -k on ".moveFactor" 3.99;
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:cc59952e5a29";
+createNode nurbsSurface -n "l_lip_up_poserNurbsShape" -p "l_lip_up_poser";
+	rename -uid "9244C39D-4AF0-486B-DAAB-66BCDC51FE23";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	setAttr -k off ".v";
+	setAttr ".ove" yes;
+	setAttr ".ovc" 10;
+	setAttr ".vir" yes;
+	setAttr ".vif" yes;
+	setAttr ".covm[0]"  0 1 1;
+	setAttr ".cdvm[0]"  0 1 1;
+	setAttr ".dvu" 1;
+	setAttr ".dvv" 1;
+	setAttr ".cpr" 7;
+	setAttr ".cps" 2;
+	setAttr ".cc" -type "nurbsSurface" 
+		3 3 0 2 no 
+		9 0 0 0 1 2 3 4 4 4
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		
+		77
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 0.0099958396907682562 -0.009995839690768258
+		-0.05000000074505806 2.5272704203751133e-18 -0.014136252057991749
+		-0.05000000074505806 -0.0099958396907682528 -0.009995839690768258
+		-0.05000000074505806 -0.01413625205799175 -5.456117475088498e-18
+		-0.05000000074505806 -0.0099958396907682562 0.0099958396907682493
+		-0.05000000074505806 -3.0777126655116336e-18 0.014136252057991749
+		-0.05000000074505806 0.0099958396907682528 0.009995839690768251
+		-0.05000000074505806 0.01413625205799175 5.278132870982653e-19
+		-0.05000000074505806 0.0099958396907682562 -0.009995839690768258
+		-0.05000000074505806 2.5272704203751133e-18 -0.014136252057991749
+		-0.05000000074505806 -0.0099958396907682528 -0.009995839690768258
+		-0.039180581828397371 0.030821499443805613 -0.030821499443805616
+		-0.039180581828397371 -1.0317005049753758e-20 -0.043588182526104684
+		-0.039180581828397371 -0.030821499443805613 -0.030821499443805613
+		-0.039180581828397371 -0.043588182526104698 -1.9794143698814007e-18
+		-0.039180581828397371 -0.030821499443805613 0.030821499443805609
+		-0.039180581828397371 -1.6869346393509596e-18 0.043588182526104712
+		-0.039180581828397371 0.030821499443805613 0.030821499443805606
+		-0.039180581828397371 0.043588182526104698 8.6566293920823537e-19
+		-0.039180581828397371 0.030821499443805613 -0.030821499443805616
+		-0.039180581828397371 -1.0317005049753758e-20 -0.043588182526104684
+		-0.039180581828397371 -0.030821499443805613 -0.030821499443805613
+		8.8188107360427782e-18 0.043360123020693267 -0.043360123020693281
+		9.9185650555349409e-18 -3.7547961128885361e-18 -0.061320474042030261
+		8.8188107360427782e-18 -0.043360123020693274 -0.04336012302069326
+		6.1637689426464041e-18 -0.061320474042030282 4.3307280230539621e-18
+		3.50872714925003e-18 -0.043360123020693267 0.043360123020693274
+		2.4089728297578664e-18 1.3670784019943872e-18 0.061320474042030289
+		3.5087271492500308e-18 0.043360123020693274 0.04336012302069326
+		6.1637689426464041e-18 0.061320474042030282 8.5265916843484882e-19
+		8.8188107360427782e-18 0.043360123020693267 -0.043360123020693281
+		9.9185650555349409e-18 -3.7547961128885361e-18 -0.061320474042030261
+		8.8188107360427782e-18 -0.043360123020693274 -0.04336012302069326
+		0.039180581828397391 0.030821499443805609 -0.030821499443805616
+		0.039180581828397391 -5.3276958160747174e-18 -0.043588182526104684
+		0.039180581828397391 -0.030821499443805619 -0.030821499443805599
+		0.039180581828397391 -0.043588182526104698 8.1362018536313446e-18
+		0.039180581828397391 -0.030821499443805609 0.030821499443805623
+		0.039180581828397391 3.6304441716740076e-18 0.043588182526104712
+		0.039180581828397391 0.030821499443805619 0.030821499443805606
+		0.039180581828397391 0.043588182526104698 3.4652154067104934e-19
+		0.039180581828397391 0.030821499443805609 -0.030821499443805616
+		0.039180581828397391 -5.3276958160747174e-18 -0.043588182526104684
+		0.039180581828397391 -0.030821499443805619 -0.030821499443805599
+		0.05000000074505806 0.0099958396907682354 -0.0099958396907682424
+		0.05000000074505806 -4.2584620038510897e-18 -0.014136252057991721
+		0.05000000074505806 -0.0099958396907682441 -0.009995839690768232
+		0.05000000074505806 -0.014136252057991731 7.4528490361177701e-18
+		0.05000000074505806 -0.0099958396907682354 0.0099958396907682476
+		0.05000000074505806 3.7080197587145732e-18 0.014136252057991737
+		0.05000000074505806 0.0099958396907682441 0.0099958396907682389
+		0.05000000074505806 0.014136252057991731 -1.3468505014787903e-19
+		0.05000000074505806 0.0099958396907682354 -0.0099958396907682424
+		0.05000000074505806 -4.2584620038510897e-18 -0.014136252057991721
+		0.05000000074505806 -0.0099958396907682441 -0.009995839690768232
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		
+		;
+	setAttr ".nufa" 4.5;
+	setAttr ".nvfa" 4.5;
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:c367fd1ff242";
+createNode transform -n "l_lip_up_poserOrient" -p "l_lip_up_poser";
+	rename -uid "14777A32-444C-64BF-CF09-8C9B15938F99";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode locator -n "l_lip_up_poserOrientShape" -p "l_lip_up_poserOrient";
+	rename -uid "F0F7BDFA-41B5-E7CF-1B63-A885C50D9F54";
+	setAttr -k off ".v" no;
+	setAttr ".ove" yes;
+	setAttr ".ovc" 14;
+	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
+createNode aimConstraint -n "l_lip_posers_group_aimConstraint1" -p "l_lip_posers_group";
+	rename -uid "4BCD2AFC-4F70-03B7-EA8D-5EA9F43B11C8";
+	addAttr -dcb 0 -ci true -sn "w0" -ln "lip_2_poserW0" -dv 1 -at "double";
+	setAttr -k on ".nds";
+	setAttr -k off ".v";
+	setAttr -k off ".tx";
+	setAttr -k off ".ty";
+	setAttr -k off ".tz";
+	setAttr -k off ".rx";
+	setAttr -k off ".ry";
+	setAttr -k off ".rz";
+	setAttr -k off ".sx";
+	setAttr -k off ".sy";
+	setAttr -k off ".sz";
+	setAttr ".erp" yes;
+	setAttr ".a" -type "double3" -1 0 0 ;
+	setAttr ".wut" 1;
+	setAttr ".rsrr" -type "double3" 9.3807170968961948 21.081803204793378 2.2519872474331057 ;
+	setAttr -k on ".w0";
+createNode transform -n "l_lip_back_poser" -p "l_lip_posers_group";
+	rename -uid "434244ED-4948-F430-AC3E-A2A3AE9C8BC6";
+	addAttr -ci true -sn "size" -ln "size" -dv 1 -min 0 -at "double";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	addAttr -ci true -sn "radius" -ln "radius" -dv 1 -min 1 -at "double";
+	addAttr -ci true -sn "moveFactor" -ln "moveFactor" -dv 1 -at "double";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	setAttr -k off ".v";
+	setAttr ".ove" yes;
+	setAttr ".ovc" 4;
+	setAttr -k on ".t" -type "double3" 1.1157535617028953 0 -0.11696094695332307 ;
+	setAttr -k on ".t";
+	setAttr -l on -k off ".ty";
+	setAttr -l on -k off ".rx";
+	setAttr -l on -k off ".ry";
+	setAttr -l on -k off ".rz";
+	setAttr -l on -k off ".sx";
+	setAttr -l on -k off ".sy";
+	setAttr -l on -k off ".sz";
+	setAttr ".dh" yes;
+	setAttr -k on ".size" 0.5;
+	setAttr -l on ".moduleName" -type "string" "mouth";
+	setAttr -k on ".radius" 48.149999999999991;
+	setAttr -k on ".moveFactor" 3.99;
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:cc59952e5a29";
+createNode nurbsSurface -n "l_lip_back_poserNurbsShape" -p "l_lip_back_poser";
+	rename -uid "33D59C1E-436C-5AE9-A07C-E7BFE45BB995";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	setAttr -k off ".v";
+	setAttr ".ove" yes;
+	setAttr ".ovc" 10;
+	setAttr ".vir" yes;
+	setAttr ".vif" yes;
+	setAttr ".covm[0]"  0 1 1;
+	setAttr ".cdvm[0]"  0 1 1;
+	setAttr ".dvu" 1;
+	setAttr ".dvv" 1;
+	setAttr ".cpr" 7;
+	setAttr ".cps" 2;
+	setAttr ".cc" -type "nurbsSurface" 
+		3 3 0 2 no 
+		9 0 0 0 1 2 3 4 4 4
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		
+		77
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 0.0099958396907682562 -0.009995839690768258
+		-0.05000000074505806 2.5272704203751133e-18 -0.014136252057991749
+		-0.05000000074505806 -0.0099958396907682528 -0.009995839690768258
+		-0.05000000074505806 -0.01413625205799175 -5.456117475088498e-18
+		-0.05000000074505806 -0.0099958396907682562 0.0099958396907682493
+		-0.05000000074505806 -3.0777126655116336e-18 0.014136252057991749
+		-0.05000000074505806 0.0099958396907682528 0.009995839690768251
+		-0.05000000074505806 0.01413625205799175 5.278132870982653e-19
+		-0.05000000074505806 0.0099958396907682562 -0.009995839690768258
+		-0.05000000074505806 2.5272704203751133e-18 -0.014136252057991749
+		-0.05000000074505806 -0.0099958396907682528 -0.009995839690768258
+		-0.039180581828397371 0.030821499443805613 -0.030821499443805616
+		-0.039180581828397371 -1.0317005049753758e-20 -0.043588182526104684
+		-0.039180581828397371 -0.030821499443805613 -0.030821499443805613
+		-0.039180581828397371 -0.043588182526104698 -1.9794143698814007e-18
+		-0.039180581828397371 -0.030821499443805613 0.030821499443805609
+		-0.039180581828397371 -1.6869346393509596e-18 0.043588182526104712
+		-0.039180581828397371 0.030821499443805613 0.030821499443805606
+		-0.039180581828397371 0.043588182526104698 8.6566293920823537e-19
+		-0.039180581828397371 0.030821499443805613 -0.030821499443805616
+		-0.039180581828397371 -1.0317005049753758e-20 -0.043588182526104684
+		-0.039180581828397371 -0.030821499443805613 -0.030821499443805613
+		8.8188107360427782e-18 0.043360123020693267 -0.043360123020693281
+		9.9185650555349409e-18 -3.7547961128885361e-18 -0.061320474042030261
+		8.8188107360427782e-18 -0.043360123020693274 -0.04336012302069326
+		6.1637689426464041e-18 -0.061320474042030282 4.3307280230539621e-18
+		3.50872714925003e-18 -0.043360123020693267 0.043360123020693274
+		2.4089728297578664e-18 1.3670784019943872e-18 0.061320474042030289
+		3.5087271492500308e-18 0.043360123020693274 0.04336012302069326
+		6.1637689426464041e-18 0.061320474042030282 8.5265916843484882e-19
+		8.8188107360427782e-18 0.043360123020693267 -0.043360123020693281
+		9.9185650555349409e-18 -3.7547961128885361e-18 -0.061320474042030261
+		8.8188107360427782e-18 -0.043360123020693274 -0.04336012302069326
+		0.039180581828397391 0.030821499443805609 -0.030821499443805616
+		0.039180581828397391 -5.3276958160747174e-18 -0.043588182526104684
+		0.039180581828397391 -0.030821499443805619 -0.030821499443805599
+		0.039180581828397391 -0.043588182526104698 8.1362018536313446e-18
+		0.039180581828397391 -0.030821499443805609 0.030821499443805623
+		0.039180581828397391 3.6304441716740076e-18 0.043588182526104712
+		0.039180581828397391 0.030821499443805619 0.030821499443805606
+		0.039180581828397391 0.043588182526104698 3.4652154067104934e-19
+		0.039180581828397391 0.030821499443805609 -0.030821499443805616
+		0.039180581828397391 -5.3276958160747174e-18 -0.043588182526104684
+		0.039180581828397391 -0.030821499443805619 -0.030821499443805599
+		0.05000000074505806 0.0099958396907682354 -0.0099958396907682424
+		0.05000000074505806 -4.2584620038510897e-18 -0.014136252057991721
+		0.05000000074505806 -0.0099958396907682441 -0.009995839690768232
+		0.05000000074505806 -0.014136252057991731 7.4528490361177701e-18
+		0.05000000074505806 -0.0099958396907682354 0.0099958396907682476
+		0.05000000074505806 3.7080197587145732e-18 0.014136252057991737
+		0.05000000074505806 0.0099958396907682441 0.0099958396907682389
+		0.05000000074505806 0.014136252057991731 -1.3468505014787903e-19
+		0.05000000074505806 0.0099958396907682354 -0.0099958396907682424
+		0.05000000074505806 -4.2584620038510897e-18 -0.014136252057991721
+		0.05000000074505806 -0.0099958396907682441 -0.009995839690768232
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		
+		;
+	setAttr ".nufa" 4.5;
+	setAttr ".nvfa" 4.5;
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:c367fd1ff242";
+createNode transform -n "l_lip_back_poserOrient" -p "l_lip_back_poser";
+	rename -uid "98ED7D88-4146-C5ED-C004-4A8BA9D044E2";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode locator -n "l_lip_back_poserOrientShape" -p "l_lip_back_poserOrient";
+	rename -uid "34D15E8E-4BA0-4AA3-79BB-C382E47CFD1D";
+	setAttr -k off ".v" no;
+	setAttr ".ove" yes;
+	setAttr ".ovc" 14;
+	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
+createNode transform -n "l_lip_front_poser" -p "l_lip_posers_group";
+	rename -uid "6BE836EA-4391-6FE7-A52B-2086463B36C7";
+	addAttr -ci true -sn "size" -ln "size" -dv 1 -min 0 -at "double";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	addAttr -ci true -sn "radius" -ln "radius" -dv 1 -min 1 -at "double";
+	addAttr -ci true -sn "moveFactor" -ln "moveFactor" -dv 1 -at "double";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	setAttr -k off ".v";
+	setAttr ".ove" yes;
+	setAttr ".ovc" 4;
+	setAttr -k on ".t" -type "double3" -0.80997931179962945 0 -0.014582864102160014 ;
+	setAttr -k on ".t";
+	setAttr -l on -k off ".ty";
+	setAttr -l on -k off ".rx";
+	setAttr -l on -k off ".ry";
+	setAttr -l on -k off ".rz";
+	setAttr -l on -k off ".sx";
+	setAttr -l on -k off ".sy";
+	setAttr -l on -k off ".sz";
+	setAttr ".dh" yes;
+	setAttr -k on ".size" 0.5;
+	setAttr -l on ".moduleName" -type "string" "mouth";
+	setAttr -k on ".radius" 48.149999999999991;
+	setAttr -k on ".moveFactor" 3.99;
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:cc59952e5a29";
+createNode nurbsSurface -n "l_lip_front_poserNurbsShape" -p "l_lip_front_poser";
+	rename -uid "01CB4E63-4890-0F46-550A-318AFA04FCC8";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	setAttr -k off ".v";
+	setAttr ".ove" yes;
+	setAttr ".ovc" 10;
+	setAttr ".vir" yes;
+	setAttr ".vif" yes;
+	setAttr ".covm[0]"  0 1 1;
+	setAttr ".cdvm[0]"  0 1 1;
+	setAttr ".dvu" 1;
+	setAttr ".dvv" 1;
+	setAttr ".cpr" 7;
+	setAttr ".cps" 2;
+	setAttr ".cc" -type "nurbsSurface" 
+		3 3 0 2 no 
+		9 0 0 0 1 2 3 4 4 4
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		
+		77
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 9.5964748249755585e-18 -7.859854455977812e-18
+		-0.05000000074505806 0.0099958396907682562 -0.009995839690768258
+		-0.05000000074505806 2.5272704203751133e-18 -0.014136252057991749
+		-0.05000000074505806 -0.0099958396907682528 -0.009995839690768258
+		-0.05000000074505806 -0.01413625205799175 -5.456117475088498e-18
+		-0.05000000074505806 -0.0099958396907682562 0.0099958396907682493
+		-0.05000000074505806 -3.0777126655116336e-18 0.014136252057991749
+		-0.05000000074505806 0.0099958396907682528 0.009995839690768251
+		-0.05000000074505806 0.01413625205799175 5.278132870982653e-19
+		-0.05000000074505806 0.0099958396907682562 -0.009995839690768258
+		-0.05000000074505806 2.5272704203751133e-18 -0.014136252057991749
+		-0.05000000074505806 -0.0099958396907682528 -0.009995839690768258
+		-0.039180581828397371 0.030821499443805613 -0.030821499443805616
+		-0.039180581828397371 -1.0317005049753758e-20 -0.043588182526104684
+		-0.039180581828397371 -0.030821499443805613 -0.030821499443805613
+		-0.039180581828397371 -0.043588182526104698 -1.9794143698814007e-18
+		-0.039180581828397371 -0.030821499443805613 0.030821499443805609
+		-0.039180581828397371 -1.6869346393509596e-18 0.043588182526104712
+		-0.039180581828397371 0.030821499443805613 0.030821499443805606
+		-0.039180581828397371 0.043588182526104698 8.6566293920823537e-19
+		-0.039180581828397371 0.030821499443805613 -0.030821499443805616
+		-0.039180581828397371 -1.0317005049753758e-20 -0.043588182526104684
+		-0.039180581828397371 -0.030821499443805613 -0.030821499443805613
+		8.8188107360427782e-18 0.043360123020693267 -0.043360123020693281
+		9.9185650555349409e-18 -3.7547961128885361e-18 -0.061320474042030261
+		8.8188107360427782e-18 -0.043360123020693274 -0.04336012302069326
+		6.1637689426464041e-18 -0.061320474042030282 4.3307280230539621e-18
+		3.50872714925003e-18 -0.043360123020693267 0.043360123020693274
+		2.4089728297578664e-18 1.3670784019943872e-18 0.061320474042030289
+		3.5087271492500308e-18 0.043360123020693274 0.04336012302069326
+		6.1637689426464041e-18 0.061320474042030282 8.5265916843484882e-19
+		8.8188107360427782e-18 0.043360123020693267 -0.043360123020693281
+		9.9185650555349409e-18 -3.7547961128885361e-18 -0.061320474042030261
+		8.8188107360427782e-18 -0.043360123020693274 -0.04336012302069326
+		0.039180581828397391 0.030821499443805609 -0.030821499443805616
+		0.039180581828397391 -5.3276958160747174e-18 -0.043588182526104684
+		0.039180581828397391 -0.030821499443805619 -0.030821499443805599
+		0.039180581828397391 -0.043588182526104698 8.1362018536313446e-18
+		0.039180581828397391 -0.030821499443805609 0.030821499443805623
+		0.039180581828397391 3.6304441716740076e-18 0.043588182526104712
+		0.039180581828397391 0.030821499443805619 0.030821499443805606
+		0.039180581828397391 0.043588182526104698 3.4652154067104934e-19
+		0.039180581828397391 0.030821499443805609 -0.030821499443805616
+		0.039180581828397391 -5.3276958160747174e-18 -0.043588182526104684
+		0.039180581828397391 -0.030821499443805619 -0.030821499443805599
+		0.05000000074505806 0.0099958396907682354 -0.0099958396907682424
+		0.05000000074505806 -4.2584620038510897e-18 -0.014136252057991721
+		0.05000000074505806 -0.0099958396907682441 -0.009995839690768232
+		0.05000000074505806 -0.014136252057991731 7.4528490361177701e-18
+		0.05000000074505806 -0.0099958396907682354 0.0099958396907682476
+		0.05000000074505806 3.7080197587145732e-18 0.014136252057991737
+		0.05000000074505806 0.0099958396907682441 0.0099958396907682389
+		0.05000000074505806 0.014136252057991731 -1.3468505014787903e-19
+		0.05000000074505806 0.0099958396907682354 -0.0099958396907682424
+		0.05000000074505806 -4.2584620038510897e-18 -0.014136252057991721
+		0.05000000074505806 -0.0099958396907682441 -0.009995839690768232
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		0.05000000074505806 -9.1481558188974598e-18 7.4115354498997134e-18
+		
+		;
+	setAttr ".nufa" 4.5;
+	setAttr ".nvfa" 4.5;
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:c367fd1ff242";
+createNode transform -n "l_lip_front_poserOrient" -p "l_lip_front_poser";
+	rename -uid "2A9D1E03-410F-63F0-7800-6DBBADBD8B9D";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode locator -n "l_lip_front_poserOrientShape" -p "l_lip_front_poserOrient";
+	rename -uid "89A61D49-43D6-55F7-5EBC-44895142A85B";
+	setAttr -k off ".v" no;
+	setAttr ".ove" yes;
+	setAttr ".ovc" 14;
+	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
+createNode transform -n "locator1" -p "mouth_poser";
 	rename -uid "F1D1047F-4BA6-06C6-CA2A-E3A3377733FF";
 	setAttr ".v" no;
-createNode locator -n "l_lip_corner_poser_upLocShape" -p "l_lip_corner_poser_upLoc";
+createNode locator -n "locatorShape1" -p "locator1";
 	rename -uid "46938E8D-41D8-5253-D20D-A6B42E51B449";
 	setAttr -k off ".v";
 createNode transform -n "jaw_poser" -p "root_poser";
@@ -1088,7 +1883,7 @@ createNode transform -n "jaw_poser" -p "root_poser";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
 	setAttr -k off ".v";
 	setAttr ".ovc" 4;
-	setAttr -k on ".t" -type "double3" 0 1.4819637097108089 -1.2067168065863687 ;
+	setAttr -k on ".t" -type "double3" 0 1.4330032696197772 -0.97567229997363403 ;
 	setAttr -k on ".t";
 	setAttr -l on -k off ".tx";
 	setAttr -l on -k off ".rx";
@@ -1580,16 +2375,30 @@ createNode locator -n "b_head_initLocShape" -p "b_head_initLoc";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 14;
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "initLocs_group" -p "mainPoser";
-	rename -uid "A5E20A2B-4537-2752-E425-6C9635E4EEAC";
+createNode transform -n "curve" -p "posers";
+	rename -uid "71D254DD-4EED-56BD-1D6D-C0B8F105DF2D";
 	setAttr ".v" no;
-createNode transform -n "l_mouthCorner_initLoc" -p "initLocs_group";
-	rename -uid "BA7ED852-448F-9942-EB7A-03AA1197203E";
-	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr -l on ".moduleName" -type "string" "mouth";
-createNode locator -n "l_mouthCorner_initLocShape" -p "l_mouthCorner_initLoc";
-	rename -uid "D3399801-40BF-FE3E-A3D2-FEB2D4453D33";
+	setAttr ".it" no;
+createNode nurbsCurve -n "curveShape" -p "curve";
+	rename -uid "53472A1C-4F61-6E03-F9BC-7995357B85EC";
 	setAttr -k off ".v";
+	setAttr -s 2 ".iog";
+	setAttr -s 9 ".cp";
+	setAttr ".cc" -type "nurbsCurve" 
+		3 6 0 no 3
+		11 0 0 0 0.16666666666666666 0.33333333333333331 0.5 0.66666666666666663 0.83333333333333337
+		 1 1 1
+		9
+		-2.9978272914886475 1.1001746654510498 -0.0036116663832217455
+		-2.0291543006896973 0.98287326097488403 0.55001199245452881
+		-1.4191256761550903 0.91228246688842773 0.8181997537612915
+		-0.62721186876296997 0.87006127834320068 1.074482798576355
+		0 0.83263938991498154 1.1627459265860585
+		0.62721187535528533 0.87006126964306452 1.0744828046137496
+		1.4191256849240386 0.91228249179013354 0.81819975243832044
+		2.0291543428947669 0.982873269981968 0.55001196302673616
+		2.997827212458291 1.1001746861602986 -0.0036116664355910766
+		;
 createNode transform -n "display_lines" -p "posers";
 	rename -uid "9A74ACB6-404A-D99B-1FA1-599813A361C0";
 createNode transform -n "posers_curve4" -p "display_lines";
@@ -1602,17 +2411,16 @@ createNode nurbsCurve -n "posers_curve4Shape" -p "posers_curve4";
 	setAttr -k off ".v";
 	setAttr -s 4 ".cp";
 	setAttr ".cc" -type "nurbsCurve" 
-		3 1 0 no 3
-		6 0 0 0 1 1 1
+		1 3 0 no 3
+		4 0 0.33333333333333331 0.66666666666666663 1
 		4
-		0 0.83338040311101302 1.1608657795508339
-		0.79423589876376555 0.77575453203892142 1.1684686992729967
-		1.696674020289354 0.91607429113308814 0.91638445775959743
-		2.4622193596470647 1.2105390136331287 0.52568963577394823
+		0 0.83263938991498154 1.1627459265860585
+		0.62721187535528533 0.87006126964306452 1.0744828046137496
+		1.4191256849240386 0.91228249179013354 0.81819975243832044
+		2.0291543428947669 0.982873269981968 0.55001196302673616
 		;
 createNode transform -n "posers_sweep4" -p "display_lines";
 	rename -uid "E257CB4D-45F9-FF7E-E265-09AD338FCDE1";
-	setAttr ".v" no;
 	setAttr ".ovdt" 2;
 	setAttr ".ove" yes;
 	setAttr ".t" -type "double3" -1.3921395628662506e-16 0 0 ;
@@ -1629,6 +2437,7 @@ createNode mesh -n "posers_sweep4Shape" -p "posers_sweep4";
 	setAttr ".cdvm[0]"  0 1 1;
 createNode transform -n "posers_curve1" -p "display_lines";
 	rename -uid "AB1DE1A7-4929-1120-4079-AF8D8DD95A34";
+	setAttr ".v" no;
 	setAttr ".t" -type "double3" -1.3921395628662506e-16 0 0 ;
 	setAttr ".it" no;
 createNode nurbsCurve -n "posers_curve1Shape" -p "posers_curve1";
@@ -1639,9 +2448,9 @@ createNode nurbsCurve -n "posers_curve1Shape" -p "posers_curve1";
 		1 2 0 no 3
 		3 0 1 2
 		3
-		0 1.3963834724114998 0.96767501222421071
+		0 1.3972419413142518 0.96900630759087647
 		0 1.0942102705257204 0.49907121969139911
-		0 0.69303785589915823 0.88950831794706708
+		0 0.69189813192479654 0.89061754307107388
 		;
 createNode transform -n "posers_sweep1" -p "display_lines";
 	rename -uid "C85D887C-4E87-F04D-B113-8FB0570074C7";
@@ -1689,7 +2498,7 @@ createNode nurbsCurve -n "posers_curve2Shape" -p "posers_curve2";
 		3 0 1 2
 		3
 		0 1.0942102705257204 0.49907121969139911
-		0 1.4819637097108089 -1.2067168065863687
+		0 1.4330032696197772 -0.97567229997363403
 		0 0 0
 		;
 createNode transform -n "posers_sweep3" -p "display_lines";
@@ -1724,36 +2533,93 @@ createNode nurbsCurve -n "posers_curve3Shape" -p "posers_curve3";
 		-1.3505747095947035e-16 3.6127649341188985 0.99178176263249562
 		0.22936737912342861 3.16586545986695 1.1306363743182788
 		;
+createNode transform -n "posers_curve5" -p "display_lines";
+	rename -uid "6A59EDC7-4A0E-F339-843A-13980C8F30F8";
+	setAttr ".v" no;
+	setAttr ".t" -type "double3" -1.3921395628662506e-16 0 0 ;
+	setAttr ".it" no;
+createNode nurbsCurve -n "posers_curve5Shape" -p "posers_curve5";
+	rename -uid "E0765499-4957-E497-493E-6FB29ECACD92";
+	setAttr -k off ".v";
+	setAttr -s 3 ".cp";
+	setAttr ".cc" -type "nurbsCurve" 
+		1 2 0 no 3
+		3 0 1 2
+		3
+		2.0365740254047053 0.17006580627894197 0.35294671805500377
+		2.0291543428947669 0.982873269981968 0.55001196302673616
+		1.8695790577631672 1.8823314587276658 0.42378681454468886
+		;
+createNode transform -n "posers_sweep5" -p "display_lines";
+	rename -uid "28942D0D-4B51-3BDB-EEFA-42B458759814";
+	setAttr ".ovdt" 2;
+	setAttr ".ove" yes;
+	setAttr ".t" -type "double3" -1.3921395628662506e-16 0 0 ;
+	setAttr ".it" no;
+createNode mesh -n "posers_sweep5Shape" -p "posers_sweep5";
+	rename -uid "00A8EE82-42EC-7C77-77E5-479FBCF1EE7B";
+	setAttr -k off ".v";
+	setAttr ".vir" yes;
+	setAttr ".vif" yes;
+	setAttr ".uvst[0].uvsn" -type "string" "map1";
+	setAttr ".cuvs" -type "string" "map1";
+	setAttr ".dcc" -type "string" "Ambient+Diffuse";
+	setAttr ".covm[0]"  0 1 1;
+	setAttr ".cdvm[0]"  0 1 1;
+createNode transform -n "posers_curve6" -p "display_lines";
+	rename -uid "588F5D55-45D2-172E-8C63-E9AB9F155333";
+	setAttr ".v" no;
+	setAttr ".t" -type "double3" -1.3921395628662506e-16 0 0 ;
+	setAttr ".it" no;
+createNode nurbsCurve -n "posers_curve6Shape" -p "posers_curve6";
+	rename -uid "043A8C79-467F-FF11-5E42-DDA817E19D58";
+	setAttr -k off ".v";
+	setAttr -s 3 ".cp";
+	setAttr ".cc" -type "nurbsCurve" 
+		1 2 0 no 3
+		3 0 1 2
+		3
+		1.2859269392005583 0.89751862213124456 0.86082823666289632
+		2.0291543428947669 0.982873269981968 0.55001196302673616
+		2.997827212458291 1.1001746861602986 -0.0036116664355910766
+		;
+createNode transform -n "posers_sweep6" -p "display_lines";
+	rename -uid "0CA36833-4F89-ABD4-3768-C8B3BC7002EB";
+	setAttr ".ovdt" 2;
+	setAttr ".ove" yes;
+	setAttr ".t" -type "double3" -1.3921395628662506e-16 0 0 ;
+	setAttr ".it" no;
+createNode mesh -n "posers_sweep6Shape" -p "posers_sweep6";
+	rename -uid "648AEE23-4E35-104A-680B-13A03B71E93D";
+	setAttr -k off ".v";
+	setAttr ".vir" yes;
+	setAttr ".vif" yes;
+	setAttr ".uvst[0].uvsn" -type "string" "map1";
+	setAttr ".cuvs" -type "string" "map1";
+	setAttr ".dcc" -type "string" "Ambient+Diffuse";
+	setAttr ".covm[0]"  0 1 1;
+	setAttr ".cdvm[0]"  0 1 1;
 createNode transform -n "init_curve" -p "posers";
 	rename -uid "8F93A684-4EE8-3CB5-8924-08859185EB21";
+	setAttr ".v" no;
 	setAttr ".it" no;
 createNode nurbsCurve -n "init_curveShape" -p "init_curve";
 	rename -uid "FBF31E36-487A-0C35-1B97-8CA6D1F9CDCB";
 	setAttr -k off ".v";
+	setAttr -s 2 ".iog";
 	setAttr -s 7 ".cp";
 	setAttr ".cc" -type "nurbsCurve" 
 		3 4 0 no 3
 		9 0 0 0 0.25 0.5 0.75 1 1 1
 		7
-		-2.4622194766998291 1.2105389833450317 0.52568966150283813
-		-1.7261459827423096 0.8701862096786499 0.95415312051773071
-		-0.80221998691558838 0.79339307546615601 1.2380027770996094
-		0 0.83338040311101302 1.1608657795508339
-		0.80221996926923611 0.79339309022763504 1.2380027188542893
-		1.7261459339551686 0.8701862261417016 0.95415313923251965
-		2.4622193596470647 1.2105390136331287 0.52568963577394823
+		-2.0291543006896973 0.98287326097488403 0.55001199245452881
+		-1.4191256761550903 0.91228246688842773 0.8181997537612915
+		-0.62721186876296997 0.87006127834320068 1.074482798576355
+		0 0.83263938991498154 1.1627459265860585
+		0.62721187535528533 0.87006126964306452 1.0744828046137496
+		1.4191256849240386 0.91228249179013354 0.81819975243832044
+		2.0291543428947669 0.982873269981968 0.55001196302673616
 		;
-	setAttr ".dcv" yes;
-createNode transform -n "init_corner_flat_curve" -p "posers";
-	rename -uid "69B2C968-4023-8C47-B63D-9AA0FB5EA8DC";
-	setAttr ".v" no;
-	setAttr ".s" -type "double3" 1 9.9999999999999998e-13 1 ;
-	setAttr ".it" no;
-createNode nurbsCurve -n "init_corner_flat_curveShape" -p "init_corner_flat_curve";
-	rename -uid "119287A8-4D46-7F73-240F-4A96B3E38DE5";
-	setAttr -k off ".v";
-	setAttr ".tw" yes;
-	setAttr ".dcv" yes;
 createNode transform -n "input" -p "mod";
 	rename -uid "B99AF953-4298-777B-005E-0CB1399D3352";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -1921,20 +2787,16 @@ createNode transform -n "l_cheek_group" -p "cheeks_group";
 	setAttr ".sp" -type "double3" 0 -6.1629758220391547e-33 1.1102230246251565e-16 ;
 	setAttr ".spt" -type "double3" 0 4.6847753712187023e-33 -8.4393410464540087e-17 ;
 	setAttr -l on ".moduleName" -type "string" "head";
-createNode transform -n "l_cheek_group_2" -p "l_cheek_group";
-	rename -uid "FD81F891-44EF-A5B1-151C-EC9105CCE5F6";
-createNode transform -n "l_cheek" -p "l_cheek_group_2";
+createNode transform -n "l_cheek" -p "l_cheek_group";
 	rename -uid "884E9AAF-4984-2E65-8C06-78B871831483";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
-	addAttr -ci true -sn "lipCornerInfluence" -ln "lipCornerInfluence" -min 0 -max 1 
-		-at "double";
+	addAttr -ci true -sn "cornerInfluence" -ln "cornerInfluence" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "pushBsLimit" -ln "pushBsLimit" -min 0 -at "double";
 	addAttr -ci true -sn "followTopHead" -ln "followTopHead" -min 0 -max 1 -at "double";
 	setAttr -l on -k off ".v";
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:45ecaaf1ece6";
-	setAttr ".lipCornerInfluence" 0.63529411728548657;
+	setAttr ".cornerInfluence" 0.19387755113444766;
 	setAttr ".pushBsLimit" 2;
-	setAttr ".followTopHead" 0.56862745074299625;
 createNode nurbsCurve -n "l_cheekShape" -p "l_cheek";
 	rename -uid "A470119E-4A72-13CB-4F49-D5B8482DA8FF";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -1968,14 +2830,10 @@ createNode transform -n "r_cheek_group" -p "cheeks_group";
 	setAttr ".sp" -type "double3" 0 -6.1629758220391547e-33 1.1102230246251565e-16 ;
 	setAttr ".spt" -type "double3" 0 3.4211388289180086e-48 -2.2204460492503131e-16 ;
 	setAttr -l on ".moduleName" -type "string" "head";
-createNode transform -n "r_cheek_group_2" -p "r_cheek_group";
-	rename -uid "7341255E-41E5-F468-F777-B99548E041EC";
-	setAttr ".t" -type "double3" 0 0 -2.2204460492503131e-16 ;
-createNode transform -n "r_cheek" -p "r_cheek_group_2";
+createNode transform -n "r_cheek" -p "r_cheek_group";
 	rename -uid "24385617-4BE7-6DBA-402D-54B583469F3E";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
 	setAttr -l on -k off ".v";
-	setAttr ".t" -type "double3" 0 0 -2.2204460492503131e-16 ;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:8a1f74a2814c";
 createNode nurbsCurve -n "r_cheekShape" -p "r_cheek";
 	rename -uid "5BA10C7B-4D0F-DBD1-BA1C-5B9D96CAF850";
@@ -1995,9 +2853,7 @@ createNode transform -n "l_cheekUp_group" -p "cheekUps_transform_group";
 	setAttr ".sp" -type "double3" 0 -6.1629758220391547e-33 1.1102230246251565e-16 ;
 	setAttr ".spt" -type "double3" 0 1.3684555315672036e-48 -6.1629758220391514e-32 ;
 	setAttr -l on ".moduleName" -type "string" "head";
-createNode transform -n "l_cheekUp_group_2" -p "l_cheekUp_group";
-	rename -uid "7EE3296F-4855-35C8-8956-19B18313EF76";
-createNode transform -n "l_cheekUp" -p "l_cheekUp_group_2";
+createNode transform -n "l_cheekUp" -p "l_cheekUp_group";
 	rename -uid "85E32304-428C-5913-8934-93BE0AC660BB";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
 	addAttr -ci true -sn "lipCornerInfluence" -ln "lipCornerInfluence" -min 0 -max 1 
@@ -2006,7 +2862,7 @@ createNode transform -n "l_cheekUp" -p "l_cheekUp_group_2";
 	addAttr -ci true -sn "followTopHead" -ln "followTopHead" -dv 0.5 -min 0 -max 1 -at "double";
 	setAttr -l on -k off ".v";
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:9e0166cd4db9";
-	setAttr ".lipCornerInfluence" 0.36507936541937175;
+	setAttr ".lipCornerInfluence" 0.12307692342079603;
 	setAttr ".upBsLimit" 1;
 	setAttr -k on ".followTopHead";
 createNode nurbsCurve -n "l_cheekUpShape" -p "l_cheekUp";
@@ -2040,14 +2896,10 @@ createNode transform -n "r_cheekUp_group" -p "cheekUps_transform_group";
 	setAttr ".sp" -type "double3" 0 -6.1629758220391547e-33 1.1102230246251565e-16 ;
 	setAttr ".spt" -type "double3" 0 2.0526832973508056e-48 -2.2204460492503131e-16 ;
 	setAttr -l on ".moduleName" -type "string" "head";
-createNode transform -n "r_cheekUp_group_2" -p "r_cheekUp_group";
-	rename -uid "B002FF48-47B5-2487-9CD2-D987A7D3CE7A";
-createNode transform -n "r_cheekUp" -p "r_cheekUp_group_2";
+createNode transform -n "r_cheekUp" -p "r_cheekUp_group";
 	rename -uid "EA29717F-42D1-4686-6CC8-52962951DC7B";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
 	setAttr -l on -k off ".v";
-	setAttr ".t" -type "double3" 0 4.4408920985006262e-16 1.1102230246251565e-16 ;
-	setAttr ".s" -type "double3" 1 0.99999999999999978 1 ;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:4de6ec0d57a4";
 createNode nurbsCurve -n "r_cheekUpShape" -p "r_cheekUp";
 	rename -uid "7F7BB48C-4820-4006-BDB3-27B73405D303";
@@ -2140,6 +2992,7 @@ createNode transform -n "jaw" -p "jaw_group";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
 	addAttr -ci true -sn "openBsLimit" -ln "openBsLimit" -min 0 -at "double";
 	setAttr -l on -k off ".v";
+	setAttr -s 2 ".iog";
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
@@ -2164,11 +3017,11 @@ createNode nurbsCurve -n "jawShape" -p "jaw";
 		1.7626329522179449 -0.49688239888185631 1.6054599953121105
 		;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:49d8a22b01ba";
-createNode transform -n "b_lip_group" -p "jaw";
+createNode transform -n "b_lips_group" -p "jaw";
 	rename -uid "D056E1ED-44A2-B862-C6C5-8CA3F967E53E";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	setAttr -l on ".moduleName" -type "string" "mouth";
-createNode transform -n "b_lip" -p "b_lip_group";
+createNode transform -n "b_lips" -p "b_lips_group";
 	rename -uid "252934BC-4A71-6FD9-EE13-6E8EF0B05E61";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
 	setAttr -l on -k off ".v";
@@ -2180,7 +3033,7 @@ createNode transform -n "b_lip" -p "b_lip_group";
 	setAttr -l on -k off ".sz";
 	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:b928cb57875e";
-createNode nurbsCurve -n "b_lipShape" -p "b_lip";
+createNode nurbsCurve -n "b_lipsShape" -p "b_lips";
 	rename -uid "739E48B5-4042-11CC-4403-27B366A792F3";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
 	setAttr -k off ".v";
@@ -2203,7 +3056,7 @@ createNode nurbsCurve -n "b_lipShape" -p "b_lip";
 		0.12862405262043305 -0.12986339403707256 0.23850804410844811
 		;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:05ad72053f0c";
-createNode transform -n "c_b_lip_group" -p "b_lip";
+createNode transform -n "c_b_lip_group" -p "b_lips";
 	rename -uid "C2D59B61-47CA-1FF1-9FC5-A5A9D0815FEC";
 createNode transform -n "c_b_lip" -p "c_b_lip_group";
 	rename -uid "DDFD2227-472B-CFCE-FF5A-568736662FFD";
@@ -2243,62 +3096,25 @@ createNode nurbsCurve -n "c_b_lipShape" -p "c_b_lip";
 		-0.070316021715350105 -0.17421380642234369 0.25318105859229673
 		;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:ae2ed9194887";
-createNode transform -n "c_b_lip_loc" -p "c_b_lip";
+createNode transform -n "b_lp_curve_3_loc" -p "c_b_lip";
 	rename -uid "D2A825CB-445B-2DD6-60FE-7C822D635081";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	setAttr ".v" no;
 	setAttr -l on ".moduleName" -type "string" "mouth";
-createNode locator -n "c_b_lip_locShape" -p "c_b_lip_loc";
+createNode locator -n "b_lp_curve_3_locShape" -p "b_lp_curve_3_loc";
 	rename -uid "D93900EF-4229-F8BF-3A46-AC9057807DAB";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "l_b_lip_1_lip_target" -p "b_lip";
-	rename -uid "5FE6569D-4F6F-7DDF-81A6-A889C22D6DBA";
-	setAttr ".v" no;
-createNode locator -n "l_b_lip_1_lip_targetShape" -p "l_b_lip_1_lip_target";
-	rename -uid "00428824-40CA-C512-0A62-C08DD7CCBD7A";
-	setAttr -k off ".v";
-createNode transform -n "r_b_lip_1_lip_target" -p "b_lip";
-	rename -uid "287EA8A3-48F8-5EEA-7CFC-C39565130830";
-	setAttr ".v" no;
-createNode locator -n "r_b_lip_1_lip_targetShape" -p "r_b_lip_1_lip_target";
-	rename -uid "2D35BE90-4C39-85C6-9B23-A8942C35D91B";
-	setAttr -k off ".v";
-createNode transform -n "l_b_lip_1_lip_init_target" -p "b_lip_group";
-	rename -uid "E6D73E1F-412F-DBE7-433F-2794D8E9A14D";
-	setAttr ".v" no;
-createNode locator -n "l_b_lip_1_lip_init_targetShape" -p "l_b_lip_1_lip_init_target";
-	rename -uid "FA05F673-46EA-4946-C0C4-BB8CFB66E64F";
-	setAttr -k off ".v";
-createNode transform -n "r_b_lip_1_lip_init_target" -p "b_lip_group";
-	rename -uid "819E4868-4E76-8BAB-6FBC-4BA6031C1662";
-	setAttr ".v" no;
-createNode locator -n "r_b_lip_1_lip_init_targetShape" -p "r_b_lip_1_lip_init_target";
-	rename -uid "C9588C38-407E-C3D7-C4CF-BA9EC6526A5B";
-	setAttr -k off ".v";
-createNode transform -n "l_b_lip_1_jaw_target" -p "jaw";
-	rename -uid "911716C8-468F-900E-1AF2-5596A93E4D3E";
-	setAttr ".v" no;
-createNode locator -n "l_b_lip_1_jaw_targetShape" -p "l_b_lip_1_jaw_target";
-	rename -uid "F9570164-4CCF-8C8B-A684-9E8EF329600E";
-	setAttr -k off ".v";
-createNode transform -n "r_b_lip_1_jaw_target" -p "jaw";
-	rename -uid "61E02098-4B1F-FC03-16FE-C4A987032821";
-	setAttr ".v" no;
-createNode locator -n "r_b_lip_1_jaw_targetShape" -p "r_b_lip_1_jaw_target";
-	rename -uid "64561FC4-4E55-18DE-B93B-2B9A80F947BA";
-	setAttr -k off ".v";
-createNode transform -n "l_mouthCorner_autoGroup" -p "jaw_group";
+createNode transform -n "l_autoCorner_group" -p "jaw_group";
 	rename -uid "25ECB4BB-40D9-3AF8-CA99-B2B42500F57C";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	setAttr ".opm" -type "matrix" 1 0 0 0 0 0.99999999999999978 0 0 0 0 0.99999999999999978 0
 		 0 0 0 1;
 	setAttr -l on ".moduleName" -type "string" "mouth";
-createNode transform -n "l_mouthCorner_reverseGroup" -p "l_mouthCorner_autoGroup";
+createNode transform -n "l_mouthCorner_reverseGroup" -p "l_autoCorner_group";
 	rename -uid "C8C9A33D-4825-F40F-EE34-379E6999E6C4";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".t" -type "double3" 3.2794971665538772e-16 -7.095019016745141e-16 7.2164496600635175e-16 ;
-	setAttr ".dla" yes;
+	setAttr ".t" -type "double3" 0 1.717376241217039e-16 2.3592239273284576e-16 ;
 	setAttr -l on ".moduleName" -type "string" "mouth";
 createNode transform -n "l_mouthCorner" -p "l_mouthCorner_reverseGroup";
 	rename -uid "788BB9A1-4B71-7A22-E6C2-7B81AA50AABF";
@@ -2307,40 +3123,46 @@ createNode transform -n "l_mouthCorner" -p "l_mouthCorner_reverseGroup";
 	addAttr -ci true -sn "downBsLimit" -ln "downBsLimit" -max 0 -at "double";
 	addAttr -ci true -sn "frontBsLimit" -ln "frontBsLimit" -at "double";
 	addAttr -ci true -sn "backBsLimit" -ln "backBsLimit" -at "double";
+	addAttr -ci true -sn "moveFactor" -ln "moveFactor" -min 0 -at "double";
 	addAttr -ci true -sn "jawInfluence" -ln "jawInfluence" -dv 0.5 -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "default_zip" -ln "default_zip" -dt "string";
 	addAttr -ci true -sn "default_dropoff" -ln "default_dropoff" -dt "string";
 	addAttr -ci true -sn "jawInInfluence" -ln "jawInInfluence" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "deepOffset" -ln "deepOffset" -at "double";
 	addAttr -ci true -sn "folowJaw" -ln "folowJaw" -dv 0.5 -min 0 -max 1 -at "double";
+	addAttr -ci true -sn "autoFollowJaw" -ln "autoFollowJaw" -dv 1 -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "zip" -ln "zip" -min 0 -at "double";
 	addAttr -ci true -sn "zipDropoff" -ln "zipDropoff" -min 0 -at "double";
 	addAttr -ci true -sn "moveFactorX" -ln "moveFactorX" -at "double";
 	setAttr -l on -k off ".v";
-	setAttr -k on ".t" -type "double3" -3.2794971054507211e-16 1.2981437387162353 0 ;
+	setAttr -s 2 ".iog";
 	setAttr -k on ".t";
 	setAttr -k off ".tz";
 	setAttr -l on -k off ".rx";
 	setAttr -l on -k off ".ry";
-	setAttr -l on -k off ".rz";
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
-	setAttr ".mntl" -type "double3" -0.83 -0.82 -1 ;
-	setAttr ".mxtl" -type "double3" 1.15 0.9 1 ;
+	setAttr ".mtxe" yes;
+	setAttr ".mtye" yes;
+	setAttr ".xtxe" yes;
+	setAttr ".xtye" yes;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:3d24254f2d77";
 	setAttr ".upBsLimit" 0.4;
 	setAttr ".downBsLimit" -0.2;
 	setAttr ".frontBsLimit" -0.3;
 	setAttr ".backBsLimit" 0.4;
+	setAttr ".moveFactor" 0.15;
 	setAttr ".jawInfluence" 0.3762886596401942;
 	setAttr ".default_zip" -type "string" "0.0";
 	setAttr ".default_dropoff" -type "string" "1.0";
+	setAttr ".jawInInfluence" 0.24226804122751214;
 	setAttr -k on ".deepOffset";
 	setAttr -k on ".folowJaw";
+	setAttr -k on ".autoFollowJaw";
 	setAttr -k on ".zip";
 	setAttr -k on ".zipDropoff";
-	setAttr ".moveFactorX" 0.2;
+	setAttr ".moveFactorX" 0.15;
 createNode nurbsCurve -n "l_mouthCornerShape" -p "l_mouthCorner";
 	rename -uid "E9548E0E-4072-9125-F919-E59FB8DC145D";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
@@ -2441,33 +3263,15 @@ createNode nurbsCurve -n "l_cornerLip_detailShape" -p "l_cornerLip_detail";
 		0.051243530384084211 1.0491800322143701e-05 0.14321864877250426
 		;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:029c9480dd8d";
-createNode transform -n "l_lip_loc" -p "l_lip";
+createNode transform -n "t_lp_curve_6_loc" -p "l_lip";
 	rename -uid "D584B201-4FB2-FA10-A82B-5DA282445C00";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	setAttr ".v" no;
 	setAttr -l on ".moduleName" -type "string" "mouth";
-createNode locator -n "l_lip_locShape" -p "l_lip_loc";
+createNode locator -n "t_lp_curve_6_locShape" -p "t_lp_curve_6_loc";
 	rename -uid "A090511F-43CF-D4B2-7925-7CA2C7481B69";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.12999999999999989 0.12999999999999989 0.12999999999999989 ;
-createNode transform -n "l_t_lip_1_corner_target" -p "l_mouthCorner";
-	rename -uid "0A6B4AA3-4375-A66C-209B-75A7BFA8A2E1";
-	setAttr ".v" no;
-createNode locator -n "l_t_lip_1_corner_targetShape" -p "l_t_lip_1_corner_target";
-	rename -uid "49BF73D5-46CB-A365-FE4C-D39CBFB79D52";
-	setAttr -k off ".v";
-createNode transform -n "l_t_lip_2_corner_target" -p "l_mouthCorner";
-	rename -uid "35181830-4044-E4AC-5DF0-279D710C5862";
-	setAttr ".v" no;
-createNode locator -n "l_t_lip_2_corner_targetShape" -p "l_t_lip_2_corner_target";
-	rename -uid "ACB180CB-466B-D2FB-D825-2FBF4B29C90E";
-	setAttr -k off ".v";
-createNode transform -n "l_b_lip_1_corner_target" -p "l_mouthCorner";
-	rename -uid "72036CC8-454B-9C43-ED8C-9B9D790C5DC9";
-	setAttr ".v" no;
-createNode locator -n "l_b_lip_1_corner_targetShape" -p "l_b_lip_1_corner_target";
-	rename -uid "AA685A56-4152-7894-9BA5-169C7746169F";
-	setAttr -k off ".v";
 createNode transform -n "r_autoCorner_group" -p "jaw_group";
 	rename -uid "719F69F6-4BC4-A1C1-C88C-9FB4DB736A62";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -2476,7 +3280,7 @@ createNode transform -n "r_autoCorner_group" -p "jaw_group";
 createNode transform -n "r_mouthCorner_reverseGroup" -p "r_autoCorner_group";
 	rename -uid "08198381-42FA-D7FB-3FD8-05BA4B478CF6";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".t" -type "double3" 0 5.2909066017292616e-16 -5.134781488891349e-16 ;
+	setAttr ".t" -type "double3" 0 1.3183898417423734e-16 -4.9960036108132044e-16 ;
 	setAttr -l on ".moduleName" -type "string" "mouth";
 createNode transform -n "r_mouthCorner" -p "r_mouthCorner_reverseGroup";
 	rename -uid "2C08D6D3-44C4-55C8-662C-A9978BEDD744";
@@ -2485,24 +3289,28 @@ createNode transform -n "r_mouthCorner" -p "r_mouthCorner_reverseGroup";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
 	addAttr -ci true -sn "deepOffset" -ln "deepOffset" -at "double";
 	addAttr -ci true -sn "folowJaw" -ln "folowJaw" -dv 0.5 -min 0 -max 1 -at "double";
+	addAttr -ci true -sn "autoFollowJaw" -ln "autoFollowJaw" -dv 1 -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "zip" -ln "zip" -min 0 -at "double";
 	addAttr -ci true -sn "zipDropoff" -ln "zipDropoff" -min 0 -at "double";
 	setAttr -l on -k off ".v";
+	setAttr -s 2 ".iog";
 	setAttr -k on ".t";
 	setAttr -k off ".tz";
 	setAttr -l on -k off ".rx";
 	setAttr -l on -k off ".ry";
-	setAttr -l on -k off ".rz";
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
-	setAttr ".mntl" -type "double3" -0.83 -0.81699511879112274 -1 ;
-	setAttr ".mxtl" -type "double3" 1.15 0.90485215882213943 1 ;
+	setAttr ".mtxe" yes;
+	setAttr ".mtye" yes;
+	setAttr ".xtxe" yes;
+	setAttr ".xtye" yes;
 	setAttr ".default_zip" -type "string" "0.0";
 	setAttr ".default_dropoff" -type "string" "1.0";
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:1f7ec0edc3c9";
 	setAttr -k on ".deepOffset";
 	setAttr -k on ".folowJaw";
+	setAttr -k on ".autoFollowJaw";
 	setAttr -k on ".zip";
 	setAttr -k on ".zipDropoff";
 createNode nurbsCurve -n "r_mouthCornerShape" -p "r_mouthCorner";
@@ -2572,32 +3380,20 @@ createNode nurbsCurve -n "r_cornerLip_detailShape" -p "r_cornerLip_detail";
 		0 0 -6.9388939039072284e-18 0 1.3877787807814457e-17 0 0 0 0 0 5.5511151231257827e-17 
 		0 0 0 0 0 0 0 0 0;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:604a195a98d9";
-createNode transform -n "r_lip_loc" -p "r_lip";
+createNode transform -n "t_lp_curve_0_loc" -p "r_lip";
 	rename -uid "9012E734-4F9A-EFA9-EB9E-65890EAA9E7F";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	setAttr ".v" no;
 	setAttr -l on ".moduleName" -type "string" "mouth";
-createNode locator -n "r_lip_locShape" -p "r_lip_loc";
+createNode locator -n "t_lp_curve_0_locShape" -p "t_lp_curve_0_loc";
 	rename -uid "8A02BA16-4A42-D414-0FAC-FDBEC1B0CBC5";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.17999999999999983 0.17999999999999983 0.17999999999999983 ;
-createNode transform -n "r_t_lip_1_corner_target" -p "r_mouthCorner";
-	rename -uid "1BB3BE6E-4799-A4A1-0B66-569598566575";
-	setAttr ".v" no;
-createNode locator -n "r_t_lip_1_corner_targetShape" -p "r_t_lip_1_corner_target";
-	rename -uid "745B3A14-4F68-3378-C7BB-458E84183A73";
-	setAttr -k off ".v";
-createNode transform -n "r_b_lip_1_corner_target" -p "r_mouthCorner";
-	rename -uid "51A70FE2-4758-B9A6-CF3D-F09CBF1D6A06";
-	setAttr ".v" no;
-createNode locator -n "r_b_lip_1_corner_targetShape" -p "r_b_lip_1_corner_target";
-	rename -uid "B9435CB4-4FA1-8834-CCA9-8AA86356E616";
-	setAttr -k off ".v";
-createNode transform -n "t_lip_group" -p "mouth_group_2";
+createNode transform -n "t_lips_group" -p "mouth_group_2";
 	rename -uid "D8C0955A-4E67-6EC1-3B4C-C69C14577451";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	setAttr -l on ".moduleName" -type "string" "mouth";
-createNode transform -n "t_lip" -p "t_lip_group";
+createNode transform -n "t_lips" -p "t_lips_group";
 	rename -uid "A93ED6BC-46F3-9EE3-1071-F893938E8DF9";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
 	setAttr -l on -k off ".v";
@@ -2608,7 +3404,7 @@ createNode transform -n "t_lip" -p "t_lip_group";
 	setAttr -l on -k off ".sz";
 	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:10136c36397d";
-createNode nurbsCurve -n "t_lipShape" -p "t_lip";
+createNode nurbsCurve -n "t_lipsShape" -p "t_lips";
 	rename -uid "6D91246A-4F8B-7A63-F9C9-16A13B545817";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
 	setAttr -k off ".v";
@@ -2631,7 +3427,7 @@ createNode nurbsCurve -n "t_lipShape" -p "t_lip";
 		0.14257404930915463 0.030789871871643348 0.28533264339581593
 		;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:b78f7a8ae13b";
-createNode transform -n "c_t_lip_group" -p "t_lip";
+createNode transform -n "c_t_lip_group" -p "t_lips";
 	rename -uid "69A9368D-41D5-5A56-E9A4-4A89644A5BD9";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	setAttr -l on ".moduleName" -type "string" "mouth";
@@ -2673,54 +3469,15 @@ createNode nurbsCurve -n "c_t_lipShape" -p "c_t_lip";
 		-0.061993442859254372 0.30200877705793511 0.24302799153513069
 		;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:e3a3c0bc010b";
-createNode transform -n "c_t_lip_loc" -p "c_t_lip";
+createNode transform -n "t_lp_curve_3_loc9" -p "c_t_lip";
 	rename -uid "885EFB1E-41C2-1D68-66FA-E79E59BC4EE0";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	setAttr ".v" no;
 	setAttr -l on ".moduleName" -type "string" "mouth";
-createNode locator -n "c_t_lip_locShape" -p "c_t_lip_loc";
+createNode locator -n "t_lp_curve_3_loc9Shape" -p "t_lp_curve_3_loc9";
 	rename -uid "6EE8FE93-4E35-93E3-8A50-B49E34DC3A69";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "l_t_lip_1_lip_target" -p "t_lip";
-	rename -uid "B06BEF51-4B67-35B8-385B-319503AA0B02";
-	setAttr ".v" no;
-createNode locator -n "l_t_lip_1_lip_targetShape" -p "l_t_lip_1_lip_target";
-	rename -uid "695F8A00-41B5-AECD-1709-25B1A15470C9";
-	setAttr -k off ".v";
-createNode transform -n "r_t_lip_1_lip_target" -p "t_lip";
-	rename -uid "118C69B6-47B9-DB4F-AE83-3F94E63E1031";
-	setAttr ".v" no;
-createNode locator -n "r_t_lip_1_lip_targetShape" -p "r_t_lip_1_lip_target";
-	rename -uid "2417A3FF-4C2D-A54D-A9BD-D3B35636AC8D";
-	setAttr -k off ".v";
-createNode transform -n "l_t_lip_2_lip_target" -p "t_lip";
-	rename -uid "2574032D-4030-DABD-3017-709B726648F6";
-	setAttr ".v" no;
-createNode locator -n "l_t_lip_2_lip_targetShape" -p "l_t_lip_2_lip_target";
-	rename -uid "D90B83F4-4481-3856-885F-EFA1A839AE6D";
-	setAttr -k off ".v";
-createNode transform -n "l_t_lip_1_lip_init_target" -p "t_lip_group";
-	rename -uid "AB5F1C9E-445D-46AC-DC14-CFB9B41E43F9";
-	setAttr ".v" no;
-	setAttr ".s" -type "double3" 1 0.99999999999999978 1.0000000000000002 ;
-createNode locator -n "l_t_lip_1_lip_init_targetShape" -p "l_t_lip_1_lip_init_target";
-	rename -uid "DAEB7CB8-458F-DCD9-1B65-C5B306112137";
-	setAttr -k off ".v";
-createNode transform -n "r_t_lip_1_lip_init_target" -p "t_lip_group";
-	rename -uid "DA38F2A4-449A-E610-308D-06831C4CE933";
-	setAttr ".v" no;
-	setAttr ".s" -type "double3" 1 0.99999999999999978 1.0000000000000002 ;
-createNode locator -n "r_t_lip_1_lip_init_targetShape" -p "r_t_lip_1_lip_init_target";
-	rename -uid "1D5265F0-464B-EA50-DF35-D18E5A81FE1B";
-	setAttr -k off ".v";
-createNode transform -n "l_t_lip_2_lip_init_target" -p "t_lip_group";
-	rename -uid "E61157F8-45B1-9002-086F-70A9951223E8";
-	setAttr ".v" no;
-	setAttr ".s" -type "double3" 1 0.99999999999999978 1.0000000000000002 ;
-createNode locator -n "l_t_lip_2_lip_init_targetShape" -p "l_t_lip_2_lip_init_target";
-	rename -uid "2AAD5B31-4521-2BA6-F7A8-0C8CBA45783E";
-	setAttr -k off ".v";
 createNode nurbsCurve -n "ctrlShape" -p "lips";
 	rename -uid "5D4145E4-4B6F-3941-CEC7-DA80E886ACD0";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
@@ -2750,18 +3507,18 @@ createNode nurbsCurve -n "ctrl1Shape" -p "lips";
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:dc5beaeb4e2a";
 createNode transform -n "sec_controls_group" -p "lips";
 	rename -uid "5E7EE946-4371-B2D3-DF9A-95ADB129A1CB";
-createNode transform -n "l_t_lip_2_group" -p "sec_controls_group";
-	rename -uid "5BDD14BE-43AD-28F8-D9F0-E1B6A73DD2E3";
-createNode transform -n "l_t_lip_2" -p "l_t_lip_2_group";
-	rename -uid "1B294059-41BA-E201-D6F7-63B381ABC8E4";
+createNode transform -n "l_t_lip_1_group" -p "sec_controls_group";
+	rename -uid "68F9F275-4142-C9F4-5B86-8AA07CCE4986";
+createNode transform -n "l_t_lip_1" -p "l_t_lip_1_group";
+	rename -uid "F2C45799-43BE-3DDC-D044-3FBFD89631E3";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
 	addAttr -ci true -sn "jawInfluence" -ln "jawInfluence" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "t_lip_influence" -ln "t_lip_influence" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "corner_influence" -ln "corner_influence" -min 0 -max 2 -at "double";
+	addAttr -ci true -sn "corner_horizontal_influence" -ln "corner_horizontal_influence" 
+		-min 0 -max 2 -at "double";
 	addAttr -ci true -sn "corner_vertical_influence" -ln "corner_vertical_influence" 
 		-min 0 -max 2 -at "double";
 	setAttr -l on -k off ".v";
-	setAttr -s 2 ".iog";
 	setAttr -k on ".t";
 	setAttr -k on ".r";
 	setAttr -l on -k off ".rx";
@@ -2773,6 +3530,70 @@ createNode transform -n "l_t_lip_2" -p "l_t_lip_2_group";
 	setAttr -l on -k off ".sz";
 	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:8e35a960e8f3";
+	setAttr ".jawInfluence" 0.087628865777754902;
+	setAttr ".t_lip_influence" 0.92268041227512143;
+	setAttr ".corner_horizontal_influence" 1;
+	setAttr ".corner_vertical_influence" 0.1030927842540532;
+createNode nurbsCurve -n "l_t_lip_1Shape" -p "l_t_lip_1";
+	rename -uid "57E09997-4F78-3226-3CD0-9E80AC0D9AFF";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	setAttr -k off ".v";
+	setAttr ".ove" yes;
+	setAttr ".ovc" 17;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		0.051592540398107761 0.27292161859822994 0.25846256519686955
+		-1.635608141004386e-14 0.29429178949143875 0.25846256519686955
+		-0.051592540398140325 0.27292161859822983 0.25846256519686961
+		-0.072962709843981358 0.22132907470582719 0.25846256519686961
+		-0.051592540398140319 0.16973653081342308 0.25846256519686955
+		-1.6320135493510945e-14 0.14836635992021477 0.25846256519686955
+		0.051592540398107775 0.16973653081342313 0.25846256519686955
+		0.072962709843949175 0.22132907470582688 0.25846256519686955
+		0.051592540398107761 0.27292161859822994 0.25846256519686955
+		-1.635608141004386e-14 0.29429178949143875 0.25846256519686955
+		-0.051592540398140325 0.27292161859822983 0.25846256519686961
+		;
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:b9137fca2b80";
+createNode transform -n "t_lp_curve_4_loc" -p "l_t_lip_1";
+	rename -uid "A159B602-4CAD-D754-5C5F-2E97FC4E4A77";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".v" no;
+	setAttr ".opm" -type "matrix" 1 0 0 0 0 1.0000000000000002 0 0 0 0 1 0 0 0 0 1;
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode locator -n "t_lp_curve_4_locShape" -p "t_lp_curve_4_loc";
+	rename -uid "A9FAF7E7-4A96-DD06-215F-06B48AC88BB5";
+	setAttr -k off ".v";
+	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
+createNode transform -n "l_t_lip_2_group" -p "sec_controls_group";
+	rename -uid "5BDD14BE-43AD-28F8-D9F0-E1B6A73DD2E3";
+createNode transform -n "l_t_lip_2" -p "l_t_lip_2_group";
+	rename -uid "1B294059-41BA-E201-D6F7-63B381ABC8E4";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	addAttr -ci true -sn "jawInfluence" -ln "jawInfluence" -min 0 -max 1 -at "double";
+	addAttr -ci true -sn "t_lip_influence" -ln "t_lip_influence" -min 0 -max 1 -at "double";
+	addAttr -ci true -sn "corner_horizontal_influence" -ln "corner_horizontal_influence" 
+		-min 0 -max 2 -at "double";
+	addAttr -ci true -sn "corner_vertical_influence" -ln "corner_vertical_influence" 
+		-min 0 -max 2 -at "double";
+	setAttr -l on -k off ".v";
+	setAttr -k on ".t";
+	setAttr -k on ".r";
+	setAttr -l on -k off ".rx";
+	setAttr -l on -k off ".ry";
+	setAttr -l on -k off ".rz";
+	setAttr -k on ".s";
+	setAttr -l on -k off ".sx";
+	setAttr -l on -k off ".sy";
+	setAttr -l on -k off ".sz";
+	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:8e35a960e8f3";
+	setAttr ".jawInfluence" 1;
+	setAttr ".t_lip_influence" 0.59793814476195373;
+	setAttr ".corner_horizontal_influence" 1;
+	setAttr ".corner_vertical_influence" 0.36082474209521848;
 createNode nurbsCurve -n "l_t_lip_2Shape" -p "l_t_lip_2";
 	rename -uid "D270D14C-44A3-336E-31B0-568BAB8F661D";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
@@ -2806,18 +3627,14 @@ createNode locator -n "t_lp_curve_5_locShape" -p "t_lp_curve_5_loc";
 	rename -uid "FDBBAAF6-42CF-F649-715B-02B3D51D3210";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "l_b_lip_2_group" -p "sec_controls_group";
-	rename -uid "08EB7742-43BA-5866-D53F-28A9C0F6262A";
+createNode transform -n "l_b_lip_1_group" -p "sec_controls_group";
+	rename -uid "20CCC6A3-4BBD-1917-5AA6-6092E7084AF6";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".opm" -type "matrix" 0.92629724740982056 0 -0.37679320573806763 0 0 0.99999994039535522 0 0
-		 0.37679320573806763 0 0.92629724740982056 0 1.7014942169189453 -0.17864204943180084 0.41849884390830994 1;
 	setAttr -l on ".moduleName" -type "string" "mouth";
-createNode transform -n "l_b_lip_2" -p "l_b_lip_2_group";
-	rename -uid "0CBF3EF5-43AD-0F77-458C-5BA478498C89";
+createNode transform -n "l_b_lip_1" -p "l_b_lip_1_group";
+	rename -uid "77CED691-4F83-2F7D-1BBD-70A70095DE29";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
 	addAttr -ci true -sn "jawInfluence" -ln "jawInfluence" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "bottomLipInfluence" -ln "bottomLipInfluence" -min 0 -max 1 
-		-at "double";
 	setAttr -l on -k off ".v";
 	setAttr -k on ".t";
 	setAttr -k on ".r";
@@ -2829,7 +3646,61 @@ createNode transform -n "l_b_lip_2" -p "l_b_lip_2_group";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
 	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
-	setAttr ".dla" yes;
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:4df33b8990f6";
+	setAttr ".jawInfluence" 1;
+createNode nurbsCurve -n "l_b_lip_1Shape" -p "l_b_lip_1";
+	rename -uid "91F5CF7B-4ABB-7C5C-76E0-47850C3B60B9";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	setAttr -k off ".v";
+	setAttr ".ove" yes;
+	setAttr ".ovc" 17;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		0.051000579020916231 -0.16192660145278284 0.21627651105213663
+		-2.5517774536010583e-14 -0.14080162716542013 0.21627651105213663
+		-0.051000579020967385 -0.16192660145278284 0.21627651105213666
+		-0.072125551877569749 -0.21292718392791091 0.21627651105213666
+		-0.051000579020967357 -0.26392776640303967 0.21627651105213663
+		-2.548224105495938e-14 -0.28505274069040343 0.21627651105213663
+		0.051000579020916266 -0.26392776640303967 0.21627651105213663
+		0.072125551877518929 -0.21292718392791096 0.21627651105213663
+		0.051000579020916231 -0.16192660145278284 0.21627651105213663
+		-2.5517774536010583e-14 -0.14080162716542013 0.21627651105213663
+		-0.051000579020967385 -0.16192660145278284 0.21627651105213666
+		;
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:5460604fd350";
+createNode transform -n "b_lp_curve_4_loc" -p "l_b_lip_1";
+	rename -uid "79F20CAF-4FE2-C28F-606B-53BFB1498AD3";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".v" no;
+	setAttr ".opm" -type "matrix" 1 0 0 0 0 1.0000000000000002 0 0 0 0 1 0 0 0 0 1;
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode locator -n "b_lp_curve_4_locShape" -p "b_lp_curve_4_loc";
+	rename -uid "A4DB8B67-4601-FB86-D09C-56B32D98767F";
+	setAttr -k off ".v";
+	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
+createNode transform -n "l_b_lip_2_group" -p "sec_controls_group";
+	rename -uid "08EB7742-43BA-5866-D53F-28A9C0F6262A";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode transform -n "l_b_lip_2" -p "l_b_lip_2_group";
+	rename -uid "0CBF3EF5-43AD-0F77-458C-5BA478498C89";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	addAttr -ci true -sn "jawInfluence" -ln "jawInfluence" -min 0 -max 1 -at "double";
+	setAttr -l on -k off ".v";
+	setAttr -s 2 ".iog";
+	setAttr -k on ".t";
+	setAttr -k on ".r";
+	setAttr -l on -k off ".rx";
+	setAttr -l on -k off ".ry";
+	setAttr -l on -k off ".rz";
+	setAttr -k on ".s";
+	setAttr -l on -k off ".sx";
+	setAttr -l on -k off ".sy";
+	setAttr -l on -k off ".sz";
+	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:4df33b8990f6";
 createNode nurbsCurve -n "l_b_lip_2Shape" -p "l_b_lip_2";
 	rename -uid "DE20DD7D-42E6-302A-D5C3-AB86706ED35D";
@@ -2889,20 +3760,18 @@ createNode nurbsCurve -n "r_t_lip_1Shape" -p "r_t_lip_1";
 	setAttr ".ovc" 17;
 	setAttr ".tw" yes;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:b9137fca2b80";
-createNode transform -n "r_t_lip_1_loc" -p "r_t_lip_1";
+createNode transform -n "t_lp_curve_2_loc" -p "r_t_lip_1";
 	rename -uid "1A7A42D2-400F-4AE1-9AC6-FAAD906FAFDF";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	setAttr ".v" no;
 	setAttr ".opm" -type "matrix" 1 0 0 0 0 1.0000000000000002 0 0 0 0 1 0 0 0 0 1;
 	setAttr -l on ".moduleName" -type "string" "mouth";
-createNode locator -n "r_t_lip_1_locShape" -p "r_t_lip_1_loc";
+createNode locator -n "t_lp_curve_2_locShape" -p "t_lp_curve_2_loc";
 	rename -uid "6477EB06-4B13-6414-E24E-ECBCBBE202E7";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
 createNode transform -n "r_t_lip_2_group" -p "sec_controls_group";
 	rename -uid "89B63BB8-414F-6BAA-180B-79A22FEF6E64";
-	setAttr ".opm" -type "matrix" 0.92629736661911011 0 0.3767932653427124 0 0 1 0 0
-		 -0.3767932653427124 0 0.92629736661911011 0 -1.7014942169189453 -0.17864200472831726 0.41849878430366516 1;
 createNode transform -n "r_t_lip_2" -p "r_t_lip_2_group";
 	rename -uid "CB82F141-4CA4-7845-F507-C49395D66153";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
@@ -2954,7 +3823,6 @@ createNode transform -n "r_b_lip_1" -p "r_b_lip_1_group";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
 	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
-	setAttr ".dla" yes;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:4df33b8990f6";
 createNode nurbsCurve -n "r_b_lip_1Shape" -p "r_b_lip_1";
 	rename -uid "7F025108-46BD-3A44-BF2B-F6A61BDB128C";
@@ -2964,27 +3832,26 @@ createNode nurbsCurve -n "r_b_lip_1Shape" -p "r_b_lip_1";
 	setAttr ".ovc" 17;
 	setAttr ".tw" yes;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:5460604fd350";
-createNode transform -n "r_b_lip_1_loc" -p "r_b_lip_1";
+createNode transform -n "b_lp_curve_2_loc" -p "r_b_lip_1";
 	rename -uid "CB5283A2-422E-2F7F-030A-6E88A01D9D9A";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	setAttr ".v" no;
 	setAttr ".opm" -type "matrix" 1 0 0 0 0 1.0000000000000002 0 0 0 0 1 0 0 0 0 1;
 	setAttr -l on ".moduleName" -type "string" "mouth";
-createNode locator -n "r_b_lip_1_locShape" -p "r_b_lip_1_loc";
+createNode locator -n "b_lp_curve_2_locShape" -p "b_lp_curve_2_loc";
 	rename -uid "DC4E417C-42F3-C81F-2C5E-069BD0A1AC43";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
 createNode transform -n "r_b_lip_2_group" -p "sec_controls_group";
 	rename -uid "1080F57F-417B-CD43-134B-67AC43FFE1DF";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".opm" -type "matrix" 0.92629724740982056 0 0.37679320573806763 0 0 0.99999994039535522 0 0
-		 -0.37679320573806763 0 0.92629724740982056 0 -1.7014942169189453 -0.17864204943180084 0.41849878430366516 1;
 	setAttr -l on ".moduleName" -type "string" "mouth";
 createNode transform -n "r_b_lip_2" -p "r_b_lip_2_group";
 	rename -uid "0D3B1439-41B7-5517-F4B7-E79D754D3451";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
 	addAttr -ci true -sn "jawInfluence" -ln "jawInfluence" -at "double";
 	setAttr -l on -k off ".v";
+	setAttr -s 2 ".iog";
 	setAttr -k on ".t";
 	setAttr -k on ".r";
 	setAttr -l on -k off ".rx";
@@ -2995,9 +3862,7 @@ createNode transform -n "r_b_lip_2" -p "r_b_lip_2_group";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
 	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
-	setAttr ".dla" yes;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:4df33b8990f6";
-	setAttr ".jawInfluence" 0.3762886596401942;
 createNode nurbsCurve -n "r_b_lip_2Shape" -p "r_b_lip_2";
 	rename -uid "0AD189B8-489A-E795-0429-B788D4BE53FA";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
@@ -3014,115 +3879,6 @@ createNode transform -n "b_lp_curve_1_loc" -p "r_b_lip_2";
 	setAttr -l on ".moduleName" -type "string" "mouth";
 createNode locator -n "b_lp_curve_1_locShape" -p "b_lp_curve_1_loc";
 	rename -uid "5FC25F74-4C5E-494D-ACA3-14B41A137871";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "l_t_lip_1_group" -p "sec_controls_group";
-	rename -uid "68F9F275-4142-C9F4-5B86-8AA07CCE4986";
-createNode transform -n "l_t_lip_1" -p "l_t_lip_1_group";
-	rename -uid "F2C45799-43BE-3DDC-D044-3FBFD89631E3";
-	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
-	addAttr -ci true -sn "t_lip_influence" -ln "t_lip_influence" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "corner_influence" -ln "corner_influence" -min 0 -max 1 -at "double";
-	setAttr -l on -k off ".v";
-	setAttr -s 2 ".iog";
-	setAttr -k on ".t";
-	setAttr -k on ".r";
-	setAttr -l on -k off ".rx";
-	setAttr -l on -k off ".ry";
-	setAttr -l on -k off ".rz";
-	setAttr -k on ".s";
-	setAttr -l on -k off ".sx";
-	setAttr -l on -k off ".sy";
-	setAttr -l on -k off ".sz";
-	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
-	setAttr ".dla" yes;
-	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:8e35a960e8f3";
-createNode nurbsCurve -n "l_t_lip_1Shape" -p "l_t_lip_1";
-	rename -uid "57E09997-4F78-3226-3CD0-9E80AC0D9AFF";
-	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
-	setAttr -k off ".v";
-	setAttr ".ove" yes;
-	setAttr ".ovc" 17;
-	setAttr ".cc" -type "nurbsCurve" 
-		3 8 2 no 3
-		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
-		11
-		0.051592540398107761 0.27292161859822994 0.25846256519686955
-		-1.635608141004386e-14 0.29429178949143875 0.25846256519686955
-		-0.051592540398140325 0.27292161859822983 0.25846256519686961
-		-0.072962709843981358 0.22132907470582719 0.25846256519686961
-		-0.051592540398140319 0.16973653081342308 0.25846256519686955
-		-1.6320135493510945e-14 0.14836635992021477 0.25846256519686955
-		0.051592540398107775 0.16973653081342313 0.25846256519686955
-		0.072962709843949175 0.22132907470582688 0.25846256519686955
-		0.051592540398107761 0.27292161859822994 0.25846256519686955
-		-1.635608141004386e-14 0.29429178949143875 0.25846256519686955
-		-0.051592540398140325 0.27292161859822983 0.25846256519686961
-		;
-	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:b9137fca2b80";
-createNode transform -n "l_t_lip_1_loc" -p "l_t_lip_1";
-	rename -uid "A159B602-4CAD-D754-5C5F-2E97FC4E4A77";
-	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".v" no;
-	setAttr ".opm" -type "matrix" 1 0 0 0 0 1.0000000000000002 0 0 0 0 1 0 0 0 0 1;
-	setAttr -l on ".moduleName" -type "string" "mouth";
-createNode locator -n "l_t_lip_1_locShape" -p "l_t_lip_1_loc";
-	rename -uid "A9FAF7E7-4A96-DD06-215F-06B48AC88BB5";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "l_b_lip_1_group" -p "sec_controls_group";
-	rename -uid "20CCC6A3-4BBD-1917-5AA6-6092E7084AF6";
-	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr -l on ".moduleName" -type "string" "mouth";
-createNode transform -n "l_b_lip_1" -p "l_b_lip_1_group";
-	rename -uid "77CED691-4F83-2F7D-1BBD-70A70095DE29";
-	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
-	addAttr -ci true -sn "b_lip_influence" -ln "b_lip_influence" -min 0 -max 1 -at "double";
-	setAttr -l on -k off ".v";
-	setAttr -s 2 ".iog";
-	setAttr -k on ".t";
-	setAttr -k on ".r";
-	setAttr -l on -k off ".rx";
-	setAttr -l on -k off ".ry";
-	setAttr -l on -k off ".rz";
-	setAttr -k on ".s";
-	setAttr -l on -k off ".sx";
-	setAttr -l on -k off ".sy";
-	setAttr -l on -k off ".sz";
-	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
-	setAttr ".dla" yes;
-	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:4df33b8990f6";
-createNode nurbsCurve -n "l_b_lip_1Shape" -p "l_b_lip_1";
-	rename -uid "91F5CF7B-4ABB-7C5C-76E0-47850C3B60B9";
-	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
-	setAttr -k off ".v";
-	setAttr ".ove" yes;
-	setAttr ".ovc" 17;
-	setAttr ".cc" -type "nurbsCurve" 
-		3 8 2 no 3
-		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
-		11
-		0.051000579020916231 -0.16192660145278284 0.21627651105213663
-		-2.5517774536010583e-14 -0.14080162716542013 0.21627651105213663
-		-0.051000579020967385 -0.16192660145278284 0.21627651105213666
-		-0.072125551877569749 -0.21292718392791091 0.21627651105213666
-		-0.051000579020967357 -0.26392776640303967 0.21627651105213663
-		-2.548224105495938e-14 -0.28505274069040343 0.21627651105213663
-		0.051000579020916266 -0.26392776640303967 0.21627651105213663
-		0.072125551877518929 -0.21292718392791096 0.21627651105213663
-		0.051000579020916231 -0.16192660145278284 0.21627651105213663
-		-2.5517774536010583e-14 -0.14080162716542013 0.21627651105213663
-		-0.051000579020967385 -0.16192660145278284 0.21627651105213666
-		;
-	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:5460604fd350";
-createNode transform -n "l_b_lip_1_loc" -p "l_b_lip_1";
-	rename -uid "79F20CAF-4FE2-C28F-606B-53BFB1498AD3";
-	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".v" no;
-	setAttr ".opm" -type "matrix" 1 0 0 0 0 1.0000000000000002 0 0 0 0 1 0 0 0 0 1;
-	setAttr -l on ".moduleName" -type "string" "mouth";
-createNode locator -n "l_b_lip_1_locShape" -p "l_b_lip_1_loc";
-	rename -uid "A4DB8B67-4601-FB86-D09C-56B32D98767F";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
 createNode transform -n "lipsExtra_controls" -p "lips";
@@ -4847,24 +5603,6 @@ createNode nurbsCurve -n "l_b_lip_6_detailShape" -p "l_b_lip_6_detail";
 		0.08599960040697549 -0.067904880214518792 0.10143476859268818
 		;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:497d24563703";
-createNode transform -n "l_t_lip_1_mouth_target" -p "lips";
-	rename -uid "22560CAB-4004-52C1-AAD7-45AAE42EAE12";
-	setAttr ".v" no;
-createNode locator -n "l_t_lip_1_mouth_targetShape" -p "l_t_lip_1_mouth_target";
-	rename -uid "D4F17BCA-458C-6146-5CC5-A387F61C5287";
-	setAttr -k off ".v";
-createNode transform -n "r_t_lip_1_mouth_target" -p "lips";
-	rename -uid "03EAC74D-4C3C-1325-FDBB-75A2D1D069B1";
-	setAttr ".v" no;
-createNode locator -n "r_t_lip_1_mouth_targetShape" -p "r_t_lip_1_mouth_target";
-	rename -uid "BBAFD802-45B6-B9EF-E992-88AE82AD2F2F";
-	setAttr -k off ".v";
-createNode transform -n "l_t_lip_2_mouth_target" -p "lips";
-	rename -uid "D72B48F2-4D7F-7842-8A03-2C90B1FE8E1B";
-	setAttr ".v" no;
-createNode locator -n "l_t_lip_2_mouth_targetShape" -p "l_t_lip_2_mouth_target";
-	rename -uid "097FF3AE-4BFD-A1C5-566B-32A1B1102BF9";
-	setAttr -k off ".v";
 createNode transform -n "jaw_move_group" -p "mouth";
 	rename -uid "BDEF6FB2-4873-A0B9-4CDD-05B70E5886F7";
 createNode transform -n "b_tooth_group" -p "jaw_move_group";
@@ -5154,14 +5892,14 @@ createNode bifrostGraphShape -n "detail_bifrostGraphShape" -p "detail_bifrostGra
 	setAttr ".cdvm[0]"  0 1 1;
 	setAttr ".sc" -type "string" (
 		"{\n    \"header\": {\n        \"metadata\": [\n            {\n                \"metaName\": \"adskFileFormatVersion\",\n                \"metaValue\": \"100L\"\n            }\n        ]\n    },\n    \"namespaces\": [],\n    \"types\": [],\n    \"compounds\": [\n        {\n            \"name\": \"detail_bifrostGraphShape\",\n            \"metadata\": [\n                {\n                    \"metaName\": \"io_nodes\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"io_inodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"input\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n"
-		+ "                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-1418.15 -384.476\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"t_lip_rotate\"\n                                                },\n                                                {\n                                                    \"metaName\": \"b_lip_rotate\"\n                                                },\n                                                {\n                                                    \"metaName\": \"jaw_rotate\"\n                                                },\n                                                {\n                                                    \"metaName\": \"pos\"\n                                                },\n"
+		+ "                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-1275.95 -343.778\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"t_lip_rotate\"\n                                                },\n                                                {\n                                                    \"metaName\": \"b_lip_rotate\"\n                                                },\n                                                {\n                                                    \"metaName\": \"jaw_rotate\"\n                                                },\n                                                {\n                                                    \"metaName\": \"pos\"\n                                                },\n"
 		+ "                                                {\n                                                    \"metaName\": \"t_crv_control_points\"\n                                                },\n                                                {\n                                                    \"metaName\": \"b_crv_control_points\"\n                                                },\n                                                {\n                                                    \"metaName\": \"l_zip\"\n                                                },\n                                                {\n                                                    \"metaName\": \"r_zip\"\n                                                },\n                                                {\n                                                    \"metaName\": \"l_dropoff\"\n                                                },\n                                                {\n                                                    \"metaName\": \"r_dropoff\"\n"
 		+ "                                                },\n                                                {\n                                                    \"metaName\": \"left_joints_count\"\n                                                },\n                                                {\n                                                    \"metaName\": \"global_control\"\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                }\n                            ]\n                        },\n                        {\n                            \"metaName\": \"io_onodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"output\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n"
 		+ "                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2157.74 -428.313\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"out_top_lip_rotate\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_bot_lip_rotate\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_top_pos\"\n"
 		+ "                                                },\n                                                {\n                                                    \"metaName\": \"out_bot_pos\"\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                }\n                            ]\n                        }\n                    ]\n                },\n                {\n                    \"metaName\": \"backdrop\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"type\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"backdrop\"\n                        },\n                        {\n                            \"metaName\": \"coords\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-479.573 -287.811 1210.64 991.084\"\n                        },\n                        {\n"
 		+ "                            \"metaName\": \"title\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"position\"\n                        }\n                    ]\n                },\n                {\n                    \"metaName\": \"backdrop1\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"type\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"backdrop\"\n                        },\n                        {\n                            \"metaName\": \"coords\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-815.131 -1716.53 2004.92 1318.34\"\n                        },\n                        {\n                            \"metaName\": \"title\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"rotation\"\n                        }\n                    ]\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n"
-		+ "                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,dhCurves::bSpline,bSpline_scope\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Array,slice_array\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Math,inverse_matrix\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Math,matrix_to_SRT\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Math,SRT_to_matrix\"\n                },\n                {\n                    \"metaName\": \"ViewportRect\",\n                    \"metaType\": \"string\",\n"
-		+ "                    \"metaValue\": \"-893.215 -349.077 1510.12 1697.94\"\n                },\n                {\n                    \"metaName\": \"internal\",\n                    \"metaValue\": \"true\"\n                }\n            ],\n            \"ports\": [\n                {\n                    \"portName\": \"t_lip_rotate\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"b_lip_rotate\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"jaw_rotate\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"pos\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<float>\"\n                },\n                {\n                    \"portName\": \"t_crv_control_points\",\n                    \"portDirection\": \"input\",\n"
+		+ "                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Array,slice_array\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Math,inverse_matrix\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Math,matrix_to_SRT\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Math,SRT_to_matrix\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Math,matrix_multiply\"\n                },\n                {\n                    \"metaName\": \"ViewportRect\",\n                    \"metaType\": \"string\",\n"
+		+ "                    \"metaValue\": \"-1496.86 -1091.54 1649.07 1882.49\"\n                },\n                {\n                    \"metaName\": \"internal\",\n                    \"metaValue\": \"true\"\n                }\n            ],\n            \"ports\": [\n                {\n                    \"portName\": \"t_lip_rotate\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"b_lip_rotate\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"jaw_rotate\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"pos\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<float>\"\n                },\n                {\n                    \"portName\": \"t_crv_control_points\",\n                    \"portDirection\": \"input\",\n"
 		+ "                    \"portType\": \"array<Math::double3>\"\n                },\n                {\n                    \"portName\": \"b_crv_control_points\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<Math::double3>\"\n                },\n                {\n                    \"portName\": \"l_zip\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"r_zip\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"l_dropoff\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"r_dropoff\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"left_joints_count\",\n                    \"portDirection\": \"input\",\n"
 		+ "                    \"portType\": \"long\"\n                },\n                {\n                    \"portName\": \"out_top_lip_rotate\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"array<Math::float3>\"\n                },\n                {\n                    \"portName\": \"out_bot_lip_rotate\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"array<Math::float3>\"\n                },\n                {\n                    \"portName\": \"out_top_pos\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"array<Math::float3>\"\n                },\n                {\n                    \"portName\": \"out_bot_pos\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"array<Math::float3>\"\n                },\n                {\n                    \"portName\": \"global_control\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float4x4\"\n                }\n            ],\n            \"compounds\": [\n"
 		+ "                {\n                    \"name\": \"top_transform\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"icon\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"<NATIVE>../icons/LoopForEach.svg\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,PK::Compounds,reverse\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Array,get_from_array\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Math,add\"\n                        },\n"
@@ -5304,35 +6042,32 @@ createNode bifrostGraphShape -n "detail_bifrostGraphShape" -p "detail_bifrostGra
 		+ "                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-470.5 -22\"\n                                }\n                            ]\n                        }\n                    ],\n                    \"connections\": [\n                        {\n                            \"source\": \"build_array.array\",\n                            \"target\": \"multiply.first.array\"\n                        },\n                        {\n                            \"source\": \"value1.output\",\n                            \"target\": \"build_array.first.output\"\n                        },\n                        {\n                            \"source\": \"reverse.output\",\n"
 		+ "                            \"target\": \"build_array.first.pos\"\n                        },\n                        {\n                            \"source\": \"reverse_array.reversed\",\n                            \"target\": \"reverse.input\"\n                        },\n                        {\n                            \"source\": \"multiply.output\",\n                            \"target\": \".array\"\n                        },\n                        {\n                            \"source\": \"value.output\",\n                            \"target\": \"multiply.first.output1\"\n                        },\n                        {\n                            \"source\": \"one_minus.out_value\",\n                            \"target\": \"build_array.first.pos1\"\n                        },\n                        {\n                            \"source\": \".pos\",\n                            \"target\": \"reverse_array.array\"\n                        },\n                        {\n                            \"source\": \".pos\",\n                            \"target\": \"one_minus.value\"\n"
 		+ "                        }\n                    ],\n                    \"values\": [\n                        {\n                            \"valueName\": \"value1.value\",\n                            \"valueType\": \"float\",\n                            \"value\": \"0.5f\"\n                        },\n                        {\n                            \"valueName\": \"reverse.input\",\n                            \"valueType\": \"float\",\n                            \"value\": \"0f\"\n                        },\n                        {\n                            \"valueName\": \"value.value\",\n                            \"valueType\": \"float\",\n                            \"value\": \"2f\"\n                        }\n                    ],\n                    \"reservedNodeNames\": [\n                        {\n                            \"name\": \"input\"\n                        },\n                        {\n                            \"name\": \"output\"\n                        }\n                    ]\n                }\n            ],\n            \"compoundNodes\": [\n"
-		+ "                {\n                    \"nodeName\": \"construct_bSpline\",\n                    \"nodeType\": \"dhCurves::bSpline::construct_bSpline\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-480.181 175.557\"\n                        },\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"1\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"construct_bSpline1\",\n                    \"nodeType\": \"dhCurves::bSpline::construct_bSpline\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n"
+		+ "                {\n                    \"nodeName\": \"construct_bSpline\",\n                    \"nodeType\": \"dhCurves::bSpline::construct_bSpline\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-472.95 208.365\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"construct_bSpline1\",\n                    \"nodeType\": \"dhCurves::bSpline::construct_bSpline\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n"
 		+ "                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-467.761 464.035\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"top_transform\",\n                    \"nodeType\": \"top_transform\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"54.4997 -8.88945\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"bot_transform\",\n                    \"nodeType\": \"bot_transform\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n"
-		+ "                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"49.8715 382.217\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"for_each\",\n                    \"nodeType\": \"for_each\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"455.921 -128.584\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"top_rotate\",\n"
-		+ "                    \"nodeType\": \"top_rotate\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"412.09 -1211\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"bot_rotate\",\n                    \"nodeType\": \"bot_rotate\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"418.782 -760.577\"\n"
+		+ "                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"65.4504 421.164\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"for_each\",\n                    \"nodeType\": \"for_each\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"455.921 -128.584\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"top_rotate\",\n"
+		+ "                    \"nodeType\": \"top_rotate\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"412.09 -1211\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"bot_rotate\",\n                    \"nodeType\": \"bot_rotate\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"434.292 -754.19\"\n"
 		+ "                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"quaternion_to_degrees\",\n                    \"nodeType\": \"Print::quaternion_to_degrees\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"900.029 -1222.57\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"quaternion_to_degrees1\",\n                    \"nodeType\": \"Print::quaternion_to_degrees\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n"
 		+ "                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"914.909 -777.846\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"pos_fractions\",\n                    \"nodeType\": \"pos_fractions\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-472.007 -204.434\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"joints_count\",\n                    \"nodeType\": \"joints_count\",\n                    \"metadata\": [\n"
 		+ "                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"1\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-467.439 -764.911\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"change_range1\",\n                    \"nodeType\": \"Core::Math::change_range\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-470.525 -1147.26\"\n                        }\n"
 		+ "                    ]\n                },\n                {\n                    \"nodeName\": \"change_range\",\n                    \"nodeType\": \"Core::Math::change_range\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-488.054 -1636.53\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"local_rotate_fractions\",\n                    \"nodeType\": \"local_rotate_fractions\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n"
 		+ "                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-805.131 -1387.77\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"matrix_multiply\",\n                    \"nodeType\": \"Core::Math::matrix_multiply\",\n                    \"multiInPortNames\": [\n                        \"transform\",\n                        \"transform1\"\n                    ],\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"1456.94 94.4987\"\n                        }\n                    ]\n                },\n                {\n"
 		+ "                    \"nodeName\": \"SRT_to_matrix\",\n                    \"nodeType\": \"Core::Math::SRT_to_matrix\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"1112.57 113.677\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"matrix_to_SRT\",\n                    \"nodeType\": \"Core::Math::matrix_to_SRT\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n"
-		+ "                            \"metaType\": \"string\",\n                            \"metaValue\": \"749.527 308.305\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"matrix_to_SRT1\",\n                    \"nodeType\": \"Core::Math::matrix_to_SRT\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"1799.98 86.8169\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"inverse_matrix\",\n                    \"nodeType\": \"Core::Math::inverse_matrix\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n"
-		+ "                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"963.76 549.915\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"SRT_to_matrix1\",\n                    \"nodeType\": \"Core::Math::SRT_to_matrix\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"1092.18 -282.181\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"matrix_to_SRT2\",\n"
+		+ "                            \"metaType\": \"string\",\n                            \"metaValue\": \"749.527 308.305\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"matrix_to_SRT1\",\n                    \"nodeType\": \"Core::Math::matrix_to_SRT\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"1775.68 104.725\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"inverse_matrix\",\n                    \"nodeType\": \"Core::Math::inverse_matrix\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n"
+		+ "                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"993.18 474.445\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"SRT_to_matrix1\",\n                    \"nodeType\": \"Core::Math::SRT_to_matrix\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"1092.18 -282.181\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"matrix_to_SRT2\",\n"
 		+ "                    \"nodeType\": \"Core::Math::matrix_to_SRT\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"1777.77 -271.187\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"matrix_multiply1\",\n                    \"nodeType\": \"Core::Math::matrix_multiply\",\n                    \"multiInPortNames\": [\n                        \"transform\",\n                        \"transform1\"\n                    ],\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n"
-		+ "                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"1455.29 -272.857\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"slice_array\",\n                    \"nodeType\": \"Core::Array::slice_array\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1018.94 76.2321\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"bSpline_scope\",\n                    \"nodeType\": \"dhCurves::bSpline::bSpline_scope\",\n"
-		+ "                    \"terminalStates\": [\n                        {\n                            \"name\": \"Core::Graph::terminal::final\",\n                            \"enabled\": \"true\"\n                        },\n                        {\n                            \"name\": \"Core::Graph::terminal::proxy\",\n                            \"enabled\": \"true\"\n                        },\n                        {\n                            \"name\": \"Core::Graph::terminal::diagnostic\",\n                            \"enabled\": \"false\"\n                        }\n                    ],\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"27.643 917.543\"\n                        }\n                    ]\n"
-		+ "                }\n            ],\n            \"connections\": [\n                {\n                    \"source\": \".t_crv_control_points\",\n                    \"target\": \"construct_bSpline.control_points\"\n                },\n                {\n                    \"source\": \".b_crv_control_points\",\n                    \"target\": \"construct_bSpline1.control_points\"\n                },\n                {\n                    \"source\": \"construct_bSpline.bSpline\",\n                    \"target\": \"top_transform.bSpline\"\n                },\n                {\n                    \"source\": \"construct_bSpline1.bSpline\",\n                    \"target\": \"bot_transform.bSpline\"\n                },\n                {\n                    \"source\": \".l_zip\",\n                    \"target\": \"for_each.l_zip\"\n                },\n                {\n                    \"source\": \".r_zip\",\n                    \"target\": \"for_each.r_zip\"\n                },\n                {\n                    \"source\": \".l_dropoff\",\n                    \"target\": \"for_each.l_dropoff\"\n"
-		+ "                },\n                {\n                    \"source\": \".r_dropoff\",\n                    \"target\": \"for_each.r_dropoff\"\n                },\n                {\n                    \"source\": \"top_transform.float\",\n                    \"target\": \"for_each.top_pos\"\n                },\n                {\n                    \"source\": \"bot_transform.float\",\n                    \"target\": \"for_each.bot_pos\"\n                },\n                {\n                    \"source\": \".t_lip_rotate\",\n                    \"target\": \"top_rotate.t_lip_rotate\"\n                },\n                {\n                    \"source\": \".b_lip_rotate\",\n                    \"target\": \"bot_rotate.b_lip_rotate\"\n                },\n                {\n                    \"source\": \".jaw_rotate\",\n                    \"target\": \"top_rotate.jaw_rotate\"\n                },\n                {\n                    \"source\": \".jaw_rotate\",\n                    \"target\": \"bot_rotate.jaw_rotate\"\n                },\n                {\n                    \"source\": \"top_rotate.quaternion\",\n"
-		+ "                    \"target\": \"quaternion_to_degrees.quaternion\"\n                },\n                {\n                    \"source\": \"bot_rotate.quaternion\",\n                    \"target\": \"quaternion_to_degrees1.quaternion\"\n                },\n                {\n                    \"source\": \"quaternion_to_degrees.degrees\",\n                    \"target\": \".out_top_lip_rotate\"\n                },\n                {\n                    \"source\": \"quaternion_to_degrees1.degrees\",\n                    \"target\": \".out_bot_lip_rotate\"\n                },\n                {\n                    \"source\": \"pos_fractions.array\",\n                    \"target\": \"top_transform.pos\"\n                },\n                {\n                    \"source\": \"pos_fractions.array\",\n                    \"target\": \"bot_transform.pos\"\n                },\n                {\n                    \"source\": \"joints_count.output\",\n                    \"target\": \"top_transform.max_iterations\"\n                },\n                {\n                    \"source\": \"joints_count.output\",\n"
-		+ "                    \"target\": \"bot_transform.max_iterations\"\n                },\n                {\n                    \"source\": \"joints_count.output\",\n                    \"target\": \"for_each.max_iterations\"\n                },\n                {\n                    \"source\": \"joints_count.output\",\n                    \"target\": \"top_rotate.max_iterations\"\n                },\n                {\n                    \"source\": \"joints_count.output\",\n                    \"target\": \"bot_rotate.max_iterations\"\n                },\n                {\n                    \"source\": \".left_joints_count\",\n                    \"target\": \"joints_count.joints_count\"\n                },\n                {\n                    \"source\": \"change_range1.result\",\n                    \"target\": \"bot_rotate.jaw_fractions\"\n                },\n                {\n                    \"source\": \"change_range.result\",\n                    \"target\": \"top_rotate.jaw_fractions\"\n                },\n                {\n                    \"source\": \"local_rotate_fractions.array\",\n"
-		+ "                    \"target\": \"change_range1.value\"\n                },\n                {\n                    \"source\": \"local_rotate_fractions.array\",\n                    \"target\": \"bot_rotate.fractions\"\n                },\n                {\n                    \"source\": \"local_rotate_fractions.array\",\n                    \"target\": \"top_rotate.t_lip_fractions\"\n                },\n                {\n                    \"source\": \"local_rotate_fractions.array\",\n                    \"target\": \"change_range.value\"\n                },\n                {\n                    \"source\": \"for_each.out_bot_pos\",\n                    \"target\": \"SRT_to_matrix.translation\"\n                },\n                {\n                    \"source\": \".global_control\",\n                    \"target\": \"matrix_to_SRT.transform\"\n                },\n                {\n                    \"source\": \"matrix_to_SRT.scale\",\n                    \"target\": \"SRT_to_matrix.scale\"\n                },\n                {\n                    \"source\": \"matrix_to_SRT.quaternion\",\n"
-		+ "                    \"target\": \"SRT_to_matrix.quaternion\"\n                },\n                {\n                    \"source\": \"matrix_multiply.matrix\",\n                    \"target\": \"matrix_to_SRT1.transform\"\n                },\n                {\n                    \"source\": \".global_control\",\n                    \"target\": \"inverse_matrix.matrix\"\n                },\n                {\n                    \"source\": \"inverse_matrix.inverted\",\n                    \"target\": \"matrix_multiply.first.transform\"\n                },\n                {\n                    \"source\": \"SRT_to_matrix.transform\",\n                    \"target\": \"matrix_multiply.first.transform1\"\n                },\n                {\n                    \"source\": \"matrix_to_SRT1.translation\",\n                    \"target\": \".out_bot_pos\"\n                },\n                {\n                    \"source\": \"matrix_to_SRT.scale\",\n                    \"target\": \"SRT_to_matrix1.scale\"\n                },\n                {\n                    \"source\": \"matrix_to_SRT.quaternion\",\n"
-		+ "                    \"target\": \"SRT_to_matrix1.quaternion\"\n                },\n                {\n                    \"source\": \"for_each.out_top_pos\",\n                    \"target\": \"SRT_to_matrix1.translation\"\n                },\n                {\n                    \"source\": \"matrix_multiply1.matrix\",\n                    \"target\": \"matrix_to_SRT2.transform\"\n                },\n                {\n                    \"source\": \"inverse_matrix.inverted\",\n                    \"target\": \"matrix_multiply1.first.transform\"\n                },\n                {\n                    \"source\": \"SRT_to_matrix1.transform\",\n                    \"target\": \"matrix_multiply1.first.transform1\"\n                },\n                {\n                    \"source\": \"matrix_to_SRT2.translation\",\n                    \"target\": \".out_top_pos\"\n                },\n                {\n                    \"source\": \".pos\",\n                    \"target\": \"slice_array.array\"\n                },\n                {\n                    \"source\": \".left_joints_count\",\n"
-		+ "                    \"target\": \"slice_array.stop\"\n                },\n                {\n                    \"source\": \"slice_array.slice\",\n                    \"target\": \"pos_fractions.pos\"\n                },\n                {\n                    \"source\": \"slice_array.slice\",\n                    \"target\": \"local_rotate_fractions.pos\"\n                },\n                {\n                    \"source\": \"construct_bSpline.bSpline\",\n                    \"target\": \"bSpline_scope.bSpline\"\n                }\n            ],\n            \"values\": [\n                {\n                    \"valueName\": \"construct_bSpline1.control_points\",\n                    \"valueType\": \"array<Math::double3>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"construct_bSpline1.degree\",\n                    \"valueType\": \"long\",\n                    \"value\": \"3\"\n                },\n                {\n                    \"valueName\": \"construct_bSpline1.knots\",\n                    \"valueType\": \"array<double>\",\n"
-		+ "                    \"value\": []\n                },\n                {\n                    \"valueName\": \"construct_bSpline1.remap_range\",\n                    \"valueType\": \"bool\",\n                    \"value\": \"true\"\n                },\n                {\n                    \"valueName\": \"construct_bSpline1.min\",\n                    \"valueType\": \"double\",\n                    \"value\": \"0\"\n                },\n                {\n                    \"valueName\": \"construct_bSpline1.max\",\n                    \"valueType\": \"double\",\n                    \"value\": \"1\"\n                },\n                {\n                    \"valueName\": \"top_transform.max_iterations\",\n                    \"valueType\": \"long\",\n                    \"value\": \"13\"\n                },\n                {\n                    \"valueName\": \"bot_transform.max_iterations\",\n                    \"valueType\": \"long\",\n                    \"value\": \"13\"\n                },\n                {\n                    \"valueName\": \"for_each.max_iterations\",\n                    \"valueType\": \"long\",\n"
-		+ "                    \"value\": \"13\"\n                },\n                {\n                    \"valueName\": \"top_rotate.max_iterations\",\n                    \"valueType\": \"long\",\n                    \"value\": \"10\"\n                },\n                {\n                    \"valueName\": \"bot_rotate.max_iterations\",\n                    \"valueType\": \"long\",\n                    \"value\": \"10\"\n                },\n                {\n                    \"valueName\": \"quaternion_to_degrees1.rotation_order\",\n                    \"valueType\": \"Math::rotation_order\",\n                    \"value\": \"XYZ\"\n                },\n                {\n                    \"valueName\": \"pos_fractions.pos\",\n                    \"valueType\": \"array<float>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"joints_count.joints_count\",\n                    \"valueType\": \"long\",\n                    \"value\": \"0\"\n                },\n                {\n                    \"valueName\": \"change_range1.from_start\",\n"
-		+ "                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"change_range1.from_end\",\n                    \"valueType\": \"float\",\n                    \"value\": \"1f\"\n                },\n                {\n                    \"valueName\": \"change_range1.to_start\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0.5f\"\n                },\n                {\n                    \"valueName\": \"change_range1.to_end\",\n                    \"valueType\": \"float\",\n                    \"value\": \"1f\"\n                },\n                {\n                    \"valueName\": \"change_range1.clamp\",\n                    \"valueType\": \"bool\",\n                    \"value\": \"true\"\n                },\n                {\n                    \"valueName\": \"change_range.from_start\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"change_range.from_end\",\n"
-		+ "                    \"valueType\": \"float\",\n                    \"value\": \"1f\"\n                },\n                {\n                    \"valueName\": \"change_range.to_start\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0.5f\"\n                },\n                {\n                    \"valueName\": \"change_range.clamp\",\n                    \"valueType\": \"bool\",\n                    \"value\": \"true\"\n                },\n                {\n                    \"valueName\": \"local_rotate_fractions.pos\",\n                    \"valueType\": \"array<float>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"bSpline_scope.shape\",\n                    \"valueType\": \"Geometry::StrandShapes\",\n                    \"value\": \"Ribbon\"\n                },\n                {\n                    \"valueName\": \"bSpline_scope.screen_aligned\",\n                    \"valueType\": \"bool\",\n                    \"value\": \"true\"\n                },\n                {\n                    \"valueName\": \"bSpline_scope.thickness\",\n"
-		+ "                    \"valueType\": \"float\",\n                    \"value\": \"0.0219999999f\"\n                },\n                {\n                    \"valueName\": \"bSpline_scope.color\",\n                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n                        \"x\": \"0f\",\n                        \"y\": \"0f\",\n                        \"z\": \"0f\"\n                    }\n                }\n            ],\n            \"reservedNodeNames\": [\n                {\n                    \"name\": \"input\"\n                },\n                {\n                    \"name\": \"output\"\n                }\n            ]\n        }\n    ]\n}\n");
-	setAttr ".dirtyFlag" yes;
+		+ "                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"1456.47 -277.568\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"slice_array\",\n                    \"nodeType\": \"Core::Array::slice_array\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1052.16 152.256\"\n                        }\n                    ]\n                }\n            ],\n            \"connections\": [\n                {\n                    \"source\": \".t_crv_control_points\",\n                    \"target\": \"construct_bSpline.control_points\"\n"
+		+ "                },\n                {\n                    \"source\": \".b_crv_control_points\",\n                    \"target\": \"construct_bSpline1.control_points\"\n                },\n                {\n                    \"source\": \"construct_bSpline.bSpline\",\n                    \"target\": \"top_transform.bSpline\"\n                },\n                {\n                    \"source\": \"construct_bSpline1.bSpline\",\n                    \"target\": \"bot_transform.bSpline\"\n                },\n                {\n                    \"source\": \".l_zip\",\n                    \"target\": \"for_each.l_zip\"\n                },\n                {\n                    \"source\": \".r_zip\",\n                    \"target\": \"for_each.r_zip\"\n                },\n                {\n                    \"source\": \".l_dropoff\",\n                    \"target\": \"for_each.l_dropoff\"\n                },\n                {\n                    \"source\": \".r_dropoff\",\n                    \"target\": \"for_each.r_dropoff\"\n                },\n                {\n                    \"source\": \"top_transform.float\",\n"
+		+ "                    \"target\": \"for_each.top_pos\"\n                },\n                {\n                    \"source\": \"bot_transform.float\",\n                    \"target\": \"for_each.bot_pos\"\n                },\n                {\n                    \"source\": \".t_lip_rotate\",\n                    \"target\": \"top_rotate.t_lip_rotate\"\n                },\n                {\n                    \"source\": \".b_lip_rotate\",\n                    \"target\": \"bot_rotate.b_lip_rotate\"\n                },\n                {\n                    \"source\": \".jaw_rotate\",\n                    \"target\": \"top_rotate.jaw_rotate\"\n                },\n                {\n                    \"source\": \".jaw_rotate\",\n                    \"target\": \"bot_rotate.jaw_rotate\"\n                },\n                {\n                    \"source\": \"top_rotate.quaternion\",\n                    \"target\": \"quaternion_to_degrees.quaternion\"\n                },\n                {\n                    \"source\": \"bot_rotate.quaternion\",\n                    \"target\": \"quaternion_to_degrees1.quaternion\"\n"
+		+ "                },\n                {\n                    \"source\": \"quaternion_to_degrees.degrees\",\n                    \"target\": \".out_top_lip_rotate\"\n                },\n                {\n                    \"source\": \"quaternion_to_degrees1.degrees\",\n                    \"target\": \".out_bot_lip_rotate\"\n                },\n                {\n                    \"source\": \"pos_fractions.array\",\n                    \"target\": \"top_transform.pos\"\n                },\n                {\n                    \"source\": \"pos_fractions.array\",\n                    \"target\": \"bot_transform.pos\"\n                },\n                {\n                    \"source\": \"joints_count.output\",\n                    \"target\": \"top_transform.max_iterations\"\n                },\n                {\n                    \"source\": \"joints_count.output\",\n                    \"target\": \"bot_transform.max_iterations\"\n                },\n                {\n                    \"source\": \"joints_count.output\",\n                    \"target\": \"for_each.max_iterations\"\n"
+		+ "                },\n                {\n                    \"source\": \"joints_count.output\",\n                    \"target\": \"top_rotate.max_iterations\"\n                },\n                {\n                    \"source\": \"joints_count.output\",\n                    \"target\": \"bot_rotate.max_iterations\"\n                },\n                {\n                    \"source\": \".left_joints_count\",\n                    \"target\": \"joints_count.joints_count\"\n                },\n                {\n                    \"source\": \"change_range1.result\",\n                    \"target\": \"bot_rotate.jaw_fractions\"\n                },\n                {\n                    \"source\": \"change_range.result\",\n                    \"target\": \"top_rotate.jaw_fractions\"\n                },\n                {\n                    \"source\": \"local_rotate_fractions.array\",\n                    \"target\": \"change_range1.value\"\n                },\n                {\n                    \"source\": \"local_rotate_fractions.array\",\n                    \"target\": \"bot_rotate.fractions\"\n"
+		+ "                },\n                {\n                    \"source\": \"local_rotate_fractions.array\",\n                    \"target\": \"top_rotate.t_lip_fractions\"\n                },\n                {\n                    \"source\": \"local_rotate_fractions.array\",\n                    \"target\": \"change_range.value\"\n                },\n                {\n                    \"source\": \"for_each.out_bot_pos\",\n                    \"target\": \"SRT_to_matrix.translation\"\n                },\n                {\n                    \"source\": \".global_control\",\n                    \"target\": \"matrix_to_SRT.transform\"\n                },\n                {\n                    \"source\": \"matrix_to_SRT.scale\",\n                    \"target\": \"SRT_to_matrix.scale\"\n                },\n                {\n                    \"source\": \"matrix_to_SRT.quaternion\",\n                    \"target\": \"SRT_to_matrix.quaternion\"\n                },\n                {\n                    \"source\": \"matrix_multiply.matrix\",\n                    \"target\": \"matrix_to_SRT1.transform\"\n"
+		+ "                },\n                {\n                    \"source\": \".global_control\",\n                    \"target\": \"inverse_matrix.matrix\"\n                },\n                {\n                    \"source\": \"inverse_matrix.inverted\",\n                    \"target\": \"matrix_multiply.first.transform\"\n                },\n                {\n                    \"source\": \"SRT_to_matrix.transform\",\n                    \"target\": \"matrix_multiply.first.transform1\"\n                },\n                {\n                    \"source\": \"matrix_to_SRT1.translation\",\n                    \"target\": \".out_bot_pos\"\n                },\n                {\n                    \"source\": \"matrix_to_SRT.scale\",\n                    \"target\": \"SRT_to_matrix1.scale\"\n                },\n                {\n                    \"source\": \"matrix_to_SRT.quaternion\",\n                    \"target\": \"SRT_to_matrix1.quaternion\"\n                },\n                {\n                    \"source\": \"for_each.out_top_pos\",\n                    \"target\": \"SRT_to_matrix1.translation\"\n"
+		+ "                },\n                {\n                    \"source\": \"matrix_multiply1.matrix\",\n                    \"target\": \"matrix_to_SRT2.transform\"\n                },\n                {\n                    \"source\": \"inverse_matrix.inverted\",\n                    \"target\": \"matrix_multiply1.first.transform\"\n                },\n                {\n                    \"source\": \"SRT_to_matrix1.transform\",\n                    \"target\": \"matrix_multiply1.first.transform1\"\n                },\n                {\n                    \"source\": \"matrix_to_SRT2.translation\",\n                    \"target\": \".out_top_pos\"\n                },\n                {\n                    \"source\": \".pos\",\n                    \"target\": \"slice_array.array\"\n                },\n                {\n                    \"source\": \".left_joints_count\",\n                    \"target\": \"slice_array.stop\"\n                },\n                {\n                    \"source\": \"slice_array.slice\",\n                    \"target\": \"pos_fractions.pos\"\n                },\n"
+		+ "                {\n                    \"source\": \"slice_array.slice\",\n                    \"target\": \"local_rotate_fractions.pos\"\n                }\n            ],\n            \"values\": [\n                {\n                    \"valueName\": \"construct_bSpline1.control_points\",\n                    \"valueType\": \"array<Math::double3>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"construct_bSpline1.degree\",\n                    \"valueType\": \"long\",\n                    \"value\": \"3\"\n                },\n                {\n                    \"valueName\": \"construct_bSpline1.knots\",\n                    \"valueType\": \"array<double>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"construct_bSpline1.remap_range\",\n                    \"valueType\": \"bool\",\n                    \"value\": \"true\"\n                },\n                {\n                    \"valueName\": \"construct_bSpline1.min\",\n                    \"valueType\": \"double\",\n"
+		+ "                    \"value\": \"0\"\n                },\n                {\n                    \"valueName\": \"construct_bSpline1.max\",\n                    \"valueType\": \"double\",\n                    \"value\": \"1\"\n                },\n                {\n                    \"valueName\": \"top_transform.max_iterations\",\n                    \"valueType\": \"long\",\n                    \"value\": \"13\"\n                },\n                {\n                    \"valueName\": \"bot_transform.max_iterations\",\n                    \"valueType\": \"long\",\n                    \"value\": \"13\"\n                },\n                {\n                    \"valueName\": \"for_each.max_iterations\",\n                    \"valueType\": \"long\",\n                    \"value\": \"13\"\n                },\n                {\n                    \"valueName\": \"top_rotate.max_iterations\",\n                    \"valueType\": \"long\",\n                    \"value\": \"10\"\n                },\n                {\n                    \"valueName\": \"bot_rotate.max_iterations\",\n                    \"valueType\": \"long\",\n"
+		+ "                    \"value\": \"10\"\n                },\n                {\n                    \"valueName\": \"quaternion_to_degrees1.rotation_order\",\n                    \"valueType\": \"Math::rotation_order\",\n                    \"value\": \"XYZ\"\n                },\n                {\n                    \"valueName\": \"pos_fractions.pos\",\n                    \"valueType\": \"array<float>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"joints_count.joints_count\",\n                    \"valueType\": \"long\",\n                    \"value\": \"0\"\n                },\n                {\n                    \"valueName\": \"change_range1.from_start\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"change_range1.from_end\",\n                    \"valueType\": \"float\",\n                    \"value\": \"1f\"\n                },\n                {\n                    \"valueName\": \"change_range1.to_start\",\n                    \"valueType\": \"float\",\n"
+		+ "                    \"value\": \"0.5f\"\n                },\n                {\n                    \"valueName\": \"change_range1.to_end\",\n                    \"valueType\": \"float\",\n                    \"value\": \"1f\"\n                },\n                {\n                    \"valueName\": \"change_range1.clamp\",\n                    \"valueType\": \"bool\",\n                    \"value\": \"true\"\n                },\n                {\n                    \"valueName\": \"change_range.from_start\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"change_range.from_end\",\n                    \"valueType\": \"float\",\n                    \"value\": \"1f\"\n                },\n                {\n                    \"valueName\": \"change_range.to_start\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0.5f\"\n                },\n                {\n                    \"valueName\": \"change_range.clamp\",\n                    \"valueType\": \"bool\",\n"
+		+ "                    \"value\": \"true\"\n                },\n                {\n                    \"valueName\": \"local_rotate_fractions.pos\",\n                    \"valueType\": \"array<float>\",\n                    \"value\": []\n                }\n            ],\n            \"reservedNodeNames\": [\n                {\n                    \"name\": \"input\"\n                },\n                {\n                    \"name\": \"output\"\n                }\n            ]\n        }\n    ]\n}\n");
 	setAttr -k on ".t_lip_rotate";
 	setAttr -k on ".b_lip_rotate";
 	setAttr -k on ".jaw_rotate";
@@ -5887,22 +6622,22 @@ createNode transform -n "eyes_animaccordHUD";
 	setAttr ".hio" yes;
 	setAttr -l on ".moduleName" -type "string" "eyes";
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "5463343B-4878-9976-917F-378968945ED6";
-	setAttr -s 2 ".lnk";
-	setAttr -s 2 ".slnk";
+	rename -uid "E3F9356A-4D0E-F5DD-E3EB-19988DF76F94";
+	setAttr -s 45 ".lnk";
+	setAttr -s 45 ".slnk";
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "0895D4BC-4830-D500-7F8A-7399FA1EE4A5";
+	rename -uid "5B9CDEC6-4083-4D07-7946-F5B92CE94D8B";
 	setAttr ".bsdt[0].bscd" -type "Int32Array" 0 ;
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "1E77A097-4D8A-60C7-BA25-5F925A5CB389";
+	rename -uid "4B34780C-4F3D-9931-CF4B-99B198B25C3A";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "9BBE5B9E-4FB2-27A2-CDF5-358DF3721A38";
+	rename -uid "44A97772-4BC1-ECA9-3890-439BFAB4985B";
 	setAttr ".cdl" 2;
 	setAttr -s 2 ".dli[1]"  2;
 createNode displayLayer -n "defaultLayer";
 	rename -uid "05B2EECC-4723-3F91-AC0A-DDBAAAF55D90";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "4CC3D751-470C-3EE1-71F2-0787EAD11181";
+	rename -uid "207784EC-45F0-79EA-74E4-D2A18291DFE3";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "A8CBBC09-42E9-CE94-DBDF-EA9530EB80A9";
 	setAttr ".g" yes;
@@ -5914,6 +6649,41 @@ createNode objectSet -n "sets";
 	rename -uid "C4BE8EDD-4371-5958-CA5C-949CBE0D76EA";
 	setAttr ".ihi" 0;
 	setAttr -s 2 ".dnsm";
+createNode surfaceShader -n "red_rsMat";
+	rename -uid "026484BE-4B96-8996-30CE-A888BE78177E";
+	setAttr ".oc" -type "float3" 1 0 0 ;
+createNode shadingEngine -n "red_rsSG";
+	rename -uid "035C3564-453B-FD83-055B-B7A7A8237FF5";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+createNode materialInfo -n "materialInfo1";
+	rename -uid "3DC5C076-41A2-6AC8-75CD-AA9B546F10DE";
+createNode surfaceShader -n "green_rsMat";
+	rename -uid "30AB60FF-4597-12B3-D1E9-178544CD1F3D";
+	setAttr ".oc" -type "float3" 0 1 0 ;
+createNode shadingEngine -n "green_rsSG";
+	rename -uid "E4E40E89-4A66-AE2A-87C3-5BB761826A72";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+createNode materialInfo -n "materialInfo2";
+	rename -uid "BAB0ACA0-49A5-D99B-A16A-5C8E8F6A2321";
+createNode surfaceShader -n "blue_rsMat";
+	rename -uid "C4ED76CF-4193-22F3-EFE2-B89B9E336C39";
+	setAttr ".oc" -type "float3" 0 0 1 ;
+createNode shadingEngine -n "blue_rsSG";
+	rename -uid "EA2DA6AD-484D-5A8C-E0FC-74A916EB0B9D";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+createNode materialInfo -n "materialInfo3";
+	rename -uid "5A62CF4A-45C1-DDFA-80AE-CA90A7C3D159";
+createNode surfaceShader -n "black_rsMat";
+	rename -uid "0B2BBB63-4B97-31CD-5D8A-E5877B5248CB";
+createNode shadingEngine -n "black_rsSG";
+	rename -uid "88C84BA6-4D61-E60C-0CA2-7AA4A4AFC82D";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+createNode materialInfo -n "materialInfo4";
+	rename -uid "AB826A2F-40E1-DC3B-4E4C-C59A4E8FE2A1";
 createNode decomposeMatrix -n "eyes_decomposeMatrix24";
 	rename -uid "45369ED3-4C18-CE6A-BD6F-1EAEE2CA2E27";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -5929,7 +6699,7 @@ createNode decomposeMatrix -n "eyes_decomposeMatrix25";
 createNode script -n "eyes_sceneConfigurationScriptNode";
 	rename -uid "DDCF2024-46C7-C321-A8A4-AFA55F31EE55";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".b" -type "string" "playbackOptions -min 0 -max 36 -ast 0 -aet 100 ";
+	setAttr ".b" -type "string" "playbackOptions -min 0 -max 50 -ast 0 -aet 100 ";
 	setAttr ".st" 6;
 	setAttr -l on ".moduleName" -type "string" "eyes";
 createNode hyperView -n "eyes_hyperView1";
@@ -5984,6 +6754,46 @@ createNode hyperLayout -n "eyes_hyperLayout4";
 	setAttr ".ihi" 0;
 	setAttr ".anf" yes;
 	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode shadingEngine -n "eyes_red_rsSG";
+	rename -uid "26D4313F-46CF-F7C0-7138-1A87C3B8A919";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode materialInfo -n "eyes_root_materialInfo1";
+	rename -uid "E6B92FAC-4B80-74F9-33A0-948DDC9FDAF9";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode shadingEngine -n "eyes_green_rsSG";
+	rename -uid "9EB59560-402A-8A6D-8535-0EA7080EEFA5";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode materialInfo -n "eyes_root_materialInfo2";
+	rename -uid "C1E9AEFB-4902-95DF-A1FD-35A3628C1745";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode shadingEngine -n "eyes_blue_rsSG";
+	rename -uid "051EC554-43F9-63C0-2482-A19297708C2A";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode materialInfo -n "eyes_root_materialInfo3";
+	rename -uid "ADDF7FC2-4354-73D2-8C5D-8499D194A9E8";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode shadingEngine -n "eyes_black_rsSG";
+	rename -uid "F5253D1B-405D-A7A7-5BE6-D9935DC9A36E";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode materialInfo -n "eyes_end_materialInfo4";
+	rename -uid "66B5B7B2-4CCC-EF19-55F0-55A5519219B8";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
 createNode multMatrix -n "eyes_multMatrix20";
 	rename -uid "073BAC3F-45D6-75DA-E02F-7287629AAC76";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -6008,11 +6818,383 @@ createNode blindDataTemplate -n "eyes_blindDataTemplate1";
 	addAttr -ci true -sn "numnonpacked" -ln "numnonpacked" -at "long";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode eulerToQuat -n "eyes_eulerToQuat3";
+	rename -uid "53110F58-47F2-0B12-9E1D-9D9A1D110C5E";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode multDoubleLinear -n "eyes_multDoubleLinear6";
+	rename -uid "2ECE86FC-4798-CE65-862C-93A2B1C0C747";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" 150;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode reverse -n "eyes_reverse2";
+	rename -uid "A51AE690-4304-A097-3047-1CB98A76C951";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode unitConversion -n "eyes_unitConversion6";
+	rename -uid "387DC25F-4C13-CB6A-A39B-08A3E2CCF129";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".cf" 0.017453292519943295;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode eulerToQuat -n "eyes_eulerToQuat4";
+	rename -uid "9E03775F-4B18-427F-66CB-48885D368F22";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode addDoubleLinear -n "eyes_addDoubleLinear1";
+	rename -uid "D1501D43-4340-4494-7830-9CA54BE08C3D";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 2;
+	setAttr ".i2" 21;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode unitConversion -n "eyes_unitConversion7";
+	rename -uid "301E3BDF-42A6-C41B-3CF1-E58B3A5D2A61";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".cf" 0.017453292519943295;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode unitConversion -n "eyes_unitConversion8";
+	rename -uid "8CF552E4-4DDB-259B-CEAD-F9A8C3CEDC4B";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".cf" 0.017453292519943295;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode eulerToQuat -n "eyes_eulerToQuat5";
+	rename -uid "EDF14C68-415D-4B7A-B086-E8B28E17F342";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode addDoubleLinear -n "eyes_addDoubleLinear2";
+	rename -uid "6014A83A-479B-47EE-3E66-66A6F117908E";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 2;
+	setAttr ".i2" 63.830000000000005;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode addDoubleLinear -n "eyes_addDoubleLinear3";
+	rename -uid "97868894-48CA-6313-B592-9DAA72F0CDC8";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 2;
+	setAttr ".i2" -21.94;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode eulerToQuat -n "eyes_eulerToQuat6";
+	rename -uid "8D617F9F-4CFD-756E-0BDE-028BA0DF9C4A";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode addDoubleLinear -n "eyes_addDoubleLinear4";
+	rename -uid "85B864C6-451A-A9BA-1346-B0871210D0DE";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 2;
+	setAttr ".i2" 147.24;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode unitConversion -n "eyes_unitConversion9";
+	rename -uid "C53B2236-4FE0-A03E-E2C4-B4AE277B850E";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".cf" 0.017453292519943295;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode addDoubleLinear -n "eyes_addDoubleLinear5";
+	rename -uid "D9CC3F9F-4B43-130D-F5F3-E7859BE41182";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 2;
+	setAttr ".i2" 174.42999999999998;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode unitConversion -n "eyes_unitConversion10";
+	rename -uid "0D3FB8E0-4C51-A83D-FB03-D99F7921038F";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".cf" 0.017453292519943295;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode eulerToQuat -n "eyes_eulerToQuat7";
+	rename -uid "ACDCCA50-428D-F4CC-7721-2A958CA7D495";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode eulerToQuat -n "eyes_eulerToQuat8";
+	rename -uid "FB26C92A-4137-EFE6-745E-388D5950AE8A";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode unitConversion -n "eyes_unitConversion11";
+	rename -uid "3EDBE2D7-49DB-61D3-977B-10A38E0B557B";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".cf" 0.017453292519943295;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode addDoubleLinear -n "eyes_addDoubleLinear6";
+	rename -uid "00C2D3A6-47A9-4C1E-ACD0-03A72CBA07E0";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 2;
+	setAttr ".i2" 108.28999999999999;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode multDoubleLinear -n "eyes_multDoubleLinear7";
+	rename -uid "739F4E5C-4B82-FD9A-672D-F8A74B669445";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" 130;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode multDoubleLinear -n "eyes_multDoubleLinear8";
+	rename -uid "0459AFA2-48D2-C0EB-B6A3-729349B1BDFE";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" 110;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode multDoubleLinear -n "eyes_multDoubleLinear9";
+	rename -uid "855F8B2F-4FCF-6017-0411-509460C1D5EB";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" 50;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode multDoubleLinear -n "eyes_multDoubleLinear10";
+	rename -uid "3C77AA75-4C32-FEA6-25D6-90A9EB7D3CA3";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" 70;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode multDoubleLinear -n "eyes_multDoubleLinear11";
+	rename -uid "551150A9-447D-35CC-7849-018BE629007D";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" 90;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode multDoubleLinear -n "eyes_multDoubleLinear12";
+	rename -uid "46670DFE-4DFD-1BCF-18D3-249AFE392FE7";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" 2.648;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode addDoubleLinear -n "eyes_addDoubleLinear7";
+	rename -uid "343E1979-4679-96B4-6035-498CBCFDDC62";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 2;
+	setAttr ".i2" -64.84;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode multDoubleLinear -n "eyes_multDoubleLinear13";
+	rename -uid "43466970-493C-2391-0460-38A0D53CC233";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" 30;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode unitConversion -n "eyes_unitConversion12";
+	rename -uid "6043A39A-4721-9422-D649-B9A713B79617";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".cf" 0.017453292519943295;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode eulerToQuat -n "eyes_eulerToQuat9";
+	rename -uid "2FD28256-4010-F656-65C6-B695417AFA3E";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode eulerToQuat -n "eyes_eulerToQuat10";
+	rename -uid "E1183E43-4983-532A-8905-B7886BBE5C3C";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode unitConversion -n "eyes_unitConversion13";
+	rename -uid "81BA3C48-49A6-569D-68E1-B9A83AF1EB01";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".cf" 0.017453292519943295;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode multDoubleLinear -n "eyes_multDoubleLinear14";
+	rename -uid "FE13AD27-49B0-D27E-4EF0-CFAD31B15F46";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" 10;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode addDoubleLinear -n "eyes_addDoubleLinear8";
+	rename -uid "6F87D54F-43B4-A1DD-932D-6A9D8CA7640F";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 2;
+	setAttr ".i2" -108.27;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode multDoubleLinear -n "eyes_multDoubleLinear15";
+	rename -uid "BA032B32-4009-AA04-716E-B48D59E7C22C";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" -1;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode clamp -n "eyes_clamp5";
+	rename -uid "9C6EFEAD-48C7-7F0C-3A84-459A48A9747B";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".mn" -type "float3" 0 -1 0 ;
+	setAttr ".mx" -type "float3" 1 0 0 ;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode clamp -n "eyes_clamp6";
+	rename -uid "17A86139-4A10-F53F-62A9-16AA9139F5AB";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".mn" -type "float3" 0.95700002 0 0 ;
+	setAttr ".mx" -type "float3" 2 0 0 ;
+	setAttr -l on ".moduleName" -type "string" "eyes";
 createNode blindDataTemplate -n "eyes_blindDataTemplate2";
 	rename -uid "2D1B3919-4341-0141-E91C-9A8D11AC4368";
 	addAttr -ci true -sn "coverage" -ln "coverage" -at "float";
 	addAttr -ci true -sn "numnonpacked" -ln "numnonpacked" -at "long";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode eulerToQuat -n "eyes_eulerToQuat12";
+	rename -uid "8A149E77-49B5-D98C-AB44-C993177F3269";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode multDoubleLinear -n "eyes_multDoubleLinear21";
+	rename -uid "453FEF1A-4977-92E7-B03D-6EBBB7AE4B29";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" 150;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode reverse -n "eyes_reverse41";
+	rename -uid "1482F9D5-415E-5237-386C-CFAB4F004A34";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode unitConversion -n "eyes_unitConversion15";
+	rename -uid "647120C1-40D9-71D7-E2C7-CAA5EE6C0670";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".cf" 0.017453292519943295;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode eulerToQuat -n "eyes_eulerToQuat13";
+	rename -uid "B9F726AB-4A5D-5044-58A9-AD99DAFF2506";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode addDoubleLinear -n "eyes_addDoubleLinear10";
+	rename -uid "E7F51940-478D-DEB3-EC3A-D9B61A5B6F14";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 2;
+	setAttr ".i2" 21;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode unitConversion -n "eyes_unitConversion16";
+	rename -uid "32132326-4E2D-D233-97A4-14917FD24A18";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".cf" 0.017453292519943295;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode unitConversion -n "eyes_unitConversion17";
+	rename -uid "E0EE3A13-4D88-06B7-C167-1780AA8FDB64";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".cf" 0.017453292519943295;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode eulerToQuat -n "eyes_eulerToQuat14";
+	rename -uid "F293475C-4CF2-2CC8-18F7-AB8EDA097EAC";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode addDoubleLinear -n "eyes_addDoubleLinear11";
+	rename -uid "A4008C26-4AD0-DB72-6BF8-4DA754F1EB83";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 2;
+	setAttr ".i2" 63.830000000000005;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode addDoubleLinear -n "eyes_addDoubleLinear12";
+	rename -uid "D2B0CB5C-4A74-B034-9BAE-A3932F26003D";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 2;
+	setAttr ".i2" -21.94;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode eulerToQuat -n "eyes_eulerToQuat15";
+	rename -uid "363C08ED-4537-651B-1085-55A45B52F5EC";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode addDoubleLinear -n "eyes_addDoubleLinear13";
+	rename -uid "F3EF01E1-4DDB-718B-0F75-4CB4771E0A0B";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 2;
+	setAttr ".i2" 147.24;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode unitConversion -n "eyes_unitConversion18";
+	rename -uid "D7B9124A-496B-03DB-C0CB-2E81DA2BEFC9";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".cf" 0.017453292519943295;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode addDoubleLinear -n "eyes_addDoubleLinear14";
+	rename -uid "BF8D4FBD-47E9-77C3-1454-6A87FD98E1B8";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 2;
+	setAttr ".i2" 174.42999999999998;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode unitConversion -n "eyes_unitConversion19";
+	rename -uid "2D61B122-4024-1F09-86A5-D8AE0CEAF406";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".cf" 0.017453292519943295;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode eulerToQuat -n "eyes_eulerToQuat16";
+	rename -uid "43499B2B-49C1-D72C-BB05-22A1F0014E8F";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode eulerToQuat -n "eyes_eulerToQuat17";
+	rename -uid "BB0FF8EE-4929-9B10-8499-9993A46DF515";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode unitConversion -n "eyes_unitConversion20";
+	rename -uid "10DFCA63-483B-2E24-82B3-A88C46F9A4A4";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".cf" 0.017453292519943295;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode addDoubleLinear -n "eyes_addDoubleLinear15";
+	rename -uid "35ED8511-4B29-DAB8-2C44-5C856C39EA15";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 2;
+	setAttr ".i2" 108.28999999999999;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode multDoubleLinear -n "eyes_multDoubleLinear22";
+	rename -uid "619753F3-4D6C-E08E-43A9-29BAAB2C6DF9";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" 130;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode multDoubleLinear -n "eyes_multDoubleLinear23";
+	rename -uid "E6063170-49FB-3D74-A8CE-07AD7E550DF5";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" 110;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode multDoubleLinear -n "eyes_multDoubleLinear24";
+	rename -uid "CEDC7931-4AC1-163D-5377-608B08AB2A03";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" 50;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode multDoubleLinear -n "eyes_multDoubleLinear25";
+	rename -uid "1B154054-45DC-C6DB-BDD0-70892926AE80";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" 70;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode multDoubleLinear -n "eyes_multDoubleLinear26";
+	rename -uid "9325B5AB-4045-C43B-0948-9FAEF5C81A29";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" 90;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode multDoubleLinear -n "eyes_multDoubleLinear27";
+	rename -uid "34276C8E-44C9-75D3-13BB-43B7364D726B";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" 2.648;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode addDoubleLinear -n "eyes_addDoubleLinear16";
+	rename -uid "285A38B1-4E92-1F23-A95D-6DA13BC04BF7";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 2;
+	setAttr ".i2" -64.84;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode multDoubleLinear -n "eyes_multDoubleLinear28";
+	rename -uid "F120FB6D-40D5-20BC-F937-128E246C7050";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" 30;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode unitConversion -n "eyes_unitConversion21";
+	rename -uid "52A9560E-4437-413B-A50C-1BAC023D6C37";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".cf" 0.017453292519943295;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode eulerToQuat -n "eyes_eulerToQuat18";
+	rename -uid "7B12CD6B-4881-70EC-2511-7495E8B61A75";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode eulerToQuat -n "eyes_eulerToQuat19";
+	rename -uid "58ED0C10-4CE2-5D45-B2F1-1DA7BBBAB0FE";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode unitConversion -n "eyes_unitConversion22";
+	rename -uid "61C5F8B0-437E-7ECD-4F9E-3D869505C47E";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".cf" 0.017453292519943295;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode multDoubleLinear -n "eyes_multDoubleLinear29";
+	rename -uid "5B08E21A-42D8-912F-4509-5CAEC672D311";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" 10;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode addDoubleLinear -n "eyes_addDoubleLinear17";
+	rename -uid "FDB63AF0-44A4-9874-3A66-92998A14632A";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 2;
+	setAttr ".i2" -108.27;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode multDoubleLinear -n "eyes_multDoubleLinear30";
+	rename -uid "50B11138-4A9F-535F-2003-8192A9D5E969";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" -1;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode clamp -n "eyes_clamp7";
+	rename -uid "A2A7CE5F-4953-EB80-EB0F-E299372DF6E1";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".mn" -type "float3" 0 -1 0 ;
+	setAttr ".mx" -type "float3" 1 0 0 ;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode clamp -n "eyes_clamp8";
+	rename -uid "9A703B5E-43F9-B2AA-3568-728EFA0605BC";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".mn" -type "float3" 0.95700002 0 0 ;
+	setAttr ".mx" -type "float3" 2 0 0 ;
 	setAttr -l on ".moduleName" -type "string" "eyes";
 createNode multMatrix -n "eyes_multMatrix26";
 	rename -uid "1A8D9503-4591-D1E0-C625-E19972DBDA36";
@@ -6027,6 +7209,234 @@ createNode composeMatrix -n "eyes_composeMatrix4";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	setAttr ".is" -type "double3" -1 1 1 ;
 	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode blendTwoAttr -n "eyes_blendTwoAttr1";
+	rename -uid "D98EA49F-4557-366D-4542-F2BF5580BE8A";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode blendTwoAttr -n "eyes_blendTwoAttr2";
+	rename -uid "1515A15F-48F4-D0D8-A8BA-32A94E21E7D2";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode blinn -n "eyes_eyeball_mat";
+	rename -uid "9F90AD6D-4F89-7A09-B0ED-099CDEE56B0D";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".sc" -type "float3" 0 0 0 ;
+	setAttr ".rfl" 0.51111114025115967;
+	setAttr ".ec" 0.25775200128555298;
+	setAttr ".sro" 0.72444444894790649;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode shadingEngine -n "eyes_blinn1SG";
+	rename -uid "97227765-4341-6BD3-FE88-C9AE4FAA39AF";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode materialInfo -n "eyes_materialInfo1";
+	rename -uid "B67CDC7E-47A2-9F1B-AEAA-BA996187EB03";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode ramp -n "eyes_ramp1";
+	rename -uid "4AD7263F-4241-B472-6010-0290172BFF8F";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -s 2 ".cel";
+	setAttr ".cel[2].ep" 0.84530389308929443;
+	setAttr ".cel[2].ec" -type "float3" 1 1 1 ;
+	setAttr ".cel[3].ep" 0.85161799192428589;
+	setAttr ".cel[3].ec" -type "float3" 0.44299999 0.23756185 0.104105 ;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode place2dTexture -n "eyes_place2dTexture1";
+	rename -uid "4097D2FF-4B24-ADF1-6DBB-A19C2042525D";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode blinn -n "eyes_glass_mat";
+	rename -uid "804DA048-465B-85F8-2C2C-4EA672F8E113";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".c" -type "float3" 0.47555557 0.47555557 0.47555557 ;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode shadingEngine -n "eyes_blinn2SG";
+	rename -uid "63D81E94-432C-E289-C6E4-1092521821FC";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode materialInfo -n "eyes_materialInfo2";
+	rename -uid "116B7B7C-4A7F-8584-C06E-E6AB2459ABB3";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode lambert -n "eyes_black_mat";
+	rename -uid "D1208C6E-457B-49CD-2D9D-1CB01B43A3C0";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".c" -type "float3" 0 0 0 ;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode shadingEngine -n "eyes_lambert2SG";
+	rename -uid "6378423E-488C-36E9-1B14-FDB037953C22";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode materialInfo -n "eyes_materialInfo3";
+	rename -uid "6393B5FC-4BAD-D44A-67DB-B78D4AEEF7DD";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode condition -n "eyes_condition1";
+	rename -uid "0DF6B9A5-4EB9-9E9D-64A5-CDB4D440C3F3";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".op" 2;
+	setAttr ".cf" -type "float3" 0 0.5 1 ;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode setRange -n "eyes_setRange1";
+	rename -uid "4011223C-4B59-1955-80A5-14A410C47E19";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".n" -type "float3" 1 0.1 0 ;
+	setAttr ".m" -type "float3" 0.1 1 0 ;
+	setAttr ".on" -type "float3" 0 -1 0 ;
+	setAttr ".om" -type "float3" 1 0 0 ;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode condition -n "eyes_condition2";
+	rename -uid "E93611EE-4BAB-1696-CC63-AF9FE5D3198A";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".op" 2;
+	setAttr ".cf" -type "float3" 0 0.5 1 ;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode setRange -n "eyes_setRange2";
+	rename -uid "B29643D2-4FAF-8774-0366-CE89F5472446";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".n" -type "float3" 1 0.1 0 ;
+	setAttr ".m" -type "float3" 0.1 1 0 ;
+	setAttr ".on" -type "float3" 0 -1 0 ;
+	setAttr ".om" -type "float3" 1 0 0 ;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode blendColors -n "eyes_blendColors1";
+	rename -uid "1995406E-4414-4720-9CA5-60AA854CEFB8";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode blendColors -n "eyes_blendColors2";
+	rename -uid "2CFB8E6A-4A8C-E2A4-2C0F-898B4244767A";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode surfaceShader -n "eyes_highlight_mat";
+	rename -uid "919A57DB-4966-8F1D-AB50-96983BABA8DC";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".oc" -type "float3" 1 1 1 ;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode shadingEngine -n "eyes_surfaceShader1SG";
+	rename -uid "BD31F09E-4E82-6D43-237F-7DB834B5559B";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode materialInfo -n "eyes_materialInfo4";
+	rename -uid "A8915C34-48D5-2F89-E6E2-659EC0CA0E65";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode nodeGraphEditorInfo -n "eyes_hyperShadePrimaryNodeEditorSavedTabsInfo";
+	rename -uid "E1D7DAEF-42D4-2E7B-7916-9894FFFE8D7F";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".def" no;
+	setAttr ".tgi[0].tn" -type "string" "Untitled_1";
+	setAttr ".tgi[0].vl" -type "double2" 1113.7651196031713 -178.33377889952968 ;
+	setAttr ".tgi[0].vh" -type "double2" 2830.9024766825937 358.43063938751942 ;
+	setAttr -s 10 ".tgi[0].ni";
+	setAttr ".tgi[0].ni[0].x" 254.28572082519531;
+	setAttr ".tgi[0].ni[0].y" 278.57144165039062;
+	setAttr ".tgi[0].ni[0].nvs" 1923;
+	setAttr ".tgi[0].ni[1].x" 930;
+	setAttr ".tgi[0].ni[1].y" 225.71427917480469;
+	setAttr ".tgi[0].ni[1].nvs" 1923;
+	setAttr ".tgi[0].ni[2].x" 1198.5714111328125;
+	setAttr ".tgi[0].ni[2].y" 318.57144165039062;
+	setAttr ".tgi[0].ni[2].nvs" 1923;
+	setAttr ".tgi[0].ni[3].x" -56.428573608398438;
+	setAttr ".tgi[0].ni[3].y" 273.80953979492188;
+	setAttr ".tgi[0].ni[3].nvs" 1923;
+	setAttr ".tgi[0].ni[4].x" 1237.142822265625;
+	setAttr ".tgi[0].ni[4].y" 225.71427917480469;
+	setAttr ".tgi[0].ni[4].nvs" 1923;
+	setAttr ".tgi[0].ni[5].x" 891.4285888671875;
+	setAttr ".tgi[0].ni[5].y" 318.57144165039062;
+	setAttr ".tgi[0].ni[5].nvs" 1923;
+	setAttr ".tgi[0].ni[6].x" -360;
+	setAttr ".tgi[0].ni[6].y" 255.71427917480469;
+	setAttr ".tgi[0].ni[6].nvs" 1923;
+	setAttr ".tgi[0].ni[7].x" 2191.428466796875;
+	setAttr ".tgi[0].ni[7].y" 161.42857360839844;
+	setAttr ".tgi[0].ni[7].nvs" 1923;
+	setAttr ".tgi[0].ni[8].x" 1884.2857666015625;
+	setAttr ".tgi[0].ni[8].y" 161.42857360839844;
+	setAttr ".tgi[0].ni[8].nvs" 1923;
+	setAttr ".tgi[0].ni[9].x" 561.4285888671875;
+	setAttr ".tgi[0].ni[9].y" 255.71427917480469;
+	setAttr ".tgi[0].ni[9].nvs" 1923;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode multiplyDivide -n "eyes_multiplyDivide1";
+	rename -uid "8F48C3DD-4036-2282-662F-2087FCCE2D81";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" -type "float3" -1 -1 -1 ;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode multiplyDivide -n "eyes_multiplyDivide2";
+	rename -uid "29E4631F-49CD-880B-2CFA-ED9B37E3EB5B";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" -type "float3" -1 -1 -1 ;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode multiplyDivide -n "eyes_multiplyDivide3";
+	rename -uid "5D6B6EFC-4FDD-2590-85C3-708CEEA16ACA";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".op" 2;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode multiplyDivide -n "eyes_multiplyDivide4";
+	rename -uid "E9B0D545-4A92-D29B-BB7B-EE8441ACAC01";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".op" 2;
+	setAttr -l on ".moduleName" -type "string" "eyes";
+createNode multiplyDivide -n "eyes_root_joint_invScale_multiplyDivide";
+	rename -uid "12C09955-4E6F-7BCA-4AA9-A9AACA45AF59";
+createNode multiplyDivide -n "eyes_l_joint_invScale_multiplyDivide";
+	rename -uid "ED9BC430-41E8-5C0D-9CFD-9CA9FD4A4726";
+createNode multiplyDivide -n "eyes_l_base_joint_invScale_multiplyDivide";
+	rename -uid "831DEFCA-4A5D-4BFC-4840-16AC85C7A4D6";
+createNode multiplyDivide -n "eyes_r_joint_invScale_multiplyDivide";
+	rename -uid "3433A477-45D6-7288-A7B4-FFBC531E5EDB";
+createNode multiplyDivide -n "eyes_r_base_joint_invScale_multiplyDivide";
+	rename -uid "1A525844-4102-2259-FAA2-C0A2D37E0410";
+createNode blinn -n "eyelids_lensMat";
+	rename -uid "4357E50D-4DE1-86EF-EDAD-75BB972C2F49";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".c" -type "float3" 0.5 0.44301966 0.301 ;
+	setAttr ".it" -type "float3" 0.85123998 0.85123998 0.85123998 ;
+	setAttr ".sc" -type "float3" 1 1 1 ;
+	setAttr ".rfl" 0.05000000074505806;
+	setAttr ".ec" 0.05000000074505806;
+	setAttr ".sro" 1;
+	setAttr -l on ".moduleName" -type "string" "eyelids";
+createNode multiplyDivide -n "eyelids_multiplyDivide1804";
+	rename -uid "C7A77566-47B9-DF86-4671-0088951EE758";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" -type "float3" -1 -1 -1 ;
+	setAttr -l on ".moduleName" -type "string" "eyelids";
+createNode multiplyDivide -n "eyelids_multiplyDivide1805";
+	rename -uid "A3668FD7-49A4-43BD-72FF-CF94BC631167";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" -type "float3" -1 -1 -1 ;
+	setAttr -l on ".moduleName" -type "string" "eyelids";
+createNode multiplyDivide -n "eyelids_multiplyDivide1806";
+	rename -uid "EBD5F617-4596-C381-0665-609D88577FCB";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" -type "float3" -1 -1 -1 ;
+	setAttr -l on ".moduleName" -type "string" "eyelids";
+createNode multiplyDivide -n "eyelids_multiplyDivide262";
+	rename -uid "2621E2FC-4CA0-D937-9719-44BF3CFC951C";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyelids";
+createNode multiplyDivide -n "eyelids_multiplyDivide263";
+	rename -uid "D775BBBD-4A1F-2B0F-5258-ECB1F3FDD076";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyelids";
+createNode clamp -n "eyelids_clamp4";
+	rename -uid "FC65C78D-450C-2595-28DF-0A9ABC107CB3";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".mn" -type "float3" -100 -100 -100 ;
+	setAttr ".mx" -type "float3" 0 100 100 ;
+	setAttr -l on ".moduleName" -type "string" "eyelids";
 createNode decomposeMatrix -n "eyelids_decomposeMatrix83";
 	rename -uid "EC66BA04-4ED2-D8E9-95DD-0DABDC9A0E31";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -6100,6 +7510,56 @@ createNode composeMatrix -n "eyelids_composeMatrix1";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	setAttr ".is" -type "double3" -1 1 1 ;
 	setAttr -l on ".moduleName" -type "string" "eyelids";
+createNode unitConversion -n "eyelids_unitConversion1586";
+	rename -uid "C2CD62DF-4958-8B62-8722-60850D4F6DF8";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".cf" -1;
+	setAttr -l on ".moduleName" -type "string" "eyelids";
+createNode unitConversion -n "eyelids_unitConversion1587";
+	rename -uid "4CC1395E-4BE1-F62D-5A04-30AAFC19741D";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".cf" -1;
+	setAttr -l on ".moduleName" -type "string" "eyelids";
+createNode unitConversion -n "eyelids_unitConversion1588";
+	rename -uid "B51AA4E5-49E7-37FD-EEA9-B39D618E9DF8";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".cf" -1;
+	setAttr -l on ".moduleName" -type "string" "eyelids";
+createNode unitConversion -n "eyelids_unitConversion1589";
+	rename -uid "66F814F3-485F-D136-FD40-23A519452CA0";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".cf" -1;
+	setAttr -l on ".moduleName" -type "string" "eyelids";
+createNode shadingEngine -n "eyelids_red_rsSG";
+	rename -uid "74F82B4E-47D1-4F81-4A68-D995C4AE12BC";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "eyelids";
+createNode materialInfo -n "eyelids_root_materialInfo1";
+	rename -uid "FAEB17C2-4422-0358-C956-91A0280CBB25";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyelids";
+createNode shadingEngine -n "eyelids_green_rsSG";
+	rename -uid "9685E70F-415F-7349-DBEC-8E976C0B2F73";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "eyelids";
+createNode materialInfo -n "eyelids_root_materialInfo2";
+	rename -uid "EAC3D26D-446F-D390-92ED-58A3E91DAA12";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyelids";
+createNode shadingEngine -n "eyelids_blue_rsSG";
+	rename -uid "755EF410-4057-EE9B-E15B-BBA6F68E1328";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "eyelids";
+createNode materialInfo -n "eyelids_root_materialInfo3";
+	rename -uid "57A7A1ED-48D8-1B90-8DD0-649442673598";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "eyelids";
 createNode hyperView -n "brows_hyperView1";
 	rename -uid "8ACD0ADE-4C1B-9FA1-FCE1-7F9795F30B35";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -6152,11 +7612,228 @@ createNode hyperLayout -n "brows_hyperLayout4";
 	setAttr ".ihi" 0;
 	setAttr ".anf" yes;
 	setAttr -l on ".moduleName" -type "string" "brows";
+createNode multiplyDivide -n "brows_multiplyDivide1";
+	rename -uid "12A4947E-4B2E-4934-D189-48890C94E627";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode shadingEngine -n "brows_red_rsSG";
+	rename -uid "9AE7FDF5-4337-2368-B141-B4833E7C3A82";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode materialInfo -n "brows_root_materialInfo1";
+	rename -uid "FF50E926-49F1-7FEC-7902-3DB729C6CAD8";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode shadingEngine -n "brows_green_rsSG";
+	rename -uid "2D949A3B-4581-D6E0-568C-DCA7B76364E4";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode materialInfo -n "brows_root_materialInfo2";
+	rename -uid "E7824C70-423F-E983-6376-9AAED1E640C9";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode shadingEngine -n "brows_blue_rsSG";
+	rename -uid "87C6EDC6-44D3-86D1-C598-029626A7A2BC";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode materialInfo -n "brows_root_materialInfo3";
+	rename -uid "C93B1EEE-45D2-030C-CFFA-168950C8A95B";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode shadingEngine -n "brows_center_surfaceShader1SG";
+	rename -uid "17A9DBC3-44E6-8430-B4A9-05B838CDA5FE";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode materialInfo -n "brows_center_materialInfo1";
+	rename -uid "3B0406DF-4165-26BC-BBD3-E497D8538943";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode shadingEngine -n "brows_center_surfaceShader2SG";
+	rename -uid "41E7F219-49F4-6226-31AE-C49209259FE3";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode materialInfo -n "brows_center_materialInfo2";
+	rename -uid "AB525111-476F-8DEA-EEB6-0F9E184B613D";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode shadingEngine -n "brows_center_surfaceShader3SG";
+	rename -uid "F5890FEA-4A87-9152-D290-0599718507FD";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode materialInfo -n "brows_center_materialInfo3";
+	rename -uid "8B1E834D-4399-B277-8D71-94BE4B921785";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode shadingEngine -n "brows_side_1_surfaceShader1SG";
+	rename -uid "3138A2AA-41AA-4D98-1003-3FBB8F766EAB";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode materialInfo -n "brows_side_1_materialInfo1";
+	rename -uid "BC0CF3E6-4FBC-6B57-E9F2-8D9181235DDB";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode shadingEngine -n "brows_side_1_surfaceShader2SG";
+	rename -uid "A32041D9-4A64-B009-2CB4-79858A35F5A7";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode materialInfo -n "brows_side_1_materialInfo2";
+	rename -uid "8410CE00-499E-D9F6-E194-C281AF3848E8";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode shadingEngine -n "brows_side_1_surfaceShader3SG";
+	rename -uid "F4345486-480F-E34E-5DDB-7390AED27787";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode materialInfo -n "brows_side_1_materialInfo3";
+	rename -uid "FA201131-44C1-A620-4A72-849D3F142946";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode shadingEngine -n "brows_side_2_surfaceShader1SG";
+	rename -uid "A53EBF40-43E0-0055-83F7-81A652D89FBA";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode materialInfo -n "brows_side_2_materialInfo1";
+	rename -uid "8BDFB0BF-4647-87F8-F44C-2C9C34EEFDC6";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode shadingEngine -n "brows_side_2_surfaceShader2SG";
+	rename -uid "7096C757-4FA1-25A7-0B3E-32A62E9213C6";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode materialInfo -n "brows_side_2_materialInfo2";
+	rename -uid "868AF80E-4DCB-8D38-0E17-08B010D1BBD1";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode shadingEngine -n "brows_side_2_surfaceShader3SG";
+	rename -uid "0F192690-4E11-1568-C2CC-A499316A8428";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode materialInfo -n "brows_side_2_materialInfo3";
+	rename -uid "5493EF19-4E09-D9E7-FDB5-2B8EFCFD5077";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode shadingEngine -n "brows_side_3_surfaceShader1SG";
+	rename -uid "88985347-4FA2-1262-F7CB-82ACDA93F645";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode materialInfo -n "brows_side_3_materialInfo1";
+	rename -uid "99C6F780-467E-AEB8-F03F-69940E05CD2B";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode shadingEngine -n "brows_side_3_surfaceShader2SG";
+	rename -uid "5E1D6A92-416A-7CA2-FB0B-8C9D3E129763";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode materialInfo -n "brows_side_3_materialInfo2";
+	rename -uid "6E6B5960-469E-DC2C-E294-36B903970452";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode shadingEngine -n "brows_side_3_surfaceShader3SG";
+	rename -uid "0EC3DC6B-4B8D-2367-8A40-D091F46F86DD";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode materialInfo -n "brows_side_3_materialInfo3";
+	rename -uid "3F7443F5-406F-3420-299E-8586C894E486";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode shadingEngine -n "brows_black_rsSG";
+	rename -uid "7F06B07B-4186-207B-2514-69BC75BFFB24";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode materialInfo -n "brows_side_2_materialInfo4";
+	rename -uid "930A25E2-42DF-6DE2-6E03-E7A85A4D73A6";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode shadingEngine -n "brows_side_3_surfaceShader1SG1";
+	rename -uid "AE7543E9-4D26-D04A-C77B-0EB0F912EFFA";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr -l on ".moduleName" -type "string" "brows";
+createNode materialInfo -n "brows_side_3_materialInfo4";
+	rename -uid "E460A025-4F42-6F2D-7E5A-99B376E2A905";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "brows";
 createNode composeMatrix -n "brows_composeMatrix1";
 	rename -uid "B77B018E-43EF-78F6-95F6-C6B53CED41B7";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	setAttr ".is" -type "double3" -1 1 1 ;
 	setAttr -l on ".moduleName" -type "string" "brows";
+createNode multiplyDivide -n "brows_root_joint_invScale_multiplyDivide";
+	rename -uid "5EC071D9-41A5-AD31-6A67-5E826F167E67";
+createNode standardSurface -n "head_mat";
+	rename -uid "891EA3E8-44DC-8524-0459-D7BE7145741A";
+	setAttr ".sr" 0.63461536169052124;
+createNode file -n "file1";
+	rename -uid "EC3E53DD-4E9E-B411-D034-DB987E2F83A7";
+	setAttr ".ftn" -type "string" "C:/Users/pavel/Downloads/skin_hero_head_mat_CM (1).tga";
+	setAttr ".cs" -type "string" "sRGB";
+createNode place2dTexture -n "place2dTexture1";
+	rename -uid "E65A1082-4CE3-F82B-5151-9DA1C9578844";
+createNode shadingEngine -n "head_lowSG";
+	rename -uid "94BF1FE3-4356-D78F-CC92-A681344150F8";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+createNode materialInfo -n "materialInfo5";
+	rename -uid "32557354-4400-84DE-42D1-E6A958EB940E";
+createNode shadingEngine -n "eyesSG";
+	rename -uid "AFA5A0DA-4105-3031-BC82-83819639C4C2";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+createNode materialInfo -n "materialInfo6";
+	rename -uid "FA03A35C-4BB0-CD30-6AC0-F0B3DB88F8A1";
+createNode lambert -n "lambert2";
+	rename -uid "52333084-4D96-A226-3D17-7CBAEE2BE414";
+createNode shadingEngine -n "hairSG";
+	rename -uid "8137F1F4-4BED-8DF3-4B68-9C803CF41B60";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+createNode materialInfo -n "materialInfo7";
+	rename -uid "7912F54E-4461-EA10-303F-09BE8F8D4354";
+createNode file -n "file3";
+	rename -uid "1BFF5B93-4849-6166-4414-398C54C2A18A";
+	setAttr ".ftn" -type "string" "C:/Users/pavel/Downloads/skin_hero_hair_mat_CM.tga";
+	setAttr ".cs" -type "string" "sRGB";
+createNode place2dTexture -n "place2dTexture2";
+	rename -uid "B59D1633-49D2-E812-215E-1D96F9118AD6";
+createNode shadingEngine -n "tongueSG";
+	rename -uid "4FA88D1A-4E85-128B-B9DA-9D9734BED20B";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+createNode materialInfo -n "materialInfo8";
+	rename -uid "4409F303-4F94-3479-79EE-FFB10BF0CB55";
 createNode groupId -n "mouth_cluster4GroupId";
 	rename -uid "FC9CBF63-43F0-F66C-61C7-9CACA0D9DADF";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -6208,6 +7885,82 @@ createNode groupParts -n "mouth_groupParts42";
 	setAttr ".ihi" 0;
 	setAttr ".ic" -type "componentList" 1 "cv[*]";
 	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode materialInfo -n "materialInfo97";
+	rename -uid "B58A5F70-4467-1C58-E71F-DDA8C7C0EDB8";
+createNode shadingEngine -n "green_rsSG6";
+	rename -uid "AD0A506D-4FEC-31C0-3490-E1B0A2FF7ACB";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:5a2df8665f15";
+createNode surfaceShader -n "green_rsMat6";
+	rename -uid "8F00779E-4CD9-2B8C-8A6F-6AB2CB75B643";
+	setAttr ".oc" -type "float3" 0 1 0 ;
+createNode materialInfo -n "materialInfo98";
+	rename -uid "251E24EB-4C40-0F02-9D34-9EBB75F1EC5C";
+createNode shadingEngine -n "blue_rsSG6";
+	rename -uid "59CF431F-45AC-A5EB-F692-B189C98783B0";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:c1f1b5e4262e";
+createNode surfaceShader -n "blue_rsMat6";
+	rename -uid "4506A129-41A4-C275-78D6-0995978647D5";
+	setAttr ".oc" -type "float3" 0 0 1 ;
+createNode materialInfo -n "materialInfo96";
+	rename -uid "29E601C5-45EE-B04C-58C9-4E98D1BD4638";
+createNode shadingEngine -n "red_rsSG6";
+	rename -uid "E82156B3-43CD-2A30-89B2-668A59BD728D";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:020562019abb";
+createNode surfaceShader -n "red_rsMat6";
+	rename -uid "6D29C4D8-4DCB-6D02-AD4A-52B9BD56E9FA";
+	setAttr ".oc" -type "float3" 1 0 0 ;
+createNode materialInfo -n "materialInfo99";
+	rename -uid "232BC2F3-41E1-46ED-2318-BA8EBD1ABDB3";
+createNode shadingEngine -n "black_rsSG3";
+	rename -uid "44E109F4-4844-7DAF-9B8A-8C8E347DC0D7";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:c1ad1897cf88";
+createNode surfaceShader -n "black_rsMat3";
+	rename -uid "27C80672-43BB-4AF6-758C-238744D013B1";
+createNode materialInfo -n "materialInfo95";
+	rename -uid "61E9A6E7-4942-BBCC-995A-8AA66DB34F37";
+createNode shadingEngine -n "green_rsSG5";
+	rename -uid "19CD05E0-43E9-5D7B-8151-E6AA54B570EE";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:8ed24ba70cda";
+createNode surfaceShader -n "green_rsMat5";
+	rename -uid "C2DC0959-447E-D0B4-1789-6FB811FCA0BC";
+	setAttr ".oc" -type "float3" 0 1 0 ;
+createNode materialInfo -n "materialInfo93";
+	rename -uid "7B15AEB5-4433-9672-B819-44AE42521E71";
+createNode shadingEngine -n "blue_rsSG5";
+	rename -uid "1A963EFF-444D-6D73-5236-BCB2BB955EEF";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:4834f4c74b44";
+createNode surfaceShader -n "blue_rsMat5";
+	rename -uid "FB636F0D-4369-80C8-0129-4E985C6F812B";
+	setAttr ".oc" -type "float3" 0 0 1 ;
+createNode materialInfo -n "materialInfo91";
+	rename -uid "6F411540-4569-50C7-C348-66BC2BABDD88";
+createNode shadingEngine -n "red_rsSG5";
+	rename -uid "889B1870-4315-1F12-771D-C1AF1F06DACB";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	setAttr ".ihi" 0;
+	setAttr ".ro" yes;
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:1f020eed90d2";
+createNode surfaceShader -n "red_rsMat5";
+	rename -uid "0C5AD412-4498-1BEB-3E0C-CCA264718830";
+	setAttr ".oc" -type "float3" 1 0 0 ;
 createNode decomposeMatrix -n "r_cheekUp_addPoser_decMat";
 	rename -uid "2143F50A-464A-A9CE-9541-35887426100C";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -6301,14 +8054,25 @@ createNode addDoubleLinear -n "addDoubleLinear78";
 createNode multDoubleLinear -n "multDoubleLinear148";
 	rename -uid "E8BED3F9-4568-E31E-3162-5BBBAF833F04";
 	setAttr ".i1" 0.1;
+createNode setRange -n "l_setRange_lipUpDownFacor";
+	rename -uid "1F531F7A-47C3-65E0-97BB-029314A21FF1";
+	setAttr ".n" -type "float3" 0 1 -1.0435683 ;
+	setAttr ".m" -type "float3" 1 0 0 ;
 createNode setRange -n "l_setRange_lipsFrontBack";
 	rename -uid "05F50968-459A-C282-BE96-45A77FAC8BF2";
 	setAttr ".n" -type "float3" 0 1 0 ;
+	setAttr ".m" -type "float3" 1 0 0 ;
+createNode setRange -n "r_setRange_lipUpDownFacor";
+	rename -uid "B12D5EC9-4572-5EC4-CF51-3E9F96A7A1D6";
+	setAttr ".n" -type "float3" 0 1 -1.0435683 ;
 	setAttr ".m" -type "float3" 1 0 0 ;
 createNode setRange -n "r_setRange_lipsFrontBack";
 	rename -uid "CC8AEF2C-46E4-8D60-9616-C9834969ECF2";
 	setAttr ".n" -type "float3" 0 1 0 ;
 	setAttr ".m" -type "float3" 1 0 0 ;
+createNode setRange -n "l_setRange_browDown";
+	rename -uid "0C986CF0-4335-11D3-04F7-2080B11953DF";
+	setAttr ".n" -type "float3" 1 1 1 ;
 createNode decomposeMatrix -n "mouth_decomposeMatrix9";
 	rename -uid "11E6E418-45F0-86E2-8C86-D3BB3739337E";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -6318,9 +8082,94 @@ createNode multMatrix -n "mouth_b_mouth_group_multMatrix";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	setAttr -s 2 ".i";
 	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode multMatrix -n "mouth_multMatrix28";
+	rename -uid "4CA929FC-4A36-55F1-9DFD-7798584DB844";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -s 2 ".i";
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode multDoubleLinear -n "multDoubleLinear127";
+	rename -uid "173E2CA7-41EC-1D78-23C9-AF9318712960";
+createNode multDoubleLinear -n "multDoubleLinear133";
+	rename -uid "BEBA559D-4A4C-5CD6-A42B-C6B1A83EE86C";
+	setAttr ".i2" 1;
+createNode setRange -n "setRange73";
+	rename -uid "EB7A524A-4C83-C7A7-F185-CAA27C013EB6";
+	setAttr ".n" -type "float3" 0.52999997 -0.029999999 0 ;
+	setAttr ".m" -type "float3" 0.28999999 0 0 ;
+	setAttr ".on" -type "float3" -0.5 -0.5 0 ;
+createNode plusMinusAverage -n "plusMinusAverage6";
+	rename -uid "38359D81-4C71-BB25-CD2C-4CBE14137883";
+	setAttr -s 4 ".i1[2:3]"  0 0;
+	setAttr -s 3 ".i1";
+createNode multDoubleLinear -n "multDoubleLinear28";
+	rename -uid "E168A939-46E0-7FB4-6CA7-A8A80B46716F";
+createNode multDoubleLinear -n "multDoubleLinear36";
+	rename -uid "12A2A111-4EA1-1AA9-83CB-29A98E336FBC";
+	setAttr ".i2" -0.2;
+createNode unitConversion -n "unitConversion264";
+	rename -uid "251E3265-483B-641E-BC0D-AA9C3C5F41BC";
+	setAttr ".cf" -0.3;
+createNode multMatrix -n "multMatrix46";
+	rename -uid "68A5F76A-4FBD-12BA-1884-458C449F353B";
+	setAttr -s 2 ".i";
+createNode multDoubleLinear -n "multDoubleLinear128";
+	rename -uid "25B72CC6-4690-1992-C16C-7CB78C8FAA99";
+createNode multDoubleLinear -n "multDoubleLinear136";
+	rename -uid "05C482BE-4530-CE9D-C83B-509E04AE73FE";
+createNode blendColors -n "blendColors6";
+	rename -uid "9F76CA03-4A4F-7960-363F-8E8A1C263768";
+	setAttr ".c1" -type "float3" 1 1 1 ;
+	setAttr ".c2" -type "float3" 1 1 1 ;
+createNode multDoubleLinear -n "multDoubleLinear135";
+	rename -uid "9D950513-4B20-5063-0F37-609374D1B050";
+createNode setRange -n "setRange72";
+	rename -uid "768F788B-4823-5D3F-0CED-5B85478DB073";
+	setAttr ".n" -type "float3" 0.5 0.5 1 ;
+	setAttr ".m" -type "float3" 1 1 0.5 ;
+	setAttr ".on" -type "float3" -0.5 -0.5 0 ;
+	setAttr ".om" -type "float3" 0 0 0.5 ;
+createNode setRange -n "setRange74";
+	rename -uid "C833B7C0-4F19-EA40-7AC1-71B8C97A28E1";
+	setAttr ".n" -type "float3" 0.52999997 -0.029999999 0 ;
+	setAttr ".m" -type "float3" 0.28999999 0 0 ;
+	setAttr ".on" -type "float3" -0.5 -0.5 0 ;
+createNode plusMinusAverage -n "plusMinusAverage7";
+	rename -uid "58F02FEB-4287-7464-CFBA-3ABD7FF1ABF5";
+	setAttr -s 4 ".i1[2:3]"  0 0;
+	setAttr -s 3 ".i1";
+createNode multMatrix -n "multMatrix125";
+	rename -uid "9224A7FE-4BBC-FC9B-FACF-D4B8C6EFB3F9";
+	setAttr -s 2 ".i";
+createNode multMatrix -n "multMatrix47";
+	rename -uid "92DD64F1-458B-2B21-F69B-37BC8862148A";
+	setAttr -s 2 ".i";
+createNode multMatrix -n "mouth_multMatrix27";
+	rename -uid "EE216AB6-4498-CA3B-B12D-8B917638A1FB";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -s 2 ".i";
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode plusMinusAverage -n "plusMinusAverage4";
+	rename -uid "2242ECF7-404D-A3CE-157A-EFAE3967D7F2";
+	setAttr -s 4 ".i1[2:3]"  0 0;
+	setAttr -s 3 ".i1";
+createNode multDoubleLinear -n "multDoubleLinear37";
+	rename -uid "0BE93425-44A4-CE83-91AB-E99858282B34";
+	setAttr ".i2" -0.2;
+createNode multMatrix -n "multMatrix45";
+	rename -uid "51AC5F2F-4B28-C554-1601-0E9DE0655903";
+	setAttr -s 2 ".i";
+createNode plusMinusAverage -n "plusMinusAverage5";
+	rename -uid "A4BC5A91-4CF4-E81E-F0EE-04A9E7433BDC";
+	setAttr -s 4 ".i1[2:3]"  0 0;
+	setAttr -s 3 ".i1";
 createNode multMatrix -n "multMatrix60";
 	rename -uid "8682547A-4D04-E1C0-98DB-D1BCB16F4978";
 	setAttr -s 2 ".i";
+createNode multMatrix -n "mouth_multMatrix1";
+	rename -uid "B3C72F3B-451A-3D8A-CC35-04B5C8C15366";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -s 2 ".i";
+	setAttr -l on ".moduleName" -type "string" "mouth";
 createNode decomposeMatrix -n "mouth_decomposeMatrix5";
 	rename -uid "F950506B-4A7B-1B0D-40ED-46BBBB308DE1";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -6329,6 +8178,23 @@ createNode multMatrix -n "mouth_multMatrix2";
 	rename -uid "D68B1534-4732-8F4C-11CA-05A4685CBE71";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	setAttr -s 2 ".i";
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode multMatrix -n "mouth_multMatrix4";
+	rename -uid "7A26AA3B-4940-87DC-BEE1-648D7836F7CE";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode multiplyDivide -n "mouth_multiplyDivide16";
+	rename -uid "3BEACC35-46B6-B826-CCE7-41B49F010FF9";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" -type "float3" -1 0 0 ;
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode inverseMatrix -n "mouth_inverseMatrix1";
+	rename -uid "DC0E41AA-4DF8-C2A8-60F0-5882668A0F10";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode multMatrix -n "mouth_multMatrix5";
+	rename -uid "920144B2-4F41-15EE-DA16-928BC8E39DFF";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	setAttr -l on ".moduleName" -type "string" "mouth";
 createNode decomposeMatrix -n "mouth_decomposeMatrix6";
 	rename -uid "45D0A9E2-4AC4-4F6B-AB67-558132A16BA1";
@@ -6374,6 +8240,11 @@ createNode multMatrix -n "l_cheek_group_multMat";
 createNode blendMatrix -n "mouth_blendMatrix17";
 	rename -uid "DDA24EBC-4AC3-96AF-EE48-2EB0B75C702A";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode multMatrix -n "mouth_multMatrix18";
+	rename -uid "906A5C05-4CAB-B2AD-98FA-289378EEC8ED";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -s 2 ".i";
 	setAttr -l on ".moduleName" -type "string" "mouth";
 createNode blendMatrix -n "mouth_blendMatrix18";
 	rename -uid "93C2699C-479A-AE43-6846-9EAB8DC7A5A1";
@@ -6888,6 +8759,20 @@ createNode ngst2SkinLayerData -n "ngSkinToolsData_skinCluster1";
 "zENgGbLhPwAADnsJBPA/AQYAAGoIAFgfMHxC/P/vP/hkUYNnROk/9AIeKj7N6RU4WOHKeB2v/+8/NbOaGOP/7z8VUp3U7P/vFSDwWAIZmbj//+8/pOL5AIZY7T9vK7/42UDlP8/MJNTyMeg/gt86SyIM6T+skKHfWQ/nP0DNOnhnZug/mpQCwGjf6D+5osc6QCPnP1tIniJB7eA/HX7WQtjO2T8ABbkc8D8EGlcwPeUZcAUXatAAFK2HJb2HsxkwFDG3MG7s+hkQPkAAFAulC0NddRnw8EZA7fMkbNPqP03iCCNN4u8/er+ZYdrt7z9OkHi15/zuP0UayZFCDO8/db4PaRm57z82dKR1Bq7vP/MHyaGryOw/4mJlyXL/70JoAHQkK8yLVoLuPxOvrJhbFMI/zzi2N6dK4T97ywXzK+dmoABYYkem5e7/7z/nGbfftKfePyIDsiAr6+oNYP4BAP4BAP4BAKYBABwraCvLQwtKPv7yAP7yAN7yABg2q7pe1Msy/sAA/sAA4sAA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA3gEAGGKbe3OKdrBCcA94QizTL7ZU7z8mkyS//GnnP+gQXyRzHcs/s1Vr0dpXzEIwABEBDLqFD3EOSBGY6fO9pJDU5j8NeBDBcOXlP87t6Uf7f+8/vOgVf22N6T+7+fVQ+xLuDUhmyBEYaRNVKUpjHA0oxgEAGAXpITPhJEI6mA4Y8D/Wkaep/SroEZiPtNNHKKDnPz//NZeRRes/gfcYkqNI7D8DK2PSRrLvP7ZCA8/z/ekNiBmwWKs6/yUQye8/nrzHvrVr7z+IwF/KjVjuFSgsGfKdTSgt7j/XUK9KDkgSsLorx092w98/1awvu/HX5D8fxlUw143pP/2A9TxmFu4/pbQLRz/87z9PElOM/xWg/gEAxgEAGEzdRwPYgtg6OAH+AQDuAQAJAVjC2t0OU8OzP/psJiz9Sco/hoKHVJRjxi1w/gEA7gEACQE07jBKKc7M7z+tNEuVvbdRCP4BABkBGClSfZXAELFumAEAAWpuAASamQEBBLk/ASREeAwAAABjbG9zZXN0UG9pbnQ1HTkBIQEECAIAAAUEMAUAAAAIAAAABgAAAAcNBAEMARQBHAwJAAAAAVAwCgAAAA0AAAALAAAADg0UARwBFAEcARQBHBAUAAAAFQ0EAQ==",
 "DAgWAAAFBBAXAAAAGA0EAQwQGQAAABoNBAEMEBsAAAAcDQQBDAgdAAAFBHAgAAAAJAAAACEAAAAwAAAAIgAAADQAAAAjAAAALg0cASQQJQAAACYNBAEMUCcAAAAqAAAAKAAAADMAAAApAAAAMg0UARwIKwAABQQMLAAAACEgEC0AAAAxDVQBXBAvAAAANw10AXwBHAEkAUQBTAFUAVwBjAGUAUQBTBA2AAAAOQ08AUQIOAAABQQBFAEcEDoAAAA7DQQBDDw8AAAAPQAAAD0AAAA8AAAA"};
 	setAttr ".imo" -type "string" "{\"_InfluenceMappingConfig__mirror_axis\": 0, \"dg_destination_attribute\": \"oppositeInfluence\", \"globs\": [[\"L_*\", \"R_*\"], [\"l_*\", \"r_*\"], [\"lf_*\", \"rt_*\"], [\"*_lf\", \"*_rt\"], [\"Left*\", \"Right*\"]]}";
+createNode multiplyDivide -n "multiplyDivide66";
+	rename -uid "A52CB38D-41B0-23D2-749A-96AE22BEAAD5";
+createNode multDoubleLinear -n "multDoubleLinear165";
+	rename -uid "A11FC218-44CA-CF70-7131-3EAA98A26763";
+	setAttr ".i2" 4;
+createNode multiplyDivide -n "multiplyDivide67";
+	rename -uid "5269B93B-4B41-E407-D5CA-0CBF95C5E750";
+createNode multiplyDivide -n "multiplyDivide68";
+	rename -uid "22952105-4477-CD5B-C542-119178C8E643";
+createNode multDoubleLinear -n "multDoubleLinear166";
+	rename -uid "8AF5B560-42CE-A7E9-8440-3F937090D2D6";
+	setAttr ".i2" 3.5;
+createNode multiplyDivide -n "multiplyDivide69";
+	rename -uid "A70A1875-4D2F-6378-4A69-3A80BF9113BE";
 createNode ngst2SkinLayerData -n "ngSkinToolsData_skinCluster3";
 	rename -uid "C6C9FAFF-4EBF-233C-C8E1-DC90552FA847";
 	setAttr ".ld" -type "ngst2SkinLayerDataStorage" 16 40219 {
@@ -6941,16 +8826,30 @@ createNode ngst2SkinLayerData -n "ngSkinToolsData_skinCluster4";
 "6f9cDaWtPhXenREa4bU+W3XkgG/g0D7FNawqq2yaPqXbW/sma7/VZBgQ5VFTmlqAFRARAVgx+yr5zILjPlnN2+fJSck+p3T3EaLTqkIoAJ4BALh1bU7Z3t2YPkfUHbSYo6c+bEBAZmB8mD5fhRvCMEaFPh1zoLhVJ/Q+7KZy58LUC0K8BaA3MU3666g7PpUVkrlQi7Q+4NNho9LNwT5nwi/qLzOvPiz3eFv8MXc9AFqRAPBer79dCUJRuj7QXoStbqCbPkO4ksDMA74+DxcWxjrXyz7kNYJo/y5APkECj84tjbQ+h0Weyi3NwT5cTF2zAt3QPiYZOSThMK8+VDqc8o1lvz66v3kfYDF3Pcgc5f9rWIBCGAF4B5CIHsN94z7+QFK1/kTJPum3srZpzqo+N8IrD7UwjGKoAF4BAPCqCfcyfUvorz4owBoavBHgPv9eByvvyNc+KDRf62qrrT4BKn7DQTMTPgSbTIpr6Zg+pwojNROopz6tBV/+AoyYPrY3G7v05LU+hD/QLMUSuz6IjM0w3sbNPoKmzv+Xe4U+jMOCgwl3mj4EEp4dXiL0PvDKpCha1NM84HGK3sDNCz8OUzX5WjGMPLhEGQjd3OU+gSFBM4ONIz85hB0Dvzw1P0rCCxrXQyo+AAAABcMYCVssIj0hNULIAVgeYDz+0HITPwBGCxD7O8c+OjSd7UQwtEJAAZjpVw/EL1LTPRgfgWjEY3s+/iG0siFblD288i8kZoGiPtKKfnaTDFQtSCb4IQV9/hAA/hAA/hAA/hAA/hAA/hAA/hAA/hAAFRD+AQD+AQD+AQD+AQD+AQD+AQD+AQD+AQD+AQD+AQCmAQDwUgUAAADrMAwMzBemPr3VZ016D8U+i1WRSIKYAz5DEC435wjIPmm/resPS9Y+ibNajziwtz4jxIxaBYTBPpKIY0eKBds+CVSfyoYnpT6mykWxByfJtVQYolyk/EEvihUQEQFYLoJRwkc97z4kUzLYqD7UPq3GR7D0ebVCKACeAQC4HoY2nBk0oj5KYpTSt7SxPoVPV4F5laM+2H3wRgEIkT6z8KClUsv7PjqtfVrFLhOtrBkBmGm76fffI0Y+cJhWqAxwwD5lqDI4oIHMPtAbJwI6+rg+xGYWhreRgq30RgEA8F6srwSyVhHFPuVkNOZOHaY+It8LXRQGyD7nxr+NhUnWPvfn5IUI6Ek+0AEt4opxwD52C6tHmIDMPuT7UWkOANs+JyMDD2H4uD5goz92jCLJPic633I6kYI97WwiCsQrikIYAXjvSvGLNjXvPmKyE2bSOtQ+s2y22sZ1tT4/jRUraZGWYqgAXgEA8Koi89faNou5PsfNVFGWuuk+ndCQbo8K4w==",
 "Pj+b0jlVtbc+bMhqekWuHj4tfw6i2z2iPi8O33aluLE+FJ/AlP+hoz4EYoQ8G4fBPtRO7rBT7MI+cSfrEtuY1D6V/uFPzC2RPmFzw8HTL6U+1ODZ23rE+z7s6cmo2r/fPE2kws7wKRM/Vfoe/u2RljwwqCeVDibuPlnNdu899Co/4YW35JlGPT9C1uo0bxoyPgAAAAXDGCUn1luuID1CyAFYdjDq4VbPGj/A0hmGpZnSPspRflxnKcBCQAGYwdfVeXHv3j2xIjiaGO2FPg0/IzoqS6A9rRTjiZYVqj4PeGWVggNgwkgB/gEA/gEA/gEA/gEA/gEA/gEA/gEAtgEA/vwJ/vwJ/vwJ/vwJ/vwJ/vwJ/vwJ/vwJXvwJ/hgC/hgCUhgCDncnXgEABJqZAQEEuT8BJEB4DAAAAGNsb3Nlc3RQb2ludB6YLwEBASEBBA7gHwEEDgQYAQQOKBAsBAAAAAUAAAAFAAAA"};
 	setAttr ".imo" -type "string" "{\"_InfluenceMappingConfig__mirror_axis\": 0, \"dg_destination_attribute\": \"oppositeInfluence\", \"globs\": [[\"L_*\", \"R_*\"], [\"l_*\", \"r_*\"], [\"lf_*\", \"rt_*\"], [\"*_lf\", \"*_rt\"], [\"Left*\", \"Right*\"]]}";
+createNode setRange -n "l_setRange_browUp";
+	rename -uid "0074FAFA-470B-D642-320E-42A101503065";
+	setAttr ".m" -type "float3" 1 1 1 ;
+createNode setRange -n "r_setRange_browDown";
+	rename -uid "7041336C-4C2B-51CB-E31A-F896079A0AF1";
+	setAttr ".n" -type "float3" 1 1 1 ;
+createNode setRange -n "r_setRange_browUp";
+	rename -uid "61034C7D-4E72-44AD-401B-EF989E98B4BA";
+	setAttr ".m" -type "float3" 1 1 1 ;
+createNode reverse -n "reverse_upFactor";
+	rename -uid "A0A384C0-481B-4381-452B-5C80DEF586C0";
 createNode setRange -n "setRange_cheekUp";
 	rename -uid "0DF4D69F-4AAD-5C1A-2107-80A19B43C206";
 	setAttr ".m" -type "float3" 1 1 0 ;
 createNode plusMinusAverage -n "plusMinusAverage_MoveAndSmileFactor";
 	rename -uid "44640F9D-44A0-94C6-C577-808A66BD03D3";
-	setAttr -s 2 ".i3[0:1]" -type "float3"  0 4.4408921e-16 0 0 0 0;
+	setAttr -s 2 ".i3[0:1]" -type "float3"  0 0 0 0 0 0;
 	setAttr -s 2 ".i3";
 createNode setRange -n "setRange_cheeksOut";
 	rename -uid "8A602477-486A-AEAC-5F6A-72A0C900B783";
 	setAttr ".m" -type "float3" 1 1 0 ;
+createNode setRange -n "setRange112";
+	rename -uid "324DAD5D-43DC-37D3-984E-7C889CD13381";
+	setAttr ".n" -type "float3" 1 1 0 ;
 createNode ngst2SkinLayerData -n "ngSkinToolsData_skinCluster2";
 	rename -uid "02878316-496C-9E1E-BF81-988DC76BA490";
 	setAttr ".ld" -type "ngst2SkinLayerDataStorage" 16 3228 {
@@ -6959,6 +8858,10 @@ createNode ngst2SkinLayerData -n "ngSkinToolsData_skinCluster2";
 "Av5IAv5IAv5IAv6AAb6AAQ72CQ7ACf54AL54AP5wAP5wAP5wAP5wAF5wAAD+JZH+mAP+mAP+mAP+mAP+mAP+mAP+mAPumANpmP4gA/4gA/4gA/4gA14gA/4YAb4YAT6QA2Wf/qAD/qAD/qAD/qAD/qAD/qAD7qADbaAAFElJ/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEAkgEAGG1LDI1h15EavBEZARiIVX04HMLDQhgA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEAXgEAABX+GQn+GQn+GQn+GQn+GQn+GQn+GQn+GQn+GQnKGQkYGKJx8ImZaf6MROKMRBi94p27j6NY/oAA4oAA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEA/gEAngEAGIuFVOw1QUj+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA/+DA+CDA84FkTMhO1CYj9xad0ZHAq//jAJ/jAJYjAJOJLW25IHqoQ/WeAxjafJj/6oAP6oAGKoAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAP4BAIoBAG7TYgSamQEBBLk/ASQAeA7ceyxjbG9zZXN0UG9pbnQu9RUBIQEEDmxKAQQQAwAAAAQNBAEMDvB7IAgAAAAGAAAABw0EAQwBFAEcAAkaPHwwCgAAAA0AAAALAAAADg0UARwBFAEcARQBHAgPAAAFBAgQAAAFBAgRAAAFBAgSAAAFBAgTAAAFBA5IMg6YGQEEAQwAFg6AfBwAAAAXAAAAGA0EAQwQGQAAABoNBAEMEBsAAAAcDQQBDAgdAAAFBAgeAAAFBAgfAAAFBHAgAAAAJAAAACEAAAAwAA==",
 "AAAiAAAANAAAACMAAAAuDRwBJBAlAAAAJg0EAQxQJwAAACoAAAAoAAAAMwAAACkAAAAyDRQBHAgrAAAFBDAsAAAANQAAAC0AAAAxDVQBXBAvAAAANw10AXwBHAEkAUQBTAFUAVwBjAGUAUQBTBA2AAAAOQ08AUQIOAAABQQBFAEcEDoAAAA7DQQBDDw8AAAAPQAAAD0AAAA8AAAA"};
 	setAttr ".imo" -type "string" "{\"_InfluenceMappingConfig__mirror_axis\": 0, \"dg_destination_attribute\": \"oppositeInfluence\", \"globs\": [[\"L_*\", \"R_*\"], [\"l_*\", \"r_*\"], [\"lf_*\", \"rt_*\"], [\"*_lf\", \"*_rt\"], [\"Left*\", \"Right*\"]]}";
+createNode setRange -n "setRange113";
+	rename -uid "A7F63B1C-452E-5D9B-1F96-A599F8A4ECAB";
+	setAttr ".m" -type "float3" 1 1 0 ;
+	setAttr ".om" -type "float3" 33 33 0 ;
 createNode multMatrix -n "multMatrix126";
 	rename -uid "A516D156-4A62-7DDE-C41F-4EB9F75C1F00";
 	setAttr -s 2 ".i";
@@ -6968,10 +8871,25 @@ createNode multMatrix -n "multMatrix127";
 createNode multMatrix -n "multMatrix128";
 	rename -uid "FB5895C6-48C9-6A89-B37C-60BB1941C54E";
 	setAttr -s 3 ".i";
+createNode multMatrix -n "multMatrix129";
+	rename -uid "DAC6CBF9-4FF7-7D96-CCB4-2089620312A0";
+createNode multMatrix -n "multMatrix131";
+	rename -uid "07BEC2A1-420A-7D45-7F5F-B28BD3D2E13F";
+createNode multMatrix -n "multMatrix132";
+	rename -uid "8D180BC6-409C-6621-A077-73892B9105C7";
 createNode objectSet -n "skinJointsSet";
 	rename -uid "D7ADC95F-4BAC-52F2-7CAA-CEAEB33DCBFF";
 	setAttr ".ihi" 0;
 	setAttr -s 47 ".dsm";
+createNode multMatrix -n "multMatrix134";
+	rename -uid "CD720732-4118-1F1C-9F1D-66B20C9337B2";
+createNode multiplyDivide -n "size_multiplyDivide1";
+	rename -uid "E4172A3A-4398-7567-F22B-459A4AC61C20";
+createNode blendColors -n "blendColors1";
+	rename -uid "DD4A22EF-4EF9-9B6E-8062-668FE753123A";
+createNode multiplyDivide -n "multiplyDivide353";
+	rename -uid "0E7842E9-48C1-92DF-6FFF-01B4F60EAB1E";
+	setAttr ".i2" -type "float3" -1 1 1 ;
 createNode sweepMeshCreator -n "sweepMeshCreator1";
 	rename -uid "4B13F1BD-4461-115E-68ED-4C874E00FB54";
 	setAttr ".profileRectWidth" 2;
@@ -6979,10 +8897,9 @@ createNode sweepMeshCreator -n "sweepMeshCreator1";
 	setAttr ".profileRectCornerRadius" 0.4;
 	setAttr ".profileWaveAmplitude" 0.25;
 	setAttr -s 2 ".taperCurve[0:1]"  0 1 1 1 1 1;
-	setAttr ".interpolationMode" 1;
 	setAttr ".interpolationDistance" 3;
-	setAttr -s 4 ".inCurveArray";
-	setAttr -s 4 ".outMeshArray";
+	setAttr -s 6 ".inCurveArray";
+	setAttr -s 6 ".outMeshArray";
 createNode multiplyDivide -n "size_multiplyDivide";
 	rename -uid "91486386-4558-3748-7829-8B8B60EEB4C3";
 createNode multDoubleLinear -n "multDoubleLinear438";
@@ -7031,6 +8948,8 @@ createNode makeNurbSphere -n "makeNurbSphere16";
 	rename -uid "D5B92683-424A-CBE2-6E85-82B9889D080F";
 createNode multiplyDivide -n "size_multiplyDivide7";
 	rename -uid "C9927457-4016-2529-6C9E-2DB658989C00";
+createNode makeNurbSphere -n "makeNurbSphere18";
+	rename -uid "B1F9C5D4-4581-967F-EA96-88AC528664E3";
 createNode makeNurbSphere -n "makeNurbSphere19";
 	rename -uid "3AD06D0B-40B2-555C-B75C-38A2DCCEFCAF";
 createNode cluster -n "mouth_clusterHandleCluster";
@@ -7077,7 +8996,7 @@ createNode composeMatrix -n "composeMatrix3";
 	setAttr ".is" -type "double3" -1 1 1 ;
 createNode multMatrix -n "multMatrix144";
 	rename -uid "B49266F1-4EE6-3545-56E2-28A3715C84B5";
-	setAttr -s 2 ".i";
+	setAttr -s 3 ".i";
 createNode blendMatrix -n "mouth_blendMatrix20";
 	rename -uid "F92D0283-433B-81C8-3F93-0DA9A3E1B37A";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -7129,6 +9048,8 @@ createNode multMatrix -n "b_tooth_group_multMat";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	setAttr -s 2 ".i";
 	setAttr -l on ".moduleName" -type "string" "head";
+createNode multMatrix -n "multMatrix157";
+	rename -uid "0DE6A431-4635-BBEB-E57D-25B9E99BF2CC";
 createNode multMatrix -n "tongue_1_group_multMat";
 	rename -uid "826B41C2-486F-B0D3-64B3-89AE6A917001";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -7147,6 +9068,9 @@ createNode multMatrix -n "multMatrix159";
 	setAttr -s 2 ".i";
 createNode inverseMatrix -n "inverseMatrix1";
 	rename -uid "2688DF3F-4F73-B43A-B288-A48BE45CD29E";
+createNode multMatrix -n "root_rel_lips_multMatrix";
+	rename -uid "1278AD8D-4C89-C028-BC95-8ABFF79F164E";
+	setAttr -s 2 ".i";
 createNode multMatrix -n "l_b_lip_3_outJoint_multMat";
 	rename -uid "769A4CA0-43D3-0918-89EA-278F7424DD1C";
 	setAttr -s 2 ".i";
@@ -7418,6 +9342,15 @@ createNode makeNurbSphere -n "makeNurbSphere21";
 createNode multDoubleLinear -n "multDoubleLinear442";
 	rename -uid "8B52747A-4432-3BEA-E767-218D6F7F68EB";
 	setAttr ".i2" -1;
+createNode multiplyDivide -n "multiplyDivide354";
+	rename -uid "D0AEEBEE-4F39-0CEF-56C1-F2B75DE782E2";
+createNode addDoubleLinear -n "t_lips_rotate_addDoubleLinear1";
+	rename -uid "492F3D9C-4F35-7E3C-81E3-C0A699EDFEEB";
+	setAttr ".ihi" 2;
+	setAttr ".i1" -50.848797413118191;
+	setAttr ".i2" 44.053910671842019;
+createNode reverse -n "reverse38";
+	rename -uid "1413220F-486A-0F88-03C2-EFB7633B7853";
 createNode unitConversion -n "unitConversion294";
 	rename -uid "D0C17C6A-4A28-EEA2-CDF4-9B94728FCAF5";
 	setAttr ".cf" 0.017453292519943295;
@@ -7502,16 +9435,186 @@ createNode unitConversion -n "unitConversion276";
 createNode unitConversion -n "unitConversion278";
 	rename -uid "51368A8D-4692-9586-4959-42B73AE7FA96";
 	setAttr ".cf" 57.295779513082323;
+createNode unitConversion -n "unitConversion277";
+	rename -uid "4D8EE5A8-4DAA-DF57-0D1D-ECB25E15D901";
+	setAttr ".cf" 57.295779513082323;
+createNode multMatrix -n "multMatrix219";
+	rename -uid "C1963643-4E94-6DE8-39EB-C3A79E9B468A";
+createNode multMatrix -n "multMatrix220";
+	rename -uid "496BC37C-40A2-53EC-8C1A-4CA2224A84E0";
+createNode multiplyDivide -n "pasted__size_multiplyDivide7";
+	rename -uid "BEE10940-40D1-2290-E26A-5D8B0BF1FA23";
+createNode multiplyDivide -n "pasted__size_multiplyDivide3";
+	rename -uid "79A1655C-4FAE-80A7-8665-D89AE1097DCB";
+createNode multiplyDivide -n "pasted__size_multiplyDivide2";
+	rename -uid "A19B425C-4F5B-AA2C-046C-AE87C9F4A781";
+createNode multiplyDivide -n "pasted__mainPoser_size_multiplyDivide";
+	rename -uid "A7FE6050-425C-4C13-6272-20B9B4214473";
+createNode multDoubleLinear -n "pasted__multDoubleLinear128";
+	rename -uid "A55F7363-4D6F-A678-4CF2-B28A4D131E86";
+createNode multDoubleLinear -n "pasted__multDoubleLinear136";
+	rename -uid "470505B4-48FB-0AE9-C62B-A2BA17FE96FF";
+createNode blendColors -n "pasted__blendColors6";
+	rename -uid "8967D50B-419F-169A-C55C-7D8BF873A88F";
+	setAttr ".c1" -type "float3" 1 1 1 ;
+	setAttr ".c2" -type "float3" 1 1 1 ;
+createNode multDoubleLinear -n "pasted__multDoubleLinear135";
+	rename -uid "903FF636-4AC1-B8F4-0D0F-7E8FF58E0508";
+createNode setRange -n "pasted__setRange72";
+	rename -uid "6EFBD820-4324-3DFB-2D78-A7A85DA19BFA";
+	setAttr ".n" -type "float3" 0.5 0.5 1 ;
+	setAttr ".m" -type "float3" 1 1 0.5 ;
+	setAttr ".on" -type "float3" -0.5 -0.5 0 ;
+	setAttr ".om" -type "float3" 0 0 0.5 ;
+createNode multiplyDivide -n "pasted__mouth_multiplyDivide13";
+	rename -uid "D6337FE9-4549-4A0C-4BC4-D5BEAB1D987A";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" -type "float3" -1 -1 0 ;
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode multiplyDivide -n "pasted__mouth_multiplyDivide14";
+	rename -uid "7491A7F4-414D-D6F6-674F-39834700A371";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" -type "float3" -1 -1 -1 ;
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode unitConversion -n "pasted__mouth_unitConversion15";
+	rename -uid "B6A16C6F-4DC6-3FB2-B6E7-B38779047232";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".cf" 0.55;
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode addDoubleLinear -n "pasted__addDoubleLinear64";
+	rename -uid "0493B1CB-436B-790E-655A-EE949B76FB18";
+	setAttr ".ihi" 2;
+createNode multDoubleLinear -n "pasted__multDoubleLinear131";
+	rename -uid "44AD1498-418E-32AE-D56C-90A9F154DE71";
+createNode multDoubleLinear -n "pasted__mouth_multDoubleLinear17";
+	rename -uid "94C8BE49-4949-C8C6-F09A-20A97DE8475F";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode multDoubleLinear -n "pasted__mouth_multDoubleLinear19";
+	rename -uid "7BC2E0E1-43A0-AF23-08C8-A097A893BCDD";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" 1.67;
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode multiplyDivide -n "pasted__mouth_multiplyDivide15";
+	rename -uid "C83BB1C0-45B4-7F04-5238-439C30E4A9C4";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".op" 2;
+	setAttr ".i1" -type "float3" -1 0 0 ;
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode blendColors -n "pasted__blendColors5";
+	rename -uid "1C4CD4A1-46B9-336F-B77E-199D24CAFE2B";
+	setAttr ".c1" -type "float3" 1 1 1 ;
+	setAttr ".c2" -type "float3" 1 1 1 ;
+createNode multDoubleLinear -n "pasted__multDoubleLinear132";
+	rename -uid "F2D3F9C9-4C43-E8B7-494C-E58DAA5FE869";
+createNode setRange -n "pasted__setRange71";
+	rename -uid "1E2BE274-43BC-FDF9-318A-FB9744D4FD5E";
+	setAttr ".n" -type "float3" 0.5 0.5 1 ;
+	setAttr ".m" -type "float3" 1 1 0.5 ;
+	setAttr ".on" -type "float3" -0.5 -0.5 0 ;
+	setAttr ".om" -type "float3" 0 0 0.5 ;
+createNode multDoubleLinear -n "pasted__multDoubleLinear129";
+	rename -uid "98BDFC89-49E2-CFC1-0F1A-1486BE8BAF04";
+createNode reverse -n "pasted__reverse31";
+	rename -uid "9D367603-4ED7-A99D-8A39-E2B1FAFA5119";
+createNode setRange -n "pasted__setRange70";
+	rename -uid "247F929E-4301-EE07-4D12-21A653DC1B89";
+	setAttr ".n" -type "float3" 0.5 0.5 0 ;
+	setAttr ".m" -type "float3" 1 1 0 ;
+	setAttr ".om" -type "float3" 0.5 0.5 0 ;
+createNode multDoubleLinear -n "pasted__multDoubleLinear161";
+	rename -uid "EB52C688-4E63-D978-B3D5-A4AF4CF807ED";
+createNode setRange -n "pasted__setRange111";
+	rename -uid "B6428AD8-4BBD-E497-4B58-9D862F9D415A";
+	setAttr ".m" -type "float3" 1 1 0 ;
+	setAttr ".on" -type "float3" -0.44999999 -0.44999999 0 ;
+createNode unitConversion -n "pasted__mouth_unitConversion16";
+	rename -uid "1C11FE31-4B21-77F9-BC69-64AB12022E8A";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".cf" -0.55;
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode multDoubleLinear -n "pasted__mouth_multDoubleLinear18";
+	rename -uid "BD5B66F3-4E03-3AB8-22DA-3FB268DFFAA8";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode multDoubleLinear -n "pasted__multDoubleLinear127";
+	rename -uid "8147BBE5-4506-6992-2F7B-768C63C4B190";
+createNode multDoubleLinear -n "pasted__multDoubleLinear133";
+	rename -uid "BE2727B9-4630-F5F9-411F-33852D7D358A";
+createNode setRange -n "pasted__setRange73";
+	rename -uid "15515C98-4BFD-541D-1C40-08B855BBE6B5";
+	setAttr ".n" -type "float3" 0.52999997 -0.029999999 0 ;
+	setAttr ".m" -type "float3" 0.28999999 0 0 ;
+	setAttr ".on" -type "float3" -0.5 -0.5 0 ;
+createNode multiplyDivide -n "pasted__mouth_multiplyDivide16";
+	rename -uid "364016CE-470F-12CD-7554-67B812053708";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" -type "float3" -1 -1 0 ;
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode unitConversion -n "pasted__mouth_unitConversion18";
+	rename -uid "BAFDC2ED-440C-22DA-5095-EC86F54A3A8A";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".cf" -0.55;
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode multDoubleLinear -n "pasted__mouth_multDoubleLinear21";
+	rename -uid "58EF92ED-4DB7-EEB2-91A2-4188E6F2D2B2";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode unitConversion -n "pasted__mouth_unitConversion17";
+	rename -uid "ED6EADF7-4118-3663-33C8-67932365FC9F";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".cf" 0.55;
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode multDoubleLinear -n "pasted__multDoubleLinear134";
+	rename -uid "08F847B7-4001-2183-A4BC-41AB56CFE10C";
+createNode addDoubleLinear -n "pasted__addDoubleLinear65";
+	rename -uid "C4D19A1B-4644-2A4D-C2A5-6C9B1020AA0B";
+	setAttr ".ihi" 2;
+createNode multDoubleLinear -n "pasted__mouth_multDoubleLinear20";
+	rename -uid "638D99B8-4AD7-8A20-483D-D38DDB9B28CB";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode multDoubleLinear -n "pasted__multDoubleLinear130";
+	rename -uid "DDA98A06-42A9-42BC-5EB0-BFAFD3BC0B44";
+createNode multDoubleLinear -n "pasted__multDoubleLinear162";
+	rename -uid "C230901D-4BDB-E02B-2E85-6E8BF420186D";
+createNode setRange -n "pasted__setRange74";
+	rename -uid "0804FD57-4ABB-9CCC-77F3-08896B4694AE";
+	setAttr ".n" -type "float3" 0.52999997 -0.029999999 0 ;
+	setAttr ".m" -type "float3" 0.28999999 0 0 ;
+	setAttr ".on" -type "float3" -0.5 -0.5 0 ;
 createNode multMatrix -n "multMatrix234";
 	rename -uid "5912CBD7-4539-DC3F-7743-1A96EE1EC066";
 	setAttr -s 2 ".i";
 createNode multMatrix -n "multMatrix235";
 	rename -uid "2FE8641A-43DA-2737-C4CF-13989C0A9D14";
 	setAttr -s 2 ".i";
+createNode multMatrix -n "multMatrix238";
+	rename -uid "E03339C8-4A93-5433-5FDF-60AEA4360A52";
+createNode multMatrix -n "multMatrix239";
+	rename -uid "1555E629-4D8B-AAF8-C500-7DA2C72B2143";
+	setAttr -s 2 ".i";
+createNode multMatrix -n "multMatrix243";
+	rename -uid "F4083739-42A8-A302-E59A-AFA7054943BE";
+createNode composeMatrix -n "composeMatrix9";
+	rename -uid "63EDE00C-463D-8763-7F0A-4986E9CD6940";
+	setAttr ".is" -type "double3" -1 1 1 ;
+createNode multiplyDivide -n "multiplyDivide356";
+	rename -uid "BD7BDD81-4D0C-6DF8-6FEB-B88A44E48EB2";
+	setAttr ".i2" -type "float3" 0.5 0.5 0 ;
 createNode absOverride -n "absOverride1";
 	rename -uid "BE50EF9D-4F9F-B2CC-9B39-068F1F6BCBD0";
 createNode absUniqueOverride -n "absUniqueOverride1";
 	rename -uid "A41ED22A-408E-BDB9-D382-67903AA508DA";
+createNode distanceBetween -n "distanceBetween2";
+	rename -uid "23922222-4208-14D9-5B43-03BEB63D36EE";
+createNode distanceBetween -n "distanceBetween3";
+	rename -uid "5A423113-46E2-C3EE-B53B-2BABA70A0B47";
+createNode multiplyDivide -n "multiplyDivide357";
+	rename -uid "879C173E-433F-5C57-083C-DE8A4C654F0D";
+	setAttr ".op" 2;
+createNode multMatrix -n "multMatrix244";
+	rename -uid "B9360D4C-4FE5-C9A2-64B7-CAAE28F6CED0";
 createNode multMatrix -n "multMatrix245";
 	rename -uid "C57DB6B9-4BB3-C4B4-DA63-37BECCDFC79E";
 	setAttr -s 2 ".i";
@@ -7519,37 +9622,100 @@ createNode pairBlend -n "mouth_pairBlend1";
 	rename -uid "DA724161-483E-8B4B-49A3-D0870897EE41";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	setAttr -l on ".moduleName" -type "string" "mouth";
-createNode multiplyDivide -n "lip_1_init_mirror_multiplyDivide";
+createNode setRange -n "setRange114";
+	rename -uid "BC721E64-4A44-911E-5046-F79E06649A2C";
+	setAttr ".m" -type "float3" 1 0.62371135 0 ;
+createNode condition -n "condition2";
+	rename -uid "AD5409C2-490B-11D1-3DB4-B39414D9EB6B";
+	setAttr ".op" 2;
+createNode multMatrix -n "mouth_multMatrix29";
+	rename -uid "059EC1D5-4EA4-1A81-5F6A-2E949BC05FA2";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -s 2 ".i";
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode multMatrix -n "mouth_multMatrix30";
+	rename -uid "01084A4B-4A47-8609-143B-CCA8FD1896A2";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode multiplyDivide -n "multiplyDivide358";
 	rename -uid "EBE32965-4EC9-C702-2E28-109A5228C79C";
 	setAttr ".i2" -type "float3" -1 1 1 ;
-createNode multiplyDivide -n "lip_corner_init_mirror_multiplyDivide";
+createNode multiplyDivide -n "multiplyDivide359";
 	rename -uid "2259B3D4-41EA-6DB7-199C-2D9F4E5AA437";
 	setAttr ".i2" -type "float3" -1 1 1 ;
-createNode multiplyDivide -n "lip_2_init_mirror_multiplyDivide";
+createNode multiplyDivide -n "multiplyDivide360";
 	rename -uid "DEF97A1F-4FA4-A19F-68ED-28A67398A1F7";
 	setAttr ".i2" -type "float3" -1 1 1 ;
+createNode motionPath -n "curveShape1_4_mpath";
+	rename -uid "6EAF9EE7-498E-7097-1287-8A8B4C819452";
+	setAttr ".f" yes;
+	setAttr ".fa" 0;
+	setAttr ".ua" 1;
+createNode motionPath -n "curveShape1_5_mpath";
+	rename -uid "8798C5B1-49D4-599B-B116-49A948C72005";
+	setAttr ".f" yes;
+	setAttr ".fa" 0;
+	setAttr ".ua" 1;
 createNode motionPath -n "curveShape1_6_mpath";
 	rename -uid "F4FA9463-49DF-88A0-F101-F8ABD81FD665";
 	setAttr ".f" yes;
 	setAttr ".fa" 0;
 	setAttr ".ua" 1;
 	setAttr ".wut" 2;
-createNode nearestPointOnCurve -n "l_lip_1_nearestPointOnCurve";
+createNode nearestPointOnCurve -n "nearestPointOnCurve1";
 	rename -uid "B4CC11BC-42AA-0744-4FEA-2C90F9977B59";
+createNode composeMatrix -n "composeMatrix10";
+	rename -uid "1DECF3CC-477E-2BEE-134D-2386158B4191";
 createNode composeMatrix -n "composeMatrix11";
 	rename -uid "EC314F9B-4C90-0124-7D5D-AB9AF1623BCD";
-createNode nearestPointOnCurve -n "l_lip_2_nearestPointOnCurve";
+createNode multMatrix -n "mouth_multMatrix31";
+	rename -uid "37D1EBD2-4CE6-9329-31A5-03879960F2F7";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -s 2 ".i";
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode composeMatrix -n "composeMatrix12";
+	rename -uid "3C8C4791-4FF1-586D-A7C3-CDAF70CC0C3F";
+createNode nearestPointOnCurve -n "nearestPointOnCurve2";
 	rename -uid "A2E2BCB8-4534-D119-A4C2-359E9C9FFFCF";
+createNode multMatrix -n "mouth_multMatrix32";
+	rename -uid "43D8FDEE-49D2-3C4D-9638-E59A1EF80C91";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -s 4 ".i";
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode multMatrix -n "mouth_multMatrix33";
+	rename -uid "259CD59E-4E45-5EA9-0868-22A40A7B1DC5";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -s 4 ".i";
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode composeMatrix -n "composeMatrix13";
+	rename -uid "70CEA83F-4B7E-1431-D4DA-F8A5DA8C6C7B";
+createNode multMatrix -n "mouth_multMatrix34";
+	rename -uid "E20EE729-4C44-2303-035E-67A18FE66F64";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -s 2 ".i";
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode multMatrix -n "multMatrix247";
+	rename -uid "C01CAD8B-4675-C9F8-F8E2-4E933CDF73F5";
+	setAttr -s 4 ".i";
+createNode multMatrix -n "multMatrix248";
+	rename -uid "592F2DFF-473E-5552-7B2F-C28204716E1C";
+	setAttr -s 4 ".i";
 createNode pairBlend -n "mouth_pairBlend3";
 	rename -uid "95340FFE-466D-B57D-38F5-4AB1E9C873D7";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode condition -n "condition4";
+	rename -uid "86BD7238-4BDB-C954-00BE-A99D171D269A";
+	setAttr ".op" 2;
 createNode multMatrix -n "multMatrix249";
 	rename -uid "5708FEB9-4E45-6023-EAB1-02AD0FF109D1";
 	setAttr -s 3 ".i";
 createNode composeMatrix -n "composeMatrix14";
 	rename -uid "52E10BF6-48CC-5AC7-63F5-46BE41EFEBA7";
 	setAttr ".is" -type "double3" -1 1 1 ;
+createNode setRange -n "setRange115";
+	rename -uid "8CB8AA2E-4E73-BACD-968F-CFA84BF0BDD5";
+	setAttr ".m" -type "float3" 1 0.62371135 0 ;
 createNode transformGeometry -n "transformGeometry1";
 	rename -uid "50CD3D02-4A8D-0622-C85B-C1BE21D466F5";
 createNode composeMatrix -n "composeMatrix15";
@@ -7564,6 +9730,13 @@ createNode motionPath -n "curveShape1_4_mpath1";
 	setAttr ".f" yes;
 	setAttr ".fa" 0;
 	setAttr ".ua" 1;
+createNode composeMatrix -n "composeMatrix17";
+	rename -uid "1F776848-47B4-1DAE-258D-C5B53E918501";
+createNode multMatrix -n "mouth_multMatrix36";
+	rename -uid "8768CDCF-4615-5975-FDB9-07AC9A01B404";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -s 2 ".i";
+	setAttr -l on ".moduleName" -type "string" "mouth";
 createNode composeMatrix -n "composeMatrix18";
 	rename -uid "DC560FEC-4161-5F1B-6564-4996A85D8092";
 createNode motionPath -n "curveShape1_6_mpath1";
@@ -7572,7 +9745,7 @@ createNode motionPath -n "curveShape1_6_mpath1";
 	setAttr ".fa" 0;
 	setAttr ".ua" 1;
 	setAttr ".wut" 2;
-createNode decomposeMatrix -n "mouth_poser_decomposeMatrix";
+createNode decomposeMatrix -n "decomposeMatrix51";
 	rename -uid "EB2FBE3D-47CB-8556-DD7B-06952E9E009D";
 createNode addDoubleLinear -n "addDoubleLinear93";
 	rename -uid "BD707BD0-4787-BEFF-3A39-37BD4CB8972D";
@@ -7584,31 +9757,76 @@ createNode multiplyDivide -n "multiplyDivide363";
 	setAttr ".i2" -type "float3" -1 1 1 ;
 createNode nearestPointOnCurve -n "corner_nearestPointOnCurve";
 	rename -uid "452D46D4-4338-E4E0-EE39-CF88341C2635";
+createNode multiplyDivide -n "mouth_multiplyDivide13";
+	rename -uid "1A7E8927-4D74-579F-B226-6BA713D692B8";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".i2" -type "float3" -1 0 0 ;
+	setAttr -l on ".moduleName" -type "string" "mouth";
 createNode addDoubleLinear -n "addDoubleLinear97";
 	rename -uid "8D7F8B56-43AF-5DDA-9D74-C69F1A231859";
 	setAttr ".ihi" 2;
-	setAttr ".i1" 1;
 createNode multDoubleLinear -n "multDoubleLinear451";
 	rename -uid "7233FEC1-4B20-C6F8-1DE8-9FAD6FB95664";
-createNode rebuildCurve -n "init_curve_rebuildCurve";
+createNode rebuildCurve -n "rebuildCurve1";
 	rename -uid "E207E1D2-49B5-E95D-D3C1-13B3726ED93F";
-	setAttr ".s" 10;
+	setAttr ".s" 60;
+createNode multiplyDivide -n "multiplyDivide364";
+	rename -uid "82D97ACC-4E69-7C12-64FB-E982F0DFC065";
+	setAttr ".op" 2;
 createNode reverse -n "reverse40";
 	rename -uid "AB496E9E-4C29-F406-2F8B-4C87FA7D5F30";
+createNode multDoubleLinear -n "multDoubleLinear452";
+	rename -uid "79F689D7-4690-4B65-ED41-1BAB6F4B0FFB";
 createNode addDoubleLinear -n "addDoubleLinear99";
 	rename -uid "5ACB7A11-4C8F-DEAC-5298-9E98402540C4";
 	setAttr ".ihi" 2;
+createNode multDoubleLinear -n "multDoubleLinear34";
+	rename -uid "378A2E2F-41FE-AE92-AF92-CEB1D0C027EF";
+	setAttr ".i2" 0.2289719623121842;
+createNode unitConversion -n "unitConversion266";
+	rename -uid "1C212E7C-44BB-BDB9-FFBB-92AA5B960EA7";
+	setAttr ".cf" -0.3;
 createNode multDoubleLinear -n "multDoubleLinear454";
 	rename -uid "8D863AA0-48CE-21F0-F57E-4A86E83C0A8E";
 	setAttr ".i2" -1;
+createNode multMatrix -n "multMatrix250";
+	rename -uid "DB65D6F1-4574-8FD4-1AB7-6184506AFDD1";
+	setAttr -s 2 ".i";
+createNode multiplyDivide -n "multiplyDivide365";
+	rename -uid "5D58B1AD-40C1-B2A7-36A5-DD9F99B3E31B";
+	setAttr ".op" 2;
+createNode multDoubleLinear -n "multDoubleLinear455";
+	rename -uid "29941F82-4C80-9F4A-AC12-D28DB5074C56";
+createNode multDoubleLinear -n "multDoubleLinear456";
+	rename -uid "356C79B7-4DE1-2F07-2DFF-E2B161FCFEA7";
+createNode addDoubleLinear -n "addDoubleLinear102";
+	rename -uid "51D37D21-4FF8-6188-5D90-3C99DAD449CB";
+	setAttr ".ihi" 2;
+	setAttr ".i2" -0.5;
 createNode multiplyDivide -n "multiplyDivide366";
 	rename -uid "CE3825D9-48ED-618A-947B-BEB31E1C6EE9";
 	setAttr ".op" 2;
-	setAttr ".i2" -type "float3" 0.5 1 1 ;
 createNode multDoubleLinear -n "multDoubleLinear457";
 	rename -uid "39D6EAA8-41B2-4CE1-2985-B4A5A8A4C051";
+createNode multDoubleLinear -n "multDoubleLinear458";
+	rename -uid "685B3A57-4C40-71BA-BA9E-2D98025240B7";
+createNode addDoubleLinear -n "addDoubleLinear103";
+	rename -uid "2A0AE73F-4CCA-76B9-FB9D-53B81A488064";
+	setAttr ".ihi" 2;
+createNode multDoubleLinear -n "multDoubleLinear459";
+	rename -uid "A74A9D52-4FEF-BE1A-36FB-EDA9126F396A";
+createNode multDoubleLinear -n "multDoubleLinear460";
+	rename -uid "84EAEF7E-44DF-542D-06A9-05A868872E6D";
+createNode motionPath -n "curveShape1_5_mpath1";
+	rename -uid "ECE7A129-4DA4-0240-544B-F885CF98DA2B";
+	setAttr ".f" yes;
+	setAttr ".fa" 0;
+	setAttr ".ua" 1;
 createNode reverse -n "reverse41";
 	rename -uid "E566F630-4B9E-CFA9-CF80-DD93D7164C5F";
+createNode addDoubleLinear -n "addDoubleLinear104";
+	rename -uid "83EF912B-4099-532B-0037-8CB4D8669C29";
+	setAttr ".ihi" 2;
 createNode multDoubleLinear -n "multDoubleLinear461";
 	rename -uid "D1ECDB57-4CE5-FD3E-829B-18BADEBCC5EA";
 createNode multDoubleLinear -n "multDoubleLinear462";
@@ -7618,11 +9836,96 @@ createNode multDoubleLinear -n "multDoubleLinear463";
 	setAttr ".i2" -1;
 createNode multDoubleLinear -n "multDoubleLinear464";
 	rename -uid "26518487-4B3A-831B-FEA3-7E8CCD6AB474";
+createNode addDoubleLinear -n "addDoubleLinear105";
+	rename -uid "75F82273-4AA6-8C69-F91A-B9A53336CF6D";
+	setAttr ".ihi" 2;
 createNode reverse -n "reverse42";
 	rename -uid "982D342B-4B42-8E24-1511-DFBE13B3DDB3";
 createNode multDoubleLinear -n "multDoubleLinear465";
 	rename -uid "7995E724-4077-E55C-95CF-B18D36653B0E";
 	setAttr ".i2" -1;
+createNode multDoubleLinear -n "multDoubleLinear466";
+	rename -uid "D946A4A1-40A6-F86B-5FDA-E0A7862C2192";
+createNode multDoubleLinear -n "multDoubleLinear467";
+	rename -uid "8238572C-499B-DEDB-9510-9F98CA8543CF";
+createNode blendMatrix -n "blendMatrix5";
+	rename -uid "C592EC67-45B0-A524-0812-8BA6C4A08FE6";
+createNode blendMatrix -n "blendMatrix6";
+	rename -uid "4C6C72AC-42E0-34C0-F03F-CFBE6506CAE4";
+createNode setRange -n "setRange116";
+	rename -uid "90FE6336-4623-CAE4-011F-5BA97B239C75";
+	setAttr ".m" -type "float3" 1 1 0 ;
+	setAttr ".om" -type "float3" 1 1 0 ;
+createNode setRange -n "setRange117";
+	rename -uid "89CBE025-4CD2-A3ED-2161-FA998076215B";
+	setAttr ".om" -type "float3" 1 0 0 ;
+createNode blendMatrix -n "blendMatrix7";
+	rename -uid "5859358A-44C1-5478-CB69-B09462CDF6DF";
+createNode blendMatrix -n "blendMatrix8";
+	rename -uid "18C32A69-4E3F-83A5-9223-708BA525A0AF";
+createNode setRange -n "setRange118";
+	rename -uid "AFA5FFD4-4291-846B-8B73-9B80A5565E6A";
+	setAttr ".m" -type "float3" 1 0 0 ;
+	setAttr ".om" -type "float3" 1 0 0 ;
+createNode setRange -n "setRange119";
+	rename -uid "FFF9C85F-4115-C26F-7A63-87B25C678885";
+	setAttr ".om" -type "float3" 1 0 0 ;
+createNode addDoubleLinear -n "addDoubleLinear106";
+	rename -uid "BCEBC337-4A66-D9AA-B0E9-B7BE6FF5786A";
+	setAttr ".ihi" 2;
+	setAttr ".i2" -0.5;
+createNode blendMatrix -n "blendMatrix9";
+	rename -uid "D222268C-4EDB-BD62-F810-E1AC4046F30F";
+createNode blendMatrix -n "blendMatrix10";
+	rename -uid "42556EC9-4C2C-5A6D-A055-FA856873B3A6";
+createNode blendMatrix -n "blendMatrix11";
+	rename -uid "5BA76892-4B5D-95E8-2C5E-C1B42583CBE8";
+createNode blendMatrix -n "blendMatrix12";
+	rename -uid "46587964-43D2-A707-FC7C-F1AA82C3D18C";
+createNode multMatrix -n "multMatrix251";
+	rename -uid "00FD2F9F-4E07-0A7B-CB79-C8B16F60F45E";
+	setAttr -s 5 ".i";
+createNode blendMatrix -n "blendMatrix13";
+	rename -uid "A61A0F6E-4C9C-E85E-DDB8-F6934D2FE3E4";
+createNode blendMatrix -n "blendMatrix14";
+	rename -uid "EB150991-4975-7300-4D75-FE9AB68D87B0";
+createNode multMatrix -n "multMatrix252";
+	rename -uid "F99C8958-4FA6-6831-13E5-90B8832BB556";
+	setAttr -s 5 ".i";
+createNode multMatrix -n "multMatrix253";
+	rename -uid "31B57C9C-47BA-1417-4FF8-D08216843EFD";
+	setAttr -s 4 ".i";
+createNode blendMatrix -n "blendMatrix15";
+	rename -uid "9E971054-4F61-2285-5098-78B32DBB8312";
+createNode multMatrix -n "multMatrix254";
+	rename -uid "71C2983F-456C-79F4-A886-FC924F52E942";
+	setAttr -s 4 ".i";
+createNode blendMatrix -n "blendMatrix16";
+	rename -uid "D3334BDD-4EED-8F1F-6C9D-1184063F9D23";
+createNode blendMatrix -n "blendMatrix17";
+	rename -uid "88C30E33-4CC2-C7EB-A5D1-0F84FE386548";
+createNode multMatrix -n "multMatrix255";
+	rename -uid "6820A048-4D7C-D0AC-2D25-5D9FC5E368D6";
+	setAttr -s 5 ".i";
+createNode blendMatrix -n "blendMatrix18";
+	rename -uid "B14CD359-4B57-1CA6-1B16-68AFEA9B6516";
+createNode multMatrix -n "multMatrix256";
+	rename -uid "233C8EBF-47C2-D009-A686-3FBDE8C9F006";
+	setAttr -s 5 ".i";
+createNode blendMatrix -n "blendMatrix19";
+	rename -uid "6E9CA739-4E88-0378-BA05-5E8F37286784";
+createNode blendMatrix -n "blendMatrix20";
+	rename -uid "D3747389-49F8-41EC-B4CD-2EAC554D18AE";
+createNode multMatrix -n "multMatrix258";
+	rename -uid "CFD85553-49CE-9F6E-3A1F-EC86CBD4A0A5";
+	setAttr -s 4 ".i";
+createNode addDoubleLinear -n "addDoubleLinear107";
+	rename -uid "89D1D2CB-43F0-BDCB-46A0-BCAD2EA8718B";
+	setAttr ".ihi" 2;
+	setAttr ".i2" -0.5;
+createNode multMatrix -n "multMatrix259";
+	rename -uid "86653231-48CC-2F77-5E4A-23BBD9F99B1B";
+	setAttr -s 4 ".i";
 createNode multMatrix -n "multMatrix260";
 	rename -uid "0C43F18A-4955-39F6-05B0-C2B92D7FAADC";
 	setAttr -s 3 ".i";
@@ -7633,19 +9936,112 @@ createNode blendMatrix -n "mouth_blendMatrix21";
 createNode multDoubleLinear -n "multDoubleLinear468";
 	rename -uid "46DA15CA-4153-5DA9-417B-FBBA428EE13A";
 	setAttr ".i1" 1;
+createNode multMatrix -n "multMatrix262";
+	rename -uid "09F88492-4627-7B39-9685-A28582069F2B";
+	setAttr -s 2 ".i";
+createNode multMatrix -n "multMatrix263";
+	rename -uid "60454819-49F2-16E3-205C-C1AAE9961A26";
+	setAttr -s 2 ".i";
 createNode multMatrix -n "multMatrix264";
 	rename -uid "54D6FD99-4AF3-A4AB-70C1-458342B23975";
 	setAttr -s 2 ".i";
 createNode composeMatrix -n "composeMatrix19";
 	rename -uid "E769EE94-420B-ABAB-B2F9-EF85A11A7075";
 	setAttr ".is" -type "double3" -1 1 1 ;
+createNode setRange -n "setRange120";
+	rename -uid "D9C683F4-4B05-6BFE-B55C-6EA69D2461FB";
+createNode multDoubleLinear -n "multDoubleLinear469";
+	rename -uid "25872088-4B76-EFF2-4C5D-129C4316AEFA";
+createNode unitConversion -n "unitConversion305";
+	rename -uid "F373DAB1-462F-AD91-1A07-66AE1D0FB610";
+	setAttr ".cf" 57.295779513082323;
+createNode addDoubleLinear -n "addDoubleLinear108";
+	rename -uid "BCBD4068-442F-D5BF-B49D-C29928F1390F";
+	setAttr ".ihi" 2;
+createNode unitConversion -n "unitConversion306";
+	rename -uid "7582144A-4732-BD82-C977-A7A08C095B63";
+	setAttr ".cf" 0.017453292519943295;
+createNode multDoubleLinear -n "multDoubleLinear470";
+	rename -uid "D5993AE7-425F-964C-DDD2-40975374351E";
+createNode unitConversion -n "unitConversion307";
+	rename -uid "D5BFCDAE-4469-F3CB-5372-86B765D54016";
+	setAttr ".cf" 57.295779513082323;
 createNode addDoubleLinear -n "addDoubleLinear109";
 	rename -uid "75F39958-4325-C8BC-3D8A-2FAD9C17EB8E";
 	setAttr ".ihi" 2;
 	setAttr ".i2" 1;
+createNode blendTwoAttr -n "blendTwoAttr1";
+	rename -uid "812BFAB9-4B57-838E-1144-A79A08C3D934";
+	setAttr -s 2 ".i";
+	setAttr -s 2 ".i";
+createNode reverse -n "reverse44";
+	rename -uid "D6E2A546-4A5E-23F7-9ABA-658489B35EE2";
+createNode blendTwoAttr -n "blendTwoAttr2";
+	rename -uid "A205CBF9-4787-3616-5379-30A19113494C";
+	setAttr -s 2 ".i";
+	setAttr -s 2 ".i";
+createNode reverse -n "reverse45";
+	rename -uid "2A1AA32C-4AFE-70BA-EA33-6EB096F9C4A1";
+createNode addDoubleLinear -n "addDoubleLinear110";
+	rename -uid "9ECB01BB-4546-5391-5FE4-AB948E29E369";
+	setAttr ".ihi" 2;
+createNode multDoubleLinear -n "multDoubleLinear471";
+	rename -uid "B6FCA8FE-4061-B2F2-F492-5EB4A23EE373";
+createNode multDoubleLinear -n "multDoubleLinear472";
+	rename -uid "07263B8A-491A-1FBB-F43C-DFBE242303EE";
+createNode unitConversion -n "unitConversion308";
+	rename -uid "A815F51E-41E5-797B-47F1-79AD6A1EEDD9";
+	setAttr ".cf" 0.017453292519943295;
+createNode multMatrix -n "multMatrix269";
+	rename -uid "B4276417-4669-F41F-1AB1-5084A936BEA2";
+createNode multDoubleLinear -n "multDoubleLinear473";
+	rename -uid "99C698EA-4003-A4A7-DABF-2B911E8AC0FE";
+createNode reverse -n "reverse46";
+	rename -uid "962B7BCE-4BE4-7C62-0CE4-0FBB87B0EA9D";
+createNode multDoubleLinear -n "multDoubleLinear474";
+	rename -uid "F0BEFB01-4651-384C-7B35-F58D5C18A4EE";
+createNode setRange -n "setRange121";
+	rename -uid "05B5F45A-459E-3249-557B-1987B32D6E14";
+	setAttr ".om" -type "float3" 1 0 0 ;
+createNode reverse -n "reverse47";
+	rename -uid "2513B831-4E2C-0DF4-FB8A-24B083669A89";
+createNode multDoubleLinear -n "multDoubleLinear475";
+	rename -uid "D03906B7-4FF0-79AF-A33C-EAB215DB8BBE";
+createNode setRange -n "setRange122";
+	rename -uid "720A50EF-4DCD-F53D-D529-3C8EBADA097C";
+	setAttr ".om" -type "float3" 1 0 0 ;
+createNode multDoubleLinear -n "multDoubleLinear476";
+	rename -uid "5494ABEE-49C5-46B1-4E1A-1FA0F4860C56";
+createNode reverse -n "reverse48";
+	rename -uid "FD0E12AB-452B-EF96-2DB6-3F9E114285AE";
+createNode unitConversion -n "unitConversion309";
+	rename -uid "85780603-4D18-A5A4-6C0C-5A99019DAC8C";
+	setAttr ".cf" 57.295779513082323;
+createNode unitConversion -n "unitConversion310";
+	rename -uid "4DC1FFB4-4F17-2497-BA1D-CCA28C42CC96";
+	setAttr ".cf" 0.017453292519943295;
+createNode nearestPointOnCurve -n "corner_nearestPointOnCurve1";
+	rename -uid "1B89ACA4-4F3D-EFB0-4BAB-4AADE97D4416";
+createNode plusMinusAverage -n "plusMinusAverage176";
+	rename -uid "589740A9-4A07-017E-8797-B496192076EA";
+	setAttr ".op" 2;
+	setAttr -s 2 ".i1";
+	setAttr -s 2 ".i1";
+createNode multDoubleLinear -n "multDoubleLinear477";
+	rename -uid "A948CB37-4DA1-7408-F080-A49D2690B2F9";
+	setAttr ".i2" -1;
+createNode blendTwoAttr -n "blendTwoAttr3";
+	rename -uid "808238F8-4BC2-6BCB-C3C9-419FC7F84AF3";
+	setAttr -s 2 ".i";
+	setAttr -s 2 ".i";
+createNode blendTwoAttr -n "blendTwoAttr4";
+	rename -uid "2EC3223A-4D2E-7C5A-4AEA-1A913324C936";
+	setAttr -s 2 ".i";
+	setAttr -s 2 ".i";
 createNode plusMinusAverage -n "plusMinusAverage177";
 	rename -uid "A975E196-460F-19CF-8F56-E090038F7F22";
 	setAttr -s 2 ".i3[1]" -type "float3"  0 0 0;
+	setAttr -s 2 ".i3";
 createNode addDoubleLinear -n "addDoubleLinear111";
 	rename -uid "F5959A24-4479-9713-5F14-8A85F260AC76";
 	setAttr ".ihi" 2;
@@ -7661,776 +10057,474 @@ createNode plusMinusAverage -n "plusMinusAverage178";
 	rename -uid "89E1464C-493A-6A93-26F6-44901D416B1B";
 	setAttr -s 2 ".i3[1]" -type "float3"  0 0 0;
 	setAttr -s 2 ".i3";
+createNode unitConversion -n "unitConversion312";
+	rename -uid "A054E0B3-45DE-7289-5FA2-E8873C67FA30";
+	setAttr ".cf" 57.295779513082323;
+createNode unitConversion -n "unitConversion313";
+	rename -uid "854EFFF1-4C51-C96A-5A71-A8ABA57958CE";
+	setAttr ".cf" 0.017453292519943295;
 createNode addDoubleLinear -n "addDoubleLinear112";
 	rename -uid "87BAF311-4266-E324-765C-82BEBD99C173";
 	setAttr ".ihi" 2;
-createNode multDoubleLinear -n "multDoubleLinear480";
-	rename -uid "AFB8F1D5-4896-3CB9-B984-D4A066462AF2";
-createNode setRange -n "setRange123";
-	rename -uid "D70A7CF8-44BC-0AC5-90C0-1BB452C9667E";
-	setAttr ".n" -type "float3" 0 1 0 ;
-	setAttr ".m" -type "float3" 1 0 0 ;
-	setAttr ".on" -type "float3" 0 0.5 0 ;
-	setAttr ".om" -type "float3" 0.5 1 0 ;
-createNode condition -n "condition5";
-	rename -uid "0E7764CF-40F9-9EE9-7866-FBB764D002B9";
-	setAttr ".op" 2;
-	setAttr ".st" 0.5;
-createNode multDoubleLinear -n "multDoubleLinear481";
-	rename -uid "986D5B98-4149-4E76-D46A-76906AA3493B";
-createNode condition -n "condition6";
-	rename -uid "3A0BE39F-4787-8E50-6438-38B82A7D9DCC";
-	setAttr ".op" 2;
-	setAttr ".st" 0.5;
-createNode setRange -n "setRange124";
-	rename -uid "F9D26EE5-4EA0-A591-51B9-3CBE951AEE55";
-	setAttr ".n" -type "float3" 0 1 0 ;
-	setAttr ".m" -type "float3" 1 0 0 ;
-	setAttr ".on" -type "float3" 0 0.5 0 ;
-	setAttr ".om" -type "float3" 0.5 1 0 ;
-createNode multDoubleLinear -n "multDoubleLinear482";
-	rename -uid "A7147B53-404A-0124-2683-F79D77484C19";
-	setAttr ".i2" -1;
-createNode multDoubleLinear -n "multDoubleLinear483";
-	rename -uid "3187B736-4437-4602-0498-7EA9CB92B061";
-	setAttr ".i2" -1;
-createNode clamp -n "clamp29";
-	rename -uid "6E469E21-4D02-E7A1-D92F-59818AFBE179";
-	setAttr ".mx" -type "float3" 100 0 0 ;
-createNode clamp -n "clamp30";
-	rename -uid "40D83BC3-4045-46BF-469B-DD86733C5326";
-	setAttr ".mx" -type "float3" 100 0 0 ;
-createNode condition -n "condition8";
-	rename -uid "6EE92151-4EC3-DB9B-AB8F-A7B292B678F8";
-createNode unitConversion -n "unitConversion312";
-	rename -uid "6555E6A9-4474-CA0D-9FD5-62A057DB22EB";
-	setAttr ".cf" 57.295779513082323;
-createNode unitConversion -n "unitConversion313";
-	rename -uid "FB661926-4DF4-E180-71E7-65B22A2BDA3F";
-	setAttr ".cf" 57.295779513082323;
-createNode unitConversion -n "unitConversion277";
-	rename -uid "4D8EE5A8-4DAA-DF57-0D1D-ECB25E15D901";
-	setAttr ".cf" 57.295779513082323;
-createNode addDoubleLinear -n "addDoubleLinear113";
-	rename -uid "8A7CD94C-4575-3A33-54D3-D784DB927C11";
-	setAttr ".ihi" 2;
-	setAttr ".i2" -0.5;
-createNode reverse -n "reverse49";
-	rename -uid "6B1D28F1-4E51-5F31-3D54-62A5DE8CDB7A";
-createNode blendMatrix -n "blendMatrix23";
-	rename -uid "C0A41D99-482F-25DE-9F45-92A005C24462";
-createNode multiplyDivide -n "multiplyDivide368";
-	rename -uid "9E802248-438A-2D41-FF7B-01968BF6C789";
-	setAttr ".op" 2;
-	setAttr ".i2" -type "float3" 0.5 1 1 ;
-createNode addDoubleLinear -n "addDoubleLinear114";
-	rename -uid "41B45459-4615-4722-C55A-B089BF2389B5";
-	setAttr ".ihi" 2;
-	setAttr ".i2" -0.5;
-createNode setRange -n "setRange127";
-	rename -uid "693F9F0B-40B1-161D-7012-49AFEC2B06BF";
-	setAttr ".n" -type "float3" 1 0 0 ;
-	setAttr ".m" -type "float3" 0.5 0.5 0 ;
-	setAttr ".on" -type "float3" 0.5 0.5 0 ;
-	setAttr ".om" -type "float3" 1 1 0 ;
-createNode reverse -n "reverse50";
-	rename -uid "BDF1CA23-4F0F-A785-BE7C-F78C8D08C052";
-createNode motionPath -n "l_t_lip_2_init_mpath";
-	rename -uid "5B57F925-4AD9-37A8-A9F5-59B5B70D26CD";
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-createNode motionPath -n "l_t_lip_1_init_mpath";
-	rename -uid "2041102E-4136-A9BB-AFF5-BF830CF31461";
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-createNode condition -n "condition9";
-	rename -uid "D8175DCB-454E-86BB-6497-1B9CFAD6E830";
-createNode unitConversion -n "unitConversion316";
-	rename -uid "ED647F83-4F78-8E5D-669E-EBA4B95FF01C";
-	setAttr ".cf" 57.295779513082323;
-createNode unitConversion -n "unitConversion317";
-	rename -uid "726B44A0-41C9-93A9-5C7F-08AD79211C79";
-	setAttr ".cf" 57.295779513082323;
-createNode condition -n "condition10";
-	rename -uid "4338EE53-4330-06B7-2301-C394873BEE83";
-createNode unitConversion -n "unitConversion324";
-	rename -uid "C6FD3F27-4F41-C8DC-80BE-B09968B5FD09";
-	setAttr ".cf" 57.295779513082323;
-createNode unitConversion -n "unitConversion325";
-	rename -uid "F2CEFFAB-43E5-1718-3CAA-C9A0D0C6F834";
-	setAttr ".cf" 57.295779513082323;
-createNode unitConversion -n "unitConversion326";
-	rename -uid "970B75EB-464A-F087-8386-E19EE27F8FA1";
-	setAttr ".cf" 0.017453292519943295;
-createNode unitConversion -n "unitConversion327";
-	rename -uid "A140A316-4189-CA3A-99F2-DC9CA6B0A294";
-	setAttr ".cf" 0.017453292519943295;
-createNode unitConversion -n "unitConversion315";
-	rename -uid "A3737E54-4C06-4800-85D8-63B54267EDCD";
-	setAttr ".cf" 0.017453292519943295;
-createNode unitConversion -n "unitConversion314";
-	rename -uid "4A8B91A2-427E-E146-6217-E792F3B89FD9";
-	setAttr ".cf" 0.017453292519943295;
-createNode rebuildCurve -n "rebuildCurve2";
-	rename -uid "775CADDA-4B3F-7ED8-425E-45B0946ABB37";
-	setAttr ".s" 10;
-createNode motionPath -n "curveShape1_6_mpath2";
-	rename -uid "15C12B98-4767-3AB7-5D5B-FE80396F6940";
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-createNode motionPath -n "curveShape1_6_mpath3";
-	rename -uid "1AF3928A-4844-5F1A-8726-B9B7C6C3C8E2";
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-createNode multMatrix -n "multMatrix283";
-	rename -uid "C3B91EE3-4C2F-B650-D0CA-3796CA575F75";
-	setAttr -s 2 ".i";
-createNode motionPath -n "curveShape1_6_mpath4";
-	rename -uid "95B2A3A9-41B4-9DF7-C730-E6A2D8992521";
-	setAttr ".u" 1;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-createNode composeMatrix -n "composeMatrix22";
-	rename -uid "191F7C69-462C-A4AC-D1FB-AD9D5CFC9B78";
-createNode multMatrix -n "multMatrix284";
-	rename -uid "842DD8BC-497A-4391-1E96-D096457BA402";
-	setAttr -s 2 ".i";
-createNode multMatrix -n "multMatrix285";
-	rename -uid "BC86FA77-4B82-3B46-6E91-1BB8D834FDCE";
-	setAttr -s 2 ".i";
-createNode motionPath -n "curveShape1_6_mpath5";
-	rename -uid "B2EEF81F-4CAA-C3CC-EE7C-2888430E11ED";
-	setAttr ".u" 1;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-createNode multMatrix -n "multMatrix286";
-	rename -uid "D040B0B9-4984-0161-3683-CD83CD07C1C7";
-	setAttr -s 3 ".i";
-createNode blendMatrix -n "blendMatrix24";
-	rename -uid "9D0693E0-40A5-7972-4C69-7F8D20584C87";
-createNode multMatrix -n "multMatrix288";
-	rename -uid "AF0DAD0E-4171-FE47-D86F-00BE3EF59354";
-	setAttr -s 3 ".i";
-createNode blendMatrix -n "blendMatrix25";
-	rename -uid "7ED28184-49B6-3A3F-CD81-57B029B35D61";
-createNode blendMatrix -n "blendMatrix26";
-	rename -uid "CC32ADF3-458D-B7F7-1E89-25A95A9D7C9D";
-createNode multMatrix -n "multMatrix289";
-	rename -uid "BD3D0FFF-4392-6E62-3290-7C9081138CAB";
-	setAttr -s 2 ".i";
-createNode multMatrix -n "multMatrix290";
-	rename -uid "F83A8799-4387-4C47-311A-1C93F699BF67";
-	setAttr -s 3 ".i";
-createNode multMatrix -n "multMatrix291";
-	rename -uid "D58FEECB-4C0E-F74D-0868-CE88D07B6C95";
-	setAttr -s 3 ".i";
-createNode blendMatrix -n "blendMatrix27";
-	rename -uid "BDE1A363-47DE-FE54-83E4-B5BE46122CD2";
-createNode unitConversion -n "unitConversion328";
-	rename -uid "7E45F1AE-4910-4387-357D-E3BC09903F4C";
-	setAttr ".cf" 0.017453292519943295;
-createNode motionPath -n "curveShape1_4_mpath5";
-	rename -uid "D909CAF3-4360-4B76-8B9E-7A8674A24223";
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-createNode animCurveTA -n "jaw_rotateX";
-	rename -uid "DF59BA13-4C5B-BC46-4E41-1A8471E9EAC4";
-	setAttr ".tan" 9;
-	setAttr ".wgt" no;
-	setAttr -s 3 ".ktv[0:2]"  0 0 13 62.350837761416777 19 72.116411988349697;
-createNode animCurveTA -n "jaw_rotateY";
-	rename -uid "43C986E3-4C28-6984-837C-08BF845C94F9";
-	setAttr ".tan" 9;
-	setAttr ".wgt" no;
-	setAttr ".ktv[0]"  0 0;
-createNode animCurveTA -n "jaw_rotateZ";
-	rename -uid "3029FAC1-41BF-FF9B-F1D6-ED9700DCD938";
-	setAttr ".tan" 9;
-	setAttr ".wgt" no;
-	setAttr ".ktv[0]"  0 0;
-createNode composeMatrix -n "l_t_lip_1_init_composeMatrix";
-	rename -uid "0FDF6574-4F37-5383-BBDB-0DA887BB7096";
-createNode multMatrix -n "multMatrix293";
-	rename -uid "F75A5273-43A4-FA71-B289-EC9AB6AAFE09";
-	setAttr -s 2 ".i";
-createNode multMatrix -n "multMatrix294";
-	rename -uid "1A1F6188-40A2-11EF-2E5A-A19205EF54CF";
-	setAttr -s 2 ".i";
-createNode blendMatrix -n "blendMatrix28";
-	rename -uid "25E53D73-48E3-CEDF-B6B1-278FD6E81338";
-createNode multMatrix -n "multMatrix295";
-	rename -uid "FA272F33-4D37-81AA-03FD-F099B2B227C0";
-	setAttr -s 3 ".i";
-createNode multMatrix -n "multMatrix296";
-	rename -uid "799203B0-4457-C6A1-BCA0-F39B34C37894";
-	setAttr -s 2 ".i";
-createNode multMatrix -n "multMatrix297";
-	rename -uid "A050BE5F-437D-9823-7C2B-25BF0A9C2DB1";
-	setAttr -s 2 ".i";
-createNode blendMatrix -n "blendMatrix30";
-	rename -uid "D89E69CB-4E25-44D1-1700-918149DCDBF8";
-createNode multMatrix -n "multMatrix298";
-	rename -uid "8E024575-435B-91BB-38F4-D1A8B9FBC172";
-	setAttr -s 3 ".i";
-createNode blendMatrix -n "blendMatrix31";
-	rename -uid "362F8173-4CB1-8D9D-D794-29AA7053DF93";
-createNode blendMatrix -n "blendMatrix32";
-	rename -uid "AC63A6BE-4255-C0B8-2980-17A69FDAB281";
-createNode multMatrix -n "multMatrix299";
-	rename -uid "154AE47A-4A55-C84B-1E2D-CE94A26EC3B0";
-	setAttr -s 2 ".i";
-createNode composeMatrix -n "reverse_composeMatrix";
-	rename -uid "77D668B7-4F37-B640-D2FC-6AB0E0F874CD";
-	setAttr ".is" -type "double3" -1 1 1 ;
-createNode multMatrix -n "multMatrix300";
-	rename -uid "1C40FF3C-42D6-5155-3F12-C5A0E2348A32";
-	setAttr -s 2 ".i";
-createNode multMatrix -n "multMatrix301";
-	rename -uid "B5A3094E-4BE8-3EF7-C30C-31AB16C915FC";
-	setAttr -s 2 ".i";
-createNode composeMatrix -n "l_t_lip_2_init_composeMatrix";
-	rename -uid "B6A740B8-454D-C570-A5A0-8691C6B86519";
-createNode multMatrix -n "multMatrix302";
-	rename -uid "7C2C27E0-425D-67C3-462A-EA8DCF13438E";
-	setAttr -s 2 ".i";
-createNode multMatrix -n "multMatrix303";
-	rename -uid "7AC8E465-42AB-B219-4821-E89B4F4D1C9F";
-	setAttr -s 2 ".i";
-createNode blendMatrix -n "blendMatrix33";
-	rename -uid "79C97C15-4734-92B5-1229-9586C1509B65";
-createNode multMatrix -n "multMatrix304";
-	rename -uid "5FF7944B-4273-977A-E2AB-8BA06A694579";
-	setAttr -s 3 ".i";
-createNode multMatrix -n "multMatrix305";
-	rename -uid "15D3F86B-455F-19F5-DB87-68A05E990D72";
-	setAttr -s 2 ".i";
-createNode multMatrix -n "multMatrix306";
-	rename -uid "B49FC0B8-43EA-20D6-A4EE-6F8E1D856FB4";
-	setAttr -s 2 ".i";
-createNode blendMatrix -n "blendMatrix34";
-	rename -uid "4496FFF4-41EF-4FCF-72B8-518EDD172FA7";
-createNode multMatrix -n "multMatrix307";
-	rename -uid "B25C9711-4765-08B6-6425-DB9FB016D320";
-	setAttr -s 2 ".i";
-createNode multMatrix -n "multMatrix308";
-	rename -uid "FF8F20F5-40C4-629E-CA22-8CB24FB49205";
-	setAttr -s 2 ".i";
-createNode blendMatrix -n "blendMatrix35";
-	rename -uid "1D3DA4EA-48B0-A139-E386-69948819BC01";
-createNode multMatrix -n "multMatrix309";
-	rename -uid "91143629-4E55-A09F-2E19-259757400A7D";
-	setAttr -s 3 ".i";
-createNode multMatrix -n "multMatrix310";
-	rename -uid "B8C0C8BB-4371-599C-334B-07A826327142";
-	setAttr -s 2 ".i";
-createNode multMatrix -n "multMatrix311";
-	rename -uid "CF87970C-4B08-27D1-329C-FBAB0D6A6872";
-	setAttr -s 2 ".i";
-createNode blendMatrix -n "blendMatrix36";
-	rename -uid "222CFC29-443F-8A9B-2D30-8DA3AD08B715";
-createNode multMatrix -n "multMatrix312";
-	rename -uid "F6156647-40A6-4D3E-8ECE-2780BDF408B4";
-	setAttr -s 3 ".i";
-createNode blendMatrix -n "blendMatrix37";
-	rename -uid "F74A69F4-498F-2F4C-28EB-33A999A13A2F";
-createNode blendMatrix -n "blendMatrix38";
-	rename -uid "BFBD1C60-4DE1-AF33-FAFB-F7A8B464EFEF";
-createNode multMatrix -n "multMatrix313";
-	rename -uid "D611C6EB-4250-EECA-B262-42947602D6BF";
-	setAttr -s 2 ".i";
-createNode multMatrix -n "multMatrix315";
-	rename -uid "49644335-4665-1451-C02A-A8BC25B9B0FB";
-	setAttr -s 2 ".i";
-createNode multMatrix -n "multMatrix316";
-	rename -uid "B9FAD16F-4EE3-D270-4A9C-E6BD69DE2889";
-	setAttr -s 2 ".i";
-createNode multMatrix -n "multMatrix317";
-	rename -uid "39FAF7D2-4765-62A9-C197-F0B91CBDD708";
-	setAttr -s 2 ".i";
-createNode composeMatrix -n "composeMatrix24";
-	rename -uid "353AF24A-43CF-76E7-F4FB-BBB63D8D9FB4";
-	setAttr ".is" -type "double3" -1 1 1 ;
-createNode blendMatrix -n "corner_init_blendMatrix";
-	rename -uid "D0C3C828-4C73-818A-E6CE-308FDAFFEFEB";
-createNode makeNurbSphere -n "makeNurbSphere22";
-	rename -uid "6173B925-47D3-9745-9BE8-938EFB199369";
+createNode nearestPointOnCurve -n "nearestPointOnCurve";
+	rename -uid "FE45BC2E-4CC7-E314-F7E4-1DAFC2FD66C5";
 createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
-	rename -uid "A3834B5A-4D2A-6F1D-9C71-61B47FF7517F";
-	setAttr -s 5 ".tgi";
-	setAttr ".tgi[0].tn" -type "string" "Untitled_7";
-	setAttr ".tgi[0].vl" -type "double2" 84841.662869614418 -14945.832854745904 ;
-	setAttr ".tgi[0].vh" -type "double2" 98555.948890438303 -11231.547057439433 ;
-	setAttr -s 77 ".tgi[0].ni";
-	setAttr ".tgi[0].ni[0].x" 90334.046875;
-	setAttr ".tgi[0].ni[0].y" -14498.630859375;
+	rename -uid "46C18506-45E6-2E3F-F138-E6B31EEF6C59";
+	setAttr -s 7 ".tgi";
+	setAttr ".tgi[0].tn" -type "string" "Untitled_6";
+	setAttr ".tgi[0].vl" -type "double2" 71327.378118085617 -8978.9906658455311 ;
+	setAttr ".tgi[0].vh" -type "double2" 73270.235183740544 -6779.3420413079211 ;
+	setAttr -s 13 ".tgi[0].ni";
+	setAttr ".tgi[0].ni[0].x" 71832.140625;
+	setAttr ".tgi[0].ni[0].y" -7038.69287109375;
 	setAttr ".tgi[0].ni[0].nvs" 18305;
-	setAttr ".tgi[0].ni[1].x" 91873.4296875;
-	setAttr ".tgi[0].ni[1].y" -11162.1015625;
+	setAttr ".tgi[0].ni[1].x" 72639.328125;
+	setAttr ".tgi[0].ni[1].y" -7136.12646484375;
 	setAttr ".tgi[0].ni[1].nvs" 18305;
-	setAttr ".tgi[0].ni[2].x" 91976.390625;
-	setAttr ".tgi[0].ni[2].y" -13884.830078125;
+	setAttr ".tgi[0].ni[2].x" 71830.5546875;
+	setAttr ".tgi[0].ni[2].y" -7609.60595703125;
 	setAttr ".tgi[0].ni[2].nvs" 18305;
-	setAttr ".tgi[0].ni[3].x" 92406.1484375;
-	setAttr ".tgi[0].ni[3].y" -12193.6982421875;
+	setAttr ".tgi[0].ni[3].x" 71545.921875;
+	setAttr ".tgi[0].ni[3].y" -7416.943359375;
 	setAttr ".tgi[0].ni[3].nvs" 18305;
-	setAttr ".tgi[0].ni[4].x" 91419.328125;
-	setAttr ".tgi[0].ni[4].y" -10481.57421875;
+	setAttr ".tgi[0].ni[4].x" 73277.4765625;
+	setAttr ".tgi[0].ni[4].y" -7798.46630859375;
 	setAttr ".tgi[0].ni[4].nvs" 18305;
-	setAttr ".tgi[0].ni[5].x" 91435.6328125;
-	setAttr ".tgi[0].ni[5].y" -11626.955078125;
+	setAttr ".tgi[0].ni[5].x" 71558.3515625;
+	setAttr ".tgi[0].ni[5].y" -8080.00537109375;
 	setAttr ".tgi[0].ni[5].nvs" 18305;
-	setAttr ".tgi[0].ni[6].x" 92063.6328125;
-	setAttr ".tgi[0].ni[6].y" -11657.396484375;
+	setAttr ".tgi[0].ni[6].x" 71531.9375;
+	setAttr ".tgi[0].ni[6].y" -6935.86328125;
 	setAttr ".tgi[0].ni[6].nvs" 18305;
-	setAttr ".tgi[0].ni[7].x" 91929.6484375;
-	setAttr ".tgi[0].ni[7].y" -16000.9013671875;
+	setAttr ".tgi[0].ni[7].x" 73278.8046875;
+	setAttr ".tgi[0].ni[7].y" -7391.42822265625;
 	setAttr ".tgi[0].ni[7].nvs" 18305;
-	setAttr ".tgi[0].ni[8].x" 90968.984375;
-	setAttr ".tgi[0].ni[8].y" -11614.908203125;
+	setAttr ".tgi[0].ni[8].x" 72676.1015625;
+	setAttr ".tgi[0].ni[8].y" -7738.19482421875;
 	setAttr ".tgi[0].ni[8].nvs" 18305;
-	setAttr ".tgi[0].ni[9].x" 91762.3984375;
-	setAttr ".tgi[0].ni[9].y" -12318.9326171875;
-	setAttr ".tgi[0].ni[9].nvs" 18304;
-	setAttr ".tgi[0].ni[10].x" 91546.0859375;
-	setAttr ".tgi[0].ni[10].y" -14576.193359375;
+	setAttr ".tgi[0].ni[9].x" 72969.3828125;
+	setAttr ".tgi[0].ni[9].y" -7324.46044921875;
+	setAttr ".tgi[0].ni[9].nvs" 18305;
+	setAttr ".tgi[0].ni[10].x" 72359.5;
+	setAttr ".tgi[0].ni[10].y" -7245.66796875;
 	setAttr ".tgi[0].ni[10].nvs" 18305;
-	setAttr ".tgi[0].ni[11].x" 91439.015625;
-	setAttr ".tgi[0].ni[11].y" -12244.146484375;
+	setAttr ".tgi[0].ni[11].x" 72371.90625;
+	setAttr ".tgi[0].ni[11].y" -7766.2744140625;
 	setAttr ".tgi[0].ni[11].nvs" 18305;
-	setAttr ".tgi[0].ni[12].x" 91927.734375;
-	setAttr ".tgi[0].ni[12].y" -16379.6494140625;
+	setAttr ".tgi[0].ni[12].x" 72116.7265625;
+	setAttr ".tgi[0].ni[12].y" -7527.22607421875;
 	setAttr ".tgi[0].ni[12].nvs" 18305;
-	setAttr ".tgi[0].ni[13].x" 92436.7578125;
-	setAttr ".tgi[0].ni[13].y" -11546.2490234375;
-	setAttr ".tgi[0].ni[13].nvs" 18305;
-	setAttr ".tgi[0].ni[14].x" 91520.3046875;
-	setAttr ".tgi[0].ni[14].y" -18607.904296875;
-	setAttr ".tgi[0].ni[14].nvs" 18305;
-	setAttr ".tgi[0].ni[15].x" 91558.2734375;
-	setAttr ".tgi[0].ni[15].y" -17780.4296875;
-	setAttr ".tgi[0].ni[15].nvs" 18305;
-	setAttr ".tgi[0].ni[16].x" 92842.171875;
-	setAttr ".tgi[0].ni[16].y" -11803.9765625;
-	setAttr ".tgi[0].ni[16].nvs" 18305;
-	setAttr ".tgi[0].ni[17].x" 90945.9609375;
-	setAttr ".tgi[0].ni[17].y" -11993.1328125;
-	setAttr ".tgi[0].ni[17].nvs" 18305;
-	setAttr ".tgi[0].ni[18].x" 92904.8125;
-	setAttr ".tgi[0].ni[18].y" -10669.208984375;
-	setAttr ".tgi[0].ni[18].nvs" 18305;
-	setAttr ".tgi[0].ni[19].x" 91873.6953125;
-	setAttr ".tgi[0].ni[19].y" -18661.13671875;
-	setAttr ".tgi[0].ni[19].nvs" 18304;
-	setAttr ".tgi[0].ni[20].x" 92343.34375;
-	setAttr ".tgi[0].ni[20].y" -14671.140625;
-	setAttr ".tgi[0].ni[20].nvs" 18305;
-	setAttr ".tgi[0].ni[21].x" 91150.3671875;
-	setAttr ".tgi[0].ni[21].y" -17703.5859375;
-	setAttr ".tgi[0].ni[21].nvs" 18305;
-	setAttr ".tgi[0].ni[22].x" 90011.0703125;
-	setAttr ".tgi[0].ni[22].y" -15012.751953125;
-	setAttr ".tgi[0].ni[22].nvs" 18305;
-	setAttr ".tgi[0].ni[23].x" 90332.34375;
-	setAttr ".tgi[0].ni[23].y" -14945.3955078125;
-	setAttr ".tgi[0].ni[23].nvs" 18305;
-	setAttr ".tgi[0].ni[24].x" 91660.796875;
-	setAttr ".tgi[0].ni[24].y" -16122.9482421875;
-	setAttr ".tgi[0].ni[24].nvs" 18304;
-	setAttr ".tgi[0].ni[25].x" 90756.515625;
-	setAttr ".tgi[0].ni[25].y" -14699.6025390625;
-	setAttr ".tgi[0].ni[25].nvs" 18305;
-	setAttr ".tgi[0].ni[26].x" 91840.6015625;
-	setAttr ".tgi[0].ni[26].y" -18805.7890625;
-	setAttr ".tgi[0].ni[26].nvs" 19329;
-	setAttr ".tgi[0].ni[27].x" 91335.0234375;
-	setAttr ".tgi[0].ni[27].y" -15974.701171875;
-	setAttr ".tgi[0].ni[27].nvs" 18305;
-	setAttr ".tgi[0].ni[28].x" 91858.015625;
-	setAttr ".tgi[0].ni[28].y" -17925.68359375;
-	setAttr ".tgi[0].ni[28].nvs" 18305;
-	setAttr ".tgi[0].ni[29].x" 92465.046875;
-	setAttr ".tgi[0].ni[29].y" -11027.1201171875;
-	setAttr ".tgi[0].ni[29].nvs" 18305;
-	setAttr ".tgi[0].ni[30].x" 91578.5390625;
-	setAttr ".tgi[0].ni[30].y" -11204.1591796875;
-	setAttr ".tgi[0].ni[30].nvs" 18305;
-	setAttr ".tgi[0].ni[31].x" 91891.3984375;
-	setAttr ".tgi[0].ni[31].y" -14884.9921875;
-	setAttr ".tgi[0].ni[31].nvs" 18305;
-	setAttr ".tgi[0].ni[32].x" 92340.8125;
-	setAttr ".tgi[0].ni[32].y" -15932.92578125;
-	setAttr ".tgi[0].ni[32].nvs" 18305;
-	setAttr ".tgi[0].ni[33].x" 91749.2890625;
-	setAttr ".tgi[0].ni[33].y" -11625.6015625;
-	setAttr ".tgi[0].ni[33].nvs" 18304;
-	setAttr ".tgi[0].ni[34].x" 91557.5390625;
-	setAttr ".tgi[0].ni[34].y" -18032.28125;
-	setAttr ".tgi[0].ni[34].nvs" 18305;
-	setAttr ".tgi[0].ni[35].x" 90982.0625;
-	setAttr ".tgi[0].ni[35].y" -15308.865234375;
-	setAttr ".tgi[0].ni[35].nvs" 18785;
-	setAttr ".tgi[0].ni[36].x" 93240.7734375;
-	setAttr ".tgi[0].ni[36].y" -10678.5947265625;
-	setAttr ".tgi[0].ni[36].nvs" 18304;
-	setAttr ".tgi[0].ni[37].x" 90987.046875;
-	setAttr ".tgi[0].ni[37].y" -16257.7763671875;
-	setAttr ".tgi[0].ni[37].nvs" 18305;
-	setAttr ".tgi[0].ni[38].x" 91335.7265625;
-	setAttr ".tgi[0].ni[38].y" -13955.150390625;
-	setAttr ".tgi[0].ni[38].nvs" 18305;
-	setAttr ".tgi[0].ni[39].x" 91131.609375;
-	setAttr ".tgi[0].ni[39].y" -10617.5859375;
-	setAttr ".tgi[0].ni[39].nvs" 18305;
-	setAttr ".tgi[0].ni[40].x" 91678.8984375;
-	setAttr ".tgi[0].ni[40].y" -14107.349609375;
-	setAttr ".tgi[0].ni[40].nvs" 18305;
-	setAttr ".tgi[0].ni[41].x" 91532.640625;
-	setAttr ".tgi[0].ni[41].y" -18359.54296875;
-	setAttr ".tgi[0].ni[41].nvs" 18305;
-	setAttr ".tgi[0].ni[42].x" 91661.71875;
-	setAttr ".tgi[0].ni[42].y" -13791.0400390625;
-	setAttr ".tgi[0].ni[42].nvs" 18305;
-	setAttr ".tgi[0].ni[43].x" 91714.375;
-	setAttr ".tgi[0].ni[43].y" -10596.142578125;
-	setAttr ".tgi[0].ni[43].nvs" 18305;
-	setAttr ".tgi[0].ni[44].x" 92195.203125;
-	setAttr ".tgi[0].ni[44].y" -17953.529296875;
-	setAttr ".tgi[0].ni[44].nvs" 18305;
-	setAttr ".tgi[0].ni[45].x" 91663.4140625;
-	setAttr ".tgi[0].ni[45].y" -15960.7373046875;
-	setAttr ".tgi[0].ni[45].nvs" 18304;
-	setAttr ".tgi[0].ni[46].x" 90894.71875;
-	setAttr ".tgi[0].ni[46].y" -13843.5126953125;
-	setAttr ".tgi[0].ni[46].nvs" 18305;
-	setAttr ".tgi[0].ni[47].x" 91893.3046875;
-	setAttr ".tgi[0].ni[47].y" -16622.4296875;
-	setAttr ".tgi[0].ni[47].nvs" 18305;
-	setAttr ".tgi[0].ni[48].x" 92960.9375;
-	setAttr ".tgi[0].ni[48].y" -14564.7421875;
-	setAttr ".tgi[0].ni[48].nvs" 18305;
-	setAttr ".tgi[0].ni[49].x" 90730.7265625;
-	setAttr ".tgi[0].ni[49].y" -18093.6875;
-	setAttr ".tgi[0].ni[49].nvs" 18305;
-	setAttr ".tgi[0].ni[50].x" 91864.21875;
-	setAttr ".tgi[0].ni[50].y" -15259.533203125;
-	setAttr ".tgi[0].ni[50].nvs" 19233;
-	setAttr ".tgi[0].ni[51].x" 91114.2734375;
-	setAttr ".tgi[0].ni[51].y" -10337.685546875;
-	setAttr ".tgi[0].ni[51].nvs" 18305;
-	setAttr ".tgi[0].ni[52].x" 91884.078125;
-	setAttr ".tgi[0].ni[52].y" -18423.509765625;
-	setAttr ".tgi[0].ni[52].nvs" 18304;
-	setAttr ".tgi[0].ni[53].x" 91446.09375;
-	setAttr ".tgi[0].ni[53].y" -11970.404296875;
-	setAttr ".tgi[0].ni[53].nvs" 18305;
-	setAttr ".tgi[0].ni[54].x" 92586.5625;
-	setAttr ".tgi[0].ni[54].y" -15212.005859375;
-	setAttr ".tgi[0].ni[54].nvs" 18609;
-	setAttr ".tgi[0].ni[55].x" 90391.65625;
-	setAttr ".tgi[0].ni[55].y" -18156.560546875;
-	setAttr ".tgi[0].ni[55].nvs" 18305;
-	setAttr ".tgi[0].ni[56].x" 93015.3203125;
-	setAttr ".tgi[0].ni[56].y" -18065.576171875;
-	setAttr ".tgi[0].ni[56].nvs" 18305;
-	setAttr ".tgi[0].ni[57].x" 92043.1171875;
-	setAttr ".tgi[0].ni[57].y" -10472.2685546875;
-	setAttr ".tgi[0].ni[57].nvs" 18305;
-	setAttr ".tgi[0].ni[58].x" 92455.265625;
-	setAttr ".tgi[0].ni[58].y" -10533.767578125;
-	setAttr ".tgi[0].ni[58].nvs" 18304;
-	setAttr ".tgi[0].ni[59].x" 92278.78125;
-	setAttr ".tgi[0].ni[59].y" -18518.00390625;
-	setAttr ".tgi[0].ni[59].nvs" 18305;
-	setAttr ".tgi[0].ni[60].x" 91766.3515625;
-	setAttr ".tgi[0].ni[60].y" -12058.6044921875;
-	setAttr ".tgi[0].ni[60].nvs" 18304;
-	setAttr ".tgi[0].ni[61].x" 91885.109375;
-	setAttr ".tgi[0].ni[61].y" -14617.1513671875;
-	setAttr ".tgi[0].ni[61].nvs" 18305;
-	setAttr ".tgi[0].ni[62].x" 91720.875;
-	setAttr ".tgi[0].ni[62].y" -10452.3955078125;
-	setAttr ".tgi[0].ni[62].nvs" 18304;
-	setAttr ".tgi[0].ni[63].x" 91625.8984375;
-	setAttr ".tgi[0].ni[63].y" -16350.0478515625;
-	setAttr ".tgi[0].ni[63].nvs" 18305;
-	setAttr ".tgi[0].ni[64].x" 93463.921875;
-	setAttr ".tgi[0].ni[64].y" -14625.076171875;
-	setAttr ".tgi[0].ni[64].nvs" 18304;
-	setAttr ".tgi[0].ni[65].x" 91748.9375;
-	setAttr ".tgi[0].ni[65].y" -11800.291015625;
-	setAttr ".tgi[0].ni[65].nvs" 18304;
-	setAttr ".tgi[0].ni[66].x" 90990.9375;
-	setAttr ".tgi[0].ni[66].y" -15009.08203125;
-	setAttr ".tgi[0].ni[66].nvs" 18737;
-	setAttr ".tgi[0].ni[67].x" 91401.8203125;
-	setAttr ".tgi[0].ni[67].y" -15249.2451171875;
-	setAttr ".tgi[0].ni[67].nvs" 18305;
-	setAttr ".tgi[0].ni[68].x" 91568.34375;
-	setAttr ".tgi[0].ni[68].y" -14903.447265625;
-	setAttr ".tgi[0].ni[68].nvs" 18305;
-	setAttr ".tgi[0].ni[69].x" 92359.09375;
-	setAttr ".tgi[0].ni[69].y" -16264.3359375;
-	setAttr ".tgi[0].ni[69].nvs" 18305;
-	setAttr ".tgi[0].ni[70].x" 93282.09375;
-	setAttr ".tgi[0].ni[70].y" -11856.5107421875;
-	setAttr ".tgi[0].ni[70].nvs" 18304;
-	setAttr ".tgi[0].ni[71].x" 91943.3125;
-	setAttr ".tgi[0].ni[71].y" -11332.994140625;
-	setAttr ".tgi[0].ni[71].nvs" 18305;
-	setAttr ".tgi[0].ni[72].x" 91866.09375;
-	setAttr ".tgi[0].ni[72].y" -10951.3857421875;
-	setAttr ".tgi[0].ni[72].nvs" 18305;
-	setAttr ".tgi[0].ni[73].x" 92964.1171875;
-	setAttr ".tgi[0].ni[73].y" -15844.7216796875;
-	setAttr ".tgi[0].ni[73].nvs" 18305;
-	setAttr ".tgi[0].ni[74].x" 93375.9140625;
-	setAttr ".tgi[0].ni[74].y" -18064.2109375;
-	setAttr ".tgi[0].ni[74].nvs" 18305;
-	setAttr ".tgi[0].ni[75].x" 93430.390625;
-	setAttr ".tgi[0].ni[75].y" -15893.275390625;
-	setAttr ".tgi[0].ni[75].nvs" 18304;
-	setAttr ".tgi[0].ni[76].x" 92395.9140625;
-	setAttr ".tgi[0].ni[76].y" -14055.0361328125;
-	setAttr ".tgi[0].ni[76].nvs" 18305;
-	setAttr ".tgi[1].tn" -type "string" "Untitled_8";
-	setAttr ".tgi[1].vl" -type "double2" 44635.208849066781 -4510.7141064746438 ;
-	setAttr ".tgi[1].vh" -type "double2" 51523.120663277849 -2645.2379901258137 ;
-	setAttr -s 24 ".tgi[1].ni";
-	setAttr ".tgi[1].ni[0].x" 48700.2890625;
-	setAttr ".tgi[1].ni[0].y" -2990.7275390625;
+	setAttr ".tgi[1].tn" -type "string" "Untitled_7";
+	setAttr ".tgi[1].vl" -type "double2" 73164.282806998337 -16001.325232626603 ;
+	setAttr ".tgi[1].vh" -type "double2" 74571.425608226346 -14408.197368531348 ;
+	setAttr -s 31 ".tgi[1].ni";
+	setAttr ".tgi[1].ni[0].x" 73181.8671875;
+	setAttr ".tgi[1].ni[0].y" -14575.7392578125;
 	setAttr ".tgi[1].ni[0].nvs" 18305;
-	setAttr ".tgi[1].ni[1].x" 48317.44140625;
-	setAttr ".tgi[1].ni[1].y" -3405.450439453125;
+	setAttr ".tgi[1].ni[1].x" 72169.71875;
+	setAttr ".tgi[1].ni[1].y" -14956.6376953125;
 	setAttr ".tgi[1].ni[1].nvs" 18305;
-	setAttr ".tgi[1].ni[2].x" 48274.89453125;
-	setAttr ".tgi[1].ni[2].y" -2871.603515625;
-	setAttr ".tgi[1].ni[2].nvs" 18305;
-	setAttr ".tgi[1].ni[3].x" 48099.8203125;
-	setAttr ".tgi[1].ni[3].y" -4493.02685546875;
+	setAttr ".tgi[1].ni[2].x" 70610;
+	setAttr ".tgi[1].ni[2].y" -14741.4287109375;
+	setAttr ".tgi[1].ni[2].nvs" 18304;
+	setAttr ".tgi[1].ni[3].x" 73195.5703125;
+	setAttr ".tgi[1].ni[3].y" -15170.919921875;
 	setAttr ".tgi[1].ni[3].nvs" 18305;
-	setAttr ".tgi[1].ni[4].x" 48708.90625;
-	setAttr ".tgi[1].ni[4].y" -3340.25146484375;
+	setAttr ".tgi[1].ni[4].x" 73075.4921875;
+	setAttr ".tgi[1].ni[4].y" -14281.046875;
 	setAttr ".tgi[1].ni[4].nvs" 18305;
-	setAttr ".tgi[1].ni[5].x" 47540.671875;
-	setAttr ".tgi[1].ni[5].y" -4871.66162109375;
+	setAttr ".tgi[1].ni[5].x" 70917.140625;
+	setAttr ".tgi[1].ni[5].y" -14691.4287109375;
 	setAttr ".tgi[1].ni[5].nvs" 18304;
-	setAttr ".tgi[1].ni[6].x" 47742.05078125;
-	setAttr ".tgi[1].ni[6].y" -3904.250244140625;
+	setAttr ".tgi[1].ni[6].x" 72788.5703125;
+	setAttr ".tgi[1].ni[6].y" -14259.1494140625;
 	setAttr ".tgi[1].ni[6].nvs" 18305;
-	setAttr ".tgi[1].ni[7].x" 48324.8515625;
-	setAttr ".tgi[1].ni[7].y" -3622.72802734375;
-	setAttr ".tgi[1].ni[7].nvs" 18305;
-	setAttr ".tgi[1].ni[8].x" 47781.625;
-	setAttr ".tgi[1].ni[8].y" -3414.796875;
-	setAttr ".tgi[1].ni[8].nvs" 18305;
-	setAttr ".tgi[1].ni[9].x" 47561.28125;
-	setAttr ".tgi[1].ni[9].y" -5010.6484375;
-	setAttr ".tgi[1].ni[9].nvs" 18304;
-	setAttr ".tgi[1].ni[10].x" 48090.29296875;
-	setAttr ".tgi[1].ni[10].y" -4228.6435546875;
-	setAttr ".tgi[1].ni[10].nvs" 18305;
-	setAttr ".tgi[1].ni[11].x" 49313.359375;
-	setAttr ".tgi[1].ni[11].y" -3396.917236328125;
+	setAttr ".tgi[1].ni[7].x" 72467.140625;
+	setAttr ".tgi[1].ni[7].y" -14842.857421875;
+	setAttr ".tgi[1].ni[7].nvs" 18304;
+	setAttr ".tgi[1].ni[8].x" 73765.8984375;
+	setAttr ".tgi[1].ni[8].y" -14924.2578125;
+	setAttr ".tgi[1].ni[8].nvs" 18304;
+	setAttr ".tgi[1].ni[9].x" 72186.4140625;
+	setAttr ".tgi[1].ni[9].y" -15647.2333984375;
+	setAttr ".tgi[1].ni[9].nvs" 18305;
+	setAttr ".tgi[1].ni[10].x" 71238.5703125;
+	setAttr ".tgi[1].ni[10].y" -14715.7138671875;
+	setAttr ".tgi[1].ni[10].nvs" 18304;
+	setAttr ".tgi[1].ni[11].x" 72937.140625;
+	setAttr ".tgi[1].ni[11].y" -14590;
 	setAttr ".tgi[1].ni[11].nvs" 18304;
-	setAttr ".tgi[1].ni[12].x" 48246.23046875;
-	setAttr ".tgi[1].ni[12].y" -4972.57177734375;
-	setAttr ".tgi[1].ni[12].nvs" 18305;
-	setAttr ".tgi[1].ni[13].x" 48273.80859375;
-	setAttr ".tgi[1].ni[13].y" -3152.79296875;
-	setAttr ".tgi[1].ni[13].nvs" 18305;
-	setAttr ".tgi[1].ni[14].x" 49013.31640625;
-	setAttr ".tgi[1].ni[14].y" -2904.143798828125;
+	setAttr ".tgi[1].ni[12].x" 72937.140625;
+	setAttr ".tgi[1].ni[12].y" -14850;
+	setAttr ".tgi[1].ni[12].nvs" 18304;
+	setAttr ".tgi[1].ni[13].x" 71545.7109375;
+	setAttr ".tgi[1].ni[13].y" -14691.4287109375;
+	setAttr ".tgi[1].ni[13].nvs" 18304;
+	setAttr ".tgi[1].ni[14].x" 72724.0234375;
+	setAttr ".tgi[1].ni[14].y" -15100.3720703125;
 	setAttr ".tgi[1].ni[14].nvs" 18304;
-	setAttr ".tgi[1].ni[15].x" 48554.34375;
-	setAttr ".tgi[1].ni[15].y" -4200.6064453125;
+	setAttr ".tgi[1].ni[15].x" 73693.6640625;
+	setAttr ".tgi[1].ni[15].y" -14293.04296875;
 	setAttr ".tgi[1].ni[15].nvs" 18305;
-	setAttr ".tgi[1].ni[16].x" 49434.6328125;
-	setAttr ".tgi[1].ni[16].y" -2871.88818359375;
+	setAttr ".tgi[1].ni[16].x" 71852.859375;
+	setAttr ".tgi[1].ni[16].y" -14538.5712890625;
 	setAttr ".tgi[1].ni[16].nvs" 18304;
-	setAttr ".tgi[1].ni[17].x" 47540.22265625;
-	setAttr ".tgi[1].ni[17].y" -4748.1962890625;
-	setAttr ".tgi[1].ni[17].nvs" 18304;
-	setAttr ".tgi[1].ni[18].x" 48614.8515625;
-	setAttr ".tgi[1].ni[18].y" -3706.160888671875;
-	setAttr ".tgi[1].ni[18].nvs" 18305;
-	setAttr ".tgi[1].ni[19].x" 49006.21875;
-	setAttr ".tgi[1].ni[19].y" -3394.124755859375;
-	setAttr ".tgi[1].ni[19].nvs" 18304;
-	setAttr ".tgi[1].ni[20].x" 47958.484375;
-	setAttr ".tgi[1].ni[20].y" -4830.9833984375;
-	setAttr ".tgi[1].ni[20].nvs" 18304;
-	setAttr ".tgi[1].ni[21].x" 48810.52734375;
-	setAttr ".tgi[1].ni[21].y" -5036.45166015625;
+	setAttr ".tgi[1].ni[17].x" 73446.7734375;
+	setAttr ".tgi[1].ni[17].y" -14844.8837890625;
+	setAttr ".tgi[1].ni[17].nvs" 18305;
+	setAttr ".tgi[1].ni[18].x" 70917.140625;
+	setAttr ".tgi[1].ni[18].y" -14792.857421875;
+	setAttr ".tgi[1].ni[18].nvs" 18304;
+	setAttr ".tgi[1].ni[19].x" 74085.9296875;
+	setAttr ".tgi[1].ni[19].y" -14849.0068359375;
+	setAttr ".tgi[1].ni[19].nvs" 18305;
+	setAttr ".tgi[1].ni[20].x" 72151.90625;
+	setAttr ".tgi[1].ni[20].y" -14264.9970703125;
+	setAttr ".tgi[1].ni[20].nvs" 18305;
+	setAttr ".tgi[1].ni[21].x" 72809.84375;
+	setAttr ".tgi[1].ni[21].y" -14673.2626953125;
 	setAttr ".tgi[1].ni[21].nvs" 18304;
-	setAttr ".tgi[1].ni[22].x" 48532.359375;
-	setAttr ".tgi[1].ni[22].y" -5035.3427734375;
+	setAttr ".tgi[1].ni[22].x" 71852.859375;
+	setAttr ".tgi[1].ni[22].y" -14640;
 	setAttr ".tgi[1].ni[22].nvs" 18304;
-	setAttr ".tgi[1].ni[23].x" 47917.421875;
-	setAttr ".tgi[1].ni[23].y" -5190.86328125;
-	setAttr ".tgi[1].ni[23].nvs" 18305;
-	setAttr ".tgi[2].tn" -type "string" "Untitled_9";
-	setAttr ".tgi[2].vl" -type "double2" 51448.761691873951 -402.3809363917706 ;
-	setAttr ".tgi[2].vh" -type "double2" 55747.662619952069 761.90473162938804 ;
-	setAttr -s 25 ".tgi[2].ni";
-	setAttr ".tgi[2].ni[0].x" 52172.85546875;
-	setAttr ".tgi[2].ni[0].y" 460;
+	setAttr ".tgi[1].ni[23].x" 71852.859375;
+	setAttr ".tgi[1].ni[23].y" -14741.4287109375;
+	setAttr ".tgi[1].ni[23].nvs" 18304;
+	setAttr ".tgi[1].ni[24].x" 72160;
+	setAttr ".tgi[1].ni[24].y" -14842.857421875;
+	setAttr ".tgi[1].ni[24].nvs" 18304;
+	setAttr ".tgi[1].ni[25].x" 72467.140625;
+	setAttr ".tgi[1].ni[25].y" -14525.7138671875;
+	setAttr ".tgi[1].ni[25].nvs" 18304;
+	setAttr ".tgi[1].ni[26].x" 71545.7109375;
+	setAttr ".tgi[1].ni[26].y" -14792.857421875;
+	setAttr ".tgi[1].ni[26].nvs" 18304;
+	setAttr ".tgi[1].ni[27].x" 74023.7421875;
+	setAttr ".tgi[1].ni[27].y" -14237.08984375;
+	setAttr ".tgi[1].ni[27].nvs" 18305;
+	setAttr ".tgi[1].ni[28].x" 73437.2109375;
+	setAttr ".tgi[1].ni[28].y" -14129.3994140625;
+	setAttr ".tgi[1].ni[28].nvs" 18305;
+	setAttr ".tgi[1].ni[29].x" 72467.140625;
+	setAttr ".tgi[1].ni[29].y" -14741.4287109375;
+	setAttr ".tgi[1].ni[29].nvs" 18304;
+	setAttr ".tgi[1].ni[30].x" 72937.140625;
+	setAttr ".tgi[1].ni[30].y" -14980;
+	setAttr ".tgi[1].ni[30].nvs" 18304;
+	setAttr ".tgi[2].tn" -type "string" "Untitled_8";
+	setAttr ".tgi[2].vl" -type "double2" 37244.641377173786 -2441.071331571969 ;
+	setAttr ".tgi[2].vh" -type "double2" 38406.546092908597 -1125.5951933681038 ;
+	setAttr -s 6 ".tgi[2].ni";
+	setAttr ".tgi[2].ni[0].x" 37931.76171875;
+	setAttr ".tgi[2].ni[0].y" -1586.6937255859375;
 	setAttr ".tgi[2].ni[0].nvs" 18304;
-	setAttr ".tgi[2].ni[1].x" 54641.4296875;
-	setAttr ".tgi[2].ni[1].y" -2.8571429252624512;
+	setAttr ".tgi[2].ni[1].x" 37702.6875;
+	setAttr ".tgi[2].ni[1].y" -2054.37158203125;
 	setAttr ".tgi[2].ni[1].nvs" 18304;
-	setAttr ".tgi[2].ni[2].x" 53722.09375;
-	setAttr ".tgi[2].ni[2].y" 785.8719482421875;
-	setAttr ".tgi[2].ni[2].nvs" 18304;
-	setAttr ".tgi[2].ni[3].x" 54641.4296875;
-	setAttr ".tgi[2].ni[3].y" 127.14286041259766;
-	setAttr ".tgi[2].ni[3].nvs" 18304;
-	setAttr ".tgi[2].ni[4].x" 52480;
-	setAttr ".tgi[2].ni[4].y" 320;
+	setAttr ".tgi[2].ni[2].x" 37427.27734375;
+	setAttr ".tgi[2].ni[2].y" -1214.63134765625;
+	setAttr ".tgi[2].ni[2].nvs" 18305;
+	setAttr ".tgi[2].ni[3].x" 37261.4296875;
+	setAttr ".tgi[2].ni[3].y" -1805.7142333984375;
+	setAttr ".tgi[2].ni[3].nvs" 18305;
+	setAttr ".tgi[2].ni[4].x" 37924.59375;
+	setAttr ".tgi[2].ni[4].y" -1821.542236328125;
 	setAttr ".tgi[2].ni[4].nvs" 18304;
-	setAttr ".tgi[2].ni[5].x" 52798.5703125;
-	setAttr ".tgi[2].ni[5].y" 417.14285278320312;
+	setAttr ".tgi[2].ni[5].x" 37924.59375;
+	setAttr ".tgi[2].ni[5].y" -1720.1136474609375;
 	setAttr ".tgi[2].ni[5].nvs" 18304;
-	setAttr ".tgi[2].ni[6].x" 52159.24609375;
-	setAttr ".tgi[2].ni[6].y" 351.24151611328125;
-	setAttr ".tgi[2].ni[6].nvs" 18304;
-	setAttr ".tgi[2].ni[7].x" 54345.8046875;
-	setAttr ".tgi[2].ni[7].y" 693.7923583984375;
-	setAttr ".tgi[2].ni[7].nvs" 18305;
-	setAttr ".tgi[2].ni[8].x" 53412.85546875;
-	setAttr ".tgi[2].ni[8].y" 635.71429443359375;
-	setAttr ".tgi[2].ni[8].nvs" 18304;
-	setAttr ".tgi[2].ni[9].x" 54027.14453125;
-	setAttr ".tgi[2].ni[9].y" 711.4285888671875;
-	setAttr ".tgi[2].ni[9].nvs" 18304;
-	setAttr ".tgi[2].ni[10].x" 53105.71484375;
-	setAttr ".tgi[2].ni[10].y" 465.71429443359375;
-	setAttr ".tgi[2].ni[10].nvs" 18304;
-	setAttr ".tgi[2].ni[11].x" 52172.85546875;
-	setAttr ".tgi[2].ni[11].y" 561.4285888671875;
-	setAttr ".tgi[2].ni[11].nvs" 18304;
-	setAttr ".tgi[2].ni[12].x" 53287.203125;
-	setAttr ".tgi[2].ni[12].y" 222.69046020507812;
-	setAttr ".tgi[2].ni[12].nvs" 18305;
-	setAttr ".tgi[2].ni[13].x" 53105.71484375;
-	setAttr ".tgi[2].ni[13].y" 567.14288330078125;
-	setAttr ".tgi[2].ni[13].nvs" 18304;
-	setAttr ".tgi[2].ni[14].x" 52798.5703125;
-	setAttr ".tgi[2].ni[14].y" 518.5714111328125;
-	setAttr ".tgi[2].ni[14].nvs" 18304;
-	setAttr ".tgi[2].ni[15].x" 54641.4296875;
-	setAttr ".tgi[2].ni[15].y" 652.85711669921875;
-	setAttr ".tgi[2].ni[15].nvs" 18305;
-	setAttr ".tgi[2].ni[16].x" 53105.71484375;
-	setAttr ".tgi[2].ni[16].y" 668.5714111328125;
-	setAttr ".tgi[2].ni[16].nvs" 18304;
-	setAttr ".tgi[2].ni[17].x" 52172.85546875;
-	setAttr ".tgi[2].ni[17].y" 257.14285278320312;
-	setAttr ".tgi[2].ni[17].nvs" 18304;
-	setAttr ".tgi[2].ni[18].x" 53714.765625;
-	setAttr ".tgi[2].ni[18].y" 337.986572265625;
-	setAttr ".tgi[2].ni[18].nvs" 18305;
-	setAttr ".tgi[2].ni[19].x" 54035.51953125;
-	setAttr ".tgi[2].ni[19].y" 527.27679443359375;
-	setAttr ".tgi[2].ni[19].nvs" 18305;
-	setAttr ".tgi[2].ni[20].x" 52480;
-	setAttr ".tgi[2].ni[20].y" 421.42855834960938;
-	setAttr ".tgi[2].ni[20].nvs" 18304;
-	setAttr ".tgi[2].ni[21].x" 53374.65234375;
-	setAttr ".tgi[2].ni[21].y" -16.688203811645508;
-	setAttr ".tgi[2].ni[21].nvs" 18305;
-	setAttr ".tgi[2].ni[22].x" 53733.61328125;
-	setAttr ".tgi[2].ni[22].y" 577.63616943359375;
-	setAttr ".tgi[2].ni[22].nvs" 18305;
-	setAttr ".tgi[2].ni[23].x" 52480;
-	setAttr ".tgi[2].ni[23].y" 522.85711669921875;
-	setAttr ".tgi[2].ni[23].nvs" 18304;
-	setAttr ".tgi[2].ni[24].x" 54641.4296875;
-	setAttr ".tgi[2].ni[24].y" -132.85714721679688;
-	setAttr ".tgi[2].ni[24].nvs" 18304;
-	setAttr ".tgi[3].tn" -type "string" "Untitled_10";
-	setAttr ".tgi[3].vl" -type "double2" 33848.029790531073 -638.09521273961252 ;
-	setAttr ".tgi[3].vh" -type "double2" 39329.348254041732 846.42853779452321 ;
-	setAttr -s 13 ".tgi[3].ni";
-	setAttr ".tgi[3].ni[0].x" 37347.14453125;
-	setAttr ".tgi[3].ni[0].y" 224.28572082519531;
+	setAttr ".tgi[3].tn" -type "string" "Untitled_9";
+	setAttr ".tgi[3].vl" -type "double2" 30676.189257228234 -2039.5131166541421 ;
+	setAttr ".tgi[3].vh" -type "double2" 32129.76062803993 -393.82011998721612 ;
+	setAttr -s 67 ".tgi[3].ni";
+	setAttr ".tgi[3].ni[0].x" 30220;
+	setAttr ".tgi[3].ni[0].y" -1725.7142333984375;
 	setAttr ".tgi[3].ni[0].nvs" 18304;
-	setAttr ".tgi[3].ni[1].x" 37347.14453125;
-	setAttr ".tgi[3].ni[1].y" 382.85714721679688;
+	setAttr ".tgi[3].ni[1].x" 30527.142578125;
+	setAttr ".tgi[3].ni[1].y" -570;
 	setAttr ".tgi[3].ni[1].nvs" 18304;
-	setAttr ".tgi[3].ni[2].x" 36195.04296875;
-	setAttr ".tgi[3].ni[2].y" 653.96368408203125;
-	setAttr ".tgi[3].ni[2].nvs" 18305;
-	setAttr ".tgi[3].ni[3].x" 37347.14453125;
-	setAttr ".tgi[3].ni[3].y" 122.85713958740234;
+	setAttr ".tgi[3].ni[2].x" 27635.71484375;
+	setAttr ".tgi[3].ni[2].y" -831.4285888671875;
+	setAttr ".tgi[3].ni[2].nvs" 18304;
+	setAttr ".tgi[3].ni[3].x" 27007.142578125;
+	setAttr ".tgi[3].ni[3].y" -867.14288330078125;
 	setAttr ".tgi[3].ni[3].nvs" 18304;
-	setAttr ".tgi[3].ni[4].x" 36732.85546875;
-	setAttr ".tgi[3].ni[4].y" 245.71427917480469;
+	setAttr ".tgi[3].ni[4].x" 30527.142578125;
+	setAttr ".tgi[3].ni[4].y" -1368.5714111328125;
 	setAttr ".tgi[3].ni[4].nvs" 18304;
-	setAttr ".tgi[3].ni[5].x" 37654.28515625;
-	setAttr ".tgi[3].ni[5].y" 208.57142639160156;
+	setAttr ".tgi[3].ni[5].x" 29595.71484375;
+	setAttr ".tgi[3].ni[5].y" -1912.857177734375;
 	setAttr ".tgi[3].ni[5].nvs" 18304;
-	setAttr ".tgi[3].ni[6].x" 36425.71484375;
-	setAttr ".tgi[3].ni[6].y" 257.14285278320312;
+	setAttr ".tgi[3].ni[6].x" 28864.28515625;
+	setAttr ".tgi[3].ni[6].y" -704.28570556640625;
 	setAttr ".tgi[3].ni[6].nvs" 18304;
-	setAttr ".tgi[3].ni[7].x" 37654.28515625;
-	setAttr ".tgi[3].ni[7].y" 382.85714721679688;
+	setAttr ".tgi[3].ni[7].x" 29908.572265625;
+	setAttr ".tgi[3].ni[7].y" -434.28570556640625;
 	setAttr ".tgi[3].ni[7].nvs" 18304;
-	setAttr ".tgi[3].ni[8].x" 37040;
-	setAttr ".tgi[3].ni[8].y" 455.71429443359375;
+	setAttr ".tgi[3].ni[8].x" 31141.427734375;
+	setAttr ".tgi[3].ni[8].y" -252.85714721679688;
 	setAttr ".tgi[3].ni[8].nvs" 18304;
-	setAttr ".tgi[3].ni[9].x" 37040;
-	setAttr ".tgi[3].ni[9].y" 237.14285278320312;
+	setAttr ".tgi[3].ni[9].x" 28557.142578125;
+	setAttr ".tgi[3].ni[9].y" -1451.4285888671875;
 	setAttr ".tgi[3].ni[9].nvs" 18304;
-	setAttr ".tgi[3].ni[10].x" 37654.28515625;
-	setAttr ".tgi[3].ni[10].y" 21.428571701049805;
+	setAttr ".tgi[3].ni[10].x" 28250;
+	setAttr ".tgi[3].ni[10].y" -1428.5714111328125;
 	setAttr ".tgi[3].ni[10].nvs" 18304;
-	setAttr ".tgi[3].ni[11].x" 37654.28515625;
-	setAttr ".tgi[3].ni[11].y" 484.28570556640625;
+	setAttr ".tgi[3].ni[11].x" 27942.857421875;
+	setAttr ".tgi[3].ni[11].y" -417.14285278320312;
 	setAttr ".tgi[3].ni[11].nvs" 18304;
-	setAttr ".tgi[3].ni[12].x" 37347.14453125;
-	setAttr ".tgi[3].ni[12].y" 484.28570556640625;
+	setAttr ".tgi[3].ni[12].x" 27314.28515625;
+	setAttr ".tgi[3].ni[12].y" -1014.2857055664062;
 	setAttr ".tgi[3].ni[12].nvs" 18304;
-	setAttr ".tgi[4].tn" -type "string" "Untitled_11";
-	setAttr ".tgi[4].vl" -type "double2" 48135.162922445306 8699.9996542930385 ;
-	setAttr ".tgi[4].vh" -type "double2" 52121.975950836786 9779.7615161490612 ;
-	setAttr -s 9 ".tgi[4].ni";
-	setAttr ".tgi[4].ni[0].x" 48248.5703125;
-	setAttr ".tgi[4].ni[0].y" 9537.142578125;
-	setAttr ".tgi[4].ni[0].nvs" 18304;
-	setAttr ".tgi[4].ni[1].x" 50472.60546875;
-	setAttr ".tgi[4].ni[1].y" 9449.412109375;
+	setAttr ".tgi[3].ni[13].x" 29171.427734375;
+	setAttr ".tgi[3].ni[13].y" -1100;
+	setAttr ".tgi[3].ni[13].nvs" 18304;
+	setAttr ".tgi[3].ni[14].x" 30527.142578125;
+	setAttr ".tgi[3].ni[14].y" -1045.7142333984375;
+	setAttr ".tgi[3].ni[14].nvs" 18304;
+	setAttr ".tgi[3].ni[15].x" 29171.427734375;
+	setAttr ".tgi[3].ni[15].y" -1562.857177734375;
+	setAttr ".tgi[3].ni[15].nvs" 18304;
+	setAttr ".tgi[3].ni[16].x" 30220;
+	setAttr ".tgi[3].ni[16].y" -648.5714111328125;
+	setAttr ".tgi[3].ni[16].nvs" 18304;
+	setAttr ".tgi[3].ni[17].x" 29171.427734375;
+	setAttr ".tgi[3].ni[17].y" -1404.2857666015625;
+	setAttr ".tgi[3].ni[17].nvs" 18304;
+	setAttr ".tgi[3].ni[18].x" 29595.71484375;
+	setAttr ".tgi[3].ni[18].y" -1380;
+	setAttr ".tgi[3].ni[18].nvs" 18304;
+	setAttr ".tgi[3].ni[19].x" 30527.142578125;
+	setAttr ".tgi[3].ni[19].y" -468.57144165039062;
+	setAttr ".tgi[3].ni[19].nvs" 18304;
+	setAttr ".tgi[3].ni[20].x" 28275.748046875;
+	setAttr ".tgi[3].ni[20].y" -419.53024291992188;
+	setAttr ".tgi[3].ni[20].nvs" 18304;
+	setAttr ".tgi[3].ni[21].x" 29391.9375;
+	setAttr ".tgi[3].ni[21].y" -696.90228271484375;
+	setAttr ".tgi[3].ni[21].nvs" 18304;
+	setAttr ".tgi[3].ni[22].x" 30528.65234375;
+	setAttr ".tgi[3].ni[22].y" -613.78570556640625;
+	setAttr ".tgi[3].ni[22].nvs" 18305;
+	setAttr ".tgi[3].ni[23].x" 27942.857421875;
+	setAttr ".tgi[3].ni[23].y" -518.5714111328125;
+	setAttr ".tgi[3].ni[23].nvs" 18305;
+	setAttr ".tgi[3].ni[24].x" 29908.572265625;
+	setAttr ".tgi[3].ni[24].y" -1020;
+	setAttr ".tgi[3].ni[24].nvs" 18304;
+	setAttr ".tgi[3].ni[25].x" 30834.28515625;
+	setAttr ".tgi[3].ni[25].y" -607.14288330078125;
+	setAttr ".tgi[3].ni[25].nvs" 18304;
+	setAttr ".tgi[3].ni[26].x" 30834.28515625;
+	setAttr ".tgi[3].ni[26].y" -505.71429443359375;
+	setAttr ".tgi[3].ni[26].nvs" 18304;
+	setAttr ".tgi[3].ni[27].x" 30220;
+	setAttr ".tgi[3].ni[27].y" -547.14288330078125;
+	setAttr ".tgi[3].ni[27].nvs" 18304;
+	setAttr ".tgi[3].ni[28].x" 29595.71484375;
+	setAttr ".tgi[3].ni[28].y" -288.57144165039062;
+	setAttr ".tgi[3].ni[28].nvs" 18304;
+	setAttr ".tgi[3].ni[29].x" 31141.427734375;
+	setAttr ".tgi[3].ni[29].y" -1282.857177734375;
+	setAttr ".tgi[3].ni[29].nvs" 18304;
+	setAttr ".tgi[3].ni[30].x" 28239.986328125;
+	setAttr ".tgi[3].ni[30].y" -687.14471435546875;
+	setAttr ".tgi[3].ni[30].nvs" 18304;
+	setAttr ".tgi[3].ni[31].x" 29171.427734375;
+	setAttr ".tgi[3].ni[31].y" -1302.857177734375;
+	setAttr ".tgi[3].ni[31].nvs" 18304;
+	setAttr ".tgi[3].ni[32].x" 29595.71484375;
+	setAttr ".tgi[3].ni[32].y" -1164.2857666015625;
+	setAttr ".tgi[3].ni[32].nvs" 18304;
+	setAttr ".tgi[3].ni[33].x" 30834.28515625;
+	setAttr ".tgi[3].ni[33].y" -1444.2857666015625;
+	setAttr ".tgi[3].ni[33].nvs" 18304;
+	setAttr ".tgi[3].ni[34].x" 30527.142578125;
+	setAttr ".tgi[3].ni[34].y" -1800;
+	setAttr ".tgi[3].ni[34].nvs" 18304;
+	setAttr ".tgi[3].ni[35].x" 30220;
+	setAttr ".tgi[3].ni[35].y" -1510;
+	setAttr ".tgi[3].ni[35].nvs" 18304;
+	setAttr ".tgi[3].ni[36].x" 29908.572265625;
+	setAttr ".tgi[3].ni[36].y" -1121.4285888671875;
+	setAttr ".tgi[3].ni[36].nvs" 18304;
+	setAttr ".tgi[3].ni[37].x" 30544.30078125;
+	setAttr ".tgi[3].ni[37].y" -1098.8900146484375;
+	setAttr ".tgi[3].ni[37].nvs" 18305;
+	setAttr ".tgi[3].ni[38].x" 30834.28515625;
+	setAttr ".tgi[3].ni[38].y" -404.28570556640625;
+	setAttr ".tgi[3].ni[38].nvs" 18304;
+	setAttr ".tgi[3].ni[39].x" 27942.857421875;
+	setAttr ".tgi[3].ni[39].y" -1272.857177734375;
+	setAttr ".tgi[3].ni[39].nvs" 18304;
+	setAttr ".tgi[3].ni[40].x" 27635.71484375;
+	setAttr ".tgi[3].ni[40].y" -1000;
+	setAttr ".tgi[3].ni[40].nvs" 18304;
+	setAttr ".tgi[3].ni[41].x" 31630.318359375;
+	setAttr ".tgi[3].ni[41].y" -544.793701171875;
+	setAttr ".tgi[3].ni[41].nvs" 18305;
+	setAttr ".tgi[3].ni[42].x" 28693.03125;
+	setAttr ".tgi[3].ni[42].y" -849.97808837890625;
+	setAttr ".tgi[3].ni[42].nvs" 18305;
+	setAttr ".tgi[3].ni[43].x" 29595.71484375;
+	setAttr ".tgi[3].ni[43].y" -561.4285888671875;
+	setAttr ".tgi[3].ni[43].nvs" 18304;
+	setAttr ".tgi[3].ni[44].x" 30834.28515625;
+	setAttr ".tgi[3].ni[44].y" -1545.7142333984375;
+	setAttr ".tgi[3].ni[44].nvs" 18304;
+	setAttr ".tgi[3].ni[45].x" 27314.28515625;
+	setAttr ".tgi[3].ni[45].y" -912.85711669921875;
+	setAttr ".tgi[3].ni[45].nvs" 18304;
+	setAttr ".tgi[3].ni[46].x" 30527.142578125;
+	setAttr ".tgi[3].ni[46].y" -944.28570556640625;
+	setAttr ".tgi[3].ni[46].nvs" 18304;
+	setAttr ".tgi[3].ni[47].x" 30220;
+	setAttr ".tgi[3].ni[47].y" -978.5714111328125;
+	setAttr ".tgi[3].ni[47].nvs" 18304;
+	setAttr ".tgi[3].ni[48].x" 30834.28515625;
+	setAttr ".tgi[3].ni[48].y" -1847.142822265625;
+	setAttr ".tgi[3].ni[48].nvs" 18304;
+	setAttr ".tgi[3].ni[49].x" 29908.572265625;
+	setAttr ".tgi[3].ni[49].y" -1870;
+	setAttr ".tgi[3].ni[49].nvs" 18304;
+	setAttr ".tgi[3].ni[50].x" 28864.28515625;
+	setAttr ".tgi[3].ni[50].y" -1510;
+	setAttr ".tgi[3].ni[50].nvs" 18304;
+	setAttr ".tgi[3].ni[51].x" 27942.857421875;
+	setAttr ".tgi[3].ni[51].y" -1431.4285888671875;
+	setAttr ".tgi[3].ni[51].nvs" 18304;
+	setAttr ".tgi[3].ni[52].x" 29171.427734375;
+	setAttr ".tgi[3].ni[52].y" -998.5714111328125;
+	setAttr ".tgi[3].ni[52].nvs" 18304;
+	setAttr ".tgi[3].ni[53].x" 29908.572265625;
+	setAttr ".tgi[3].ni[53].y" -1337.142822265625;
+	setAttr ".tgi[3].ni[53].nvs" 18304;
+	setAttr ".tgi[3].ni[54].x" 29595.71484375;
+	setAttr ".tgi[3].ni[54].y" -948.5714111328125;
+	setAttr ".tgi[3].ni[54].nvs" 18304;
+	setAttr ".tgi[3].ni[55].x" 29595.71484375;
+	setAttr ".tgi[3].ni[55].y" -1697.142822265625;
+	setAttr ".tgi[3].ni[55].nvs" 18304;
+	setAttr ".tgi[3].ni[56].x" 29908.572265625;
+	setAttr ".tgi[3].ni[56].y" -1654.2857666015625;
+	setAttr ".tgi[3].ni[56].nvs" 18304;
+	setAttr ".tgi[3].ni[57].x" 31023.796875;
+	setAttr ".tgi[3].ni[57].y" -702.75286865234375;
+	setAttr ".tgi[3].ni[57].nvs" 18305;
+	setAttr ".tgi[3].ni[58].x" 31624.89453125;
+	setAttr ".tgi[3].ni[58].y" -990.404296875;
+	setAttr ".tgi[3].ni[58].nvs" 18305;
+	setAttr ".tgi[3].ni[59].x" 30220;
+	setAttr ".tgi[3].ni[59].y" -1827.142822265625;
+	setAttr ".tgi[3].ni[59].nvs" 18304;
+	setAttr ".tgi[3].ni[60].x" 30527.142578125;
+	setAttr ".tgi[3].ni[60].y" -1470;
+	setAttr ".tgi[3].ni[60].nvs" 18304;
+	setAttr ".tgi[3].ni[61].x" 29595.71484375;
+	setAttr ".tgi[3].ni[61].y" -1538.5714111328125;
+	setAttr ".tgi[3].ni[61].nvs" 18304;
+	setAttr ".tgi[3].ni[62].x" 31012.515625;
+	setAttr ".tgi[3].ni[62].y" -983.86962890625;
+	setAttr ".tgi[3].ni[62].nvs" 18305;
+	setAttr ".tgi[3].ni[63].x" 27635.71484375;
+	setAttr ".tgi[3].ni[63].y" -1158.5714111328125;
+	setAttr ".tgi[3].ni[63].nvs" 18304;
+	setAttr ".tgi[3].ni[64].x" 29908.572265625;
+	setAttr ".tgi[3].ni[64].y" -677.14288330078125;
+	setAttr ".tgi[3].ni[64].nvs" 18304;
+	setAttr ".tgi[3].ni[65].x" 29908.572265625;
+	setAttr ".tgi[3].ni[65].y" -1552.857177734375;
+	setAttr ".tgi[3].ni[65].nvs" 18304;
+	setAttr ".tgi[3].ni[66].x" 30220;
+	setAttr ".tgi[3].ni[66].y" -445.71429443359375;
+	setAttr ".tgi[3].ni[66].nvs" 18304;
+	setAttr ".tgi[4].tn" -type "string" "Untitled_10";
+	setAttr ".tgi[4].vl" -type "double2" 32728.5701280549 11023.213847691122 ;
+	setAttr ".tgi[4].vh" -type "double2" 33890.474843789714 12338.689985894989 ;
+	setAttr -s 11 ".tgi[4].ni";
+	setAttr ".tgi[4].ni[0].x" 34075.625;
+	setAttr ".tgi[4].ni[0].y" 11771.228515625;
+	setAttr ".tgi[4].ni[0].nvs" 18305;
+	setAttr ".tgi[4].ni[1].x" 32778.609375;
+	setAttr ".tgi[4].ni[1].y" 11600.603515625;
 	setAttr ".tgi[4].ni[1].nvs" 18305;
-	setAttr ".tgi[4].ni[2].x" 49861.6796875;
-	setAttr ".tgi[4].ni[2].y" 9505.5458984375;
+	setAttr ".tgi[4].ni[2].x" 33450.484375;
+	setAttr ".tgi[4].ni[2].y" 11593.4638671875;
 	setAttr ".tgi[4].ni[2].nvs" 18305;
-	setAttr ".tgi[4].ni[3].x" 48248.5703125;
-	setAttr ".tgi[4].ni[3].y" 9435.7138671875;
+	setAttr ".tgi[4].ni[3].x" 34391.4296875;
+	setAttr ".tgi[4].ni[3].y" 12068.5712890625;
 	setAttr ".tgi[4].ni[3].nvs" 18304;
-	setAttr ".tgi[4].ni[4].x" 49538.5703125;
-	setAttr ".tgi[4].ni[4].y" 9465.7138671875;
-	setAttr ".tgi[4].ni[4].nvs" 18304;
-	setAttr ".tgi[4].ni[5].x" 49228.5703125;
-	setAttr ".tgi[4].ni[5].y" 9398.5712890625;
-	setAttr ".tgi[4].ni[5].nvs" 18304;
-	setAttr ".tgi[4].ni[6].x" 48248.5703125;
-	setAttr ".tgi[4].ni[6].y" 9277.142578125;
-	setAttr ".tgi[4].ni[6].nvs" 18304;
-	setAttr ".tgi[4].ni[7].x" 50152.85546875;
-	setAttr ".tgi[4].ni[7].y" 9550;
-	setAttr ".tgi[4].ni[7].nvs" 18304;
-	setAttr ".tgi[4].ni[8].x" 48921.4296875;
-	setAttr ".tgi[4].ni[8].y" 9451.4287109375;
+	setAttr ".tgi[4].ni[4].x" 33144.72265625;
+	setAttr ".tgi[4].ni[4].y" 11980.1298828125;
+	setAttr ".tgi[4].ni[4].nvs" 18305;
+	setAttr ".tgi[4].ni[5].x" 32763.91015625;
+	setAttr ".tgi[4].ni[5].y" 12142.8515625;
+	setAttr ".tgi[4].ni[5].nvs" 18305;
+	setAttr ".tgi[4].ni[6].x" 33455.31640625;
+	setAttr ".tgi[4].ni[6].y" 11792.9931640625;
+	setAttr ".tgi[4].ni[6].nvs" 18305;
+	setAttr ".tgi[4].ni[7].x" 33158.2890625;
+	setAttr ".tgi[4].ni[7].y" 11560.45703125;
+	setAttr ".tgi[4].ni[7].nvs" 18305;
+	setAttr ".tgi[4].ni[8].x" 34084.28515625;
+	setAttr ".tgi[4].ni[8].y" 12068.5712890625;
 	setAttr ".tgi[4].ni[8].nvs" 18304;
+	setAttr ".tgi[4].ni[9].x" 34355.0625;
+	setAttr ".tgi[4].ni[9].y" 11737.748046875;
+	setAttr ".tgi[4].ni[9].nvs" 18304;
+	setAttr ".tgi[4].ni[10].x" 33777.14453125;
+	setAttr ".tgi[4].ni[10].y" 12112.857421875;
+	setAttr ".tgi[4].ni[10].nvs" 18305;
+	setAttr ".tgi[5].tn" -type "string" "Untitled_11";
+	setAttr ".tgi[5].vl" -type "double2" 13538.227474085934 -3441.0619010167184 ;
+	setAttr ".tgi[5].vh" -type "double2" 14260.381674184979 -2215.8591095174052 ;
+	setAttr -s 12 ".tgi[5].ni";
+	setAttr ".tgi[5].ni[0].x" 13087.6396484375;
+	setAttr ".tgi[5].ni[0].y" -2623.182373046875;
+	setAttr ".tgi[5].ni[0].nvs" 18304;
+	setAttr ".tgi[5].ni[1].x" 13995.4423828125;
+	setAttr ".tgi[5].ni[1].y" -2589.23291015625;
+	setAttr ".tgi[5].ni[1].nvs" 18304;
+	setAttr ".tgi[5].ni[2].x" 13692.6083984375;
+	setAttr ".tgi[5].ni[2].y" -2553.806640625;
+	setAttr ".tgi[5].ni[2].nvs" 18305;
+	setAttr ".tgi[5].ni[3].x" 12762.2353515625;
+	setAttr ".tgi[5].ni[3].y" -2640.188720703125;
+	setAttr ".tgi[5].ni[3].nvs" 18304;
+	setAttr ".tgi[5].ni[4].x" 13086.521484375;
+	setAttr ".tgi[5].ni[4].y" -2673.31884765625;
+	setAttr ".tgi[5].ni[4].nvs" 18304;
+	setAttr ".tgi[5].ni[5].x" 13099.9365234375;
+	setAttr ".tgi[5].ni[5].y" -2799.027099609375;
+	setAttr ".tgi[5].ni[5].nvs" 18304;
+	setAttr ".tgi[5].ni[6].x" 13084.2861328125;
+	setAttr ".tgi[5].ni[6].y" -2558.382568359375;
+	setAttr ".tgi[5].ni[6].nvs" 18304;
+	setAttr ".tgi[5].ni[7].x" 13101.0537109375;
+	setAttr ".tgi[5].ni[7].y" -2745.682373046875;
+	setAttr ".tgi[5].ni[7].nvs" 18304;
+	setAttr ".tgi[5].ni[8].x" 13088.658203125;
+	setAttr ".tgi[5].ni[8].y" -3048.51611328125;
+	setAttr ".tgi[5].ni[8].nvs" 18305;
+	setAttr ".tgi[5].ni[9].x" 13090.89453125;
+	setAttr ".tgi[5].ni[9].y" -2976.373291015625;
+	setAttr ".tgi[5].ni[9].nvs" 18304;
+	setAttr ".tgi[5].ni[10].x" 13089.7763671875;
+	setAttr ".tgi[5].ni[10].y" -2874.3466796875;
+	setAttr ".tgi[5].ni[10].nvs" 18304;
+	setAttr ".tgi[5].ni[11].x" 13422.513671875;
+	setAttr ".tgi[5].ni[11].y" -2585.4423828125;
+	setAttr ".tgi[5].ni[11].nvs" 18305;
+	setAttr ".tgi[6].tn" -type "string" "Untitled_12";
+	setAttr ".tgi[6].vl" -type "double2" 15303.042880530014 1338.7688393615529 ;
+	setAttr ".tgi[6].vh" -type "double2" 15845.900008160426 2259.7772168893084 ;
+	setAttr -s 2 ".tgi[6].ni";
+	setAttr ".tgi[6].ni[0].x" 15516.974609375;
+	setAttr ".tgi[6].ni[0].y" 1825.2940673828125;
+	setAttr ".tgi[6].ni[0].nvs" 18304;
+	setAttr ".tgi[6].ni[1].x" 15494.2861328125;
+	setAttr ".tgi[6].ni[1].y" 1977.142822265625;
+	setAttr ".tgi[6].ni[1].nvs" 18304;
 select -ne :time1;
 	setAttr -av -k on ".cch";
 	setAttr -av -k on ".fzn";
@@ -8520,7 +10614,7 @@ select -ne :renderPartition;
 	setAttr -cb on ".ihi";
 	setAttr -av -k on ".nds";
 	setAttr -cb on ".bnm";
-	setAttr -s 2 ".st";
+	setAttr -s 45 ".st";
 	setAttr -cb on ".an";
 	setAttr -cb on ".pt";
 select -ne :renderGlobalsList1;
@@ -8533,7 +10627,7 @@ select -ne :defaultShaderList1;
 	setAttr -cb on ".ihi";
 	setAttr -av -k on ".nds";
 	setAttr -cb on ".bnm";
-	setAttr -s 5 ".s";
+	setAttr -s 12 ".s";
 select -ne :postProcessList1;
 	setAttr -k on ".cch";
 	setAttr -cb on ".ihi";
@@ -8545,13 +10639,19 @@ select -ne :defaultRenderUtilityList1;
 	setAttr -cb on ".ihi";
 	setAttr -av -k on ".nds";
 	setAttr -cb on ".bnm";
-	setAttr -s 205 ".u";
+	setAttr -s 425 ".u";
 select -ne :defaultRenderingList1;
 	setAttr -av -k on ".cch";
 	setAttr -k on ".ihi";
 	setAttr -av -k on ".nds";
 	setAttr -cb on ".bnm";
 	setAttr -s 3 ".r";
+select -ne :defaultTextureList1;
+	setAttr -k on ".cch";
+	setAttr -cb on ".ihi";
+	setAttr -k on ".nds";
+	setAttr -cb on ".bnm";
+	setAttr -s 3 ".tx";
 select -ne :initialShadingGroup;
 	setAttr -av -k on ".cch";
 	setAttr -k on ".fzn";
@@ -8775,25 +10875,94 @@ connectAttr "size_multiplyDivide2.oy" "mouth_clusterHandle.sy";
 connectAttr "size_multiplyDivide2.oy" "mouth_clusterHandle.sz";
 connectAttr "makeNurbSphere6.os" "t_mouth_poserNurbsShape.cr";
 connectAttr "makeNurbSphere3.os" "b_mouth_poserNurbsShape.cr";
+connectAttr "makeNurbSphere18.os" "lip_middle_poserNurbsShape.cr";
 connectAttr "makeNurbSphere19.os" "c_lip_poserNurbsShape.cr";
-connectAttr "lip_corner_poser_aimConstraint.cry" "lip_corner_poser.ry" -l on;
-connectAttr "makeNurbSphere14.os" "lip_corner_poserNurbsShape.cr";
-connectAttr "lip_corner_poser.pim" "lip_corner_poser_aimConstraint.cpim";
-connectAttr "lip_corner_poser.t" "lip_corner_poser_aimConstraint.ct";
-connectAttr "lip_corner_poser.rp" "lip_corner_poser_aimConstraint.crp";
-connectAttr "lip_corner_poser.rpt" "lip_corner_poser_aimConstraint.crt";
-connectAttr "lip_corner_poser.ro" "lip_corner_poser_aimConstraint.cro";
-connectAttr "l_lip_corner_poser_upLoc.t" "lip_corner_poser_aimConstraint.tg[0].tt"
+connectAttr "l_lip_corner_poser_aimConstraint1.cry" "l_lip_corner_poser.ry" -l on
 		;
-connectAttr "l_lip_corner_poser_upLoc.rp" "lip_corner_poser_aimConstraint.tg[0].trp"
+connectAttr "makeNurbSphere14.os" "l_lip_corner_poserNurbsShape.cr";
+connectAttr "l_lip_posers_up_loc1_aimConstraint1.crx" "l_lip_posers_target_up_loc.rx"
 		;
-connectAttr "l_lip_corner_poser_upLoc.rpt" "lip_corner_poser_aimConstraint.tg[0].trt"
+connectAttr "l_lip_posers_up_loc1_aimConstraint1.cry" "l_lip_posers_target_up_loc.ry"
 		;
-connectAttr "l_lip_corner_poser_upLoc.pm" "lip_corner_poser_aimConstraint.tg[0].tpm"
+connectAttr "l_lip_posers_up_loc1_aimConstraint1.crz" "l_lip_posers_target_up_loc.rz"
 		;
-connectAttr "lip_corner_poser_aimConstraint.w0" "lip_corner_poser_aimConstraint.tg[0].tw"
+connectAttr "l_lip_posers_target_up_loc.pim" "l_lip_posers_up_loc1_aimConstraint1.cpim"
 		;
-connectAttr "lip_2_poser.wm" "lip_corner_poser_aimConstraint.wum";
+connectAttr "l_lip_posers_target_up_loc.t" "l_lip_posers_up_loc1_aimConstraint1.ct"
+		;
+connectAttr "l_lip_posers_target_up_loc.rp" "l_lip_posers_up_loc1_aimConstraint1.crp"
+		;
+connectAttr "l_lip_posers_target_up_loc.rpt" "l_lip_posers_up_loc1_aimConstraint1.crt"
+		;
+connectAttr "l_lip_posers_target_up_loc.ro" "l_lip_posers_up_loc1_aimConstraint1.cro"
+		;
+connectAttr "l_lip_up_poser.t" "l_lip_posers_up_loc1_aimConstraint1.tg[0].tt";
+connectAttr "l_lip_up_poser.rp" "l_lip_posers_up_loc1_aimConstraint1.tg[0].trp";
+connectAttr "l_lip_up_poser.rpt" "l_lip_posers_up_loc1_aimConstraint1.tg[0].trt"
+		;
+connectAttr "l_lip_up_poser.pm" "l_lip_posers_up_loc1_aimConstraint1.tg[0].tpm";
+connectAttr "l_lip_posers_up_loc1_aimConstraint1.w0" "l_lip_posers_up_loc1_aimConstraint1.tg[0].tw"
+		;
+connectAttr "lip_2_poser.wm" "l_lip_posers_up_loc1_aimConstraint1.wum";
+connectAttr "l_lip_posers_target_down_loc_aimConstraint1.crx" "l_lip_posers_target_down_loc.rx"
+		;
+connectAttr "l_lip_posers_target_down_loc_aimConstraint1.cry" "l_lip_posers_target_down_loc.ry"
+		;
+connectAttr "l_lip_posers_target_down_loc_aimConstraint1.crz" "l_lip_posers_target_down_loc.rz"
+		;
+connectAttr "l_lip_posers_target_down_loc.pim" "l_lip_posers_target_down_loc_aimConstraint1.cpim"
+		;
+connectAttr "l_lip_posers_target_down_loc.t" "l_lip_posers_target_down_loc_aimConstraint1.ct"
+		;
+connectAttr "l_lip_posers_target_down_loc.rp" "l_lip_posers_target_down_loc_aimConstraint1.crp"
+		;
+connectAttr "l_lip_posers_target_down_loc.rpt" "l_lip_posers_target_down_loc_aimConstraint1.crt"
+		;
+connectAttr "l_lip_posers_target_down_loc.ro" "l_lip_posers_target_down_loc_aimConstraint1.cro"
+		;
+connectAttr "l_lip_down_poser.t" "l_lip_posers_target_down_loc_aimConstraint1.tg[0].tt"
+		;
+connectAttr "l_lip_down_poser.rp" "l_lip_posers_target_down_loc_aimConstraint1.tg[0].trp"
+		;
+connectAttr "l_lip_down_poser.rpt" "l_lip_posers_target_down_loc_aimConstraint1.tg[0].trt"
+		;
+connectAttr "l_lip_down_poser.pm" "l_lip_posers_target_down_loc_aimConstraint1.tg[0].tpm"
+		;
+connectAttr "l_lip_posers_target_down_loc_aimConstraint1.w0" "l_lip_posers_target_down_loc_aimConstraint1.tg[0].tw"
+		;
+connectAttr "lip_2_poser.wm" "l_lip_posers_target_down_loc_aimConstraint1.wum";
+connectAttr "l_lip_corner_poser.pim" "l_lip_corner_poser_aimConstraint1.cpim";
+connectAttr "l_lip_corner_poser.t" "l_lip_corner_poser_aimConstraint1.ct";
+connectAttr "l_lip_corner_poser.rp" "l_lip_corner_poser_aimConstraint1.crp";
+connectAttr "l_lip_corner_poser.rpt" "l_lip_corner_poser_aimConstraint1.crt";
+connectAttr "l_lip_corner_poser.ro" "l_lip_corner_poser_aimConstraint1.cro";
+connectAttr "locator1.t" "l_lip_corner_poser_aimConstraint1.tg[0].tt";
+connectAttr "locator1.rp" "l_lip_corner_poser_aimConstraint1.tg[0].trp";
+connectAttr "locator1.rpt" "l_lip_corner_poser_aimConstraint1.tg[0].trt";
+connectAttr "locator1.pm" "l_lip_corner_poser_aimConstraint1.tg[0].tpm";
+connectAttr "l_lip_corner_poser_aimConstraint1.w0" "l_lip_corner_poser_aimConstraint1.tg[0].tw"
+		;
+connectAttr "lip_2_poser.wm" "l_lip_corner_poser_aimConstraint1.wum";
+connectAttr "l_lip_posers_up_loc2_aimConstraint1.crx" "l_lip_posers_up_loc2.rx";
+connectAttr "l_lip_posers_up_loc2_aimConstraint1.cry" "l_lip_posers_up_loc2.ry";
+connectAttr "l_lip_posers_up_loc2_aimConstraint1.crz" "l_lip_posers_up_loc2.rz";
+connectAttr "l_lip_posers_up_loc2.pim" "l_lip_posers_up_loc2_aimConstraint1.cpim"
+		;
+connectAttr "l_lip_posers_up_loc2.t" "l_lip_posers_up_loc2_aimConstraint1.ct";
+connectAttr "l_lip_posers_up_loc2.rp" "l_lip_posers_up_loc2_aimConstraint1.crp";
+connectAttr "l_lip_posers_up_loc2.rpt" "l_lip_posers_up_loc2_aimConstraint1.crt"
+		;
+connectAttr "l_lip_posers_up_loc2.ro" "l_lip_posers_up_loc2_aimConstraint1.cro";
+connectAttr "l_lip_front_poser.t" "l_lip_posers_up_loc2_aimConstraint1.tg[0].tt"
+		;
+connectAttr "l_lip_front_poser.rp" "l_lip_posers_up_loc2_aimConstraint1.tg[0].trp"
+		;
+connectAttr "l_lip_front_poser.rpt" "l_lip_posers_up_loc2_aimConstraint1.tg[0].trt"
+		;
+connectAttr "l_lip_front_poser.pm" "l_lip_posers_up_loc2_aimConstraint1.tg[0].tpm"
+		;
+connectAttr "l_lip_posers_up_loc2_aimConstraint1.w0" "l_lip_posers_up_loc2_aimConstraint1.tg[0].tw"
+		;
 connectAttr "makeNurbSphere5.os" "lips_poserNurbsShape.cr";
 connectAttr "mouth_clusterHandleCluster.og[0]" "mainPoser1Shape.cr";
 connectAttr "b_tooth_poser.sx" "b_tooth_poser.sy" -l on;
@@ -8817,11 +10986,27 @@ connectAttr "makeNurbSphere16.os" "l_cheekUp_poserShape.cr";
 connectAttr "l_cheek_poser.sx" "l_cheek_poser.sy" -l on;
 connectAttr "l_cheek_poser.sx" "l_cheek_poser.sz" -l on;
 connectAttr "makeNurbSphere15.os" "l_cheek_poserShape.cr";
-connectAttr "makeNurbSphere22.os" "lip_1_poserShape.cr";
 connectAttr "multMatrix264.o" "r_lip_corner_loc.opm";
-connectAttr "lip_corner_poser.tx" "l_lip_corner_poser_upLoc.tx";
-connectAttr "lip_corner_poser.tz" "l_lip_corner_poser_upLoc.tz";
-connectAttr "addDoubleLinear109.o" "l_lip_corner_poser_upLoc.ty";
+connectAttr "l_lip_corner_poser.t" "l_lip_posers_group.t";
+connectAttr "l_lip_posers_group_aimConstraint1.crx" "l_lip_posers_group.rx";
+connectAttr "l_lip_posers_group_aimConstraint1.cry" "l_lip_posers_group.ry";
+connectAttr "l_lip_posers_group_aimConstraint1.crz" "l_lip_posers_group.rz";
+connectAttr "l_lip_corner_poser.limitPosers" "l_lip_posers_group.v";
+connectAttr "l_lip_posers_group.pim" "l_lip_posers_group_aimConstraint1.cpim";
+connectAttr "l_lip_posers_group.t" "l_lip_posers_group_aimConstraint1.ct";
+connectAttr "l_lip_posers_group.rp" "l_lip_posers_group_aimConstraint1.crp";
+connectAttr "l_lip_posers_group.rpt" "l_lip_posers_group_aimConstraint1.crt";
+connectAttr "l_lip_posers_group.ro" "l_lip_posers_group_aimConstraint1.cro";
+connectAttr "lip_2_poser.t" "l_lip_posers_group_aimConstraint1.tg[0].tt";
+connectAttr "lip_2_poser.rp" "l_lip_posers_group_aimConstraint1.tg[0].trp";
+connectAttr "lip_2_poser.rpt" "l_lip_posers_group_aimConstraint1.tg[0].trt";
+connectAttr "lip_2_poser.pm" "l_lip_posers_group_aimConstraint1.tg[0].tpm";
+connectAttr "l_lip_posers_group_aimConstraint1.w0" "l_lip_posers_group_aimConstraint1.tg[0].tw"
+		;
+connectAttr "l_lip_posers_up_loc.wm" "l_lip_posers_group_aimConstraint1.wum";
+connectAttr "l_lip_corner_poser.tx" "locator1.tx";
+connectAttr "l_lip_corner_poser.tz" "locator1.tz";
+connectAttr "addDoubleLinear109.o" "locator1.ty";
 connectAttr "makeNurbSphere2.os" "jaw_poserNurbsShape.cr";
 connectAttr "jaw_poserOrient_aimConstraint1.crx" "jaw_poserOrient.rx";
 connectAttr "jaw_poserOrient_aimConstraint1.cry" "jaw_poserOrient.ry";
@@ -8866,11 +11051,19 @@ connectAttr "mainPoser_size_multiplyDivide.ox" "head_mainPoser_clusterHandle.sz"
 		;
 connectAttr "makeNurbSphere20.os" "t_head_poserNurbsShape.cr";
 connectAttr "makeNurbSphere21.os" "b_head_poserNurbsShape.cr";
-connectAttr "multMatrix284.o" "l_mouthCorner_initLoc.opm";
+connectAttr "multiplyDivide363.o" "curveShape.cp[0]";
+connectAttr "multiplyDivide359.o" "curveShape.cp[1]";
+connectAttr "multiplyDivide360.o" "curveShape.cp[2]";
+connectAttr "multiplyDivide358.o" "curveShape.cp[3]";
+connectAttr "c_lip_poserOrientShape.wp" "curveShape.cp[4]";
+connectAttr "lip_1_pivotShape.wp" "curveShape.cp[5]";
+connectAttr "lip_2_pivotShape.wp" "curveShape.cp[6]";
+connectAttr "l_lip_corner_poserOrientShape.wp" "curveShape.cp[7]";
+connectAttr "l_lip_back_poserOrientShape.wp" "curveShape.cp[8]";
 connectAttr "c_lip_poserOrientShape.wp" "posers_curve4Shape.cp[0]";
-connectAttr "l_lip_1_nearestPointOnCurve.p" "posers_curve4Shape.cp[1]";
-connectAttr "l_lip_2_nearestPointOnCurve.p" "posers_curve4Shape.cp[2]";
-connectAttr "lip_corner_poserOrientShape.wp" "posers_curve4Shape.cp[3]";
+connectAttr "lip_1_pivotShape.wp" "posers_curve4Shape.cp[1]";
+connectAttr "lip_2_pivotShape.wp" "posers_curve4Shape.cp[2]";
+connectAttr "l_lip_corner_poserOrientShape.wp" "posers_curve4Shape.cp[3]";
 connectAttr "sweepMeshCreator1.outMeshArray[0]" "posers_sweep4Shape.i";
 connectAttr "t_mouth_poserOrientShape.wp" "posers_curve1Shape.cp[0]";
 connectAttr "mouth_poserOrientShape.wp" "posers_curve1Shape.cp[1]";
@@ -8883,14 +11076,23 @@ connectAttr "root_poserOrientShape.wp" "posers_curve2Shape.cp[2]";
 connectAttr "sweepMeshCreator1.outMeshArray[3]" "posers_sweep3Shape.i";
 connectAttr "nose_poserOrientShape.wp" "posers_curve3Shape.cp[0]";
 connectAttr "nostril_poserOrientShape.wp" "posers_curve3Shape.cp[1]";
-connectAttr "lip_corner_init_mirror_multiplyDivide.o" "init_curveShape.cp[0]";
-connectAttr "lip_2_init_mirror_multiplyDivide.o" "init_curveShape.cp[1]";
-connectAttr "lip_1_init_mirror_multiplyDivide.o" "init_curveShape.cp[2]";
+connectAttr "l_lip_down_poserOrientShape.wp" "posers_curve5Shape.cp[0]";
+connectAttr "l_lip_corner_poserOrientShape.wp" "posers_curve5Shape.cp[1]";
+connectAttr "l_lip_up_poserOrientShape.wp" "posers_curve5Shape.cp[2]";
+connectAttr "l_lip_corner_poser.limitPosers" "posers_sweep5.v";
+connectAttr "sweepMeshCreator1.outMeshArray[4]" "posers_sweep5Shape.i";
+connectAttr "l_lip_front_poserOrientShape.wp" "posers_curve6Shape.cp[0]";
+connectAttr "l_lip_corner_poserOrientShape.wp" "posers_curve6Shape.cp[1]";
+connectAttr "l_lip_back_poserOrientShape.wp" "posers_curve6Shape.cp[2]";
+connectAttr "l_lip_corner_poser.limitPosers" "posers_sweep6.v";
+connectAttr "sweepMeshCreator1.outMeshArray[5]" "posers_sweep6Shape.i";
+connectAttr "multiplyDivide359.o" "init_curveShape.cp[0]";
+connectAttr "multiplyDivide360.o" "init_curveShape.cp[1]";
+connectAttr "multiplyDivide358.o" "init_curveShape.cp[2]";
 connectAttr "c_lip_poserOrientShape.wp" "init_curveShape.cp[3]";
 connectAttr "lip_1_pivotShape.wp" "init_curveShape.cp[4]";
 connectAttr "lip_2_pivotShape.wp" "init_curveShape.cp[5]";
-connectAttr "lip_corner_poserOrientShape.wp" "init_curveShape.cp[6]";
-connectAttr "init_curveShape.ws" "init_corner_flat_curveShape.cr";
+connectAttr "l_lip_corner_poserOrientShape.wp" "init_curveShape.cp[6]";
 connectAttr "mouth_root_decomposeMatrix.otx" "input.tx";
 connectAttr "mouth_root_decomposeMatrix.oty" "input.ty";
 connectAttr "mouth_root_decomposeMatrix.otz" "input.tz";
@@ -8909,15 +11111,15 @@ connectAttr "multMatrix143.o" "r_nostrir_group.opm";
 connectAttr "l_nostrilShape.ws" "r_nostrilShape.cr";
 connectAttr "multMatrix260.o" "cheeks_group.opm";
 connectAttr "l_cheek_group_multMat.o" "l_cheek_group.opm";
-connectAttr "blendMatrix26.omat" "l_cheek_group_2.opm";
+connectAttr "multiplyDivide66.o" "l_cheek_group.t";
 connectAttr "multMatrix151.o" "r_cheek_group.opm";
-connectAttr "blendMatrix27.omat" "r_cheek_group_2.opm";
+connectAttr "multiplyDivide67.o" "r_cheek_group.t";
 connectAttr "l_cheekShape.ws" "r_cheekShape.cr";
 connectAttr "multMatrix144.o" "cheekUps_transform_group.opm";
+connectAttr "multiplyDivide68.o" "l_cheekUp_group.t";
 connectAttr "l_cheekUp_group_multMat.o" "l_cheekUp_group.opm";
-connectAttr "blendMatrix24.omat" "l_cheekUp_group_2.opm";
+connectAttr "multiplyDivide69.o" "r_cheekUp_group.t";
 connectAttr "multMatrix145.o" "r_cheekUp_group.opm";
-connectAttr "blendMatrix25.omat" "r_cheekUp_group_2.opm";
 connectAttr "l_cheekUpShape.ws" "r_cheekUpShape.cr";
 connectAttr "head_mainPoser.t" "head_group.t";
 connectAttr "t_head_poser.tx" "t_head_group.tx";
@@ -8934,79 +11136,75 @@ connectAttr "mouth_decomposeMatrix5.orz" "jaw_group.rz";
 connectAttr "mouth_decomposeMatrix5.osx" "jaw_group.sx";
 connectAttr "mouth_decomposeMatrix5.osy" "jaw_group.sy";
 connectAttr "mouth_decomposeMatrix5.osz" "jaw_group.sz";
-connectAttr "jaw_rotateX.o" "jaw.rx";
-connectAttr "jaw_rotateY.o" "jaw.ry";
-connectAttr "jaw_rotateZ.o" "jaw.rz";
-connectAttr "mouth_decomposeMatrix9.otx" "b_lip_group.tx";
-connectAttr "mouth_decomposeMatrix9.oty" "b_lip_group.ty";
-connectAttr "mouth_decomposeMatrix9.otz" "b_lip_group.tz";
-connectAttr "mouth_decomposeMatrix9.orx" "b_lip_group.rx";
-connectAttr "mouth_decomposeMatrix9.ory" "b_lip_group.ry";
-connectAttr "mouth_decomposeMatrix9.orz" "b_lip_group.rz";
-connectAttr "mouth_decomposeMatrix9.osx" "b_lip_group.sx";
-connectAttr "mouth_decomposeMatrix9.osy" "b_lip_group.sy";
-connectAttr "mouth_decomposeMatrix9.osz" "b_lip_group.sz";
+connectAttr "mouth_decomposeMatrix9.otx" "b_lips_group.tx";
+connectAttr "mouth_decomposeMatrix9.oty" "b_lips_group.ty";
+connectAttr "mouth_decomposeMatrix9.otz" "b_lips_group.tz";
+connectAttr "mouth_decomposeMatrix9.orx" "b_lips_group.rx";
+connectAttr "mouth_decomposeMatrix9.ory" "b_lips_group.ry";
+connectAttr "mouth_decomposeMatrix9.orz" "b_lips_group.rz";
+connectAttr "mouth_decomposeMatrix9.osx" "b_lips_group.sx";
+connectAttr "mouth_decomposeMatrix9.osy" "b_lips_group.sy";
+connectAttr "mouth_decomposeMatrix9.osz" "b_lips_group.sz";
 connectAttr "multMatrix235.o" "c_b_lip_group.opm";
-connectAttr "multMatrix307.o" "l_b_lip_1_lip_target.opm";
-connectAttr "multMatrix315.o" "r_b_lip_1_lip_target.opm";
-connectAttr "multMatrix307.o" "l_b_lip_1_lip_init_target.opm";
-connectAttr "multMatrix315.o" "r_b_lip_1_lip_init_target.opm";
-connectAttr "multMatrix311.o" "l_b_lip_1_jaw_target.opm";
-connectAttr "multMatrix316.o" "r_b_lip_1_jaw_target.opm";
-connectAttr "mouth_pairBlend1.ot" "l_mouthCorner_autoGroup.t";
-connectAttr "mouth_pairBlend1.or" "l_mouthCorner_autoGroup.r";
-connectAttr "clamp29.opr" "l_mouthCorner_reverseGroup.tx";
+connectAttr "mouth_pairBlend1.ot" "l_autoCorner_group.t";
+connectAttr "mouth_pairBlend1.or" "l_autoCorner_group.r";
+connectAttr "addDoubleLinear111.o" "l_mouthCorner_reverseGroup.tx";
 connectAttr "multMatrix245.o" "l_mouthCorner_reverseGroup.opm";
+connectAttr "unitConversion306.o" "l_mouthCorner_reverseGroup.rx";
+connectAttr "unitConversion310.o" "l_mouthCorner_reverseGroup.ry";
 connectAttr "l_mouthCorner.deepOffset" "l_mouthCorner.tz" -l on;
-connectAttr "multMatrix293.o" "l_t_lip_1_corner_target.opm";
-connectAttr "multMatrix305.o" "l_t_lip_2_corner_target.opm";
-connectAttr "multMatrix310.o" "l_b_lip_1_corner_target.opm";
+connectAttr "multiplyDivide364.oy" "l_mouthCorner.mtxl";
+connectAttr "l_lip_down_poser.ty" "l_mouthCorner.mtyl";
+connectAttr "multiplyDivide364.ox" "l_mouthCorner.xtxl";
+connectAttr "l_lip_up_poser.ty" "l_mouthCorner.xtyl";
 connectAttr "mouth_pairBlend3.or" "r_autoCorner_group.r";
 connectAttr "mouth_pairBlend3.ot" "r_autoCorner_group.t";
-connectAttr "clamp30.opr" "r_mouthCorner_reverseGroup.tx";
+connectAttr "addDoubleLinear112.o" "r_mouthCorner_reverseGroup.tx";
 connectAttr "multMatrix249.o" "r_mouthCorner_reverseGroup.opm";
+connectAttr "unitConversion308.o" "r_mouthCorner_reverseGroup.rx";
+connectAttr "unitConversion313.o" "r_mouthCorner_reverseGroup.ry";
 connectAttr "r_mouthCorner.deepOffset" "r_mouthCorner.tz" -l on;
+connectAttr "multiplyDivide364.oy" "r_mouthCorner.mtxl";
+connectAttr "l_lip_down_poser.ty" "r_mouthCorner.mtyl";
+connectAttr "multiplyDivide364.ox" "r_mouthCorner.xtxl";
+connectAttr "l_lip_up_poser.ty" "r_mouthCorner.xtyl";
 connectAttr "l_mouthCornerShape.ws" "r_mouthCornerShape.cr";
 connectAttr "l_lipShape.ws" "r_lipShape.cr";
 connectAttr "l_cornerLip_detailShape.ws" "r_cornerLip_detailShape.cr";
-connectAttr "multMatrix293.o" "r_t_lip_1_corner_target.opm";
-connectAttr "multMatrix310.o" "r_b_lip_1_corner_target.opm";
-connectAttr "mouth_decomposeMatrix6.otx" "t_lip_group.tx";
-connectAttr "mouth_decomposeMatrix6.oty" "t_lip_group.ty";
-connectAttr "mouth_decomposeMatrix6.otz" "t_lip_group.tz";
-connectAttr "mouth_decomposeMatrix6.orx" "t_lip_group.rx";
-connectAttr "mouth_decomposeMatrix6.ory" "t_lip_group.ry";
-connectAttr "mouth_decomposeMatrix6.orz" "t_lip_group.rz";
-connectAttr "mouth_decomposeMatrix6.osx" "t_lip_group.sx";
-connectAttr "mouth_decomposeMatrix6.osy" "t_lip_group.sy";
-connectAttr "mouth_decomposeMatrix6.osz" "t_lip_group.sz";
+connectAttr "mouth_decomposeMatrix6.otx" "t_lips_group.tx";
+connectAttr "mouth_decomposeMatrix6.oty" "t_lips_group.ty";
+connectAttr "mouth_decomposeMatrix6.otz" "t_lips_group.tz";
+connectAttr "mouth_decomposeMatrix6.orx" "t_lips_group.rx";
+connectAttr "mouth_decomposeMatrix6.ory" "t_lips_group.ry";
+connectAttr "mouth_decomposeMatrix6.orz" "t_lips_group.rz";
+connectAttr "mouth_decomposeMatrix6.osx" "t_lips_group.sx";
+connectAttr "mouth_decomposeMatrix6.osy" "t_lips_group.sy";
+connectAttr "mouth_decomposeMatrix6.osz" "t_lips_group.sz";
 connectAttr "multMatrix234.o" "c_t_lip_group.opm";
-connectAttr "multMatrix294.o" "l_t_lip_1_lip_target.opm";
-connectAttr "multMatrix299.o" "r_t_lip_1_lip_target.opm";
-connectAttr "multMatrix302.o" "l_t_lip_2_lip_target.opm";
-connectAttr "multMatrix294.o" "l_t_lip_1_lip_init_target.opm";
-connectAttr "multMatrix299.o" "r_t_lip_1_lip_init_target.opm";
-connectAttr "multMatrix302.o" "l_t_lip_2_lip_init_target.opm";
 connectAttr "transformGeometry1.og" "|mod|controls|head_group|b_head_group|b_head|mouth_group|mouth|lips|ctrl1Shape.cr"
 		;
-connectAttr "multMatrix304.o" "l_t_lip_2_group.opm";
-connectAttr "setRange127.oy" "l_t_lip_2.jawInfluence";
-connectAttr "reverse50.ox" "l_t_lip_2.t_lip_influence";
-connectAttr "multiplyDivide368.ox" "l_t_lip_2.corner_influence";
-connectAttr "multiplyDivide368.ox" "l_t_lip_2.corner_vertical_influence";
-connectAttr "reverse50.ox" "l_b_lip_2.bottomLipInfluence";
-connectAttr "setRange127.ox" "l_b_lip_2.jawInfluence";
-connectAttr "multMatrix298.o" "r_t_lip_1_group.opm";
+connectAttr "blendMatrix7.omat" "l_t_lip_1_group.opm";
+connectAttr "multDoubleLinear460.o" "l_t_lip_1_group.ty";
+connectAttr "blendMatrix5.omat" "l_t_lip_2_group.opm";
+connectAttr "multDoubleLinear452.o" "l_t_lip_2_group.ty";
+connectAttr "blendMatrix8.omat" "l_b_lip_1_group.opm";
+connectAttr "multDoubleLinear460.o" "l_b_lip_1_group.ty";
+connectAttr "blendMatrix6.omat" "l_b_lip_2_group.opm";
+connectAttr "multDoubleLinear452.o" "l_b_lip_2_group.ty";
+connectAttr "blendTwoAttr3.o" "l_b_lip_2.jawInfluence";
+connectAttr "blendMatrix11.omat" "r_t_lip_1_group.opm";
+connectAttr "multDoubleLinear466.o" "r_t_lip_1_group.ty";
 connectAttr "l_t_lip_1Shape.ws" "r_t_lip_1Shape.cr";
+connectAttr "blendMatrix9.omat" "r_t_lip_2_group.opm";
+connectAttr "multDoubleLinear467.o" "r_t_lip_2_group.ty";
 connectAttr "l_t_lip_2Shape.ws" "r_t_lip_2Shape.cr";
-connectAttr "multMatrix312.o" "r_b_lip_1_group.opm";
+connectAttr "blendMatrix12.omat" "r_b_lip_1_group.opm";
+connectAttr "multDoubleLinear466.o" "r_b_lip_1_group.ty";
 connectAttr "l_b_lip_1Shape.ws" "r_b_lip_1Shape.cr";
+connectAttr "blendMatrix10.omat" "r_b_lip_2_group.opm";
+connectAttr "multDoubleLinear467.o" "r_b_lip_2_group.ty";
+connectAttr "blendTwoAttr4.o" "r_b_lip_2.jawInfluence";
 connectAttr "l_b_lip_2Shape.ws" "r_b_lip_2Shape.cr";
-connectAttr "multMatrix295.o" "l_t_lip_1_group.opm";
-connectAttr "reverse49.ox" "l_t_lip_1.t_lip_influence";
-connectAttr "multiplyDivide366.ox" "l_t_lip_1.corner_influence";
-connectAttr "multMatrix309.o" "l_b_lip_1_group.opm";
-connectAttr "reverse49.ox" "l_b_lip_1.b_lip_influence";
 connectAttr "detail_bifrostGraphShape.out_top_pos[0]" "r_t_lip_6_detail_group.t"
 		;
 connectAttr "unitConversion279.o" "r_t_lip_6_detail_group.r";
@@ -9173,9 +11371,6 @@ connectAttr "unitConversion304.o" "l_b_lip_6_detail_group.r";
 connectAttr "multDoubleLinear468.o" "l_b_lip_6_detail_group.sx";
 connectAttr "multDoubleLinear468.o" "l_b_lip_6_detail_group.sy";
 connectAttr "multDoubleLinear468.o" "l_b_lip_6_detail_group.sz";
-connectAttr "multMatrix296.o" "l_t_lip_1_mouth_target.opm";
-connectAttr "multMatrix301.o" "r_t_lip_1_mouth_target.opm";
-connectAttr "multMatrix306.o" "l_t_lip_2_mouth_target.opm";
 connectAttr "multMatrix61.o" "jaw_move_group.opm";
 connectAttr "jaw.tx" "jaw_move_group.tx";
 connectAttr "jaw.ty" "jaw_move_group.ty";
@@ -9210,33 +11405,33 @@ connectAttr "l_t_lip_3_outJoint.pos" "detail_bifrostGraphShape.pos[2]";
 connectAttr "l_t_lip_4_outJoint.pos" "detail_bifrostGraphShape.pos[3]";
 connectAttr "l_t_lip_5_outJoint.pos" "detail_bifrostGraphShape.pos[4]";
 connectAttr "l_t_lip_6_outJoint.pos" "detail_bifrostGraphShape.pos[5]";
-connectAttr "r_lip_locShape.wp" "detail_bifrostGraphShape.t_crv_control_points[0]"
+connectAttr "t_lp_curve_0_locShape.wp" "detail_bifrostGraphShape.t_crv_control_points[0]"
 		;
 connectAttr "t_lp_curve_1_locShape.wp" "detail_bifrostGraphShape.t_crv_control_points[1]"
 		;
-connectAttr "r_t_lip_1_locShape.wp" "detail_bifrostGraphShape.t_crv_control_points[2]"
+connectAttr "t_lp_curve_2_locShape.wp" "detail_bifrostGraphShape.t_crv_control_points[2]"
 		;
-connectAttr "c_t_lip_locShape.wp" "detail_bifrostGraphShape.t_crv_control_points[3]"
+connectAttr "t_lp_curve_3_loc9Shape.wp" "detail_bifrostGraphShape.t_crv_control_points[3]"
 		;
-connectAttr "l_t_lip_1_locShape.wp" "detail_bifrostGraphShape.t_crv_control_points[4]"
+connectAttr "t_lp_curve_4_locShape.wp" "detail_bifrostGraphShape.t_crv_control_points[4]"
 		;
 connectAttr "t_lp_curve_5_locShape.wp" "detail_bifrostGraphShape.t_crv_control_points[5]"
 		;
-connectAttr "l_lip_locShape.wp" "detail_bifrostGraphShape.t_crv_control_points[6]"
+connectAttr "t_lp_curve_6_locShape.wp" "detail_bifrostGraphShape.t_crv_control_points[6]"
 		;
-connectAttr "r_lip_locShape.wp" "detail_bifrostGraphShape.b_crv_control_points[0]"
+connectAttr "t_lp_curve_0_locShape.wp" "detail_bifrostGraphShape.b_crv_control_points[0]"
 		;
 connectAttr "b_lp_curve_1_locShape.wp" "detail_bifrostGraphShape.b_crv_control_points[1]"
 		;
-connectAttr "r_b_lip_1_locShape.wp" "detail_bifrostGraphShape.b_crv_control_points[2]"
+connectAttr "b_lp_curve_2_locShape.wp" "detail_bifrostGraphShape.b_crv_control_points[2]"
 		;
-connectAttr "c_b_lip_locShape.wp" "detail_bifrostGraphShape.b_crv_control_points[3]"
+connectAttr "b_lp_curve_3_locShape.wp" "detail_bifrostGraphShape.b_crv_control_points[3]"
 		;
-connectAttr "l_b_lip_1_locShape.wp" "detail_bifrostGraphShape.b_crv_control_points[4]"
+connectAttr "b_lp_curve_4_locShape.wp" "detail_bifrostGraphShape.b_crv_control_points[4]"
 		;
 connectAttr "b_lp_curve_5_locShape.wp" "detail_bifrostGraphShape.b_crv_control_points[5]"
 		;
-connectAttr "l_lip_locShape.wp" "detail_bifrostGraphShape.b_crv_control_points[6]"
+connectAttr "t_lp_curve_6_locShape.wp" "detail_bifrostGraphShape.b_crv_control_points[6]"
 		;
 connectAttr "l_mouthCorner.zip" "detail_bifrostGraphShape.l_zip";
 connectAttr "l_mouthCorner.zipDropoff" "detail_bifrostGraphShape.l_dropoff";
@@ -9709,8 +11904,12 @@ connectAttr "decomposeMatrix6.osz" "l_cheek_outJoint.sz";
 connectAttr "setRange_jawOpenFactor.oz" "bs_weights.jawOpen";
 connectAttr "multiplyDivide_openFactor.ox" "bs_weights.l_jawOpen";
 connectAttr "multiplyDivide_openFactor.oy" "bs_weights.r_jawOpen";
+connectAttr "l_setRange_lipUpDownFacor.ox" "bs_weights.l_lipsUp";
+connectAttr "l_setRange_lipUpDownFacor.oy" "bs_weights.l_lipsDown";
 connectAttr "l_setRange_lipsFrontBack.oy" "bs_weights.l_lipsFront";
 connectAttr "l_setRange_lipsFrontBack.ox" "bs_weights.l_lipsBack";
+connectAttr "r_setRange_lipUpDownFacor.ox" "bs_weights.r_lipsUp";
+connectAttr "r_setRange_lipUpDownFacor.oy" "bs_weights.r_lipsDown";
 connectAttr "r_setRange_lipsFrontBack.oy" "bs_weights.r_lipsFront";
 connectAttr "r_setRange_lipsFrontBack.ox" "bs_weights.r_lipsBack";
 connectAttr "setRange_cheekUp.ox" "bs_weights.l_cheekUp_up";
@@ -9719,8 +11918,94 @@ connectAttr "setRange_cheeksOut.ox" "bs_weights.l_cheek_out";
 connectAttr "setRange_cheeksOut.oy" "bs_weights.r_cheek_out";
 relationship "link" ":lightLinker1" ":initialShadingGroup.message" ":defaultLightSet.message";
 relationship "link" ":lightLinker1" ":initialParticleSE.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "red_rsSG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "green_rsSG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "blue_rsSG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "black_rsSG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "eyes_blinn1SG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "eyes_red_rsSG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "eyes_green_rsSG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "eyes_blue_rsSG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "eyes_black_rsSG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "eyes_blinn2SG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "eyes_lambert2SG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "eyes_surfaceShader1SG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "eyelids_red_rsSG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "eyelids_green_rsSG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "eyelids_blue_rsSG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "brows_red_rsSG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "brows_green_rsSG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "brows_blue_rsSG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "brows_center_surfaceShader1SG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "brows_center_surfaceShader2SG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "brows_center_surfaceShader3SG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "brows_side_1_surfaceShader1SG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "brows_side_1_surfaceShader2SG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "brows_side_1_surfaceShader3SG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "brows_side_2_surfaceShader1SG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "brows_side_2_surfaceShader2SG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "brows_side_2_surfaceShader3SG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "brows_side_3_surfaceShader1SG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "brows_side_3_surfaceShader2SG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "brows_side_3_surfaceShader3SG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "brows_black_rsSG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "brows_side_3_surfaceShader1SG1.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "head_lowSG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "eyesSG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "hairSG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "tongueSG.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "green_rsSG6.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "blue_rsSG6.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "red_rsSG6.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "black_rsSG3.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "green_rsSG5.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "blue_rsSG5.message" ":defaultLightSet.message";
+relationship "link" ":lightLinker1" "red_rsSG5.message" ":defaultLightSet.message";
 relationship "shadowLink" ":lightLinker1" ":initialShadingGroup.message" ":defaultLightSet.message";
 relationship "shadowLink" ":lightLinker1" ":initialParticleSE.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "red_rsSG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "green_rsSG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "blue_rsSG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "black_rsSG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "eyes_blinn1SG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "eyes_red_rsSG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "eyes_green_rsSG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "eyes_blue_rsSG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "eyes_black_rsSG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "eyes_blinn2SG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "eyes_lambert2SG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "eyes_surfaceShader1SG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "eyelids_red_rsSG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "eyelids_green_rsSG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "eyelids_blue_rsSG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "brows_red_rsSG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "brows_green_rsSG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "brows_blue_rsSG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "brows_center_surfaceShader1SG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "brows_center_surfaceShader2SG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "brows_center_surfaceShader3SG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "brows_side_1_surfaceShader1SG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "brows_side_1_surfaceShader2SG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "brows_side_1_surfaceShader3SG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "brows_side_2_surfaceShader1SG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "brows_side_2_surfaceShader2SG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "brows_side_2_surfaceShader3SG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "brows_side_3_surfaceShader1SG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "brows_side_3_surfaceShader2SG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "brows_side_3_surfaceShader3SG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "brows_black_rsSG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "brows_side_3_surfaceShader1SG1.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "head_lowSG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "eyesSG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "hairSG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "tongueSG.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "green_rsSG6.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "blue_rsSG6.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "red_rsSG6.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "black_rsSG3.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "green_rsSG5.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "blue_rsSG5.message" ":defaultLightSet.message";
+relationship "shadowLink" ":lightLinker1" "red_rsSG5.message" ":defaultLightSet.message";
 connectAttr "layerManager.dli[0]" "defaultLayer.id";
 connectAttr "renderLayerManager.rlmi[0]" "defaultRenderLayer.rlid";
 connectAttr "head_moduleControlSet.msg" "moduleControlSet.dnsm" -na;
@@ -9730,6 +12015,22 @@ connectAttr "tongue_moduleControlSet.msg" "moduleControlSet.dnsm" -na;
 connectAttr "cheeks_moduleControlSet.msg" "moduleControlSet.dnsm" -na;
 connectAttr "moduleControlSet.msg" "sets.dnsm" -na;
 connectAttr "skinJointsSet.msg" "sets.dnsm" -na;
+connectAttr "red_rsMat.oc" "red_rsSG.ss";
+connectAttr "red_rsSG.msg" "materialInfo1.sg";
+connectAttr "red_rsMat.msg" "materialInfo1.m";
+connectAttr "red_rsMat.msg" "materialInfo1.t" -na;
+connectAttr "green_rsMat.oc" "green_rsSG.ss";
+connectAttr "green_rsSG.msg" "materialInfo2.sg";
+connectAttr "green_rsMat.msg" "materialInfo2.m";
+connectAttr "green_rsMat.msg" "materialInfo2.t" -na;
+connectAttr "blue_rsMat.oc" "blue_rsSG.ss";
+connectAttr "blue_rsSG.msg" "materialInfo3.sg";
+connectAttr "blue_rsMat.msg" "materialInfo3.m";
+connectAttr "blue_rsMat.msg" "materialInfo3.t" -na;
+connectAttr "black_rsMat.oc" "black_rsSG.ss";
+connectAttr "black_rsSG.msg" "materialInfo4.sg";
+connectAttr "black_rsMat.msg" "materialInfo4.m";
+connectAttr "black_rsMat.msg" "materialInfo4.t" -na;
 connectAttr "eyes_multMatrix18.o" "eyes_decomposeMatrix24.imat";
 connectAttr "eyes_composeMatrix1.omat" "eyes_multMatrix18.i[0]";
 connectAttr "eyes_multMatrix20.o" "eyes_decomposeMatrix25.imat";
@@ -9737,9 +12038,134 @@ connectAttr "eyes_hyperLayout1.msg" "eyes_hyperView1.hl";
 connectAttr "eyes_hyperLayout2.msg" "eyes_hyperView2.hl";
 connectAttr "eyes_hyperLayout3.msg" "eyes_hyperView3.hl";
 connectAttr "eyes_hyperLayout4.msg" "eyes_hyperView4.hl";
+connectAttr "eyes_red_rsSG.msg" "eyes_root_materialInfo1.sg";
+connectAttr "eyes_green_rsSG.msg" "eyes_root_materialInfo2.sg";
+connectAttr "eyes_blue_rsSG.msg" "eyes_root_materialInfo3.sg";
+connectAttr "eyes_black_rsSG.msg" "eyes_end_materialInfo4.sg";
 connectAttr "eyes_composeMatrix1.omat" "eyes_multMatrix20.i[0]";
+connectAttr "eyes_unitConversion6.o" "eyes_eulerToQuat3.irx";
+connectAttr "eyes_reverse2.ox" "eyes_multDoubleLinear6.i1";
+connectAttr "eyes_clamp6.opr" "eyes_reverse2.ix";
+connectAttr "eyes_addDoubleLinear3.o" "eyes_unitConversion6.i";
+connectAttr "eyes_unitConversion7.o" "eyes_eulerToQuat4.irx";
+connectAttr "eyes_multDoubleLinear10.o" "eyes_addDoubleLinear1.i1";
+connectAttr "eyes_addDoubleLinear1.o" "eyes_unitConversion7.i";
+connectAttr "eyes_addDoubleLinear2.o" "eyes_unitConversion8.i";
+connectAttr "eyes_unitConversion8.o" "eyes_eulerToQuat5.irx";
+connectAttr "eyes_multDoubleLinear11.o" "eyes_addDoubleLinear2.i1";
+connectAttr "eyes_multDoubleLinear9.o" "eyes_addDoubleLinear3.i1";
+connectAttr "eyes_unitConversion9.o" "eyes_eulerToQuat6.irx";
+connectAttr "eyes_multDoubleLinear7.o" "eyes_addDoubleLinear4.i1";
+connectAttr "eyes_addDoubleLinear4.o" "eyes_unitConversion9.i";
+connectAttr "eyes_multDoubleLinear6.o" "eyes_addDoubleLinear5.i1";
+connectAttr "eyes_addDoubleLinear5.o" "eyes_unitConversion10.i";
+connectAttr "eyes_unitConversion10.o" "eyes_eulerToQuat7.irx";
+connectAttr "eyes_unitConversion11.o" "eyes_eulerToQuat8.irx";
+connectAttr "eyes_addDoubleLinear6.o" "eyes_unitConversion11.i";
+connectAttr "eyes_multDoubleLinear8.o" "eyes_addDoubleLinear6.i1";
+connectAttr "eyes_reverse2.ox" "eyes_multDoubleLinear7.i1";
+connectAttr "eyes_reverse2.ox" "eyes_multDoubleLinear8.i1";
+connectAttr "eyes_reverse2.ox" "eyes_multDoubleLinear9.i1";
+connectAttr "eyes_reverse2.ox" "eyes_multDoubleLinear10.i1";
+connectAttr "eyes_reverse2.ox" "eyes_multDoubleLinear11.i1";
+connectAttr "eyes_eulerToQuat7.oqw" "eyes_multDoubleLinear12.i1";
+connectAttr "eyes_multDoubleLinear13.o" "eyes_addDoubleLinear7.i1";
+connectAttr "eyes_reverse2.ox" "eyes_multDoubleLinear13.i1";
+connectAttr "eyes_addDoubleLinear7.o" "eyes_unitConversion12.i";
+connectAttr "eyes_unitConversion12.o" "eyes_eulerToQuat9.irx";
+connectAttr "eyes_unitConversion13.o" "eyes_eulerToQuat10.irx";
+connectAttr "eyes_addDoubleLinear8.o" "eyes_unitConversion13.i";
+connectAttr "eyes_reverse2.ox" "eyes_multDoubleLinear14.i1";
+connectAttr "eyes_multDoubleLinear14.o" "eyes_addDoubleLinear8.i1";
+connectAttr "eyes_clamp5.opg" "eyes_multDoubleLinear15.i1";
+connectAttr "eyes_unitConversion15.o" "eyes_eulerToQuat12.irx";
+connectAttr "eyes_reverse41.ox" "eyes_multDoubleLinear21.i1";
+connectAttr "eyes_clamp8.opr" "eyes_reverse41.ix";
+connectAttr "eyes_addDoubleLinear12.o" "eyes_unitConversion15.i";
+connectAttr "eyes_unitConversion16.o" "eyes_eulerToQuat13.irx";
+connectAttr "eyes_multDoubleLinear25.o" "eyes_addDoubleLinear10.i1";
+connectAttr "eyes_addDoubleLinear10.o" "eyes_unitConversion16.i";
+connectAttr "eyes_addDoubleLinear11.o" "eyes_unitConversion17.i";
+connectAttr "eyes_unitConversion17.o" "eyes_eulerToQuat14.irx";
+connectAttr "eyes_multDoubleLinear26.o" "eyes_addDoubleLinear11.i1";
+connectAttr "eyes_multDoubleLinear24.o" "eyes_addDoubleLinear12.i1";
+connectAttr "eyes_unitConversion18.o" "eyes_eulerToQuat15.irx";
+connectAttr "eyes_multDoubleLinear22.o" "eyes_addDoubleLinear13.i1";
+connectAttr "eyes_addDoubleLinear13.o" "eyes_unitConversion18.i";
+connectAttr "eyes_multDoubleLinear21.o" "eyes_addDoubleLinear14.i1";
+connectAttr "eyes_addDoubleLinear14.o" "eyes_unitConversion19.i";
+connectAttr "eyes_unitConversion19.o" "eyes_eulerToQuat16.irx";
+connectAttr "eyes_unitConversion20.o" "eyes_eulerToQuat17.irx";
+connectAttr "eyes_addDoubleLinear15.o" "eyes_unitConversion20.i";
+connectAttr "eyes_multDoubleLinear23.o" "eyes_addDoubleLinear15.i1";
+connectAttr "eyes_reverse41.ox" "eyes_multDoubleLinear22.i1";
+connectAttr "eyes_reverse41.ox" "eyes_multDoubleLinear23.i1";
+connectAttr "eyes_reverse41.ox" "eyes_multDoubleLinear24.i1";
+connectAttr "eyes_reverse41.ox" "eyes_multDoubleLinear25.i1";
+connectAttr "eyes_reverse41.ox" "eyes_multDoubleLinear26.i1";
+connectAttr "eyes_eulerToQuat16.oqw" "eyes_multDoubleLinear27.i1";
+connectAttr "eyes_multDoubleLinear28.o" "eyes_addDoubleLinear16.i1";
+connectAttr "eyes_reverse41.ox" "eyes_multDoubleLinear28.i1";
+connectAttr "eyes_addDoubleLinear16.o" "eyes_unitConversion21.i";
+connectAttr "eyes_unitConversion21.o" "eyes_eulerToQuat18.irx";
+connectAttr "eyes_unitConversion22.o" "eyes_eulerToQuat19.irx";
+connectAttr "eyes_addDoubleLinear17.o" "eyes_unitConversion22.i";
+connectAttr "eyes_reverse41.ox" "eyes_multDoubleLinear29.i1";
+connectAttr "eyes_multDoubleLinear29.o" "eyes_addDoubleLinear17.i1";
+connectAttr "eyes_clamp7.opg" "eyes_multDoubleLinear30.i1";
 connectAttr "eyes_composeMatrix4.omat" "eyes_multMatrix26.i[1]";
 connectAttr "eyes_multMatrix26.o" "eyes_decomposeMatrix79.imat";
+connectAttr "eyes_clamp5.opr" "eyes_blendTwoAttr1.ab";
+connectAttr "eyes_clamp5.opb" "eyes_blendTwoAttr1.i[1]";
+connectAttr "eyes_clamp7.opr" "eyes_blendTwoAttr2.ab";
+connectAttr "eyes_clamp7.opb" "eyes_blendTwoAttr2.i[1]";
+connectAttr "eyes_ramp1.oc" "eyes_eyeball_mat.c";
+connectAttr "eyes_eyeball_mat.oc" "eyes_blinn1SG.ss";
+connectAttr "eyes_blinn1SG.msg" "eyes_materialInfo1.sg";
+connectAttr "eyes_eyeball_mat.msg" "eyes_materialInfo1.m";
+connectAttr "eyes_ramp1.msg" "eyes_materialInfo1.t" -na;
+connectAttr "eyes_place2dTexture1.o" "eyes_ramp1.uv";
+connectAttr "eyes_place2dTexture1.ofs" "eyes_ramp1.fs";
+connectAttr "eyes_glass_mat.oc" "eyes_blinn2SG.ss";
+connectAttr "eyes_blinn2SG.msg" "eyes_materialInfo2.sg";
+connectAttr "eyes_glass_mat.msg" "eyes_materialInfo2.m";
+connectAttr "eyes_black_mat.oc" "eyes_lambert2SG.ss";
+connectAttr "eyes_lambert2SG.msg" "eyes_materialInfo3.sg";
+connectAttr "eyes_black_mat.msg" "eyes_materialInfo3.m";
+connectAttr "eyes_blendColors1.opb" "eyes_condition1.ft";
+connectAttr "eyes_blendColors1.opb" "eyes_condition1.ctr";
+connectAttr "eyes_blendColors1.opb" "eyes_condition1.cfg";
+connectAttr "eyes_condition1.ocr" "eyes_setRange1.vx";
+connectAttr "eyes_condition1.ocg" "eyes_setRange1.vy";
+connectAttr "eyes_blendColors2.opb" "eyes_condition2.ft";
+connectAttr "eyes_blendColors2.opb" "eyes_condition2.ctr";
+connectAttr "eyes_blendColors2.opb" "eyes_condition2.cfg";
+connectAttr "eyes_condition2.ocr" "eyes_setRange2.vx";
+connectAttr "eyes_condition2.ocg" "eyes_setRange2.vy";
+connectAttr "eyes_highlight_mat.oc" "eyes_surfaceShader1SG.ss";
+connectAttr "eyes_surfaceShader1SG.msg" "eyes_materialInfo4.sg";
+connectAttr "eyes_highlight_mat.msg" "eyes_materialInfo4.m";
+connectAttr "eyes_highlight_mat.msg" "eyes_materialInfo4.t" -na;
+connectAttr "eyes_eyeball_mat.msg" "eyes_hyperShadePrimaryNodeEditorSavedTabsInfo.tgi[0].ni[0].dn"
+		;
+connectAttr "eyes_glass_mat.msg" "eyes_hyperShadePrimaryNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
+		;
+connectAttr "eyes_lambert2SG.msg" "eyes_hyperShadePrimaryNodeEditorSavedTabsInfo.tgi[0].ni[2].dn"
+		;
+connectAttr "eyes_ramp1.msg" "eyes_hyperShadePrimaryNodeEditorSavedTabsInfo.tgi[0].ni[3].dn"
+		;
+connectAttr "eyes_blinn2SG.msg" "eyes_hyperShadePrimaryNodeEditorSavedTabsInfo.tgi[0].ni[4].dn"
+		;
+connectAttr "eyes_black_mat.msg" "eyes_hyperShadePrimaryNodeEditorSavedTabsInfo.tgi[0].ni[5].dn"
+		;
+connectAttr "eyes_place2dTexture1.msg" "eyes_hyperShadePrimaryNodeEditorSavedTabsInfo.tgi[0].ni[6].dn"
+		;
+connectAttr "eyes_surfaceShader1SG.msg" "eyes_hyperShadePrimaryNodeEditorSavedTabsInfo.tgi[0].ni[7].dn"
+		;
+connectAttr "eyes_highlight_mat.msg" "eyes_hyperShadePrimaryNodeEditorSavedTabsInfo.tgi[0].ni[8].dn"
+		;
+connectAttr "eyes_blinn1SG.msg" "eyes_hyperShadePrimaryNodeEditorSavedTabsInfo.tgi[0].ni[9].dn"
+		;
 connectAttr "eyelids_multMatrix68.o" "eyelids_decomposeMatrix83.imat";
 connectAttr "eyelids_multMatrix69.o" "eyelids_decomposeMatrix84.imat";
 connectAttr "eyelids_composeMatrix1.omat" "eyelids_multMatrix68.i[0]";
@@ -9748,10 +12174,83 @@ connectAttr "eyelids_hyperLayout1.msg" "eyelids_hyperView1.hl";
 connectAttr "eyelids_hyperLayout2.msg" "eyelids_hyperView2.hl";
 connectAttr "eyelids_hyperLayout3.msg" "eyelids_hyperView3.hl";
 connectAttr "eyelids_hyperLayout4.msg" "eyelids_hyperView4.hl";
+connectAttr "eyelids_decomposeMatrix83.orx" "eyelids_unitConversion1586.i";
+connectAttr "eyelids_decomposeMatrix83.ory" "eyelids_unitConversion1587.i";
+connectAttr "eyelids_decomposeMatrix84.orx" "eyelids_unitConversion1588.i";
+connectAttr "eyelids_decomposeMatrix84.ory" "eyelids_unitConversion1589.i";
+connectAttr "eyelids_red_rsSG.msg" "eyelids_root_materialInfo1.sg";
+connectAttr "eyelids_green_rsSG.msg" "eyelids_root_materialInfo2.sg";
+connectAttr "eyelids_blue_rsSG.msg" "eyelids_root_materialInfo3.sg";
 connectAttr "brows_hyperLayout1.msg" "brows_hyperView1.hl";
 connectAttr "brows_hyperLayout2.msg" "brows_hyperView2.hl";
 connectAttr "brows_hyperLayout3.msg" "brows_hyperView3.hl";
 connectAttr "brows_hyperLayout4.msg" "brows_hyperView4.hl";
+connectAttr "brows_red_rsSG.msg" "brows_root_materialInfo1.sg";
+connectAttr "brows_green_rsSG.msg" "brows_root_materialInfo2.sg";
+connectAttr "brows_blue_rsSG.msg" "brows_root_materialInfo3.sg";
+connectAttr "brows_center_surfaceShader1SG.msg" "brows_center_materialInfo1.sg";
+connectAttr "brows_center_surfaceShader2SG.msg" "brows_center_materialInfo2.sg";
+connectAttr "brows_center_surfaceShader3SG.msg" "brows_center_materialInfo3.sg";
+connectAttr "brows_side_1_surfaceShader1SG.msg" "brows_side_1_materialInfo1.sg";
+connectAttr "brows_side_1_surfaceShader2SG.msg" "brows_side_1_materialInfo2.sg";
+connectAttr "brows_side_1_surfaceShader3SG.msg" "brows_side_1_materialInfo3.sg";
+connectAttr "brows_side_2_surfaceShader1SG.msg" "brows_side_2_materialInfo1.sg";
+connectAttr "brows_side_2_surfaceShader2SG.msg" "brows_side_2_materialInfo2.sg";
+connectAttr "brows_side_2_surfaceShader3SG.msg" "brows_side_2_materialInfo3.sg";
+connectAttr "brows_side_3_surfaceShader1SG.msg" "brows_side_3_materialInfo1.sg";
+connectAttr "brows_side_3_surfaceShader2SG.msg" "brows_side_3_materialInfo2.sg";
+connectAttr "brows_side_3_surfaceShader3SG.msg" "brows_side_3_materialInfo3.sg";
+connectAttr "brows_black_rsSG.msg" "brows_side_2_materialInfo4.sg";
+connectAttr "brows_side_3_surfaceShader1SG1.msg" "brows_side_3_materialInfo4.sg"
+		;
+connectAttr "file1.oc" "head_mat.bc";
+connectAttr "place2dTexture1.o" "file1.uv";
+connectAttr "place2dTexture1.ofu" "file1.ofu";
+connectAttr "place2dTexture1.ofv" "file1.ofv";
+connectAttr "place2dTexture1.rf" "file1.rf";
+connectAttr "place2dTexture1.reu" "file1.reu";
+connectAttr "place2dTexture1.rev" "file1.rev";
+connectAttr "place2dTexture1.vt1" "file1.vt1";
+connectAttr "place2dTexture1.vt2" "file1.vt2";
+connectAttr "place2dTexture1.vt3" "file1.vt3";
+connectAttr "place2dTexture1.vc1" "file1.vc1";
+connectAttr "place2dTexture1.ofs" "file1.fs";
+connectAttr ":defaultColorMgtGlobals.cme" "file1.cme";
+connectAttr ":defaultColorMgtGlobals.cfe" "file1.cmcf";
+connectAttr ":defaultColorMgtGlobals.cfp" "file1.cmcp";
+connectAttr ":defaultColorMgtGlobals.wsn" "file1.ws";
+connectAttr "head_mat.oc" "head_lowSG.ss";
+connectAttr "head_lowSG.msg" "materialInfo5.sg";
+connectAttr "head_mat.msg" "materialInfo5.m";
+connectAttr "head_mat.msg" "materialInfo5.t" -na;
+connectAttr "head_mat.oc" "eyesSG.ss";
+connectAttr "eyesSG.msg" "materialInfo6.sg";
+connectAttr "head_mat.msg" "materialInfo6.m";
+connectAttr "head_mat.msg" "materialInfo6.t" -na;
+connectAttr "file3.oc" "lambert2.c";
+connectAttr "lambert2.oc" "hairSG.ss";
+connectAttr "hairSG.msg" "materialInfo7.sg";
+connectAttr "lambert2.msg" "materialInfo7.m";
+connectAttr "file3.msg" "materialInfo7.t" -na;
+connectAttr "place2dTexture2.o" "file3.uv";
+connectAttr "place2dTexture2.ofu" "file3.ofu";
+connectAttr "place2dTexture2.ofv" "file3.ofv";
+connectAttr "place2dTexture2.rf" "file3.rf";
+connectAttr "place2dTexture2.reu" "file3.reu";
+connectAttr "place2dTexture2.rev" "file3.rev";
+connectAttr "place2dTexture2.vt1" "file3.vt1";
+connectAttr "place2dTexture2.vt2" "file3.vt2";
+connectAttr "place2dTexture2.vt3" "file3.vt3";
+connectAttr "place2dTexture2.vc1" "file3.vc1";
+connectAttr "place2dTexture2.ofs" "file3.fs";
+connectAttr ":defaultColorMgtGlobals.cme" "file3.cme";
+connectAttr ":defaultColorMgtGlobals.cfe" "file3.cmcf";
+connectAttr ":defaultColorMgtGlobals.cfp" "file3.cmcp";
+connectAttr ":defaultColorMgtGlobals.wsn" "file3.ws";
+connectAttr "head_mat.oc" "tongueSG.ss";
+connectAttr "tongueSG.msg" "materialInfo8.sg";
+connectAttr "head_mat.msg" "materialInfo8.m";
+connectAttr "head_mat.msg" "materialInfo8.t" -na;
 connectAttr "mouth_cluster4GroupId.msg" "mouth_cluster4Set.gn" -na;
 connectAttr "mainPoserShape.iog.og[1]" "mouth_cluster4Set.dsm" -na;
 connectAttr "mouth_mainPoser_clusterHandleCluster1.msg" "mouth_cluster4Set.ub[0]"
@@ -9773,6 +12272,34 @@ connectAttr "mainPoserShape.iog.og[2]" "mouth_tweakSet24.dsm" -na;
 connectAttr "mouth_tweak24.msg" "mouth_tweakSet24.ub[0]";
 connectAttr "mainPoserShapeOrig.ws" "mouth_groupParts42.ig";
 connectAttr "mouth_groupId42.id" "mouth_groupParts42.gi";
+connectAttr "green_rsSG6.msg" "materialInfo97.sg";
+connectAttr "green_rsMat6.msg" "materialInfo97.m";
+connectAttr "green_rsMat6.msg" "materialInfo97.t" -na;
+connectAttr "green_rsMat6.oc" "green_rsSG6.ss";
+connectAttr "blue_rsSG6.msg" "materialInfo98.sg";
+connectAttr "blue_rsMat6.msg" "materialInfo98.m";
+connectAttr "blue_rsMat6.msg" "materialInfo98.t" -na;
+connectAttr "blue_rsMat6.oc" "blue_rsSG6.ss";
+connectAttr "red_rsSG6.msg" "materialInfo96.sg";
+connectAttr "red_rsMat6.msg" "materialInfo96.m";
+connectAttr "red_rsMat6.msg" "materialInfo96.t" -na;
+connectAttr "red_rsMat6.oc" "red_rsSG6.ss";
+connectAttr "black_rsSG3.msg" "materialInfo99.sg";
+connectAttr "black_rsMat3.msg" "materialInfo99.m";
+connectAttr "black_rsMat3.msg" "materialInfo99.t" -na;
+connectAttr "black_rsMat3.oc" "black_rsSG3.ss";
+connectAttr "green_rsSG5.msg" "materialInfo95.sg";
+connectAttr "green_rsMat5.msg" "materialInfo95.m";
+connectAttr "green_rsMat5.msg" "materialInfo95.t" -na;
+connectAttr "green_rsMat5.oc" "green_rsSG5.ss";
+connectAttr "blue_rsSG5.msg" "materialInfo93.sg";
+connectAttr "blue_rsMat5.msg" "materialInfo93.m";
+connectAttr "blue_rsMat5.msg" "materialInfo93.t" -na;
+connectAttr "blue_rsMat5.oc" "blue_rsSG5.ss";
+connectAttr "red_rsSG5.msg" "materialInfo91.sg";
+connectAttr "red_rsMat5.msg" "materialInfo91.m";
+connectAttr "red_rsMat5.msg" "materialInfo91.t" -na;
+connectAttr "red_rsMat5.oc" "red_rsSG5.ss";
 connectAttr "r_cheekUp_addPoser_multMat.o" "r_cheekUp_addPoser_decMat.imat";
 connectAttr "l_cheekUp_pre_mirror_compMat.omat" "r_cheekUp_addPoser_multMat.i[0]"
 		;
@@ -9786,6 +12313,8 @@ connectAttr "setRange_zipFactor.oy" "multiplyDivide_openFactor.i2y";
 connectAttr "unitConversion101.o" "setRange_jawOpenFactor.vx";
 connectAttr "unitConversion101.o" "setRange_jawOpenFactor.vy";
 connectAttr "unitConversion101.o" "setRange_jawOpenFactor.vz";
+connectAttr "reverse_upFactor.ox" "setRange_jawOpenFactor.mx";
+connectAttr "reverse_upFactor.oy" "setRange_jawOpenFactor.my";
 connectAttr "jaw.openBsLimit" "setRange_jawOpenFactor.omx";
 connectAttr "jaw.openBsLimit" "setRange_jawOpenFactor.omy";
 connectAttr "jaw.openBsLimit" "setRange_jawOpenFactor.omz";
@@ -9823,22 +12352,89 @@ connectAttr "addDoubleLinear78.o" "plusMinusAverage165.i1[0]";
 connectAttr "dropoff_multiplyDivide.oy" "plusMinusAverage165.i1[1]";
 connectAttr "dropoff_multiplyDivide.oy" "addDoubleLinear78.i1";
 connectAttr "multDoubleLinear148.o" "addDoubleLinear78.i2";
+connectAttr "plusMinusAverage177.o3y" "l_setRange_lipUpDownFacor.vx";
+connectAttr "plusMinusAverage177.o3y" "l_setRange_lipUpDownFacor.vy";
+connectAttr "plusMinusAverage177.o3x" "l_setRange_lipUpDownFacor.vz";
+connectAttr "l_lip_up_poser.ty" "l_setRange_lipUpDownFacor.omx";
+connectAttr "l_lip_down_poser.ty" "l_setRange_lipUpDownFacor.ony";
+connectAttr "l_lip_front_poser.tx" "l_setRange_lipUpDownFacor.onz";
+connectAttr "unitConversion309.o" "l_setRange_lipUpDownFacor.nz";
 connectAttr "plusMinusAverage177.o3x" "l_setRange_lipsFrontBack.vx";
 connectAttr "plusMinusAverage177.o3x" "l_setRange_lipsFrontBack.vy";
-connectAttr "l_mouthCorner.backBsLimit" "l_setRange_lipsFrontBack.omx";
+connectAttr "l_lip_back_poser.tx" "l_setRange_lipsFrontBack.omx";
 connectAttr "l_mouthCorner.frontBsLimit" "l_setRange_lipsFrontBack.ony";
+connectAttr "plusMinusAverage178.o3y" "r_setRange_lipUpDownFacor.vx";
+connectAttr "plusMinusAverage178.o3y" "r_setRange_lipUpDownFacor.vy";
+connectAttr "plusMinusAverage178.o3x" "r_setRange_lipUpDownFacor.vz";
+connectAttr "l_lip_down_poser.ty" "r_setRange_lipUpDownFacor.ony";
+connectAttr "l_lip_front_poser.tx" "r_setRange_lipUpDownFacor.onz";
+connectAttr "l_lip_up_poser.ty" "r_setRange_lipUpDownFacor.omx";
+connectAttr "unitConversion312.o" "r_setRange_lipUpDownFacor.nz";
 connectAttr "plusMinusAverage178.o3x" "r_setRange_lipsFrontBack.vx";
 connectAttr "plusMinusAverage178.o3x" "r_setRange_lipsFrontBack.vy";
-connectAttr "l_mouthCorner.backBsLimit" "r_setRange_lipsFrontBack.omx";
+connectAttr "l_lip_back_poser.tx" "r_setRange_lipsFrontBack.omx";
 connectAttr "l_mouthCorner.frontBsLimit" "r_setRange_lipsFrontBack.ony";
 connectAttr "mouth_b_mouth_group_multMatrix.o" "mouth_decomposeMatrix9.imat";
 connectAttr "b_mouth_poser.wm" "mouth_b_mouth_group_multMatrix.i[0]";
 connectAttr "jaw_poserOrient.wim" "mouth_b_mouth_group_multMatrix.i[1]";
+connectAttr "c_lip_poser.wm" "mouth_multMatrix28.i[0]";
+connectAttr "b_mouth_poser.wim" "mouth_multMatrix28.i[1]";
+connectAttr "multDoubleLinear133.o" "multDoubleLinear127.i1";
+connectAttr "setRange73.ox" "multDoubleLinear127.i2";
+connectAttr "plusMinusAverage177.o3x" "multDoubleLinear133.i1";
+connectAttr "plusMinusAverage177.o3x" "setRange73.vx";
+connectAttr "plusMinusAverage177.o3x" "setRange73.vy";
+connectAttr "multDoubleLinear28.o" "plusMinusAverage6.i1[0]";
+connectAttr "multDoubleLinear36.o" "plusMinusAverage6.i1[1]";
+connectAttr "unitConversion264.o" "plusMinusAverage6.i1[3]";
+connectAttr "plusMinusAverage177.o3y" "multDoubleLinear28.i1";
+connectAttr "l_mouthCorner.moveFactor" "multDoubleLinear28.i2";
+connectAttr "b_lips.ty" "multDoubleLinear36.i1";
+connectAttr "l_mouthCorner.rz" "unitConversion264.i";
+connectAttr "lip_middle_poser.wm" "multMatrix46.i[0]";
+connectAttr "b_mouth_poser.wim" "multMatrix46.i[1]";
+connectAttr "multDoubleLinear136.o" "multDoubleLinear128.i1";
+connectAttr "setRange74.ox" "multDoubleLinear128.i2";
+connectAttr "blendColors6.opr" "multDoubleLinear136.i1";
+connectAttr "plusMinusAverage178.o3x" "multDoubleLinear136.i2";
+connectAttr "multDoubleLinear135.o" "blendColors6.b";
+connectAttr "setRange72.ox" "blendColors6.c2r";
+connectAttr "setRange72.oy" "multDoubleLinear135.i1";
+connectAttr "setRange72.oz" "multDoubleLinear135.i2";
+connectAttr "plusMinusAverage178.o3y" "setRange72.vy";
+connectAttr "plusMinusAverage178.o3x" "setRange72.vx";
+connectAttr "plusMinusAverage178.o3y" "setRange72.vz";
+connectAttr "plusMinusAverage178.o3x" "setRange74.vx";
+connectAttr "plusMinusAverage178.o3x" "setRange74.vy";
+connectAttr "multDoubleLinear36.o" "plusMinusAverage7.i1[0]";
+connectAttr "multDoubleLinear34.o" "plusMinusAverage7.i1[1]";
+connectAttr "unitConversion266.o" "plusMinusAverage7.i1[3]";
+connectAttr "l_cheek_poser.wm" "multMatrix125.i[0]";
+connectAttr "jaw_poserOrient.wim" "multMatrix125.i[1]";
+connectAttr "t_mouth_poser.wm" "multMatrix47.i[0]";
+connectAttr "mouth_poser.wim" "multMatrix47.i[1]";
+connectAttr "c_lip_poser.wm" "mouth_multMatrix27.i[0]";
+connectAttr "t_mouth_poser.wim" "mouth_multMatrix27.i[1]";
+connectAttr "multDoubleLinear28.o" "plusMinusAverage4.i1[0]";
+connectAttr "multDoubleLinear37.o" "plusMinusAverage4.i1[1]";
+connectAttr "unitConversion264.o" "plusMinusAverage4.i1[3]";
+connectAttr "t_lips.ty" "multDoubleLinear37.i1";
+connectAttr "lip_middle_poser.wm" "multMatrix45.i[0]";
+connectAttr "t_mouth_poser.wim" "multMatrix45.i[1]";
+connectAttr "multDoubleLinear34.o" "plusMinusAverage5.i1[0]";
+connectAttr "multDoubleLinear37.o" "plusMinusAverage5.i1[1]";
+connectAttr "unitConversion266.o" "plusMinusAverage5.i1[3]";
 connectAttr "lips_poser.wm" "multMatrix60.i[0]";
 connectAttr "b_head_poser.wim" "multMatrix60.i[1]";
+connectAttr "mouth_poser.wm" "mouth_multMatrix1.i[0]";
+connectAttr "lips_poser.wim" "mouth_multMatrix1.i[1]";
 connectAttr "mouth_multMatrix2.o" "mouth_decomposeMatrix5.imat";
 connectAttr "jaw_poserOrient.wm" "mouth_multMatrix2.i[0]";
 connectAttr "lips_poser.wim" "mouth_multMatrix2.i[1]";
+connectAttr "jaw_poserOrient.wim" "mouth_multMatrix4.i[1]";
+connectAttr "plusMinusAverage178.o3" "mouth_multiplyDivide16.i1";
+connectAttr "b_head.m" "mouth_inverseMatrix1.imat";
+connectAttr "jaw_poserOrient.wim" "mouth_multMatrix5.i[1]";
 connectAttr "mouth_t_mouth_group_multMatrix.o" "mouth_decomposeMatrix6.imat";
 connectAttr "t_mouth_poser.wm" "mouth_t_mouth_group_multMatrix.i[0]";
 connectAttr "lips_poser.wim" "mouth_t_mouth_group_multMatrix.i[1]";
@@ -9852,12 +12448,14 @@ connectAttr "t_tooth_group_multMat.o" "t_tooth_group_decMat.imat";
 connectAttr "t_tooth_poser.wm" "t_tooth_group_multMat.i[0]";
 connectAttr "lips_poser.wim" "t_tooth_group_multMat.i[1]";
 connectAttr "l_cheekUp_poser.wm" "l_cheekUp_group_multMat.i[0]";
-connectAttr "b_head_poser.wim" "l_cheekUp_group_multMat.i[1]";
+connectAttr "t_head_poser.wim" "l_cheekUp_group_multMat.i[1]";
 connectAttr "l_cheek_poser.wm" "l_cheek_group_multMat.i[0]";
-connectAttr "b_head_poser.wim" "l_cheek_group_multMat.i[1]";
+connectAttr "t_head_poser.wim" "l_cheek_group_multMat.i[1]";
 connectAttr "b_head.m" "mouth_blendMatrix17.imat";
 connectAttr "t_head.m" "mouth_blendMatrix17.tgt[0].tmat";
 connectAttr "nose.followTopHead" "mouth_blendMatrix17.env";
+connectAttr "nose_poser.wm" "mouth_multMatrix18.i[0]";
+connectAttr "root_poser.wim" "mouth_multMatrix18.i[1]";
 connectAttr "nose.m" "mouth_blendMatrix18.tgt[0].tmat";
 connectAttr "l_nostril.followNose" "mouth_blendMatrix18.env";
 connectAttr "nostril_poser.wm" "mouth_multMatrix19.i[0]";
@@ -9886,8 +12484,8 @@ connectAttr "r_t_lip_2.iog" "lips_add_moduleControlSet.dsm" -na;
 connectAttr "r_b_lip_1.iog" "lips_add_moduleControlSet.dsm" -na;
 connectAttr "r_b_lip_2.iog" "lips_add_moduleControlSet.dsm" -na;
 connectAttr "l_mouthCorner.iog" "lips_main_moduleControlSet.dsm" -na;
-connectAttr "b_lip.iog" "lips_main_moduleControlSet.dsm" -na;
-connectAttr "t_lip.iog" "lips_main_moduleControlSet.dsm" -na;
+connectAttr "b_lips.iog" "lips_main_moduleControlSet.dsm" -na;
+connectAttr "t_lips.iog" "lips_main_moduleControlSet.dsm" -na;
 connectAttr "r_mouthCorner.iog" "lips_main_moduleControlSet.dsm" -na;
 connectAttr "r_cornerLip_detail.iog" "lips_detail_moduleControlSet.dsm" -na;
 connectAttr "r_b_lip_2_detail.iog" "lips_detail_moduleControlSet.dsm" -na;
@@ -9924,6 +12522,26 @@ connectAttr "nose.iog" "nose_moduleControlSet.dsm" -na;
 connectAttr "l_nostril.iog" "nose_moduleControlSet.dsm" -na;
 connectAttr "r_nostril.iog" "nose_moduleControlSet.dsm" -na;
 connectAttr "renderLayerManager1.rlmi[0]" "defaultRenderLayer1.rlid";
+connectAttr "plusMinusAverage177.o3" "multiplyDivide66.i1";
+connectAttr "multDoubleLinear165.o" "multiplyDivide66.i2x";
+connectAttr "multDoubleLinear165.o" "multiplyDivide66.i2y";
+connectAttr "multDoubleLinear165.o" "multiplyDivide66.i2z";
+connectAttr "l_cheek.cornerInfluence" "multDoubleLinear165.i1";
+connectAttr "plusMinusAverage178.o3" "multiplyDivide67.i1";
+connectAttr "multDoubleLinear165.o" "multiplyDivide67.i2x";
+connectAttr "multDoubleLinear165.o" "multiplyDivide67.i2y";
+connectAttr "multDoubleLinear165.o" "multiplyDivide67.i2z";
+connectAttr "plusMinusAverage177.o3" "multiplyDivide68.i1";
+connectAttr "multDoubleLinear166.o" "multiplyDivide68.i2x";
+connectAttr "multDoubleLinear166.o" "multiplyDivide68.i2y";
+connectAttr "multDoubleLinear166.o" "multiplyDivide68.i2z";
+connectAttr "l_cheekUp.lipCornerInfluence" "multDoubleLinear166.i1";
+connectAttr "plusMinusAverage178.o3" "multiplyDivide69.i1";
+connectAttr "multDoubleLinear166.o" "multiplyDivide69.i2x";
+connectAttr "multDoubleLinear166.o" "multiplyDivide69.i2y";
+connectAttr "multDoubleLinear166.o" "multiplyDivide69.i2z";
+connectAttr "l_setRange_lipUpDownFacor.ox" "reverse_upFactor.ix";
+connectAttr "r_setRange_lipUpDownFacor.ox" "reverse_upFactor.iy";
 connectAttr "plusMinusAverage_MoveAndSmileFactor.o3" "setRange_cheekUp.v";
 connectAttr "l_cheekUp.upBsLimit" "setRange_cheekUp.omx";
 connectAttr "l_cheekUp.upBsLimit" "setRange_cheekUp.omy";
@@ -9944,6 +12562,8 @@ connectAttr "lips.im" "multMatrix127.i[1]";
 connectAttr "jaw.m" "multMatrix128.i[0]";
 connectAttr "jaw_poserOrient.wm" "multMatrix128.i[1]";
 connectAttr "lips_poser.wim" "multMatrix128.i[2]";
+connectAttr "root_poser.wim" "multMatrix129.i[1]";
+connectAttr "root_poser.wim" "multMatrix132.i[1]";
 connectAttr "t_tooth_outJoint.iog" "skinJointsSet.dsm" -na;
 connectAttr "b_tooth_outJoint.iog" "skinJointsSet.dsm" -na;
 connectAttr "tongue_2_outJoint.iog" "skinJointsSet.dsm" -na;
@@ -9991,10 +12611,15 @@ connectAttr "nose_outJoint.iog" "skinJointsSet.dsm" -na;
 connectAttr "r_nostril_outJoint.iog" "skinJointsSet.dsm" -na;
 connectAttr "l_nostril_outJoint.iog" "skinJointsSet.dsm" -na;
 connectAttr "root_outJoint.iog" "skinJointsSet.dsm" -na;
+connectAttr "mainPoser.globalSize" "size_multiplyDivide1.i2x";
+connectAttr "mainPoser.globalSize" "size_multiplyDivide1.i2y";
+connectAttr "mainPoser.globalSize" "size_multiplyDivide1.i2z";
 connectAttr "posers_curve4Shape.ws" "sweepMeshCreator1.inCurveArray[0]";
 connectAttr "posers_curve1Shape.ws" "sweepMeshCreator1.inCurveArray[1]";
 connectAttr "posers_curve2Shape.ws" "sweepMeshCreator1.inCurveArray[2]";
 connectAttr "posers_curve3Shape.ws" "sweepMeshCreator1.inCurveArray[3]";
+connectAttr "posers_curve5Shape.ws" "sweepMeshCreator1.inCurveArray[4]";
+connectAttr "posers_curve6Shape.ws" "sweepMeshCreator1.inCurveArray[5]";
 connectAttr "size_multiplyDivide.oz" "sweepMeshCreator1.scaleProfileX";
 connectAttr "multDoubleLinear438.o" "size_multiplyDivide.i1z";
 connectAttr "root_poser.size" "size_multiplyDivide.i1x";
@@ -10049,12 +12674,13 @@ connectAttr "mainPoser.globalSize" "size_multiplyDivide6.i2y";
 connectAttr "mainPoser.globalSize" "size_multiplyDivide6.i2z";
 connectAttr "size_multiplyDivide6.oz" "makeNurbSphere15.r";
 connectAttr "size_multiplyDivide6.oy" "makeNurbSphere16.r";
-connectAttr "lip_corner_poser.size" "size_multiplyDivide7.i1x";
+connectAttr "l_lip_corner_poser.size" "size_multiplyDivide7.i1x";
+connectAttr "lip_middle_poser.size" "size_multiplyDivide7.i1y";
 connectAttr "c_lip_poser.size" "size_multiplyDivide7.i1z";
-connectAttr "lip_1_poser.size" "size_multiplyDivide7.i1y";
 connectAttr "mainPoser.globalSize" "size_multiplyDivide7.i2x";
 connectAttr "mainPoser.globalSize" "size_multiplyDivide7.i2y";
 connectAttr "mainPoser.globalSize" "size_multiplyDivide7.i2z";
+connectAttr "size_multiplyDivide7.oy" "makeNurbSphere18.r";
 connectAttr "size_multiplyDivide7.oz" "makeNurbSphere19.r";
 connectAttr "mainPoser1ShapeOrig.ws" "mouth_clusterHandleCluster.ip[0].ig";
 connectAttr "mainPoser1ShapeOrig.l" "mouth_clusterHandleCluster.orggeom[0]";
@@ -10086,7 +12712,8 @@ connectAttr "multMatrix141.o" "multMatrix142.i[2]";
 connectAttr "mouth_multMatrix19.o" "multMatrix143.i[0]";
 connectAttr "composeMatrix3.omat" "multMatrix143.i[1]";
 connectAttr "mouth_blendMatrix20.omat" "multMatrix144.i[0]";
-connectAttr "multMatrix283.o" "multMatrix144.i[1]";
+connectAttr "t_head_poser.wm" "multMatrix144.i[1]";
+connectAttr "root_poser.wim" "multMatrix144.i[2]";
 connectAttr "b_head.m" "mouth_blendMatrix20.imat";
 connectAttr "t_head.m" "mouth_blendMatrix20.tgt[0].tmat";
 connectAttr "l_cheekUp.followTopHead" "mouth_blendMatrix20.env";
@@ -10143,6 +12770,8 @@ connectAttr "b_head_poser.wim" "multMatrix158.i[1]";
 connectAttr "lips_poser.wm" "multMatrix159.i[0]";
 connectAttr "jaw_poserOrient.wim" "multMatrix159.i[1]";
 connectAttr "multMatrix159.o" "inverseMatrix1.imat";
+connectAttr "root_poser.wm" "root_rel_lips_multMatrix.i[0]";
+connectAttr "lips_poser.wim" "root_rel_lips_multMatrix.i[1]";
 connectAttr "l_b_lip_3_detail.m" "l_b_lip_3_outJoint_multMat.i[0]";
 connectAttr "l_b_lip_3_detail_group.m" "l_b_lip_3_outJoint_multMat.i[1]";
 connectAttr "l_b_lip_5_detail.m" "l_b_lip_5_outJoint_multMat.i[0]";
@@ -10360,41 +12989,151 @@ connectAttr "detail_bifrostGraphShape.out_bot_lip_rotate[9]" "unitConversion301.
 		;
 connectAttr "detail_bifrostGraphShape.out_bot_lip_rotate[8]" "unitConversion300.i"
 		;
-connectAttr "t_lip.rx" "unitConversion276.i";
+connectAttr "t_lips.rx" "unitConversion276.i";
 connectAttr "jaw.rx" "unitConversion278.i";
+connectAttr "b_lips.rx" "unitConversion277.i";
+connectAttr "t_mouth_poser.wim" "multMatrix219.i[1]";
+connectAttr "l_lip_corner_poser.wim" "multMatrix220.i[1]";
+connectAttr "pasted__multDoubleLinear136.o" "pasted__multDoubleLinear128.i1";
+connectAttr "pasted__setRange74.ox" "pasted__multDoubleLinear128.i2";
+connectAttr "pasted__blendColors6.opr" "pasted__multDoubleLinear136.i1";
+connectAttr "pasted__multDoubleLinear135.o" "pasted__blendColors6.b";
+connectAttr "pasted__setRange72.ox" "pasted__blendColors6.c2r";
+connectAttr "pasted__setRange72.oy" "pasted__multDoubleLinear135.i1";
+connectAttr "pasted__setRange72.oz" "pasted__multDoubleLinear135.i2";
+connectAttr "pasted__addDoubleLinear64.o" "pasted__mouth_unitConversion15.i";
+connectAttr "pasted__multDoubleLinear131.o" "pasted__addDoubleLinear64.i1";
+connectAttr "pasted__multDoubleLinear129.o" "pasted__addDoubleLinear64.i2";
+connectAttr "pasted__mouth_multDoubleLinear17.o" "pasted__multDoubleLinear131.i1"
+		;
+connectAttr "pasted__blendColors5.opr" "pasted__multDoubleLinear131.i2";
+connectAttr "pasted__mouth_multDoubleLinear19.o" "pasted__mouth_multDoubleLinear17.i2"
+		;
+connectAttr "pasted__mouth_multiplyDivide15.ox" "pasted__mouth_multDoubleLinear19.i1"
+		;
+connectAttr "pasted__multDoubleLinear132.o" "pasted__blendColors5.b";
+connectAttr "pasted__setRange71.ox" "pasted__blendColors5.c2r";
+connectAttr "pasted__setRange71.oy" "pasted__multDoubleLinear132.i1";
+connectAttr "pasted__setRange71.oz" "pasted__multDoubleLinear132.i2";
+connectAttr "pasted__reverse31.ox" "pasted__multDoubleLinear129.i1";
+connectAttr "pasted__multDoubleLinear161.o" "pasted__multDoubleLinear129.i2";
+connectAttr "pasted__setRange70.ox" "pasted__reverse31.ix";
+connectAttr "pasted__setRange70.oy" "pasted__reverse31.iy";
+connectAttr "pasted__setRange111.ox" "pasted__multDoubleLinear161.i2";
+connectAttr "pasted__mouth_multDoubleLinear18.o" "pasted__mouth_unitConversion16.i"
+		;
+connectAttr "pasted__mouth_multDoubleLinear19.o" "pasted__mouth_multDoubleLinear18.i2"
+		;
+connectAttr "pasted__multDoubleLinear133.o" "pasted__multDoubleLinear127.i1";
+connectAttr "pasted__setRange73.ox" "pasted__multDoubleLinear127.i2";
+connectAttr "pasted__blendColors5.opr" "pasted__multDoubleLinear133.i2";
+connectAttr "pasted__mouth_multDoubleLinear21.o" "pasted__mouth_unitConversion18.i"
+		;
+connectAttr "pasted__mouth_multDoubleLinear19.o" "pasted__mouth_multDoubleLinear21.i2"
+		;
+connectAttr "pasted__multDoubleLinear134.o" "pasted__mouth_unitConversion17.i";
+connectAttr "pasted__addDoubleLinear65.o" "pasted__multDoubleLinear134.i1";
+connectAttr "pasted__blendColors6.opr" "pasted__multDoubleLinear134.i2";
+connectAttr "pasted__mouth_multDoubleLinear20.o" "pasted__addDoubleLinear65.i1";
+connectAttr "pasted__multDoubleLinear130.o" "pasted__addDoubleLinear65.i2";
+connectAttr "pasted__mouth_multDoubleLinear19.o" "pasted__mouth_multDoubleLinear20.i2"
+		;
+connectAttr "pasted__reverse31.oy" "pasted__multDoubleLinear130.i1";
+connectAttr "pasted__multDoubleLinear162.o" "pasted__multDoubleLinear130.i2";
+connectAttr "pasted__setRange111.oy" "pasted__multDoubleLinear162.i2";
 connectAttr "c_lip_poser.wm" "multMatrix234.i[0]";
 connectAttr "t_mouth_poser.wim" "multMatrix234.i[1]";
 connectAttr "c_lip_poser.wm" "multMatrix235.i[0]";
 connectAttr "b_mouth_poser.wim" "multMatrix235.i[1]";
+connectAttr "l_lip_corner_poser.wim" "multMatrix238.i[1]";
+connectAttr "t_lips_group.wim" "multMatrix239.i[1]";
+connectAttr "t_lips.wm" "multMatrix239.i[2]";
+connectAttr "composeMatrix9.omat" "multMatrix243.i[1]";
+connectAttr "c_lip_poser.t" "distanceBetween2.p1";
+connectAttr "l_lip_corner_poser.t" "distanceBetween2.p2";
+connectAttr "c_lip_poser.t" "distanceBetween3.p1";
+connectAttr "lip_middle_poser.t" "distanceBetween3.p2";
+connectAttr "distanceBetween3.d" "multiplyDivide357.i1x";
+connectAttr "distanceBetween2.d" "multiplyDivide357.i2x";
+connectAttr "jaw_poser.wim" "multMatrix244.i[1]";
 connectAttr "composeMatrix11.omat" "multMatrix245.i[0]";
 connectAttr "jaw_poserOrient.wim" "multMatrix245.i[1]";
-connectAttr "l_mouthCorner.folowJaw" "mouth_pairBlend1.w";
-connectAttr "jaw.t" "mouth_pairBlend1.it2";
-connectAttr "jaw.r" "mouth_pairBlend1.ir2";
-connectAttr "lip_1_pivotShape.wp" "lip_1_init_mirror_multiplyDivide.i1";
-connectAttr "lip_corner_poserOrientShape.wp" "lip_corner_init_mirror_multiplyDivide.i1"
-		;
-connectAttr "lip_2_pivotShape.wp" "lip_2_init_mirror_multiplyDivide.i1";
-connectAttr "init_curve_rebuildCurve.oc" "curveShape1_6_mpath.gp";
+connectAttr "jaw.t" "mouth_pairBlend1.it1";
+connectAttr "jaw.r" "mouth_pairBlend1.ir1";
+connectAttr "blendTwoAttr1.o" "mouth_pairBlend1.w";
+connectAttr "plusMinusAverage177.o3y" "setRange114.vx";
+connectAttr "plusMinusAverage177.o3y" "setRange114.vy";
+connectAttr "l_lip_up_poser.ty" "setRange114.omx";
+connectAttr "l_lip_down_poser.ty" "setRange114.ony";
+connectAttr "reverse44.oy" "setRange114.nx";
+connectAttr "reverse44.oy" "setRange114.my";
+connectAttr "plusMinusAverage177.o3y" "condition2.ft";
+connectAttr "setRange114.ox" "condition2.ctr";
+connectAttr "setRange114.oy" "condition2.cfr";
+connectAttr "composeMatrix10.omat" "mouth_multMatrix29.i[0]";
+connectAttr "lips_poser.wim" "mouth_multMatrix29.i[1]";
+connectAttr "lip_middle_poser.wm" "mouth_multMatrix30.i[0]";
+connectAttr "lip_1_pivotShape.wp" "multiplyDivide358.i1";
+connectAttr "l_lip_corner_poserOrientShape.wp" "multiplyDivide359.i1";
+connectAttr "lip_2_pivotShape.wp" "multiplyDivide360.i1";
+connectAttr "addDoubleLinear105.o" "curveShape1_4_mpath.u";
+connectAttr "rebuildCurve1.oc" "curveShape1_4_mpath.gp";
+connectAttr "addDoubleLinear103.o" "curveShape1_5_mpath.u";
+connectAttr "rebuildCurve1.oc" "curveShape1_5_mpath.gp";
+connectAttr "rebuildCurve1.oc" "curveShape1_6_mpath.gp";
 connectAttr "addDoubleLinear97.o" "curveShape1_6_mpath.u";
-connectAttr "lip_corner_poser.wm" "curveShape1_6_mpath.wum";
-connectAttr "lip_1_pivotShape.wp" "l_lip_1_nearestPointOnCurve.ip";
-connectAttr "init_curve_rebuildCurve.oc" "l_lip_1_nearestPointOnCurve.ic";
-connectAttr "condition8.ocb" "composeMatrix11.ity";
-connectAttr "curveShape1_6_mpath.zc" "composeMatrix11.itz";
-connectAttr "curveShape1_6_mpath.xc" "composeMatrix11.itx";
-connectAttr "curveShape1_6_mpath2.ry" "composeMatrix11.iry";
-connectAttr "unitConversion315.o" "composeMatrix11.irz";
-connectAttr "unitConversion314.o" "composeMatrix11.irx";
-connectAttr "mouth_poser_decomposeMatrix.os" "composeMatrix11.is";
-connectAttr "lip_2_pivotShape.wp" "l_lip_2_nearestPointOnCurve.ip";
-connectAttr "init_curve_rebuildCurve.oc" "l_lip_2_nearestPointOnCurve.ic";
-connectAttr "r_mouthCorner.folowJaw" "mouth_pairBlend3.w";
-connectAttr "jaw.r" "mouth_pairBlend3.ir2";
-connectAttr "jaw.t" "mouth_pairBlend3.it2";
+connectAttr "l_lip_corner_poser.wm" "curveShape1_6_mpath.wum";
+connectAttr "lip_1_pivotShape.wp" "nearestPointOnCurve1.ip";
+connectAttr "rebuildCurve1.oc" "nearestPointOnCurve1.ic";
+connectAttr "curveShape1_5_mpath.ac" "composeMatrix10.it";
+connectAttr "curveShape1_5_mpath.r" "composeMatrix10.ir";
+connectAttr "decomposeMatrix51.os" "composeMatrix10.is";
+connectAttr "curveShape1_6_mpath.ac" "composeMatrix11.it";
+connectAttr "curveShape1_6_mpath.r" "composeMatrix11.ir";
+connectAttr "decomposeMatrix51.os" "composeMatrix11.is";
+connectAttr "composeMatrix12.omat" "mouth_multMatrix31.i[0]";
+connectAttr "lips_poser.wim" "mouth_multMatrix31.i[1]";
+connectAttr "curveShape1_4_mpath.ac" "composeMatrix12.it";
+connectAttr "curveShape1_4_mpath.r" "composeMatrix12.ir";
+connectAttr "decomposeMatrix51.os" "composeMatrix12.is";
+connectAttr "lip_2_pivotShape.wp" "nearestPointOnCurve2.ip";
+connectAttr "rebuildCurve1.oc" "nearestPointOnCurve2.ic";
+connectAttr "composeMatrix17.omat" "mouth_multMatrix32.i[0]";
+connectAttr "jaw_poserOrient.wim" "mouth_multMatrix32.i[1]";
+connectAttr "jaw.wm" "mouth_multMatrix32.i[2]";
+connectAttr "lips.wim" "mouth_multMatrix32.i[3]";
+connectAttr "composeMatrix10.omat" "mouth_multMatrix33.i[0]";
+connectAttr "jaw_poserOrient.wim" "mouth_multMatrix33.i[1]";
+connectAttr "jaw.wm" "mouth_multMatrix33.i[2]";
+connectAttr "lips.wim" "mouth_multMatrix33.i[3]";
+connectAttr "curveShape1_5_mpath1.ac" "composeMatrix13.it";
+connectAttr "curveShape1_5_mpath1.r" "composeMatrix13.ir";
+connectAttr "decomposeMatrix51.os" "composeMatrix13.is";
+connectAttr "composeMatrix13.omat" "mouth_multMatrix34.i[0]";
+connectAttr "lips_poser.wim" "mouth_multMatrix34.i[1]";
+connectAttr "composeMatrix12.omat" "multMatrix247.i[0]";
+connectAttr "jaw_poserOrient.wim" "multMatrix247.i[1]";
+connectAttr "jaw.wm" "multMatrix247.i[2]";
+connectAttr "lips.wim" "multMatrix247.i[3]";
+connectAttr "composeMatrix13.omat" "multMatrix248.i[0]";
+connectAttr "jaw_poserOrient.wim" "multMatrix248.i[1]";
+connectAttr "jaw.wm" "multMatrix248.i[2]";
+connectAttr "lips.wim" "multMatrix248.i[3]";
+connectAttr "jaw.t" "mouth_pairBlend3.it1";
+connectAttr "jaw.r" "mouth_pairBlend3.ir1";
+connectAttr "blendTwoAttr2.o" "mouth_pairBlend3.w";
+connectAttr "plusMinusAverage178.o3y" "condition4.ft";
+connectAttr "setRange115.ox" "condition4.ctr";
+connectAttr "setRange115.oy" "condition4.cfr";
 connectAttr "composeMatrix14.omat" "multMatrix249.i[0]";
 connectAttr "composeMatrix18.omat" "multMatrix249.i[1]";
 connectAttr "jaw_poserOrient.wim" "multMatrix249.i[2]";
+connectAttr "plusMinusAverage178.o3y" "setRange115.vx";
+connectAttr "plusMinusAverage178.o3y" "setRange115.vy";
+connectAttr "l_lip_up_poser.ty" "setRange115.omx";
+connectAttr "l_lip_down_poser.ty" "setRange115.ony";
+connectAttr "reverse44.oy" "setRange115.my";
+connectAttr "reverse44.oy" "setRange115.nx";
 connectAttr "|mod|controls|head_group|b_head_group|b_head|mouth_group|mouth|lips|ctrlShape.ws" "transformGeometry1.ig"
 		;
 connectAttr "composeMatrix15.omat" "transformGeometry1.txf";
@@ -10402,506 +13141,710 @@ connectAttr "|mod|controls|head_group|b_head_group|b_head|mouth_group|mouth|ctrl
 		;
 connectAttr "composeMatrix15.omat" "transformGeometry2.txf";
 connectAttr "addDoubleLinear93.o" "curveShape1_4_mpath1.u";
-connectAttr "init_curve_rebuildCurve.oc" "curveShape1_4_mpath1.gp";
-connectAttr "curveShape1_6_mpath1.xc" "composeMatrix18.itx";
-connectAttr "curveShape1_6_mpath1.zc" "composeMatrix18.itz";
-connectAttr "condition10.ocb" "composeMatrix18.ity";
-connectAttr "curveShape1_6_mpath3.ry" "composeMatrix18.iry";
-connectAttr "unitConversion327.o" "composeMatrix18.irz";
-connectAttr "unitConversion326.o" "composeMatrix18.irx";
-connectAttr "mouth_poser_decomposeMatrix.os" "composeMatrix18.is";
-connectAttr "init_curve_rebuildCurve.oc" "curveShape1_6_mpath1.gp";
+connectAttr "rebuildCurve1.oc" "curveShape1_4_mpath1.gp";
+connectAttr "curveShape1_4_mpath1.ac" "composeMatrix17.it";
+connectAttr "curveShape1_4_mpath1.r" "composeMatrix17.ir";
+connectAttr "decomposeMatrix51.os" "composeMatrix17.is";
+connectAttr "composeMatrix17.omat" "mouth_multMatrix36.i[0]";
+connectAttr "lips_poser.wim" "mouth_multMatrix36.i[1]";
+connectAttr "curveShape1_6_mpath1.ac" "composeMatrix18.it";
+connectAttr "curveShape1_6_mpath1.r" "composeMatrix18.ir";
+connectAttr "decomposeMatrix51.os" "composeMatrix18.is";
+connectAttr "rebuildCurve1.oc" "curveShape1_6_mpath1.gp";
 connectAttr "addDoubleLinear99.o" "curveShape1_6_mpath1.u";
 connectAttr "r_lip_corner_loc.wm" "curveShape1_6_mpath1.wum";
-connectAttr "mouth_poser.wm" "mouth_poser_decomposeMatrix.imat";
+connectAttr "lips_poser.wm" "decomposeMatrix51.imat";
 connectAttr "multDoubleLinear449.o" "addDoubleLinear93.i2";
-connectAttr "l_lip_2_nearestPointOnCurve.pr" "addDoubleLinear93.i1";
+connectAttr "nearestPointOnCurve2.pr" "addDoubleLinear93.i1";
 connectAttr "multDoubleLinear451.o" "multDoubleLinear449.i1";
-connectAttr "l_t_lip_2.corner_influence" "multDoubleLinear449.i2";
-connectAttr "init_curveShape.ws" "corner_nearestPointOnCurve.ic";
-connectAttr "lip_corner_poserOrientShape.wp" "corner_nearestPointOnCurve.ip";
+connectAttr "multDoubleLinear455.o" "multDoubleLinear449.i2";
+connectAttr "l_lip_back_poserOrientShape.wp" "multiplyDivide363.i1";
+connectAttr "rebuildCurve1.oc" "corner_nearestPointOnCurve.ic";
+connectAttr "l_lip_corner_poserOrientShape.wp" "corner_nearestPointOnCurve.ip";
+connectAttr "plusMinusAverage177.o3y" "mouth_multiplyDivide13.i1y";
+connectAttr "plusMinusAverage177.o3z" "mouth_multiplyDivide13.i1z";
+connectAttr "plusMinusAverage177.o3x" "mouth_multiplyDivide13.i1x";
+connectAttr "corner_nearestPointOnCurve.pr" "addDoubleLinear97.i1";
 connectAttr "multDoubleLinear451.o" "addDoubleLinear97.i2";
-connectAttr "l_mouthCorner.tx" "multDoubleLinear451.i1";
+connectAttr "plusMinusAverage177.o3x" "multDoubleLinear451.i1";
 connectAttr "l_mouthCorner.moveFactorX" "multDoubleLinear451.i2";
-connectAttr "init_curveShape.ws" "init_curve_rebuildCurve.ic";
+connectAttr "curveShape.ws" "rebuildCurve1.ic";
+connectAttr "reverse40.ox" "multiplyDivide364.i1x";
+connectAttr "multDoubleLinear477.o" "multiplyDivide364.i1y";
+connectAttr "l_mouthCorner.moveFactorX" "multiplyDivide364.i2x";
+connectAttr "l_mouthCorner.moveFactor" "multiplyDivide364.i2y";
 connectAttr "corner_nearestPointOnCurve.pr" "reverse40.ix";
+connectAttr "plusMinusAverage176.o1" "reverse40.iy";
+connectAttr "plusMinusAverage177.o3y" "multDoubleLinear452.i1";
+connectAttr "multDoubleLinear456.o" "multDoubleLinear452.i2";
 connectAttr "reverse40.ox" "addDoubleLinear99.i1";
 connectAttr "multDoubleLinear454.o" "addDoubleLinear99.i2";
+connectAttr "plusMinusAverage178.o3y" "multDoubleLinear34.i1";
+connectAttr "r_mouthCorner.rz" "unitConversion266.i";
 connectAttr "multDoubleLinear461.o" "multDoubleLinear454.i1";
-connectAttr "addDoubleLinear113.o" "multiplyDivide366.i1x";
-connectAttr "l_t_lip_1.corner_influence" "multDoubleLinear457.i1";
+connectAttr "lips_poser.wm" "multMatrix250.i[0]";
+connectAttr "jaw_poserOrient.wim" "multMatrix250.i[1]";
+connectAttr "addDoubleLinear107.o" "multiplyDivide365.i1x";
+connectAttr "addDoubleLinear106.o" "multiplyDivide365.i2x";
+connectAttr "multiplyDivide365.ox" "multDoubleLinear455.i1";
+connectAttr "l_t_lip_2.corner_horizontal_influence" "multDoubleLinear455.i2";
+connectAttr "l_t_lip_2.corner_vertical_influence" "multDoubleLinear456.i1";
+connectAttr "multiplyDivide365.ox" "multDoubleLinear456.i2";
+connectAttr "nearestPointOnCurve1.pr" "addDoubleLinear102.i1";
+connectAttr "addDoubleLinear102.o" "multiplyDivide366.i1x";
+connectAttr "addDoubleLinear106.o" "multiplyDivide366.i2x";
+connectAttr "multDoubleLinear458.o" "multDoubleLinear457.i1";
 connectAttr "multDoubleLinear451.o" "multDoubleLinear457.i2";
-connectAttr "l_lip_1_nearestPointOnCurve.pr" "reverse41.ix";
-connectAttr "r_mouthCorner.tx" "multDoubleLinear461.i1";
+connectAttr "multiplyDivide366.ox" "multDoubleLinear458.i1";
+connectAttr "l_t_lip_1.corner_horizontal_influence" "multDoubleLinear458.i2";
+connectAttr "nearestPointOnCurve1.pr" "addDoubleLinear103.i1";
+connectAttr "multDoubleLinear457.o" "addDoubleLinear103.i2";
+connectAttr "l_t_lip_1.corner_vertical_influence" "multDoubleLinear459.i1";
+connectAttr "multiplyDivide366.ox" "multDoubleLinear459.i2";
+connectAttr "plusMinusAverage177.o3y" "multDoubleLinear460.i1";
+connectAttr "multDoubleLinear459.o" "multDoubleLinear460.i2";
+connectAttr "addDoubleLinear104.o" "curveShape1_5_mpath1.u";
+connectAttr "rebuildCurve1.oc" "curveShape1_5_mpath1.gp";
+connectAttr "nearestPointOnCurve1.pr" "reverse41.ix";
+connectAttr "reverse41.ox" "addDoubleLinear104.i1";
+connectAttr "multDoubleLinear463.o" "addDoubleLinear104.i2";
+connectAttr "plusMinusAverage178.o3x" "multDoubleLinear461.i1";
 connectAttr "l_mouthCorner.moveFactorX" "multDoubleLinear461.i2";
-connectAttr "l_t_lip_1.corner_influence" "multDoubleLinear462.i1";
+connectAttr "multDoubleLinear458.o" "multDoubleLinear462.i1";
 connectAttr "multDoubleLinear461.o" "multDoubleLinear462.i2";
 connectAttr "multDoubleLinear462.o" "multDoubleLinear463.i1";
-connectAttr "l_t_lip_2.corner_influence" "multDoubleLinear464.i1";
+connectAttr "multDoubleLinear455.o" "multDoubleLinear464.i1";
 connectAttr "multDoubleLinear461.o" "multDoubleLinear464.i2";
-connectAttr "l_lip_2_nearestPointOnCurve.pr" "reverse42.ix";
+connectAttr "reverse42.ox" "addDoubleLinear105.i2";
+connectAttr "multDoubleLinear465.o" "addDoubleLinear105.i1";
+connectAttr "nearestPointOnCurve2.pr" "reverse42.ix";
 connectAttr "multDoubleLinear464.o" "multDoubleLinear465.i1";
+connectAttr "plusMinusAverage178.o3y" "multDoubleLinear466.i1";
+connectAttr "multDoubleLinear459.o" "multDoubleLinear466.i2";
+connectAttr "multDoubleLinear456.o" "multDoubleLinear467.i1";
+connectAttr "plusMinusAverage178.o3y" "multDoubleLinear467.i2";
+connectAttr "blendMatrix17.omat" "blendMatrix5.imat";
+connectAttr "mouth_multMatrix32.o" "blendMatrix5.tgt[0].tmat";
+connectAttr "setRange117.ox" "blendMatrix5.env";
+connectAttr "mouth_multMatrix36.o" "blendMatrix6.imat";
+connectAttr "blendMatrix19.omat" "blendMatrix6.tgt[0].tmat";
+connectAttr "setRange116.ox" "blendMatrix6.env";
+connectAttr "l_b_lip_2.jawInfluence" "setRange116.vx";
+connectAttr "r_b_lip_2.jawInfluence" "setRange116.vy";
+connectAttr "l_mouthCorner.jawInfluence" "setRange116.nx";
+connectAttr "l_mouthCorner.jawInfluence" "setRange116.ny";
+connectAttr "multDoubleLinear473.o" "setRange117.vx";
+connectAttr "l_mouthCorner.jawInfluence" "setRange117.mx";
+connectAttr "blendMatrix13.omat" "blendMatrix7.imat";
+connectAttr "mouth_multMatrix33.o" "blendMatrix7.tgt[0].tmat";
+connectAttr "setRange119.ox" "blendMatrix7.env";
+connectAttr "mouth_multMatrix29.o" "blendMatrix8.imat";
+connectAttr "blendMatrix15.omat" "blendMatrix8.tgt[0].tmat";
+connectAttr "setRange118.ox" "blendMatrix8.env";
+connectAttr "l_b_lip_1.jawInfluence" "setRange118.vx";
+connectAttr "l_mouthCorner.jawInfluence" "setRange118.nx";
+connectAttr "multDoubleLinear474.o" "setRange119.vx";
+connectAttr "l_mouthCorner.jawInfluence" "setRange119.mx";
+connectAttr "corner_nearestPointOnCurve.pr" "addDoubleLinear106.i1";
+connectAttr "blendMatrix18.omat" "blendMatrix9.imat";
+connectAttr "multMatrix247.o" "blendMatrix9.tgt[0].tmat";
+connectAttr "setRange121.ox" "blendMatrix9.env";
+connectAttr "mouth_multMatrix31.o" "blendMatrix10.imat";
+connectAttr "blendMatrix20.omat" "blendMatrix10.tgt[0].tmat";
+connectAttr "setRange116.oy" "blendMatrix10.env";
+connectAttr "blendMatrix14.omat" "blendMatrix11.imat";
+connectAttr "multMatrix248.o" "blendMatrix11.tgt[0].tmat";
+connectAttr "setRange122.ox" "blendMatrix11.env";
+connectAttr "mouth_multMatrix34.o" "blendMatrix12.imat";
+connectAttr "blendMatrix16.omat" "blendMatrix12.tgt[0].tmat";
+connectAttr "setRange118.ox" "blendMatrix12.env";
+connectAttr "mouth_multMatrix29.o" "multMatrix251.i[0]";
+connectAttr "lips.wm" "multMatrix251.i[1]";
+connectAttr "t_lips_group.wim" "multMatrix251.i[2]";
+connectAttr "t_lips.wm" "multMatrix251.i[3]";
+connectAttr "lips.wim" "multMatrix251.i[4]";
+connectAttr "mouth_multMatrix29.o" "blendMatrix13.imat";
+connectAttr "multMatrix251.o" "blendMatrix13.tgt[0].tmat";
+connectAttr "l_t_lip_1.t_lip_influence" "blendMatrix13.env";
+connectAttr "mouth_multMatrix34.o" "blendMatrix14.imat";
+connectAttr "multMatrix252.o" "blendMatrix14.tgt[0].tmat";
+connectAttr "l_t_lip_1.t_lip_influence" "blendMatrix14.env";
+connectAttr "mouth_multMatrix34.o" "multMatrix252.i[0]";
+connectAttr "lips.wm" "multMatrix252.i[1]";
+connectAttr "t_lips_group.wim" "multMatrix252.i[2]";
+connectAttr "t_lips.wm" "multMatrix252.i[3]";
+connectAttr "lips.wim" "multMatrix252.i[4]";
+connectAttr "composeMatrix10.omat" "multMatrix253.i[0]";
+connectAttr "b_mouth_poser.wim" "multMatrix253.i[1]";
+connectAttr "b_lips.wm" "multMatrix253.i[2]";
+connectAttr "sec_controls_group.wim" "multMatrix253.i[3]";
+connectAttr "mouth_multMatrix33.o" "blendMatrix15.imat";
+connectAttr "multMatrix253.o" "blendMatrix15.tgt[0].tmat";
+connectAttr "l_t_lip_1.t_lip_influence" "blendMatrix15.env";
+connectAttr "composeMatrix13.omat" "multMatrix254.i[0]";
+connectAttr "b_mouth_poser.wim" "multMatrix254.i[1]";
+connectAttr "b_lips.wm" "multMatrix254.i[2]";
+connectAttr "sec_controls_group.wim" "multMatrix254.i[3]";
+connectAttr "multMatrix248.o" "blendMatrix16.imat";
+connectAttr "multMatrix254.o" "blendMatrix16.tgt[0].tmat";
+connectAttr "l_t_lip_1.t_lip_influence" "blendMatrix16.env";
+connectAttr "mouth_multMatrix36.o" "blendMatrix17.imat";
+connectAttr "multMatrix255.o" "blendMatrix17.tgt[0].tmat";
+connectAttr "l_t_lip_2.t_lip_influence" "blendMatrix17.env";
+connectAttr "mouth_multMatrix36.o" "multMatrix255.i[0]";
+connectAttr "lips.wm" "multMatrix255.i[1]";
+connectAttr "t_lips_group.wim" "multMatrix255.i[2]";
+connectAttr "t_lips.wm" "multMatrix255.i[3]";
+connectAttr "lips.wim" "multMatrix255.i[4]";
+connectAttr "mouth_multMatrix31.o" "blendMatrix18.imat";
+connectAttr "multMatrix256.o" "blendMatrix18.tgt[0].tmat";
+connectAttr "l_t_lip_2.t_lip_influence" "blendMatrix18.env";
+connectAttr "mouth_multMatrix31.o" "multMatrix256.i[0]";
+connectAttr "lips.wm" "multMatrix256.i[1]";
+connectAttr "t_lips_group.wim" "multMatrix256.i[2]";
+connectAttr "t_lips.wm" "multMatrix256.i[3]";
+connectAttr "lips.wim" "multMatrix256.i[4]";
+connectAttr "mouth_multMatrix32.o" "blendMatrix19.imat";
+connectAttr "multMatrix259.o" "blendMatrix19.tgt[0].tmat";
+connectAttr "l_t_lip_2.t_lip_influence" "blendMatrix19.env";
+connectAttr "multMatrix247.o" "blendMatrix20.imat";
+connectAttr "multMatrix258.o" "blendMatrix20.tgt[0].tmat";
+connectAttr "l_t_lip_2.t_lip_influence" "blendMatrix20.env";
+connectAttr "composeMatrix12.omat" "multMatrix258.i[0]";
+connectAttr "b_mouth_poser.wim" "multMatrix258.i[1]";
+connectAttr "b_lips.wm" "multMatrix258.i[2]";
+connectAttr "sec_controls_group.wim" "multMatrix258.i[3]";
+connectAttr "nearestPointOnCurve2.pr" "addDoubleLinear107.i1";
+connectAttr "composeMatrix17.omat" "multMatrix259.i[0]";
+connectAttr "b_mouth_poser.wim" "multMatrix259.i[1]";
+connectAttr "b_lips.wm" "multMatrix259.i[2]";
+connectAttr "sec_controls_group.wim" "multMatrix259.i[3]";
 connectAttr "mouth_blendMatrix21.omat" "multMatrix260.i[0]";
-connectAttr "b_head_poser.wm" "multMatrix260.i[1]";
+connectAttr "t_head_poser.wm" "multMatrix260.i[1]";
 connectAttr "root_poser.wim" "multMatrix260.i[2]";
 connectAttr "b_head.m" "mouth_blendMatrix21.imat";
 connectAttr "t_head.m" "mouth_blendMatrix21.tgt[0].tmat";
 connectAttr "l_cheek.followTopHead" "mouth_blendMatrix21.env";
 connectAttr "mainPoser_decomposeMatrix.osx" "multDoubleLinear468.i2";
-connectAttr "lip_corner_poser.m" "multMatrix264.i[0]";
+connectAttr "root_poser.wm" "multMatrix262.i[0]";
+connectAttr "lips_poser.wim" "multMatrix262.i[1]";
+connectAttr "lips_poser.wm" "multMatrix263.i[0]";
+connectAttr "root_poser.wim" "multMatrix263.i[1]";
+connectAttr "l_lip_corner_poser.m" "multMatrix264.i[0]";
 connectAttr "composeMatrix19.omat" "multMatrix264.i[1]";
-connectAttr "lip_corner_poser.ty" "addDoubleLinear109.i1";
+connectAttr "unitConversion305.o" "multDoubleLinear469.i1";
+connectAttr "l_setRange_lipUpDownFacor.ox" "multDoubleLinear469.i2";
+connectAttr "l_lip_posers_target_up_loc.rx" "unitConversion305.i";
+connectAttr "multDoubleLinear469.o" "addDoubleLinear108.i1";
+connectAttr "multDoubleLinear470.o" "addDoubleLinear108.i2";
+connectAttr "addDoubleLinear108.o" "unitConversion306.i";
+connectAttr "unitConversion307.o" "multDoubleLinear470.i1";
+connectAttr "l_setRange_lipUpDownFacor.oy" "multDoubleLinear470.i2";
+connectAttr "l_lip_posers_target_down_loc.rx" "unitConversion307.i";
+connectAttr "l_lip_corner_poser.ty" "addDoubleLinear109.i1";
+connectAttr "l_mouthCorner.autoFollowJaw" "blendTwoAttr1.ab";
+connectAttr "reverse44.ox" "blendTwoAttr1.i[0]";
+connectAttr "condition2.ocr" "blendTwoAttr1.i[1]";
+connectAttr "l_mouthCorner.folowJaw" "reverse44.ix";
+connectAttr "l_mouthCorner.jawInfluence" "reverse44.iy";
+connectAttr "r_mouthCorner.autoFollowJaw" "blendTwoAttr2.ab";
+connectAttr "reverse45.ox" "blendTwoAttr2.i[0]";
+connectAttr "condition4.ocr" "blendTwoAttr2.i[1]";
+connectAttr "r_mouthCorner.folowJaw" "reverse45.ix";
+connectAttr "multDoubleLinear472.o" "addDoubleLinear110.i1";
+connectAttr "multDoubleLinear471.o" "addDoubleLinear110.i2";
+connectAttr "r_setRange_lipUpDownFacor.oy" "multDoubleLinear471.i1";
+connectAttr "unitConversion307.o" "multDoubleLinear471.i2";
+connectAttr "r_setRange_lipUpDownFacor.ox" "multDoubleLinear472.i1";
+connectAttr "unitConversion305.o" "multDoubleLinear472.i2";
+connectAttr "addDoubleLinear110.o" "unitConversion308.i";
+connectAttr "lips.wim" "multMatrix269.i[1]";
+connectAttr "reverse46.ox" "multDoubleLinear473.i2";
+connectAttr "l_t_lip_2.jawInfluence" "multDoubleLinear473.i1";
+connectAttr "blendTwoAttr1.o" "reverse46.ix";
+connectAttr "reverse46.ox" "multDoubleLinear474.i1";
+connectAttr "l_t_lip_1.jawInfluence" "multDoubleLinear474.i2";
+connectAttr "multDoubleLinear475.o" "setRange121.vx";
+connectAttr "l_mouthCorner.jawInfluence" "setRange121.mx";
+connectAttr "blendTwoAttr2.o" "reverse47.ix";
+connectAttr "reverse47.ox" "multDoubleLinear475.i2";
+connectAttr "l_t_lip_2.jawInfluence" "multDoubleLinear475.i1";
+connectAttr "multDoubleLinear476.o" "setRange122.vx";
+connectAttr "l_mouthCorner.jawInfluence" "setRange122.mx";
+connectAttr "reverse48.ox" "multDoubleLinear476.i1";
+connectAttr "l_t_lip_1.jawInfluence" "multDoubleLinear476.i2";
+connectAttr "blendTwoAttr2.o" "reverse48.ix";
+connectAttr "l_lip_posers_up_loc2.ry" "unitConversion309.i";
+connectAttr "l_setRange_lipUpDownFacor.oz" "unitConversion310.i";
+connectAttr "rebuildCurve1.oc" "corner_nearestPointOnCurve1.ic";
+connectAttr "l_lip_front_poserOrientShape.wp" "corner_nearestPointOnCurve1.ip";
+connectAttr "corner_nearestPointOnCurve.pr" "plusMinusAverage176.i1[0]";
+connectAttr "corner_nearestPointOnCurve1.pr" "plusMinusAverage176.i1[1]";
+connectAttr "plusMinusAverage176.o1" "multDoubleLinear477.i1";
+connectAttr "l_mouthCorner.autoFollowJaw" "blendTwoAttr3.ab";
+connectAttr "l_mouthCorner.folowJaw" "blendTwoAttr3.i[0]";
+connectAttr "l_mouthCorner.jawInfluence" "blendTwoAttr3.i[1]";
+connectAttr "r_mouthCorner.autoFollowJaw" "blendTwoAttr4.ab";
+connectAttr "r_mouthCorner.folowJaw" "blendTwoAttr4.i[0]";
+connectAttr "l_mouthCorner.jawInfluence" "blendTwoAttr4.i[1]";
 connectAttr "l_mouthCorner.t" "plusMinusAverage177.i3[0]";
-connectAttr "multDoubleLinear482.o" "addDoubleLinear111.i1";
-connectAttr "multDoubleLinear480.o" "addDoubleLinear111.i2";
+connectAttr "multDoubleLinear479.o" "plusMinusAverage177.i3[1].i3x";
+connectAttr "mouth_multiplyDivide13.ox" "addDoubleLinear111.i1";
+connectAttr "multDoubleLinear479.o" "addDoubleLinear111.i2";
 connectAttr "l_mouthCorner.jawInInfluence" "multDoubleLinear478.i1";
 connectAttr "unitConversion311.o" "multDoubleLinear479.i1";
 connectAttr "multDoubleLinear478.o" "multDoubleLinear479.i2";
 connectAttr "jaw.rx" "unitConversion311.i";
 connectAttr "r_mouthCorner.t" "plusMinusAverage178.i3[0]";
 connectAttr "multDoubleLinear479.o" "plusMinusAverage178.i3[1].i3x";
-connectAttr "multDoubleLinear483.o" "addDoubleLinear112.i1";
-connectAttr "multDoubleLinear481.o" "addDoubleLinear112.i2";
-connectAttr "condition5.ocr" "multDoubleLinear480.i1";
-connectAttr "multDoubleLinear479.o" "multDoubleLinear480.i2";
-connectAttr "l_mouthCorner.folowJaw" "setRange123.vx";
-connectAttr "l_mouthCorner.folowJaw" "setRange123.vy";
-connectAttr "l_mouthCorner.folowJaw" "condition5.ft";
-connectAttr "setRange123.ox" "condition5.cfr";
-connectAttr "setRange123.oy" "condition5.ctr";
-connectAttr "condition6.ocr" "multDoubleLinear481.i1";
-connectAttr "multDoubleLinear479.o" "multDoubleLinear481.i2";
-connectAttr "r_mouthCorner.folowJaw" "condition6.ft";
-connectAttr "setRange124.ox" "condition6.cfr";
-connectAttr "setRange124.oy" "condition6.ctr";
-connectAttr "r_mouthCorner.folowJaw" "setRange124.vx";
-connectAttr "r_mouthCorner.folowJaw" "setRange124.vy";
-connectAttr "l_mouthCorner.tx" "multDoubleLinear482.i1";
-connectAttr "r_mouthCorner.tx" "multDoubleLinear483.i1";
-connectAttr "addDoubleLinear111.o" "clamp29.ipr";
-connectAttr "addDoubleLinear112.o" "clamp30.ipr";
-connectAttr "lip_corner_poser.mouthLineFollow" "condition8.ft";
-connectAttr "lip_corner_poserOrientShape.wp.wpy" "condition8.ctb";
-connectAttr "unitConversion312.o" "condition8.cfg";
-connectAttr "unitConversion313.o" "condition8.cfr";
-connectAttr "curveShape1_6_mpath.yc" "condition8.cfb";
-connectAttr "curveShape1_6_mpath.rz" "unitConversion312.i";
-connectAttr "curveShape1_6_mpath.rx" "unitConversion313.i";
-connectAttr "b_lip.rx" "unitConversion277.i";
-connectAttr "l_lip_1_nearestPointOnCurve.pr" "addDoubleLinear113.i1";
-connectAttr "multiplyDivide366.ox" "reverse49.ix";
-connectAttr "jaw.m" "blendMatrix23.tgt[0].tmat";
-connectAttr "addDoubleLinear114.o" "multiplyDivide368.i1x";
-connectAttr "l_lip_2_nearestPointOnCurve.pr" "addDoubleLinear114.i1";
-connectAttr "l_lip_2_nearestPointOnCurve.pr" "setRange127.vx";
-connectAttr "l_lip_2_nearestPointOnCurve.pr" "setRange127.vy";
-connectAttr "multiplyDivide368.ox" "reverse50.ix";
-connectAttr "l_lip_2_nearestPointOnCurve.pr" "l_t_lip_2_init_mpath.u";
-connectAttr "init_curve_rebuildCurve.oc" "l_t_lip_2_init_mpath.gp";
-connectAttr "l_lip_1_nearestPointOnCurve.pr" "l_t_lip_1_init_mpath.u";
-connectAttr "init_curve_rebuildCurve.oc" "l_t_lip_1_init_mpath.gp";
-connectAttr "lip_corner_poser.mouthLineFollow" "condition9.ft";
-connectAttr "l_lip_2_nearestPointOnCurve.py" "condition9.ctb";
-connectAttr "unitConversion317.o" "condition9.cfg";
-connectAttr "unitConversion316.o" "condition9.cfr";
-connectAttr "curveShape1_4_mpath1.yc" "condition9.cfb";
-connectAttr "curveShape1_4_mpath1.rx" "unitConversion316.i";
-connectAttr "curveShape1_4_mpath1.rz" "unitConversion317.i";
-connectAttr "lip_corner_poser.mouthLineFollow" "condition10.ft";
-connectAttr "lip_corner_poserOrientShape.wp.wpy" "condition10.ctb";
-connectAttr "unitConversion325.o" "condition10.cfg";
-connectAttr "unitConversion324.o" "condition10.cfr";
-connectAttr "curveShape1_6_mpath1.yc" "condition10.cfb";
-connectAttr "curveShape1_6_mpath1.rx" "unitConversion324.i";
-connectAttr "curveShape1_6_mpath1.rz" "unitConversion325.i";
-connectAttr "condition10.ocr" "unitConversion326.i";
-connectAttr "condition10.ocg" "unitConversion327.i";
-connectAttr "condition8.ocg" "unitConversion315.i";
-connectAttr "condition8.ocr" "unitConversion314.i";
-connectAttr "init_corner_flat_curveShape.ws" "rebuildCurve2.ic";
-connectAttr "rebuildCurve2.oc" "curveShape1_6_mpath2.gp";
-connectAttr "addDoubleLinear97.o" "curveShape1_6_mpath2.u";
-connectAttr "lip_corner_poser.wm" "curveShape1_6_mpath2.wum";
-connectAttr "rebuildCurve2.oc" "curveShape1_6_mpath3.gp";
-connectAttr "addDoubleLinear99.o" "curveShape1_6_mpath3.u";
-connectAttr "r_lip_corner_loc.wm" "curveShape1_6_mpath3.wum";
-connectAttr "b_head_poser.wm" "multMatrix283.i[0]";
-connectAttr "root_poser.wim" "multMatrix283.i[1]";
-connectAttr "init_curve_rebuildCurve.oc" "curveShape1_6_mpath4.gp";
-connectAttr "lip_corner_poser.wm" "curveShape1_6_mpath4.wum";
-connectAttr "curveShape1_6_mpath4.ac" "composeMatrix22.it";
-connectAttr "curveShape1_6_mpath4.rx" "composeMatrix22.irx";
-connectAttr "curveShape1_6_mpath4.rz" "composeMatrix22.irz";
-connectAttr "curveShape1_6_mpath5.ry" "composeMatrix22.iry";
-connectAttr "mainPoser_decomposeMatrix.os" "composeMatrix22.is";
-connectAttr "composeMatrix22.omat" "multMatrix284.i[0]";
-connectAttr "mainPoser.wim" "multMatrix284.i[1]";
-connectAttr "l_cheekUp_poser.wm" "multMatrix285.i[0]";
-connectAttr "corner_init_blendMatrix.omat" "multMatrix285.i[1]";
-connectAttr "rebuildCurve2.oc" "curveShape1_6_mpath5.gp";
-connectAttr "lip_corner_poser.wm" "curveShape1_6_mpath5.wum";
-connectAttr "multMatrix285.o" "multMatrix286.i[0]";
-connectAttr "l_mouthCorner.wm" "multMatrix286.i[1]";
-connectAttr "l_cheekUp_group.wim" "multMatrix286.i[2]";
-connectAttr "multMatrix286.o" "blendMatrix24.tgt[0].tmat";
-connectAttr "l_cheekUp.lipCornerInfluence" "blendMatrix24.env";
-connectAttr "multMatrix285.o" "multMatrix288.i[0]";
-connectAttr "r_mouthCorner.wm" "multMatrix288.i[1]";
-connectAttr "r_cheekUp_group.wim" "multMatrix288.i[2]";
-connectAttr "multMatrix288.o" "blendMatrix25.tgt[0].tmat";
-connectAttr "l_cheekUp.lipCornerInfluence" "blendMatrix25.env";
-connectAttr "multMatrix290.o" "blendMatrix26.tgt[0].tmat";
-connectAttr "l_cheek.lipCornerInfluence" "blendMatrix26.env";
-connectAttr "l_cheek_poser.wm" "multMatrix289.i[0]";
-connectAttr "corner_init_blendMatrix.omat" "multMatrix289.i[1]";
-connectAttr "multMatrix289.o" "multMatrix290.i[0]";
-connectAttr "l_mouthCorner.wm" "multMatrix290.i[1]";
-connectAttr "l_cheek_group.wim" "multMatrix290.i[2]";
-connectAttr "multMatrix289.o" "multMatrix291.i[0]";
-connectAttr "r_mouthCorner.wm" "multMatrix291.i[1]";
-connectAttr "r_cheek_group.wim" "multMatrix291.i[2]";
-connectAttr "multMatrix291.o" "blendMatrix27.tgt[0].tmat";
-connectAttr "l_cheek.lipCornerInfluence" "blendMatrix27.env";
-connectAttr "l_t_lip_2_init_mpath.ac" "unitConversion328.i";
-connectAttr "l_lip_2_nearestPointOnCurve.pr" "curveShape1_4_mpath5.u";
-connectAttr "rebuildCurve2.oc" "curveShape1_4_mpath5.gp";
-connectAttr "l_t_lip_1_init_mpath.ac" "l_t_lip_1_init_composeMatrix.it";
-connectAttr "l_t_lip_1_init_mpath.r" "l_t_lip_1_init_composeMatrix.ir";
-connectAttr "mouth_poser_decomposeMatrix.os" "l_t_lip_1_init_composeMatrix.is";
-connectAttr "l_t_lip_1_init_composeMatrix.omat" "multMatrix293.i[0]";
-connectAttr "corner_init_blendMatrix.omat" "multMatrix293.i[1]";
-connectAttr "l_t_lip_1_init_composeMatrix.omat" "multMatrix294.i[0]";
-connectAttr "t_mouth_poser.wim" "multMatrix294.i[1]";
-connectAttr "l_t_lip_1_mouth_target.wm" "blendMatrix28.imat";
-connectAttr "l_t_lip_1_corner_target.wm" "blendMatrix28.tgt[1].tmat";
-connectAttr "l_t_lip_1.corner_influence" "blendMatrix28.env";
-connectAttr "blendMatrix30.omat" "multMatrix295.i[0]";
-connectAttr "blendMatrix28.omat" "multMatrix295.i[1]";
-connectAttr "sec_controls_group.wim" "multMatrix295.i[2]";
-connectAttr "l_t_lip_1_init_composeMatrix.omat" "multMatrix296.i[0]";
-connectAttr "lips_poser.wim" "multMatrix296.i[1]";
-connectAttr "l_t_lip_1_lip_target.wm" "multMatrix297.i[0]";
-connectAttr "l_t_lip_1_lip_init_target.wim" "multMatrix297.i[1]";
-connectAttr "multMatrix297.o" "blendMatrix30.tgt[0].tmat";
-connectAttr "l_t_lip_1.t_lip_influence" "blendMatrix30.env";
-connectAttr "blendMatrix31.omat" "multMatrix298.i[0]";
-connectAttr "blendMatrix32.omat" "multMatrix298.i[1]";
-connectAttr "sec_controls_group.wim" "multMatrix298.i[2]";
-connectAttr "multMatrix300.o" "blendMatrix31.tgt[0].tmat";
-connectAttr "l_t_lip_1.t_lip_influence" "blendMatrix31.env";
-connectAttr "r_t_lip_1_mouth_target.wm" "blendMatrix32.imat";
-connectAttr "r_t_lip_1_corner_target.wm" "blendMatrix32.tgt[0].tmat";
-connectAttr "l_t_lip_1.corner_influence" "blendMatrix32.env";
-connectAttr "multMatrix294.o" "multMatrix299.i[0]";
-connectAttr "reverse_composeMatrix.omat" "multMatrix299.i[1]";
-connectAttr "r_t_lip_1_lip_target.wm" "multMatrix300.i[0]";
-connectAttr "r_t_lip_1_lip_init_target.wim" "multMatrix300.i[1]";
-connectAttr "multMatrix296.o" "multMatrix301.i[0]";
-connectAttr "reverse_composeMatrix.omat" "multMatrix301.i[1]";
-connectAttr "l_t_lip_2_init_mpath.ac" "l_t_lip_2_init_composeMatrix.it";
-connectAttr "l_t_lip_2_init_mpath.r" "l_t_lip_2_init_composeMatrix.ir";
-connectAttr "mouth_poser_decomposeMatrix.os" "l_t_lip_2_init_composeMatrix.is";
-connectAttr "l_t_lip_2_init_composeMatrix.omat" "multMatrix302.i[0]";
-connectAttr "t_mouth_poser.wim" "multMatrix302.i[1]";
-connectAttr "l_t_lip_2_lip_target.wm" "multMatrix303.i[0]";
-connectAttr "l_t_lip_2_lip_init_target.wim" "multMatrix303.i[1]";
-connectAttr "multMatrix303.o" "blendMatrix33.tgt[0].tmat";
-connectAttr "l_t_lip_1.t_lip_influence" "blendMatrix33.env";
-connectAttr "blendMatrix33.omat" "multMatrix304.i[0]";
-connectAttr "blendMatrix34.omat" "multMatrix304.i[1]";
-connectAttr "sec_controls_group.wim" "multMatrix304.i[2]";
-connectAttr "l_t_lip_2_init_composeMatrix.omat" "multMatrix305.i[0]";
-connectAttr "corner_init_blendMatrix.omat" "multMatrix305.i[1]";
-connectAttr "l_t_lip_2_init_composeMatrix.omat" "multMatrix306.i[0]";
-connectAttr "lips_poser.wim" "multMatrix306.i[1]";
-connectAttr "l_t_lip_2_mouth_target.wm" "blendMatrix34.imat";
-connectAttr "l_t_lip_2_corner_target.wm" "blendMatrix34.tgt[1].tmat";
-connectAttr "l_t_lip_2.corner_influence" "blendMatrix34.env";
-connectAttr "l_t_lip_1_init_composeMatrix.omat" "multMatrix307.i[0]";
-connectAttr "b_mouth_poser.wim" "multMatrix307.i[1]";
-connectAttr "l_b_lip_1_lip_target.wm" "multMatrix308.i[0]";
-connectAttr "l_b_lip_1_lip_init_target.wim" "multMatrix308.i[1]";
-connectAttr "multMatrix308.o" "blendMatrix35.tgt[0].tmat";
-connectAttr "l_b_lip_1.b_lip_influence" "blendMatrix35.env";
-connectAttr "blendMatrix35.omat" "multMatrix309.i[0]";
-connectAttr "blendMatrix36.omat" "multMatrix309.i[1]";
-connectAttr "sec_controls_group.wim" "multMatrix309.i[2]";
-connectAttr "l_t_lip_1_init_composeMatrix.omat" "multMatrix310.i[0]";
-connectAttr "corner_init_blendMatrix.omat" "multMatrix310.i[1]";
-connectAttr "l_t_lip_1_init_composeMatrix.omat" "multMatrix311.i[0]";
-connectAttr "jaw_poserOrient.wim" "multMatrix311.i[1]";
-connectAttr "l_b_lip_1_jaw_target.wm" "blendMatrix36.imat";
-connectAttr "l_b_lip_1_corner_target.wm" "blendMatrix36.tgt[1].tmat";
-connectAttr "l_t_lip_1.corner_influence" "blendMatrix36.env";
-connectAttr "blendMatrix37.omat" "multMatrix312.i[0]";
-connectAttr "blendMatrix38.omat" "multMatrix312.i[1]";
-connectAttr "sec_controls_group.wim" "multMatrix312.i[2]";
-connectAttr "multMatrix313.o" "blendMatrix37.tgt[0].tmat";
-connectAttr "l_b_lip_1.b_lip_influence" "blendMatrix37.env";
-connectAttr "r_b_lip_1_jaw_target.wm" "blendMatrix38.imat";
-connectAttr "r_b_lip_1_corner_target.wm" "blendMatrix38.tgt[0].tmat";
-connectAttr "l_t_lip_1.corner_influence" "blendMatrix38.env";
-connectAttr "r_b_lip_1_lip_target.wm" "multMatrix313.i[0]";
-connectAttr "r_b_lip_1_lip_init_target.wim" "multMatrix313.i[1]";
-connectAttr "multMatrix317.o" "multMatrix315.i[0]";
-connectAttr "composeMatrix24.omat" "multMatrix315.i[1]";
-connectAttr "multMatrix311.o" "multMatrix316.i[0]";
-connectAttr "composeMatrix24.omat" "multMatrix316.i[1]";
-connectAttr "l_t_lip_1_init_composeMatrix.omat" "multMatrix317.i[0]";
-connectAttr "b_mouth_poser.wim" "multMatrix317.i[1]";
-connectAttr "lip_corner_poser.wim" "corner_init_blendMatrix.imat";
-connectAttr "l_mouthCorner_initLoc.wim" "corner_init_blendMatrix.tgt[0].tmat";
-connectAttr "lip_corner_poser.mouthLineFollow" "corner_init_blendMatrix.env";
-connectAttr "size_multiplyDivide7.oy" "makeNurbSphere22.r";
-connectAttr "l_t_lip_1_init_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn"
-		;
-connectAttr "r_b_lip_1_corner_target.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
-		;
-connectAttr "multMatrix297.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn";
-connectAttr "blendMatrix36.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn";
-connectAttr "multMatrix315.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[4].dn";
-connectAttr "multMatrix307.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn";
-connectAttr "multMatrix308.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[6].dn";
-connectAttr "multMatrix300.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[7].dn";
-connectAttr "b_mouth_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[8].dn";
-connectAttr "l_b_lip_1_corner_target.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[9].dn"
-		;
-connectAttr "multMatrix296.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[10].dn";
-connectAttr "multMatrix310.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[11].dn";
-connectAttr "r_t_lip_1_mouth_target.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[12].dn"
-		;
-connectAttr "blendMatrix35.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[13].dn";
-connectAttr "multMatrix305.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[14].dn";
-connectAttr "l_t_lip_2_lip_target.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[15].dn"
-		;
-connectAttr "multMatrix309.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[16].dn";
-connectAttr "jaw_poserOrient.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[17].dn"
-		;
-connectAttr "multMatrix312.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[18].dn";
-connectAttr "l_t_lip_2_corner_target.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[19].dn"
-		;
-connectAttr "blendMatrix28.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[20].dn";
-connectAttr "multMatrix302.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[21].dn";
-connectAttr "lips_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[22].dn";
-connectAttr "mouth_poser_decomposeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[23].dn"
-		;
-connectAttr "r_t_lip_1_lip_init_target.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[24].dn"
-		;
-connectAttr "l_t_lip_1_init_composeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[25].dn"
-		;
-connectAttr "l_t_lip_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[26].dn";
-connectAttr "multMatrix299.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[27].dn";
-connectAttr "multMatrix303.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[28].dn";
-connectAttr "blendMatrix38.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[29].dn";
-connectAttr "multMatrix316.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[30].dn";
-connectAttr "l_t_lip_1_corner_target.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[31].dn"
-		;
-connectAttr "blendMatrix31.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[32].dn";
-connectAttr "l_b_lip_1_lip_target.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[33].dn"
-		;
-connectAttr "l_t_lip_2_lip_init_target.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[34].dn"
-		;
-connectAttr "lip_corner_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[35].dn"
-		;
-connectAttr "r_b_lip_1_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[36].dn"
-		;
-connectAttr "reverse_composeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[37].dn"
-		;
-connectAttr "multMatrix294.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[38].dn";
-connectAttr "multMatrix317.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[39].dn";
-connectAttr "l_t_lip_1_lip_init_target.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[40].dn"
-		;
-connectAttr "multMatrix306.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[41].dn";
-connectAttr "l_t_lip_1_lip_target.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[42].dn"
-		;
-connectAttr "r_b_lip_1_lip_init_target.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[43].dn"
-		;
-connectAttr "blendMatrix33.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[44].dn";
-connectAttr "r_t_lip_1_lip_target.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[45].dn"
-		;
-connectAttr "t_mouth_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[46].dn";
-connectAttr "r_t_lip_1_corner_target.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[47].dn"
-		;
-connectAttr "multMatrix295.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[48].dn";
-connectAttr "l_t_lip_2_init_composeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[49].dn"
-		;
-connectAttr "l_t_lip_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[50].dn";
-connectAttr "composeMatrix24.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[51].dn"
-		;
-connectAttr "l_t_lip_2_mouth_target.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[52].dn"
-		;
-connectAttr "multMatrix311.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[53].dn";
-connectAttr "sec_controls_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[54].dn"
-		;
-connectAttr "l_t_lip_2_init_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[55].dn"
-		;
-connectAttr "multMatrix304.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[56].dn";
-connectAttr "multMatrix313.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[57].dn";
-connectAttr "blendMatrix37.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[58].dn";
-connectAttr "blendMatrix34.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[59].dn";
-connectAttr "l_b_lip_1_jaw_target.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[60].dn"
-		;
-connectAttr "l_t_lip_1_mouth_target.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[61].dn"
-		;
-connectAttr "r_b_lip_1_lip_target.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[62].dn"
-		;
-connectAttr "multMatrix301.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[63].dn";
-connectAttr "l_t_lip_1_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[64].dn"
-		;
-connectAttr "l_b_lip_1_lip_init_target.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[65].dn"
-		;
-connectAttr "l_mouthCorner_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[66].dn"
-		;
-connectAttr "corner_init_blendMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[67].dn"
-		;
-connectAttr "multMatrix293.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[68].dn";
-connectAttr "blendMatrix32.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[69].dn";
-connectAttr "l_b_lip_1_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[70].dn"
-		;
-connectAttr "l_b_lip_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[71].dn";
-connectAttr "r_b_lip_1_jaw_target.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[72].dn"
-		;
-connectAttr "multMatrix298.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[73].dn";
-connectAttr "l_t_lip_2_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[74].dn"
-		;
-connectAttr "r_t_lip_1_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[75].dn"
-		;
-connectAttr "blendMatrix30.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[76].dn";
-connectAttr "composeMatrix11.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn";
-connectAttr "curveShape1_6_mpath5.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn"
-		;
-connectAttr "curveShape1_6_mpath2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn"
-		;
-connectAttr "l_lip_2_nearestPointOnCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn"
-		;
-connectAttr "composeMatrix22.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn";
-connectAttr "reverse40.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn";
-connectAttr "init_curve_rebuildCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[6].dn"
-		;
-connectAttr "curveShape1_6_mpath4.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[7].dn"
+connectAttr "l_lip_posers_up_loc2.ry" "unitConversion312.i";
+connectAttr "r_setRange_lipUpDownFacor.oz" "unitConversion313.i";
+connectAttr "mouth_multiplyDivide16.ox" "addDoubleLinear112.i1";
+connectAttr "multDoubleLinear479.o" "addDoubleLinear112.i2";
+connectAttr "init_curveShape.ws" "nearestPointOnCurve.ic";
+connectAttr "unitConversion311.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn"
 		;
-connectAttr "rebuildCurve2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[8].dn";
-connectAttr "addDoubleLinear99.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[9].dn"
+connectAttr "mouth_multiplyDivide13.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
 		;
-connectAttr "l_lip_1_nearestPointOnCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[10].dn"
+connectAttr "multDoubleLinear478.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn"
 		;
-connectAttr "l_mouthCorner_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[11].dn"
+connectAttr "l_mouthCorner.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn";
+connectAttr "r_mouthCorner_reverseGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[4].dn"
 		;
-connectAttr "composeMatrix18.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[12].dn"
+connectAttr "r_mouthCorner.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn";
+connectAttr "jaw.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[6].dn";
+connectAttr "l_mouthCorner_reverseGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[7].dn"
 		;
-connectAttr "curveShape1_6_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[13].dn"
+connectAttr "mouth_multiplyDivide16.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[8].dn"
 		;
-connectAttr "multMatrix245.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[14].dn";
-connectAttr "l_t_lip_2_init_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[15].dn"
+connectAttr "addDoubleLinear111.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[9].dn"
 		;
-connectAttr "l_mouthCorner_reverseGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[16].dn"
+connectAttr "plusMinusAverage177.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[10].dn"
 		;
-connectAttr "corner_nearestPointOnCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[17].dn"
+connectAttr "plusMinusAverage178.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[11].dn"
 		;
-connectAttr "l_t_lip_1_init_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[18].dn"
+connectAttr "multDoubleLinear479.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[12].dn"
 		;
-connectAttr "multMatrix284.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[19].dn";
-connectAttr "curveShape1_6_mpath3.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[20].dn"
+connectAttr "plusMinusAverage177.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn"
 		;
-connectAttr "r_mouthCorner_reverseGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[21].dn"
+connectAttr "l_mouthCorner.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn";
+connectAttr "rebuildCurve1.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn";
+connectAttr "plusMinusAverage178.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn"
 		;
-connectAttr "multMatrix249.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[22].dn";
-connectAttr "curveShape1_6_mpath1.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[23].dn"
+connectAttr "unitConversion309.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn"
 		;
-connectAttr "rebuildCurve2.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn";
-connectAttr "lip_1_init_mirror_multiplyDivide.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn"
+connectAttr "corner_nearestPointOnCurve1.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn"
 		;
-connectAttr "l_mouthCorner.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn";
-connectAttr "lip_2_init_mirror_multiplyDivide.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn"
+connectAttr "l_lip_posers_up_loc2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[6].dn"
 		;
-connectAttr "curveShape1_6_mpath4.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[4].dn"
+connectAttr "unitConversion311.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[7].dn"
 		;
-connectAttr "composeMatrix22.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[5].dn";
-connectAttr "lip_corner_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[6].dn"
+connectAttr "unitConversion313.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[8].dn"
 		;
-connectAttr "blendMatrix26.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[7].dn";
-connectAttr "l_cheek_group_multMat.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[8].dn"
+connectAttr "r_mouthCorner.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[9].dn";
+connectAttr "plusMinusAverage176.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[10].dn"
 		;
-connectAttr "l_cheek.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[9].dn";
-connectAttr "multMatrix284.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[10].dn";
-connectAttr "root_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[11].dn";
-connectAttr "l_mouthCorner_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[12].dn"
+connectAttr "multiplyDivide358.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[11].dn"
 		;
-connectAttr "l_cheek_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[13].dn";
-connectAttr "mainPoser.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[14].dn";
-connectAttr "l_cheek_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[15].dn"
+connectAttr "multiplyDivide360.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[12].dn"
 		;
-connectAttr "b_head_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[16].dn";
-connectAttr "init_curve_rebuildCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[17].dn"
+connectAttr "multDoubleLinear477.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[13].dn"
 		;
-connectAttr "multMatrix289.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[18].dn";
-connectAttr "multMatrix290.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[19].dn";
-connectAttr "curveShape1_6_mpath5.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[20].dn"
+connectAttr "multiplyDivide363.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[14].dn"
 		;
-connectAttr "corner_init_blendMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[21].dn"
+connectAttr "unitConversion310.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[15].dn"
 		;
-connectAttr "l_cheek_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[22].dn";
-connectAttr "mainPoser_decomposeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[23].dn"
+connectAttr "l_lip_down_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[16].dn"
 		;
-connectAttr "lip_corner_init_mirror_multiplyDivide.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[24].dn"
+connectAttr "r_setRange_lipUpDownFacor.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[17].dn"
 		;
-connectAttr "unitConversion317.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[0].dn"
+connectAttr "corner_nearestPointOnCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[18].dn"
 		;
-connectAttr "multDoubleLinear464.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[1].dn"
+connectAttr "r_mouthCorner_reverseGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[19].dn"
 		;
-connectAttr "l_t_lip_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[2].dn";
-connectAttr "unitConversion316.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[3].dn"
+connectAttr "l_lip_front_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[20].dn"
 		;
-connectAttr "addDoubleLinear93.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[4].dn"
+connectAttr "multDoubleLinear479.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[21].dn"
 		;
-connectAttr "condition9.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[5].dn";
-connectAttr "multDoubleLinear449.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[6].dn"
+connectAttr "l_lip_up_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[22].dn";
+connectAttr "multiplyDivide364.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[23].dn"
 		;
-connectAttr "multDoubleLinear465.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[7].dn"
+connectAttr "jaw.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[24].dn";
+connectAttr "l_lip_posers_up_loc2_aimConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[25].dn"
 		;
-connectAttr "blendMatrix34.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[8].dn";
-connectAttr "curveShape1_4_mpath1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[9].dn"
+connectAttr "reverse40.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[26].dn";
+connectAttr "l_mouthCorner_reverseGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[27].dn"
 		;
-connectAttr "lips_add_moduleControlSet.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[10].dn"
+connectAttr "l_setRange_lipUpDownFacor.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[28].dn"
 		;
-connectAttr "l_t_lip_2_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[11].dn"
+connectAttr "multDoubleLinear478.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[29].dn"
 		;
-connectAttr "multMatrix304.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[12].dn";
-connectAttr "lip_2_init_mirror_multiplyDivide.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[0].dn"
+connectAttr "multiplyDivide359.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[30].dn"
 		;
-connectAttr "l_t_lip_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[1].dn";
-connectAttr "multiplyDivide366.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[2].dn"
+connectAttr "multDoubleLinear466.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn"
 		;
-connectAttr "lip_1_init_mirror_multiplyDivide.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[3].dn"
+connectAttr "r_mouthCorner_reverseGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn"
 		;
-connectAttr "addDoubleLinear113.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[4].dn"
+connectAttr "plusMinusAverage178.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn"
 		;
-connectAttr "l_lip_1_nearestPointOnCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[5].dn"
+connectAttr "r_mouthCorner.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn";
+connectAttr "multDoubleLinear34.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[4].dn"
 		;
-connectAttr "lip_corner_init_mirror_multiplyDivide.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[6].dn"
+connectAttr "multDoubleLinear467.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[5].dn"
 		;
-connectAttr "reverse49.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[7].dn";
-connectAttr "init_curve_rebuildCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[8].dn"
+connectAttr "multDoubleLinear471.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[0].dn"
 		;
+connectAttr "addDoubleLinear108.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[1].dn"
+		;
+connectAttr "l_lip_up_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[2].dn";
+connectAttr "rebuildCurve1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[3].dn";
+connectAttr "composeMatrix18.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[4].dn";
+connectAttr "unitConversion312.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[5].dn"
+		;
+connectAttr "lip_2_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[6].dn";
+connectAttr "addDoubleLinear97.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[7].dn"
+		;
+connectAttr "l_lip_posers_up_loc1_aimConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[8].dn"
+		;
+connectAttr "r_mouthCorner.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[9].dn";
+connectAttr "multiplyDivide364.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[10].dn"
+		;
+connectAttr "jaw.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[11].dn";
+connectAttr "corner_nearestPointOnCurve1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[12].dn"
+		;
+connectAttr "l_lip_posers_target_down_loc_aimConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[13].dn"
+		;
+connectAttr "addDoubleLinear109.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[14].dn"
+		;
+connectAttr "composeMatrix19.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[15].dn"
+		;
+connectAttr "multDoubleLinear469.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[16].dn"
+		;
+connectAttr "multDoubleLinear461.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[17].dn"
+		;
+connectAttr "l_lip_front_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[18].dn"
+		;
+connectAttr "composeMatrix11.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[19].dn"
+		;
+connectAttr "unitConversion311.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[20].dn"
+		;
+connectAttr "plusMinusAverage177.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[21].dn"
+		;
+connectAttr "mouth_multiplyDivide13.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[22].dn"
+		;
+connectAttr "l_mouthCorner.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[23].dn";
+connectAttr "lips_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[24].dn";
+connectAttr "unitConversion306.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[25].dn"
+		;
+connectAttr "multMatrix245.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[26].dn";
+connectAttr "multDoubleLinear470.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[27].dn"
+		;
+connectAttr "multDoubleLinear451.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[28].dn"
+		;
+connectAttr "l_lip_posers_up_loc2_aimConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[29].dn"
+		;
+connectAttr "multDoubleLinear478.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[30].dn"
+		;
+connectAttr "l_lip_posers_up_loc2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[31].dn"
+		;
+connectAttr "l_lip_posers_target_down_loc.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[32].dn"
+		;
+connectAttr "multMatrix249.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[33].dn";
+connectAttr "addDoubleLinear110.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[34].dn"
+		;
+connectAttr "curveShape1_6_mpath1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[35].dn"
+		;
+connectAttr "unitConversion307.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[36].dn"
+		;
+connectAttr "mouth_multiplyDivide16.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[37].dn"
+		;
+connectAttr "unitConversion310.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[38].dn"
+		;
+connectAttr "reverse40.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[39].dn";
+connectAttr "l_lip_down_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[40].dn"
+		;
+connectAttr "l_mouthCorner_reverseGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[41].dn"
+		;
+connectAttr "multDoubleLinear479.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[42].dn"
+		;
+connectAttr "unitConversion309.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[43].dn"
+		;
+connectAttr "unitConversion313.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[44].dn"
+		;
+connectAttr "corner_nearestPointOnCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[45].dn"
+		;
+connectAttr "jaw_poserOrient.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[46].dn"
+		;
+connectAttr "decomposeMatrix51.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[47].dn"
+		;
+connectAttr "unitConversion308.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[48].dn"
+		;
+connectAttr "r_setRange_lipUpDownFacor.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[49].dn"
+		;
+connectAttr "plusMinusAverage178.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[50].dn"
+		;
+connectAttr "multDoubleLinear477.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[51].dn"
+		;
+connectAttr "l_lip_corner_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[52].dn"
+		;
+connectAttr "unitConversion305.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[53].dn"
+		;
+connectAttr "l_lip_posers_target_up_loc.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[54].dn"
+		;
+connectAttr "multMatrix264.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[55].dn";
+connectAttr "r_lip_corner_loc.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[56].dn"
+		;
+connectAttr "addDoubleLinear111.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[57].dn"
+		;
+connectAttr "r_mouthCorner_reverseGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[58].dn"
+		;
+connectAttr "multDoubleLinear472.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[59].dn"
+		;
+connectAttr "composeMatrix14.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[60].dn"
+		;
+connectAttr "multDoubleLinear454.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[61].dn"
+		;
+connectAttr "addDoubleLinear112.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[62].dn"
+		;
+connectAttr "plusMinusAverage176.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[63].dn"
+		;
+connectAttr "l_setRange_lipUpDownFacor.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[64].dn"
+		;
+connectAttr "addDoubleLinear99.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[65].dn"
+		;
+connectAttr "curveShape1_6_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[66].dn"
+		;
+connectAttr "blendMatrix6.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[0].dn";
+connectAttr "r_mouthCorner.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[1].dn";
+connectAttr "r_b_lip_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[2].dn";
+connectAttr "r_b_lip_2_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[3].dn";
+connectAttr "blendTwoAttr3.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[4].dn";
+connectAttr "l_mouthCorner.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[5].dn";
+connectAttr "l_b_lip_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[6].dn";
+connectAttr "blendTwoAttr4.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[7].dn";
+connectAttr "blendMatrix10.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[8].dn";
+connectAttr "l_b_lip_2_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[9].dn";
+connectAttr "setRange116.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[10].dn";
+connectAttr "multiplyDivide359.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[0].dn"
+		;
+connectAttr "nearestPointOnCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[1].dn"
+		;
+connectAttr "init_curveShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[2].dn";
+connectAttr "l_lip_back_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[3].dn"
+		;
+connectAttr "multiplyDivide360.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[4].dn"
+		;
+connectAttr "c_lip_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[5].dn"
+		;
+connectAttr "multiplyDivide363.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[6].dn"
+		;
+connectAttr "multiplyDivide358.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[7].dn"
+		;
+connectAttr "l_lip_corner_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[8].dn"
+		;
+connectAttr "lip_2_pivotShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[9].dn"
+		;
+connectAttr "lip_1_pivotShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[10].dn"
+		;
+connectAttr "curveShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[11].dn";
+connectAttr "init_curveShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[0].dn";
+connectAttr "init_curve.msg" "MayaNodeEditorSavedTabsInfo.tgi[6].ni[1].dn";
+connectAttr "red_rsSG.pa" ":renderPartition.st" -na;
+connectAttr "green_rsSG.pa" ":renderPartition.st" -na;
+connectAttr "blue_rsSG.pa" ":renderPartition.st" -na;
+connectAttr "black_rsSG.pa" ":renderPartition.st" -na;
+connectAttr "eyes_red_rsSG.pa" ":renderPartition.st" -na;
+connectAttr "eyes_green_rsSG.pa" ":renderPartition.st" -na;
+connectAttr "eyes_blue_rsSG.pa" ":renderPartition.st" -na;
+connectAttr "eyes_black_rsSG.pa" ":renderPartition.st" -na;
+connectAttr "eyes_blinn1SG.pa" ":renderPartition.st" -na;
+connectAttr "eyes_blinn2SG.pa" ":renderPartition.st" -na;
+connectAttr "eyes_lambert2SG.pa" ":renderPartition.st" -na;
+connectAttr "eyes_surfaceShader1SG.pa" ":renderPartition.st" -na;
+connectAttr "eyelids_red_rsSG.pa" ":renderPartition.st" -na;
+connectAttr "eyelids_green_rsSG.pa" ":renderPartition.st" -na;
+connectAttr "eyelids_blue_rsSG.pa" ":renderPartition.st" -na;
+connectAttr "brows_red_rsSG.pa" ":renderPartition.st" -na;
+connectAttr "brows_green_rsSG.pa" ":renderPartition.st" -na;
+connectAttr "brows_blue_rsSG.pa" ":renderPartition.st" -na;
+connectAttr "brows_center_surfaceShader1SG.pa" ":renderPartition.st" -na;
+connectAttr "brows_center_surfaceShader2SG.pa" ":renderPartition.st" -na;
+connectAttr "brows_center_surfaceShader3SG.pa" ":renderPartition.st" -na;
+connectAttr "brows_side_1_surfaceShader1SG.pa" ":renderPartition.st" -na;
+connectAttr "brows_side_1_surfaceShader2SG.pa" ":renderPartition.st" -na;
+connectAttr "brows_side_1_surfaceShader3SG.pa" ":renderPartition.st" -na;
+connectAttr "brows_side_2_surfaceShader1SG.pa" ":renderPartition.st" -na;
+connectAttr "brows_side_2_surfaceShader2SG.pa" ":renderPartition.st" -na;
+connectAttr "brows_side_2_surfaceShader3SG.pa" ":renderPartition.st" -na;
+connectAttr "brows_side_3_surfaceShader1SG.pa" ":renderPartition.st" -na;
+connectAttr "brows_side_3_surfaceShader2SG.pa" ":renderPartition.st" -na;
+connectAttr "brows_side_3_surfaceShader3SG.pa" ":renderPartition.st" -na;
+connectAttr "brows_black_rsSG.pa" ":renderPartition.st" -na;
+connectAttr "brows_side_3_surfaceShader1SG1.pa" ":renderPartition.st" -na;
+connectAttr "head_lowSG.pa" ":renderPartition.st" -na;
+connectAttr "eyesSG.pa" ":renderPartition.st" -na;
+connectAttr "hairSG.pa" ":renderPartition.st" -na;
+connectAttr "tongueSG.pa" ":renderPartition.st" -na;
+connectAttr "red_rsSG5.pa" ":renderPartition.st" -na;
+connectAttr "green_rsSG5.pa" ":renderPartition.st" -na;
+connectAttr "blue_rsSG5.pa" ":renderPartition.st" -na;
+connectAttr "red_rsSG6.pa" ":renderPartition.st" -na;
+connectAttr "green_rsSG6.pa" ":renderPartition.st" -na;
+connectAttr "blue_rsSG6.pa" ":renderPartition.st" -na;
+connectAttr "black_rsSG3.pa" ":renderPartition.st" -na;
+connectAttr "eyes_eyeball_mat.msg" ":defaultShaderList1.s" -na;
+connectAttr "eyes_glass_mat.msg" ":defaultShaderList1.s" -na;
+connectAttr "eyes_black_mat.msg" ":defaultShaderList1.s" -na;
+connectAttr "eyes_highlight_mat.msg" ":defaultShaderList1.s" -na;
+connectAttr "eyelids_lensMat.msg" ":defaultShaderList1.s" -na;
+connectAttr "head_mat.msg" ":defaultShaderList1.s" -na;
+connectAttr "lambert2.msg" ":defaultShaderList1.s" -na;
+connectAttr "red_rsMat.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "green_rsMat.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "blue_rsMat.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "black_rsMat.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "eyes_decomposeMatrix24.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "eyes_decomposeMatrix25.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "eyes_composeMatrix1.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "eyes_composeMatrix2.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "eyes_composeMatrix3.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_eulerToQuat3.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_multDoubleLinear6.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_reverse2.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_eulerToQuat4.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_addDoubleLinear1.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_eulerToQuat5.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_addDoubleLinear2.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_addDoubleLinear3.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_eulerToQuat6.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_addDoubleLinear4.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_addDoubleLinear5.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_eulerToQuat7.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_eulerToQuat8.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_addDoubleLinear6.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_multDoubleLinear7.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_multDoubleLinear8.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_multDoubleLinear9.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_multDoubleLinear10.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_multDoubleLinear11.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_multDoubleLinear12.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_addDoubleLinear7.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_multDoubleLinear13.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_eulerToQuat9.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_eulerToQuat10.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_multDoubleLinear14.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_addDoubleLinear8.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_multDoubleLinear15.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_clamp5.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_clamp6.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_eulerToQuat12.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_multDoubleLinear21.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_reverse41.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_eulerToQuat13.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_addDoubleLinear10.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_eulerToQuat14.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_addDoubleLinear11.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_addDoubleLinear12.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_eulerToQuat15.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_addDoubleLinear13.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_addDoubleLinear14.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_eulerToQuat16.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_eulerToQuat17.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_addDoubleLinear15.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_multDoubleLinear22.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_multDoubleLinear23.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_multDoubleLinear24.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_multDoubleLinear25.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_multDoubleLinear26.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_multDoubleLinear27.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_addDoubleLinear16.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_multDoubleLinear28.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_eulerToQuat18.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_eulerToQuat19.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_multDoubleLinear29.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_addDoubleLinear17.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_multDoubleLinear30.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_clamp7.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_clamp8.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "eyes_decomposeMatrix79.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "eyes_composeMatrix4.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_blendTwoAttr1.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_blendTwoAttr2.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_place2dTexture1.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_condition1.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_setRange1.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_condition2.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_setRange2.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_blendColors1.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_blendColors2.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_multiplyDivide1.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_multiplyDivide2.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_multiplyDivide3.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyes_multiplyDivide4.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyelids_multiplyDivide262.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyelids_multiplyDivide263.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyelids_multiplyDivide1804.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyelids_multiplyDivide1805.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyelids_multiplyDivide1806.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyelids_clamp4.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "eyelids_decomposeMatrix83.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "eyelids_decomposeMatrix84.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "eyelids_composeMatrix1.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyelids_unitConversion1586.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyelids_unitConversion1587.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyelids_unitConversion1588.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "eyelids_unitConversion1589.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "brows_multiplyDivide1.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "brows_composeMatrix1.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "place2dTexture1.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "place2dTexture2.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "red_rsMat5.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "green_rsMat5.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "blue_rsMat5.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "red_rsMat6.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "green_rsMat6.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "blue_rsMat6.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "black_rsMat3.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "mouth_root_decomposeMatrix.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "mouth_multMatrix1.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "mouth_multMatrix2.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "mouth_multiplyDivide13.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "mouth_multMatrix4.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "mouth_multiplyDivide16.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "mouth_multMatrix5.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "mouth_inverseMatrix1.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "mouth_multMatrix18.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "mouth_multMatrix19.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "mouth_multMatrix27.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "mouth_multMatrix28.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix45.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear127.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear128.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix46.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear28.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear133.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "setRange72.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "blendColors6.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear135.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear34.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "setRange73.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear136.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "setRange74.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear36.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear37.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix47.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "plusMinusAverage4.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "plusMinusAverage5.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "plusMinusAverage6.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "plusMinusAverage7.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix60.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "setRange_jawOpenFactor.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "l_setRange_lipsFrontBack.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "l_setRange_lipUpDownFacor.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "r_setRange_lipUpDownFacor.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "r_setRange_lipsFrontBack.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix61.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "l_setRange_browDown.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "setRange84.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "setRange85.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "dropoff_multiplyDivide.msg" ":defaultRenderUtilityList1.u" -na;
@@ -10922,14 +13865,34 @@ connectAttr "clamp15.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "clamp27.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multiplyDivide_openFactor.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "setRange_zipFactor.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix125.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multiplyDivide66.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear165.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multiplyDivide67.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multiplyDivide68.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear166.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multiplyDivide69.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "l_setRange_browUp.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "r_setRange_browDown.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "r_setRange_browUp.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "reverse_upFactor.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "setRange_cheekUp.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "plusMinusAverage_MoveAndSmileFactor.msg" ":defaultRenderUtilityList1.u"
 		 -na;
 connectAttr "setRange_cheeksOut.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "setRange112.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "setRange113.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix126.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix127.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix128.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix129.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix131.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix132.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix134.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "blendColors1.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multiplyDivide353.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "size_multiplyDivide.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "size_multiplyDivide1.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear438.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "size_multiplyDivide2.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "size_multiplyDivide3.msg" ":defaultRenderUtilityList1.u" -na;
@@ -10957,9 +13920,11 @@ connectAttr "multMatrix153.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix154.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix155.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix156.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix157.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix158.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix159.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "inverseMatrix1.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "root_rel_lips_multMatrix.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "l_b_lip_3_outJoint_multMat.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "l_b_lip_5_outJoint_multMat.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "c_b_lip_outJoint_multMat.msg" ":defaultRenderUtilityList1.u" -na;
@@ -11006,111 +13971,197 @@ connectAttr "clamp28.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "mainPoser_size_multiplyDivide.msg" ":defaultRenderUtilityList1.u" -na
 		;
 connectAttr "multDoubleLinear442.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multiplyDivide354.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "t_lips_rotate_addDoubleLinear1.msg" ":defaultRenderUtilityList1.u" 
+		-na;
+connectAttr "reverse38.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix219.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix220.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "pasted__mouth_multiplyDivide13.msg" ":defaultRenderUtilityList1.u" 
+		-na;
+connectAttr "pasted__mouth_multiplyDivide14.msg" ":defaultRenderUtilityList1.u" 
+		-na;
+connectAttr "pasted__mouth_unitConversion15.msg" ":defaultRenderUtilityList1.u" 
+		-na;
+connectAttr "pasted__mouth_unitConversion16.msg" ":defaultRenderUtilityList1.u" 
+		-na;
+connectAttr "pasted__mouth_multDoubleLinear17.msg" ":defaultRenderUtilityList1.u"
+		 -na;
+connectAttr "pasted__mouth_multiplyDivide15.msg" ":defaultRenderUtilityList1.u" 
+		-na;
+connectAttr "pasted__mouth_multDoubleLinear18.msg" ":defaultRenderUtilityList1.u"
+		 -na;
+connectAttr "pasted__mouth_multDoubleLinear19.msg" ":defaultRenderUtilityList1.u"
+		 -na;
+connectAttr "pasted__mouth_multiplyDivide16.msg" ":defaultRenderUtilityList1.u" 
+		-na;
+connectAttr "pasted__mouth_multDoubleLinear20.msg" ":defaultRenderUtilityList1.u"
+		 -na;
+connectAttr "pasted__mouth_unitConversion17.msg" ":defaultRenderUtilityList1.u" 
+		-na;
+connectAttr "pasted__mouth_unitConversion18.msg" ":defaultRenderUtilityList1.u" 
+		-na;
+connectAttr "pasted__mouth_multDoubleLinear21.msg" ":defaultRenderUtilityList1.u"
+		 -na;
+connectAttr "pasted__setRange70.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "pasted__addDoubleLinear64.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "pasted__addDoubleLinear65.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "pasted__multDoubleLinear127.msg" ":defaultRenderUtilityList1.u" -na
+		;
+connectAttr "pasted__multDoubleLinear128.msg" ":defaultRenderUtilityList1.u" -na
+		;
+connectAttr "pasted__multDoubleLinear129.msg" ":defaultRenderUtilityList1.u" -na
+		;
+connectAttr "pasted__reverse31.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "pasted__multDoubleLinear130.msg" ":defaultRenderUtilityList1.u" -na
+		;
+connectAttr "pasted__multDoubleLinear131.msg" ":defaultRenderUtilityList1.u" -na
+		;
+connectAttr "pasted__setRange71.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "pasted__blendColors5.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "pasted__multDoubleLinear132.msg" ":defaultRenderUtilityList1.u" -na
+		;
+connectAttr "pasted__multDoubleLinear133.msg" ":defaultRenderUtilityList1.u" -na
+		;
+connectAttr "pasted__setRange72.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "pasted__multDoubleLinear134.msg" ":defaultRenderUtilityList1.u" -na
+		;
+connectAttr "pasted__blendColors6.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "pasted__multDoubleLinear135.msg" ":defaultRenderUtilityList1.u" -na
+		;
+connectAttr "pasted__setRange73.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "pasted__multDoubleLinear136.msg" ":defaultRenderUtilityList1.u" -na
+		;
+connectAttr "pasted__setRange74.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "pasted__multDoubleLinear161.msg" ":defaultRenderUtilityList1.u" -na
+		;
+connectAttr "pasted__setRange111.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "pasted__multDoubleLinear162.msg" ":defaultRenderUtilityList1.u" -na
+		;
+connectAttr "pasted__size_multiplyDivide2.msg" ":defaultRenderUtilityList1.u" -na
+		;
+connectAttr "pasted__size_multiplyDivide3.msg" ":defaultRenderUtilityList1.u" -na
+		;
+connectAttr "pasted__size_multiplyDivide7.msg" ":defaultRenderUtilityList1.u" -na
+		;
+connectAttr "pasted__mainPoser_size_multiplyDivide.msg" ":defaultRenderUtilityList1.u"
+		 -na;
 connectAttr "multMatrix234.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix235.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix238.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix239.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix243.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multiplyDivide356.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "distanceBetween2.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "distanceBetween3.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multiplyDivide357.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix244.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix245.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "lip_1_init_mirror_multiplyDivide.msg" ":defaultRenderUtilityList1.u"
-		 -na;
-connectAttr "lip_corner_init_mirror_multiplyDivide.msg" ":defaultRenderUtilityList1.u"
-		 -na;
-connectAttr "lip_2_init_mirror_multiplyDivide.msg" ":defaultRenderUtilityList1.u"
-		 -na;
+connectAttr "setRange114.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "condition2.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "mouth_multMatrix29.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "mouth_multMatrix30.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multiplyDivide358.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multiplyDivide359.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multiplyDivide360.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "mouth_multMatrix31.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "mouth_multMatrix32.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "mouth_multMatrix33.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "mouth_multMatrix34.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix247.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix248.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "condition4.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix249.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "setRange115.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "mouth_multMatrix36.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "addDoubleLinear93.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear449.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multiplyDivide363.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "addDoubleLinear97.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear451.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multiplyDivide364.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "reverse40.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear452.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "addDoubleLinear99.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear454.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix250.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multiplyDivide365.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear455.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear456.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "addDoubleLinear102.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multiplyDivide366.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear457.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear458.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "addDoubleLinear103.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear459.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear460.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "reverse41.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "addDoubleLinear104.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear461.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear462.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear463.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear464.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "addDoubleLinear105.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "reverse42.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear465.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear466.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear467.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "setRange116.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "setRange117.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "setRange118.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "setRange119.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "addDoubleLinear106.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix251.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix252.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix253.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix254.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix255.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix256.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix258.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "addDoubleLinear107.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix259.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix260.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear468.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix262.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix263.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix264.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "setRange120.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear469.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "addDoubleLinear108.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear470.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "addDoubleLinear109.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "blendTwoAttr1.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "reverse44.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "blendTwoAttr2.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "reverse45.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "addDoubleLinear110.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear471.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear472.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix269.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear473.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "reverse46.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear474.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "setRange121.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "reverse47.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear475.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "setRange122.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear476.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "reverse48.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "plusMinusAverage176.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multDoubleLinear477.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "blendTwoAttr3.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "blendTwoAttr4.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "plusMinusAverage177.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "addDoubleLinear111.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear478.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear479.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "plusMinusAverage178.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "addDoubleLinear112.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear480.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "setRange123.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "condition5.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear481.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "condition6.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "setRange124.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear482.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear483.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "clamp29.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "clamp30.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "condition8.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "addDoubleLinear113.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "reverse49.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multiplyDivide368.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "addDoubleLinear114.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "setRange127.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "reverse50.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "condition9.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "condition10.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix283.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix284.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix285.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix286.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix288.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix289.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix290.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix291.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix293.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix294.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix295.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix296.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix297.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix298.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix299.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix300.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix301.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix302.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix303.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix304.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix305.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix306.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix307.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix308.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix309.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix310.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix311.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix312.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix313.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix315.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix316.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix317.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "defaultRenderLayer.msg" ":defaultRenderingList1.r" -na;
 connectAttr "defaultRenderLayer1.msg" ":defaultRenderingList1.r" -na;
 connectAttr "defaultRenderLayer2.msg" ":defaultRenderingList1.r" -na;
+connectAttr "eyes_ramp1.msg" ":defaultTextureList1.tx" -na;
+connectAttr "file1.msg" ":defaultTextureList1.tx" -na;
+connectAttr "file3.msg" ":defaultTextureList1.tx" -na;
 connectAttr "detail_bifrostGraphShape.iog" ":initialShadingGroup.dsm" -na;
-dataStructure -fmt "raw" -as "name=NodeProfileStruct:string=NodeProfileTag:int32=NodeProfileTagColor";
-applyMetadata -fmt "raw" -v "channel\nname ProfileTag\nstream\nname ProfileTagStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"root_poser\" 0\nendStream\nendChannel\nchannel\nname ProfileTagColor\nstream\nname ProfileTagColorStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"\" 255\n1\n\"\" 0\n2\n\"\" 0\nendStream\nendChannel\nendAssociations\n" 
-		root_poser;
-applyMetadata -fmt "raw" -v "channel\nname ProfileTag\nstream\nname ProfileTagStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"jaw_poserOrient\" 0\nendStream\nendChannel\nchannel\nname ProfileTagColor\nstream\nname ProfileTagColorStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"\" 255\n1\n\"\" 0\n2\n\"\" 0\nendStream\nendChannel\nendAssociations\n" 
-		jaw_poserOrient;
-applyMetadata -fmt "raw" -v "channel\nname ProfileTag\nstream\nname ProfileTagStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"b_head_poser\" 0\nendStream\nendChannel\nchannel\nname ProfileTagColor\nstream\nname ProfileTagColorStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"\" 255\n1\n\"\" 0\n2\n\"\" 0\nendStream\nendChannel\nendAssociations\n" 
-		b_head_poser;
-applyMetadata -fmt "raw" -v "channel\nname ProfileTag\nstream\nname ProfileTagStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"multMatrix144\" 0\nendStream\nendChannel\nchannel\nname ProfileTagColor\nstream\nname ProfileTagColorStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"\" 255\n1\n\"\" 0\n2\n\"\" 0\nendStream\nendChannel\nendAssociations\n" 
-		multMatrix144;
-applyMetadata -fmt "raw" -v "channel\nname ProfileTag\nstream\nname ProfileTagStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"mouth_blendMatrix20\" 0\nendStream\nendChannel\nchannel\nname ProfileTagColor\nstream\nname ProfileTagColorStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"\" 255\n1\n\"\" 0\n2\n\"\" 0\nendStream\nendChannel\nendAssociations\n" 
-		mouth_blendMatrix20;
-applyMetadata -fmt "raw" -v "channel\nname ProfileTag\nstream\nname ProfileTagStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"decomposeMatrix51\" 0\nendStream\nendChannel\nchannel\nname ProfileTagColor\nstream\nname ProfileTagColorStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"\" 255\n1\n\"\" 0\n2\n\"\" 0\nendStream\nendChannel\nendAssociations\n" 
-		mouth_poser_decomposeMatrix;
-applyMetadata -fmt "raw" -v "channel\nname ProfileTag\nstream\nname ProfileTagStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"multMatrix283\" 0\nendStream\nendChannel\nchannel\nname ProfileTagColor\nstream\nname ProfileTagColorStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"\" 255\n1\n\"\" 0\n2\n\"\" 0\nendStream\nendChannel\nendAssociations\n" 
-		multMatrix283;
-// End of mouth6.ma
+// End of mouth.ma
