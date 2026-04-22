@@ -91,7 +91,6 @@ class Mouth(module.Module) :
 	def getOptions(self): #
 		self.jointsCount = int ( ( len(cmds.listRelatives(self.name+'_lipsExtra_controls')) - 2 ) / 4 )
 		self.controlsCount = int ( len(cmds.listRelatives(self.name+'_sec_controls_group')) / 4 )
-		print(1111, self.controlsCount)
 
 		if cmds.objExists(self.root+'.options'):
 			optionsData = utils.attrToPy(self.root+'.options')

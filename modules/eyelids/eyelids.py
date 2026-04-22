@@ -116,10 +116,8 @@ class Eyelids(module.Module) :
 			vtx_list = cmds.ls(sl=1, flatten=True)
 
 			vtx_pos = [(vtx, cmds.pointPosition(vtx, world=True)) for vtx in vtx_list]
-			print(111, vtx_pos)
 			# Сортируем по X
 			sorted_coords = [pos for vtx, pos in sorted(vtx_pos, key=lambda x: x[1][0])]
-			print(1112, sorted_coords)
 			info_node = f'{self.name}_{dir}_nearestPointOnCurve'
 
 			u_values = []
@@ -127,15 +125,16 @@ class Eyelids(module.Module) :
 				cmds.setAttr(f"{info_node}.inPosition", *vtx_pos)
 				# Получаем U параметр (нормализованный 0-1)
 				u_value = cmds.getAttr(f"{info_node}.result.parameter") 
-				print(33, vtx_pos, u_value)
 				u_values.append(u_value)
 
 			# Удаляем nodes
 			cmds.delete(init_crv)			
-			print(222, u_values)
 			return u_values[1:-1]
 
 		t_u_values = get_u_values(self.topEdges, "t")
+		t_u_values.insert(0, 0)
+		t_u_values.append(1)
+		
 		b_u_values = get_u_values(self.bottomEdges, "b")
 
 		def create_joints(u_values, side, dir):
@@ -143,10 +142,14 @@ class Eyelids(module.Module) :
 				j = cmds.joint(n=f"{self.name}_{side}_{dir}_{i}_outJoint")
 				cmds.parent(j, f"{self.name}_{side}_root_outJoint")
 				utils.removeTransformParentJoint(j)
-				cmds.addAttr(j, ln="pos", min=0, max=1, k=1, dv=v)
-				cmds.connectAttr(j+".pos", f'{init_bfS}.{dir}_joints_pos[{i}]')
+				if side == "l":
+					cmds.addAttr(j, ln="pos", min=0, max=1, k=1, dv=v)
+					cmds.connectAttr(j+".pos", f'{init_bfS}.{dir}_joints_pos[{i}]')
 				cmds.connectAttr(f'{solve_bfS}.out_{side}_{dir}_joint_matrix[{i}]', j+".offsetParentMatrix")
 			
 		create_joints(t_u_values, "l", "t")
 		create_joints(b_u_values, "l", "b")
+
+		create_joints(t_u_values, "r", "t")
+		create_joints(b_u_values, "r", "b")
 			

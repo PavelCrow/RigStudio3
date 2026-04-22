@@ -780,9 +780,11 @@ class Module(object):
                     parents = [p.name()]
 
             if not parents and self.type == "head":
-                if par[2]:
-                    parents = [par[2].name()]
-            
+                try:
+                    if par[2]:
+                        parents = [par[2].name()]
+                except: pass
+                
             if parents: 
                 parent = parents[0]
                 # check another connection
