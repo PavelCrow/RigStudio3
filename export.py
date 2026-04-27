@@ -95,7 +95,8 @@ def run(clearPy=False):
 	# Удаление Wip-модулей  
 	for f in files:
 		if f in wip_modules:
-			shutil.rmtree(os.path.join(mod_folder, f))
+			if os.path.exists(os.path.join(mod_folder, f)):
+				shutil.rmtree(os.path.join(mod_folder, f))
 
 	# Создаём SMF архив
 	archive = os.path.join(rs_smf, f"rigStudio{num}SMF")
@@ -105,12 +106,14 @@ def run(clearPy=False):
 	# Удаление Smf-модулей  
 	for f in files:
 		if f in smf_modules:
-			shutil.rmtree(os.path.join(mod_folder, f))
+			if os.path.exists(os.path.join(mod_folder, f)):
+				shutil.rmtree(os.path.join(mod_folder, f))
 
 	# Удаление Extra-модулей  
 	for f in files:
 		if f in extra_modules:
-			shutil.rmtree(os.path.join(mod_folder, f))
+			if os.path.exists(os.path.join(mod_folder, f)):
+				shutil.rmtree(os.path.join(mod_folder, f))
 
 	# Создаём Pro архив
 	archive = os.path.join(rs_pro, f"rigStudio{num}")
