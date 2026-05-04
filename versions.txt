@@ -745,3 +745,4 @@ quadrupped templates update
 ---Version 3.22.1
 delfi module update
 delfi template
+added weight attribute in spine modules
