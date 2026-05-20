@@ -140,6 +140,9 @@ class Parents(object):
             contrType, constrObj = utils.getConstraint(obj)
 
             if constrObj:
+                if not cmds.objExists(obj+".attrName"):
+                    print("Missed attrName in", obj)
+                    return None
                 # get data from node
                 attrName = cmds.getAttr(obj+".attrName")
                 attrVis = cmds.getAttr(obj+".attrVis")

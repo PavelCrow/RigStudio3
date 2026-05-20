@@ -84,18 +84,10 @@ class Brows2(module.Module) :
 		if not inner_count:
 			inner_count = self.widget.inControlsCount_spinBox.value()
 			outer_count = self.widget.outControlsCount_spinBox.value()
-		
+
 		# Delete old 
-		all_children = cmds.listRelatives(f"{m_name}_l_brow", type="transform") or []
-		inner_children = []
-		outer_children = []
-		for child in all_children:
-			if "inner" in child:
-				inner_children.append(child)
-			elif "outer" in child:
-				outer_children.append(child)
-		old_inner_count = len(inner_children)
-		old_outer_count = len(outer_children)
+		old_inner_count = len(cmds.ls(f"{m_name}_l_brow_inner_*_group"))
+		old_outer_count = len(cmds.ls(f"{m_name}_l_brow_outer_*_group"))
 
 		part = "inner"
 		for part in ["inner", "outer"]:
@@ -108,6 +100,8 @@ class Brows2(module.Module) :
 				for side in ["l", "r"]:
 					cmds.delete(f"{m_name}_{side}_brow_{part}_{i}_group")
 					cmds.delete(f"{m_name}_{side}_brow_mid_{part}_{i}_target")
+					cmds.delete(f"{m_name}_{side}_brow_{part}_{i}_outJoint")
+					# cmds.delete(f"{m_name}_{side}_brow_{part}_{i}_skinJoint")
 					if part == "inner":
 						cmds.delete(f"{m_name}_{side}_brow_in_{part}_{i}_target")
 					else:
@@ -123,17 +117,26 @@ class Brows2(module.Module) :
 					cmds.disconnectAttr(s, targets_in[i])
 				
 			disconnect_curve(m_name+"_posers_sweep_curveShape")
-				
+
+		for obj in [f"{m_name}_*_target_multMatrix", f"{m_name}_*_inner_*_multMatrix"]:
+			if cmds.objExists(obj): cmds.delete(obj)
+
+
+		for part in ["inner", "outer"]:
+			
 			if part == "inner": count = inner_count
 			if part == "outer": count = outer_count
 			
 			for i in range(1, count+1):
 				# create poser
-				poser = cmds.duplicate(m_name+'_middle_poser', rr=1, n=f"{m_name}_{part}_{i}_poser")[0]
-				childs = cmds.listRelatives(poser, allDescendents=1, type="transform")
+				poser = cmds.duplicate(m_name+'_mid_poser', rr=1, n=f"{m_name}_{part}_{i}_poser")[0]
+				childs = pm.listRelatives(poser, allDescendents=1, type="transform")
 				for o in childs:
-					if cmds.objExists(o):
-						cmds.rename(f"{poser}|{o}", o.replace("middle", f"{part}_{i}") )
+					if o.name().split("_")[-1] == "initLoc":
+						pm.rename(o, o.replace("mid", f"{part}_{i}"))
+					else:
+						pm.delete(o)
+						
 
 				mns = cmds.createNode("makeNurbSphere", name=poser+"_makeNurbSphere")
 				mult = utils.createNode("multDoubleLinear", name=poser+"_multDoubleLinear")
@@ -143,19 +146,19 @@ class Brows2(module.Module) :
 				cmds.connectAttr(mns+".outputSurface", poser+"Shape.create")
 
 				if part == "inner":
-					con = cmds.pointConstraint(m_name+'_middle_poser', m_name+'_in_poser', m_name+f'_{part}_{i}_poser', mo=0)[0]
+					con = cmds.pointConstraint(m_name+'_mid_poser', m_name+'_in_poser', m_name+f'_{part}_{i}_poser', mo=0)[0]
 				else:
-					con = cmds.pointConstraint(m_name+'_middle_poser', m_name+'_out_poser', m_name+f'_{part}_{i}_poser', mo=0)[0]
+					con = cmds.pointConstraint(m_name+'_mid_poser', m_name+'_out_poser', m_name+f'_{part}_{i}_poser', mo=0)[0]
 				step = 1 / (count + 1)
 				w_1 = i * step
 				w_2 = 1 - w_1
-				cmds.setAttr(f"{con}.{m_name}_middle_poserW0", w_1)
+				cmds.setAttr(f"{con}.{m_name}_mid_poserW0", w_1)
 				if part == "inner":
 					cmds.setAttr(f"{con}.{m_name}_in_poserW1", w_2)
 				else:
 					cmds.setAttr(f"{con}.{m_name}_out_poserW1", w_2)
 				cmds.delete(con)
-				side = "r"
+				side = "l"
 				for side in ["l", "r"]:
 					# create control
 					c = f"{m_name}_{side}_brow_{part}_{i}"
@@ -191,7 +194,7 @@ class Brows2(module.Module) :
 					if side == "l":
 						mm = cmds.createNode("multMatrix", name=mid_t+"_multMatrix")
 						cmds.connectAttr(poser+".worldMatrix[0]", mm+".matrixIn[0]")
-						cmds.connectAttr(f"{m_name}_middle_poser.worldInverseMatrix[0]", mm+".matrixIn[1]")
+						cmds.connectAttr(f"{m_name}_mid_poser.worldInverseMatrix[0]", mm+".matrixIn[1]")
 						cmds.connectAttr(mm+".matrixSum", mid_t+".offsetParentMatrix")
 
 						mm = cmds.createNode("multMatrix", name=out_t+"_multMatrix")
@@ -210,43 +213,45 @@ class Brows2(module.Module) :
 							cmds.connectAttr(f"{m_name}_l_brow_out_{part}_{i}_target_multMatrix.matrixSum", out_t+".offsetParentMatrix")
 
 					mm = cmds.createNode("multMatrix", name=gr.replace("group", "multMatrix"))
-					pm = cmds.createNode("pickMatrix", name=gr.replace("group", "pickMatrix"))
+					pim = cmds.createNode("pickMatrix", name=gr.replace("group", "pickMatrix"))
 					bm = cmds.createNode("blendMatrix", name=gr.replace("group", "blendMatrix"))
 					cmds.connectAttr(out_t+".worldMatrix[0]", bm+".inputMatrix")
 					cmds.connectAttr(mid_t+".worldMatrix[0]", bm+".target[0].targetMatrix")
 					cmds.connectAttr(c+".middleFollow", bm+".envelope")
-					cmds.connectAttr(bm+".outputMatrix", pm+".inputMatrix")
-					cmds.connectAttr(pm+".outputMatrix", mm+".matrixIn[0]")
+					cmds.connectAttr(bm+".outputMatrix", pim+".inputMatrix")
+					cmds.connectAttr(pim+".outputMatrix", mm+".matrixIn[0]")
 					cmds.connectAttr(f"{m_name}_{side}_brow.worldInverseMatrix[0]", mm+".matrixIn[1]")
 					cmds.connectAttr(mm+".matrixSum", gr+".offsetParentMatrix")
+					
+					# create joints
+					cmds.select( clear=True )
+					oj = cmds.joint(n=f"{m_name}_{side}_brow_{part}_{i}_outJoint")
+					cmds.parent(oj, f"{m_name}_root_outJoint")
+					utils.connectByMatrix(oj, [c, f"{m_name}_root_outJoint"], ['worldMatrix', 'worldInverseMatrix'], m_name)            
+					ds = cmds.getAttr(f"{m_name}_root_outJoint.drawStyle")
+					cmds.setAttr(f"{oj}.drawStyle", ds)
+
 							
 			
 		# rebuild init curve
-		mel.eval(f'rebuildCurve -ch 1 -rpo 1 -rt 0 -end 1 -kr 0 -kcp 0 -kep 1 -kt 0 -s {inner_count+outer_count+2} -d 1 -tol 0.01 "{m_name}_posers_curve";')
+		mel.eval(f'rebuildCurve -ch 1 -rpo 1 -rt 0 -end 1 -kr 0 -kcp 0 -kep 1 -kt 0 -s {inner_count+outer_count+2} -d 1 -tol 0.01 "{m_name}_posers_sweep_curve";')
 		curve_points_count = inner_count+outer_count+3
-		cmds.connectAttr(f"{m_name}_in_poserOrientShape.worldPosition", f"{m_name}_posers_curveShape.controlPoints[0]")
+		cmds.connectAttr(f"{m_name}_in_poserOrientShape.worldPosition", f"{m_name}_posers_sweep_curveShape.controlPoints[0]")
 		for i in range(1, inner_count+1):
-			cmds.connectAttr(f"{m_name}_inner_{i}_poserOrientShape.worldPosition", f"{m_name}_posers_curveShape.controlPoints[{i}]")
+			cmds.connectAttr(f"{m_name}_inner_{i}_initLocShape.worldPosition", f"{m_name}_posers_sweep_curveShape.controlPoints[{i}]")
 		center_id = i + 1
-		cmds.connectAttr(f"{m_name}_middle_poserOrientShape.worldPosition", f"{m_name}_posers_curveShape.controlPoints[{center_id}]")
+		cmds.connectAttr(f"{m_name}_mid_poserOrientShape.worldPosition", f"{m_name}_posers_sweep_curveShape.controlPoints[{center_id}]")
 		for i in range(1, outer_count+1):
 			n = center_id + (outer_count - i + 1)
-			cmds.connectAttr(f"{m_name}_outer_{i}_poserOrientShape.worldPosition", f"{m_name}_posers_curveShape.controlPoints[{n}]")
-		cmds.connectAttr(f"{m_name}_out_poserOrientShape.worldPosition", f"{m_name}_posers_curveShape.controlPoints[{curve_points_count-1}]")
-
-
-		for side in ["l", "r"]:
-			mel.eval(f'rebuildCurve -ch 1 -rpo 1 -rt 0 -end 1 -kr 0 -kcp 0 -kep 1 -kt 0 -s {inner_count+outer_count} -d 3 -tol 0.01 "{m_name}_{side}_curveShape";')
-			cmds.connectAttr(f"{m_name}_{side}_brow_in_locShape.worldPosition", f"{m_name}_{side}_curveShape.controlPoints[0]")
-			for i in range(1, inner_count+1):
-				cmds.connectAttr(f"{m_name}_{side}_brow_inner_{i}_locShape.worldPosition", f"{m_name}_{side}_curveShape.controlPoints[{i}]")
-			cmds.connectAttr(f"{m_name}_{side}_brow_mid_locShape.worldPosition", f"{m_name}_{side}_curveShape.controlPoints[{center_id}]")
-			for i in range(1, outer_count+1):
-				n = center_id + (outer_count - i + 1)
-				cmds.connectAttr(f"{m_name}_{side}_brow_outer_{i}_locShape.worldPosition", f"{m_name}_{side}_curveShape.controlPoints[{n}]")
-			cmds.connectAttr(f"{m_name}_{side}_brow_out_locShape.worldPosition", f"{m_name}_{side}_curveShape.controlPoints[{curve_points_count-1}]")
+			cmds.connectAttr(f"{m_name}_outer_{i}_initLocShape.worldPosition", f"{m_name}_posers_sweep_curveShape.controlPoints[{n}]")
+		cmds.connectAttr(f"{m_name}_out_poserOrientShape.worldPosition", f"{m_name}_posers_sweep_curveShape.controlPoints[{curve_points_count-1}]")
 
 		for i in range(1, inner_count+1):
 			cmds.connectAttr(f"{m_name}_l_brow_inner_{i}.middleFollow", f"{m_name}_r_brow_inner_{i}.middleFollow")
 		for i in range(1, outer_count+1):
 			cmds.connectAttr(f"{m_name}_l_brow_outer_{i}.middleFollow", f"{m_name}_r_brow_outer_{i}.middleFollow")
+			
+		cmds.delete(f"{m_name}_root_skinJoint")
+		self.addSkinJoints()
+			
+		cmds.setAttr(f"{m_name}_root_skinJoint.drawStyle", 2)

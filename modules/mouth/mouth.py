@@ -60,7 +60,7 @@ class Mouth(module.Module) :
 		w.rebuild_btn.clicked.connect(self.joint_from_edges)
 		w.setControls_btn.clicked.connect(partial(self.generate_controls, w))
 
-		w.stackedWidget.setCurrentIndex(1)
+		w.stackedWidget.setCurrentIndex(0)
 
 		GroupLabel(self.widget.manual_label, self.widget.frame_3, self.widget.verticalLayout_6)
 
@@ -105,9 +105,9 @@ class Mouth(module.Module) :
 		optionsData['controlsCount'] = self.controlsCount
 
 		posData = []
-		for i in range(1, self.jointsCount+1):
-			pos = cmds.getAttr(self.name+"_l_t_lip_%s_outJoint.pos" %(i))
-			posData.append(pos)
+		# for i in range(1, self.jointsCount+1):
+		# 	pos = cmds.getAttr(self.name+"_l_t_lip_%s_outJoint.pos" %(i))
+		# 	posData.append(pos)
 
 		optionsData['posData'] = posData
 
@@ -170,108 +170,107 @@ class Mouth(module.Module) :
 			print(111, self.name+f"_l_t_lip_{i+1}_outJoint.pos", v)
 
 	def regenerate_joints(self, mainInstance=None, widget=None, count=None):
+		
 		if not count:
 			count = widget.jointsCount_spinBox.value()
 
 		m_name = self.name
+		mouth = f"{m_name}_mouth_outJoint"
 
-		def connectByMatrix(obj, targets, inputs=[]): 
-			dMat = cmds.createNode('decomposeMatrix', n=obj+"_decMat")
-			cmds.sets(dMat, e=1, forceElement=m_name+'_nodesSet')
-			mMat = cmds.createNode('multMatrix', n=obj+"_multMat")
-			cmds.sets(mMat, e=1, forceElement=m_name+'_nodesSet')
+		def discAttr(attr):
+			conns_in = cmds.listConnections(attr, plugs=1, connections=1, s=1, d=0) or []
+			sources_in = conns_in[1::2]
+			targets_in = conns_in[::2]
 
-			cmds.connectAttr(dMat+".outputTranslateX", obj+'.translateX', f=1)			
-			cmds.connectAttr(dMat+".outputTranslateY", obj+'.translateY', f=1)			
-			cmds.connectAttr(dMat+".outputTranslateZ", obj+'.translateZ', f=1)
-			cmds.connectAttr(dMat+".outputRotateX", obj+'.rotateX', f=1)			
-			cmds.connectAttr(dMat+".outputRotateY", obj+'.rotateY', f=1)			
-			cmds.connectAttr(dMat+".outputRotateZ", obj+'.rotateZ', f=1)
+			for i,s in enumerate(sources_in):
+				cmds.disconnectAttr(s, targets_in[i])
 
-			cmds.connectAttr(mMat+".matrixSum", dMat+'.inputMatrix')
+			length = cmds.getAttr(attr, size=True) or 0
+			try:
+				for i in range(length):
+					cmds.removeMultiInstance(f"{attr}[{i}]")
+			except: pass
 
-			for i in range(len(targets)):
-				cmds.connectAttr(targets[i]+"."+inputs[i], mMat+'.matrixIn[%s]' %(str(i)) )
-			
-		# delete old 
-		count_cur = int( ( len(cmds.listRelatives(m_name+'_lipsExtra_controls')) - 2 ) / 4 )
-		# cmds.delete(m_name+"_root_skinJoint")
-		for i in range(1, count_cur+1):
-			for n in ["l_t", "r_t", "l_b", "r_b"]:
-				name = m_name+"_%s_lip_%s_" %(n,i)
-				cmds.delete(name+"outJoint")
-				cmds.delete(name+"detail_group")
+		center_id = count
+
+		bf = pm.PyNode(m_name+"_zip_bifrostGraphShape")
+
+		# delete old
+		for f in (f"{m_name}_l_*_lip_local_*", f"{m_name}_r_*_lip_local_*", f"{m_name}_*_lip_*_outJoint"):
+			if cmds.objExists(f):
+				cmds.delete(f)
+
+		# disconnect attributes
+		for part in ["t", "b"]:
+			discAttr(f"{m_name}_{part}_uvPin.coordinate")    
+			discAttr(f"{m_name}_c_{part}_lip_local_group.offsetParentMatrix")    
+			discAttr(f"{bf.name()}.{part}_matrix") 
+			discAttr(f"{m_name}_c_{part}_lip_outJoint_multMat.matrixIn[2]") 
+
+
+		# create
+		for part in ["t", "b"]:
+			uvPin = pm.PyNode(f"{m_name}_{part}_uvPin")
 				
-		bf = pm.PyNode(m_name+"_detail_bifrostGraphShape")
-
-		pm.delete(bf.out_bot_lip_rotate.outputs())
-		pm.delete(bf.out_top_lip_rotate.outputs())
-
-		conns_out = cmds.listConnections(bf.out_top_pos.name(), plugs=1, connections=1, s=0, d=1) or []
-		pm.disconnectAttr(conns_out[0], conns_out[1])
-		conns_out = cmds.listConnections(bf.out_bot_pos.name(), plugs=1, connections=1, s=0, d=1) or []
-		pm.disconnectAttr(conns_out[0], conns_out[1])
-
-		conns_out = cmds.listConnections(bf.out_top_lip_rotate.name(), plugs=1, connections=1, s=0, d=1) or []
-		node = pm.PyNode(conns_out[1].split(".")[0]).outputs()[0]
-		pm.disconnectAttr(conns_out[0], node.rotate)
-		conns_out = cmds.listConnections(bf.out_bot_lip_rotate.name(), plugs=1, connections=1, s=0, d=1) or []
-		node = pm.PyNode(conns_out[1].split(".")[0]).outputs()[0]
-		pm.disconnectAttr(conns_out[0], node.rotate)
-
-		length = cmds.getAttr(f"{bf}.pos", size=True) or 0
-		for i in range(length):
-			cmds.removeMultiInstance(f"{bf}.pos[{i}]")		
-
-		# create new
-		bf.left_joints_count.set(count)
-
-		for side in ["l_t", "r_t", "l_b", "r_b"]:
 			for i in range(1, count+1):
-				gr = pm.duplicate(m_name+"_c_t_lip_detail_group", n=f"{m_name}_{side}_lip_{i}_detail_group")[0]
-				c = pm.listRelatives(gr)[0]
-				c.rename(f"{m_name}_{side}_lip_{i}_detail")
-				j = pm.joint(n=f"{m_name}_{side}_lip_{i}_outJoint")
-				j.segmentScaleCompensate.set(0)
-				pm.parent(j, m_name+"_mouth_outJoint")
-				utils.removeTransformParentJoint(j.name())
-				connectByMatrix(j, [c, gr], ["matrix", "matrix"])
-				c.s >> j.s
-				if "l" in side:
-					n = count+i
-				elif "r" in side:
-					n = i-1
-				
-				if "t" in side:
-					pm.connectAttr(bf.out_top_pos[n], gr.translate)
-					pm.connectAttr(bf.out_top_lip_rotate[n], gr.r)
-				if "b" in side:
-					pm.connectAttr(bf.out_bot_pos[n], gr.translate)
-					pm.connectAttr(bf.out_bot_lip_rotate[n], gr.r)
+				pos = 0.5 + 0.5 / (count+1) * i
+				for side in ["l", "r"]:
+					gr = pm.duplicate(f"{m_name}_c_{part}_lip_local_group", n=f"{m_name}_{side}_{part}_lip_local_{i}_group")[0]
+					c = gr.getChildren()[0]
+					pm.rename(c, f"{m_name}_{side}_{part}_lip_local_{i}")
+						
+			cmds.connectAttr(f"{m_name}_c_t_lip_local.pos", f"{uvPin}.coordinate[{center_id}].coordinateV")
 					
-				pm.connectAttr('mouth_mainPoser_decomposeMatrix.outputScale', gr.s)
-				
-				if "r" in side:
-					m = utils.createNode("multDoubleLinear", pymel=True)
-					pm.connectAttr('mouth_mainPoser_decomposeMatrix.outputScaleX', m.input1)
-					m.input2.set(-1)
-					m.output >> gr.sx
-				
-				if side == "l_t":
-					pm.addAttr(j, ln="pos", at='double', min=0.5, max=1, k=1)
-					j.pos >> bf.pos[i-1]
-					j.pos.set(0.5/(count+1)*i+0.5)
-				
-		gr = pm.PyNode(m_name+"_c_t_lip_detail_group")
-		pm.connectAttr(bf.out_top_pos[count], gr.translate, f=1)
-		pm.connectAttr(bf.out_top_lip_rotate[count], gr.r, f=1)
-		gr = pm.PyNode(m_name+"_c_b_lip_detail_group")
-		pm.connectAttr(bf.out_bot_pos[count], gr.translate, f=1)
-		pm.connectAttr(bf.out_bot_lip_rotate[count], gr.r, f=1)
+			for side in ["l", "r"]:
+				for i in range(1, count+1):
+					c = f"{m_name}_{side}_{part}_lip_local_{i}"
+					pos = 0.5 + 0.5 / (count+1) * i
+					if side == "l": 
+						n = center_id+i
+					else: 
+						n = center_id-i
+						
+					if side == "l" and part == "t": 
+						cmds.setAttr(f"{c}.pos", pos)
+						cmds.connectAttr(f"{c}.pos", f"{m_name}_t_uvPin.coordinate[{n}].coordinateV")
+						cmds.connectAttr(f"{c}.pos", f"{m_name}_b_uvPin.coordinate[{n}].coordinateV")
+						
+					if side == "r":
+						rev = cmds.createNode("reverse", n=f"{c}_reverse")
+						cmds.connectAttr(f"{m_name}_l_t_lip_local_{i}.pos", f"{rev}.inputX")
+						cmds.connectAttr(f"{rev}.outputX", f"{uvPin}.coordinate[{n}].coordinateV")
+					
+					cmds.setAttr(f"{uvPin}.coordinate[{n}].coordinateU", 0.5)
+						
+					cmds.connectAttr(f"{uvPin}.outputMatrix[{n}]", f"{bf}.{part}_matrix[{n}]")
+					cmds.connectAttr(f"{bf}.out_{part}_matrix[{n}]", f"{c}_group.offsetParentMatrix")
+					
+			cmds.connectAttr(f"{bf}.out_{part}_matrix[{center_id}]", f"{m_name}_c_{part}_lip_local_group.offsetParentMatrix")
+			cmds.connectAttr(f"{uvPin}.outputMatrix[{center_id}]", f"{bf}.{part}_matrix[{center_id}]")
+			cmds.setAttr(f"{uvPin}.coordinate[{center_id}].coordinateU", 0.5)
+			
+			for i in range(1, count+1):
+				for side in ["l", "r"]:    
+					if side == "l": 
+						n = center_id+i
+					else: 
+						n = center_id-i            
+					cmds.select(clear=1)
+					c = f"{m_name}_{side}_{part}_lip_local_{i}"
+					gr = f"{c}_group"
+					j = cmds.joint(n=f"{m_name}_{side}_{part}_lip_{i}_outJoint")
+					cmds.parent(j, mouth )
+					utils.removeTransformParentJoint(j)
+					bf_attr = f"out_{part}_matrix[{n}]"
+					
+					utils.connectByMatrix(j, [c, gr, bf, mouth], ["matrix", "matrix", bf_attr, "worldInverseMatrix[0]"])       
+					
+		pm.connectAttr(bf.out_t_matrix[center_id], f"{m_name}_c_t_lip_outJoint_multMat.matrixIn[2]")
+		pm.connectAttr(bf.out_b_matrix[center_id], f"{m_name}_c_b_lip_outJoint_multMat.matrixIn[2]")
 
+		cmds.delete(self.name+"_root_skinJoint")
 
-
-		# self.addSkinJoints()
+		self.addSkinJoints()
 		
 
 		if self.widget:
@@ -302,8 +301,8 @@ class Mouth(module.Module) :
 		if count_cur != optionsData["jointsCount"]:
 			self.regenerate_joints(count=optionsData["jointsCount"])
 
-		for i, pos in enumerate(optionsData["posData"]):
-			cmds.setAttr(self.name+"_l_t_lip_%s_skinJoint.pos" %(i+1), pos)
+		# for i, pos in enumerate(optionsData["posData"]):
+		# 	cmds.setAttr(self.name+"_l_t_lip_%s_skinJoint.pos" %(i+1), pos)
 
 		if self.widget:
 			self.updateOptionsPage(self.widget)
@@ -330,7 +329,7 @@ class Mouth(module.Module) :
 			w.stackedWidget.setCurrentIndex(1)
 
 	def generate_controls(self, widget):
-
+		return
 		count = widget.controlsCount_spinBox.value()
 		m_name = self.name
 

@@ -39,7 +39,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>8</number>
       </property>
       <widget class="QWidget" name="rig_tab">
        <attribute name="title">
@@ -7356,6 +7356,9 @@
                 </item>
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_68">
+                  <property name="spacing">
+                   <number>2</number>
+                  </property>
                   <item>
                    <widget class="QFrame" name="frame_14">
                     <property name="enabled">
@@ -7420,7 +7423,7 @@
                        </property>
                        <layout class="QVBoxLayout" name="verticalLayout_48">
                         <property name="spacing">
-                         <number>6</number>
+                         <number>2</number>
                         </property>
                         <property name="leftMargin">
                          <number>0</number>
@@ -7454,6 +7457,27 @@
                            <string>Select Mesh Skin Joints</string>
                           </property>
                          </widget>
+                        </item>
+                        <item>
+                         <layout class="QHBoxLayout" name="horizontalLayout_14">
+                          <property name="spacing">
+                           <number>2</number>
+                          </property>
+                          <item>
+                           <widget class="QPushButton" name="skinSave_btn">
+                            <property name="text">
+                             <string>Skin Save</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QPushButton" name="skinLoad_btn">
+                            <property name="text">
+                             <string>Skin Load</string>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
                         </item>
                         <item>
                          <spacer name="verticalSpacer_10">

@@ -483,7 +483,6 @@ class Twist(object):
                     else:
                         cmds.setAttr(cName+"."+a, keyable=0, lock=1)
 
-
         
         # select item in list
         self.updateList()
@@ -495,6 +494,12 @@ class Twist(object):
         mod.toggleLRA(self.win.actionSkeleton_LRA.isChecked())
 
         cmds.setAttr(t_name+"_joints.v", True)
+
+        # fix init scale
+        scl = cmds.getAttr(f"{self.curTwistName}_root_connector.sx")
+        cmds.setAttr(f"{self.curTwistName}_root_connectorLoc.sx", 1/scl)
+        cmds.setAttr(f"{self.curTwistName}_root_connectorLoc.sy", 1/scl)
+        cmds.setAttr(f"{self.curTwistName}_root_connectorLoc.sz", 1/scl)
 
         self.updateFrame()
 
@@ -922,6 +927,11 @@ class Twist(object):
             cmds.ShowSelectedObjects()
         else:
             cmds.hide()
+            name = t_name.split("_")[-1]
+            m_name = t_name.split(name)[0]
+            cmds.hide(m_name+"output")
+            opp = utils.getOppositeIfExists(m_name+"output")
+            cmds.hide(opp)
 
     def addSkinJoints(self, twName):
         moduleName = utils.getModuleName(twName+"_outJoint")

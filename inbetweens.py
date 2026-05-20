@@ -403,6 +403,10 @@ class Inbetweens(object):
 
 		if not cmds.objExists(root):
 			return None
+
+		if not cmds.objExists(name+"_ibtw_child_offsetLoc"):
+			print("Missed offsetLoc", name+"_ibtw_child_offsetLoc")
+			return None
 		
 		if utils.isSymmetrical(root) and utils.getObjectSide(root) == "r":
 			if not cmds.objExists(name+"_ibtw_child_offsetLoc_mirrorGroup"):

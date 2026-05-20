@@ -15,7 +15,6 @@ class FingersIK(module.Module) :
 		
 	def connect(self, target, opposite=False):
 		super(self.__class__, self).connect(target, opposite)
-		
 	
 		targetModuleName = utils.getModuleName(target)
 		target_module = utils.getModuleInstance(targetModuleName)
@@ -31,7 +30,8 @@ class FingersIK(module.Module) :
 			utils.resetAttrs(self.name+'_root_connector', matrix=True)
 
 			# connect self ik 
-			cmds.parentConstraint(targetModuleName+"_ik_out", self.name+"_ik_connector", mo=0)
+			con = cmds.parentConstraint(targetModuleName+"_ik_out", self.name+"_ik_connector", mo=0)
+			utils.addToModuleSet(con, self.name)
 
 			# connect self fk
 			utils.connectByMatrix(self.name+'_fk_connector', [self.name+'_root_poserOrient', targetModuleName+'_end_initLoc', targetModuleName+'_fk_out', self.name+'_fk_connector'], 
@@ -69,7 +69,29 @@ class FingersIK(module.Module) :
 
 		
 	def disconnect(self):
+		# super(self.__class__, self).disconnect()
+		
+		targetModuleName = utils.getModuleName(self.parent)
+		target_module = utils.getModuleInstance(targetModuleName)
+		
+		if target_module.type == 'limb':
+			cmds.disconnectAttr(utils.getControlNameFromInternal(targetModuleName, 'control')+'.ikFk', self.root+'.ikFk')
+			cmds.delete(self.name+"_ik_connector_parentConstraint1")
+			cmds.delete(self.name+"_fk_connector_multMat")
+			cmds.delete(targetModuleName+'_ik_connector_multMat')
+			cmds.delete(self.name+"_root_connector_multMat")
+
+			if target_module.isOpposite():
+				cmds.setAttr(self.name+"_root_connector.rx", 0)
+				cmds.setAttr(self.name+"_ik_connector.rx", 0)
+				cmds.setAttr(self.name+"_fk_connector.rx", 0)
+				cmds.setAttr(self.name+"_root_poserOrient.rx", 0)
+
+		super(self.__class__, self).disconnect()
+
+		return
 		out_nodes = pm.PyNode( self.name+"_ik_out").worldMatrix[0].outputs()
+		print(11, self.name+"_ik_out", out_nodes)
 		if out_nodes:
 			print(111, out_nodes)
 			mm = out_nodes[0]
@@ -77,13 +99,16 @@ class FingersIK(module.Module) :
 			dm = mm.matrixSum.outputs()[0]
 			print(222, dm)
 			con = dm.outputTranslateX.outputs()[0]
+
 			print(111, con)
 			pm.delete(mm)
 			con.t.set(0,0,0)
 			con.r.set(0,0,0)
 			targetModuleName = utils.getModuleName(con.name)
-			cmds.disconnectAttr(utils.getControlNameFromInternal(targetModuleName, 'control')+'.ikFk', self.root+'.ikFk')
-		super(self.__class__, self).disconnect()
+			print(333, targetModuleName)
+			# cmds.disconnectAttr(utils.getControlNameFromInternal(targetModuleName, 'control')+'.ikFk', self.root+'.ikFk')
+
+		# super(self.__class__, self).disconnect()
 		
 	
 

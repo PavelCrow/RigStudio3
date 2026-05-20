@@ -806,6 +806,8 @@ class MainWindow:
         self.win.reskin_btn.clicked.connect(tools.reskin)
         self.win.selectAllJoints_btn.clicked.connect(tools.selectAllJoints)
         self.win.selectMeshSkinJoints_btn.clicked.connect(tools.selectSkinJoints)
+        self.win.skinSave_btn.clicked.connect(tools.skinSave)
+        self.win.skinLoad_btn.clicked.connect(tools.skinLoad)
 
         # Controller 
         self.win.rotateShapeX_btn.clicked.connect(partial(self.controls_rotateShape, "x"))

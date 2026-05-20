@@ -82,20 +82,20 @@ class Module(object):
         for o in ['_system', '_input']:
             if cmds.objExists(self.name+o):
                 cmds.hide(self.name+o)
-        cmds.showHidden(self.name+"_outJoints", self.name+"_output")
+        cmds.hide(self.name+"_output")
 
         # hide out joints
         
-        if cmds.objExists(self.main.rig.root + ".singleHierarhy"):
-                singleHierarhy = cmds.getAttr(self.main.rig.root + ".singleHierarhy")
-        else:
-            singleHierarhy = True    
-        if singleHierarhy:    
-            for j in cmds.listRelatives(self.name+"_outJoints", allDescendents=1):
-                if cmds.objectType(j) == "joint":
-                    try:
-                        cmds.setAttr(j+".drawStyle", 2)
-                    except: pass
+        # if cmds.objExists(self.main.rig.root + ".singleHierarhy"):
+        #         singleHierarhy = cmds.getAttr(self.main.rig.root + ".singleHierarhy")
+        # else:
+        #     singleHierarhy = True    
+        # if singleHierarhy:    
+        #     for j in cmds.listRelatives(self.name+"_outJoints", allDescendents=1):
+        #         if cmds.objectType(j) == "joint":
+        #             try:
+        #                 cmds.setAttr(j+".drawStyle", 2)
+        #             except: pass
 
         cmds.refresh()
 
@@ -196,7 +196,7 @@ class Module(object):
             cmds.sets(sj, e=1, rm=self.name+'_skinJointsSet')
             
             try:
-                if self.main.rig.singleHierarhy and cmds.getAttr(sj.replace("skinJoint", "outJoint")+".drawStyle") == 0:
+                if  cmds.getAttr(sj.replace("skinJoint", "outJoint")+".drawStyle") == 0:
                     cmds.setAttr(sj+".drawStyle", 0)
                 else:
                     cmds.setAttr(sj+".drawStyle", 2)
@@ -445,7 +445,8 @@ class Module(object):
             parentsObjs = getParentGroups()
             for p in parentsObjs:
                 pData = parents.Parents.getDataFromNode(p)
-                par_list.append(pData)
+                if pData:
+                    par_list.append(pData)
             return par_list
 
         def getPosersAttrData():

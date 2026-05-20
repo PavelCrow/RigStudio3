@@ -122,7 +122,7 @@ class Template(object):
 
 		for name in self.main.rig.modules:
 			m = self.main.rig.modules[name]
-
+			print("Get data from", name)
 			mData = m.getData()
 			modulesData.append(mData)
 
@@ -316,7 +316,9 @@ class Template(object):
 		# rename oss
 		for mData in data['modulesData']:
 			name = mData["name"]
+			print("Get OS Data", name )
 			for par_data in mData["parents"]:
+				print(111, par_data)
 				control = par_data["control"]
 				new_name = utils.incrementNameIfExists(control)
 				par_data["control"] = new_name

@@ -690,7 +690,7 @@ def connectByMatrix(obj, targets, inputs=[], useDM=True, attrs=['t', 'r', 's'], 
 		m_name = getModuleName(obj)
 
 	dMat = cmds.createNode('decomposeMatrix', n=obj+"_decMat")
-	addToModuleSet(dMat, m_name)
+	if m_name: addToModuleSet(dMat, m_name)
 	if set: cmds.sets(dMat, e=1, forceElement=set)
 	
 	if 't' in attrs:
@@ -717,7 +717,7 @@ def connectByMatrix(obj, targets, inputs=[], useDM=True, attrs=['t', 'r', 's'], 
 
 	if len(targets) > 1:
 		mMat = cmds.createNode('multMatrix', n=obj+"_multMat")
-		addToModuleSet(mMat, m_name)
+		if m_name: addToModuleSet(mMat, m_name)
 		if set: cmds.sets(mMat, e=1, forceElement=set)
 
 		cmds.connectAttr(mMat+".matrixSum", dMat+'.inputMatrix')
@@ -856,6 +856,7 @@ def importFile(path, name=""): #
 	cmds.sets(n=set_name)
 	for n in nodes:
 		if cmds.objExists(n):
+			cmds.lockNode( n, lock=False )
 			if cmds.objectType(n) != 'objectSet':
 				cmds.sets(n, e=1, forceElement=set_name)
 			if name == "":

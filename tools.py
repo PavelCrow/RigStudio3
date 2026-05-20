@@ -1,6 +1,9 @@
 import maya.cmds as cmds
 import maya.mel as mel
 import pymel.core as pm
+import maya.OpenMaya as om
+import maya.OpenMayaAnim as oma
+import json, os, tempfile
 from functools import partial
 
 version = int(cmds.about(v=True).split(" ")[0])
@@ -1081,3 +1084,321 @@ def locsToCurve():
 	for i,l in enumerate(locs):
 		l.worldPosition[0] >> c.controlPoints[i]
 
+def skinSave():
+
+	def strip_namespace(name):
+		"""Убирает неймспейс из имени ноды."""
+		return name.split(":")[-1]
+
+
+	def get_skin_cluster(mesh):
+		"""Находит skinCluster на меше."""
+		history = cmds.listHistory(mesh, pruneDagObjects=True)
+		if not history:
+			return None
+		skin_clusters = cmds.ls(history, type="skinCluster")
+		return skin_clusters[0] if skin_clusters else None
+
+
+	def export_skin_weights():
+		selection = cmds.ls(selection=True, long=True)
+		if not selection:
+			cmds.warning("Ничего не выделено. Выделите меш с скином.")
+			return
+
+		mesh = selection[0]
+
+		# Получаем шейп если выделена трансформ-нода
+		shapes = cmds.listRelatives(mesh, shapes=True, fullPath=True)
+		mesh_shape = shapes[0] if shapes else mesh
+
+		skin_cluster = get_skin_cluster(mesh_shape)
+		if not skin_cluster:
+			cmds.warning("На выделенном меше не найден skinCluster.")
+			return
+
+		# Список костей скина
+		influences = cmds.skinCluster(skin_cluster, query=True, influence=True)
+		if not influences:
+			cmds.warning("skinCluster не содержит костей.")
+			return
+
+		# Параметры skinCluster
+		max_influences = cmds.skinCluster(skin_cluster, query=True, maximumInfluences=True)
+		vertex_count = cmds.polyEvaluate(mesh_shape, vertex=True)
+
+		print("Экспорт скина: {} вертексов, {} костей...".format(vertex_count, len(influences)))
+
+		# Получаем MObject skinCluster
+		sel = om.MSelectionList()
+		sel.add(skin_cluster)
+		skin_obj = om.MObject()
+		sel.getDependNode(0, skin_obj)
+		skin_fn = oma.MFnSkinCluster(skin_obj)
+
+		# Получаем MDagPath меша
+		sel2 = om.MSelectionList()
+		sel2.add(mesh_shape)
+		mesh_dag = om.MDagPath()
+		sel2.getDagPath(0, mesh_dag)
+
+		# Создаём компонент со всеми вертексами
+		comp_fn = om.MFnSingleIndexedComponent()
+		vtx_component = comp_fn.create(om.MFn.kMeshVertComponent)
+		comp_fn.setCompleteData(vertex_count)
+
+		# Читаем все веса одним вызовом — точно и быстро
+		weights = om.MDoubleArray()
+		inf_count_util = om.MScriptUtil()
+		inf_count_ptr = inf_count_util.asUintPtr()
+		skin_fn.getWeights(mesh_dag, vtx_component, weights, inf_count_ptr)
+		inf_count = om.MScriptUtil.getUint(inf_count_ptr)
+
+		# Упаковываем: weights[vtx_id * inf_count + inf_idx]
+		# Заодно собираем множество костей у которых есть хоть один ненулевой вес
+		weights_data = {}
+		active_bones = set()
+		for vtx_id in range(vertex_count):
+			vtx_weights = {}
+			for inf_idx, inf in enumerate(influences):
+				w = weights[vtx_id * inf_count + inf_idx]
+				if w > 0.0:
+					bone_name = strip_namespace(inf)
+					vtx_weights[bone_name] = w
+					active_bones.add(bone_name)
+			weights_data[vtx_id] = vtx_weights
+
+		# Только кости с реальными весами, порядок как в оригинале
+		active_influences = [strip_namespace(inf) for inf in influences
+							if strip_namespace(inf) in active_bones]
+
+		skipped = len(influences) - len(active_influences)
+		if skipped:
+			print("Пропущено костей с нулевыми весами: {}".format(skipped))
+
+		# Имя меша без неймспейса
+		mesh_short = strip_namespace(cmds.ls(mesh, shortNames=True)[0])
+
+		export_data = {
+			"mesh_name": mesh_short,
+			"vertex_count": vertex_count,
+			"max_influences": max_influences,
+			"influences": active_influences,
+			"weights": weights_data
+		}
+
+		# Сохраняем в temp-папку Windows
+		temp_dir = tempfile.gettempdir()
+		file_path = os.path.join(temp_dir, "skin_weights_export.json")
+
+		with open(file_path, "w") as f:
+			json.dump(export_data, f, indent=2)
+
+		print("=" * 50)
+		print("Скин успешно экспортирован!")
+		print("Файл: {}".format(file_path))
+		print("Костей: {}".format(len(export_data["influences"])))
+		print("Max Influences: {}".format(max_influences))
+		print("Вертексов: {}".format(vertex_count))
+		print("=" * 50)
+
+		return file_path
+
+
+	# Запуск
+	export_skin_weights()
+
+def skinLoad()	:
+	"""
+	IMPORT SKIN WEIGHTS
+	Загружает данные скина из temp-файла и создаёт skinCluster на выделенной геометрии.
+	Кости ищутся в сцене без учёта неймспейса.
+	Веса записываются напрямую через MFnSkinCluster API.
+
+	Использование: выделить чистый меш, запустить скрипт.
+	"""
+
+	def strip_namespace(name):
+		"""Убирает неймспейс из имени ноды."""
+		return name.split(":")[-1]
+
+
+	def build_bone_map():
+		"""
+		Строит словарь {имя_без_неймспейса: полное_имя} для всех костей в сцене.
+		Если несколько костей имеют одинаковое базовое имя — берётся первая.
+		"""
+		all_joints = cmds.ls(type="joint", long=False) or []
+		bone_map = {}
+		for joint in all_joints:
+			base_name = strip_namespace(joint)
+			if base_name not in bone_map:
+				bone_map[base_name] = joint
+		return bone_map
+
+
+	def import_skin_weights():
+		selection = cmds.ls(selection=True, long=True)
+		if not selection:
+			cmds.warning("Ничего не выделено. Выделите чистый меш.")
+			return
+
+		mesh = selection[0]
+
+		# Получаем шейп
+		shapes = cmds.listRelatives(mesh, shapes=True, fullPath=True)
+		mesh_shape = mesh
+		for s in shapes:
+			if not cmds.getAttr("{}.intermediateObject".format(s)):
+				mesh_shape = s
+				break
+
+		# Путь к файлу
+		temp_dir = tempfile.gettempdir()
+		file_path = os.path.join(temp_dir, "skin_weights_export.json")
+
+		if not os.path.exists(file_path):
+			cmds.warning("Файл не найден: {}".format(file_path))
+			return
+
+		with open(file_path, "r") as f:
+			data = json.load(f)
+
+		influences_needed = data["influences"]      # Имена без неймспейсов
+		weights_data      = data["weights"]
+		vertex_count_file = data["vertex_count"]
+		max_influences    = data.get("max_influences", 8)
+
+		# Проверяем количество вертексов
+		vertex_count_mesh = cmds.polyEvaluate(mesh_shape, vertex=True)
+		if vertex_count_mesh != vertex_count_file:
+			cmds.warning(
+				"Количество вертексов не совпадает! "
+				"В файле: {}, на меше: {}.".format(vertex_count_file, vertex_count_mesh)
+			)
+			skip_weights = True
+
+		# Строим карту костей сцены (без неймспейса -> полное имя)
+		bone_map = build_bone_map()
+
+		# Разбиваем на найденные / не найденные
+		resolved_influences = []
+		missing_bones       = []
+		for bone_name in influences_needed:
+			if bone_name in bone_map:
+				resolved_influences.append(bone_map[bone_name])
+			else:
+				missing_bones.append(bone_name)
+
+		if missing_bones:
+			print("ВНИМАНИЕ — не найдены кости в сцене ({} шт.):".format(len(missing_bones)))
+			for b in missing_bones:
+				print("  - {}".format(b))
+
+		if not resolved_influences:
+			cmds.warning("Не удалось найти ни одной кости. Скин не создан.")
+			return
+
+		print("Найдено костей: {} из {}".format(len(resolved_influences), len(influences_needed)))
+
+		# Создаём skinCluster с отключённой нормализацией на время записи весов
+		skin_cluster_name = cmds.skinCluster(
+			resolved_influences + [mesh],
+			toSelectedBones=True,
+			bindMethod=0,           # Closest distance
+			skinMethod=0,           # Classic linear
+			normalizeWeights=0,     # Отключаем — запишем веса вручную
+			maximumInfluences=max_influences,
+			name="imported_skinCluster"
+		)[0]
+
+		print("Создан skinCluster: {} (Max Influences: {})".format(skin_cluster_name, max_influences))
+
+		# --- Пишем веса через MFnSkinCluster API ---
+
+		# MObject skinCluster
+		sel = om.MSelectionList()
+		sel.add(skin_cluster_name)
+		skin_obj = om.MObject()
+		sel.getDependNode(0, skin_obj)
+		skin_fn = oma.MFnSkinCluster(skin_obj)
+
+		# MDagPath меша
+		sel2 = om.MSelectionList()
+		sel2.add(mesh_shape)
+		mesh_dag = om.MDagPath()
+		sel2.getDagPath(0, mesh_dag)
+
+		# Индексы influence внутри skinCluster (порядок может отличаться от resolved_influences)
+		inf_dags = om.MDagPathArray()
+		skin_fn.influenceObjects(inf_dags)
+		inf_count = inf_dags.length()
+
+		# Строим карту: базовое_имя -> индекс внутри skinCluster
+		sc_inf_index = {}
+		for i in range(inf_count):
+			base = strip_namespace(inf_dags[i].partialPathName())
+			sc_inf_index[base] = i
+
+		# Пропускаем копирование весов если топология не совпадает
+		if skip_weights:
+			cmds.warning("Скин создан, но веса не скопированы — количество вертексов не совпадает.")
+			return
+
+		# Сбрасываем все начальные веса которые Maya назначила при bind-е
+		# Создаём компонент со всеми вертексами
+		all_comp_fn = om.MFnSingleIndexedComponent()
+		all_vtx_comp = all_comp_fn.create(om.MFn.kMeshVertComponent)
+		all_comp_fn.setCompleteData(vertex_count_file)
+
+		# Все индексы инфлаенсов
+		all_inf_indices = om.MIntArray()
+		for i in range(inf_count):
+			all_inf_indices.append(i)
+
+		# Нулевые веса для всех
+		zero_weights = om.MDoubleArray(vertex_count_file * inf_count, 0.0)
+		skin_fn.setWeights(mesh_dag, all_vtx_comp, all_inf_indices, zero_weights, False)
+
+		print("Применение весов...")
+
+		for vtx_id in range(vertex_count_file):
+			vtx_weights_raw = weights_data.get(str(vtx_id), {})
+
+			if not vtx_weights_raw:
+				continue
+
+			# Компонент одного вертекса
+			comp_fn = om.MFnSingleIndexedComponent()
+			vtx_comp = comp_fn.create(om.MFn.kMeshVertComponent)
+			comp_fn.addElement(vtx_id)
+
+			# Собираем индексы и веса только найденных костей
+			inf_indices = om.MIntArray()
+			inf_weights = om.MDoubleArray()
+
+			for bone_name, w in vtx_weights_raw.items():
+				if bone_name in sc_inf_index:
+					inf_indices.append(sc_inf_index[bone_name])
+					inf_weights.append(w)
+
+			if inf_indices.length() == 0:
+				continue
+
+			skin_fn.setWeights(mesh_dag, vtx_comp, inf_indices, inf_weights, False)
+
+		# Включаем нормализацию обратно
+		# Нормализация остаётся выключенной — не трогаем веса после записи
+
+		print("=" * 50)
+		print("Скин успешно применён!")
+		print("Меш: {}".format(cmds.ls(mesh, shortNames=True)[0]))
+		print("skinCluster: {}".format(skin_cluster_name))
+		print("Костей применено: {}".format(len(resolved_influences)))
+		if missing_bones:
+			print("Не найдено костей: {}".format(len(missing_bones)))
+		print("=" * 50)
+
+
+	# Запуск
+	import_skin_weights()
