@@ -397,6 +397,7 @@ class Template(object):
 			cmds.progressBar(progressControl, e=1, maxValue=len(modulesData), progress=0)
 			for mData in modulesData:
 				mod = mData[0]
+				print("Set Data", mod.name)
 				mod.setData(mData[1], sym=False, namingForce=True, load=load)
 				cmds.progressBar(progressControl, edit=True, step=1)
 			cmds.progressBar(progressControl2, edit=True, step=1)
@@ -504,7 +505,6 @@ class Template(object):
 			create_twists(data["twistsData"]) 
 			create_ibtws(data["ibtwsData"])
 		create_oss(modulesData)
-		# set_modules(modulesData, load="options")
 		set_modules(modulesData, load="controlVis")
 		set_modules(modulesData, load="options")
 

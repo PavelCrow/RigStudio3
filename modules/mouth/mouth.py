@@ -128,7 +128,7 @@ class Mouth(module.Module) :
 		utils.pyToAttr(self.root+'.options', optionsData)
 
 	def joint_from_edges(self):
-
+		
 		def get_u_values(points):
 			mel.eval(f'select -r {points}')
 			init_crv = cmds.polyToCurve(degree=1,ch=0,n="crv_name")[0]
@@ -199,7 +199,7 @@ class Mouth(module.Module) :
 		for f in (f"{m_name}_l_*_lip_local_*", f"{m_name}_r_*_lip_local_*", f"{m_name}_*_lip_*_outJoint"):
 			if cmds.objExists(f):
 				cmds.delete(f)
-
+		
 		# disconnect attributes
 		for part in ["t", "b"]:
 			discAttr(f"{m_name}_{part}_uvPin.coordinate")    
@@ -207,6 +207,7 @@ class Mouth(module.Module) :
 			discAttr(f"{bf.name()}.{part}_matrix") 
 			discAttr(f"{m_name}_c_{part}_lip_outJoint_multMat.matrixIn[2]") 
 
+		discAttr(f"{bf.name()}.parameter") 
 
 		# create
 		for part in ["t", "b"]:
@@ -218,6 +219,7 @@ class Mouth(module.Module) :
 					gr = pm.duplicate(f"{m_name}_c_{part}_lip_local_group", n=f"{m_name}_{side}_{part}_lip_local_{i}_group")[0]
 					c = gr.getChildren()[0]
 					pm.rename(c, f"{m_name}_{side}_{part}_lip_local_{i}")
+					utils.setUserAttr(c.name(), "internalName", f"{side}_{part}_lip_local_{i}")
 						
 			cmds.connectAttr(f"{m_name}_c_t_lip_local.pos", f"{uvPin}.coordinate[{center_id}].coordinateV")
 					
@@ -268,9 +270,20 @@ class Mouth(module.Module) :
 		pm.connectAttr(bf.out_t_matrix[center_id], f"{m_name}_c_t_lip_outJoint_multMat.matrixIn[2]")
 		pm.connectAttr(bf.out_b_matrix[center_id], f"{m_name}_c_b_lip_outJoint_multMat.matrixIn[2]")
 
-		cmds.delete(self.name+"_root_skinJoint")
+		# connect parameters
+		for i in range(1, count+1):
+			c = f"{m_name}_l_t_lip_local_{i}"
+			rev = cmds.createNode("reverse", n=f"{c}_pos_reverse")
+			cmds.connectAttr(f"{c}.pos", f"{rev}.inputX")
+			cmds.connectAttr(f"{rev}.outputX", f"{bf.name()}.parameter[{center_id-i}]")
+			cmds.connectAttr(f"{c}.pos", f"{bf.name()}.parameter[{center_id+i}]")
 
-		self.addSkinJoints()
+		cmds.connectAttr(f"{m_name}_c_t_lip_local.pos", f"{bf.name()}.parameter[{center_id}]")
+
+		# cmds.delete(self.name+"_root_skinJoint")
+
+		# self.addSkinJoints()
+		
 		
 
 		if self.widget:
@@ -297,7 +310,7 @@ class Mouth(module.Module) :
 		count_cur = int ( ( len(cmds.listRelatives(self.name+'_lipsExtra_controls')) - 2 ) / 4 )
 
 		optionsData = data["optionsData"]
-
+		
 		if count_cur != optionsData["jointsCount"]:
 			self.regenerate_joints(count=optionsData["jointsCount"])
 
@@ -329,7 +342,7 @@ class Mouth(module.Module) :
 			w.stackedWidget.setCurrentIndex(1)
 
 	def generate_controls(self, widget):
-		return
+		
 		count = widget.controlsCount_spinBox.value()
 		m_name = self.name
 
@@ -342,12 +355,11 @@ class Mouth(module.Module) :
 
 		# delete control groups
 		for o in cmds.listRelatives(m_name+'_sec_controls_group'):
-			if "_1_" in o: continue
-			cmds.delete(o)
+			if "_1_" not in o:
+				cmds.delete(o)
 
 		# delete posers
 		for i in range(2, count_cur+1):
-			print(i)
 			cmds.delete(f"{m_name}_lip_{i}_poser")
 
 		# disconnect init curve
@@ -368,13 +380,43 @@ class Mouth(module.Module) :
 				continue
 			cmds.delete(o)
 
-
-		# delete targets
-		for gr in ["l_mouthCorner", "r_mouthCorner", "t_lip", "t_lip_group", "b_lip", "b_lip_group", "jaw", "lips"]:
-			for o in cmds.listRelatives(f"{m_name}_{gr}"):
-				if "_1_" not in o and "target" in o:
-					cmds.delete(o)
+		# delete other nodes
+		for i in range(2, count_cur+1):
+			cmds.delete(f"{m_name}_l_lip_{i}_*")
+			cmds.delete(f"{m_name}_r_lip_{i}_*")
 			
+			
+		# disconnect bifrost attributes
+		bf = f"{m_name}_sec_controls_bifrostGraphShape"
+		attrs = ["t_follow_jaw", "b_follow_jaw", "t_lip_influence", "b_lip_influence", 
+		"corner_h_influence", "corner_v_influence", "l_flat_rotateY", "r_flat_rotateY",
+		"l_rotate", "r_rotate", "l_translate", "r_translate", "parameter", "init_pos"]
+
+		for a in attrs:
+			conns_in = cmds.listConnections(f"{bf}.{a}", plugs=1, connections=1, s=1, d=0) or []
+			sources_in = conns_in[1::2]
+			targets_in = conns_in[::2]
+
+			for i,s in enumerate(sources_in):
+				cmds.disconnectAttr(s, targets_in[i])
+			
+			length = cmds.getAttr(f"{bf}.{a}", size=True) or 0
+			for i in range(length):
+				cmds.removeMultiInstance(f"{bf}.{a}[{i}]")
+			
+		for a in ["out_l_t_lips", "out_l_b_lips", "out_r_t_lips", "out_r_b_lips"]:
+			conns_in = cmds.listConnections(f"{bf}.{a}", plugs=1, connections=1, s=0, d=1) or []
+			sources_in = conns_in[1::2]
+			targets_in = conns_in[::2]
+
+			for i,s in enumerate(sources_in):
+				cmds.disconnectAttr(targets_in[i], s)
+				
+			
+		for a in cmds.ls(f"{m_name}_*_lip_*_mpath.rotate") + cmds.ls(f"{m_name}_*_lip_*_mpath.rotateY"):
+			uc = pm.PyNode(a).outputs()
+			pm.delete(uc)
+
 
 		# create posers
 		con = cmds.pointConstraint(m_name+'_lip_corner_poser', m_name+'_c_lip_poser', m_name+f'_lip_1_poser', mo=0)[0]
@@ -394,7 +436,7 @@ class Mouth(module.Module) :
 					cmds.rename(f"{poser}|{o}", o.replace("1", str(i) ) )
 
 			mns = cmds.createNode("makeNurbSphere", name=poser+"_makeNurbSphere")
-			mult = cmds.createNode("multDoubleLinear", name=poser+"_multDoubleLinear")
+			mult = utils.createNode("multDoubleLinear", name=poser+"_multDoubleLinear")
 			cmds.connectAttr(m_name+"_mainPoser.globalSize", mult+".input1")
 			cmds.connectAttr(poser+".size", mult+".input2")
 			cmds.connectAttr(mult+".output", mns+".radius")
@@ -428,161 +470,186 @@ class Mouth(module.Module) :
 			cmds.connectAttr(f"{m_name}_lip_{i}_pivotShape.worldPosition", f"{m_name}_init_curveShape.controlPoints[{center_id+i}]")
 			
 
-		# disconnect bifrost attributes
-		conns_in = cmds.listConnections(f"{m_name}_detail_bifrostGraphShape.t_crv_control_points", plugs=1, connections=1, s=1, d=0) or []
-		sources_in = conns_in[1::2]
-		targets_in = conns_in[::2]
-
-		for i,s in enumerate(sources_in):
-			cmds.disconnectAttr(s, targets_in[i])
-			
-		length = cmds.getAttr(f"{m_name}_detail_bifrostGraphShape.t_crv_control_points", size=True) or 0
-		for i in range(length):
-			cmds.removeMultiInstance(f"{m_name}_detail_bifrostGraphShape.t_crv_control_points[{i}]")
-
-		cmds.connectAttr(f"{m_name}_r_lip_locShape.worldPosition[0]", f"{m_name}_detail_bifrostGraphShape.t_crv_control_points[0]")
-		cmds.connectAttr(f"{m_name}_c_t_lip_loc.worldPosition[0]", f"{m_name}_detail_bifrostGraphShape.t_crv_control_points[{center_id}]")
-		cmds.connectAttr(f"{m_name}_l_lip_locShape.worldPosition[0]", f"{m_name}_detail_bifrostGraphShape.t_crv_control_points[{curve_points_count-1}]")
-
-		conns_in = cmds.listConnections(f"{m_name}_detail_bifrostGraphShape.b_crv_control_points", plugs=1, connections=1, s=1, d=0) or []
-		sources_in = conns_in[1::2]
-		targets_in = conns_in[::2]
-
-		for n,s in enumerate(sources_in):
-			cmds.disconnectAttr(s, targets_in[n])
-			
-		length = cmds.getAttr(f"{m_name}_detail_bifrostGraphShape.b_crv_control_points", size=True) or 0
-		for n in range(length):
-			cmds.removeMultiInstance(f"{m_name}_detail_bifrostGraphShape.b_crv_control_points[{n}]")
-
-		cmds.connectAttr(f"{m_name}_r_lip_locShape.worldPosition[0]", f"{m_name}_detail_bifrostGraphShape.b_crv_control_points[0]")
-		cmds.connectAttr(f"{m_name}_c_b_lip_loc.worldPosition[0]", f"{m_name}_detail_bifrostGraphShape.b_crv_control_points[{center_id}]")
-		cmds.connectAttr(f"{m_name}_l_lip_locShape.worldPosition[0]", f"{m_name}_detail_bifrostGraphShape.b_crv_control_points[{curve_points_count-1}]")
-
-		cmds.connectAttr(f"{m_name}_l_t_lip_1_locShape.worldPosition[0]", f"{m_name}_detail_bifrostGraphShape.t_crv_control_points[{center_id+1}]")
-		cmds.connectAttr(f"{m_name}_l_b_lip_1_locShape.worldPosition[0]", f"{m_name}_detail_bifrostGraphShape.b_crv_control_points[{center_id+1}]")
-		cmds.connectAttr(f"{m_name}_r_t_lip_1_locShape.worldPosition[0]", f"{m_name}_detail_bifrostGraphShape.t_crv_control_points[{center_id-1}]")
-		cmds.connectAttr(f"{m_name}_r_b_lip_1_locShape.worldPosition[0]", f"{m_name}_detail_bifrostGraphShape.b_crv_control_points[{center_id-1}]")
-
-		# Connect first lips controls attributes
-		cmds.setAttr(f"{m_name}_l_t_lip_1.t_lip_influence", cmds.getAttr(f"{m_name}_l_t_lip_1_reverse.outputX"))
-		cmds.setAttr(f"{m_name}_l_b_lip_1.b_lip_influence", cmds.getAttr(f"{m_name}_l_t_lip_1_reverse.outputX"))
-		cmds.setAttr(f"{m_name}_l_t_lip_1.corner_influence", cmds.getAttr(f"{m_name}_l_t_lip_1_multiplyDivide.outputX"))
-
 		# create control group
 		for i in range(2, count+1):
-
+			
 			for side in ["l_t", "l_b", "r_t", "r_b"]:
-					
+				
 				gr = cmds.duplicate(f"{m_name}_{side}_lip_1_group", n=f"{m_name}_{side}_lip_{i}_group")[0]
 				c = cmds.listRelatives(gr, type="transform")[0]
 				c = cmds.rename(gr+"|"+c, f"{m_name}_{side}_lip_{i}")
-				l = cmds.listRelatives(c, type="transform")[0]
-				l = cmds.rename(c+"|"+l, f"{m_name}_{side}_lip_{i}_loc")
-				cmds.hide(l)
+				for o in cmds.listRelatives(c, type="transform"):
+					cmds.rename(c+"|"+o, o.replace("1", str(i)))
 
-				# create targets
-				for drv in ["corner", "lip", "jaw", "mouth"]:
-					drv = "lip"
-				lip_l = cmds.spaceLocator(n=f"{c}_lip_target")[0]
-				lip_init_l = cmds.spaceLocator(n=f"{c}_lip_init_target")[0]
-				cmds.parent(lip_l, f"{m_name}_{side[-1]}_lip")
-				resetAttrs(lip_l)
-				cmds.parent(lip_init_l, f"{m_name}_{side[-1]}_lip_group")
-				resetAttrs(lip_init_l)
-				cmds.hide(lip_l, lip_init_l)
-
-				mp = cmds.createNode("motionPath", n=f"{m_name}_{c}_init_mpath")
-				cmds.setAttr(f"{mp}.frontAxis", 0)
-				cmds.setAttr(f"{mp}.upAxis", 1)
-				npc = cmds.createNode("nearestPointOnCurve", n=f"{m_name}_{c}_nearestPointOnCurve")
-				cm = cmds.createNode("composeMatrix", n=f"{m_name}_{c}_composeMatrix")
-				mm = cmds.createNode("multMatrix", n=f"{lip_l}_multMatrix")
-				cmds.connectAttr(f"{m_name}_init_curve_rebuildCurve.outputCurve", f"{mp}.geometryPath")
-				cmds.connectAttr(f"{m_name}_init_curve_rebuildCurve.outputCurve", f"{npc}.inputCurve")
-				cmds.connectAttr(f"{m_name}_lip_{i}_pivotShape.worldPosition[0]", f"{npc}.inPosition")
-				cmds.connectAttr(f"{npc}.parameter", f"{mp}.uValue")
-				cmds.connectAttr(f"{mp}.allCoordinates", f"{cm}.inputTranslate")
-				cmds.connectAttr(f"{mp}.rotate", f"{cm}.inputRotate")
-				cmds.connectAttr(f"{m_name}_mouth_poser_decomposeMatrix.outputScale", f"{cm}.inputScale")
-				cmds.connectAttr(f"{cm}.outputMatrix", f"{mm}.matrixIn[0]")
-				cmds.connectAttr(f"{m_name}_{side[-1]}_mouth_poser.worldInverseMatrix[0]", f"{mm}.matrixIn[1]")
-				if side[0] == "r":
-					cmds.connectAttr(f"{m_name}_reverse_composeMatrix.outputMatrix", f"{mm}.matrixIn[2]")
-				cmds.connectAttr(f"{mm}.matrixSum", f"{lip_l}.offsetParentMatrix")
-				cmds.connectAttr(f"{mm}.matrixSum", f"{lip_init_l}.offsetParentMatrix")
-
-				bm = cmds.createNode("blendMatrix", n=f"{c}_lip_blendMatrix")
-				mm2 = cmds.createNode("multMatrix", n=f"{c}_lip_multMatrix")
-				cmds.connectAttr(f"{c.replace('_r_', '_l_')}.{side[-1]}_lip_influence", f"{bm}.envelope")
-				cmds.connectAttr(f"{lip_l}.worldMatrix[0]", f"{mm2}.matrixIn[0]")
-				cmds.connectAttr(f"{lip_init_l}.worldInverseMatrix[0]", f"{mm2}.matrixIn[1]")
-				cmds.connectAttr(f"{mm2}.matrixSum", f"{bm}.target[0].targetMatrix")
-
-
-				mouth_l = cmds.spaceLocator(n=f"{c}_mouth_target")[0]
-				if side[-1] == "t":
-					cmds.parent(mouth_l, f"{m_name}_lips")
-				elif side[-1] == "b":
-					cmds.parent(mouth_l, f"{m_name}_jaw")
-				resetAttrs(mouth_l)
-				mm3 = cmds.createNode("multMatrix", n=f"{mouth_l}_multMatrix")
-				cmds.connectAttr(f"{cm}.outputMatrix", f"{mm3}.matrixIn[0]")
-				if side[-1] == "t":
-					cmds.connectAttr(f"{m_name}_lips_poser.worldInverseMatrix[0]", f"{mm3}.matrixIn[1]")
-				elif side[-1] == "b":
-					cmds.connectAttr(f"{m_name}_jaw_poserOrient.worldInverseMatrix[0]", f"{mm3}.matrixIn[1]")
-				if side[0] == "r":
-					cmds.connectAttr(f"{m_name}_reverse_composeMatrix.outputMatrix", f"{mm3}.matrixIn[2]")
-				cmds.connectAttr(f"{mm3}.matrixSum", f"{mouth_l}.offsetParentMatrix")
-				cmds.hide(mouth_l)
-
-				corner_l = cmds.spaceLocator(n=f"{c}_corner_target")[0]
-				cmds.parent(corner_l, f"{m_name}_{side[0]}_mouthCorner")
-				resetAttrs(corner_l)
-				mm4 = cmds.createNode("multMatrix", n=f"{corner_l}_multMatrix")
-				cmds.connectAttr(f"{cm}.outputMatrix", f"{mm4}.matrixIn[0]")
-				cmds.connectAttr(f"{m_name}_corner_init_blendMatrix.outputMatrix", f"{mm4}.matrixIn[1]")
-				cmds.connectAttr(f"{mm4}.matrixSum", f"{corner_l}.offsetParentMatrix")
-
-				bm2 = cmds.createNode("blendMatrix", n=f"{c}_corner_blendMatrix")
-				cmds.connectAttr(f"{m_name}_l_t_lip_{i}.corner_influence", f"{bm2}.envelope")
-				cmds.connectAttr(f"{mouth_l}.worldMatrix[0]", f"{bm2}.inputMatrix")
-				cmds.connectAttr(f"{corner_l}.worldMatrix[0]", f"{bm2}.target[1].targetMatrix")
-
-				mm5 = cmds.createNode("multMatrix", n=f"{c}_multMatrix")
-				cmds.connectAttr(f"{bm}.outputMatrix", f"{mm5}.matrixIn[0]")
-				cmds.connectAttr(f"{bm2}.outputMatrix", f"{mm5}.matrixIn[1]")
-				cmds.connectAttr(f"{m_name}_sec_controls_group.worldInverseMatrix[0]", f"{mm5}.matrixIn[2]")
-
-				cmds.connectAttr(f"{mm5}.matrixSum", f"{c}_group.offsetParentMatrix")
-				cmds.hide(corner_l)
-
-				# connect control attributes
-				if side == "l_t": 
-					add = cmds.createNode("addDoubleLinear", n=f"{c}_corner_influence_addDoubleLinear")
-					mult = cmds.createNode("multiplyDivide", n=f"{c}_corner_influence_multiplyDivide")
-					rev = cmds.createNode("reverse", n=f"{c}_lip_influence_reverse")
-					cmds.connectAttr(f"{npc}.parameter", f"{add}.input1")
-					cmds.setAttr(f"{add}.input2", -0.5)
-					cmds.connectAttr(f"{add}.output", f"{mult}.input1X")
-					cmds.setAttr(f"{mult}.operation", 2)
-					cmds.setAttr(f"{mult}.input2X", 0.5)
-					cmds.connectAttr(f"{mult}.outputX", f"{rev}.inputX")
-					cmds.setAttr(f"{c}.corner_influence", cmds.getAttr(f"{mult}.outputX"))
-					cmds.setAttr(f"{c}.t_lip_influence", cmds.getAttr(f"{rev}.outputX"))
+				if "t" in side:
+					mp = cmds.createNode("motionPath", n=f"{m_name}_{side[0]}_lip_{i}_mpath")
+					fmp = cmds.createNode("motionPath", n=f"{m_name}_{side[0]}_lip_{i}_flat_mpath")
+					cmds.connectAttr(f"{m_name}_init_curve_rebuildCurve.outputCurve", f"{mp}.geometryPath")
+					cmds.connectAttr(f"{m_name}_flat_rebuildCurve.outputCurve", f"{fmp}.geometryPath")
+					cmds.setAttr(mp+".frontAxis", 0)
+					cmds.setAttr(mp+".upAxis", 1)
+					cmds.setAttr(fmp+".frontAxis", 0)
+					cmds.setAttr(fmp+".upAxis", 1)
 					
-					# connect last poser to corner aimconstraint
-					if i == count:
-						cmds.connectAttr(f"{m_name}_lip_{i}_poser.worldMatrix[0]", f"{m_name}_lip_corner_poser_aimConstraint.worldUpMatrix")
+					if side == "l_t":
+						npoc = cmds.createNode("nearestPointOnCurve", n=f"{m_name}_{side[0]}_lip_{i}_nearestPointOnCurve")
+						cmds.connectAttr(f"{m_name}_init_curve_rebuildCurve.outputCurve", f"{npoc}.inputCurve")
+						cmds.connectAttr(f"{m_name}_lip_{i}_pivotShape.worldPosition[0]", f"{npoc}.inPosition")
 
-				if side == "l_b": 
-					cmds.setAttr(f"{c}.b_lip_influence", cmds.getAttr(f"{rev}.outputX"))
+						add = utils.createNode("addDoubleLinear", n=f"{m_name}_{side[0]}_lip_{i}_uValue_addDoubleLinear")
+						mult = utils.createNode("multDoubleLinear", n=f"{m_name}_{side[0]}_lip_{i}_corner_multDoubleLinear")
 
-				# connect bifrost attributes
-				if side[0] == "l":
-					id = center_id+i
-				else:
-					id = center_id-i
-					
-				cmds.connectAttr(f"{c}_locShape.worldPosition[0]", f"{m_name}_detail_bifrostGraphShape.{side[-1]}_crv_control_points[{id}]")
+						cmds.connectAttr(f"{m_name}_l_mouthCorner_moveX_multDoubleLinear.output", f"{mult}.input1")
+						cmds.connectAttr(f"{m_name}_l_t_lip_{i}.corner_h_influence", f"{mult}.input2")
+						
+						cmds.connectAttr(f"{npoc}.parameter", f"{add}.input1")
+						cmds.connectAttr(f"{mult}.output", f"{add}.input2")
+						
+						cmds.connectAttr(f"{add}.output", f"{mp}.uValue")
+						cmds.connectAttr(f"{add}.output", f"{fmp}.uValue")
+						
+					if side == "r_t":
+						add = utils.createNode("addDoubleLinear", n=f"{m_name}_{side[0]}_lip_{i}_uValue_addDoubleLinear")
+						mult1 = utils.createNode("multDoubleLinear", n=f"{m_name}_{side[0]}_lip_{i}_corner_multDoubleLinear")
+						mult2 = utils.createNode("multDoubleLinear", n=f"{m_name}_{side[0]}_lip_{i}_cornerNegate_multDoubleLinear")
+						plus = cmds.createNode("plusMinusAverage", n=f"{m_name}_{side[0]}_lip_{i}_reverseU_plusMinusAverage")
+						
+						cmds.connectAttr(f"{m_name}_r_mouthCorner_moveX_multDoubleLinear.output", f"{mult1}.input1")
+						cmds.connectAttr(f"{m_name}_l_t_lip_{i}.corner_h_influence", f"{mult1}.input2")
+						cmds.connectAttr(f"{mult1}.output", f"{mult2}.input1")
+						cmds.setAttr(f"{mult2}.input2", -1)
+						
+						cmds.setAttr(f"{plus}.operation", 2)
+						cmds.setAttr(f"{plus}.input1D[0]", 1)
+						cmds.connectAttr(f"{npoc}.parameter", f"{plus}.input1D[1]")
+
+						cmds.connectAttr(f"{plus}.output1D", f"{add}.input1")
+						cmds.connectAttr(f"{mult2}.output", f"{add}.input2")
+						
+						cmds.connectAttr(f"{add}.output", f"{mp}.uValue")
+						cmds.connectAttr(f"{add}.output", f"{fmp}.uValue")
+
+
+		# set controls
+		for i in range(1, count+1):
+			c = f"{m_name}_l_t_lip_{i}"
+			n = 1/(count+1) * i
+			cmds.setAttr(c+".t_lip_influence", 1-n)
+			cmds.setAttr(c+".corner_h_influence", n)
+			cmds.setAttr(c+".corner_v_influence", n)
+			cmds.setAttr(c+".followJaw", n)
+
+			c = f"{m_name}_l_b_lip_{i}"
+			cmds.setAttr(c+".b_lip_influence", 1-n)
+			cmds.setAttr(c+".followJaw", 1-n)
+				
+				
+		cmds.connectAttr(f"{m_name}_l_t_lip_{count}.worldMatrix[0]", f"{m_name}_l_t_lip_corner_aimMatrix.primaryTargetMatrix", f=1)
+		cmds.connectAttr(f"{m_name}_l_b_lip_{count}.worldMatrix[0]", f"{m_name}_l_b_lip_corner_aimMatrix.primaryTargetMatrix", f=1)
+		cmds.connectAttr(f"{m_name}_r_t_lip_{count}.worldMatrix[0]", f"{m_name}_r_t_lip_corner_aimMatrix.primaryTargetMatrix", f=1)
+		cmds.connectAttr(f"{m_name}_r_b_lip_{count}.worldMatrix[0]", f"{m_name}_r_b_lip_corner_aimMatrix.primaryTargetMatrix", f=1)
+						
+
+		# rebuild surfs# rebuild surfs
+		cv_count_v = count * 2 + 3
+
+		def connect_surf(loc_shape, cp_index):
+			cmds.connectAttr(
+				f"{loc_shape}.worldPosition[0]",
+				f"{surf_shape}.controlPoints[{cp_index}]"
+			)
+
+		for side in ["t", "b"]:
+			lip_name = f"{side}_lip"  
+
+			surf_shape = f"{m_name}_{lip_name}_surfShape"
+
+			# disconnect surf
+			conns_in = cmds.listConnections(surf_shape, plugs=1, connections=1, s=1, d=0) or []
+			sources_in = conns_in[1::2]
+			targets_in = conns_in[::2]
+
+			for i,s in enumerate(sources_in):
+				cmds.disconnectAttr(s, targets_in[i])
+
+			# rebuild surfs
+			mel.eval(
+				f'rebuildSurface -ch 1 -rpo 1 -rt 0 -end 1 -kr 0 -kcp 0 -kc 0 '
+				f'-su 1 -du 1 -sv {count * 2} -dv 3 -tol 0.01 -fr 0 -dir 2 '
+				f'"{m_name}_{lip_name}_surf";'
+			)
+
+			# reconnect surf
+			for u, suffix in enumerate(["surfUpLoc", "surfDnLoc"]):
+				offset = u * cv_count_v  # 0 для Up, cv_count_v для Dn
+
+				# R corner (v=0)
+				connect_surf(f"{m_name}_r_{lip_name}_corner_{suffix}Shape", offset + 0)
+
+				# R локаторы: count, count-1, ..., 1
+				for i in range(count, 0, -1):
+					connect_surf(f"{m_name}_r_{lip_name}_{i}_{suffix}Shape", offset + (count - i + 1))
+
+				# Center (v=center)
+				center_id = (cv_count_v - 1) // 2
+				connect_surf(f"{m_name}_c_{lip_name}_{suffix}Shape", offset + center_id)
+
+				# L локаторы: 1, 2, ..., count
+				for i in range(1, count + 1):
+					connect_surf(f"{m_name}_l_{lip_name}_{i}_{suffix}Shape", offset + center_id + i)
+
+				# L corner (v=last)
+				connect_surf(f"{m_name}_l_{lip_name}_corner_{suffix}Shape", offset + cv_count_v - 1)
+
+
+		# connect input bifrost
+
+		for i in range(1, count + 1):
+			idx = i - 1
+
+			# b_lip controls
+			cmds.connectAttr(f"{m_name}_l_b_lip_{i}.followJaw",          f"{bf}.b_follow_jaw[{idx}]")
+			cmds.connectAttr(f"{m_name}_l_b_lip_{i}.b_lip_influence",    f"{bf}.b_lip_influence[{idx}]")
+
+			# t_lip controls
+			cmds.connectAttr(f"{m_name}_l_t_lip_{i}.followJaw",          f"{bf}.t_follow_jaw[{idx}]")
+			cmds.connectAttr(f"{m_name}_l_t_lip_{i}.t_lip_influence",    f"{bf}.t_lip_influence[{idx}]")
+			cmds.connectAttr(f"{m_name}_l_t_lip_{i}.corner_h_influence", f"{bf}.corner_h_influence[{idx}]")
+			cmds.connectAttr(f"{m_name}_l_t_lip_{i}.corner_v_influence", f"{bf}.corner_v_influence[{idx}]")
+
+			# pivot локаторы
+			cmds.connectAttr(f"{m_name}_lip_{i}_pivotShape.worldPosition[0]", f"{bf}.init_pos[{idx}]")
+
+			# l mpath
+			cmds.connectAttr(f"{m_name}_l_lip_{i}_mpath.allCoordinates", f"{bf}.l_translate[{idx}]")
+			cmds.connectAttr(f"{m_name}_l_lip_{i}_mpath.rotate",         f"{bf}.l_rotate[{idx}]")
+			cmds.connectAttr(f"{m_name}_l_lip_{i}_flat_mpath.rotateY",   f"{bf}.l_flat_rotateY[{idx}]")
+
+			# r mpath
+			cmds.connectAttr(f"{m_name}_r_lip_{i}_mpath.allCoordinates", f"{bf}.r_translate[{idx}]")
+			cmds.connectAttr(f"{m_name}_r_lip_{i}_mpath.rotate",         f"{bf}.r_rotate[{idx}]")
+			cmds.connectAttr(f"{m_name}_r_lip_{i}_flat_mpath.rotateY",   f"{bf}.r_flat_rotateY[{idx}]")
+
+			# nearestPointOnCurve
+			cmds.connectAttr(f"{m_name}_l_lip_{i}_nearestPointOnCurve.parameter", f"{bf}.parameter[{idx}]")
+
+
+		# connect output bifrost
+
+		for i in range(1, count + 1):
+			idx = i - 1
+
+			for side in ["l", "r"]:
+				for lip in ["t", "b"]:
+					cmds.connectAttr(
+						f"{bf}.out_{side}_{lip}_lips[{idx}]",
+						f"{m_name}_{side}_{lip}_lip_{i}_group.offsetParentMatrix"
+					)
+
+
+
+
+
+
+
+

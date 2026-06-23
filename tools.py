@@ -1246,8 +1246,9 @@ def skinLoad()	:
 		mesh = selection[0]
 
 		# Получаем шейп
-		shapes = cmds.listRelatives(mesh, shapes=True, fullPath=True)
+		shapes = cmds.listRelatives(mesh, shapes=True, fullPath=True) or []
 		mesh_shape = mesh
+		print(111, mesh, shapes)
 		for s in shapes:
 			if not cmds.getAttr("{}.intermediateObject".format(s)):
 				mesh_shape = s
@@ -1270,6 +1271,7 @@ def skinLoad()	:
 		max_influences    = data.get("max_influences", 8)
 
 		# Проверяем количество вертексов
+		skip_weights = False
 		vertex_count_mesh = cmds.polyEvaluate(mesh_shape, vertex=True)
 		if vertex_count_mesh != vertex_count_file:
 			cmds.warning(
@@ -1402,3 +1404,20 @@ def skinLoad()	:
 
 	# Запуск
 	import_skin_weights()
+
+def fixControlInternalName():
+	#ctrls = getSetObjects('moduleControlSet')
+	sel = cmds.ls(sl=1)
+
+	if len(sel) == 0:
+		cmds.warning("Select controls")
+	#print sel, c in sel
+
+	m_name = utils.getModuleName(sel[0])
+
+	for c in sel:
+		if c.split("_")[0] == m_name:
+			utils.setUserAttr(c, "internalName", c[len(m_name)+1:])
+		else:
+			utils.setUserAttr(c, "internalName", c)
+		print ("Set internal name -", c)

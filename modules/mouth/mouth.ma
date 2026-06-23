@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: mouth.ma
-//Last modified: Tue, May 19, 2026 08:18:33 PM
+//Last modified: Sun, Jun 07, 2026 06:08:14 AM
 //Codeset: 1251
 requires maya "2022";
 requires -nodeType "inverseMatrix" "matrixNodes" "1.0";
@@ -15,12 +15,12 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202110272215-ad32f8f1e6";
 fileInfo "osv" "Windows 10 Pro v2009 (Build: 26200)";
-fileInfo "UUID" "905F76CF-4E28-1706-0BFE-C5B39E1ED30F";
+fileInfo "UUID" "963E3D78-47C4-7000-404B-87B7DD5E2472";
 createNode transform -s -n "persp";
 	rename -uid "D7C753BE-41A5-B19B-E518-17B7E461469C";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 2.3484439460512099 3.0970225740829083 6.5295657394884641 ;
-	setAttr ".r" -type "double3" -14.400000000000027 9.6000000000000032 2.0160797824510465e-16 ;
+	setAttr ".t" -type "double3" 0.40467767337689114 11.967041419473095 7.7557628992316925 ;
+	setAttr ".r" -type "double3" -2.4000000000000132 0.39999999999999575 7.6099110043991389e-17 ;
 	setAttr ".rp" -type "double3" 0 1.7763568394002505e-15 0 ;
 	setAttr ".rpt" -type "double3" -3.6763531860636011e-17 -4.6933296585742409e-17 -4.0396320769111489e-16 ;
 createNode camera -s -n "perspShape" -p "persp";
@@ -28,11 +28,11 @@ createNode camera -s -n "perspShape" -p "persp";
 	setAttr -k off ".v" no;
 	setAttr ".fl" 34.999999999999979;
 	setAttr ".fcp" 50000;
-	setAttr ".coi" 5.7403580937887329;
+	setAttr ".coi" 6.1648219373357493;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
-	setAttr ".tp" -type "double3" 1.4043431878089905 0.47107402235269547 0.65152730792760849 ;
+	setAttr ".tp" -type "double3" 0.90245365677401401 1.0930967926979065 0.79760363698005676 ;
 	setAttr ".hc" -type "string" "viewSet -p %camera";
 createNode transform -s -n "top";
 	rename -uid "E2F10FDB-4A39-7BF7-990F-4C915FA79B0B";
@@ -54,14 +54,14 @@ createNode camera -s -n "topShape" -p "top";
 createNode transform -s -n "front";
 	rename -uid "A6F9494D-4191-F504-5CD6-FB840A5047FF";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" -0.088037450531305739 1.1258511155686186 5.9791326789498385 ;
+	setAttr ".t" -type "double3" 0.26051193030827452 0.79858099026176266 5.3714287219393677 ;
 createNode camera -s -n "frontShape" -p "front";
 	rename -uid "75864634-4666-D4DE-26EB-379C4FA06547";
 	setAttr -k off ".v" no;
 	setAttr ".rnd" no;
 	setAttr ".fcp" 50000;
 	setAttr ".coi" 1000.1;
-	setAttr ".ow" 4.6880387435771933;
+	setAttr ".ow" 4.5198507222935227;
 	setAttr ".imn" -type "string" "front";
 	setAttr ".den" -type "string" "front_depth";
 	setAttr ".man" -type "string" "front_mask";
@@ -70,15 +70,15 @@ createNode camera -s -n "frontShape" -p "front";
 createNode transform -s -n "side";
 	rename -uid "66864D68-46DE-21FE-876F-ED97AF3798CF";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" -4.3209386222559569 0.41935149794601811 -0.026256932928511723 ;
-	setAttr ".r" -type "double3" 0 -90 0 ;
+	setAttr ".t" -type "double3" 10.422863854744117 1.9735020418680094 0.61731380380906797 ;
+	setAttr ".r" -type "double3" 0 90 0 ;
 createNode camera -s -n "sideShape" -p "side";
 	rename -uid "9670BF5C-464E-2282-2B67-5F9BC11CEEE4";
 	setAttr -k off ".v" no;
 	setAttr ".rnd" no;
 	setAttr ".fcp" 50000;
 	setAttr ".coi" 1000.1;
-	setAttr ".ow" 6.0084686432957488;
+	setAttr ".ow" 9.0006281200717524;
 	setAttr ".imn" -type "string" "side";
 	setAttr ".den" -type "string" "side_depth";
 	setAttr ".man" -type "string" "side_mask";
@@ -130,7 +130,7 @@ createNode transform -n "mainPoser" -p "posers";
 	setAttr -l on -k off ".v";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 12;
-	setAttr ".t" -type "double3" -1.3921395628662506e-16 0 0 ;
+	setAttr ".t" -type "double3" -1.3921395628662506e-16 10.399175901515981 1.2301608278330232 ;
 	setAttr -l on -k off ".tx";
 	setAttr -l on -k off ".ry";
 	setAttr -l on -k off ".rz";
@@ -416,7 +416,7 @@ createNode transform -n "c_lip_poser" -p "mouth_poser";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 4;
-	setAttr -k on ".t" -type "double3" 0 -0.094477920294334661 0.50235191041313954 ;
+	setAttr -k on ".t" -type "double3" 0 -0.23010671913142752 0.74462166404163643 ;
 	setAttr -k on ".t";
 	setAttr -l on -k off ".tx";
 	setAttr -l on -k off ".ry";
@@ -851,7 +851,7 @@ createNode transform -n "l_cheek_poser" -p "mouth_poser";
 	setAttr -k off ".v";
 	setAttr -k on ".t" -type "double3" 2.953889986066133 1.2801012469794841 -1.0804000788833139 ;
 	setAttr -k on ".t";
-	setAttr ".r" -type "double3" 25.830543528457991 54.732125736155034 19.482215592533535 ;
+	setAttr ".r" -type "double3" 2.6946854551575004 22.995261308344649 -5.3317329582851825 ;
 	setAttr -k off ".sy";
 	setAttr -k off ".sz";
 	setAttr ".dh" yes;
@@ -911,7 +911,7 @@ createNode transform -n "lip_1_poser" -p "mouth_poser";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 4;
-	setAttr -k on ".t" -type "double3" 0.629731383047761 -0.082250278290388903 0.29093685697456101 ;
+	setAttr -k on ".t" -type "double3" 0.77025481491379544 -0.23755555523761818 0.76332174039294798 ;
 	setAttr -k on ".t";
 	setAttr ".r" -type "double3" 1.1378683000466325 19.596909925288635 1.6955187990567682 ;
 	setAttr -l on -k off ".sx";
@@ -948,7 +948,6 @@ createNode transform -n "lip_1_pivot" -p "lip_1_poser";
 createNode locator -n "lip_1_pivotShape" -p "lip_1_pivot";
 	rename -uid "C8C64F6A-4601-3B69-A611-51958FDF0ABD";
 	setAttr -k off ".v";
-	setAttr -s 2 ".wp";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
 createNode transform -n "lip_2_poser" -p "mouth_poser";
 	rename -uid "601A844D-41DB-C40C-9B47-6C8008A78790";
@@ -956,7 +955,7 @@ createNode transform -n "lip_2_poser" -p "mouth_poser";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 12;
-	setAttr -k on ".t" -type "double3" 1.3020266205388602 0.043704075538864184 0.24814561260983395 ;
+	setAttr -k on ".t" -type "double3" 1.3331610609039293 -0.075171841388019911 0.55432935422103413 ;
 	setAttr -k on ".t";
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
@@ -1009,7 +1008,7 @@ createNode locator -n "l_lip_corner_poser_upLocShape" -p "l_lip_corner_poser_upL
 createNode transform -n "l_lipUp_poser" -p "mouth_poser";
 	rename -uid "AE71D5A9-4BB5-5599-C3BE-148029D8FFBC";
 	addAttr -ci true -sn "size" -ln "size" -dv 1 -min 0 -at "double";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 	setAttr ".ove" yes;
 	setAttr ".ovc" 12;
 	setAttr -k on ".t" -type "double3" 1.3122081468590434 0.74405131555642146 0.062270876613758408 ;
@@ -1560,7 +1559,7 @@ createNode locator -n "l_mouthCorner_initLocShape" -p "l_mouthCorner_initLoc";
 createNode transform -n "l_lipDown_poser" -p "mainPoser";
 	rename -uid "6CA8F562-481D-82C8-55E0-F895522D1CEA";
 	addAttr -ci true -sn "size" -ln "size" -dv 1 -min 0 -at "double";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 	setAttr ".ove" yes;
 	setAttr ".ovc" 12;
 	setAttr -k on ".t" -type "double3" 2.8493369986843007 -0.39625706401291372 -0.21661935482245898 ;
@@ -1601,32 +1600,13 @@ createNode locator -n "l_lipUp_1_initLocShape" -p "l_lipUp_1_initLoc";
 	setAttr -k off ".v";
 createNode transform -n "display_lines" -p "posers";
 	rename -uid "4715882E-4BEB-A4C5-9FF6-BE8FF4066EDE";
-createNode transform -n "posers_curve4" -p "display_lines";
-	rename -uid "1A24D258-4F9F-683E-89F7-10B8980EC5CA";
-	setAttr ".v" no;
-	setAttr ".t" -type "double3" -1.3921395628662506e-16 0 0 ;
-	setAttr ".it" no;
-createNode nurbsCurve -n "posers_curve4Shape" -p "posers_curve4";
-	rename -uid "38707065-487F-3DAF-7F85-868D02D97BEC";
-	setAttr -k off ".v";
-	setAttr -s 4 ".cp";
-	setAttr ".cc" -type "nurbsCurve" 
-		3 1 0 no 3
-		6 0 0 0 1 1 1
-		4
-		0 1 1
-		0.62940418634459383 1.0354652853474131 0.80812827291863276
-		1.6288994204449925 1.1604802113855186 0.62533829303901034
-		1.8064361931453623 1.1863699262156795 0.59579796735012913
-		;
-createNode transform -n "posers_sweep4" -p "display_lines";
+createNode transform -n "posers_init_curve_sweep" -p "display_lines";
 	rename -uid "D709124E-4D77-3E78-5775-B594A72BAA8A";
-	setAttr ".v" no;
 	setAttr ".ovdt" 2;
 	setAttr ".ove" yes;
 	setAttr ".t" -type "double3" -1.3921395628662506e-16 0 0 ;
 	setAttr ".it" no;
-createNode mesh -n "posers_sweep4Shape" -p "posers_sweep4";
+createNode mesh -n "posers_init_curve_sweepShape" -p "posers_init_curve_sweep";
 	rename -uid "EA91F31A-41B0-1091-C902-B7AD3AF60602";
 	setAttr -k off ".v";
 	setAttr ".vir" yes;
@@ -1648,9 +1628,9 @@ createNode nurbsCurve -n "posers_curve1Shape" -p "posers_curve1";
 		1 2 0 no 3
 		3 0 1 2
 		3
-		0 1.3963834724114998 0.96767501222421071
-		0 1.0942102705257204 0.49907121969139911
-		0 0.69303785589915823 0.88950831794706708
+		0 11.795559373927482 2.197835840057234
+		0 11.493386172041703 1.7292320475244223
+		0 11.092213757415141 2.1196691457800902
 		;
 createNode transform -n "posers_sweep1" -p "display_lines";
 	rename -uid "B5ADFE9B-42FF-67FC-91F3-FA953C5D2811";
@@ -1697,9 +1677,9 @@ createNode nurbsCurve -n "posers_curve2Shape" -p "posers_curve2";
 		1 2 0 no 3
 		3 0 1 2
 		3
-		0 1.0942102705257204 0.49907121969139911
-		0 1.4819637097108089 -1.2067168065863687
-		0 0 0
+		0 11.493386172041703 1.7292320475244223
+		0 11.881139611226791 0.023444021246654456
+		0 10.399175901515981 1.2301608278330232
 		;
 createNode transform -n "posers_sweep3" -p "display_lines";
 	rename -uid "2BE7253D-4A5A-2ECD-3254-728C5024264F";
@@ -1730,8 +1710,8 @@ createNode nurbsCurve -n "posers_curve3Shape" -p "posers_curve3";
 		1 1 0 no 3
 		2 1 2
 		2
-		-1.3505747095947035e-16 3.6127649341188985 0.99178176263249562
-		0.22936737912342861 3.16586545986695 1.1306363743182788
+		-1.3505747095947035e-16 14.01194083563488 2.2219425904655186
+		0.22936737912342861 13.565041361382931 2.3607972021513017
 		;
 createNode transform -n "init_curve" -p "posers";
 	rename -uid "1479661E-470B-3507-F5DB-2B9043AA7DE7";
@@ -1739,16 +1719,17 @@ createNode transform -n "init_curve" -p "posers";
 createNode nurbsCurve -n "init_curveShape" -p "init_curve";
 	rename -uid "416006B7-479C-02D5-9AF2-B4BD842567D3";
 	setAttr -k off ".v";
-	setAttr -s 5 ".cp";
+	setAttr -s 6 ".cp";
 	setAttr ".cc" -type "nurbsCurve" 
-		3 2 0 no 3
-		7 0 0 0 0.5 1 1 1
-		5
-		-1.8064361810684204 1.1863698959350586 0.59579795598983765
-		-0.62794739007949829 1.012192964553833 0.7891838550567627
-		0 1 1
-		0.62794739522884158 1.01219300189393 0.78918387157964953
-		1.8064361931453623 1.1863699262156795 0.59579796735012913
+		3 3 0 no 3
+		8 0 0 0 0.33333333333333331 0.66666666666666663 1 1 1
+		6
+		-1.8064361810684204 11.585545539855957 1.8259588479995728
+		-0.76807272434234619 11.256504058837891 2.4903912544250488
+		0 11.263931330194833 2.4717442470957875
+		0.76807273340370807 11.25650359615412 2.4903913473539241
+		1.3293843028173311 11.418427287563521 2.281991022942333
+		1.8064361931453623 11.585545827731663 1.8259587951831522
 		;
 	setAttr ".dcv" yes;
 createNode transform -n "init_corner_flat_curve" -p "posers";
@@ -1934,7 +1915,6 @@ createNode nurbsCurve -n "r_nostrilShape" -p "r_nostril";
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:d64442bb126a";
 createNode transform -n "cheeks_group" -p "controls";
 	rename -uid "A7606966-443A-E0DB-3811-A293E77468D4";
-	setAttr ".v" no;
 createNode transform -n "l_cheek_group" -p "cheeks_group";
 	rename -uid "AA7E519A-4A6D-EB10-6251-F6A0E3EE958E";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -2017,7 +1997,6 @@ createNode nurbsCurve -n "r_cheekShape" -p "r_cheek";
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:d0c05137c9e7";
 createNode transform -n "cheekUps_transform_group" -p "controls";
 	rename -uid "B269170E-4C4A-0E26-CDE2-D0BA126B43FA";
-	setAttr ".v" no;
 createNode transform -n "l_cheekUp_group" -p "cheekUps_transform_group";
 	rename -uid "68E168AB-4B52-A48D-8FA1-3BA08B426971";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -2199,6 +2178,7 @@ createNode transform -n "jaw" -p "jaw_group";
 	addAttr -ci true -sn "type" -ln "type" -dt "string";
 	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
 	setAttr -l on -k off ".v";
+	setAttr -s 2 ".iog";
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
@@ -2311,30 +2291,21 @@ createNode nurbsCurve -n "c_b_lipShape" -p "c_b_lip";
 		-0.070316021715350105 -0.17421380642234369 0.25318105859229673
 		;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:ae2ed9194887";
-createNode transform -n "c_b_lip_loc" -p "c_b_lip";
-	rename -uid "0F0EAAFF-4733-D820-476F-C5BDA0DBF219";
-	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".v" no;
-	setAttr -l on ".moduleName" -type "string" "mouth";
-createNode locator -n "c_b_lip_locShape" -p "c_b_lip_loc";
-	rename -uid "78306ADB-44E5-0653-7A7D-4E8D8EE64B05";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "b_lip_surfLoc_2" -p "c_b_lip";
+createNode transform -n "c_b_lip_surfUpLoc" -p "c_b_lip";
 	rename -uid "20EB1842-4EC3-5659-A466-1B9B72B204C9";
 	setAttr ".v" no;
 	setAttr ".t" -type "double3" 0 0.1 0 ;
 	setAttr -l on ".ty";
-createNode locator -n "b_lip_surfLoc_2Shape" -p "b_lip_surfLoc_2";
+createNode locator -n "c_b_lip_surfUpLocShape" -p "c_b_lip_surfUpLoc";
 	rename -uid "C07BE563-4A4D-AFC6-6352-7BA75FF4ED79";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "b_lip_surfLoc_7" -p "c_b_lip";
+createNode transform -n "c_b_lip_surfDnLoc" -p "c_b_lip";
 	rename -uid "20C83356-4A2F-5686-D762-C3B7A7E06BB5";
 	setAttr ".v" no;
 	setAttr ".t" -type "double3" 0 -0.1 0 ;
 	setAttr -l on ".ty";
-createNode locator -n "b_lip_surfLoc_7Shape" -p "b_lip_surfLoc_7";
+createNode locator -n "c_b_lip_surfDnLocShape" -p "c_b_lip_surfDnLoc";
 	rename -uid "E0DD8E63-4A0C-828C-D258-BDB12E02F384";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
@@ -2347,8 +2318,7 @@ createNode transform -n "l_mouthCorner_autoGroup" -p "jaw_group";
 createNode transform -n "l_mouthCorner_reverseGroup" -p "l_mouthCorner_autoGroup";
 	rename -uid "E98C1125-4408-9CAF-FFA1-549A5858BF0B";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".t" -type "double3" 0 -4.0766001685454967e-16 -4.7184478546569153e-16 ;
-	setAttr ".dla" yes;
+	setAttr ".t" -type "double3" 2.7755575615628914e-16 -4.0766001685454967e-16 -4.7184478546569153e-16 ;
 	setAttr -l on ".moduleName" -type "string" "mouth";
 createNode transform -n "l_mouthCorner" -p "l_mouthCorner_reverseGroup";
 	rename -uid "5BB99B18-4F45-472A-1132-67B8A8AF37DD";
@@ -2357,14 +2327,10 @@ createNode transform -n "l_mouthCorner" -p "l_mouthCorner_reverseGroup";
 	addAttr -ci true -sn "downBsLimit" -ln "downBsLimit" -max 0 -at "double";
 	addAttr -ci true -sn "frontBsLimit" -ln "frontBsLimit" -at "double";
 	addAttr -ci true -sn "backBsLimit" -ln "backBsLimit" -at "double";
-	addAttr -ci true -sn "jawInfluence" -ln "jawInfluence" -dv 0.5 -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "default_zip" -ln "default_zip" -dt "string";
 	addAttr -ci true -sn "default_dropoff" -ln "default_dropoff" -dt "string";
 	addAttr -ci true -sn "jawInInfluence" -ln "jawInInfluence" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "deepOffset" -ln "deepOffset" -at "double";
-	addAttr -ci true -sn "folowJaw" -ln "folowJaw" -dv 0.5 -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "zip" -ln "zip" -min 0 -at "double";
-	addAttr -ci true -sn "zipDropoff" -ln "zipDropoff" -min 0 -at "double";
 	addAttr -ci true -sn "moveFactorX" -ln "moveFactorX" -at "double";
 	addAttr -ci true -sn "type" -ln "type" -dt "string";
 	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
@@ -2374,8 +2340,17 @@ createNode transform -n "l_mouthCorner" -p "l_mouthCorner_reverseGroup";
 	addAttr -ci true -sn "default_deepOffset" -ln "default_deepOffset" -dt "string";
 	addAttr -ci true -sn "default_folowJaw" -ln "default_folowJaw" -dt "string";
 	addAttr -ci true -sn "default_zipDropoff" -ln "default_zipDropoff" -dt "string";
+	addAttr -ci true -sn "default_limits" -ln "default_limits" -dt "string";
+	addAttr -ci true -sn "autoFollowJaw" -ln "autoFollowJaw" -min 0 -max 1 -at "double";
+	addAttr -ci true -sn "folowJaw" -ln "folowJaw" -dv 0.5 -min 0 -max 1 -at "double";
+	addAttr -ci true -sn "zip" -ln "zip" -min 0 -at "double";
+	addAttr -ci true -sn "zipDropoff" -ln "zipDropoff" -min 0 -at "double";
+	addAttr -ci true -sn "limits" -ln "limits" -min 0 -max 1 -at "bool";
+	addAttr -ci true -sn "default_autoFollowJaw" -ln "default_autoFollowJaw" -dt "string";
 	setAttr -l on -k off ".v";
 	setAttr -s 2 ".iog";
+	setAttr -k on ".t" -type "double3" -2.7755575615628914e-16 1.2351231148954867e-15 
+		0 ;
 	setAttr -k on ".t";
 	setAttr -k off ".tz";
 	setAttr -l on -k off ".rx";
@@ -2391,21 +2366,24 @@ createNode transform -n "l_mouthCorner" -p "l_mouthCorner_reverseGroup";
 	setAttr ".downBsLimit" -0.2;
 	setAttr ".frontBsLimit" -0.3;
 	setAttr ".backBsLimit" 0.4;
-	setAttr ".jawInfluence" 0.3762886596401942;
 	setAttr ".default_zip" -type "string" "0.0";
 	setAttr ".default_dropoff" -type "string" "1.0";
 	setAttr -k on ".deepOffset";
-	setAttr -k on ".folowJaw";
-	setAttr -k on ".zip";
-	setAttr -k on ".zipDropoff" 0.8;
 	setAttr -l on ".type" -type "string" "control";
 	setAttr -l on ".internalName" -type "string" "l_mouthCorner";
-	setAttr ".default_translate" -type "string" "[(0.0, 0.0, 0.0)]";
-	setAttr ".default_translateX" -type "string" "0.0";
-	setAttr ".default_translateY" -type "string" "0.0";
+	setAttr ".default_translate" -type "string" "[(-2.7755575615628914e-16, 1.2351231148954867e-15, 0.0)]";
+	setAttr ".default_translateX" -type "string" "-2.7755575615628914e-16";
+	setAttr ".default_translateY" -type "string" "1.2351231148954867e-15";
 	setAttr ".default_deepOffset" -type "string" "0.0";
 	setAttr ".default_folowJaw" -type "string" "0.5";
-	setAttr ".default_zipDropoff" -type "string" "0.8";
+	setAttr ".default_zipDropoff" -type "string" "0.1";
+	setAttr ".default_limits" -type "string" "True";
+	setAttr -k on ".autoFollowJaw" 1;
+	setAttr -k on ".folowJaw";
+	setAttr -k on ".zip";
+	setAttr -k on ".zipDropoff" 0.1;
+	setAttr -cb on ".limits" yes;
+	setAttr ".default_autoFollowJaw" -type "string" "1.0";
 createNode nurbsCurve -n "l_mouthCornerShape" -p "l_mouthCorner";
 	rename -uid "DF2336BB-4300-3665-0E9E-B6B26FD30AF1";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
@@ -2514,48 +2492,47 @@ createNode nurbsCurve -n "l_cornerLip_localShape" -p "l_cornerLip_local";
 		0.051243530384084211 1.0491800322143701e-05 0.14321864877250426
 		;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:029c9480dd8d";
-createNode transform -n "l_lip_loc" -p "l_lip";
-	rename -uid "B647F571-46E3-8FC2-BF2E-AB818D09832E";
-	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+createNode transform -n "l_t_lip_corner_aim_group" -p "l_lip";
+	rename -uid "7FF642B6-4996-F187-B1A6-2594CDE56C0C";
+createNode transform -n "l_t_lip_corner_surfUpLoc" -p "l_t_lip_corner_aim_group";
+	rename -uid "3BE8F56A-4EC0-33B0-263E-60B6C22EBECB";
 	setAttr ".v" no;
-	setAttr -l on ".moduleName" -type "string" "mouth";
-createNode locator -n "l_lip_locShape" -p "l_lip_loc";
-	rename -uid "2120362B-459A-1809-B113-27AC1930F546";
+	setAttr ".t" -type "double3" 2.2204460492503131e-16 0.1 -1.1102230246251565e-16 ;
+	setAttr -l on ".ty";
+	setAttr ".s" -type "double3" 0.99999999999999989 0.99999999999999989 0.99999999999999967 ;
+createNode locator -n "l_t_lip_corner_surfUpLocShape" -p "l_t_lip_corner_surfUpLoc";
+	rename -uid "903C91BE-40F7-B0C7-41C5-2FBAE8A6A3A0";
 	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.12999999999999989 0.12999999999999989 0.12999999999999989 ;
-createNode transform -n "t_lip_surfLoc_9" -p "l_lip";
+	setAttr ".los" -type "double3" 0.10999999999999988 0.10999999999999988 0.10999999999999988 ;
+createNode transform -n "l_t_lip_corner_surfDnLoc" -p "l_t_lip_corner_aim_group";
 	rename -uid "AAA3030B-4443-4AFC-A23B-C59CCCA9F462";
 	setAttr ".v" no;
 	setAttr ".t" -type "double3" 0 -0.1 0 ;
 	setAttr -l on ".ty";
-createNode locator -n "t_lip_surfLoc_9Shape" -p "t_lip_surfLoc_9";
+	setAttr ".s" -type "double3" 0.99999999999999989 0.99999999999999989 0.99999999999999967 ;
+createNode locator -n "l_t_lip_corner_surfDnLocShape" -p "l_t_lip_corner_surfDnLoc";
 	rename -uid "5DE9BA6E-486B-B51F-A125-82A654D91503";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.10999999999999988 0.10999999999999988 0.10999999999999988 ;
-createNode transform -n "t_lip_surfLoc_4" -p "l_lip";
-	rename -uid "3BE8F56A-4EC0-33B0-263E-60B6C22EBECB";
-	setAttr ".v" no;
-	setAttr ".t" -type "double3" 0 0.1 0 ;
-	setAttr -l on ".ty";
-createNode locator -n "t_lip_surfLoc_4Shape" -p "t_lip_surfLoc_4";
-	rename -uid "903C91BE-40F7-B0C7-41C5-2FBAE8A6A3A0";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.10999999999999988 0.10999999999999988 0.10999999999999988 ;
-createNode transform -n "b_lip_surfLoc_4" -p "l_lip";
+createNode transform -n "l_b_lip_corner_aim_group" -p "l_lip";
+	rename -uid "3BC6E2A4-4ED6-C00C-68C9-979A3695EB3D";
+createNode transform -n "l_b_lip_corner_surfUpLoc" -p "l_b_lip_corner_aim_group";
 	rename -uid "B76DBB17-4F7A-6234-FE21-A087DF0A4F80";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 0 0.1 0 ;
+	setAttr ".t" -type "double3" 2.2204460492503131e-16 0.1 -1.1102230246251565e-16 ;
 	setAttr -l on ".ty";
-createNode locator -n "b_lip_surfLoc_4Shape" -p "b_lip_surfLoc_4";
+	setAttr ".s" -type "double3" 0.99999999999999989 0.99999999999999989 0.99999999999999967 ;
+createNode locator -n "l_b_lip_corner_surfUpLocShape" -p "l_b_lip_corner_surfUpLoc";
 	rename -uid "AD601255-44C0-8B87-AB19-ACA22E40ABD4";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "b_lip_surfLoc_9" -p "l_lip";
+createNode transform -n "l_b_lip_corner_surfDnLoc" -p "l_b_lip_corner_aim_group";
 	rename -uid "81A92E35-4305-3C4D-75D2-81B55CD456AB";
 	setAttr ".v" no;
 	setAttr ".t" -type "double3" 0 -0.1 0 ;
 	setAttr -l on ".ty";
-createNode locator -n "b_lip_surfLoc_9Shape" -p "b_lip_surfLoc_9";
+	setAttr ".s" -type "double3" 0.99999999999999989 0.99999999999999989 0.99999999999999967 ;
+createNode locator -n "l_b_lip_corner_surfDnLocShape" -p "l_b_lip_corner_surfDnLoc";
 	rename -uid "3B4133DF-4C69-1A65-EFE3-37B165B1EC69";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
@@ -2575,9 +2552,6 @@ createNode transform -n "r_mouthCorner" -p "r_mouthCorner_reverseGroup";
 	addAttr -ci true -sn "default_dropoff" -ln "default_dropoff" -dt "string";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
 	addAttr -ci true -sn "deepOffset" -ln "deepOffset" -at "double";
-	addAttr -ci true -sn "folowJaw" -ln "folowJaw" -dv 0.5 -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "zip" -ln "zip" -min 0 -at "double";
-	addAttr -ci true -sn "zipDropoff" -ln "zipDropoff" -min 0 -at "double";
 	addAttr -ci true -sn "type" -ln "type" -dt "string";
 	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
 	addAttr -ci true -sn "default_translate" -ln "default_translate" -dt "string";
@@ -2586,6 +2560,13 @@ createNode transform -n "r_mouthCorner" -p "r_mouthCorner_reverseGroup";
 	addAttr -ci true -sn "default_deepOffset" -ln "default_deepOffset" -dt "string";
 	addAttr -ci true -sn "default_folowJaw" -ln "default_folowJaw" -dt "string";
 	addAttr -ci true -sn "default_zipDropoff" -ln "default_zipDropoff" -dt "string";
+	addAttr -ci true -sn "default_limits" -ln "default_limits" -dt "string";
+	addAttr -ci true -sn "autoFollowJaw" -ln "autoFollowJaw" -min 0 -max 1 -at "double";
+	addAttr -ci true -sn "folowJaw" -ln "folowJaw" -dv 0.5 -min 0 -max 1 -at "double";
+	addAttr -ci true -sn "zip" -ln "zip" -min 0 -at "double";
+	addAttr -ci true -sn "zipDropoff" -ln "zipDropoff" -min 0 -at "double";
+	addAttr -ci true -sn "limits" -ln "limits" -min 0 -max 1 -at "bool";
+	addAttr -ci true -sn "default_autoFollowJaw" -ln "default_autoFollowJaw" -dt "string";
 	setAttr -l on -k off ".v";
 	setAttr -s 2 ".iog";
 	setAttr -k on ".t";
@@ -2602,9 +2583,6 @@ createNode transform -n "r_mouthCorner" -p "r_mouthCorner_reverseGroup";
 	setAttr ".default_dropoff" -type "string" "1.0";
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:1f7ec0edc3c9";
 	setAttr -k on ".deepOffset";
-	setAttr -k on ".folowJaw";
-	setAttr -k on ".zip";
-	setAttr -k on ".zipDropoff" 0.8;
 	setAttr -l on ".type" -type "string" "control";
 	setAttr -l on ".internalName" -type "string" "r_mouthCorner";
 	setAttr ".default_translate" -type "string" "[(0.0, 0.0, 0.0)]";
@@ -2612,7 +2590,14 @@ createNode transform -n "r_mouthCorner" -p "r_mouthCorner_reverseGroup";
 	setAttr ".default_translateY" -type "string" "0.0";
 	setAttr ".default_deepOffset" -type "string" "0.0";
 	setAttr ".default_folowJaw" -type "string" "0.5";
-	setAttr ".default_zipDropoff" -type "string" "0.8";
+	setAttr ".default_zipDropoff" -type "string" "0.1";
+	setAttr ".default_limits" -type "string" "True";
+	setAttr -k on ".autoFollowJaw" 1;
+	setAttr -k on ".folowJaw";
+	setAttr -k on ".zip";
+	setAttr -k on ".zipDropoff" 0.1;
+	setAttr -cb on ".limits" yes;
+	setAttr ".default_autoFollowJaw" -type "string" "1.0";
 createNode nurbsCurve -n "r_mouthCornerShape" -p "r_mouthCorner";
 	rename -uid "4A82535A-453A-4041-E1B4-19B86E3850FE";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
@@ -2697,39 +2682,47 @@ createNode locator -n "r_lip_locShape" -p "r_lip_loc";
 	rename -uid "7B4B692B-43E8-E4C8-AC43-2495BB5F1F76";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.17999999999999983 0.17999999999999983 0.17999999999999983 ;
-createNode transform -n "t_lip_surfLoc_5" -p "r_lip";
-	rename -uid "01020C7A-4380-E8A8-FA27-5A8B8855ECF3";
-	setAttr ".v" no;
-	setAttr ".t" -type "double3" -2.0079424234431542e-16 -0.1 -1.9255430583342559e-16 ;
-	setAttr -l on ".ty";
-createNode locator -n "t_lip_surfLoc_5Shape" -p "t_lip_surfLoc_5";
-	rename -uid "A92A934F-40F8-BE25-CD47-1DB905B90F67";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.10999999999999988 0.10999999999999988 0.10999999999999988 ;
-createNode transform -n "t_lip_surfLoc_0" -p "r_lip";
+createNode transform -n "r_t_lip_corner_aim_group" -p "r_lip";
+	rename -uid "B68844EB-49FB-EE00-E099-FCA1C883A9C1";
+createNode transform -n "r_t_lip_corner_surfUpLoc" -p "r_t_lip_corner_aim_group";
 	rename -uid "F0DA7283-4F76-6256-228F-959D0498AACF";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 0 0.1 0 ;
+	setAttr ".t" -type "double3" 8.8817841970012523e-16 0.1 4.4408920985006262e-16 ;
 	setAttr -l on ".ty";
-createNode locator -n "t_lip_surfLoc_0Shape" -p "t_lip_surfLoc_0";
+	setAttr ".s" -type "double3" 1.0000000000000002 1.0000000000000004 1 ;
+createNode locator -n "r_t_lip_corner_surfUpLocShape" -p "r_t_lip_corner_surfUpLoc";
 	rename -uid "FD99327A-4E7A-ABC1-862F-6AB0CB4AE111";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.10999999999999988 0.10999999999999988 0.10999999999999988 ;
-createNode transform -n "b_lip_surfLoc_0" -p "r_lip";
+createNode transform -n "r_t_lip_corner_surfDnLoc" -p "r_t_lip_corner_aim_group";
+	rename -uid "01020C7A-4380-E8A8-FA27-5A8B8855ECF3";
+	setAttr ".v" no;
+	setAttr ".t" -type "double3" 4.4408920985006262e-16 -0.1 -1.1102230246251565e-16 ;
+	setAttr -l on ".ty";
+	setAttr ".s" -type "double3" 1.0000000000000004 1.0000000000000002 1 ;
+createNode locator -n "r_t_lip_corner_surfDnLocShape" -p "r_t_lip_corner_surfDnLoc";
+	rename -uid "A92A934F-40F8-BE25-CD47-1DB905B90F67";
+	setAttr -k off ".v";
+	setAttr ".los" -type "double3" 0.10999999999999988 0.10999999999999988 0.10999999999999988 ;
+createNode transform -n "r_b_lip_corner_aim_group" -p "r_lip";
+	rename -uid "84395254-472A-345A-25BD-4EA61A937C36";
+createNode transform -n "r_b_lip_corner_surfUpLoc" -p "r_b_lip_corner_aim_group";
 	rename -uid "FA0E2ADF-42D7-1ED3-8D18-5FB6C08E0122";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 0 0.1 0 ;
+	setAttr ".t" -type "double3" 4.4408920985006262e-16 0.1 2.2204460492503131e-16 ;
 	setAttr -l on ".ty";
-createNode locator -n "b_lip_surfLoc_0Shape" -p "b_lip_surfLoc_0";
+	setAttr ".s" -type "double3" 1.0000000000000004 1.0000000000000002 1 ;
+createNode locator -n "r_b_lip_corner_surfUpLocShape" -p "r_b_lip_corner_surfUpLoc";
 	rename -uid "A6ABFC39-40B0-AC53-D485-F7A0E2FC4338";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "b_lip_surfLoc_5" -p "r_lip";
+createNode transform -n "r_b_lip_corner_surfDnLoc" -p "r_b_lip_corner_aim_group";
 	rename -uid "15AFA20E-49F2-1F83-0BD3-43B1FF18E5AD";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 0 -0.1 0 ;
+	setAttr ".t" -type "double3" 6.6613381477509392e-16 -0.1 1.1102230246251565e-16 ;
 	setAttr -l on ".ty";
-createNode locator -n "b_lip_surfLoc_5Shape" -p "b_lip_surfLoc_5";
+	setAttr ".s" -type "double3" 1.0000000000000004 1.0000000000000002 1 ;
+createNode locator -n "r_b_lip_corner_surfDnLocShape" -p "r_b_lip_corner_surfDnLoc";
 	rename -uid "2981441D-4E6C-4A5B-C362-2681F61E3358";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
@@ -2820,30 +2813,21 @@ createNode nurbsCurve -n "c_t_lipShape" -p "c_t_lip";
 		-0.061993442859254372 0.30200877705793511 0.24302799153513069
 		;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:e3a3c0bc010b";
-createNode transform -n "c_t_lip_loc" -p "c_t_lip";
-	rename -uid "02D254F4-4FC2-D8C1-8743-C6B5563D2C70";
-	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".v" no;
-	setAttr -l on ".moduleName" -type "string" "mouth";
-createNode locator -n "c_t_lip_locShape" -p "c_t_lip_loc";
-	rename -uid "E1848ADD-46E6-1F47-E2FA-BF9DFD61C262";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "t_lip_surfLoc_2" -p "c_t_lip";
+createNode transform -n "c_t_lip_surfUpLoc" -p "c_t_lip";
 	rename -uid "68EECE9E-4CD7-AA64-BC35-F08B845267E6";
 	setAttr ".v" no;
 	setAttr ".t" -type "double3" 0 0.1 0 ;
 	setAttr -l on ".ty";
-createNode locator -n "t_lip_surfLoc_2Shape" -p "t_lip_surfLoc_2";
+createNode locator -n "c_t_lip_surfUpLocShape" -p "c_t_lip_surfUpLoc";
 	rename -uid "E65441A4-45AF-AE24-2298-93B326BC4638";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.10999999999999988 0.10999999999999988 0.10999999999999988 ;
-createNode transform -n "t_lip_surfLoc_7" -p "c_t_lip";
+createNode transform -n "c_t_lip_surfDnLoc" -p "c_t_lip";
 	rename -uid "B7F20645-47BB-9AEC-2301-999858A82F76";
 	setAttr ".v" no;
 	setAttr ".t" -type "double3" -2.0079424234431542e-16 -0.1 -1.9255430583342559e-16 ;
 	setAttr -l on ".ty";
-createNode locator -n "t_lip_surfLoc_7Shape" -p "t_lip_surfLoc_7";
+createNode locator -n "c_t_lip_surfDnLocShape" -p "c_t_lip_surfDnLoc";
 	rename -uid "72602D31-4A56-6174-0386-9FB42F8CCCD3";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.10999999999999988 0.10999999999999988 0.10999999999999988 ;
@@ -2878,11 +2862,10 @@ createNode transform -n "sec_controls_group" -p "lips";
 	rename -uid "FCE48B7C-4E4A-6C28-8C0A-49A9D2F4E568";
 createNode transform -n "r_t_lip_1_group" -p "sec_controls_group";
 	rename -uid "F8C14D0A-48CA-5538-F8A4-93A3390A0687";
+	setAttr ".t" -type "double3" 0 1.3681066605877899e-17 0 ;
 createNode transform -n "r_t_lip_1" -p "r_t_lip_1_group";
 	rename -uid "C1CC14ED-48B6-BD9F-B79E-A6B6C6402A68";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
-	addAttr -ci true -sn "type" -ln "type" -dt "string";
-	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
 	addAttr -ci true -sn "followJaw" -ln "followJaw" -min 0 -max 1 -at "double";
 	setAttr -l on -k off ".v";
 	setAttr -k on ".t";
@@ -2895,8 +2878,6 @@ createNode transform -n "r_t_lip_1" -p "r_t_lip_1_group";
 	setAttr -l on -k off ".sz";
 	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:8e35a960e8f3";
-	setAttr -l on ".type" -type "string" "control";
-	setAttr -l on ".internalName" -type "string" "r_t_lip_1";
 createNode nurbsCurve -n "r_t_lip_1Shape" -p "r_t_lip_1";
 	rename -uid "44D98FBE-4207-7C86-4828-1394A98FA1B2";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
@@ -2905,43 +2886,32 @@ createNode nurbsCurve -n "r_t_lip_1Shape" -p "r_t_lip_1";
 	setAttr ".ovc" 17;
 	setAttr ".tw" yes;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:b9137fca2b80";
-createNode transform -n "r_t_lip_1_loc" -p "r_t_lip_1";
-	rename -uid "6BBF6467-4AD8-CAED-17F8-16BD98801115";
-	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".v" no;
-	setAttr ".opm" -type "matrix" 1 0 0 0 0 1.0000000000000002 0 0 0 0 1 0 0 0 0 1;
-	setAttr -l on ".moduleName" -type "string" "mouth";
-createNode locator -n "r_t_lip_1_locShape" -p "r_t_lip_1_loc";
-	rename -uid "65D898D6-4A90-BD6E-BE3E-F48BCAE04864";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "t_lip_surfLoc_6" -p "r_t_lip_1";
-	rename -uid "696297DE-436B-55A7-25C8-D08ACFF4620B";
-	setAttr ".v" no;
-	setAttr ".t" -type "double3" -2.0079424234431542e-16 -0.1 -1.9255430583342559e-16 ;
-	setAttr -l on ".ty";
-createNode locator -n "t_lip_surfLoc_6Shape" -p "t_lip_surfLoc_6";
-	rename -uid "FC3377DD-4C72-77F9-AA0A-F79E814A507D";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.10999999999999988 0.10999999999999988 0.10999999999999988 ;
-createNode transform -n "t_lip_surfLoc_1" -p "r_t_lip_1";
+createNode transform -n "r_t_lip_1_surfUpLoc" -p "r_t_lip_1";
 	rename -uid "6E0AB87D-471D-A3A4-70EB-43909CBCC100";
 	setAttr ".v" no;
 	setAttr ".t" -type "double3" 0 0.1 0 ;
 	setAttr -l on ".ty";
-createNode locator -n "t_lip_surfLoc_1Shape" -p "t_lip_surfLoc_1";
+createNode locator -n "r_t_lip_1_surfUpLocShape" -p "r_t_lip_1_surfUpLoc";
 	rename -uid "4C8446F7-4AAD-E120-0CBB-A7967D37D988";
+	setAttr -k off ".v";
+	setAttr ".los" -type "double3" 0.10999999999999988 0.10999999999999988 0.10999999999999988 ;
+createNode transform -n "r_t_lip_1_surfDnLoc" -p "r_t_lip_1";
+	rename -uid "696297DE-436B-55A7-25C8-D08ACFF4620B";
+	setAttr ".v" no;
+	setAttr ".t" -type "double3" -2.0079424234431542e-16 -0.1 -1.9255430583342559e-16 ;
+	setAttr -l on ".ty";
+createNode locator -n "r_t_lip_1_surfDnLocShape" -p "r_t_lip_1_surfDnLoc";
+	rename -uid "FC3377DD-4C72-77F9-AA0A-F79E814A507D";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.10999999999999988 0.10999999999999988 0.10999999999999988 ;
 createNode transform -n "r_b_lip_1_group" -p "sec_controls_group";
 	rename -uid "3079049B-4796-EBA9-8D39-9CA2E44634BD";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".t" -type "double3" 0 1.3681066605877899e-17 0 ;
 	setAttr -l on ".moduleName" -type "string" "mouth";
 createNode transform -n "r_b_lip_1" -p "r_b_lip_1_group";
 	rename -uid "2E94C255-4CE2-B059-76ED-958629881D0F";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
-	addAttr -ci true -sn "type" -ln "type" -dt "string";
-	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
 	addAttr -ci true -sn "followJaw" -ln "followJaw" -min 0 -max 1 -at "double";
 	setAttr -l on -k off ".v";
 	setAttr -k on ".t";
@@ -2953,10 +2923,7 @@ createNode transform -n "r_b_lip_1" -p "r_b_lip_1_group";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
 	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
-	setAttr ".dla" yes;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:4df33b8990f6";
-	setAttr -l on ".type" -type "string" "control";
-	setAttr -l on ".internalName" -type "string" "r_b_lip_1";
 createNode nurbsCurve -n "r_b_lip_1Shape" -p "r_b_lip_1";
 	rename -uid "C5942EC2-47BC-9713-9E4B-1290AA14C072";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
@@ -2965,31 +2932,21 @@ createNode nurbsCurve -n "r_b_lip_1Shape" -p "r_b_lip_1";
 	setAttr ".ovc" 17;
 	setAttr ".tw" yes;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:5460604fd350";
-createNode transform -n "r_b_lip_1_loc" -p "r_b_lip_1";
-	rename -uid "EC2929E0-427F-11FF-2C20-C69050E71D69";
-	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".v" no;
-	setAttr ".opm" -type "matrix" 1 0 0 0 0 1.0000000000000002 0 0 0 0 1 0 0 0 0 1;
-	setAttr -l on ".moduleName" -type "string" "mouth";
-createNode locator -n "r_b_lip_1_locShape" -p "r_b_lip_1_loc";
-	rename -uid "534248E9-4AFA-5842-750F-8EA0B996713F";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "b_lip_surfLoc_1" -p "r_b_lip_1";
+createNode transform -n "r_b_lip_1_surfUpLoc" -p "r_b_lip_1";
 	rename -uid "691C4367-4A81-6F76-FCAD-8F99447625ED";
 	setAttr ".v" no;
 	setAttr ".t" -type "double3" 0 0.1 0 ;
 	setAttr -l on ".ty";
-createNode locator -n "b_lip_surfLoc_1Shape" -p "b_lip_surfLoc_1";
+createNode locator -n "r_b_lip_1_surfUpLocShape" -p "r_b_lip_1_surfUpLoc";
 	rename -uid "16B82F40-4710-A0DE-66A2-15AE81457EB4";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "b_lip_surfLoc_6" -p "r_b_lip_1";
+createNode transform -n "r_b_lip_1_surfDnLoc" -p "r_b_lip_1";
 	rename -uid "1B056203-4CA2-657C-FD71-38B85AC29BD7";
 	setAttr ".v" no;
 	setAttr ".t" -type "double3" 0 -0.1 0 ;
 	setAttr -l on ".ty";
-createNode locator -n "b_lip_surfLoc_6Shape" -p "b_lip_surfLoc_6";
+createNode locator -n "r_b_lip_1_surfDnLocShape" -p "r_b_lip_1_surfDnLoc";
 	rename -uid "B49FE897-4A48-A835-1804-31A1244FE946";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
@@ -3001,13 +2958,10 @@ createNode transform -n "l_t_lip_1" -p "l_t_lip_1_group";
 	addAttr -ci true -sn "t_lip_influence" -ln "t_lip_influence" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "corner_h_influence" -ln "corner_h_influence" -min 0 -max 1 
 		-at "double";
-	addAttr -ci true -sn "type" -ln "type" -dt "string";
-	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
 	addAttr -ci true -sn "corner_v_influence" -ln "corner_v_influence" -min 0 -max 1 
 		-at "double";
 	addAttr -ci true -sn "followJaw" -ln "followJaw" -min 0 -max 1 -at "double";
 	setAttr -l on -k off ".v";
-	setAttr -s 2 ".iog";
 	setAttr -k on ".t";
 	setAttr -k on ".r";
 	setAttr -l on -k off ".ry";
@@ -3018,12 +2972,10 @@ createNode transform -n "l_t_lip_1" -p "l_t_lip_1_group";
 	setAttr -l on -k off ".sz";
 	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:8e35a960e8f3";
-	setAttr ".t_lip_influence" 0.41237113422224508;
-	setAttr ".corner_h_influence" 0.33783783826574282;
-	setAttr -l on ".type" -type "string" "control";
-	setAttr -l on ".internalName" -type "string" "l_t_lip_1";
-	setAttr ".corner_v_influence" 0.26288659826458727;
-	setAttr ".followJaw" 0.24623115592865488;
+	setAttr ".t_lip_influence" 0.89230769200680349;
+	setAttr ".corner_h_influence" 0.37435897416315783;
+	setAttr ".corner_v_influence" 0.25128205167368439;
+	setAttr ".followJaw" 0.092307692565597024;
 createNode nurbsCurve -n "l_t_lip_1Shape" -p "l_t_lip_1";
 	rename -uid "8AD757B5-4DCA-A411-633E-198124E43516";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
@@ -3047,32 +2999,23 @@ createNode nurbsCurve -n "l_t_lip_1Shape" -p "l_t_lip_1";
 		-0.051592540398140325 0.27292161859822983 0.25846256519686961
 		;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:b9137fca2b80";
-createNode transform -n "l_t_lip_1_loc" -p "l_t_lip_1";
-	rename -uid "21338714-4E71-140C-35F9-5892E2B2AC34";
-	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+createNode transform -n "l_t_lip_1_surfUpLoc" -p "l_t_lip_1";
+	rename -uid "28539EEF-43F0-CF79-49CF-3184BF8BA01A";
 	setAttr ".v" no;
-	setAttr ".opm" -type "matrix" 1 0 0 0 0 1.0000000000000002 0 0 0 0 1 0 0 0 0 1;
-	setAttr -l on ".moduleName" -type "string" "mouth";
-createNode locator -n "l_t_lip_1_locShape" -p "l_t_lip_1_loc";
-	rename -uid "33585248-418A-A2DC-5B3F-BEBAF5E3598C";
+	setAttr ".t" -type "double3" -1.1102230246251565e-16 0.1 0 ;
+	setAttr -l on ".ty";
+	setAttr ".s" -type "double3" 1.0000000000000004 1.0000000000000004 1 ;
+createNode locator -n "l_t_lip_1_surfUpLocShape" -p "l_t_lip_1_surfUpLoc";
+	rename -uid "B64FF927-4DCB-C01D-94D8-BDA8F3BCE5F1";
 	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "t_lip_surfLoc_8" -p "l_t_lip_1";
+	setAttr ".los" -type "double3" 0.10999999999999988 0.10999999999999988 0.10999999999999988 ;
+createNode transform -n "l_t_lip_1_surfDnLoc" -p "l_t_lip_1";
 	rename -uid "EDEC298E-4CBA-D38E-D505-5A9F6093A819";
 	setAttr ".v" no;
 	setAttr ".t" -type "double3" -2.0079424234431542e-16 -0.1 -1.9255430583342559e-16 ;
 	setAttr -l on ".ty";
-createNode locator -n "t_lip_surfLoc_8Shape" -p "t_lip_surfLoc_8";
+createNode locator -n "l_t_lip_1_surfDnLocShape" -p "l_t_lip_1_surfDnLoc";
 	rename -uid "47DC7BA1-4856-FF36-5FBB-6F8A10424BE9";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.10999999999999988 0.10999999999999988 0.10999999999999988 ;
-createNode transform -n "t_lip_surfLoc_3" -p "l_t_lip_1";
-	rename -uid "28539EEF-43F0-CF79-49CF-3184BF8BA01A";
-	setAttr ".v" no;
-	setAttr ".t" -type "double3" 0 0.1 0 ;
-	setAttr -l on ".ty";
-createNode locator -n "t_lip_surfLoc_3Shape" -p "t_lip_surfLoc_3";
-	rename -uid "B64FF927-4DCB-C01D-94D8-BDA8F3BCE5F1";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.10999999999999988 0.10999999999999988 0.10999999999999988 ;
 createNode transform -n "l_b_lip_1_group" -p "sec_controls_group";
@@ -3083,11 +3026,8 @@ createNode transform -n "l_b_lip_1" -p "l_b_lip_1_group";
 	rename -uid "3FEE0E6C-416C-0FD6-59E8-248875EEB895";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
 	addAttr -ci true -sn "b_lip_influence" -ln "b_lip_influence" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "type" -ln "type" -dt "string";
-	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
 	addAttr -ci true -sn "followJaw" -ln "followJaw" -min 0 -max 1 -at "double";
 	setAttr -l on -k off ".v";
-	setAttr -s 2 ".iog";
 	setAttr -k on ".t";
 	setAttr -k on ".r";
 	setAttr -l on -k off ".ry";
@@ -3098,10 +3038,8 @@ createNode transform -n "l_b_lip_1" -p "l_b_lip_1_group";
 	setAttr -l on -k off ".sz";
 	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:4df33b8990f6";
-	setAttr ".b_lip_influence" 0.78969072179811206;
-	setAttr -l on ".type" -type "string" "control";
-	setAttr -l on ".internalName" -type "string" "l_b_lip_1";
-	setAttr ".followJaw" 1;
+	setAttr ".b_lip_influence" 0.83555555592394537;
+	setAttr ".followJaw" 0.78828828835541065;
 createNode nurbsCurve -n "l_b_lip_1Shape" -p "l_b_lip_1";
 	rename -uid "810BD0F3-4803-6143-81B2-24A46B6EF983";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
@@ -3125,53 +3063,36 @@ createNode nurbsCurve -n "l_b_lip_1Shape" -p "l_b_lip_1";
 		-0.051000579020967385 -0.16192660145278284 0.21627651105213666
 		;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:5460604fd350";
-createNode transform -n "l_b_lip_1_loc" -p "l_b_lip_1";
-	rename -uid "EF0F9F2C-40CC-C03B-9CB1-E4A71D3FD1E3";
-	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".v" no;
-	setAttr ".opm" -type "matrix" 1 0 0 0 0 1.0000000000000002 0 0 0 0 1 0 0 0 0 1;
-	setAttr -l on ".moduleName" -type "string" "mouth";
-createNode locator -n "l_b_lip_1_locShape" -p "l_b_lip_1_loc";
-	rename -uid "FAF6AC82-4195-F09E-429B-7EAD4739FB1D";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "b_lip_surfLoc_3" -p "l_b_lip_1";
+createNode transform -n "l_b_lip_1_surfUpLoc" -p "l_b_lip_1";
 	rename -uid "C00CFE53-43E5-9B88-0534-5DB092328360";
 	setAttr ".v" no;
 	setAttr ".t" -type "double3" 0 0.1 0 ;
 	setAttr -l on ".ty";
-createNode locator -n "b_lip_surfLoc_3Shape" -p "b_lip_surfLoc_3";
+createNode locator -n "l_b_lip_1_surfUpLocShape" -p "l_b_lip_1_surfUpLoc";
 	rename -uid "50D76505-444F-13D4-558A-64B3B318B148";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "b_lip_surfLoc_8" -p "l_b_lip_1";
+createNode transform -n "l_b_lip_1_surfDnLoc" -p "l_b_lip_1";
 	rename -uid "631121A5-4AF5-EFD8-1E94-77A5773057D3";
 	setAttr ".v" no;
 	setAttr ".t" -type "double3" 0 -0.1 0 ;
 	setAttr -l on ".ty";
-createNode locator -n "b_lip_surfLoc_8Shape" -p "b_lip_surfLoc_8";
+createNode locator -n "l_b_lip_1_surfDnLocShape" -p "l_b_lip_1_surfDnLoc";
 	rename -uid "46291A00-4D27-1C39-ECFD-7792B40B2176";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
 createNode transform -n "l_t_lip_2_group" -p "sec_controls_group";
 	rename -uid "1055E7FA-4F8B-BF39-90BE-09AE8BA57E5F";
-	setAttr ".v" no;
-	setAttr ".opm" -type "matrix" 0.97513198934511036 0.084945818820898189 -0.2046993190528362 0
-		 -0.083147107311554572 0.99638556981771353 0.017388352560012973 0 0.20543651550191491 6.4217424608723262e-05 0.97867044196427744 0
-		 1.137838222120489 0.033218788483722061 0.26289150388762661 1;
 createNode transform -n "l_t_lip_2" -p "l_t_lip_2_group";
 	rename -uid "94720817-48EC-4C5F-FFF9-B2A994C1ECAD";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
 	addAttr -ci true -sn "t_lip_influence" -ln "t_lip_influence" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "corner_h_influence" -ln "corner_h_influence" -min 0 -max 1 
 		-at "double";
-	addAttr -ci true -sn "type" -ln "type" -dt "string";
-	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
 	addAttr -ci true -sn "corner_v_influence" -ln "corner_v_influence" -min 0 -max 1 
 		-at "double";
 	addAttr -ci true -sn "followJaw" -ln "followJaw" -min 0 -max 1 -at "double";
 	setAttr -l on -k off ".v";
-	setAttr -s 2 ".iog";
 	setAttr -k on ".t";
 	setAttr -k on ".r";
 	setAttr -l on -k off ".ry";
@@ -3182,12 +3103,10 @@ createNode transform -n "l_t_lip_2" -p "l_t_lip_2_group";
 	setAttr -l on -k off ".sz";
 	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:8e35a960e8f3";
-	setAttr ".t_lip_influence" 0.41237113422224508;
-	setAttr ".corner_h_influence" 0.57216494823277919;
-	setAttr -l on ".type" -type "string" "control";
-	setAttr -l on ".internalName" -type "string" "l_t_lip_1";
-	setAttr ".corner_v_influence" 0.26288659826458727;
-	setAttr ".followJaw" 0.24623115592865488;
+	setAttr ".t_lip_influence" 0.53333333327124521;
+	setAttr ".corner_h_influence" 0.59999999981373553;
+	setAttr ".corner_v_influence" 0.55384615353093702;
+	setAttr ".followJaw" 0.42564102527804865;
 createNode nurbsCurve -n "l_t_lip_2Shape" -p "l_t_lip_2";
 	rename -uid "5394FB83-41CE-4AD8-3131-3A91ED64A946";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
@@ -3211,19 +3130,281 @@ createNode nurbsCurve -n "l_t_lip_2Shape" -p "l_t_lip_2";
 		-0.051592540398140325 0.27292161859822983 0.25846256519686961
 		;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:b9137fca2b80";
-createNode transform -n "l_t_lip_2_loc" -p "l_t_lip_2";
-	rename -uid "8CA63060-4B60-32C5-E69C-6F9B63A1CB82";
-	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+createNode transform -n "l_t_lip_2_surfUpLoc" -p "l_t_lip_2";
+	rename -uid "BD0D742D-4930-F6E5-E7F1-98A4B16D73FA";
 	setAttr ".v" no;
-	setAttr ".opm" -type "matrix" 1 0 0 0 0 1.0000000000000002 0 0 0 0 1 0 0 0 0 1;
-	setAttr -l on ".moduleName" -type "string" "mouth";
-createNode locator -n "l_t_lip_2_locShape" -p "l_t_lip_2_loc";
-	rename -uid "51E01310-44A8-8D42-8FD6-AEA33EC4B4CF";
+	setAttr ".t" -type "double3" -1.1102230246251565e-16 0.1 0 ;
+	setAttr -l on ".ty";
+	setAttr -l on ".tx";
+	setAttr -l on ".tz";
+	setAttr -l on ".rx";
+	setAttr -l on ".ry";
+	setAttr -l on ".rz";
+	setAttr ".s" -type "double3" 1.0000000000000004 1.0000000000000004 1 ;
+	setAttr -l on ".sx";
+	setAttr -l on ".sy";
+	setAttr -l on ".sz";
+	setAttr ".sh" -type "double3" -1.7653743017633431e-08 -4.8643829436153289e-09 -6.7480923760834018e-09 ;
+createNode locator -n "l_t_lip_2_surfUpLocShape" -p "l_t_lip_2_surfUpLoc";
+	rename -uid "BE7F1289-428D-10C1-E03A-2CB0C0D8E38A";
 	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
+	setAttr ".los" -type "double3" 0.10999999999999988 0.10999999999999988 0.10999999999999988 ;
+createNode transform -n "l_t_lip_2_surfDnLoc" -p "l_t_lip_2";
+	rename -uid "0EF46A05-4C4E-6D65-F2D8-A7AECF3956B1";
+	setAttr ".v" no;
+	setAttr ".t" -type "double3" -2.0079424234431542e-16 -0.1 -1.9255430583342559e-16 ;
+	setAttr -l on ".ty";
+	setAttr -l on ".tx";
+	setAttr -l on ".tz";
+	setAttr -l on ".rx";
+	setAttr -l on ".ry";
+	setAttr -l on ".rz";
+	setAttr -l on ".sx";
+	setAttr -l on ".sy";
+	setAttr -l on ".sz";
+	setAttr ".sh" -type "double3" -1.7653743003755653e-08 -4.8643829436153289e-09 -6.7480924038389766e-09 ;
+createNode locator -n "l_t_lip_2_surfDnLocShape" -p "l_t_lip_2_surfDnLoc";
+	rename -uid "010F7603-47F7-5EEA-B620-3D95DCD94EA2";
+	setAttr -k off ".v";
+	setAttr ".los" -type "double3" 0.10999999999999988 0.10999999999999988 0.10999999999999988 ;
+createNode transform -n "l_b_lip_2_group" -p "sec_controls_group";
+	rename -uid "F36FAECD-4BE9-DE92-409B-A88658DA8DD5";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode transform -n "l_b_lip_2" -p "l_b_lip_2_group";
+	rename -uid "E3EC0CD2-43BF-2A41-43B9-8F925FDC76EA";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	addAttr -ci true -sn "b_lip_influence" -ln "b_lip_influence" -min 0 -max 1 -at "double";
+	addAttr -ci true -sn "followJaw" -ln "followJaw" -min 0 -max 1 -at "double";
+	setAttr -l on -k off ".v";
+	setAttr -k on ".t";
+	setAttr -k on ".r";
+	setAttr -l on -k off ".ry";
+	setAttr -l on -k off ".rz";
+	setAttr -k on ".s";
+	setAttr -l on -k off ".sx";
+	setAttr -l on -k off ".sy";
+	setAttr -l on -k off ".sz";
+	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:4df33b8990f6";
+	setAttr ".b_lip_influence" 0.47111111128909722;
+	setAttr ".followJaw" 0.39189189186672102;
+createNode nurbsCurve -n "l_b_lip_2Shape" -p "l_b_lip_2";
+	rename -uid "DBE0FF79-48CB-EF2F-3D41-179F88F1FDD2";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	setAttr -k off ".v";
+	setAttr ".ove" yes;
+	setAttr ".ovc" 17;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		0.051000579020916231 -0.16192660145278284 0.21627651105213663
+		-2.5517774536010583e-14 -0.14080162716542013 0.21627651105213663
+		-0.051000579020967385 -0.16192660145278284 0.21627651105213666
+		-0.072125551877569749 -0.21292718392791091 0.21627651105213666
+		-0.051000579020967357 -0.26392776640303967 0.21627651105213663
+		-2.548224105495938e-14 -0.28505274069040343 0.21627651105213663
+		0.051000579020916266 -0.26392776640303967 0.21627651105213663
+		0.072125551877518929 -0.21292718392791096 0.21627651105213663
+		0.051000579020916231 -0.16192660145278284 0.21627651105213663
+		-2.5517774536010583e-14 -0.14080162716542013 0.21627651105213663
+		-0.051000579020967385 -0.16192660145278284 0.21627651105213666
+		;
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:5460604fd350";
+createNode transform -n "l_b_lip_2_surfUpLoc" -p "l_b_lip_2";
+	rename -uid "7959DA28-4CC3-AE24-65FE-37880B3CAB87";
+	setAttr ".v" no;
+	setAttr ".t" -type "double3" -1.1102230246251565e-16 0.1 0 ;
+	setAttr -l on ".ty";
+	setAttr -l on ".tx";
+	setAttr -l on ".tz";
+	setAttr -l on ".rx";
+	setAttr -l on ".ry";
+	setAttr -l on ".rz";
+	setAttr ".s" -type "double3" 1.0000000000000004 1.0000000000000004 1 ;
+	setAttr -l on ".sx";
+	setAttr -l on ".sy";
+	setAttr -l on ".sz";
+	setAttr ".sh" -type "double3" -1.7653742995227255e-08 -4.8643831185302133e-09 -6.7480923349183574e-09 ;
+createNode locator -n "l_b_lip_2_surfUpLocShape" -p "l_b_lip_2_surfUpLoc";
+	rename -uid "60390580-4A3C-FC67-B98D-75B10B36C649";
+	setAttr -k off ".v";
+	setAttr ".los" -type "double3" 0.10999999999999988 0.10999999999999988 0.10999999999999988 ;
+createNode transform -n "l_b_lip_2_surfDnLoc" -p "l_b_lip_2";
+	rename -uid "06A1F2F6-4D06-4427-9E32-558DE08B2D38";
+	setAttr ".v" no;
+	setAttr ".t" -type "double3" -2.0079424234431542e-16 -0.1 -1.9255430583342559e-16 ;
+	setAttr -l on ".ty";
+	setAttr -l on ".tx";
+	setAttr -l on ".tz";
+	setAttr -l on ".rx";
+	setAttr -l on ".ry";
+	setAttr -l on ".rz";
+	setAttr -l on ".sx";
+	setAttr -l on ".sy";
+	setAttr -l on ".sz";
+	setAttr ".sh" -type "double3" -1.7653743050738416e-08 -4.8643830075079109e-09 -6.7480923626739306e-09 ;
+createNode locator -n "l_b_lip_2_surfDnLocShape" -p "l_b_lip_2_surfDnLoc";
+	rename -uid "6C12C273-42D6-751C-98CB-91ADE1300E10";
+	setAttr -k off ".v";
+	setAttr ".los" -type "double3" 0.10999999999999988 0.10999999999999988 0.10999999999999988 ;
+createNode transform -n "r_t_lip_2_group" -p "sec_controls_group";
+	rename -uid "703D3D8D-47D4-75EB-8604-D3AB64DD0F94";
+createNode transform -n "r_t_lip_2" -p "r_t_lip_2_group";
+	rename -uid "7BAE68E7-4CFC-B505-0322-52B455CCF8E1";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	setAttr -l on -k off ".v";
+	setAttr -k on ".t";
+	setAttr -k on ".r";
+	setAttr -l on -k off ".ry";
+	setAttr -l on -k off ".rz";
+	setAttr -k on ".s";
+	setAttr -l on -k off ".sx";
+	setAttr -l on -k off ".sy";
+	setAttr -l on -k off ".sz";
+	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:8e35a960e8f3";
+createNode nurbsCurve -n "r_t_lip_2Shape" -p "r_t_lip_2";
+	rename -uid "A6E4D9E8-426E-5721-5406-54B12D60A650";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	setAttr -k off ".v";
+	setAttr ".ove" yes;
+	setAttr ".ovc" 17;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		0.051592540398107761 0.27292161859822994 0.25846256519686955
+		-1.635608141004386e-14 0.29429178949143875 0.25846256519686955
+		-0.051592540398140325 0.27292161859822983 0.25846256519686961
+		-0.072962709843981358 0.22132907470582719 0.25846256519686961
+		-0.051592540398140319 0.16973653081342308 0.25846256519686955
+		-1.6320135493510945e-14 0.14836635992021477 0.25846256519686955
+		0.051592540398107775 0.16973653081342313 0.25846256519686955
+		0.072962709843949175 0.22132907470582688 0.25846256519686955
+		0.051592540398107761 0.27292161859822994 0.25846256519686955
+		-1.635608141004386e-14 0.29429178949143875 0.25846256519686955
+		-0.051592540398140325 0.27292161859822983 0.25846256519686961
+		;
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:b9137fca2b80";
+createNode transform -n "r_t_lip_2_surfUpLoc" -p "r_t_lip_2";
+	rename -uid "C89B8A82-44F1-5706-35A1-1DABB24731F9";
+	setAttr ".v" no;
+	setAttr ".t" -type "double3" -1.1102230246251565e-16 0.1 0 ;
+	setAttr -l on ".ty";
+	setAttr -l on ".tx";
+	setAttr -l on ".tz";
+	setAttr -l on ".rx";
+	setAttr -l on ".ry";
+	setAttr -l on ".rz";
+	setAttr ".s" -type "double3" 1.0000000000000004 1.0000000000000004 1 ;
+	setAttr -l on ".sx";
+	setAttr -l on ".sy";
+	setAttr -l on ".sz";
+	setAttr ".sh" -type "double3" -3.5718758742913136e-09 -2.8462499125943321e-08 1.8685321051632463e-08 ;
+createNode locator -n "r_t_lip_2_surfUpLocShape" -p "r_t_lip_2_surfUpLoc";
+	rename -uid "4EE59849-4470-913E-08CF-51B4D9ADD2C2";
+	setAttr -k off ".v";
+	setAttr ".los" -type "double3" 0.10999999999999988 0.10999999999999988 0.10999999999999988 ;
+createNode transform -n "r_t_lip_2_surfDnLoc" -p "r_t_lip_2";
+	rename -uid "55C63DB4-4DC8-FBBE-475B-6ABF5C5FA16E";
+	setAttr ".v" no;
+	setAttr ".t" -type "double3" -2.0079424234431542e-16 -0.1 -1.9255430583342559e-16 ;
+	setAttr -l on ".ty";
+	setAttr -l on ".tx";
+	setAttr -l on ".tz";
+	setAttr -l on ".rx";
+	setAttr -l on ".ry";
+	setAttr -l on ".rz";
+	setAttr -l on ".sx";
+	setAttr -l on ".sy";
+	setAttr -l on ".sz";
+	setAttr ".sh" -type "double3" -3.5718758742913153e-09 -2.8462499070432167e-08 1.86853210099991e-08 ;
+createNode locator -n "r_t_lip_2_surfDnLocShape" -p "r_t_lip_2_surfDnLoc";
+	rename -uid "343D8795-42FA-8D68-947B-85A722A200C8";
+	setAttr -k off ".v";
+	setAttr ".los" -type "double3" 0.10999999999999988 0.10999999999999988 0.10999999999999988 ;
+createNode transform -n "r_b_lip_2_group" -p "sec_controls_group";
+	rename -uid "509046FD-4323-82A7-E5F0-E994576BE681";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "mouth";
+createNode transform -n "r_b_lip_2" -p "r_b_lip_2_group";
+	rename -uid "FB2B3C14-426F-1661-0FB7-5B8AEA032414";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	setAttr -l on -k off ".v";
+	setAttr -k on ".t";
+	setAttr -k on ".r";
+	setAttr -l on -k off ".ry";
+	setAttr -l on -k off ".rz";
+	setAttr -k on ".s";
+	setAttr -l on -k off ".sx";
+	setAttr -l on -k off ".sy";
+	setAttr -l on -k off ".sz";
+	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:4df33b8990f6";
+createNode nurbsCurve -n "r_b_lip_2Shape" -p "r_b_lip_2";
+	rename -uid "F09A7FCC-409C-8CF1-7AF5-258A3F98CFC2";
+	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
+	setAttr -k off ".v";
+	setAttr ".ove" yes;
+	setAttr ".ovc" 17;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		0.051000579020916231 -0.16192660145278284 0.21627651105213663
+		-2.5517774536010583e-14 -0.14080162716542013 0.21627651105213663
+		-0.051000579020967385 -0.16192660145278284 0.21627651105213666
+		-0.072125551877569749 -0.21292718392791091 0.21627651105213666
+		-0.051000579020967357 -0.26392776640303967 0.21627651105213663
+		-2.548224105495938e-14 -0.28505274069040343 0.21627651105213663
+		0.051000579020916266 -0.26392776640303967 0.21627651105213663
+		0.072125551877518929 -0.21292718392791096 0.21627651105213663
+		0.051000579020916231 -0.16192660145278284 0.21627651105213663
+		-2.5517774536010583e-14 -0.14080162716542013 0.21627651105213663
+		-0.051000579020967385 -0.16192660145278284 0.21627651105213666
+		;
+	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:5460604fd350";
+createNode transform -n "r_b_lip_2_surfUpLoc" -p "r_b_lip_2";
+	rename -uid "478531D2-40A8-6958-531B-11B1B3B32C5D";
+	setAttr ".v" no;
+	setAttr ".t" -type "double3" -1.1102230246251565e-16 0.1 0 ;
+	setAttr -l on ".ty";
+	setAttr -l on ".tx";
+	setAttr -l on ".tz";
+	setAttr -l on ".rx";
+	setAttr -l on ".ry";
+	setAttr -l on ".rz";
+	setAttr ".s" -type "double3" 1.0000000000000004 1.0000000000000004 1 ;
+	setAttr -l on ".sx";
+	setAttr -l on ".sy";
+	setAttr -l on ".sz";
+	setAttr ".sh" -type "double3" -3.5718758742913136e-09 -2.8462499292476778e-08 1.8685321093265826e-08 ;
+createNode locator -n "r_b_lip_2_surfUpLocShape" -p "r_b_lip_2_surfUpLoc";
+	rename -uid "5AE1A7C0-458D-98A5-D7C1-A8916634898A";
+	setAttr -k off ".v";
+	setAttr ".los" -type "double3" 0.10999999999999988 0.10999999999999988 0.10999999999999988 ;
+createNode transform -n "r_b_lip_2_surfDnLoc" -p "r_b_lip_2";
+	rename -uid "632D49B1-47DC-46CC-86A6-17BE91A84DAC";
+	setAttr ".v" no;
+	setAttr ".t" -type "double3" -2.0079424234431542e-16 -0.1 -1.9255430583342559e-16 ;
+	setAttr -l on ".ty";
+	setAttr -l on ".tx";
+	setAttr -l on ".tz";
+	setAttr -l on ".rx";
+	setAttr -l on ".ry";
+	setAttr -l on ".rz";
+	setAttr -l on ".sx";
+	setAttr -l on ".sy";
+	setAttr -l on ".sz";
+	setAttr ".sh" -type "double3" -3.5718759020468913e-09 -2.8462499181454476e-08 1.8685321079388039e-08 ;
+createNode locator -n "r_b_lip_2_surfDnLocShape" -p "r_b_lip_2_surfDnLoc";
+	rename -uid "75C4BEF1-43F8-386F-C0C0-51A0F9CEB6FB";
+	setAttr -k off ".v";
+	setAttr ".los" -type "double3" 0.10999999999999988 0.10999999999999988 0.10999999999999988 ;
 createNode transform -n "lipsExtra_controls" -p "lips";
 	rename -uid "E508C02C-4D39-ECB4-D5D7-669F52609DE2";
-	setAttr ".v" no;
 createNode transform -n "c_t_lip_local_group" -p "lipsExtra_controls";
 	rename -uid "A11EB0BA-4570-92A8-4636-D58998ED1C80";
 	setAttr ".rp" -type "double3" 2.4984388684703678e-24 3.9153662978463899e-08 -5.9617000225387073e-09 ;
@@ -3232,9 +3413,6 @@ createNode transform -n "c_t_lip_local_group" -p "lipsExtra_controls";
 createNode transform -n "c_t_lip_local" -p "c_t_lip_local_group";
 	rename -uid "E520D94B-4251-B624-B5A5-2C9E56EA5685";
 	addAttr -ci true -sn "mCache" -ln "mCache" -nn "mCache" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
-	addAttr -ci true -sn "zip" -ln "zip" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "dropoff" -ln "dropoff" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "pos" -ln "pos" -at "double";
 	addAttr -ci true -sn "default_translateX" -ln "default_translateX" -dt "string";
 	addAttr -ci true -sn "default_translateY" -ln "default_translateY" -dt "string";
@@ -3245,20 +3423,15 @@ createNode transform -n "c_t_lip_local" -p "c_t_lip_local_group";
 	addAttr -ci true -sn "default_translateZ" -ln "default_translateZ" -dt "string";
 	addAttr -ci true -sn "default_rotate" -ln "default_rotate" -dt "string";
 	addAttr -ci true -sn "default_middleInfluenceY" -ln "default_middleInfluenceY" -dt "string";
-	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	addAttr -ci true -sn "default_scaleX" -ln "default_scaleX" -dt "string";
 	addAttr -ci true -sn "default_scaleY" -ln "default_scaleY" -dt "string";
 	addAttr -ci true -sn "default_scaleZ" -ln "default_scaleZ" -dt "string";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
-	addAttr -ci true -sn "type" -ln "type" -dt "string";
-	setAttr -l on -k off ".v";
+	setAttr -k off ".v";
 	setAttr -k on ".t";
 	setAttr -k on ".r";
 	setAttr -k on ".s";
 	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
-	setAttr -l on ".internalName" -type "string" "c_t_lip_detail";
-	setAttr -l on ".zip";
-	setAttr -l on ".dropoff";
 	setAttr ".pos" 0.5;
 	setAttr ".default_translateX" -type "string" "0.0";
 	setAttr ".default_translateY" -type "string" "0.0";
@@ -3269,12 +3442,10 @@ createNode transform -n "c_t_lip_local" -p "c_t_lip_local_group";
 	setAttr ".default_translateZ" -type "string" "0.0";
 	setAttr ".default_rotate" -type "string" "[(0.0, 0.0, 0.0)]";
 	setAttr ".default_middleInfluenceY" -type "string" "0.8";
-	setAttr -l on ".moduleName" -type "string" "mouth";
 	setAttr ".default_scaleX" -type "string" "1.0";
 	setAttr ".default_scaleY" -type "string" "1.0";
 	setAttr ".default_scaleZ" -type "string" "1.0";
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:a0b253f28076";
-	setAttr -l on ".type" -type "string" "control";
 createNode nurbsCurve -n "c_t_lip_localShape" -p "c_t_lip_local";
 	rename -uid "01780A98-4285-2179-2627-82B448CAE248";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
@@ -3298,6 +3469,19 @@ createNode nurbsCurve -n "c_t_lip_localShape" -p "c_t_lip_local";
 		-0.02746729569179425 0.10132367720355842 0.19453687555981239
 		;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:304033312051";
+createNode transform -n "pCube1" -p "c_t_lip_local";
+	rename -uid "0C6F4FCF-4E25-F94A-060E-46836BEA2EA4";
+	setAttr ".v" no;
+createNode mesh -n "pCubeShape1" -p "pCube1";
+	rename -uid "3558D8EF-43E0-AD2D-6577-D7BD4BEF4A9E";
+	setAttr -k off ".v";
+	setAttr ".vir" yes;
+	setAttr ".vif" yes;
+	setAttr ".uvst[0].uvsn" -type "string" "map1";
+	setAttr ".cuvs" -type "string" "map1";
+	setAttr ".dcc" -type "string" "Ambient+Diffuse";
+	setAttr ".covm[0]"  0 1 1;
+	setAttr ".cdvm[0]"  0 1 1;
 createNode transform -n "c_b_lip_local_group" -p "lipsExtra_controls";
 	rename -uid "0D6531BF-4028-13FA-C32F-0BA44354C106";
 	setAttr ".rp" -type "double3" 2.4984388931222711e-24 3.915366120210706e-08 -5.9617001335610098e-09 ;
@@ -3306,10 +3490,6 @@ createNode transform -n "c_b_lip_local_group" -p "lipsExtra_controls";
 createNode transform -n "c_b_lip_local" -p "c_b_lip_local_group";
 	rename -uid "B5E7BF76-4F99-09ED-7AB2-888A6984C193";
 	addAttr -ci true -sn "mCache" -ln "mCache" -nn "mCache" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
-	addAttr -ci true -sn "zip" -ln "zip" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "dropoff" -ln "dropoff" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "init_x_pos" -ln "init_x_pos" -at "double";
 	addAttr -ci true -sn "default_translateX" -ln "default_translateX" -dt "string";
 	addAttr -ci true -sn "default_translateY" -ln "default_translateY" -dt "string";
 	addAttr -ci true -sn "default_rotateX" -ln "default_rotateX" -dt "string";
@@ -3319,21 +3499,15 @@ createNode transform -n "c_b_lip_local" -p "c_b_lip_local_group";
 	addAttr -ci true -sn "default_translateZ" -ln "default_translateZ" -dt "string";
 	addAttr -ci true -sn "default_rotate" -ln "default_rotate" -dt "string";
 	addAttr -ci true -sn "default_middleInfluenceY" -ln "default_middleInfluenceY" -dt "string";
-	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	addAttr -ci true -sn "default_scaleX" -ln "default_scaleX" -dt "string";
 	addAttr -ci true -sn "default_scaleY" -ln "default_scaleY" -dt "string";
 	addAttr -ci true -sn "default_scaleZ" -ln "default_scaleZ" -dt "string";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
-	addAttr -ci true -sn "type" -ln "type" -dt "string";
-	setAttr -l on -k off ".v";
+	setAttr -k off ".v";
 	setAttr -k on ".t";
 	setAttr -k on ".r";
 	setAttr -k on ".s";
 	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
-	setAttr -l on ".internalName" -type "string" "c_b_lip_detail";
-	setAttr -l on ".zip";
-	setAttr -l on ".dropoff";
-	setAttr ".init_x_pos" 0.84;
 	setAttr ".default_translateX" -type "string" "0.0";
 	setAttr ".default_translateY" -type "string" "0.0";
 	setAttr ".default_rotateX" -type "string" "0.0";
@@ -3343,12 +3517,10 @@ createNode transform -n "c_b_lip_local" -p "c_b_lip_local_group";
 	setAttr ".default_translateZ" -type "string" "0.0";
 	setAttr ".default_rotate" -type "string" "[(0.0, 0.0, 0.0)]";
 	setAttr ".default_middleInfluenceY" -type "string" "0.8";
-	setAttr -l on ".moduleName" -type "string" "mouth";
 	setAttr ".default_scaleX" -type "string" "1.0";
 	setAttr ".default_scaleY" -type "string" "1.0";
 	setAttr ".default_scaleZ" -type "string" "1.0";
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:83e15ea5891e";
-	setAttr -l on ".type" -type "string" "control";
 createNode nurbsCurve -n "c_b_lip_localShape" -p "c_b_lip_local";
 	rename -uid "F27B5864-444C-61AE-5603-F28E2062E3C9";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
@@ -3380,9 +3552,6 @@ createNode transform -n "l_t_lip_local_1_group" -p "lipsExtra_controls";
 createNode transform -n "l_t_lip_local_1" -p "l_t_lip_local_1_group";
 	rename -uid "2DDCE311-4BDF-5306-1118-D5B5E7581F5D";
 	addAttr -ci true -sn "mCache" -ln "mCache" -nn "mCache" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
-	addAttr -ci true -sn "zip" -ln "zip" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "dropoff" -ln "dropoff" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "pos" -ln "pos" -at "double";
 	addAttr -ci true -sn "default_translateX" -ln "default_translateX" -dt "string";
 	addAttr -ci true -sn "default_translateY" -ln "default_translateY" -dt "string";
@@ -3393,21 +3562,16 @@ createNode transform -n "l_t_lip_local_1" -p "l_t_lip_local_1_group";
 	addAttr -ci true -sn "default_translateZ" -ln "default_translateZ" -dt "string";
 	addAttr -ci true -sn "default_rotate" -ln "default_rotate" -dt "string";
 	addAttr -ci true -sn "default_middleInfluenceY" -ln "default_middleInfluenceY" -dt "string";
-	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	addAttr -ci true -sn "default_scaleX" -ln "default_scaleX" -dt "string";
 	addAttr -ci true -sn "default_scaleY" -ln "default_scaleY" -dt "string";
 	addAttr -ci true -sn "default_scaleZ" -ln "default_scaleZ" -dt "string";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
-	addAttr -ci true -sn "type" -ln "type" -dt "string";
-	setAttr -l on -k off ".v";
+	setAttr -k off ".v";
 	setAttr -k on ".t";
 	setAttr -k on ".r";
 	setAttr -k on ".s";
 	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
-	setAttr -l on ".internalName" -type "string" "c_t_lip_detail";
-	setAttr -l on ".zip";
-	setAttr -l on ".dropoff";
-	setAttr ".pos" 0.625;
+	setAttr ".pos" 0.715;
 	setAttr ".default_translateX" -type "string" "0.0";
 	setAttr ".default_translateY" -type "string" "0.0";
 	setAttr ".default_rotateX" -type "string" "0.0";
@@ -3417,12 +3581,10 @@ createNode transform -n "l_t_lip_local_1" -p "l_t_lip_local_1_group";
 	setAttr ".default_translateZ" -type "string" "0.0";
 	setAttr ".default_rotate" -type "string" "[(0.0, 0.0, 0.0)]";
 	setAttr ".default_middleInfluenceY" -type "string" "0.8";
-	setAttr -l on ".moduleName" -type "string" "mouth";
 	setAttr ".default_scaleX" -type "string" "1.0";
 	setAttr ".default_scaleY" -type "string" "1.0";
 	setAttr ".default_scaleZ" -type "string" "1.0";
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:a0b253f28076";
-	setAttr -l on ".type" -type "string" "control";
 createNode nurbsCurve -n "l_t_lip_local_1Shape" -p "l_t_lip_local_1";
 	rename -uid "681CA724-4D69-51F6-A2EC-6BB72084F67F";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
@@ -3446,6 +3608,43 @@ createNode nurbsCurve -n "l_t_lip_local_1Shape" -p "l_t_lip_local_1";
 		-0.02746729569179425 0.10132367720355842 0.19453687555981239
 		;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:304033312051";
+createNode transform -n "pCube2" -p "l_t_lip_local_1";
+	rename -uid "CA19EF03-484E-E6BD-4F73-57A253101850";
+	setAttr ".v" no;
+createNode mesh -n "pCubeShape2" -p "pCube2";
+	rename -uid "15D64877-49E5-CB93-57A0-B58B874AE69C";
+	setAttr -k off ".v";
+	setAttr ".vir" yes;
+	setAttr ".vif" yes;
+	setAttr ".uvst[0].uvsn" -type "string" "map1";
+	setAttr -s 14 ".uvst[0].uvsp[0:13]" -type "float2" 0.375 0 0.625 0 0.375
+		 0.25 0.625 0.25 0.375 0.5 0.625 0.5 0.375 0.75 0.625 0.75 0.375 1 0.625 1 0.875 0
+		 0.875 0.25 0.125 0 0.125 0.25;
+	setAttr ".cuvs" -type "string" "map1";
+	setAttr ".dcc" -type "string" "Ambient+Diffuse";
+	setAttr ".covm[0]"  0 1 1;
+	setAttr ".cdvm[0]"  0 1 1;
+	setAttr -s 8 ".vt[0:7]"  -0.115 -0.115 0.115 0.115 -0.115 0.115 -0.115 0.115 0.115
+		 0.115 0.115 0.115 -0.115 0.115 -0.115 0.115 0.115 -0.115 -0.115 -0.115 -0.115 0.115 -0.115 -0.115;
+	setAttr -s 12 ".ed[0:11]"  0 1 0 2 3 0 4 5 0 6 7 0 0 2 0 1 3 0 2 4 0
+		 3 5 0 4 6 0 5 7 0 6 0 0 7 1 0;
+	setAttr -s 6 -ch 24 ".fc[0:5]" -type "polyFaces" 
+		f 4 0 5 -2 -5
+		mu 0 4 0 1 3 2
+		f 4 1 7 -3 -7
+		mu 0 4 2 3 5 4
+		f 4 2 9 -4 -9
+		mu 0 4 4 5 7 6
+		f 4 3 11 -1 -11
+		mu 0 4 6 7 9 8
+		f 4 -12 -10 -8 -6
+		mu 0 4 1 10 11 3
+		f 4 10 4 6 8
+		mu 0 4 12 0 2 13;
+	setAttr ".cd" -type "dataPolyComponent" Index_Data Edge 0 ;
+	setAttr ".cvd" -type "dataPolyComponent" Index_Data Vertex 0 ;
+	setAttr ".pd[0]" -type "dataPolyComponent" Index_Data UV 0 ;
+	setAttr ".hfd" -type "dataPolyComponent" Index_Data Face 0 ;
 createNode transform -n "r_t_lip_local_1_group" -p "lipsExtra_controls";
 	rename -uid "EB901671-46F5-B031-7D68-2BA593E58C62";
 	setAttr ".rp" -type "double3" 2.4984388684703678e-24 3.9153662978463899e-08 -5.9617000225387073e-09 ;
@@ -3454,9 +3653,6 @@ createNode transform -n "r_t_lip_local_1_group" -p "lipsExtra_controls";
 createNode transform -n "r_t_lip_local_1" -p "r_t_lip_local_1_group";
 	rename -uid "129CEA14-4B66-C4DB-191F-69A23536B26E";
 	addAttr -ci true -sn "mCache" -ln "mCache" -nn "mCache" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
-	addAttr -ci true -sn "zip" -ln "zip" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "dropoff" -ln "dropoff" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "pos" -ln "pos" -at "double";
 	addAttr -ci true -sn "default_translateX" -ln "default_translateX" -dt "string";
 	addAttr -ci true -sn "default_translateY" -ln "default_translateY" -dt "string";
@@ -3467,20 +3663,15 @@ createNode transform -n "r_t_lip_local_1" -p "r_t_lip_local_1_group";
 	addAttr -ci true -sn "default_translateZ" -ln "default_translateZ" -dt "string";
 	addAttr -ci true -sn "default_rotate" -ln "default_rotate" -dt "string";
 	addAttr -ci true -sn "default_middleInfluenceY" -ln "default_middleInfluenceY" -dt "string";
-	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	addAttr -ci true -sn "default_scaleX" -ln "default_scaleX" -dt "string";
 	addAttr -ci true -sn "default_scaleY" -ln "default_scaleY" -dt "string";
 	addAttr -ci true -sn "default_scaleZ" -ln "default_scaleZ" -dt "string";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
-	addAttr -ci true -sn "type" -ln "type" -dt "string";
-	setAttr -l on -k off ".v";
+	setAttr -k off ".v";
 	setAttr -k on ".t";
 	setAttr -k on ".r";
 	setAttr -k on ".s";
 	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
-	setAttr -l on ".internalName" -type "string" "c_t_lip_detail";
-	setAttr -l on ".zip";
-	setAttr -l on ".dropoff";
 	setAttr ".pos" 0.5;
 	setAttr ".default_translateX" -type "string" "0.0";
 	setAttr ".default_translateY" -type "string" "0.0";
@@ -3491,12 +3682,10 @@ createNode transform -n "r_t_lip_local_1" -p "r_t_lip_local_1_group";
 	setAttr ".default_translateZ" -type "string" "0.0";
 	setAttr ".default_rotate" -type "string" "[(0.0, 0.0, 0.0)]";
 	setAttr ".default_middleInfluenceY" -type "string" "0.8";
-	setAttr -l on ".moduleName" -type "string" "mouth";
 	setAttr ".default_scaleX" -type "string" "1.0";
 	setAttr ".default_scaleY" -type "string" "1.0";
 	setAttr ".default_scaleZ" -type "string" "1.0";
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:a0b253f28076";
-	setAttr -l on ".type" -type "string" "control";
 createNode nurbsCurve -n "r_t_lip_local_1Shape" -p "r_t_lip_local_1";
 	rename -uid "66DC2A37-4B4A-6492-224D-E6BF4D552A11";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
@@ -3520,6 +3709,43 @@ createNode nurbsCurve -n "r_t_lip_local_1Shape" -p "r_t_lip_local_1";
 		-0.02746729569179425 0.10132367720355842 0.19453687555981239
 		;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:304033312051";
+createNode transform -n "pCube3" -p "r_t_lip_local_1";
+	rename -uid "A5A70CE4-46DC-F5BD-E9B4-95B22437C4D3";
+	setAttr ".v" no;
+createNode mesh -n "pCubeShape3" -p "pCube3";
+	rename -uid "80725E93-4EFD-FE40-BFD8-EB8EF52BBE22";
+	setAttr -k off ".v";
+	setAttr ".vir" yes;
+	setAttr ".vif" yes;
+	setAttr ".uvst[0].uvsn" -type "string" "map1";
+	setAttr -s 14 ".uvst[0].uvsp[0:13]" -type "float2" 0.375 0 0.625 0 0.375
+		 0.25 0.625 0.25 0.375 0.5 0.625 0.5 0.375 0.75 0.625 0.75 0.375 1 0.625 1 0.875 0
+		 0.875 0.25 0.125 0 0.125 0.25;
+	setAttr ".cuvs" -type "string" "map1";
+	setAttr ".dcc" -type "string" "Ambient+Diffuse";
+	setAttr ".covm[0]"  0 1 1;
+	setAttr ".cdvm[0]"  0 1 1;
+	setAttr -s 8 ".vt[0:7]"  -0.115 -0.115 0.115 0.115 -0.115 0.115 -0.115 0.115 0.115
+		 0.115 0.115 0.115 -0.115 0.115 -0.115 0.115 0.115 -0.115 -0.115 -0.115 -0.115 0.115 -0.115 -0.115;
+	setAttr -s 12 ".ed[0:11]"  0 1 0 2 3 0 4 5 0 6 7 0 0 2 0 1 3 0 2 4 0
+		 3 5 0 4 6 0 5 7 0 6 0 0 7 1 0;
+	setAttr -s 6 -ch 24 ".fc[0:5]" -type "polyFaces" 
+		f 4 0 5 -2 -5
+		mu 0 4 0 1 3 2
+		f 4 1 7 -3 -7
+		mu 0 4 2 3 5 4
+		f 4 2 9 -4 -9
+		mu 0 4 4 5 7 6
+		f 4 3 11 -1 -11
+		mu 0 4 6 7 9 8
+		f 4 -12 -10 -8 -6
+		mu 0 4 1 10 11 3
+		f 4 10 4 6 8
+		mu 0 4 12 0 2 13;
+	setAttr ".cd" -type "dataPolyComponent" Index_Data Edge 0 ;
+	setAttr ".cvd" -type "dataPolyComponent" Index_Data Vertex 0 ;
+	setAttr ".pd[0]" -type "dataPolyComponent" Index_Data UV 0 ;
+	setAttr ".hfd" -type "dataPolyComponent" Index_Data Face 0 ;
 createNode transform -n "l_t_lip_local_2_group" -p "lipsExtra_controls";
 	rename -uid "28FA2001-4FFD-1FBC-282A-E4854DE8B367";
 	setAttr ".rp" -type "double3" 2.4984388684703678e-24 3.9153662978463899e-08 -5.9617000225387073e-09 ;
@@ -3528,9 +3754,6 @@ createNode transform -n "l_t_lip_local_2_group" -p "lipsExtra_controls";
 createNode transform -n "l_t_lip_local_2" -p "l_t_lip_local_2_group";
 	rename -uid "7D9558B8-4B61-4288-7EA8-4E9F8F09F7F5";
 	addAttr -ci true -sn "mCache" -ln "mCache" -nn "mCache" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
-	addAttr -ci true -sn "zip" -ln "zip" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "dropoff" -ln "dropoff" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "pos" -ln "pos" -at "double";
 	addAttr -ci true -sn "default_translateX" -ln "default_translateX" -dt "string";
 	addAttr -ci true -sn "default_translateY" -ln "default_translateY" -dt "string";
@@ -3541,21 +3764,16 @@ createNode transform -n "l_t_lip_local_2" -p "l_t_lip_local_2_group";
 	addAttr -ci true -sn "default_translateZ" -ln "default_translateZ" -dt "string";
 	addAttr -ci true -sn "default_rotate" -ln "default_rotate" -dt "string";
 	addAttr -ci true -sn "default_middleInfluenceY" -ln "default_middleInfluenceY" -dt "string";
-	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	addAttr -ci true -sn "default_scaleX" -ln "default_scaleX" -dt "string";
 	addAttr -ci true -sn "default_scaleY" -ln "default_scaleY" -dt "string";
 	addAttr -ci true -sn "default_scaleZ" -ln "default_scaleZ" -dt "string";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
-	addAttr -ci true -sn "type" -ln "type" -dt "string";
-	setAttr -l on -k off ".v";
+	setAttr -k off ".v";
 	setAttr -k on ".t";
 	setAttr -k on ".r";
 	setAttr -k on ".s";
 	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
-	setAttr -l on ".internalName" -type "string" "c_t_lip_detail";
-	setAttr -l on ".zip";
-	setAttr -l on ".dropoff";
-	setAttr ".pos" 0.75;
+	setAttr ".pos" 0.85;
 	setAttr ".default_translateX" -type "string" "0.0";
 	setAttr ".default_translateY" -type "string" "0.0";
 	setAttr ".default_rotateX" -type "string" "0.0";
@@ -3565,12 +3783,10 @@ createNode transform -n "l_t_lip_local_2" -p "l_t_lip_local_2_group";
 	setAttr ".default_translateZ" -type "string" "0.0";
 	setAttr ".default_rotate" -type "string" "[(0.0, 0.0, 0.0)]";
 	setAttr ".default_middleInfluenceY" -type "string" "0.8";
-	setAttr -l on ".moduleName" -type "string" "mouth";
 	setAttr ".default_scaleX" -type "string" "1.0";
 	setAttr ".default_scaleY" -type "string" "1.0";
 	setAttr ".default_scaleZ" -type "string" "1.0";
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:a0b253f28076";
-	setAttr -l on ".type" -type "string" "control";
 createNode nurbsCurve -n "l_t_lip_local_2Shape" -p "l_t_lip_local_2";
 	rename -uid "65B39D8A-48CF-A890-2E67-9FB1B6113562";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
@@ -3594,6 +3810,43 @@ createNode nurbsCurve -n "l_t_lip_local_2Shape" -p "l_t_lip_local_2";
 		-0.02746729569179425 0.10132367720355842 0.19453687555981239
 		;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:304033312051";
+createNode transform -n "pCube4" -p "l_t_lip_local_2";
+	rename -uid "D8FD1DC2-4E7E-671F-927C-C49FA5C120E1";
+	setAttr ".v" no;
+createNode mesh -n "pCubeShape4" -p "pCube4";
+	rename -uid "738367A5-4398-009B-E60C-ABA2295E3B58";
+	setAttr -k off ".v";
+	setAttr ".vir" yes;
+	setAttr ".vif" yes;
+	setAttr ".uvst[0].uvsn" -type "string" "map1";
+	setAttr -s 14 ".uvst[0].uvsp[0:13]" -type "float2" 0.375 0 0.625 0 0.375
+		 0.25 0.625 0.25 0.375 0.5 0.625 0.5 0.375 0.75 0.625 0.75 0.375 1 0.625 1 0.875 0
+		 0.875 0.25 0.125 0 0.125 0.25;
+	setAttr ".cuvs" -type "string" "map1";
+	setAttr ".dcc" -type "string" "Ambient+Diffuse";
+	setAttr ".covm[0]"  0 1 1;
+	setAttr ".cdvm[0]"  0 1 1;
+	setAttr -s 8 ".vt[0:7]"  -0.115 -0.115 0.115 0.115 -0.115 0.115 -0.115 0.115 0.115
+		 0.115 0.115 0.115 -0.115 0.115 -0.115 0.115 0.115 -0.115 -0.115 -0.115 -0.115 0.115 -0.115 -0.115;
+	setAttr -s 12 ".ed[0:11]"  0 1 0 2 3 0 4 5 0 6 7 0 0 2 0 1 3 0 2 4 0
+		 3 5 0 4 6 0 5 7 0 6 0 0 7 1 0;
+	setAttr -s 6 -ch 24 ".fc[0:5]" -type "polyFaces" 
+		f 4 0 5 -2 -5
+		mu 0 4 0 1 3 2
+		f 4 1 7 -3 -7
+		mu 0 4 2 3 5 4
+		f 4 2 9 -4 -9
+		mu 0 4 4 5 7 6
+		f 4 3 11 -1 -11
+		mu 0 4 6 7 9 8
+		f 4 -12 -10 -8 -6
+		mu 0 4 1 10 11 3
+		f 4 10 4 6 8
+		mu 0 4 12 0 2 13;
+	setAttr ".cd" -type "dataPolyComponent" Index_Data Edge 0 ;
+	setAttr ".cvd" -type "dataPolyComponent" Index_Data Vertex 0 ;
+	setAttr ".pd[0]" -type "dataPolyComponent" Index_Data UV 0 ;
+	setAttr ".hfd" -type "dataPolyComponent" Index_Data Face 0 ;
 createNode transform -n "r_t_lip_local_2_group" -p "lipsExtra_controls";
 	rename -uid "E9B90F18-49EF-382C-6AD3-BE9C3A93A617";
 	setAttr ".rp" -type "double3" 2.4984388684703678e-24 3.9153662978463899e-08 -5.9617000225387073e-09 ;
@@ -3602,9 +3855,6 @@ createNode transform -n "r_t_lip_local_2_group" -p "lipsExtra_controls";
 createNode transform -n "r_t_lip_local_2" -p "r_t_lip_local_2_group";
 	rename -uid "B33DE432-4C8A-ED8D-41BF-F49EB07266D8";
 	addAttr -ci true -sn "mCache" -ln "mCache" -nn "mCache" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
-	addAttr -ci true -sn "zip" -ln "zip" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "dropoff" -ln "dropoff" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "pos" -ln "pos" -at "double";
 	addAttr -ci true -sn "default_translateX" -ln "default_translateX" -dt "string";
 	addAttr -ci true -sn "default_translateY" -ln "default_translateY" -dt "string";
@@ -3615,20 +3865,15 @@ createNode transform -n "r_t_lip_local_2" -p "r_t_lip_local_2_group";
 	addAttr -ci true -sn "default_translateZ" -ln "default_translateZ" -dt "string";
 	addAttr -ci true -sn "default_rotate" -ln "default_rotate" -dt "string";
 	addAttr -ci true -sn "default_middleInfluenceY" -ln "default_middleInfluenceY" -dt "string";
-	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	addAttr -ci true -sn "default_scaleX" -ln "default_scaleX" -dt "string";
 	addAttr -ci true -sn "default_scaleY" -ln "default_scaleY" -dt "string";
 	addAttr -ci true -sn "default_scaleZ" -ln "default_scaleZ" -dt "string";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
-	addAttr -ci true -sn "type" -ln "type" -dt "string";
-	setAttr -l on -k off ".v";
+	setAttr -k off ".v";
 	setAttr -k on ".t";
 	setAttr -k on ".r";
 	setAttr -k on ".s";
 	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
-	setAttr -l on ".internalName" -type "string" "c_t_lip_detail";
-	setAttr -l on ".zip";
-	setAttr -l on ".dropoff";
 	setAttr ".pos" 0.5;
 	setAttr ".default_translateX" -type "string" "0.0";
 	setAttr ".default_translateY" -type "string" "0.0";
@@ -3639,12 +3884,10 @@ createNode transform -n "r_t_lip_local_2" -p "r_t_lip_local_2_group";
 	setAttr ".default_translateZ" -type "string" "0.0";
 	setAttr ".default_rotate" -type "string" "[(0.0, 0.0, 0.0)]";
 	setAttr ".default_middleInfluenceY" -type "string" "0.8";
-	setAttr -l on ".moduleName" -type "string" "mouth";
 	setAttr ".default_scaleX" -type "string" "1.0";
 	setAttr ".default_scaleY" -type "string" "1.0";
 	setAttr ".default_scaleZ" -type "string" "1.0";
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:a0b253f28076";
-	setAttr -l on ".type" -type "string" "control";
 createNode nurbsCurve -n "r_t_lip_local_2Shape" -p "r_t_lip_local_2";
 	rename -uid "646450D5-47D5-486B-EF0E-0FA0A924E265";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
@@ -3668,6 +3911,43 @@ createNode nurbsCurve -n "r_t_lip_local_2Shape" -p "r_t_lip_local_2";
 		-0.02746729569179425 0.10132367720355842 0.19453687555981239
 		;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:304033312051";
+createNode transform -n "pCube5" -p "r_t_lip_local_2";
+	rename -uid "BCA5F590-4FA6-C04F-5D48-63877EA9BF41";
+	setAttr ".v" no;
+createNode mesh -n "pCubeShape5" -p "pCube5";
+	rename -uid "D9F3C74D-421F-318F-A49D-1FB34213B74D";
+	setAttr -k off ".v";
+	setAttr ".vir" yes;
+	setAttr ".vif" yes;
+	setAttr ".uvst[0].uvsn" -type "string" "map1";
+	setAttr -s 14 ".uvst[0].uvsp[0:13]" -type "float2" 0.375 0 0.625 0 0.375
+		 0.25 0.625 0.25 0.375 0.5 0.625 0.5 0.375 0.75 0.625 0.75 0.375 1 0.625 1 0.875 0
+		 0.875 0.25 0.125 0 0.125 0.25;
+	setAttr ".cuvs" -type "string" "map1";
+	setAttr ".dcc" -type "string" "Ambient+Diffuse";
+	setAttr ".covm[0]"  0 1 1;
+	setAttr ".cdvm[0]"  0 1 1;
+	setAttr -s 8 ".vt[0:7]"  -0.115 -0.115 0.115 0.115 -0.115 0.115 -0.115 0.115 0.115
+		 0.115 0.115 0.115 -0.115 0.115 -0.115 0.115 0.115 -0.115 -0.115 -0.115 -0.115 0.115 -0.115 -0.115;
+	setAttr -s 12 ".ed[0:11]"  0 1 0 2 3 0 4 5 0 6 7 0 0 2 0 1 3 0 2 4 0
+		 3 5 0 4 6 0 5 7 0 6 0 0 7 1 0;
+	setAttr -s 6 -ch 24 ".fc[0:5]" -type "polyFaces" 
+		f 4 0 5 -2 -5
+		mu 0 4 0 1 3 2
+		f 4 1 7 -3 -7
+		mu 0 4 2 3 5 4
+		f 4 2 9 -4 -9
+		mu 0 4 4 5 7 6
+		f 4 3 11 -1 -11
+		mu 0 4 6 7 9 8
+		f 4 -12 -10 -8 -6
+		mu 0 4 1 10 11 3
+		f 4 10 4 6 8
+		mu 0 4 12 0 2 13;
+	setAttr ".cd" -type "dataPolyComponent" Index_Data Edge 0 ;
+	setAttr ".cvd" -type "dataPolyComponent" Index_Data Vertex 0 ;
+	setAttr ".pd[0]" -type "dataPolyComponent" Index_Data UV 0 ;
+	setAttr ".hfd" -type "dataPolyComponent" Index_Data Face 0 ;
 createNode transform -n "l_t_lip_local_3_group" -p "lipsExtra_controls";
 	rename -uid "B266235D-49EF-5593-9654-30A179429E5A";
 	setAttr ".rp" -type "double3" 2.4984388684703678e-24 3.9153662978463899e-08 -5.9617000225387073e-09 ;
@@ -3676,9 +3956,6 @@ createNode transform -n "l_t_lip_local_3_group" -p "lipsExtra_controls";
 createNode transform -n "l_t_lip_local_3" -p "l_t_lip_local_3_group";
 	rename -uid "33221990-4FCE-C991-5DF3-4B82DE44ED28";
 	addAttr -ci true -sn "mCache" -ln "mCache" -nn "mCache" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
-	addAttr -ci true -sn "zip" -ln "zip" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "dropoff" -ln "dropoff" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "pos" -ln "pos" -at "double";
 	addAttr -ci true -sn "default_translateX" -ln "default_translateX" -dt "string";
 	addAttr -ci true -sn "default_translateY" -ln "default_translateY" -dt "string";
@@ -3689,21 +3966,16 @@ createNode transform -n "l_t_lip_local_3" -p "l_t_lip_local_3_group";
 	addAttr -ci true -sn "default_translateZ" -ln "default_translateZ" -dt "string";
 	addAttr -ci true -sn "default_rotate" -ln "default_rotate" -dt "string";
 	addAttr -ci true -sn "default_middleInfluenceY" -ln "default_middleInfluenceY" -dt "string";
-	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	addAttr -ci true -sn "default_scaleX" -ln "default_scaleX" -dt "string";
 	addAttr -ci true -sn "default_scaleY" -ln "default_scaleY" -dt "string";
 	addAttr -ci true -sn "default_scaleZ" -ln "default_scaleZ" -dt "string";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
-	addAttr -ci true -sn "type" -ln "type" -dt "string";
-	setAttr -l on -k off ".v";
+	setAttr -k off ".v";
 	setAttr -k on ".t";
 	setAttr -k on ".r";
 	setAttr -k on ".s";
 	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
-	setAttr -l on ".internalName" -type "string" "c_t_lip_detail";
-	setAttr -l on ".zip";
-	setAttr -l on ".dropoff";
-	setAttr ".pos" 0.875;
+	setAttr ".pos" 0.935;
 	setAttr ".default_translateX" -type "string" "0.0";
 	setAttr ".default_translateY" -type "string" "0.0";
 	setAttr ".default_rotateX" -type "string" "0.0";
@@ -3713,12 +3985,10 @@ createNode transform -n "l_t_lip_local_3" -p "l_t_lip_local_3_group";
 	setAttr ".default_translateZ" -type "string" "0.0";
 	setAttr ".default_rotate" -type "string" "[(0.0, 0.0, 0.0)]";
 	setAttr ".default_middleInfluenceY" -type "string" "0.8";
-	setAttr -l on ".moduleName" -type "string" "mouth";
 	setAttr ".default_scaleX" -type "string" "1.0";
 	setAttr ".default_scaleY" -type "string" "1.0";
 	setAttr ".default_scaleZ" -type "string" "1.0";
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:a0b253f28076";
-	setAttr -l on ".type" -type "string" "control";
 createNode nurbsCurve -n "l_t_lip_local_3Shape" -p "l_t_lip_local_3";
 	rename -uid "D79C2349-4803-0F90-E0C8-6E9A58CAA19E";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
@@ -3742,6 +4012,43 @@ createNode nurbsCurve -n "l_t_lip_local_3Shape" -p "l_t_lip_local_3";
 		-0.02746729569179425 0.10132367720355842 0.19453687555981239
 		;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:304033312051";
+createNode transform -n "pCube6" -p "l_t_lip_local_3";
+	rename -uid "549F418C-4DEC-AEAA-C17E-5EAB3C30BE40";
+	setAttr ".v" no;
+createNode mesh -n "pCubeShape6" -p "pCube6";
+	rename -uid "952AD402-4C30-474C-9891-D18531933BB8";
+	setAttr -k off ".v";
+	setAttr ".vir" yes;
+	setAttr ".vif" yes;
+	setAttr ".uvst[0].uvsn" -type "string" "map1";
+	setAttr -s 14 ".uvst[0].uvsp[0:13]" -type "float2" 0.375 0 0.625 0 0.375
+		 0.25 0.625 0.25 0.375 0.5 0.625 0.5 0.375 0.75 0.625 0.75 0.375 1 0.625 1 0.875 0
+		 0.875 0.25 0.125 0 0.125 0.25;
+	setAttr ".cuvs" -type "string" "map1";
+	setAttr ".dcc" -type "string" "Ambient+Diffuse";
+	setAttr ".covm[0]"  0 1 1;
+	setAttr ".cdvm[0]"  0 1 1;
+	setAttr -s 8 ".vt[0:7]"  -0.115 -0.115 0.115 0.115 -0.115 0.115 -0.115 0.115 0.115
+		 0.115 0.115 0.115 -0.115 0.115 -0.115 0.115 0.115 -0.115 -0.115 -0.115 -0.115 0.115 -0.115 -0.115;
+	setAttr -s 12 ".ed[0:11]"  0 1 0 2 3 0 4 5 0 6 7 0 0 2 0 1 3 0 2 4 0
+		 3 5 0 4 6 0 5 7 0 6 0 0 7 1 0;
+	setAttr -s 6 -ch 24 ".fc[0:5]" -type "polyFaces" 
+		f 4 0 5 -2 -5
+		mu 0 4 0 1 3 2
+		f 4 1 7 -3 -7
+		mu 0 4 2 3 5 4
+		f 4 2 9 -4 -9
+		mu 0 4 4 5 7 6
+		f 4 3 11 -1 -11
+		mu 0 4 6 7 9 8
+		f 4 -12 -10 -8 -6
+		mu 0 4 1 10 11 3
+		f 4 10 4 6 8
+		mu 0 4 12 0 2 13;
+	setAttr ".cd" -type "dataPolyComponent" Index_Data Edge 0 ;
+	setAttr ".cvd" -type "dataPolyComponent" Index_Data Vertex 0 ;
+	setAttr ".pd[0]" -type "dataPolyComponent" Index_Data UV 0 ;
+	setAttr ".hfd" -type "dataPolyComponent" Index_Data Face 0 ;
 createNode transform -n "r_t_lip_local_3_group" -p "lipsExtra_controls";
 	rename -uid "F84AD0EE-44A2-CB46-F619-4C867EC03A41";
 	setAttr ".rp" -type "double3" 2.4984388684703678e-24 3.9153662978463899e-08 -5.9617000225387073e-09 ;
@@ -3750,9 +4057,6 @@ createNode transform -n "r_t_lip_local_3_group" -p "lipsExtra_controls";
 createNode transform -n "r_t_lip_local_3" -p "r_t_lip_local_3_group";
 	rename -uid "72E00BA6-43A3-1E0B-E852-80ABF59D5D56";
 	addAttr -ci true -sn "mCache" -ln "mCache" -nn "mCache" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
-	addAttr -ci true -sn "zip" -ln "zip" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "dropoff" -ln "dropoff" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "pos" -ln "pos" -at "double";
 	addAttr -ci true -sn "default_translateX" -ln "default_translateX" -dt "string";
 	addAttr -ci true -sn "default_translateY" -ln "default_translateY" -dt "string";
@@ -3763,20 +4067,15 @@ createNode transform -n "r_t_lip_local_3" -p "r_t_lip_local_3_group";
 	addAttr -ci true -sn "default_translateZ" -ln "default_translateZ" -dt "string";
 	addAttr -ci true -sn "default_rotate" -ln "default_rotate" -dt "string";
 	addAttr -ci true -sn "default_middleInfluenceY" -ln "default_middleInfluenceY" -dt "string";
-	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	addAttr -ci true -sn "default_scaleX" -ln "default_scaleX" -dt "string";
 	addAttr -ci true -sn "default_scaleY" -ln "default_scaleY" -dt "string";
 	addAttr -ci true -sn "default_scaleZ" -ln "default_scaleZ" -dt "string";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
-	addAttr -ci true -sn "type" -ln "type" -dt "string";
-	setAttr -l on -k off ".v";
+	setAttr -k off ".v";
 	setAttr -k on ".t";
 	setAttr -k on ".r";
 	setAttr -k on ".s";
 	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
-	setAttr -l on ".internalName" -type "string" "c_t_lip_detail";
-	setAttr -l on ".zip";
-	setAttr -l on ".dropoff";
 	setAttr ".pos" 0.5;
 	setAttr ".default_translateX" -type "string" "0.0";
 	setAttr ".default_translateY" -type "string" "0.0";
@@ -3787,12 +4086,10 @@ createNode transform -n "r_t_lip_local_3" -p "r_t_lip_local_3_group";
 	setAttr ".default_translateZ" -type "string" "0.0";
 	setAttr ".default_rotate" -type "string" "[(0.0, 0.0, 0.0)]";
 	setAttr ".default_middleInfluenceY" -type "string" "0.8";
-	setAttr -l on ".moduleName" -type "string" "mouth";
 	setAttr ".default_scaleX" -type "string" "1.0";
 	setAttr ".default_scaleY" -type "string" "1.0";
 	setAttr ".default_scaleZ" -type "string" "1.0";
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:a0b253f28076";
-	setAttr -l on ".type" -type "string" "control";
 createNode nurbsCurve -n "r_t_lip_local_3Shape" -p "r_t_lip_local_3";
 	rename -uid "EB9FC271-42F9-6018-D23A-F98BE7B28D05";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
@@ -3816,6 +4113,43 @@ createNode nurbsCurve -n "r_t_lip_local_3Shape" -p "r_t_lip_local_3";
 		-0.02746729569179425 0.10132367720355842 0.19453687555981239
 		;
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:304033312051";
+createNode transform -n "pCube7" -p "r_t_lip_local_3";
+	rename -uid "523B9A9F-42CD-9819-7A5A-58BE0D0847DF";
+	setAttr ".v" no;
+createNode mesh -n "pCubeShape7" -p "pCube7";
+	rename -uid "6F9D5F6C-458A-A3D9-F37B-B7B306DE77B5";
+	setAttr -k off ".v";
+	setAttr ".vir" yes;
+	setAttr ".vif" yes;
+	setAttr ".uvst[0].uvsn" -type "string" "map1";
+	setAttr -s 14 ".uvst[0].uvsp[0:13]" -type "float2" 0.375 0 0.625 0 0.375
+		 0.25 0.625 0.25 0.375 0.5 0.625 0.5 0.375 0.75 0.625 0.75 0.375 1 0.625 1 0.875 0
+		 0.875 0.25 0.125 0 0.125 0.25;
+	setAttr ".cuvs" -type "string" "map1";
+	setAttr ".dcc" -type "string" "Ambient+Diffuse";
+	setAttr ".covm[0]"  0 1 1;
+	setAttr ".cdvm[0]"  0 1 1;
+	setAttr -s 8 ".vt[0:7]"  -0.115 -0.115 0.115 0.115 -0.115 0.115 -0.115 0.115 0.115
+		 0.115 0.115 0.115 -0.115 0.115 -0.115 0.115 0.115 -0.115 -0.115 -0.115 -0.115 0.115 -0.115 -0.115;
+	setAttr -s 12 ".ed[0:11]"  0 1 0 2 3 0 4 5 0 6 7 0 0 2 0 1 3 0 2 4 0
+		 3 5 0 4 6 0 5 7 0 6 0 0 7 1 0;
+	setAttr -s 6 -ch 24 ".fc[0:5]" -type "polyFaces" 
+		f 4 0 5 -2 -5
+		mu 0 4 0 1 3 2
+		f 4 1 7 -3 -7
+		mu 0 4 2 3 5 4
+		f 4 2 9 -4 -9
+		mu 0 4 4 5 7 6
+		f 4 3 11 -1 -11
+		mu 0 4 6 7 9 8
+		f 4 -12 -10 -8 -6
+		mu 0 4 1 10 11 3
+		f 4 10 4 6 8
+		mu 0 4 12 0 2 13;
+	setAttr ".cd" -type "dataPolyComponent" Index_Data Edge 0 ;
+	setAttr ".cvd" -type "dataPolyComponent" Index_Data Vertex 0 ;
+	setAttr ".pd[0]" -type "dataPolyComponent" Index_Data UV 0 ;
+	setAttr ".hfd" -type "dataPolyComponent" Index_Data Face 0 ;
 createNode transform -n "l_b_lip_local_1_group" -p "lipsExtra_controls";
 	rename -uid "21A3CA22-4851-F56A-08C2-FA9263143AE7";
 	setAttr ".rp" -type "double3" 2.4984388931222711e-24 3.915366120210706e-08 -5.9617001335610098e-09 ;
@@ -3824,9 +4158,6 @@ createNode transform -n "l_b_lip_local_1_group" -p "lipsExtra_controls";
 createNode transform -n "l_b_lip_local_1" -p "l_b_lip_local_1_group";
 	rename -uid "874A8619-4BFA-B975-6FB1-EA8733145649";
 	addAttr -ci true -sn "mCache" -ln "mCache" -nn "mCache" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
-	addAttr -ci true -sn "zip" -ln "zip" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "dropoff" -ln "dropoff" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "init_x_pos" -ln "init_x_pos" -at "double";
 	addAttr -ci true -sn "default_translateX" -ln "default_translateX" -dt "string";
 	addAttr -ci true -sn "default_translateY" -ln "default_translateY" -dt "string";
@@ -3837,20 +4168,15 @@ createNode transform -n "l_b_lip_local_1" -p "l_b_lip_local_1_group";
 	addAttr -ci true -sn "default_translateZ" -ln "default_translateZ" -dt "string";
 	addAttr -ci true -sn "default_rotate" -ln "default_rotate" -dt "string";
 	addAttr -ci true -sn "default_middleInfluenceY" -ln "default_middleInfluenceY" -dt "string";
-	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	addAttr -ci true -sn "default_scaleX" -ln "default_scaleX" -dt "string";
 	addAttr -ci true -sn "default_scaleY" -ln "default_scaleY" -dt "string";
 	addAttr -ci true -sn "default_scaleZ" -ln "default_scaleZ" -dt "string";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
-	addAttr -ci true -sn "type" -ln "type" -dt "string";
-	setAttr -l on -k off ".v";
+	setAttr -k off ".v";
 	setAttr -k on ".t";
 	setAttr -k on ".r";
 	setAttr -k on ".s";
 	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
-	setAttr -l on ".internalName" -type "string" "c_b_lip_detail";
-	setAttr -l on ".zip";
-	setAttr -l on ".dropoff";
 	setAttr ".init_x_pos" 0.84;
 	setAttr ".default_translateX" -type "string" "0.0";
 	setAttr ".default_translateY" -type "string" "0.0";
@@ -3861,12 +4187,10 @@ createNode transform -n "l_b_lip_local_1" -p "l_b_lip_local_1_group";
 	setAttr ".default_translateZ" -type "string" "0.0";
 	setAttr ".default_rotate" -type "string" "[(0.0, 0.0, 0.0)]";
 	setAttr ".default_middleInfluenceY" -type "string" "0.8";
-	setAttr -l on ".moduleName" -type "string" "mouth";
 	setAttr ".default_scaleX" -type "string" "1.0";
 	setAttr ".default_scaleY" -type "string" "1.0";
 	setAttr ".default_scaleZ" -type "string" "1.0";
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:83e15ea5891e";
-	setAttr -l on ".type" -type "string" "control";
 createNode nurbsCurve -n "l_b_lip_local_1Shape" -p "l_b_lip_local_1";
 	rename -uid "68971A21-4B95-6B53-CA4B-3CB9465ACEAC";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
@@ -3898,9 +4222,6 @@ createNode transform -n "r_b_lip_local_1_group" -p "lipsExtra_controls";
 createNode transform -n "r_b_lip_local_1" -p "r_b_lip_local_1_group";
 	rename -uid "0C48F967-434C-5D16-0AD3-CCBE710777EA";
 	addAttr -ci true -sn "mCache" -ln "mCache" -nn "mCache" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
-	addAttr -ci true -sn "zip" -ln "zip" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "dropoff" -ln "dropoff" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "init_x_pos" -ln "init_x_pos" -at "double";
 	addAttr -ci true -sn "default_translateX" -ln "default_translateX" -dt "string";
 	addAttr -ci true -sn "default_translateY" -ln "default_translateY" -dt "string";
@@ -3911,20 +4232,15 @@ createNode transform -n "r_b_lip_local_1" -p "r_b_lip_local_1_group";
 	addAttr -ci true -sn "default_translateZ" -ln "default_translateZ" -dt "string";
 	addAttr -ci true -sn "default_rotate" -ln "default_rotate" -dt "string";
 	addAttr -ci true -sn "default_middleInfluenceY" -ln "default_middleInfluenceY" -dt "string";
-	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	addAttr -ci true -sn "default_scaleX" -ln "default_scaleX" -dt "string";
 	addAttr -ci true -sn "default_scaleY" -ln "default_scaleY" -dt "string";
 	addAttr -ci true -sn "default_scaleZ" -ln "default_scaleZ" -dt "string";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
-	addAttr -ci true -sn "type" -ln "type" -dt "string";
-	setAttr -l on -k off ".v";
+	setAttr -k off ".v";
 	setAttr -k on ".t";
 	setAttr -k on ".r";
 	setAttr -k on ".s";
 	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
-	setAttr -l on ".internalName" -type "string" "c_b_lip_detail";
-	setAttr -l on ".zip";
-	setAttr -l on ".dropoff";
 	setAttr ".init_x_pos" 0.84;
 	setAttr ".default_translateX" -type "string" "0.0";
 	setAttr ".default_translateY" -type "string" "0.0";
@@ -3935,12 +4251,10 @@ createNode transform -n "r_b_lip_local_1" -p "r_b_lip_local_1_group";
 	setAttr ".default_translateZ" -type "string" "0.0";
 	setAttr ".default_rotate" -type "string" "[(0.0, 0.0, 0.0)]";
 	setAttr ".default_middleInfluenceY" -type "string" "0.8";
-	setAttr -l on ".moduleName" -type "string" "mouth";
 	setAttr ".default_scaleX" -type "string" "1.0";
 	setAttr ".default_scaleY" -type "string" "1.0";
 	setAttr ".default_scaleZ" -type "string" "1.0";
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:83e15ea5891e";
-	setAttr -l on ".type" -type "string" "control";
 createNode nurbsCurve -n "r_b_lip_local_1Shape" -p "r_b_lip_local_1";
 	rename -uid "8D15A671-45CC-0803-CCD3-9C93EA8AB90F";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
@@ -3972,9 +4286,6 @@ createNode transform -n "l_b_lip_local_2_group" -p "lipsExtra_controls";
 createNode transform -n "l_b_lip_local_2" -p "l_b_lip_local_2_group";
 	rename -uid "2A6B45C2-4F83-66CC-5EB7-DD912760073A";
 	addAttr -ci true -sn "mCache" -ln "mCache" -nn "mCache" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
-	addAttr -ci true -sn "zip" -ln "zip" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "dropoff" -ln "dropoff" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "init_x_pos" -ln "init_x_pos" -at "double";
 	addAttr -ci true -sn "default_translateX" -ln "default_translateX" -dt "string";
 	addAttr -ci true -sn "default_translateY" -ln "default_translateY" -dt "string";
@@ -3985,20 +4296,15 @@ createNode transform -n "l_b_lip_local_2" -p "l_b_lip_local_2_group";
 	addAttr -ci true -sn "default_translateZ" -ln "default_translateZ" -dt "string";
 	addAttr -ci true -sn "default_rotate" -ln "default_rotate" -dt "string";
 	addAttr -ci true -sn "default_middleInfluenceY" -ln "default_middleInfluenceY" -dt "string";
-	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	addAttr -ci true -sn "default_scaleX" -ln "default_scaleX" -dt "string";
 	addAttr -ci true -sn "default_scaleY" -ln "default_scaleY" -dt "string";
 	addAttr -ci true -sn "default_scaleZ" -ln "default_scaleZ" -dt "string";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
-	addAttr -ci true -sn "type" -ln "type" -dt "string";
-	setAttr -l on -k off ".v";
+	setAttr -k off ".v";
 	setAttr -k on ".t";
 	setAttr -k on ".r";
 	setAttr -k on ".s";
 	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
-	setAttr -l on ".internalName" -type "string" "c_b_lip_detail";
-	setAttr -l on ".zip";
-	setAttr -l on ".dropoff";
 	setAttr ".init_x_pos" 0.84;
 	setAttr ".default_translateX" -type "string" "0.0";
 	setAttr ".default_translateY" -type "string" "0.0";
@@ -4009,12 +4315,10 @@ createNode transform -n "l_b_lip_local_2" -p "l_b_lip_local_2_group";
 	setAttr ".default_translateZ" -type "string" "0.0";
 	setAttr ".default_rotate" -type "string" "[(0.0, 0.0, 0.0)]";
 	setAttr ".default_middleInfluenceY" -type "string" "0.8";
-	setAttr -l on ".moduleName" -type "string" "mouth";
 	setAttr ".default_scaleX" -type "string" "1.0";
 	setAttr ".default_scaleY" -type "string" "1.0";
 	setAttr ".default_scaleZ" -type "string" "1.0";
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:83e15ea5891e";
-	setAttr -l on ".type" -type "string" "control";
 createNode nurbsCurve -n "l_b_lip_local_2Shape" -p "l_b_lip_local_2";
 	rename -uid "5C4F6633-4EA5-7B50-27DC-F1B5DC1390E3";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
@@ -4046,9 +4350,6 @@ createNode transform -n "r_b_lip_local_2_group" -p "lipsExtra_controls";
 createNode transform -n "r_b_lip_local_2" -p "r_b_lip_local_2_group";
 	rename -uid "D493CEEB-4F06-88E1-3B0B-BC80E4298992";
 	addAttr -ci true -sn "mCache" -ln "mCache" -nn "mCache" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
-	addAttr -ci true -sn "zip" -ln "zip" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "dropoff" -ln "dropoff" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "init_x_pos" -ln "init_x_pos" -at "double";
 	addAttr -ci true -sn "default_translateX" -ln "default_translateX" -dt "string";
 	addAttr -ci true -sn "default_translateY" -ln "default_translateY" -dt "string";
@@ -4059,20 +4360,15 @@ createNode transform -n "r_b_lip_local_2" -p "r_b_lip_local_2_group";
 	addAttr -ci true -sn "default_translateZ" -ln "default_translateZ" -dt "string";
 	addAttr -ci true -sn "default_rotate" -ln "default_rotate" -dt "string";
 	addAttr -ci true -sn "default_middleInfluenceY" -ln "default_middleInfluenceY" -dt "string";
-	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	addAttr -ci true -sn "default_scaleX" -ln "default_scaleX" -dt "string";
 	addAttr -ci true -sn "default_scaleY" -ln "default_scaleY" -dt "string";
 	addAttr -ci true -sn "default_scaleZ" -ln "default_scaleZ" -dt "string";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
-	addAttr -ci true -sn "type" -ln "type" -dt "string";
-	setAttr -l on -k off ".v";
+	setAttr -k off ".v";
 	setAttr -k on ".t";
 	setAttr -k on ".r";
 	setAttr -k on ".s";
 	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
-	setAttr -l on ".internalName" -type "string" "c_b_lip_detail";
-	setAttr -l on ".zip";
-	setAttr -l on ".dropoff";
 	setAttr ".init_x_pos" 0.84;
 	setAttr ".default_translateX" -type "string" "0.0";
 	setAttr ".default_translateY" -type "string" "0.0";
@@ -4083,12 +4379,10 @@ createNode transform -n "r_b_lip_local_2" -p "r_b_lip_local_2_group";
 	setAttr ".default_translateZ" -type "string" "0.0";
 	setAttr ".default_rotate" -type "string" "[(0.0, 0.0, 0.0)]";
 	setAttr ".default_middleInfluenceY" -type "string" "0.8";
-	setAttr -l on ".moduleName" -type "string" "mouth";
 	setAttr ".default_scaleX" -type "string" "1.0";
 	setAttr ".default_scaleY" -type "string" "1.0";
 	setAttr ".default_scaleZ" -type "string" "1.0";
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:83e15ea5891e";
-	setAttr -l on ".type" -type "string" "control";
 createNode nurbsCurve -n "r_b_lip_local_2Shape" -p "r_b_lip_local_2";
 	rename -uid "141A45D6-439D-42E1-B680-13AEE083764C";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
@@ -4120,9 +4414,6 @@ createNode transform -n "l_b_lip_local_3_group" -p "lipsExtra_controls";
 createNode transform -n "l_b_lip_local_3" -p "l_b_lip_local_3_group";
 	rename -uid "93FCD1F5-4C6E-7D3E-7CE5-FA961F226DB6";
 	addAttr -ci true -sn "mCache" -ln "mCache" -nn "mCache" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
-	addAttr -ci true -sn "zip" -ln "zip" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "dropoff" -ln "dropoff" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "init_x_pos" -ln "init_x_pos" -at "double";
 	addAttr -ci true -sn "default_translateX" -ln "default_translateX" -dt "string";
 	addAttr -ci true -sn "default_translateY" -ln "default_translateY" -dt "string";
@@ -4133,20 +4424,15 @@ createNode transform -n "l_b_lip_local_3" -p "l_b_lip_local_3_group";
 	addAttr -ci true -sn "default_translateZ" -ln "default_translateZ" -dt "string";
 	addAttr -ci true -sn "default_rotate" -ln "default_rotate" -dt "string";
 	addAttr -ci true -sn "default_middleInfluenceY" -ln "default_middleInfluenceY" -dt "string";
-	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	addAttr -ci true -sn "default_scaleX" -ln "default_scaleX" -dt "string";
 	addAttr -ci true -sn "default_scaleY" -ln "default_scaleY" -dt "string";
 	addAttr -ci true -sn "default_scaleZ" -ln "default_scaleZ" -dt "string";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
-	addAttr -ci true -sn "type" -ln "type" -dt "string";
-	setAttr -l on -k off ".v";
+	setAttr -k off ".v";
 	setAttr -k on ".t";
 	setAttr -k on ".r";
 	setAttr -k on ".s";
 	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
-	setAttr -l on ".internalName" -type "string" "c_b_lip_detail";
-	setAttr -l on ".zip";
-	setAttr -l on ".dropoff";
 	setAttr ".init_x_pos" 0.84;
 	setAttr ".default_translateX" -type "string" "0.0";
 	setAttr ".default_translateY" -type "string" "0.0";
@@ -4157,12 +4443,10 @@ createNode transform -n "l_b_lip_local_3" -p "l_b_lip_local_3_group";
 	setAttr ".default_translateZ" -type "string" "0.0";
 	setAttr ".default_rotate" -type "string" "[(0.0, 0.0, 0.0)]";
 	setAttr ".default_middleInfluenceY" -type "string" "0.8";
-	setAttr -l on ".moduleName" -type "string" "mouth";
 	setAttr ".default_scaleX" -type "string" "1.0";
 	setAttr ".default_scaleY" -type "string" "1.0";
 	setAttr ".default_scaleZ" -type "string" "1.0";
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:83e15ea5891e";
-	setAttr -l on ".type" -type "string" "control";
 createNode nurbsCurve -n "l_b_lip_local_3Shape" -p "l_b_lip_local_3";
 	rename -uid "030D7214-460C-CBBB-DFA7-7B903B690748";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
@@ -4194,9 +4478,6 @@ createNode transform -n "r_b_lip_local_3_group" -p "lipsExtra_controls";
 createNode transform -n "r_b_lip_local_3" -p "r_b_lip_local_3_group";
 	rename -uid "98820D5D-4C32-205D-ABD3-6C85A94519B4";
 	addAttr -ci true -sn "mCache" -ln "mCache" -nn "mCache" -min 0 -max 1 -at "bool";
-	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
-	addAttr -ci true -sn "zip" -ln "zip" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "dropoff" -ln "dropoff" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "init_x_pos" -ln "init_x_pos" -at "double";
 	addAttr -ci true -sn "default_translateX" -ln "default_translateX" -dt "string";
 	addAttr -ci true -sn "default_translateY" -ln "default_translateY" -dt "string";
@@ -4207,20 +4488,15 @@ createNode transform -n "r_b_lip_local_3" -p "r_b_lip_local_3_group";
 	addAttr -ci true -sn "default_translateZ" -ln "default_translateZ" -dt "string";
 	addAttr -ci true -sn "default_rotate" -ln "default_rotate" -dt "string";
 	addAttr -ci true -sn "default_middleInfluenceY" -ln "default_middleInfluenceY" -dt "string";
-	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
 	addAttr -ci true -sn "default_scaleX" -ln "default_scaleX" -dt "string";
 	addAttr -ci true -sn "default_scaleY" -ln "default_scaleY" -dt "string";
 	addAttr -ci true -sn "default_scaleZ" -ln "default_scaleZ" -dt "string";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
-	addAttr -ci true -sn "type" -ln "type" -dt "string";
-	setAttr -l on -k off ".v";
+	setAttr -k off ".v";
 	setAttr -k on ".t";
 	setAttr -k on ".r";
 	setAttr -k on ".s";
 	setAttr ".mntl" -type "double3" -0.5 -0.5 -1 ;
-	setAttr -l on ".internalName" -type "string" "c_b_lip_detail";
-	setAttr -l on ".zip";
-	setAttr -l on ".dropoff";
 	setAttr ".init_x_pos" 0.84;
 	setAttr ".default_translateX" -type "string" "0.0";
 	setAttr ".default_translateY" -type "string" "0.0";
@@ -4231,12 +4507,10 @@ createNode transform -n "r_b_lip_local_3" -p "r_b_lip_local_3_group";
 	setAttr ".default_translateZ" -type "string" "0.0";
 	setAttr ".default_rotate" -type "string" "[(0.0, 0.0, 0.0)]";
 	setAttr ".default_middleInfluenceY" -type "string" "0.8";
-	setAttr -l on ".moduleName" -type "string" "mouth";
 	setAttr ".default_scaleX" -type "string" "1.0";
 	setAttr ".default_scaleY" -type "string" "1.0";
 	setAttr ".default_scaleZ" -type "string" "1.0";
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:83e15ea5891e";
-	setAttr -l on ".type" -type "string" "control";
 createNode nurbsCurve -n "r_b_lip_local_3Shape" -p "r_b_lip_local_3";
 	rename -uid "20B47186-4C98-1160-D078-5DB78E6E5096";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
@@ -4706,7 +4980,7 @@ createNode nurbsSurface -n "t_lip_surfShape" -p "t_lip_surf";
 	setAttr -k off ".v";
 	setAttr ".vir" yes;
 	setAttr ".vif" yes;
-	setAttr -s 10 ".cp";
+	setAttr -s 14 ".cp";
 	setAttr ".covm[0]"  0 1 1;
 	setAttr ".cdvm[0]"  0 1 1;
 	setAttr ".dvu" 3;
@@ -4716,19 +4990,23 @@ createNode nurbsSurface -n "t_lip_surfShape" -p "t_lip_surf";
 	setAttr ".cc" -type "nurbsSurface" 
 		1 3 0 0 no 
 		2 0 1
-		7 0 0 0 0.5 1 1 1
+		9 0 0 0 0.25 0.5 0.75 1 1 1
 		
-		10
-		-1.7922390162210979 1.2850432690592568 0.59812765767201781
-		-0.62033248655012674 1.1347529421154217 0.80988232086120615
-		0 1.0997167065407663 1.0000000000000002
-		0.62033241115801596 1.1347529420381537 0.80988234740554921
-		1.7922390283057066 1.2850432690603892 0.59812766903103698
-		-1.8206333459157422 1.0876965228108608 0.59346825430765648
-		-0.63847603523333507 0.93617753884160959 0.80637417189462346
-		-2.0022540538923508e-16 0.90028329345923463 1
-		0.6384759615311717 0.93617753891887756 0.80637419843171665
-		1.820633357985018 1.0876965228097271 0.59346826566921929
+		14
+		-1.7877987010198735 11.682787393723602 1.8377947154016985
+		-1.2226525442767908 11.517808842829041 2.1731925450683449
+		-0.68964872551823608 11.403996772574223 2.3975655405057776
+		0 11.363648036735604 2.471744247095788
+		0.7412511952623656 11.393329433353697 2.4437916605427148
+		1.2769731255668715 11.513054217474968 2.2564693912028675
+		1.7892409816717523 11.682385901300783 1.8423810563231793
+		-1.825073661116966 11.488303685988312 1.8141229805974466
+		-1.2653022308846229 11.325994277646931 2.139106357983251
+		-0.71942749401070949 11.207337287187825 2.3830065449500619
+		-2.0022540538923508e-16 11.164214623654072 2.471744247095788
+		0.76739423495406922 11.19573284766094 2.4370219732425626
+		1.3226229821995821 11.323907605976713 2.2127276314131796
+		1.8236314046189721 11.488705178411138 1.809536534043124
 		
 		;
 	setAttr ".nufa" 4.5;
@@ -4740,7 +5018,7 @@ createNode nurbsSurface -n "b_lip_surfShape" -p "b_lip_surf";
 	setAttr -k off ".v";
 	setAttr ".vir" yes;
 	setAttr ".vif" yes;
-	setAttr -s 10 ".cp";
+	setAttr -s 14 ".cp";
 	setAttr ".covm[0]"  0 1 1;
 	setAttr ".cdvm[0]"  0 1 1;
 	setAttr ".dvu" 3;
@@ -4750,19 +5028,23 @@ createNode nurbsSurface -n "b_lip_surfShape" -p "b_lip_surf";
 	setAttr ".cc" -type "nurbsSurface" 
 		1 3 0 0 no 
 		2 0 1
-		7 0 0 0 0.5 1 1 1
+		9 0 0 0 0.25 0.5 0.75 1 1 1
 		
-		10
-		-1.7922390162210979 1.2850432690592568 0.59812765767201781
-		-0.62033248655012685 1.1347529421154217 0.80988232086120615
-		0 1.099716706540766 1.0000000000000002
-		0.62033241115801607 1.1347529420381539 0.80988234740554899
-		1.7922390283057066 1.2850432690603892 0.59812766903103698
-		-1.8206333459157424 1.0876965228108608 0.5934682543076566
-		-0.63847603523333507 0.93617753884160948 0.80637417189462368
-		0 0.90028329345923441 1.0000000000000002
-		0.63847596153117203 0.93617753891887778 0.80637419843171654
-		1.820633357985018 1.0876965228097271 0.59346826566921929
+		14
+		-1.7877987010198739 11.682787393723602 1.8377947154016985
+		-1.2226525472485803 11.517807879969265 2.1731923058392955
+		-0.68964872997592019 11.403996754743487 2.3975655390198831
+		0 11.363648036735601 2.4717442470957875
+		0.74125125469815445 11.3933284764375 2.4437914227995599
+		1.2769731255668715 11.51305326650235 2.2564689157165576
+		1.7892409270483669 11.682385882219226 1.8423811116505826
+		-1.8250736611169658 11.488303685988312 1.8141229805974464
+		-1.2653022279128334 11.325993338561471 2.1391061217259906
+		-0.71942748955302527 11.207337305018561 2.3830065464359569
+		0 11.164214623654068 2.4717442470957875
+		0.76739429438985818 11.195731902631898 2.4370217354994077
+		1.3226229821995821 11.323906655004095 2.2127271559268697
+		1.8236314592423577 11.488705197492695 1.8095364787157207
 		
 		;
 	setAttr ".nufa" 4.5;
@@ -4778,107 +5060,198 @@ createNode bifrostGraphShape -n "zip_bifrostGraphShape" -p "zip_bifrostGraph";
 	addAttr -r false -ci true -k true -sn "l_dropoff" -ln "l_dropoff" -at "float";
 	addAttr -r false -ci true -k true -sn "r_dropoff" -ln "r_dropoff" -at "float";
 	addAttr -r false -ci true -k true -sn "scale_matrix" -ln "scale_matrix" -at "fltMatrix";
-	addAttr -r false -ci true -k true -sn "right_stretch_factor" -ln "right_stretch_factor" 
-		-at "float";
 	addAttr -w false -ci true -m -sn "out_top_matrix" -ln "out_top_matrix" -at "fltMatrix";
 	addAttr -w false -ci true -m -sn "out_bot_matrix" -ln "out_bot_matrix" -at "fltMatrix";
-	addAttr -r false -ci true -k true -sn "left_stretch_factor" -ln "left_stretch_factor" 
-		-at "float";
-	addAttr -r false -ci true -k true -sn "JobPorts__Math_epsilonFloat" -ln "JobPorts__Math_epsilonFloat" 
-		-at "float";
 	addAttr -r false -ci true -k true -m -sn "t_matrix" -ln "t_matrix" -at "fltMatrix";
 	addAttr -r false -ci true -k true -m -sn "b_matrix" -ln "b_matrix" -at "fltMatrix";
 	addAttr -w false -ci true -m -sn "out_t_matrix" -ln "out_t_matrix" -at "matrix";
 	addAttr -w false -ci true -m -sn "out_b_matrix" -ln "out_b_matrix" -at "matrix";
+	addAttr -r false -ci true -k true -m -sn "parameter" -ln "parameter" -at "float";
+	addAttr -r false -ci true -k true -sn "l_corner_move_x" -ln "l_corner_move_x" -at "float";
+	addAttr -r false -ci true -k true -sn "r_corner_move_x" -ln "r_corner_move_x" -at "float";
+	addAttr -r false -ci true -k true -sn "JobPorts__Math_epsilonFloat" -ln "JobPorts__Math_epsilonFloat" 
+		-at "float";
+	addAttr -r false -ci true -k true -sn "stretch_factor" -ln "stretch_factor" -at "float";
 	setAttr -k off ".v";
 	setAttr ".covm[0]"  0 1 1;
 	setAttr ".cdvm[0]"  0 1 1;
 	setAttr ".sc" -type "string" (
-		"{\n    \"header\": {\n        \"metadata\": [\n            {\n                \"metaName\": \"adskFileFormatVersion\",\n                \"metaValue\": \"100L\"\n            }\n        ]\n    },\n    \"namespaces\": [],\n    \"types\": [],\n    \"compounds\": [\n        {\n            \"name\": \"zip_bifrostGraphShape\",\n            \"metadata\": [\n                {\n                    \"metaName\": \"io_nodes\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"io_inodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"input\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n"
-		+ "                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"l_zip\"\n                                                },\n                                                {\n                                                    \"metaName\": \"r_zip\"\n                                                },\n                                                {\n                                                    \"metaName\": \"l_dropoff\"\n                                                },\n                                                {\n                                                    \"metaName\": \"r_dropoff\"\n                                                },\n                                                {\n                                                    \"metaName\": \"scale_matrix\"\n                                                },\n                                                {\n                                                    \"metaName\": \"left_stretch_factor\"\n"
-		+ "                                                },\n                                                {\n                                                    \"metaName\": \"right_stretch_factor\"\n                                                },\n                                                {\n                                                    \"metaName\": \"t_matrix\"\n                                                },\n                                                {\n                                                    \"metaName\": \"b_matrix\"\n                                                }\n                                            ]\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-1727.51 10.0889\"\n                                        }\n                                    ]\n                                }\n"
-		+ "                            ]\n                        },\n                        {\n                            \"metaName\": \"io_onodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"output\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2398.2 -223.883\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n"
-		+ "                                                {\n                                                    \"metaName\": \"out_top_matrix\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_bot_matrix\"\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"output1\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n"
-		+ "                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"out_t_matrix\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_b_matrix\"\n                                                }\n                                            ]\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-669.603 -72.398\"\n                                        }\n                                    ]\n                                }\n                            ]\n                        }\n                    ]\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n"
-		+ "                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Array,array_size\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Print,print_array\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,PK::Compounds,pk_draw_matrix\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"output\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Constants,float\"\n                },\n                {\n                    \"metaName\": \"ViewportRect\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"-1848.07 -595.972 1344.2 2025.1\"\n"
-		+ "                },\n                {\n                    \"metaName\": \"internal\",\n                    \"metaValue\": \"true\"\n                }\n            ],\n            \"ports\": [\n                {\n                    \"portName\": \"l_zip\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"r_zip\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"l_dropoff\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"r_dropoff\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"scale_matrix\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float4x4\"\n                },\n                {\n"
-		+ "                    \"portName\": \"out_top_matrix\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"array<Math::float4x4>\"\n                },\n                {\n                    \"portName\": \"out_bot_matrix\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"array<Math::float4x4>\"\n                },\n                {\n                    \"portName\": \"left_stretch_factor\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"right_stretch_factor\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"t_matrix\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<Math::float4x4>\"\n                },\n                {\n                    \"portName\": \"b_matrix\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<Math::float4x4>\"\n"
-		+ "                },\n                {\n                    \"portName\": \"out_t_matrix\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"array<Math::double4x4>\"\n                },\n                {\n                    \"portName\": \"out_b_matrix\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"array<Math::double4x4>\"\n                }\n            ],\n            \"compounds\": [\n                {\n                    \"name\": \"for_each\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"icon\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"<NATIVE>../icons/LoopForEach.svg\"\n                        },\n                        {\n                            \"metaName\": \"io_nodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"io_inodes\",\n                                    \"metadata\": [\n                                        {\n"
-		+ "                                            \"metaName\": \"input\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"max_iterations\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"current_index\"\n                                                        },\n"
+		"{\n    \"header\": {\n        \"metadata\": [\n            {\n                \"metaName\": \"adskFileFormatVersion\",\n                \"metaValue\": \"100L\"\n            }\n        ]\n    },\n    \"namespaces\": [],\n    \"types\": [],\n    \"compounds\": [\n        {\n            \"name\": \"zip_bifrostGraphShape\",\n            \"metadata\": [\n                {\n                    \"metaName\": \"io_nodes\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"io_inodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"input\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n"
+		+ "                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-807.898 117.426\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"l_zip\"\n                                                },\n                                                {\n                                                    \"metaName\": \"r_zip\"\n                                                },\n                                                {\n                                                    \"metaName\": \"l_dropoff\"\n                                                },\n                                                {\n                                                    \"metaName\": \"r_dropoff\"\n                                                },\n"
+		+ "                                                {\n                                                    \"metaName\": \"scale_matrix\"\n                                                },\n                                                {\n                                                    \"metaName\": \"t_matrix\"\n                                                },\n                                                {\n                                                    \"metaName\": \"b_matrix\"\n                                                },\n                                                {\n                                                    \"metaName\": \"parameter\"\n                                                },\n                                                {\n                                                    \"metaName\": \"l_corner_move_x\"\n                                                },\n                                                {\n                                                    \"metaName\": \"r_corner_move_x\"\n                                                },\n"
+		+ "                                                {\n                                                    \"metaName\": \"stretch_factor\"\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                }\n                            ]\n                        },\n                        {\n                            \"metaName\": \"io_onodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"output\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n"
+		+ "                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2398.2 -223.883\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"out_top_matrix\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_bot_matrix\"\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"output1\",\n                                    \"metadata\": [\n                                        {\n"
+		+ "                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"787.12 -8.30264\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"out_t_matrix\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_b_matrix\"\n                                                }\n"
+		+ "                                            ]\n                                        }\n                                    ]\n                                }\n                            ]\n                        }\n                    ]\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Math,add\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Print,print\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Math,change_range\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Math,clamp\"\n                },\n"
+		+ "                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Array,reverse_array\"\n                },\n                {\n                    \"metaName\": \"ViewportRect\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"-601 -920 1203 1841\"\n                },\n                {\n                    \"metaName\": \"internal\",\n                    \"metaValue\": \"true\"\n                }\n            ],\n            \"ports\": [\n                {\n                    \"portName\": \"l_zip\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"r_zip\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"l_dropoff\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n"
+		+ "                {\n                    \"portName\": \"r_dropoff\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"scale_matrix\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float4x4\"\n                },\n                {\n                    \"portName\": \"out_top_matrix\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"array<Math::float4x4>\"\n                },\n                {\n                    \"portName\": \"out_bot_matrix\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"array<Math::float4x4>\"\n                },\n                {\n                    \"portName\": \"t_matrix\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<Math::float4x4>\"\n                },\n                {\n                    \"portName\": \"b_matrix\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<Math::float4x4>\"\n"
+		+ "                },\n                {\n                    \"portName\": \"out_t_matrix\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"array<Math::double4x4>\"\n                },\n                {\n                    \"portName\": \"out_b_matrix\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"array<Math::double4x4>\"\n                },\n                {\n                    \"portName\": \"parameter\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<float>\"\n                },\n                {\n                    \"portName\": \"l_corner_move_x\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"r_corner_move_x\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"stretch_factor\",\n                    \"portDirection\": \"input\",\n"
+		+ "                    \"portType\": \"float\"\n                }\n            ],\n            \"compounds\": [\n                {\n                    \"name\": \"zip_for_each\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"icon\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"<NATIVE>../icons/LoopForEach.svg\"\n                        },\n                        {\n                            \"metaName\": \"io_nodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"io_inodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"input\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n"
+		+ "                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"-1152.94 412.712\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"max_iterations\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"current_index\"\n                                                        },\n"
 		+ "                                                        {\n                                                            \"metaName\": \"l_zip\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"r_zip\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"l_dropoff\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"r_dropoff\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"t_matrix\"\n                                                        },\n                                                        {\n"
-		+ "                                                            \"metaName\": \"b_matrix\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"scale_matrix\"\n                                                        }\n                                                    ]\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"-616.056 500.196\"\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"io_onodes\",\n"
-		+ "                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"output\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"out_t_matrix\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"out_b_matrix\"\n"
-		+ "                                                        }\n                                                    ]\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"1634.35 808.769\"\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                }\n                            ]\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Math,matrix_multiply\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n"
-		+ "                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,PK::Compounds,pk_lerp_matrix\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Type_Conversion,to_float\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Array,get_from_array\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Math,linear_interpolate\"\n                        },\n                        {\n                            \"metaName\": \"ViewportRect\",\n                            \"metaType\": \"string\",\n"
-		+ "                            \"metaValue\": \"-590.245 -210.607 1332.6 2007.62\"\n                        }\n                    ],\n                    \"ports\": [\n                        {\n                            \"portName\": \"max_iterations\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"long\",\n                            \"portIterationLimit\": \"true\"\n                        },\n                        {\n                            \"portName\": \"current_index\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"long\",\n                            \"portIterationCounter\": \"true\"\n                        },\n                        {\n                            \"portName\": \"l_zip\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"float\"\n                        },\n                        {\n                            \"portName\": \"r_zip\",\n                            \"portDirection\": \"input\",\n"
-		+ "                            \"portType\": \"float\"\n                        },\n                        {\n                            \"portName\": \"l_dropoff\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"float\"\n                        },\n                        {\n                            \"portName\": \"r_dropoff\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"float\"\n                        },\n                        {\n                            \"portName\": \"t_matrix\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<Math::float4x4>\"\n                        },\n                        {\n                            \"portName\": \"b_matrix\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<Math::float4x4>\"\n                        },\n                        {\n                            \"portName\": \"out_t_matrix\",\n                            \"portDirection\": \"output\",\n"
-		+ "                            \"portIterationTarget\": \"true\"\n                        },\n                        {\n                            \"portName\": \"out_b_matrix\",\n                            \"portDirection\": \"output\",\n                            \"portIterationTarget\": \"true\"\n                        },\n                        {\n                            \"portName\": \"scale_matrix\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        }\n                    ],\n                    \"compounds\": [\n                        {\n                            \"name\": \"zip_weights\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"io_nodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"io_inodes\",\n                                            \"metadata\": [\n                                                {\n"
-		+ "                                                    \"metaName\": \"input\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"DisplayMode\",\n                                                            \"metaType\": \"string\",\n                                                            \"metaValue\": \"2\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"LayoutPos\",\n                                                            \"metaType\": \"string\",\n                                                            \"metaValue\": \"-1018.72 -156.775\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"io_ports\",\n                                                            \"metadata\": [\n"
-		+ "                                                                {\n                                                                    \"metaName\": \"l_zip\"\n                                                                },\n                                                                {\n                                                                    \"metaName\": \"r_zip\"\n                                                                },\n                                                                {\n                                                                    \"metaName\": \"l_dropoff\"\n                                                                },\n                                                                {\n                                                                    \"metaName\": \"r_dropoff\"\n                                                                },\n                                                                {\n                                                                    \"metaName\": \"max_iterations\"\n"
-		+ "                                                                },\n                                                                {\n                                                                    \"metaName\": \"current_index\"\n                                                                }\n                                                            ]\n                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        },\n                                        {\n                                            \"metaName\": \"io_onodes\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"output\",\n                                                    \"metadata\": [\n                                                        {\n"
-		+ "                                                            \"metaName\": \"DisplayMode\",\n                                                            \"metaType\": \"string\",\n                                                            \"metaValue\": \"2\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"io_ports\",\n                                                            \"metadata\": [\n                                                                {\n                                                                    \"metaName\": \"clamped\"\n                                                                }\n                                                            ]\n                                                        },\n                                                        {\n                                                            \"metaName\": \"LayoutPos\",\n                                                            \"metaType\": \"string\",\n"
-		+ "                                                            \"metaValue\": \"3173.74 -17.2048\"\n                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"ViewportRect\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2092 -758 1222 1841\"\n                                },\n                                {\n                                    \"metaName\": \"_recentNode_\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"BifrostGraph,Core::FCurve,evaluate_fcurve\"\n                                },\n                                {\n                                    \"metaName\": \"_recentNode_\",\n"
-		+ "                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"BifrostGraph,Core::Math,matrix_multiply\"\n                                },\n                                {\n                                    \"metaName\": \"_recentNode_\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"BifrostGraph,PK::Compounds,pk_lerp_matrix\"\n                                },\n                                {\n                                    \"metaName\": \"_recentNode_\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"BifrostGraph,Core::Type_Conversion,to_float\"\n                                },\n                                {\n                                    \"metaName\": \"_recentNode_\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"BifrostGraph,Core::Array,get_from_array\"\n                                }\n"
-		+ "                            ],\n                            \"ports\": [\n                                {\n                                    \"portName\": \"l_zip\",\n                                    \"portDirection\": \"input\",\n                                    \"portType\": \"float\"\n                                },\n                                {\n                                    \"portName\": \"r_zip\",\n                                    \"portDirection\": \"input\",\n                                    \"portType\": \"float\"\n                                },\n                                {\n                                    \"portName\": \"l_dropoff\",\n                                    \"portDirection\": \"input\",\n                                    \"portType\": \"float\"\n                                },\n                                {\n                                    \"portName\": \"r_dropoff\",\n                                    \"portDirection\": \"input\",\n                                    \"portType\": \"float\"\n                                },\n"
-		+ "                                {\n                                    \"portName\": \"clamped\",\n                                    \"portDirection\": \"output\"\n                                },\n                                {\n                                    \"portName\": \"max_iterations\",\n                                    \"portDirection\": \"input\",\n                                    \"portType\": \"long\"\n                                },\n                                {\n                                    \"portName\": \"current_index\",\n                                    \"portDirection\": \"input\",\n                                    \"portType\": \"long\"\n                                }\n                            ],\n                            \"compoundNodes\": [\n                                {\n                                    \"nodeName\": \"add\",\n                                    \"nodeType\": \"Core::Math::add\",\n                                    \"multiInPortNames\": [\n                                        \"output1\",\n"
-		+ "                                        \"output2\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"838.171 -566.141\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"add1\",\n                                    \"nodeType\": \"Core::Math::add\",\n                                    \"multiInPortNames\": [\n                                        \"output1\",\n"
-		+ "                                        \"output2\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"754.942 319.112\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"add2\",\n                                    \"nodeType\": \"Core::Math::add\",\n                                    \"multiInPortNames\": [\n                                        \"result\",\n"
-		+ "                                        \"result1\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2214.84 4.26538\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"change_range\",\n                                    \"nodeType\": \"Core::Math::change_range\",\n                                    \"metadata\": [\n                                        {\n"
-		+ "                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"1808.03 -202.376\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"change_range1\",\n                                    \"nodeType\": \"Core::Math::change_range\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n"
-		+ "                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"1819.03 217.272\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"clamp\",\n                                    \"nodeType\": \"Core::Math::clamp\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n"
-		+ "                                            \"metaValue\": \"-399.08 208.994\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"clamp1\",\n                                    \"nodeType\": \"Core::Math::clamp\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-402.183 515.565\"\n                                        }\n                                    ]\n                                },\n"
-		+ "                                {\n                                    \"nodeName\": \"clamp2\",\n                                    \"nodeType\": \"Core::Math::clamp\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2547.9 7.78545\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"decrement\",\n                                    \"nodeType\": \"Core::Math::decrement\",\n"
-		+ "                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-590.895 -728.709\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"divide\",\n                                    \"nodeType\": \"Core::Math::divide\",\n                                    \"multiInPortNames\": [\n                                        \"clamped\",\n                                        \"half_value\"\n"
-		+ "                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"440.93 -285.119\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"divide1\",\n                                    \"nodeType\": \"Core::Math::divide\",\n                                    \"multiInPortNames\": [\n                                        \"clamped\",\n                                        \"half_value\"\n"
-		+ "                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"372.003 238.595\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"half_of\",\n                                    \"nodeType\": \"Core::Math::half_of\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n"
-		+ "                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-243.959 -315.918\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"multiply\",\n                                    \"nodeType\": \"Core::Math::multiply\",\n                                    \"multiInPortNames\": [\n                                        \"output1\",\n                                        \"current_index\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n"
-		+ "                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"469.666 -831.735\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"multiply1\",\n                                    \"nodeType\": \"Core::Math::multiply\",\n                                    \"multiInPortNames\": [\n                                        \"output1\",\n                                        \"current_index\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n"
-		+ "                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"371.545 574.094\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"subtract\",\n                                    \"nodeType\": \"Core::Math::subtract\",\n                                    \"multiInPortNames\": [\n                                        \"max_iterations\",\n                                        \"current_index\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n"
-		+ "                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-218.368 -663.163\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"subtract1\",\n                                    \"nodeType\": \"Core::Math::subtract\",\n                                    \"multiInPortNames\": [\n                                        \"output1\",\n                                        \"output2\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n"
-		+ "                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"1279.63 470.077\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"subtract2\",\n                                    \"nodeType\": \"Core::Math::subtract\",\n                                    \"multiInPortNames\": [\n                                        \"output1\",\n                                        \"output2\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n"
-		+ "                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"1244.09 -20.8756\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"to_float\",\n                                    \"nodeType\": \"Core::Type_Conversion::to_float\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n"
-		+ "                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"107.376 -362.763\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"to_float1\",\n                                    \"nodeType\": \"Core::Type_Conversion::to_float\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n"
-		+ "                                            \"metaValue\": \"89.5448 -684.992\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"value\",\n                                    \"valueType\": \"float\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"40.6219 -1013.74\"\n                                        }\n                                    ]\n                                },\n"
-		+ "                                {\n                                    \"nodeName\": \"evaluate_fcurve\",\n                                    \"nodeType\": \"Core::FCurve::evaluate_fcurve\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2858.5 -65\"\n                                        }\n                                    ]\n                                }\n                            ],\n                            \"connections\": [\n                                {\n                                    \"source\": \"divide.output\",\n"
-		+ "                                    \"target\": \"add.first.output1\"\n                                },\n                                {\n                                    \"source\": \"multiply.output\",\n                                    \"target\": \"add.first.output2\"\n                                },\n                                {\n                                    \"source\": \"add.output\",\n                                    \"target\": \"subtract2.first.output1\"\n                                },\n                                {\n                                    \"source\": \"add.output\",\n                                    \"target\": \"change_range.from_end\"\n                                },\n                                {\n                                    \"source\": \"divide1.output\",\n                                    \"target\": \"add1.first.output1\"\n                                },\n                                {\n                                    \"source\": \"multiply1.output\",\n                                    \"target\": \"add1.first.output2\"\n"
-		+ "                                },\n                                {\n                                    \"source\": \"add1.output\",\n                                    \"target\": \"subtract1.first.output1\"\n                                },\n                                {\n                                    \"source\": \"add1.output\",\n                                    \"target\": \"change_range1.from_end\"\n                                },\n                                {\n                                    \"source\": \"change_range.result\",\n                                    \"target\": \"add2.first.result\"\n                                },\n                                {\n                                    \"source\": \"change_range1.result\",\n                                    \"target\": \"add2.first.result1\"\n                                },\n                                {\n                                    \"source\": \"add2.output\",\n                                    \"target\": \"clamp2.value\"\n                                },\n"
-		+ "                                {\n                                    \"source\": \".l_zip\",\n                                    \"target\": \"change_range.value\"\n                                },\n                                {\n                                    \"source\": \"subtract2.output\",\n                                    \"target\": \"change_range.from_start\"\n                                },\n                                {\n                                    \"source\": \".r_zip\",\n                                    \"target\": \"change_range1.value\"\n                                },\n                                {\n                                    \"source\": \"subtract1.output\",\n                                    \"target\": \"change_range1.from_start\"\n                                },\n                                {\n                                    \"source\": \".l_dropoff\",\n                                    \"target\": \"clamp.value\"\n                                },\n                                {\n                                    \"source\": \"clamp.clamped\",\n"
-		+ "                                    \"target\": \"divide.first.clamped\"\n                                },\n                                {\n                                    \"source\": \".r_dropoff\",\n                                    \"target\": \"clamp1.value\"\n                                },\n                                {\n                                    \"source\": \"clamp1.clamped\",\n                                    \"target\": \"divide1.first.clamped\"\n                                },\n                                {\n                                    \"source\": \".max_iterations\",\n                                    \"target\": \"decrement.value\"\n                                },\n                                {\n                                    \"source\": \"decrement.output\",\n                                    \"target\": \"half_of.value\"\n                                },\n                                {\n                                    \"source\": \"decrement.output\",\n                                    \"target\": \"subtract.first.max_iterations\"\n"
-		+ "                                },\n                                {\n                                    \"source\": \"to_float.float\",\n                                    \"target\": \"divide.first.half_value\"\n                                },\n                                {\n                                    \"source\": \"divide.output\",\n                                    \"target\": \"subtract2.first.output2\"\n                                },\n                                {\n                                    \"source\": \"half_of.half_value\",\n                                    \"target\": \"divide1.first.half_value\"\n                                },\n                                {\n                                    \"source\": \"divide1.output\",\n                                    \"target\": \"subtract1.first.output2\"\n                                },\n                                {\n                                    \"source\": \"half_of.half_value\",\n                                    \"target\": \"to_float.from\"\n                                },\n"
-		+ "                                {\n                                    \"source\": \"value.output\",\n                                    \"target\": \"multiply.first.output1\"\n                                },\n                                {\n                                    \"source\": \"to_float1.float\",\n                                    \"target\": \"multiply.first.current_index\"\n                                },\n                                {\n                                    \"source\": \"value.output\",\n                                    \"target\": \"multiply1.first.output1\"\n                                },\n                                {\n                                    \"source\": \".current_index\",\n                                    \"target\": \"multiply1.first.current_index\"\n                                },\n                                {\n                                    \"source\": \".current_index\",\n                                    \"target\": \"subtract.first.current_index\"\n                                },\n"
-		+ "                                {\n                                    \"source\": \"subtract.output\",\n                                    \"target\": \"to_float1.from\"\n                                },\n                                {\n                                    \"source\": \"clamp2.clamped\",\n                                    \"target\": \"evaluate_fcurve.x\"\n                                },\n                                {\n                                    \"source\": \"evaluate_fcurve.y\",\n                                    \"target\": \".clamped\"\n                                }\n                            ],\n                            \"values\": [\n                                {\n                                    \"valueName\": \"change_range.to_end\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"0.5f\"\n                                },\n                                {\n                                    \"valueName\": \"change_range.clamp\",\n                                    \"valueType\": \"bool\",\n"
-		+ "                                    \"value\": \"true\"\n                                },\n                                {\n                                    \"valueName\": \"change_range1.to_end\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"0.5f\"\n                                },\n                                {\n                                    \"valueName\": \"change_range1.clamp\",\n                                    \"valueType\": \"bool\",\n                                    \"value\": \"true\"\n                                },\n                                {\n                                    \"valueName\": \"clamp.min\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"0.00100000005f\"\n                                },\n                                {\n                                    \"valueName\": \"clamp.max\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"1000f\"\n"
-		+ "                                },\n                                {\n                                    \"valueName\": \"clamp1.min\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"0.00100000005f\"\n                                },\n                                {\n                                    \"valueName\": \"clamp1.max\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"1000f\"\n                                },\n                                {\n                                    \"valueName\": \"clamp2.max\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"0.5f\"\n                                },\n                                {\n                                    \"valueName\": \"decrement.by\",\n                                    \"valueType\": \"char\",\n                                    \"value\": \"1\"\n                                },\n                                {\n"
-		+ "                                    \"valueName\": \"value.value\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"0.100000001f\"\n                                },\n                                {\n                                    \"valueName\": \"evaluate_fcurve.fcurve\",\n                                    \"valueType\": \"Math::FCurve\",\n                                    \"value\": {\n                                        \"version\": \"1\",\n                                        \"preExtrapolation\": \"0\",\n                                        \"postExtrapolation\": \"0\",\n                                        \"points\": [\n                                            {\n                                                \"point\": {\n                                                    \"locked\": \"1\",\n                                                    \"interpolation\": \"2\",\n                                                    \"pcn\": {\n                                                        \"xp\": \"-0.40000000000000002\",\n"
-		+ "                                                        \"yp\": \"0\",\n                                                        \"x\": \"0\",\n                                                        \"y\": \"0\",\n                                                        \"xn\": \"0.40000000000000002\",\n                                                        \"yn\": \"0\"\n                                                    }\n                                                }\n                                            },\n                                            {\n                                                \"point\": {\n                                                    \"locked\": \"1\",\n                                                    \"interpolation\": \"2\",\n                                                    \"pcn\": {\n                                                        \"xp\": \"0.59999999999999998\",\n                                                        \"yp\": \"1\",\n                                                        \"x\": \"1\",\n"
-		+ "                                                        \"y\": \"1\",\n                                                        \"xn\": \"1.3999999999999999\",\n                                                        \"yn\": \"1\"\n                                                    }\n                                                }\n                                            }\n                                        ]\n                                    }\n                                }\n                            ],\n                            \"reservedNodeNames\": [\n                                {\n                                    \"name\": \"input\"\n                                },\n                                {\n                                    \"name\": \"output\"\n                                }\n                            ]\n                        }\n                    ],\n                    \"compoundNodes\": [\n                        {\n                            \"nodeName\": \"zip_weights\",\n                            \"nodeType\": \"zip_weights\",\n"
-		+ "                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"86.1047 8.21896\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"pk_lerp_matrix\",\n                            \"nodeType\": \"PK::Compounds::pk_lerp_matrix\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n"
-		+ "                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"724.845 309.081\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"get_from_array2\",\n                            \"nodeType\": \"Core::Array::get_from_array\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"145.414 857.54\"\n                                }\n                            ]\n"
-		+ "                        },\n                        {\n                            \"nodeName\": \"get_from_array3\",\n                            \"nodeType\": \"Core::Array::get_from_array\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"133.657 1119.7\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"pk_lerp_matrix1\",\n                            \"nodeType\": \"PK::Compounds::pk_lerp_matrix\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n"
-		+ "                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"725.496 853.156\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"matrix_multiply\",\n                            \"nodeType\": \"Core::Math::matrix_multiply\",\n                            \"multiInPortNames\": [\n                                \"transform\",\n                                \"scale_matrix\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n"
-		+ "                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"1182.73 540.887\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"matrix_multiply1\",\n                            \"nodeType\": \"Core::Math::matrix_multiply\",\n                            \"multiInPortNames\": [\n                                \"transform\",\n                                \"scale_matrix\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n"
-		+ "                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"1193.38 1193.6\"\n                                }\n                            ]\n                        }\n                    ],\n                    \"connections\": [\n                        {\n                            \"source\": \".l_zip\",\n                            \"target\": \"zip_weights.l_zip\"\n                        },\n                        {\n                            \"source\": \".r_zip\",\n                            \"target\": \"zip_weights.r_zip\"\n                        },\n                        {\n                            \"source\": \".l_dropoff\",\n                            \"target\": \"zip_weights.l_dropoff\"\n                        },\n                        {\n                            \"source\": \".r_dropoff\",\n                            \"target\": \"zip_weights.r_dropoff\"\n                        },\n                        {\n                            \"source\": \".max_iterations\",\n                            \"target\": \"zip_weights.max_iterations\"\n"
-		+ "                        },\n                        {\n                            \"source\": \".current_index\",\n                            \"target\": \"zip_weights.current_index\"\n                        },\n                        {\n                            \"source\": \".current_index\",\n                            \"target\": \"get_from_array2.index\"\n                        },\n                        {\n                            \"source\": \".current_index\",\n                            \"target\": \"get_from_array3.index\"\n                        },\n                        {\n                            \"source\": \".t_matrix\",\n                            \"target\": \"get_from_array2.array\"\n                        },\n                        {\n                            \"source\": \".b_matrix\",\n                            \"target\": \"get_from_array3.array\"\n                        },\n                        {\n                            \"source\": \"get_from_array2.value\",\n                            \"target\": \"pk_lerp_matrix.start_matrix\"\n"
-		+ "                        },\n                        {\n                            \"source\": \"get_from_array3.value\",\n                            \"target\": \"pk_lerp_matrix.end_matrix\"\n                        },\n                        {\n                            \"source\": \"zip_weights.clamped\",\n                            \"target\": \"pk_lerp_matrix.fraction\"\n                        },\n                        {\n                            \"source\": \"zip_weights.clamped\",\n                            \"target\": \"pk_lerp_matrix1.fraction\"\n                        },\n                        {\n                            \"source\": \"get_from_array2.value\",\n                            \"target\": \"pk_lerp_matrix1.end_matrix\"\n                        },\n                        {\n                            \"source\": \"get_from_array3.value\",\n                            \"target\": \"pk_lerp_matrix1.start_matrix\"\n                        },\n                        {\n                            \"source\": \"pk_lerp_matrix.transform\",\n"
-		+ "                            \"target\": \"matrix_multiply.first.transform\"\n                        },\n                        {\n                            \"source\": \"matrix_multiply.matrix\",\n                            \"target\": \".out_t_matrix\"\n                        },\n                        {\n                            \"source\": \".scale_matrix\",\n                            \"target\": \"matrix_multiply.first.scale_matrix\"\n                        },\n                        {\n                            \"source\": \".scale_matrix\",\n                            \"target\": \"matrix_multiply1.first.scale_matrix\"\n                        },\n                        {\n                            \"source\": \"pk_lerp_matrix1.transform\",\n                            \"target\": \"matrix_multiply1.first.transform\"\n                        },\n                        {\n                            \"source\": \"matrix_multiply1.matrix\",\n                            \"target\": \".out_b_matrix\"\n                        }\n                    ],\n                    \"values\": [\n"
-		+ "                        {\n                            \"valueName\": \"zip_weights.l_zip\",\n                            \"valueType\": \"float\",\n                            \"value\": \"0f\"\n                        },\n                        {\n                            \"valueName\": \"zip_weights.r_zip\",\n                            \"valueType\": \"float\",\n                            \"value\": \"0f\"\n                        },\n                        {\n                            \"valueName\": \"zip_weights.l_dropoff\",\n                            \"valueType\": \"float\",\n                            \"value\": \"0f\"\n                        },\n                        {\n                            \"valueName\": \"zip_weights.r_dropoff\",\n                            \"valueType\": \"float\",\n                            \"value\": \"0f\"\n                        },\n                        {\n                            \"valueName\": \"zip_weights.max_iterations\",\n                            \"valueType\": \"long\",\n                            \"value\": \"0\"\n                        },\n"
-		+ "                        {\n                            \"valueName\": \"zip_weights.current_index\",\n                            \"valueType\": \"long\",\n                            \"value\": \"0\"\n                        },\n                        {\n                            \"valueName\": \"pk_lerp_matrix.start_matrix\",\n                            \"valueType\": \"Math::float4x4\",\n                            \"value\": {\n                                \"c0\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c1\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c2\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n"
-		+ "                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c3\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                }\n                            }\n                        },\n                        {\n                            \"valueName\": \"pk_lerp_matrix.end_matrix\",\n                            \"valueType\": \"Math::float4x4\",\n                            \"value\": {\n                                \"c0\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c1\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n"
-		+ "                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c2\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c3\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                }\n                            }\n                        },\n                        {\n                            \"valueName\": \"pk_lerp_matrix1.start_matrix\",\n                            \"valueType\": \"Math::float4x4\",\n                            \"value\": {\n                                \"c0\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n"
-		+ "                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c1\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c2\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c3\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                }\n                            }\n                        },\n                        {\n                            \"valueName\": \"pk_lerp_matrix1.end_matrix\",\n"
-		+ "                            \"valueType\": \"Math::float4x4\",\n                            \"value\": {\n                                \"c0\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c1\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c2\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c3\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n"
-		+ "                                    \"w\": \"0f\"\n                                }\n                            }\n                        },\n                        {\n                            \"valueName\": \"pk_lerp_matrix1.clamp_negative\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"pk_lerp_matrix1.clamp_above_one\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"pk_lerp_matrix1.always_use_shorter_arc\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        }\n                    ],\n                    \"reservedNodeNames\": [\n                        {\n                            \"name\": \"input\"\n                        },\n                        {\n                            \"name\": \"output\"\n"
-		+ "                        }\n                    ],\n                    \"forEachCompound\": {\n                        \"ports\": []\n                    }\n                }\n            ],\n            \"compoundNodes\": [\n                {\n                    \"nodeName\": \"for_each\",\n                    \"nodeType\": \"for_each\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-969.739 -66.9939\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"array_size\",\n                    \"nodeType\": \"Core::Array::array_size\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n"
-		+ "                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1348.97 -175.474\"\n                        }\n                    ]\n                }\n            ],\n            \"connections\": [\n                {\n                    \"source\": \".l_zip\",\n                    \"target\": \"for_each.l_zip\"\n                },\n                {\n                    \"source\": \".r_zip\",\n                    \"target\": \"for_each.r_zip\"\n                },\n                {\n                    \"source\": \".l_dropoff\",\n                    \"target\": \"for_each.l_dropoff\"\n                },\n                {\n                    \"source\": \".r_dropoff\",\n                    \"target\": \"for_each.r_dropoff\"\n                },\n                {\n                    \"source\": \".t_matrix\",\n                    \"target\": \"for_each.t_matrix\"\n"
-		+ "                },\n                {\n                    \"source\": \".b_matrix\",\n                    \"target\": \"for_each.b_matrix\"\n                },\n                {\n                    \"source\": \"for_each.out_t_matrix\",\n                    \"target\": \".out_t_matrix\"\n                },\n                {\n                    \"source\": \"for_each.out_b_matrix\",\n                    \"target\": \".out_b_matrix\"\n                },\n                {\n                    \"source\": \".scale_matrix\",\n                    \"target\": \"for_each.scale_matrix\"\n                },\n                {\n                    \"source\": \".t_matrix\",\n                    \"target\": \"array_size.array\"\n                },\n                {\n                    \"source\": \"array_size.size\",\n                    \"target\": \"for_each.max_iterations\"\n                }\n            ],\n            \"values\": [\n                {\n                    \"valueName\": \"for_each.max_iterations\",\n                    \"valueType\": \"long\",\n                    \"value\": \"13\"\n"
-		+ "                }\n            ],\n            \"reservedNodeNames\": [\n                {\n                    \"name\": \"input\"\n                },\n                {\n                    \"name\": \"output\"\n                },\n                {\n                    \"name\": \"output1\"\n                }\n            ]\n        }\n    ]\n}\n");
+		+ "                                                            \"metaName\": \"b_matrix\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"parameter\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"scale_matrix\"\n                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"io_onodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"output\",\n"
+		+ "                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"1700.92 865.256\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"out_t_matrix\"\n"
+		+ "                                                        },\n                                                        {\n                                                            \"metaName\": \"out_b_matrix\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"output\"\n                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                }\n                            ]\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,MJCG::Core::Math,distance_between_vectors\"\n                        },\n"
+		+ "                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Array,last_in_array\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Math,decrement\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Math,subtract\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Array,reverse_array\"\n                        },\n                        {\n                            \"metaName\": \"ViewportRect\",\n"
+		+ "                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1555.72 -116.927 1409.9 2611.3\"\n                        }\n                    ],\n                    \"ports\": [\n                        {\n                            \"portName\": \"max_iterations\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"long\",\n                            \"portIterationLimit\": \"true\"\n                        },\n                        {\n                            \"portName\": \"current_index\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"long\",\n                            \"portIterationCounter\": \"true\"\n                        },\n                        {\n                            \"portName\": \"l_zip\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"float\"\n                        },\n                        {\n                            \"portName\": \"r_zip\",\n"
+		+ "                            \"portDirection\": \"input\",\n                            \"portType\": \"float\"\n                        },\n                        {\n                            \"portName\": \"l_dropoff\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"float\"\n                        },\n                        {\n                            \"portName\": \"r_dropoff\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"float\"\n                        },\n                        {\n                            \"portName\": \"t_matrix\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<Math::float4x4>\"\n                        },\n                        {\n                            \"portName\": \"b_matrix\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<Math::float4x4>\"\n                        },\n                        {\n                            \"portName\": \"out_t_matrix\",\n"
+		+ "                            \"portDirection\": \"output\",\n                            \"portIterationTarget\": \"true\"\n                        },\n                        {\n                            \"portName\": \"out_b_matrix\",\n                            \"portDirection\": \"output\",\n                            \"portIterationTarget\": \"true\"\n                        },\n                        {\n                            \"portName\": \"parameter\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<float>\"\n                        },\n                        {\n                            \"portName\": \"output\",\n                            \"portDirection\": \"output\",\n                            \"portIterationTarget\": \"true\"\n                        },\n                        {\n                            \"portName\": \"scale_matrix\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        }\n                    ],\n"
+		+ "                    \"compounds\": [\n                        {\n                            \"name\": \"zip_weights_by_order\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"io_nodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"io_inodes\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"input\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"DisplayMode\",\n                                                            \"metaType\": \"string\",\n                                                            \"metaValue\": \"2\"\n                                                        },\n"
+		+ "                                                        {\n                                                            \"metaName\": \"LayoutPos\",\n                                                            \"metaType\": \"string\",\n                                                            \"metaValue\": \"-1018.72 -156.775\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"io_ports\",\n                                                            \"metadata\": [\n                                                                {\n                                                                    \"metaName\": \"l_zip\"\n                                                                },\n                                                                {\n                                                                    \"metaName\": \"r_zip\"\n                                                                },\n"
+		+ "                                                                {\n                                                                    \"metaName\": \"l_dropoff\"\n                                                                },\n                                                                {\n                                                                    \"metaName\": \"r_dropoff\"\n                                                                },\n                                                                {\n                                                                    \"metaName\": \"max_iterations\"\n                                                                },\n                                                                {\n                                                                    \"metaName\": \"current_index\"\n                                                                }\n                                                            ]\n                                                        }\n"
+		+ "                                                    ]\n                                                }\n                                            ]\n                                        },\n                                        {\n                                            \"metaName\": \"io_onodes\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"output\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"DisplayMode\",\n                                                            \"metaType\": \"string\",\n                                                            \"metaValue\": \"2\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"LayoutPos\",\n"
+		+ "                                                            \"metaType\": \"string\",\n                                                            \"metaValue\": \"3173.74 -17.2048\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"io_ports\",\n                                                            \"metadata\": [\n                                                                {\n                                                                    \"metaName\": \"clamped\"\n                                                                }\n                                                            ]\n                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                },\n"
+		+ "                                {\n                                    \"metaName\": \"_recentNode_\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"BifrostGraph,Core::FCurve,evaluate_fcurve\"\n                                },\n                                {\n                                    \"metaName\": \"_recentNode_\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"BifrostGraph,Core::Math,matrix_multiply\"\n                                },\n                                {\n                                    \"metaName\": \"_recentNode_\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"BifrostGraph,PK::Compounds,pk_lerp_matrix\"\n                                },\n                                {\n                                    \"metaName\": \"_recentNode_\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"BifrostGraph,Core::Type_Conversion,to_float\"\n"
+		+ "                                },\n                                {\n                                    \"metaName\": \"_recentNode_\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"BifrostGraph,Core::Array,get_from_array\"\n                                },\n                                {\n                                    \"metaName\": \"ViewportRect\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"1825.19 -703.799 1148.32 1944.85\"\n                                }\n                            ],\n                            \"ports\": [\n                                {\n                                    \"portName\": \"l_zip\",\n                                    \"portDirection\": \"input\",\n                                    \"portType\": \"float\"\n                                },\n                                {\n                                    \"portName\": \"r_zip\",\n                                    \"portDirection\": \"input\",\n"
+		+ "                                    \"portType\": \"float\"\n                                },\n                                {\n                                    \"portName\": \"l_dropoff\",\n                                    \"portDirection\": \"input\",\n                                    \"portType\": \"float\"\n                                },\n                                {\n                                    \"portName\": \"r_dropoff\",\n                                    \"portDirection\": \"input\",\n                                    \"portType\": \"float\"\n                                },\n                                {\n                                    \"portName\": \"clamped\",\n                                    \"portDirection\": \"output\"\n                                },\n                                {\n                                    \"portName\": \"max_iterations\",\n                                    \"portDirection\": \"input\",\n                                    \"portType\": \"long\"\n                                },\n"
+		+ "                                {\n                                    \"portName\": \"current_index\",\n                                    \"portDirection\": \"input\",\n                                    \"portType\": \"long\"\n                                }\n                            ],\n                            \"compoundNodes\": [\n                                {\n                                    \"nodeName\": \"add\",\n                                    \"nodeType\": \"Core::Math::add\",\n                                    \"multiInPortNames\": [\n                                        \"output1\",\n                                        \"output2\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n"
+		+ "                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"838.171 -566.141\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"add1\",\n                                    \"nodeType\": \"Core::Math::add\",\n                                    \"multiInPortNames\": [\n                                        \"output1\",\n                                        \"output2\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n"
+		+ "                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"754.942 319.112\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"add2\",\n                                    \"nodeType\": \"Core::Math::add\",\n                                    \"multiInPortNames\": [\n                                        \"result\",\n                                        \"result1\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n"
+		+ "                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2214.84 4.26538\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"change_range\",\n                                    \"nodeType\": \"Core::Math::change_range\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"1801.3 -195.646\"\n"
+		+ "                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"change_range1\",\n                                    \"nodeType\": \"Core::Math::change_range\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"1819.03 217.272\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"clamp\",\n"
+		+ "                                    \"nodeType\": \"Core::Math::clamp\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-399.08 208.994\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"clamp1\",\n                                    \"nodeType\": \"Core::Math::clamp\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n"
+		+ "                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-402.183 515.565\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"clamp2\",\n                                    \"nodeType\": \"Core::Math::clamp\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n"
+		+ "                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2529.06 -5.67383\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"decrement\",\n                                    \"nodeType\": \"Core::Math::decrement\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n"
+		+ "                                            \"metaValue\": \"-590.895 -728.709\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"divide\",\n                                    \"nodeType\": \"Core::Math::divide\",\n                                    \"multiInPortNames\": [\n                                        \"clamped\",\n                                        \"half_value\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n"
+		+ "                                            \"metaValue\": \"440.93 -285.119\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"divide1\",\n                                    \"nodeType\": \"Core::Math::divide\",\n                                    \"multiInPortNames\": [\n                                        \"clamped\",\n                                        \"half_value\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n"
+		+ "                                            \"metaValue\": \"372.003 238.595\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"half_of\",\n                                    \"nodeType\": \"Core::Math::half_of\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-240.138 -337.569\"\n                                        }\n                                    ]\n                                },\n"
+		+ "                                {\n                                    \"nodeName\": \"multiply\",\n                                    \"nodeType\": \"Core::Math::multiply\",\n                                    \"multiInPortNames\": [\n                                        \"output1\",\n                                        \"current_index\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"469.666 -831.735\"\n                                        }\n                                    ]\n"
+		+ "                                },\n                                {\n                                    \"nodeName\": \"multiply1\",\n                                    \"nodeType\": \"Core::Math::multiply\",\n                                    \"multiInPortNames\": [\n                                        \"output1\",\n                                        \"current_index\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"371.545 574.094\"\n                                        }\n"
+		+ "                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"subtract\",\n                                    \"nodeType\": \"Core::Math::subtract\",\n                                    \"multiInPortNames\": [\n                                        \"max_iterations\",\n                                        \"current_index\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-218.368 -663.163\"\n"
+		+ "                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"subtract1\",\n                                    \"nodeType\": \"Core::Math::subtract\",\n                                    \"multiInPortNames\": [\n                                        \"output1\",\n                                        \"output2\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"1279.63 470.077\"\n"
+		+ "                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"subtract2\",\n                                    \"nodeType\": \"Core::Math::subtract\",\n                                    \"multiInPortNames\": [\n                                        \"output1\",\n                                        \"output2\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"1230.63 -8.76225\"\n"
+		+ "                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"to_float\",\n                                    \"nodeType\": \"Core::Type_Conversion::to_float\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"122.659 -441.724\"\n                                        }\n                                    ]\n                                },\n                                {\n"
+		+ "                                    \"nodeName\": \"to_float1\",\n                                    \"nodeType\": \"Core::Type_Conversion::to_float\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"89.5448 -684.992\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"value\",\n                                    \"valueType\": \"float\",\n                                    \"metadata\": [\n"
+		+ "                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"40.6219 -1013.74\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"evaluate_fcurve\",\n                                    \"nodeType\": \"Core::FCurve::evaluate_fcurve\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n"
+		+ "                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2861.19 -43.4651\"\n                                        }\n                                    ]\n                                }\n                            ],\n                            \"connections\": [\n                                {\n                                    \"source\": \"divide.output\",\n                                    \"target\": \"add.first.output1\"\n                                },\n                                {\n                                    \"source\": \"multiply.output\",\n                                    \"target\": \"add.first.output2\"\n                                },\n                                {\n                                    \"source\": \"add.output\",\n"
+		+ "                                    \"target\": \"subtract2.first.output1\"\n                                },\n                                {\n                                    \"source\": \"add.output\",\n                                    \"target\": \"change_range.from_end\"\n                                },\n                                {\n                                    \"source\": \"divide1.output\",\n                                    \"target\": \"add1.first.output1\"\n                                },\n                                {\n                                    \"source\": \"multiply1.output\",\n                                    \"target\": \"add1.first.output2\"\n                                },\n                                {\n                                    \"source\": \"add1.output\",\n                                    \"target\": \"subtract1.first.output1\"\n                                },\n                                {\n                                    \"source\": \"add1.output\",\n                                    \"target\": \"change_range1.from_end\"\n"
+		+ "                                },\n                                {\n                                    \"source\": \"change_range.result\",\n                                    \"target\": \"add2.first.result\"\n                                },\n                                {\n                                    \"source\": \"change_range1.result\",\n                                    \"target\": \"add2.first.result1\"\n                                },\n                                {\n                                    \"source\": \"add2.output\",\n                                    \"target\": \"clamp2.value\"\n                                },\n                                {\n                                    \"source\": \".l_zip\",\n                                    \"target\": \"change_range.value\"\n                                },\n                                {\n                                    \"source\": \"subtract2.output\",\n                                    \"target\": \"change_range.from_start\"\n                                },\n"
+		+ "                                {\n                                    \"source\": \".r_zip\",\n                                    \"target\": \"change_range1.value\"\n                                },\n                                {\n                                    \"source\": \"subtract1.output\",\n                                    \"target\": \"change_range1.from_start\"\n                                },\n                                {\n                                    \"source\": \".l_dropoff\",\n                                    \"target\": \"clamp.value\"\n                                },\n                                {\n                                    \"source\": \"clamp.clamped\",\n                                    \"target\": \"divide.first.clamped\"\n                                },\n                                {\n                                    \"source\": \".r_dropoff\",\n                                    \"target\": \"clamp1.value\"\n                                },\n                                {\n                                    \"source\": \"clamp1.clamped\",\n"
+		+ "                                    \"target\": \"divide1.first.clamped\"\n                                },\n                                {\n                                    \"source\": \".max_iterations\",\n                                    \"target\": \"decrement.value\"\n                                },\n                                {\n                                    \"source\": \"decrement.output\",\n                                    \"target\": \"half_of.value\"\n                                },\n                                {\n                                    \"source\": \"decrement.output\",\n                                    \"target\": \"subtract.first.max_iterations\"\n                                },\n                                {\n                                    \"source\": \"to_float.float\",\n                                    \"target\": \"divide.first.half_value\"\n                                },\n                                {\n                                    \"source\": \"divide.output\",\n                                    \"target\": \"subtract2.first.output2\"\n"
+		+ "                                },\n                                {\n                                    \"source\": \"half_of.half_value\",\n                                    \"target\": \"divide1.first.half_value\"\n                                },\n                                {\n                                    \"source\": \"divide1.output\",\n                                    \"target\": \"subtract1.first.output2\"\n                                },\n                                {\n                                    \"source\": \"half_of.half_value\",\n                                    \"target\": \"to_float.from\"\n                                },\n                                {\n                                    \"source\": \"value.output\",\n                                    \"target\": \"multiply.first.output1\"\n                                },\n                                {\n                                    \"source\": \"to_float1.float\",\n                                    \"target\": \"multiply.first.current_index\"\n"
+		+ "                                },\n                                {\n                                    \"source\": \"value.output\",\n                                    \"target\": \"multiply1.first.output1\"\n                                },\n                                {\n                                    \"source\": \".current_index\",\n                                    \"target\": \"multiply1.first.current_index\"\n                                },\n                                {\n                                    \"source\": \".current_index\",\n                                    \"target\": \"subtract.first.current_index\"\n                                },\n                                {\n                                    \"source\": \"subtract.output\",\n                                    \"target\": \"to_float1.from\"\n                                },\n                                {\n                                    \"source\": \"clamp2.clamped\",\n                                    \"target\": \"evaluate_fcurve.x\"\n                                },\n"
+		+ "                                {\n                                    \"source\": \"evaluate_fcurve.y\",\n                                    \"target\": \".clamped\"\n                                }\n                            ],\n                            \"values\": [\n                                {\n                                    \"valueName\": \"change_range.to_end\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"0.5f\"\n                                },\n                                {\n                                    \"valueName\": \"change_range.clamp\",\n                                    \"valueType\": \"bool\",\n                                    \"value\": \"true\"\n                                },\n                                {\n                                    \"valueName\": \"change_range1.to_end\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"0.5f\"\n                                },\n                                {\n"
+		+ "                                    \"valueName\": \"change_range1.clamp\",\n                                    \"valueType\": \"bool\",\n                                    \"value\": \"true\"\n                                },\n                                {\n                                    \"valueName\": \"clamp.min\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"0.00100000005f\"\n                                },\n                                {\n                                    \"valueName\": \"clamp.max\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"1000f\"\n                                },\n                                {\n                                    \"valueName\": \"clamp1.min\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"0.00100000005f\"\n                                },\n                                {\n                                    \"valueName\": \"clamp1.max\",\n"
+		+ "                                    \"valueType\": \"float\",\n                                    \"value\": \"1000f\"\n                                },\n                                {\n                                    \"valueName\": \"clamp2.max\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"0.5f\"\n                                },\n                                {\n                                    \"valueName\": \"decrement.by\",\n                                    \"valueType\": \"char\",\n                                    \"value\": \"1\"\n                                },\n                                {\n                                    \"valueName\": \"value.value\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"0.100000001f\"\n                                },\n                                {\n                                    \"valueName\": \"evaluate_fcurve.fcurve\",\n                                    \"valueType\": \"Math::FCurve\",\n"
+		+ "                                    \"value\": {\n                                        \"version\": \"1\",\n                                        \"preExtrapolation\": \"0\",\n                                        \"postExtrapolation\": \"0\",\n                                        \"points\": [\n                                            {\n                                                \"point\": {\n                                                    \"locked\": \"1\",\n                                                    \"interpolation\": \"2\",\n                                                    \"pcn\": {\n                                                        \"xp\": \"-0.40000000000000002\",\n                                                        \"yp\": \"0\",\n                                                        \"x\": \"0\",\n                                                        \"y\": \"0\",\n                                                        \"xn\": \"0.40000000000000002\",\n                                                        \"yn\": \"0\"\n"
+		+ "                                                    }\n                                                }\n                                            },\n                                            {\n                                                \"point\": {\n                                                    \"locked\": \"1\",\n                                                    \"interpolation\": \"2\",\n                                                    \"pcn\": {\n                                                        \"xp\": \"0.59999999999999998\",\n                                                        \"yp\": \"1\",\n                                                        \"x\": \"1\",\n                                                        \"y\": \"1\",\n                                                        \"xn\": \"1.3999999999999999\",\n                                                        \"yn\": \"1\"\n                                                    }\n                                                }\n                                            }\n"
+		+ "                                        ]\n                                    }\n                                }\n                            ],\n                            \"reservedNodeNames\": [\n                                {\n                                    \"name\": \"input\"\n                                },\n                                {\n                                    \"name\": \"output\"\n                                }\n                            ]\n                        },\n                        {\n                            \"name\": \"zip_weights_by_pos\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"io_nodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"io_inodes\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"input\",\n"
+		+ "                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"DisplayMode\",\n                                                            \"metaType\": \"string\",\n                                                            \"metaValue\": \"2\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"io_ports\",\n                                                            \"metadata\": [\n                                                                {\n                                                                    \"metaName\": \"r_side_pos\"\n                                                                },\n                                                                {\n                                                                    \"metaName\": \"r_zip\"\n"
+		+ "                                                                },\n                                                                {\n                                                                    \"metaName\": \"r_dropoff\"\n                                                                },\n                                                                {\n                                                                    \"metaName\": \"l_zip\"\n                                                                },\n                                                                {\n                                                                    \"metaName\": \"l_dropoff\"\n                                                                },\n                                                                {\n                                                                    \"metaName\": \"l_side_pos\"\n                                                                },\n                                                                {\n"
+		+ "                                                                    \"metaName\": \"last\"\n                                                                }\n                                                            ]\n                                                        },\n                                                        {\n                                                            \"metaName\": \"LayoutPos\",\n                                                            \"metaType\": \"string\",\n                                                            \"metaValue\": \"-2445.88 -178.886\"\n                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        },\n                                        {\n                                            \"metaName\": \"io_onodes\",\n                                            \"metadata\": [\n                                                {\n"
+		+ "                                                    \"metaName\": \"output\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"DisplayMode\",\n                                                            \"metaType\": \"string\",\n                                                            \"metaValue\": \"2\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"io_ports\",\n                                                            \"metadata\": [\n                                                                {\n                                                                    \"metaName\": \"result\"\n                                                                }\n                                                            ]\n                                                        },\n"
+		+ "                                                        {\n                                                            \"metaName\": \"LayoutPos\",\n                                                            \"metaType\": \"string\",\n                                                            \"metaValue\": \"2062.81 597.278\"\n                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"_recentNode_\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"BifrostGraph,Core::Math,subtract\"\n                                },\n                                {\n                                    \"metaName\": \"_recentNode_\",\n                                    \"metaType\": \"string\",\n"
+		+ "                                    \"metaValue\": \"BifrostGraph,Core::Math,add\"\n                                },\n                                {\n                                    \"metaName\": \"_recentNode_\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"BifrostGraph,MJCG::Core::Math,one_minus\"\n                                },\n                                {\n                                    \"metaName\": \"_recentNode_\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"BifrostGraph,Core::Math,negate\"\n                                },\n                                {\n                                    \"metaName\": \"_recentNode_\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"BifrostGraph,Core::Math,change_range\"\n                                },\n                                {\n                                    \"metaName\": \"backdrop\",\n"
+		+ "                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"type\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"backdrop\"\n                                        },\n                                        {\n                                            \"metaName\": \"title\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"distance from corner to first element\"\n                                        },\n                                        {\n                                            \"metaName\": \"coords\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-2376.15 494.775 598.73 445.592\"\n                                        }\n                                    ]\n                                },\n"
+		+ "                                {\n                                    \"metaName\": \"backdrop1\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"type\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"backdrop\"\n                                        },\n                                        {\n                                            \"metaName\": \"title\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"correct by dropoff\"\n                                        },\n                                        {\n                                            \"metaName\": \"coords\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"145.597 -478.689 1025.66 2364.31\"\n                                        }\n"
+		+ "                                    ]\n                                },\n                                {\n                                    \"metaName\": \"backdrop2\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"type\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"backdrop\"\n                                        },\n                                        {\n                                            \"metaName\": \"coords\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-1713.87 -494.537 1695.14 2427.4\"\n                                        },\n                                        {\n                                            \"metaName\": \"title\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"contract to 0 - 1 range\"\n"
+		+ "                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"sticky_note\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"type\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"sticky_note\"\n                                        },\n                                        {\n                                            \"metaName\": \"color\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"#ffe3d591\"\n                                        },\n                                        {\n                                            \"metaName\": \"format\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"txt\"\n"
+		+ "                                        },\n                                        {\n                                            \"metaName\": \"text\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"Left\"\n                                        },\n                                        {\n                                            \"metaName\": \"fontSize\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"32\"\n                                        },\n                                        {\n                                            \"metaName\": \"coords\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-2087.58 -438.108 322.701 93.3017\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"sticky_note1\",\n"
+		+ "                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"type\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"sticky_note\"\n                                        },\n                                        {\n                                            \"metaName\": \"color\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"#ffe3d591\"\n                                        },\n                                        {\n                                            \"metaName\": \"format\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"txt\"\n                                        },\n                                        {\n                                            \"metaName\": \"text\",\n                                            \"metaType\": \"string\",\n"
+		+ "                                            \"metaValue\": \"right\\n\"\n                                        },\n                                        {\n                                            \"metaName\": \"fontSize\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"32\"\n                                        },\n                                        {\n                                            \"metaName\": \"coords\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-2088.5 1820.91 316.732 133.732\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"ViewportRect\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-2382.98 -1391.29 2388.77 4455.65\"\n                                }\n"
+		+ "                            ],\n                            \"ports\": [\n                                {\n                                    \"portName\": \"r_side_pos\",\n                                    \"portDirection\": \"input\"\n                                },\n                                {\n                                    \"portName\": \"r_zip\",\n                                    \"portDirection\": \"input\",\n                                    \"portType\": \"float\"\n                                },\n                                {\n                                    \"portName\": \"result\",\n                                    \"portDirection\": \"output\"\n                                },\n                                {\n                                    \"portName\": \"r_dropoff\",\n                                    \"portDirection\": \"input\",\n                                    \"portType\": \"float\"\n                                },\n                                {\n                                    \"portName\": \"l_zip\",\n"
+		+ "                                    \"portDirection\": \"input\"\n                                },\n                                {\n                                    \"portName\": \"l_dropoff\",\n                                    \"portDirection\": \"input\",\n                                    \"portType\": \"float\"\n                                },\n                                {\n                                    \"portName\": \"l_side_pos\",\n                                    \"portDirection\": \"input\"\n                                },\n                                {\n                                    \"portName\": \"last\",\n                                    \"portDirection\": \"input\"\n                                }\n                            ],\n                            \"compoundNodes\": [\n                                {\n                                    \"nodeName\": \"change_range\",\n                                    \"nodeType\": \"Core::Math::change_range\",\n                                    \"metadata\": [\n                                        {\n"
+		+ "                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"844.673 -24.9518\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"subtract\",\n                                    \"nodeType\": \"Core::Math::subtract\",\n                                    \"multiInPortNames\": [\n                                        \"pos\",\n                                        \"output1\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n"
+		+ "                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"162.632 -398.689\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"value\",\n                                    \"valueType\": \"float\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n"
+		+ "                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-1573.14 -203.862\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"add\",\n                                    \"nodeType\": \"Core::Math::add\",\n                                    \"multiInPortNames\": [\n                                        \"pos\",\n                                        \"output1\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n"
+		+ "                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"155.597 368.266\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"value1\",\n                                    \"valueType\": \"float\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n"
+		+ "                                            \"metaValue\": \"-2366.15 755.367\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"change_range1\",\n                                    \"nodeType\": \"Core::Math::change_range\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-272.559 -126.585\"\n                                        }\n                                    ]\n"
+		+ "                                },\n                                {\n                                    \"nodeName\": \"negate\",\n                                    \"nodeType\": \"Core::Math::negate\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-1222.75 -414.537\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"add1\",\n                                    \"nodeType\": \"Core::Math::add\",\n"
+		+ "                                    \"multiInPortNames\": [\n                                        \"output1\",\n                                        \"output2\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-1205.01 215.878\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"clamp2\",\n                                    \"nodeType\": \"Core::Math::clamp\",\n"
+		+ "                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"1740.19 587.935\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"add2\",\n                                    \"nodeType\": \"Core::Math::add\",\n                                    \"multiInPortNames\": [\n                                        \"result\",\n                                        \"result1\"\n                                    ],\n"
+		+ "                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"1425.97 597.874\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"subtract1\",\n                                    \"nodeType\": \"Core::Math::subtract\",\n                                    \"multiInPortNames\": [\n                                        \"pos\",\n                                        \"output1\"\n                                    ],\n"
+		+ "                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"184.915 851.118\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"change_range2\",\n                                    \"nodeType\": \"Core::Math::change_range\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n"
+		+ "                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"936.255 1231.53\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"change_range3\",\n                                    \"nodeType\": \"Core::Math::change_range\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n"
+		+ "                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-370.746 487.394\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"add3\",\n                                    \"nodeType\": \"Core::Math::add\",\n                                    \"multiInPortNames\": [\n                                        \"pos\",\n                                        \"output1\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n"
+		+ "                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"188.376 1652.62\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"negate1\",\n                                    \"nodeType\": \"Core::Math::negate\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n"
+		+ "                                            \"metaValue\": \"-1370.79 1041.68\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"add4\",\n                                    \"nodeType\": \"Core::Math::add\",\n                                    \"multiInPortNames\": [\n                                        \"output1\",\n                                        \"output2\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n"
+		+ "                                            \"metaValue\": \"-1230.7 1543.07\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"value2\",\n                                    \"valueType\": \"float\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-1703.87 1318.9\"\n                                        }\n                                    ]\n                                },\n"
+		+ "                                {\n                                    \"nodeName\": \"value3\",\n                                    \"valueType\": \"float\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-1690.65 1747.86\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"subtract3\",\n                                    \"nodeType\": \"Core::Math::subtract\",\n                                    \"multiInPortNames\": [\n"
+		+ "                                        \"output1\",\n                                        \"last\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-2016.94 593.115\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"add5\",\n                                    \"nodeType\": \"Core::Math::add\",\n                                    \"multiInPortNames\": [\n"
+		+ "                                        \"negated\",\n                                        \"output1\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-929.283 1112.7\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"subtract4\",\n                                    \"nodeType\": \"Core::Math::subtract\",\n                                    \"multiInPortNames\": [\n"
+		+ "                                        \"output1\",\n                                        \"output2\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-923.751 1400.24\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"add6\",\n                                    \"nodeType\": \"Core::Math::add\",\n                                    \"multiInPortNames\": [\n"
+		+ "                                        \"negated\",\n                                        \"output1\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-790.601 -246.139\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"subtract5\",\n                                    \"nodeType\": \"Core::Math::subtract\",\n                                    \"multiInPortNames\": [\n"
+		+ "                                        \"output1\",\n                                        \"output2\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-763.48 249.629\"\n                                        }\n                                    ]\n                                }\n                            ],\n                            \"connections\": [\n                                {\n                                    \"source\": \"value.output\",\n                                    \"target\": \"subtract.first.output1\"\n"
+		+ "                                },\n                                {\n                                    \"source\": \"subtract.output\",\n                                    \"target\": \"change_range.from_start\"\n                                },\n                                {\n                                    \"source\": \"value.output\",\n                                    \"target\": \"add.first.output1\"\n                                },\n                                {\n                                    \"source\": \"add.output\",\n                                    \"target\": \"change_range.from_end\"\n                                },\n                                {\n                                    \"source\": \".r_side_pos\",\n                                    \"target\": \"subtract.first.pos\"\n                                },\n                                {\n                                    \"source\": \".r_side_pos\",\n                                    \"target\": \"add.first.pos\"\n                                },\n"
+		+ "                                {\n                                    \"source\": \".r_zip\",\n                                    \"target\": \"change_range1.value\"\n                                },\n                                {\n                                    \"source\": \"value.output\",\n                                    \"target\": \"negate.value\"\n                                },\n                                {\n                                    \"source\": \"value1.output\",\n                                    \"target\": \"add1.first.output1\"\n                                },\n                                {\n                                    \"source\": \"value.output\",\n                                    \"target\": \"add1.first.output2\"\n                                },\n                                {\n                                    \"source\": \"change_range1.result\",\n                                    \"target\": \"change_range.value\"\n                                },\n                                {\n                                    \"source\": \".r_dropoff\",\n"
+		+ "                                    \"target\": \"value.value\"\n                                },\n                                {\n                                    \"source\": \"add2.output\",\n                                    \"target\": \"clamp2.value\"\n                                },\n                                {\n                                    \"source\": \"subtract1.output\",\n                                    \"target\": \"change_range2.from_start\"\n                                },\n                                {\n                                    \"source\": \"change_range3.result\",\n                                    \"target\": \"change_range2.value\"\n                                },\n                                {\n                                    \"source\": \"add3.output\",\n                                    \"target\": \"change_range2.from_end\"\n                                },\n                                {\n                                    \"source\": \"value2.output\",\n                                    \"target\": \"negate1.value\"\n"
+		+ "                                },\n                                {\n                                    \"source\": \"value2.output\",\n                                    \"target\": \"add4.first.output2\"\n                                },\n                                {\n                                    \"source\": \"value3.output\",\n                                    \"target\": \"add4.first.output1\"\n                                },\n                                {\n                                    \"source\": \".l_dropoff\",\n                                    \"target\": \"value2.value\"\n                                },\n                                {\n                                    \"source\": \"value2.output\",\n                                    \"target\": \"subtract1.first.output1\"\n                                },\n                                {\n                                    \"source\": \"value2.output\",\n                                    \"target\": \"add3.first.output1\"\n                                },\n"
+		+ "                                {\n                                    \"source\": \".l_side_pos\",\n                                    \"target\": \"add3.first.pos\"\n                                },\n                                {\n                                    \"source\": \".l_side_pos\",\n                                    \"target\": \"subtract1.first.pos\"\n                                },\n                                {\n                                    \"source\": \"change_range.result\",\n                                    \"target\": \"add2.first.result\"\n                                },\n                                {\n                                    \"source\": \"change_range2.result\",\n                                    \"target\": \"add2.first.result1\"\n                                },\n                                {\n                                    \"source\": \"clamp2.clamped\",\n                                    \"target\": \".result\"\n                                },\n                                {\n                                    \"source\": \"value1.output\",\n"
+		+ "                                    \"target\": \"subtract3.first.output1\"\n                                },\n                                {\n                                    \"source\": \".last\",\n                                    \"target\": \"subtract3.first.last\"\n                                },\n                                {\n                                    \"source\": \".l_zip\",\n                                    \"target\": \"change_range3.value\"\n                                },\n                                {\n                                    \"source\": \"negate1.negated\",\n                                    \"target\": \"add5.first.negated\"\n                                },\n                                {\n                                    \"source\": \"subtract3.output\",\n                                    \"target\": \"add5.first.output1\"\n                                },\n                                {\n                                    \"source\": \"add5.output\",\n                                    \"target\": \"change_range3.to_start\"\n"
+		+ "                                },\n                                {\n                                    \"source\": \"add4.output\",\n                                    \"target\": \"subtract4.first.output1\"\n                                },\n                                {\n                                    \"source\": \"subtract3.output\",\n                                    \"target\": \"subtract4.first.output2\"\n                                },\n                                {\n                                    \"source\": \"subtract4.output\",\n                                    \"target\": \"change_range3.to_end\"\n                                },\n                                {\n                                    \"source\": \"negate.negated\",\n                                    \"target\": \"add6.first.negated\"\n                                },\n                                {\n                                    \"source\": \"subtract3.output\",\n                                    \"target\": \"add6.first.output1\"\n                                },\n"
+		+ "                                {\n                                    \"source\": \"add6.output\",\n                                    \"target\": \"change_range1.to_start\"\n                                },\n                                {\n                                    \"source\": \"add1.output\",\n                                    \"target\": \"subtract5.first.output1\"\n                                },\n                                {\n                                    \"source\": \"subtract3.output\",\n                                    \"target\": \"subtract5.first.output2\"\n                                },\n                                {\n                                    \"source\": \"subtract5.output\",\n                                    \"target\": \"change_range1.to_end\"\n                                }\n                            ],\n                            \"values\": [\n                                {\n                                    \"valueName\": \"change_range.from_end\",\n                                    \"valueType\": \"float\",\n"
+		+ "                                    \"value\": \"1f\"\n                                },\n                                {\n                                    \"valueName\": \"change_range.to_end\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"0.5f\"\n                                },\n                                {\n                                    \"valueName\": \"value.value\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"0.624000013f\"\n                                },\n                                {\n                                    \"valueName\": \"value1.value\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"1f\"\n                                },\n                                {\n                                    \"valueName\": \"change_range1.from_end\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"1f\"\n"
+		+ "                                },\n                                {\n                                    \"valueName\": \"change_range1.to_end\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"1f\"\n                                },\n                                {\n                                    \"valueName\": \"clamp2.max\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"0.5f\"\n                                },\n                                {\n                                    \"valueName\": \"change_range2.from_end\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"1f\"\n                                },\n                                {\n                                    \"valueName\": \"change_range2.to_end\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"0.5f\"\n                                },\n"
+		+ "                                {\n                                    \"valueName\": \"change_range2.clamp\",\n                                    \"valueType\": \"bool\",\n                                    \"value\": \"true\"\n                                },\n                                {\n                                    \"valueName\": \"change_range3.from_end\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"1f\"\n                                },\n                                {\n                                    \"valueName\": \"change_range3.to_end\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"1f\"\n                                },\n                                {\n                                    \"valueName\": \"change_range3.clamp\",\n                                    \"valueType\": \"bool\",\n                                    \"value\": \"true\"\n                                },\n                                {\n"
+		+ "                                    \"valueName\": \"value2.value\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"0.624000013f\"\n                                },\n                                {\n                                    \"valueName\": \"value3.value\",\n                                    \"valueType\": \"float\",\n                                    \"value\": \"1f\"\n                                }\n                            ],\n                            \"reservedNodeNames\": [\n                                {\n                                    \"name\": \"input\"\n                                },\n                                {\n                                    \"name\": \"output\"\n                                }\n                            ]\n                        },\n                        {\n                            \"name\": \"reverse_index\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"io_nodes\",\n"
+		+ "                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"io_inodes\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"input\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"io_ports\",\n                                                            \"metadata\": [\n                                                                {\n                                                                    \"metaName\": \"parameter\"\n                                                                },\n                                                                {\n                                                                    \"metaName\": \"max_iterations\"\n                                                                },\n"
+		+ "                                                                {\n                                                                    \"metaName\": \"current_index\"\n                                                                }\n                                                            ]\n                                                        },\n                                                        {\n                                                            \"metaName\": \"DisplayMode\",\n                                                            \"metaType\": \"string\",\n                                                            \"metaValue\": \"2\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"LayoutPos\",\n                                                            \"metaType\": \"string\",\n                                                            \"metaValue\": \"-1054.65 297.592\"\n"
+		+ "                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        },\n                                        {\n                                            \"metaName\": \"io_onodes\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"output\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"io_ports\",\n                                                            \"metadata\": [\n                                                                {\n                                                                    \"metaName\": \"value\"\n                                                                }\n"
+		+ "                                                            ]\n                                                        },\n                                                        {\n                                                            \"metaName\": \"DisplayMode\",\n                                                            \"metaType\": \"string\",\n                                                            \"metaValue\": \"2\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"LayoutPos\",\n                                                            \"metaType\": \"string\",\n                                                            \"metaValue\": \"235.283 268.294\"\n                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        }\n"
+		+ "                                    ]\n                                },\n                                {\n                                    \"metaName\": \"ViewportRect\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-520.147 -443.887 1079.44 2013.43\"\n                                }\n                            ],\n                            \"ports\": [\n                                {\n                                    \"portName\": \"parameter\",\n                                    \"portDirection\": \"input\",\n                                    \"portType\": \"array<float>\"\n                                },\n                                {\n                                    \"portName\": \"value\",\n                                    \"portDirection\": \"output\"\n                                },\n                                {\n                                    \"portName\": \"max_iterations\",\n                                    \"portDirection\": \"input\",\n                                    \"portType\": \"long\"\n"
+		+ "                                },\n                                {\n                                    \"portName\": \"current_index\",\n                                    \"portDirection\": \"input\",\n                                    \"portType\": \"long\"\n                                }\n                            ],\n                            \"compoundNodes\": [\n                                {\n                                    \"nodeName\": \"decrement\",\n                                    \"nodeType\": \"Core::Math::decrement\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n"
+		+ "                                            \"metaValue\": \"-390.865 591.609\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"nodeName\": \"get_from_array4\",\n                                    \"nodeType\": \"Core::Array::get_from_array\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-103.617 265.205\"\n                                        }\n                                    ]\n"
+		+ "                                },\n                                {\n                                    \"nodeName\": \"subtract\",\n                                    \"nodeType\": \"Core::Math::subtract\",\n                                    \"multiInPortNames\": [\n                                        \"max_iterations\",\n                                        \"current_index\"\n                                    ],\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-717.467 444.587\"\n                                        }\n"
+		+ "                                    ]\n                                }\n                            ],\n                            \"connections\": [\n                                {\n                                    \"source\": \"subtract.output\",\n                                    \"target\": \"decrement.value\"\n                                },\n                                {\n                                    \"source\": \"decrement.output\",\n                                    \"target\": \"get_from_array4.index\"\n                                },\n                                {\n                                    \"source\": \".parameter\",\n                                    \"target\": \"get_from_array4.array\"\n                                },\n                                {\n                                    \"source\": \"get_from_array4.value\",\n                                    \"target\": \".value\"\n                                },\n                                {\n                                    \"source\": \".max_iterations\",\n"
+		+ "                                    \"target\": \"subtract.first.max_iterations\"\n                                },\n                                {\n                                    \"source\": \".current_index\",\n                                    \"target\": \"subtract.first.current_index\"\n                                }\n                            ],\n                            \"values\": [\n                                {\n                                    \"valueName\": \"decrement.by\",\n                                    \"valueType\": \"char\",\n                                    \"value\": \"1\"\n                                }\n                            ],\n                            \"reservedNodeNames\": [\n                                {\n                                    \"name\": \"input\"\n                                },\n                                {\n                                    \"name\": \"output\"\n                                }\n                            ]\n                        }\n                    ],\n"
+		+ "                    \"compoundNodes\": [\n                        {\n                            \"nodeName\": \"zip_weights_by_order\",\n                            \"nodeType\": \"zip_weights_by_order\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-401.121 -376.392\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"pk_lerp_matrix\",\n                            \"nodeType\": \"PK::Compounds::pk_lerp_matrix\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n"
+		+ "                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"722.828 290.924\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"get_from_array2\",\n                            \"nodeType\": \"Core::Array::get_from_array\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n"
+		+ "                                    \"metaValue\": \"120.414 844.54\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"get_from_array3\",\n                            \"nodeType\": \"Core::Array::get_from_array\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"133.657 1119.7\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"pk_lerp_matrix1\",\n                            \"nodeType\": \"PK::Compounds::pk_lerp_matrix\",\n"
+		+ "                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"725.496 853.156\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"matrix_multiply\",\n                            \"nodeType\": \"Core::Math::matrix_multiply\",\n                            \"multiInPortNames\": [\n                                \"transform\",\n                                \"scale_matrix\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n"
+		+ "                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"1182.73 540.887\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"matrix_multiply1\",\n                            \"nodeType\": \"Core::Math::matrix_multiply\",\n                            \"multiInPortNames\": [\n                                \"transform\",\n                                \"scale_matrix\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n"
+		+ "                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"1178.25 1190.58\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"get_from_array\",\n                            \"nodeType\": \"Core::Array::get_from_array\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"1\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-422.146 -13.0936\"\n                                }\n"
+		+ "                            ]\n                        },\n                        {\n                            \"nodeName\": \"zip_weights_by_pos\",\n                            \"nodeType\": \"zip_weights_by_pos\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"105.933 249.886\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"pass\",\n                            \"nodeType\": \"Core::Graph::pass\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n"
+		+ "                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"575.024 -15.721\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"reverse_index\",\n                            \"nodeType\": \"reverse_index\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"1\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n"
+		+ "                                    \"metaValue\": \"-429.172 230.857\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"last_in_array\",\n                            \"nodeType\": \"Core::Array::last_in_array\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-441.066 543.644\"\n                                }\n                            ]\n                        }\n                    ],\n                    \"connections\": [\n                        {\n                            \"source\": \".l_zip\",\n"
+		+ "                            \"target\": \"zip_weights_by_order.l_zip\"\n                        },\n                        {\n                            \"source\": \".r_zip\",\n                            \"target\": \"zip_weights_by_order.r_zip\"\n                        },\n                        {\n                            \"source\": \".l_dropoff\",\n                            \"target\": \"zip_weights_by_order.l_dropoff\"\n                        },\n                        {\n                            \"source\": \".r_dropoff\",\n                            \"target\": \"zip_weights_by_order.r_dropoff\"\n                        },\n                        {\n                            \"source\": \".max_iterations\",\n                            \"target\": \"zip_weights_by_order.max_iterations\"\n                        },\n                        {\n                            \"source\": \".current_index\",\n                            \"target\": \"zip_weights_by_order.current_index\"\n                        },\n                        {\n                            \"source\": \".current_index\",\n"
+		+ "                            \"target\": \"get_from_array2.index\"\n                        },\n                        {\n                            \"source\": \".current_index\",\n                            \"target\": \"get_from_array3.index\"\n                        },\n                        {\n                            \"source\": \".t_matrix\",\n                            \"target\": \"get_from_array2.array\"\n                        },\n                        {\n                            \"source\": \".b_matrix\",\n                            \"target\": \"get_from_array3.array\"\n                        },\n                        {\n                            \"source\": \"get_from_array2.value\",\n                            \"target\": \"pk_lerp_matrix.start_matrix\"\n                        },\n                        {\n                            \"source\": \"get_from_array3.value\",\n                            \"target\": \"pk_lerp_matrix.end_matrix\"\n                        },\n                        {\n                            \"source\": \"get_from_array2.value\",\n"
+		+ "                            \"target\": \"pk_lerp_matrix1.end_matrix\"\n                        },\n                        {\n                            \"source\": \"get_from_array3.value\",\n                            \"target\": \"pk_lerp_matrix1.start_matrix\"\n                        },\n                        {\n                            \"source\": \"pk_lerp_matrix.transform\",\n                            \"target\": \"matrix_multiply.first.transform\"\n                        },\n                        {\n                            \"source\": \"matrix_multiply.matrix\",\n                            \"target\": \".out_t_matrix\"\n                        },\n                        {\n                            \"source\": \"pk_lerp_matrix1.transform\",\n                            \"target\": \"matrix_multiply1.first.transform\"\n                        },\n                        {\n                            \"source\": \"matrix_multiply1.matrix\",\n                            \"target\": \".out_b_matrix\"\n                        },\n                        {\n"
+		+ "                            \"source\": \".parameter\",\n                            \"target\": \"get_from_array.array\"\n                        },\n                        {\n                            \"source\": \".current_index\",\n                            \"target\": \"get_from_array.index\"\n                        },\n                        {\n                            \"source\": \"get_from_array.value\",\n                            \"target\": \"zip_weights_by_pos.r_side_pos\"\n                        },\n                        {\n                            \"source\": \".r_zip\",\n                            \"target\": \"zip_weights_by_pos.r_zip\"\n                        },\n                        {\n                            \"source\": \"zip_weights_by_pos.result\",\n                            \"target\": \"pass.input\"\n                        },\n                        {\n                            \"source\": \"zip_weights_by_pos.result\",\n                            \"target\": \"pk_lerp_matrix.fraction\"\n                        },\n                        {\n"
+		+ "                            \"source\": \"zip_weights_by_pos.result\",\n                            \"target\": \"pk_lerp_matrix1.fraction\"\n                        },\n                        {\n                            \"source\": \".r_dropoff\",\n                            \"target\": \"zip_weights_by_pos.r_dropoff\"\n                        },\n                        {\n                            \"source\": \".l_zip\",\n                            \"target\": \"zip_weights_by_pos.l_zip\"\n                        },\n                        {\n                            \"source\": \".l_dropoff\",\n                            \"target\": \"zip_weights_by_pos.l_dropoff\"\n                        },\n                        {\n                            \"source\": \".parameter\",\n                            \"target\": \"reverse_index.parameter\"\n                        },\n                        {\n                            \"source\": \"reverse_index.value\",\n                            \"target\": \"zip_weights_by_pos.l_side_pos\"\n                        },\n"
+		+ "                        {\n                            \"source\": \".max_iterations\",\n                            \"target\": \"reverse_index.max_iterations\"\n                        },\n                        {\n                            \"source\": \".current_index\",\n                            \"target\": \"reverse_index.current_index\"\n                        },\n                        {\n                            \"source\": \".parameter\",\n                            \"target\": \"last_in_array.array\"\n                        },\n                        {\n                            \"source\": \"last_in_array.last\",\n                            \"target\": \"zip_weights_by_pos.last\"\n                        },\n                        {\n                            \"source\": \"pass.output\",\n                            \"target\": \".output\"\n                        },\n                        {\n                            \"source\": \".scale_matrix\",\n                            \"target\": \"matrix_multiply.first.scale_matrix\"\n                        },\n"
+		+ "                        {\n                            \"source\": \".scale_matrix\",\n                            \"target\": \"matrix_multiply1.first.scale_matrix\"\n                        }\n                    ],\n                    \"values\": [\n                        {\n                            \"valueName\": \"zip_weights_by_order.l_zip\",\n                            \"valueType\": \"float\",\n                            \"value\": \"0f\"\n                        },\n                        {\n                            \"valueName\": \"zip_weights_by_order.r_zip\",\n                            \"valueType\": \"float\",\n                            \"value\": \"0f\"\n                        },\n                        {\n                            \"valueName\": \"zip_weights_by_order.l_dropoff\",\n                            \"valueType\": \"float\",\n                            \"value\": \"0f\"\n                        },\n                        {\n                            \"valueName\": \"zip_weights_by_order.r_dropoff\",\n                            \"valueType\": \"float\",\n"
+		+ "                            \"value\": \"0f\"\n                        },\n                        {\n                            \"valueName\": \"zip_weights_by_order.max_iterations\",\n                            \"valueType\": \"long\",\n                            \"value\": \"0\"\n                        },\n                        {\n                            \"valueName\": \"zip_weights_by_order.current_index\",\n                            \"valueType\": \"long\",\n                            \"value\": \"0\"\n                        },\n                        {\n                            \"valueName\": \"pk_lerp_matrix.start_matrix\",\n                            \"valueType\": \"Math::float4x4\",\n                            \"value\": {\n                                \"c0\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c1\": {\n                                    \"x\": \"0f\",\n"
+		+ "                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c2\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c3\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                }\n                            }\n                        },\n                        {\n                            \"valueName\": \"pk_lerp_matrix.end_matrix\",\n                            \"valueType\": \"Math::float4x4\",\n                            \"value\": {\n                                \"c0\": {\n                                    \"x\": \"0f\",\n"
+		+ "                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c1\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c2\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c3\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                }\n                            }\n                        },\n                        {\n"
+		+ "                            \"valueName\": \"pk_lerp_matrix1.start_matrix\",\n                            \"valueType\": \"Math::float4x4\",\n                            \"value\": {\n                                \"c0\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c1\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c2\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c3\": {\n                                    \"x\": \"0f\",\n"
+		+ "                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                }\n                            }\n                        },\n                        {\n                            \"valueName\": \"pk_lerp_matrix1.end_matrix\",\n                            \"valueType\": \"Math::float4x4\",\n                            \"value\": {\n                                \"c0\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c1\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c2\": {\n                                    \"x\": \"0f\",\n"
+		+ "                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c3\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                }\n                            }\n                        },\n                        {\n                            \"valueName\": \"pk_lerp_matrix1.clamp_negative\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"pk_lerp_matrix1.clamp_above_one\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"pk_lerp_matrix1.always_use_shorter_arc\",\n"
+		+ "                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"zip_weights_by_pos.l_dropoff\",\n                            \"valueType\": \"float\",\n                            \"value\": \"0.624000013f\"\n                        },\n                        {\n                            \"valueName\": \"reverse_index.parameter\",\n                            \"valueType\": \"array<float>\",\n                            \"value\": []\n                        },\n                        {\n                            \"valueName\": \"reverse_index.max_iterations\",\n                            \"valueType\": \"long\",\n                            \"value\": \"0\"\n                        },\n                        {\n                            \"valueName\": \"reverse_index.current_index\",\n                            \"valueType\": \"long\",\n                            \"value\": \"0\"\n                        }\n                    ],\n                    \"reservedNodeNames\": [\n"
+		+ "                        {\n                            \"name\": \"input\"\n                        },\n                        {\n                            \"name\": \"output\"\n                        }\n                    ],\n                    \"forEachCompound\": {\n                        \"ports\": []\n                    }\n                },\n                {\n                    \"name\": \"stretch\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"io_nodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"io_inodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"input\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n"
+		+ "                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"l_corner_move_x\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"parameter\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"r_corner_move_x\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"stretch_factor\"\n"
+		+ "                                                        }\n                                                    ]\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"-1930.98 462.406\"\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"io_onodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"output\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"io_ports\",\n"
+		+ "                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"transform\"\n                                                        }\n                                                    ]\n                                                },\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"611.403 458.555\"\n                                                }\n"
+		+ "                                            ]\n                                        }\n                                    ]\n                                }\n                            ]\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Math,multiply\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Math,lerp\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Math,add\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n"
+		+ "                            \"metaValue\": \"BifrostGraph,Print,print\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Math,change_range\"\n                        },\n                        {\n                            \"metaName\": \"ViewportRect\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-520 -279 1293 1841\"\n                        }\n                    ],\n                    \"ports\": [\n                        {\n                            \"portName\": \"transform\",\n                            \"portDirection\": \"output\"\n                        },\n                        {\n                            \"portName\": \"l_corner_move_x\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"float\"\n                        },\n                        {\n                            \"portName\": \"parameter\",\n"
+		+ "                            \"portDirection\": \"input\",\n                            \"portType\": \"array<float>\"\n                        },\n                        {\n                            \"portName\": \"r_corner_move_x\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"float\"\n                        },\n                        {\n                            \"portName\": \"stretch_factor\",\n                            \"portDirection\": \"input\"\n                        }\n                    ],\n                    \"compoundNodes\": [\n                        {\n                            \"nodeName\": \"SRT_to_matrix\",\n                            \"nodeType\": \"Core::Math::SRT_to_matrix\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n"
+		+ "                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"186.515 469.207\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"add2\",\n                            \"nodeType\": \"Core::Math::add\",\n                            \"multiInPortNames\": [\n                                \"output1\",\n                                \"output2\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-810.817 564.145\"\n"
+		+ "                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"evaluate_fcurve1\",\n                            \"nodeType\": \"Core::FCurve::evaluate_fcurve\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-469.096 580.517\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"multiply\",\n                            \"nodeType\": \"Core::Math::multiply\",\n                            \"multiInPortNames\": [\n"
+		+ "                                \"l_corner_move_x\",\n                                \"parameter\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-1164.32 427.488\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"multiply1\",\n                            \"nodeType\": \"Core::Math::multiply\",\n                            \"multiInPortNames\": [\n                                \"parameter\",\n                                \"r_corner_move_x\"\n                            ],\n"
+		+ "                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-1145.69 695.932\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"reverse_array\",\n                            \"nodeType\": \"Core::Array::reverse_array\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n"
+		+ "                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-1523.28 640.458\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"value1\",\n                            \"valueType\": \"Math::float3\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"PortExpandedState\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"value\",\n                                            \"metaType\": \"string\",\n"
+		+ "                                            \"metaValue\": \"1\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-126.188 493.155\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"multiply2\",\n                            \"nodeType\": \"Core::Math::multiply\",\n                            \"multiInPortNames\": [\n                                \"l_corner_move_x\",\n                                \"port\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n"
+		+ "                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-1519.36 250.748\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"multiply3\",\n                            \"nodeType\": \"Core::Math::multiply\",\n                            \"multiInPortNames\": [\n                                \"l_corner_move_x\",\n                                \"port\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n"
+		+ "                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-1525.58 856.767\"\n                                }\n                            ]\n                        }\n                    ],\n                    \"connections\": [\n                        {\n                            \"source\": \"value1.output\",\n                            \"target\": \"SRT_to_matrix.scale\"\n                        },\n                        {\n                            \"source\": \"SRT_to_matrix.transform\",\n                            \"target\": \".transform\"\n                        },\n                        {\n                            \"source\": \"multiply1.output\",\n                            \"target\": \"add2.first.output1\"\n                        },\n                        {\n                            \"source\": \"multiply.output\",\n                            \"target\": \"add2.first.output2\"\n                        },\n                        {\n                            \"source\": \"add2.output\",\n"
+		+ "                            \"target\": \"evaluate_fcurve1.x\"\n                        },\n                        {\n                            \"source\": \"evaluate_fcurve1.y\",\n                            \"target\": \"value1.value.y\"\n                        },\n                        {\n                            \"source\": \"evaluate_fcurve1.y\",\n                            \"target\": \"value1.value.z\"\n                        },\n                        {\n                            \"source\": \".parameter\",\n                            \"target\": \"multiply.first.parameter\"\n                        },\n                        {\n                            \"source\": \"reverse_array.reversed\",\n                            \"target\": \"multiply1.first.parameter\"\n                        },\n                        {\n                            \"source\": \".parameter\",\n                            \"target\": \"reverse_array.array\"\n                        },\n                        {\n                            \"source\": \".l_corner_move_x\",\n                            \"target\": \"multiply2.first.l_corner_move_x\"\n"
+		+ "                        },\n                        {\n                            \"source\": \".stretch_factor\",\n                            \"target\": \"multiply2.first.port\"\n                        },\n                        {\n                            \"source\": \"multiply2.output\",\n                            \"target\": \"multiply.first.l_corner_move_x\"\n                        },\n                        {\n                            \"source\": \".stretch_factor\",\n                            \"target\": \"multiply3.first.port\"\n                        },\n                        {\n                            \"source\": \".r_corner_move_x\",\n                            \"target\": \"multiply3.first.l_corner_move_x\"\n                        },\n                        {\n                            \"source\": \"multiply3.output\",\n                            \"target\": \"multiply1.first.r_corner_move_x\"\n                        }\n                    ],\n                    \"values\": [\n                        {\n                            \"valueName\": \"evaluate_fcurve1.fcurve\",\n"
+		+ "                            \"valueType\": \"Math::FCurve\",\n                            \"value\": {\n                                \"version\": \"1\",\n                                \"preExtrapolation\": \"0\",\n                                \"postExtrapolation\": \"0\",\n                                \"points\": [\n                                    {\n                                        \"point\": {\n                                            \"locked\": \"1\",\n                                            \"interpolation\": \"2\",\n                                            \"pcn\": {\n                                                \"xp\": \"-2.2596769999999999\",\n                                                \"yp\": \"4.0355939999999997\",\n                                                \"x\": \"-1.5\",\n                                                \"y\": \"4\",\n                                                \"xn\": \"-0.74032299999999995\",\n                                                \"yn\": \"3.9644059999999999\"\n                                            }\n"
+		+ "                                        }\n                                    },\n                                    {\n                                        \"point\": {\n                                            \"locked\": \"1\",\n                                            \"interpolation\": \"2\",\n                                            \"pcn\": {\n                                                \"xp\": \"-0.65313600000000005\",\n                                                \"yp\": \"1.372843\",\n                                                \"x\": \"0\",\n                                                \"y\": \"1\",\n                                                \"xn\": \"0.65322599999999997\",\n                                                \"yn\": \"0.62731999999999999\"\n                                            }\n                                        }\n                                    },\n                                    {\n                                        \"point\": {\n                                            \"locked\": \"1\",\n"
+		+ "                                            \"interpolation\": \"2\",\n                                            \"pcn\": {\n                                                \"xp\": \"0.71128999999999998\",\n                                                \"yp\": \"0.23380799999999999\",\n                                                \"x\": \"1.5\",\n                                                \"y\": \"0.25\",\n                                                \"xn\": \"2.28871\",\n                                                \"yn\": \"0.26619199999999998\"\n                                            }\n                                        }\n                                    }\n                                ]\n                            }\n                        },\n                        {\n                            \"valueName\": \"value1.value\",\n                            \"valueType\": \"Math::float3\",\n                            \"value\": {\n                                \"x\": \"1f\",\n                                \"y\": \"1f\",\n                                \"z\": \"1f\"\n"
+		+ "                            }\n                        }\n                    ],\n                    \"reservedNodeNames\": [\n                        {\n                            \"name\": \"input\"\n                        },\n                        {\n                            \"name\": \"output\"\n                        }\n                    ]\n                }\n            ],\n            \"compoundNodes\": [\n                {\n                    \"nodeName\": \"zip_for_each\",\n                    \"nodeType\": \"zip_for_each\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-4.42131 -71.4838\"\n                        }\n                    ]\n                },\n                {\n"
+		+ "                    \"nodeName\": \"array_size\",\n                    \"nodeType\": \"Core::Array::array_size\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-394.465 -85.1321\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"value\",\n                    \"valueType\": \"float\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n"
+		+ "                            \"metaValue\": \"-2198.82 725.433\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"matrix_multiply\",\n                    \"nodeType\": \"Core::Math::matrix_multiply\",\n                    \"multiInPortNames\": [\n                        \"scale_matrix\",\n                        \"transform\"\n                    ],\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"393.375 -97.3476\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"stretch\",\n                    \"nodeType\": \"stretch\",\n                    \"metadata\": [\n"
+		+ "                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-13.6269 498.319\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"matrix_multiply1\",\n                    \"nodeType\": \"Core::Math::matrix_multiply\",\n                    \"multiInPortNames\": [\n                        \"scale_matrix\",\n                        \"transform\"\n                    ],\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n"
+		+ "                            \"metaType\": \"string\",\n                            \"metaValue\": \"417.913 234.134\"\n                        }\n                    ]\n                }\n            ],\n            \"connections\": [\n                {\n                    \"source\": \".l_zip\",\n                    \"target\": \"zip_for_each.l_zip\"\n                },\n                {\n                    \"source\": \".r_zip\",\n                    \"target\": \"zip_for_each.r_zip\"\n                },\n                {\n                    \"source\": \".l_dropoff\",\n                    \"target\": \"zip_for_each.l_dropoff\"\n                },\n                {\n                    \"source\": \".r_dropoff\",\n                    \"target\": \"zip_for_each.r_dropoff\"\n                },\n                {\n                    \"source\": \".t_matrix\",\n                    \"target\": \"zip_for_each.t_matrix\"\n                },\n                {\n                    \"source\": \".b_matrix\",\n                    \"target\": \"zip_for_each.b_matrix\"\n                },\n                {\n"
+		+ "                    \"source\": \".t_matrix\",\n                    \"target\": \"array_size.array\"\n                },\n                {\n                    \"source\": \"array_size.size\",\n                    \"target\": \"zip_for_each.max_iterations\"\n                },\n                {\n                    \"source\": \".parameter\",\n                    \"target\": \"zip_for_each.parameter\"\n                },\n                {\n                    \"source\": \".scale_matrix\",\n                    \"target\": \"zip_for_each.scale_matrix\"\n                },\n                {\n                    \"source\": \"matrix_multiply.matrix\",\n                    \"target\": \".out_t_matrix\"\n                },\n                {\n                    \"source\": \"zip_for_each.out_t_matrix\",\n                    \"target\": \"matrix_multiply.first.scale_matrix\"\n                },\n                {\n                    \"source\": \"stretch.transform\",\n                    \"target\": \"matrix_multiply.first.transform\"\n                },\n                {\n                    \"source\": \".l_corner_move_x\",\n"
+		+ "                    \"target\": \"stretch.l_corner_move_x\"\n                },\n                {\n                    \"source\": \".parameter\",\n                    \"target\": \"stretch.parameter\"\n                },\n                {\n                    \"source\": \".r_corner_move_x\",\n                    \"target\": \"stretch.r_corner_move_x\"\n                },\n                {\n                    \"source\": \"stretch.transform\",\n                    \"target\": \"matrix_multiply1.first.transform\"\n                },\n                {\n                    \"source\": \"zip_for_each.out_b_matrix\",\n                    \"target\": \"matrix_multiply1.first.scale_matrix\"\n                },\n                {\n                    \"source\": \"matrix_multiply1.matrix\",\n                    \"target\": \".out_b_matrix\"\n                },\n                {\n                    \"source\": \".stretch_factor\",\n                    \"target\": \"stretch.stretch_factor\"\n                }\n            ],\n            \"values\": [\n                {\n                    \"valueName\": \"zip_for_each.max_iterations\",\n"
+		+ "                    \"valueType\": \"long\",\n                    \"value\": \"13\"\n                },\n                {\n                    \"valueName\": \"stretch.l_corner_move_x\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"stretch.parameter\",\n                    \"valueType\": \"array<float>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"stretch.r_corner_move_x\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"stretch.stretch_factor\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0.692600012f\"\n                }\n            ],\n            \"reservedNodeNames\": [\n                {\n                    \"name\": \"input\"\n                },\n                {\n                    \"name\": \"output\"\n                },\n                {\n                    \"name\": \"output1\"\n"
+		+ "                }\n            ]\n        }\n    ]\n}\n");
+	setAttr ".dirtyFlag" yes;
 	setAttr -k on ".l_zip";
 	setAttr -k on ".r_zip";
 	setAttr -k on ".l_dropoff";
 	setAttr -k on ".r_dropoff";
 	setAttr -k on ".scale_matrix";
-	setAttr -k on ".right_stretch_factor" 0.95581555366516113;
-	setAttr -k on ".left_stretch_factor" 0.95581555366516113;
 	setAttr -s 7 ".t_matrix";
 	setAttr -k on ".t_matrix[0]";
 	setAttr -k on ".t_matrix[1]";
@@ -4899,27 +5272,31 @@ createNode bifrostGraphShape -n "zip_bifrostGraphShape" -p "zip_bifrostGraph";
 	setAttr -k on ".b_matrix";
 	setAttr -s 7 ".out_t_matrix";
 	setAttr -s 7 ".out_b_matrix";
+	setAttr -s 7 -k on ".parameter";
+	setAttr -s 7 -k on ".parameter";
+	setAttr -k on ".parameter[0]";
+	setAttr -k on ".parameter[1]";
+	setAttr -k on ".parameter[2]";
+	setAttr -k on ".parameter[3]";
+	setAttr -k on ".parameter[4]";
+	setAttr -k on ".parameter[5]";
+	setAttr -k on ".parameter[6]";
+	setAttr -k on ".l_corner_move_x";
+	setAttr -k on ".r_corner_move_x";
+	setAttr -k on ".stretch_factor" 1;
 createNode transform -n "sec_controls_bifrostGraph" -p "system";
 	rename -uid "3F0AB8D8-4230-4C48-EB6B-B283C8164C4F";
 createNode bifrostGraphShape -n "sec_controls_bifrostGraphShape" -p "sec_controls_bifrostGraph";
 	rename -uid "F455AF55-4F18-60BC-B81B-1BBB75814387";
 	addAttr -r false -ci true -k true -sn "mouth_poser_m" -ln "mouth_poser_m" -at "fltMatrix";
-	addAttr -r false -ci true -k true -m -sn "flat_rotateY" -ln "flat_rotateY" -at "float";
-	addAttr -r false -ci true -k true -m -sn "translate" -ln "translate" -at "float3" 
-		-nc 3;
-	addAttr -r false -ci true -k true -sn "translatex" -ln "translatex" -at "float" 
-		-p "translate";
-	addAttr -r false -ci true -k true -sn "translatey" -ln "translatey" -at "float" 
-		-p "translate";
-	addAttr -r false -ci true -k true -sn "translatez" -ln "translatez" -at "float" 
-		-p "translate";
+	addAttr -r false -ci true -k true -m -sn "l_flat_rotateY" -ln "l_flat_rotateY" -at "float";
 	addAttr -r false -ci true -k true -sn "mouth_line_follow" -ln "mouth_line_follow" 
 		-min 0 -max 1 -at "bool";
-	addAttr -r false -ci true -k true -m -sn "rotate" -ln "rotate" -at "float3" -nc 
-		3;
-	addAttr -r false -ci true -k true -sn "rotatex" -ln "rotatex" -at "float" -p "rotate";
-	addAttr -r false -ci true -k true -sn "rotatey" -ln "rotatey" -at "float" -p "rotate";
-	addAttr -r false -ci true -k true -sn "rotatez" -ln "rotatez" -at "float" -p "rotate";
+	addAttr -r false -ci true -k true -m -sn "l_rotate" -ln "l_rotate" -at "float3" 
+		-nc 3;
+	addAttr -r false -ci true -k true -sn "l_rotatex" -ln "l_rotatex" -at "float" -p "l_rotate";
+	addAttr -r false -ci true -k true -sn "l_rotatey" -ln "l_rotatey" -at "float" -p "l_rotate";
+	addAttr -r false -ci true -k true -sn "l_rotatez" -ln "l_rotatez" -at "float" -p "l_rotate";
 	addAttr -r false -ci true -k true -m -sn "init_pos" -ln "init_pos" -at "float3" 
 		-nc 3;
 	addAttr -r false -ci true -k true -sn "init_posx" -ln "init_posx" -at "float" -p "init_pos";
@@ -4927,13 +5304,10 @@ createNode bifrostGraphShape -n "sec_controls_bifrostGraphShape" -p "sec_control
 	addAttr -r false -ci true -k true -sn "init_posz" -ln "init_posz" -at "float" -p "init_pos";
 	addAttr -w false -ci true -sn "Core__Graph__terminal__diagnostic" -ln "Core__Graph__terminal__diagnostic" 
 		-ct "terminal_node_output_attribute" -dt "bifData";
-	addAttr -r false -ci true -k true -sn "lips_jaw_m" -ln "lips_jaw_m" -at "fltMatrix";
 	addAttr -r false -ci true -k true -sn "lips_poser_im" -ln "lips_poser_im" -at "fltMatrix";
-	addAttr -r false -ci true -k true -sn "corner_follow_jaw" -ln "corner_follow_jaw" 
+	addAttr -r false -ci true -k true -sn "l_corner_follow_jaw" -ln "l_corner_follow_jaw" 
 		-at "float";
-	addAttr -r false -ci true -k true -m -sn "follow_jaw" -ln "follow_jaw" -at "float";
-	addAttr -r false -ci true -k true -sn "t_lip_over_lips_m" -ln "t_lip_over_lips_m" 
-		-at "fltMatrix";
+	addAttr -r false -ci true -k true -m -sn "t_follow_jaw" -ln "t_follow_jaw" -at "float";
 	addAttr -r false -ci true -k true -m -sn "t_lip_influence" -ln "t_lip_influence" 
 		-at "float";
 	addAttr -r false -ci true -k true -sn "l_corner_translate" -ln "l_corner_translate" 
@@ -4950,110 +5324,331 @@ createNode bifrostGraphShape -n "sec_controls_bifrostGraphShape" -p "sec_control
 		-at "float";
 	addAttr -r false -ci true -k true -m -sn "corner_v_influence" -ln "corner_v_influence" 
 		-at "float";
+	addAttr -w false -ci true -m -sn "out_l_t_lips" -ln "out_l_t_lips" -at "fltMatrix";
+	addAttr -r false -ci true -k true -m -sn "b_follow_jaw" -ln "b_follow_jaw" -at "float";
+	addAttr -r false -ci true -k true -m -sn "b_lip_influence" -ln "b_lip_influence" 
+		-at "float";
+	addAttr -r false -ci true -k true -sn "b_lip_group_im" -ln "b_lip_group_im" -at "fltMatrix";
+	addAttr -r false -ci true -k true -sn "b_lip_wm" -ln "b_lip_wm" -at "fltMatrix";
+	addAttr -w false -ci true -m -sn "out_l_b_lips" -ln "out_l_b_lips" -at "fltMatrix";
+	addAttr -r false -ci true -k true -m -sn "r_translate" -ln "r_translate" -at "float3" 
+		-nc 3;
+	addAttr -r false -ci true -k true -sn "r_translatex" -ln "r_translatex" -at "float" 
+		-p "r_translate";
+	addAttr -r false -ci true -k true -sn "r_translatey" -ln "r_translatey" -at "float" 
+		-p "r_translate";
+	addAttr -r false -ci true -k true -sn "r_translatez" -ln "r_translatez" -at "float" 
+		-p "r_translate";
+	addAttr -r false -ci true -k true -m -sn "r_rotate" -ln "r_rotate" -at "float3" 
+		-nc 3;
+	addAttr -r false -ci true -k true -sn "r_rotatex" -ln "r_rotatex" -at "float" -p "r_rotate";
+	addAttr -r false -ci true -k true -sn "r_rotatey" -ln "r_rotatey" -at "float" -p "r_rotate";
+	addAttr -r false -ci true -k true -sn "r_rotatez" -ln "r_rotatez" -at "float" -p "r_rotate";
+	addAttr -r false -ci true -k true -m -sn "r_flat_rotateY" -ln "r_flat_rotateY" -at "float";
+	addAttr -r false -ci true -k true -m -sn "l_translate" -ln "l_translate" -at "float3" 
+		-nc 3;
+	addAttr -r false -ci true -k true -sn "l_translatex" -ln "l_translatex" -at "float" 
+		-p "l_translate";
+	addAttr -r false -ci true -k true -sn "l_translatey" -ln "l_translatey" -at "float" 
+		-p "l_translate";
+	addAttr -r false -ci true -k true -sn "l_translatez" -ln "l_translatez" -at "float" 
+		-p "l_translate";
+	addAttr -w false -ci true -m -sn "out_r_t_lips" -ln "out_r_t_lips" -at "fltMatrix";
+	addAttr -w false -ci true -m -sn "out_r_b_lips" -ln "out_r_b_lips" -at "fltMatrix";
+	addAttr -r false -ci true -k true -sn "r_corner_translate" -ln "r_corner_translate" 
+		-at "float3" -nc 3;
+	addAttr -r false -ci true -k true -sn "r_corner_translatex" -ln "r_corner_translatex" 
+		-at "float" -p "r_corner_translate";
+	addAttr -r false -ci true -k true -sn "r_corner_translatey" -ln "r_corner_translatey" 
+		-at "float" -p "r_corner_translate";
+	addAttr -r false -ci true -k true -sn "r_corner_translatez" -ln "r_corner_translatez" 
+		-at "float" -p "r_corner_translate";
+	addAttr -w false -ci true -sn "Core__Graph__terminal__proxy" -ln "Core__Graph__terminal__proxy" 
+		-ct "terminal_node_output_attribute" -dt "bifData";
 	addAttr -r false -ci true -k true -sn "JobPorts__Math_epsilonFloat" -ln "JobPorts__Math_epsilonFloat" 
+		-at "float";
+	addAttr -r false -ci true -k true -sn "sec_controls_group_wim" -ln "sec_controls_group_wim" 
+		-at "fltMatrix";
+	addAttr -r false -ci true -k true -sn "lips_wm" -ln "lips_wm" -at "fltMatrix";
+	addAttr -r false -ci true -k true -sn "jaw_wm" -ln "jaw_wm" -at "fltMatrix";
+	addAttr -r false -ci true -k true -sn "jaw_poser_orient_wim" -ln "jaw_poser_orient_wim" 
+		-at "fltMatrix";
+	addAttr -r false -ci true -k true -sn "t_lip_wm" -ln "t_lip_wm" -at "fltMatrix";
+	addAttr -r false -ci true -k true -sn "t_lip_group_wim" -ln "t_lip_group_wim" -at "fltMatrix";
+	addAttr -r false -ci true -k true -sn "r_corner_follow_jaw" -ln "r_corner_follow_jaw" 
 		-at "float";
 	setAttr -k off ".v";
 	setAttr -s 2 ".iog";
 	setAttr ".covm[0]"  0 1 1;
 	setAttr ".cdvm[0]"  0 1 1;
 	setAttr ".sc" -type "string" (
-		"{\n    \"header\": {\n        \"metadata\": [\n            {\n                \"metaName\": \"adskFileFormatVersion\",\n                \"metaValue\": \"100L\"\n            }\n        ]\n    },\n    \"namespaces\": [],\n    \"types\": [],\n    \"compounds\": [\n        {\n            \"name\": \"sec_controls_bifrostGraphShape\",\n            \"metadata\": [\n                {\n                    \"metaName\": \"io_nodes\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"io_inodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"input\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n"
-		+ "                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-1779.01 -526.037\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"flat_rotateY\"\n                                                },\n                                                {\n                                                    \"metaName\": \"translate\"\n                                                },\n                                                {\n                                                    \"metaName\": \"rotate\"\n                                                },\n                                                {\n                                                    \"metaName\": \"init_pos\"\n                                                },\n"
-		+ "                                                {\n                                                    \"metaName\": \"follow_jaw\"\n                                                },\n                                                {\n                                                    \"metaName\": \"t_lip_influence\"\n                                                },\n                                                {\n                                                    \"metaName\": \"parameter\"\n                                                },\n                                                {\n                                                    \"metaName\": \"corner_h_influence\"\n                                                },\n                                                {\n                                                    \"metaName\": \"corner_v_influence\"\n                                                }\n                                            ]\n                                        }\n                                    ]\n"
-		+ "                                },\n                                {\n                                    \"metaName\": \"input1\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-1762.86 -134.222\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"mouth_line_follow\"\n"
-		+ "                                                },\n                                                {\n                                                    \"metaName\": \"mouth_poser_m\"\n                                                },\n                                                {\n                                                    \"metaName\": \"lips_jaw_m\"\n                                                },\n                                                {\n                                                    \"metaName\": \"lips_poser_im\"\n                                                },\n                                                {\n                                                    \"metaName\": \"corner_follow_jaw\"\n                                                },\n                                                {\n                                                    \"metaName\": \"t_lip_over_lips_m\"\n                                                },\n                                                {\n                                                    \"metaName\": \"l_corner_translate\"\n"
-		+ "                                                },\n                                                {\n                                                    \"metaName\": \"move_factor_x\"\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                }\n                            ]\n                        },\n                        {\n                            \"metaName\": \"io_onodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"output\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n"
-		+ "                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"1082.3 -182.575\"\n                                        }\n                                    ]\n                                }\n                            ]\n                        }\n                    ]\n                },\n                {\n                    \"metaName\": \"internal\",\n                    \"metaValue\": \"true\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Conversion,degrees_to_radians\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Conversion,radians_to_degrees\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n"
-		+ "                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Print,print_array\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Conversion,scalar_to_vector3\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Math,multiply\"\n                },\n                {\n                    \"metaName\": \"ViewportRect\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"-2070.57 -504.059 1396.39 2100.29\"\n                }\n            ],\n            \"ports\": [\n                {\n                    \"portName\": \"mouth_line_follow\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"bool\"\n                },\n                {\n                    \"portName\": \"mouth_poser_m\",\n                    \"portDirection\": \"input\",\n"
-		+ "                    \"portType\": \"Math::float4x4\"\n                },\n                {\n                    \"portName\": \"flat_rotateY\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<float>\"\n                },\n                {\n                    \"portName\": \"translate\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<Math::float3>\"\n                },\n                {\n                    \"portName\": \"rotate\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<Math::float3>\"\n                },\n                {\n                    \"portName\": \"init_pos\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<Math::float3>\"\n                },\n                {\n                    \"portName\": \"lips_jaw_m\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float4x4\"\n                },\n                {\n                    \"portName\": \"lips_poser_im\",\n"
-		+ "                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float4x4\"\n                },\n                {\n                    \"portName\": \"corner_follow_jaw\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"follow_jaw\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<float>\"\n                },\n                {\n                    \"portName\": \"t_lip_influence\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<float>\"\n                },\n                {\n                    \"portName\": \"t_lip_over_lips_m\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float4x4\"\n                },\n                {\n                    \"portName\": \"l_corner_translate\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n"
-		+ "                    \"portName\": \"parameter\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<float>\"\n                },\n                {\n                    \"portName\": \"move_factor_x\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"corner_h_influence\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<float>\"\n                },\n                {\n                    \"portName\": \"corner_v_influence\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<float>\"\n                }\n            ],\n            \"compounds\": [\n                {\n                    \"name\": \"slide_compound\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"io_nodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"io_inodes\",\n"
-		+ "                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"input\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"mouth_line_follow\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"rotate\"\n"
-		+ "                                                        },\n                                                        {\n                                                            \"metaName\": \"mouth_poser_m\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"flat_rotateY\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"translate\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"init_pos\"\n                                                        }\n                                                    ]\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n"
-		+ "                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"-1532.77 -326.695\"\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"io_onodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"output\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n"
-		+ "                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"986.474 -346.373\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"slide_transform\"\n                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                }\n                            ]\n                        },\n                        {\n"
-		+ "                            \"metaName\": \"ViewportRect\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-704.298 -1308.28 1591.92 2394.39\"\n                        }\n                    ],\n                    \"ports\": [\n                        {\n                            \"portName\": \"mouth_line_follow\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"bool\"\n                        },\n                        {\n                            \"portName\": \"rotate\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<Math::float3>\"\n                        },\n                        {\n                            \"portName\": \"mouth_poser_m\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"flat_rotateY\",\n                            \"portDirection\": \"input\",\n"
-		+ "                            \"portType\": \"array<float>\"\n                        },\n                        {\n                            \"portName\": \"translate\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<Math::float3>\"\n                        },\n                        {\n                            \"portName\": \"init_pos\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<Math::float3>\"\n                        },\n                        {\n                            \"portName\": \"slide_transform\",\n                            \"portDirection\": \"output\"\n                        }\n                    ],\n                    \"compoundNodes\": [\n                        {\n                            \"nodeName\": \"Slide___SRT_to_matrix\",\n                            \"nodeType\": \"Core::Math::SRT_to_matrix\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n"
-		+ "                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"670.431 -338.04\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"if\",\n                            \"nodeType\": \"Core::Logic::if\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n"
-		+ "                                    \"metaValue\": \"-348.173 718.283\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"if1\",\n                            \"nodeType\": \"Core::Logic::if\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-715.962 -81.61\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"matrix_to_SRT\",\n                            \"nodeType\": \"Core::Math::matrix_to_SRT\",\n"
-		+ "                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-208.728 -794.092\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"rotation_vector_to_quaternion\",\n                            \"nodeType\": \"Core::Math::rotation_vector_to_quaternion\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n"
-		+ "                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"262.371 -280.056\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"scalar_to_vector3\",\n                            \"nodeType\": \"Core::Conversion::scalar_to_vector3\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-11.0763 566.292\"\n                                }\n"
-		+ "                            ]\n                        },\n                        {\n                            \"nodeName\": \"value3\",\n                            \"valueType\": \"Math::float3\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-56.0335 -250.433\"\n                                },\n                                {\n                                    \"metaName\": \"PortExpandedState\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"value\",\n                                            \"metaType\": \"string\",\n"
-		+ "                                            \"metaValue\": \"1\"\n                                        }\n                                    ]\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"vector3_to_scalar\",\n                            \"nodeType\": \"Core::Conversion::vector3_to_scalar\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-860.656 594.068\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"vector3_to_scalar1\",\n"
-		+ "                            \"nodeType\": \"Core::Conversion::vector3_to_scalar\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-392.116 -53.2025\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"vector3_to_scalar2\",\n                            \"nodeType\": \"Core::Conversion::vector3_to_scalar\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n"
-		+ "                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-850.674 1048.31\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"degrees_to_radians\",\n                            \"nodeType\": \"Core::Conversion::degrees_to_radians\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-1021.5 22\"\n"
-		+ "                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"degrees_to_radians1\",\n                            \"nodeType\": \"Core::Conversion::degrees_to_radians\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-438.55 -291.182\"\n                                }\n                            ]\n                        }\n                    ],\n                    \"connections\": [\n                        {\n                            \"source\": \"matrix_to_SRT.scale\",\n                            \"target\": \"Slide___SRT_to_matrix.scale\"\n"
-		+ "                        },\n                        {\n                            \"source\": \"rotation_vector_to_quaternion.quaternion\",\n                            \"target\": \"Slide___SRT_to_matrix.quaternion\"\n                        },\n                        {\n                            \"source\": \"scalar_to_vector3.vector3\",\n                            \"target\": \"Slide___SRT_to_matrix.translation\"\n                        },\n                        {\n                            \"source\": \".mouth_line_follow\",\n                            \"target\": \"if.condition\"\n                        },\n                        {\n                            \"source\": \"vector3_to_scalar.y\",\n                            \"target\": \"if.true_case\"\n                        },\n                        {\n                            \"source\": \"vector3_to_scalar2.y\",\n                            \"target\": \"if.false_case\"\n                        },\n                        {\n                            \"source\": \"if.output\",\n                            \"target\": \"scalar_to_vector3.y\"\n"
+		"{\n    \"header\": {\n        \"metadata\": [\n            {\n                \"metaName\": \"adskFileFormatVersion\",\n                \"metaValue\": \"100L\"\n            }\n        ]\n    },\n    \"namespaces\": [],\n    \"types\": [],\n    \"compounds\": [\n        {\n            \"name\": \"sec_controls_bifrostGraphShape\",\n            \"metadata\": [\n                {\n                    \"metaName\": \"io_nodes\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"io_inodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"input\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n"
+		+ "                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"l_flat_rotateY\"\n                                                },\n                                                {\n                                                    \"metaName\": \"l_translate\"\n                                                },\n                                                {\n                                                    \"metaName\": \"l_rotate\"\n                                                },\n                                                {\n                                                    \"metaName\": \"init_pos\"\n                                                },\n                                                {\n                                                    \"metaName\": \"t_follow_jaw\"\n                                                },\n                                                {\n                                                    \"metaName\": \"t_lip_influence\"\n"
+		+ "                                                },\n                                                {\n                                                    \"metaName\": \"l_corner_translate\"\n                                                },\n                                                {\n                                                    \"metaName\": \"parameter\"\n                                                },\n                                                {\n                                                    \"metaName\": \"corner_h_influence\"\n                                                },\n                                                {\n                                                    \"metaName\": \"corner_v_influence\"\n                                                }\n                                            ]\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n"
+		+ "                                            \"metaValue\": \"-2028.38 -375.981\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"input1\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"mouth_line_follow\"\n                                                },\n                                                {\n                                                    \"metaName\": \"mouth_poser_m\"\n"
+		+ "                                                },\n                                                {\n                                                    \"metaName\": \"lips_poser_im\"\n                                                },\n                                                {\n                                                    \"metaName\": \"l_corner_follow_jaw\"\n                                                },\n                                                {\n                                                    \"metaName\": \"move_factor_x\"\n                                                },\n                                                {\n                                                    \"metaName\": \"b_lip_group_im\"\n                                                },\n                                                {\n                                                    \"metaName\": \"b_lip_wm\"\n                                                },\n                                                {\n                                                    \"metaName\": \"sec_controls_group_wim\"\n"
+		+ "                                                },\n                                                {\n                                                    \"metaName\": \"lips_wm\"\n                                                },\n                                                {\n                                                    \"metaName\": \"jaw_wm\"\n                                                },\n                                                {\n                                                    \"metaName\": \"jaw_poser_orient_wim\"\n                                                },\n                                                {\n                                                    \"metaName\": \"t_lip_wm\"\n                                                },\n                                                {\n                                                    \"metaName\": \"t_lip_group_wim\"\n                                                },\n                                                {\n                                                    \"metaName\": \"r_corner_follow_jaw\"\n"
+		+ "                                                }\n                                            ]\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-2037.1 109.054\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"input2\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n"
+		+ "                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"b_follow_jaw\"\n                                                },\n                                                {\n                                                    \"metaName\": \"b_lip_influence\"\n                                                }\n                                            ]\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-1986.67 1183.47\"\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"input3\",\n                                    \"metadata\": [\n                                        {\n"
+		+ "                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"r_flat_rotateY\"\n                                                },\n                                                {\n                                                    \"metaName\": \"r_translate\"\n                                                },\n                                                {\n                                                    \"metaName\": \"r_rotate\"\n                                                },\n                                                {\n                                                    \"metaName\": \"r_corner_translate\"\n"
+		+ "                                                }\n                                            ]\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"-1903.83 1836.99\"\n                                        }\n                                    ]\n                                }\n                            ]\n                        },\n                        {\n                            \"metaName\": \"io_onodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"output1\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n"
+		+ "                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"out_l_t_lips\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_r_t_lips\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_l_b_lips\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_r_b_lips\"\n                                                }\n                                            ]\n                                        },\n                                        {\n"
+		+ "                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"1039.85 790.94\"\n                                        }\n                                    ]\n                                }\n                            ]\n                        }\n                    ]\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Math,matrix_multiply\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,User::Compounds,motion_path\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Geometry::Properties,get_point_position\"\n                },\n"
+		+ "                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Geometry::Strands,resample_strands\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Geometry::Strands,construct_strands\"\n                },\n                {\n                    \"metaName\": \"ViewportRect\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"-574.335 -523.707 1529.9 2293.61\"\n                },\n                {\n                    \"metaName\": \"internal\",\n                    \"metaValue\": \"true\"\n                }\n            ],\n            \"ports\": [\n                {\n                    \"portName\": \"mouth_line_follow\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"bool\"\n                },\n                {\n                    \"portName\": \"mouth_poser_m\",\n                    \"portDirection\": \"input\",\n"
+		+ "                    \"portType\": \"Math::float4x4\"\n                },\n                {\n                    \"portName\": \"l_flat_rotateY\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<float>\"\n                },\n                {\n                    \"portName\": \"l_translate\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<Math::float3>\"\n                },\n                {\n                    \"portName\": \"l_rotate\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<Math::float3>\"\n                },\n                {\n                    \"portName\": \"init_pos\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<Math::float3>\"\n                },\n                {\n                    \"portName\": \"lips_poser_im\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float4x4\"\n                },\n                {\n                    \"portName\": \"l_corner_follow_jaw\",\n"
+		+ "                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"t_follow_jaw\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<float>\"\n                },\n                {\n                    \"portName\": \"t_lip_influence\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<float>\"\n                },\n                {\n                    \"portName\": \"l_corner_translate\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"parameter\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<float>\"\n                },\n                {\n                    \"portName\": \"move_factor_x\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"corner_h_influence\",\n"
+		+ "                    \"portDirection\": \"input\",\n                    \"portType\": \"array<float>\"\n                },\n                {\n                    \"portName\": \"corner_v_influence\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<float>\"\n                },\n                {\n                    \"portName\": \"out_l_t_lips\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"array<Math::float4x4>\"\n                },\n                {\n                    \"portName\": \"b_follow_jaw\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<float>\"\n                },\n                {\n                    \"portName\": \"b_lip_influence\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<float>\"\n                },\n                {\n                    \"portName\": \"b_lip_group_im\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float4x4\"\n                },\n"
+		+ "                {\n                    \"portName\": \"b_lip_wm\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float4x4\"\n                },\n                {\n                    \"portName\": \"out_r_t_lips\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"array<Math::float4x4>\"\n                },\n                {\n                    \"portName\": \"out_l_b_lips\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"array<Math::float4x4>\"\n                },\n                {\n                    \"portName\": \"r_flat_rotateY\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<float>\"\n                },\n                {\n                    \"portName\": \"r_translate\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<Math::float3>\"\n                },\n                {\n                    \"portName\": \"r_rotate\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<Math::float3>\"\n"
+		+ "                },\n                {\n                    \"portName\": \"out_r_b_lips\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"array<Math::float4x4>\"\n                },\n                {\n                    \"portName\": \"r_corner_translate\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float3\"\n                },\n                {\n                    \"portName\": \"sec_controls_group_wim\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float4x4\"\n                },\n                {\n                    \"portName\": \"lips_wm\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float4x4\"\n                },\n                {\n                    \"portName\": \"jaw_wm\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float4x4\"\n                },\n                {\n                    \"portName\": \"jaw_poser_orient_wim\",\n                    \"portDirection\": \"input\",\n"
+		+ "                    \"portType\": \"Math::float4x4\"\n                },\n                {\n                    \"portName\": \"t_lip_wm\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float4x4\"\n                },\n                {\n                    \"portName\": \"t_lip_group_wim\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float4x4\"\n                },\n                {\n                    \"portName\": \"r_corner_follow_jaw\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                }\n            ],\n            \"compounds\": [\n                {\n                    \"name\": \"left_slide_compound\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"io_nodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"io_inodes\",\n                                    \"metadata\": [\n                                        {\n"
+		+ "                                            \"metaName\": \"input\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"-1532.77 -326.695\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n"
+		+ "                                                            \"metaName\": \"mouth_line_follow\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"rotate\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"mouth_poser_m\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"flat_rotateY\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"translate\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"init_pos\"\n"
+		+ "                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"io_onodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"output\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n"
+		+ "                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"986.474 -346.373\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"slide_transform\"\n                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                }\n                            ]\n                        },\n                        {\n                            \"metaName\": \"ViewportRect\",\n                            \"metaType\": \"string\",\n"
+		+ "                            \"metaValue\": \"-1183.89 -1259.97 2193.55 3299.29\"\n                        }\n                    ],\n                    \"ports\": [\n                        {\n                            \"portName\": \"mouth_line_follow\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"bool\"\n                        },\n                        {\n                            \"portName\": \"rotate\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<Math::float3>\"\n                        },\n                        {\n                            \"portName\": \"mouth_poser_m\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"flat_rotateY\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<float>\"\n                        },\n"
+		+ "                        {\n                            \"portName\": \"translate\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<Math::float3>\"\n                        },\n                        {\n                            \"portName\": \"init_pos\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<Math::float3>\"\n                        },\n                        {\n                            \"portName\": \"slide_transform\",\n                            \"portDirection\": \"output\"\n                        }\n                    ],\n                    \"compoundNodes\": [\n                        {\n                            \"nodeName\": \"Slide___SRT_to_matrix\",\n                            \"nodeType\": \"Core::Math::SRT_to_matrix\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n"
+		+ "                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"670.431 -338.04\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"if\",\n                            \"nodeType\": \"Core::Logic::if\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-395.778 762.002\"\n"
+		+ "                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"if1\",\n                            \"nodeType\": \"Core::Logic::if\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-715.962 -81.61\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"matrix_to_SRT\",\n                            \"nodeType\": \"Core::Math::matrix_to_SRT\",\n                            \"metadata\": [\n                                {\n"
+		+ "                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-208.728 -794.092\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"rotation_vector_to_quaternion\",\n                            \"nodeType\": \"Core::Math::rotation_vector_to_quaternion\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n"
+		+ "                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"262.371 -280.056\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"scalar_to_vector3\",\n                            \"nodeType\": \"Core::Conversion::scalar_to_vector3\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-11.0763 566.292\"\n                                }\n                            ]\n                        },\n"
+		+ "                        {\n                            \"nodeName\": \"value3\",\n                            \"valueType\": \"Math::float3\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-56.0335 -250.433\"\n                                },\n                                {\n                                    \"metaName\": \"PortExpandedState\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"value\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"1\"\n"
+		+ "                                        }\n                                    ]\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"vector3_to_scalar\",\n                            \"nodeType\": \"Core::Conversion::vector3_to_scalar\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-860.656 594.068\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"vector3_to_scalar1\",\n                            \"nodeType\": \"Core::Conversion::vector3_to_scalar\",\n"
+		+ "                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-392.116 -53.2025\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"vector3_to_scalar2\",\n                            \"nodeType\": \"Core::Conversion::vector3_to_scalar\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n"
+		+ "                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-850.674 1048.31\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"degrees_to_radians\",\n                            \"nodeType\": \"Core::Conversion::degrees_to_radians\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-1021.5 22\"\n                                }\n                            ]\n"
+		+ "                        },\n                        {\n                            \"nodeName\": \"degrees_to_radians1\",\n                            \"nodeType\": \"Core::Conversion::degrees_to_radians\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-438.55 -291.182\"\n                                }\n                            ]\n                        }\n                    ],\n                    \"connections\": [\n                        {\n                            \"source\": \"matrix_to_SRT.scale\",\n                            \"target\": \"Slide___SRT_to_matrix.scale\"\n                        },\n"
+		+ "                        {\n                            \"source\": \"rotation_vector_to_quaternion.quaternion\",\n                            \"target\": \"Slide___SRT_to_matrix.quaternion\"\n                        },\n                        {\n                            \"source\": \"scalar_to_vector3.vector3\",\n                            \"target\": \"Slide___SRT_to_matrix.translation\"\n                        },\n                        {\n                            \"source\": \".mouth_line_follow\",\n                            \"target\": \"if.condition\"\n                        },\n                        {\n                            \"source\": \"vector3_to_scalar.y\",\n                            \"target\": \"if.true_case\"\n                        },\n                        {\n                            \"source\": \"vector3_to_scalar2.y\",\n                            \"target\": \"if.false_case\"\n                        },\n                        {\n                            \"source\": \"if.output\",\n                            \"target\": \"scalar_to_vector3.y\"\n"
 		+ "                        },\n                        {\n                            \"source\": \".mouth_line_follow\",\n                            \"target\": \"if1.condition\"\n                        },\n                        {\n                            \"source\": \"if1.output\",\n                            \"target\": \"vector3_to_scalar1.vector3\"\n                        },\n                        {\n                            \"source\": \".mouth_poser_m\",\n                            \"target\": \"matrix_to_SRT.transform\"\n                        },\n                        {\n                            \"source\": \"value3.output\",\n                            \"target\": \"rotation_vector_to_quaternion.vector\"\n                        },\n                        {\n                            \"source\": \"vector3_to_scalar.x\",\n                            \"target\": \"scalar_to_vector3.x\"\n                        },\n                        {\n                            \"source\": \"vector3_to_scalar.z\",\n                            \"target\": \"scalar_to_vector3.z\"\n"
 		+ "                        },\n                        {\n                            \"source\": \"vector3_to_scalar1.x\",\n                            \"target\": \"value3.value.x\"\n                        },\n                        {\n                            \"source\": \"vector3_to_scalar1.z\",\n                            \"target\": \"value3.value.z\"\n                        },\n                        {\n                            \"source\": \".translate\",\n                            \"target\": \"vector3_to_scalar.vector3\"\n                        },\n                        {\n                            \"source\": \".init_pos\",\n                            \"target\": \"vector3_to_scalar2.vector3\"\n                        },\n                        {\n                            \"source\": \"Slide___SRT_to_matrix.transform\",\n                            \"target\": \".slide_transform\"\n                        },\n                        {\n                            \"source\": \".rotate\",\n                            \"target\": \"degrees_to_radians.degrees\"\n"
 		+ "                        },\n                        {\n                            \"source\": \".flat_rotateY\",\n                            \"target\": \"degrees_to_radians1.degrees\"\n                        },\n                        {\n                            \"source\": \"degrees_to_radians.radians\",\n                            \"target\": \"if1.true_case\"\n                        },\n                        {\n                            \"source\": \"degrees_to_radians1.radians\",\n                            \"target\": \"value3.value.y\"\n                        }\n                    ],\n                    \"values\": [\n                        {\n                            \"valueName\": \"if1.false_case\",\n                            \"valueType\": \"Math::float3\",\n                            \"value\": {\n                                \"x\": \"0f\",\n                                \"y\": \"0f\",\n                                \"z\": \"0f\"\n                            }\n                        },\n                        {\n                            \"valueName\": \"value3.value\",\n"
-		+ "                            \"valueType\": \"Math::float3\",\n                            \"value\": {\n                                \"x\": \"0f\",\n                                \"y\": \"0f\",\n                                \"z\": \"0f\"\n                            }\n                        }\n                    ],\n                    \"reservedNodeNames\": [\n                        {\n                            \"name\": \"input\"\n                        },\n                        {\n                            \"name\": \"output\"\n                        }\n                    ]\n                },\n                {\n                    \"name\": \"translate_compound\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"io_nodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"io_inodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"input\",\n"
-		+ "                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"move_factor_x\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"corner_h_influence\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"corner_v_influence\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"parameter\"\n                                                        },\n"
-		+ "                                                        {\n                                                            \"metaName\": \"l_corner_translate\"\n                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"io_onodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"output\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n"
-		+ "                                                            \"metaName\": \"transform\"\n                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                }\n                            ]\n                        }\n                    ],\n                    \"ports\": [\n                        {\n                            \"portName\": \"transform\",\n                            \"portDirection\": \"output\"\n                        },\n                        {\n                            \"portName\": \"move_factor_x\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"float\"\n                        },\n                        {\n                            \"portName\": \"corner_h_influence\",\n                            \"portDirection\": \"input\",\n"
-		+ "                            \"portType\": \"array<float>\"\n                        },\n                        {\n                            \"portName\": \"corner_v_influence\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<float>\"\n                        },\n                        {\n                            \"portName\": \"parameter\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<float>\"\n                        },\n                        {\n                            \"portName\": \"l_corner_translate\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float3\"\n                        }\n                    ],\n                    \"compoundNodes\": [\n                        {\n                            \"nodeName\": \"SRT_to_matrix\",\n                            \"nodeType\": \"Core::Math::SRT_to_matrix\",\n                            \"metadata\": [\n                                {\n"
-		+ "                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"525.172 -1624.66\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"clamp\",\n                            \"nodeType\": \"Core::Math::clamp\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n"
-		+ "                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-136.844 -1559.46\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"multiply1\",\n                            \"nodeType\": \"Core::Math::multiply\",\n                            \"multiInPortNames\": [\n                                \"output1\",\n                                \"move_factor_x\",\n                                \"corner_h_influence\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n"
-		+ "                                    \"metaValue\": \"-1179.89 -1491.96\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"multiply2\",\n                            \"nodeType\": \"Core::Math::multiply\",\n                            \"multiInPortNames\": [\n                                \"output1\",\n                                \"corner_h_influence\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-503.844 -1539.46\"\n                                }\n                            ]\n"
-		+ "                        },\n                        {\n                            \"nodeName\": \"multiply3\",\n                            \"nodeType\": \"Core::Math::multiply\",\n                            \"multiInPortNames\": [\n                                \"y\",\n                                \"corner_v_influence\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-538.844 -1154.46\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"reverse\",\n                            \"nodeType\": \"PK::Compounds::reverse\",\n"
-		+ "                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-1521.89 -1538.96\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"scalar_to_vector3\",\n                            \"nodeType\": \"Core::Conversion::scalar_to_vector3\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n"
-		+ "                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"190.156 -1406.46\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"subtract\",\n                            \"nodeType\": \"Core::Math::subtract\",\n                            \"multiInPortNames\": [\n                                \"x\",\n                                \"output1\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n"
-		+ "                                    \"metaValue\": \"-824.844 -1640.46\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"vector3_to_scalar\",\n                            \"nodeType\": \"Core::Conversion::vector3_to_scalar\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-1627.89 -1828.96\"\n                                }\n                            ]\n                        }\n                    ],\n                    \"connections\": [\n                        {\n                            \"source\": \"scalar_to_vector3.vector3\",\n"
-		+ "                            \"target\": \"SRT_to_matrix.translation\"\n                        },\n                        {\n                            \"source\": \"SRT_to_matrix.transform\",\n                            \"target\": \".transform\"\n                        },\n                        {\n                            \"source\": \"multiply2.output\",\n                            \"target\": \"clamp.value\"\n                        },\n                        {\n                            \"source\": \"clamp.clamped\",\n                            \"target\": \"scalar_to_vector3.x\"\n                        },\n                        {\n                            \"source\": \"reverse.output\",\n                            \"target\": \"multiply1.first.output1\"\n                        },\n                        {\n                            \"source\": \".move_factor_x\",\n                            \"target\": \"multiply1.first.move_factor_x\"\n                        },\n                        {\n                            \"source\": \".corner_h_influence\",\n"
-		+ "                            \"target\": \"multiply1.first.corner_h_influence\"\n                        },\n                        {\n                            \"source\": \"multiply1.output\",\n                            \"target\": \"subtract.first.output1\"\n                        },\n                        {\n                            \"source\": \"subtract.output\",\n                            \"target\": \"multiply2.first.output1\"\n                        },\n                        {\n                            \"source\": \".corner_h_influence\",\n                            \"target\": \"multiply2.first.corner_h_influence\"\n                        },\n                        {\n                            \"source\": \"vector3_to_scalar.y\",\n                            \"target\": \"multiply3.first.y\"\n                        },\n                        {\n                            \"source\": \".corner_v_influence\",\n                            \"target\": \"multiply3.first.corner_v_influence\"\n                        },\n                        {\n"
-		+ "                            \"source\": \"multiply3.output\",\n                            \"target\": \"scalar_to_vector3.y\"\n                        },\n                        {\n                            \"source\": \".parameter\",\n                            \"target\": \"reverse.input\"\n                        },\n                        {\n                            \"source\": \"vector3_to_scalar.x\",\n                            \"target\": \"subtract.first.x\"\n                        },\n                        {\n                            \"source\": \".l_corner_translate\",\n                            \"target\": \"vector3_to_scalar.vector3\"\n                        }\n                    ],\n                    \"values\": [\n                        {\n                            \"valueName\": \"clamp.max\",\n                            \"valueType\": \"float\",\n                            \"value\": \"100f\"\n                        },\n                        {\n                            \"valueName\": \"reverse.input\",\n                            \"valueType\": \"float\",\n"
-		+ "                            \"value\": \"0f\"\n                        }\n                    ],\n                    \"reservedNodeNames\": [\n                        {\n                            \"name\": \"input\"\n                        },\n                        {\n                            \"name\": \"output\"\n                        }\n                    ]\n                }\n            ],\n            \"compoundNodes\": [\n                {\n                    \"nodeName\": \"value\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n"
-		+ "                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n"
-		+ "                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n"
-		+ "                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n"
-		+ "                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1504.79 705.796\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"value1\",\n                    \"valueType\": \"float\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1788.07 776.59\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"value4\",\n"
-		+ "                    \"valueType\": \"bool\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1858.72 1030.28\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"slide_compound\",\n                    \"nodeType\": \"slide_compound\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n"
-		+ "                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1080.7 -527.14\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"pk_draw_matrix\",\n                    \"nodeType\": \"PK::Compounds::pk_draw_matrix\",\n                    \"terminalStates\": [\n                        {\n                            \"name\": \"Core::Graph::terminal::final\",\n                            \"enabled\": \"false\"\n                        },\n                        {\n                            \"name\": \"Core::Graph::terminal::proxy\",\n                            \"enabled\": \"false\"\n                        },\n                        {\n                            \"name\": \"Core::Graph::terminal::diagnostic\",\n                            \"enabled\": \"true\"\n                        }\n                    ],\n"
-		+ "                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-256.272 -2.74782\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"jaw_pk_lerp_matrix\",\n                    \"nodeType\": \"PK::Compounds::pk_lerp_matrix\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1056.39 -131.621\"\n"
-		+ "                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"multiply\",\n                    \"nodeType\": \"Core::Math::multiply\",\n                    \"multiInPortNames\": [\n                        \"corner_follow_jaw\",\n                        \"follow_jaw\"\n                    ],\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"1\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1347.17 -11.1848\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"lips_pk_lerp_matrix\",\n                    \"nodeType\": \"PK::Compounds::pk_lerp_matrix\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n"
-		+ "                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1072.47 374.295\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"matrix_multiply\",\n                    \"nodeType\": \"Core::Math::matrix_multiply\",\n                    \"multiInPortNames\": [\n                        \"transform\",\n                        \"transform1\",\n                        \"slide_transform\",\n                        \"transform2\"\n                    ],\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n"
-		+ "                            \"metaType\": \"string\",\n                            \"metaValue\": \"-613.313 3.52623\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"value5\",\n                    \"valueType\": \"Math::float3\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"valuenode_defaultvalue\",\n"
-		+ "                            \"metaType\": \"string\",\n                            \"metaValue\": \"0\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1648.11 510.844\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"translate_compound\",\n                    \"nodeType\": \"translate_compound\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1066.2 788.341\"\n                        }\n                    ]\n                }\n            ],\n            \"connections\": [\n"
-		+ "                {\n                    \"source\": \".mouth_line_follow\",\n                    \"target\": \"slide_compound.mouth_line_follow\"\n                },\n                {\n                    \"source\": \".mouth_poser_m\",\n                    \"target\": \"slide_compound.mouth_poser_m\"\n                },\n                {\n                    \"source\": \".translate\",\n                    \"target\": \"slide_compound.translate\"\n                },\n                {\n                    \"source\": \".init_pos\",\n                    \"target\": \"slide_compound.init_pos\"\n                },\n                {\n                    \"source\": \".lips_poser_im\",\n                    \"target\": \"jaw_pk_lerp_matrix.start_matrix\"\n                },\n                {\n                    \"source\": \".lips_jaw_m\",\n                    \"target\": \"jaw_pk_lerp_matrix.end_matrix\"\n                },\n                {\n                    \"source\": \".corner_follow_jaw\",\n                    \"target\": \"multiply.first.corner_follow_jaw\"\n                },\n                {\n"
-		+ "                    \"source\": \".follow_jaw\",\n                    \"target\": \"multiply.first.follow_jaw\"\n                },\n                {\n                    \"source\": \"multiply.output\",\n                    \"target\": \"jaw_pk_lerp_matrix.fraction\"\n                },\n                {\n                    \"source\": \".t_lip_over_lips_m\",\n                    \"target\": \"lips_pk_lerp_matrix.end_matrix\"\n                },\n                {\n                    \"source\": \".t_lip_influence\",\n                    \"target\": \"lips_pk_lerp_matrix.fraction\"\n                },\n                {\n                    \"source\": \"lips_pk_lerp_matrix.transform\",\n                    \"target\": \"matrix_multiply.first.transform\"\n                },\n                {\n                    \"source\": \"jaw_pk_lerp_matrix.transform\",\n                    \"target\": \"matrix_multiply.first.transform1\"\n                },\n                {\n                    \"source\": \"slide_compound.slide_transform\",\n                    \"target\": \"matrix_multiply.first.slide_transform\"\n"
-		+ "                },\n                {\n                    \"source\": \"matrix_multiply.matrix\",\n                    \"target\": \"pk_draw_matrix.in_matrix\"\n                },\n                {\n                    \"source\": \"translate_compound.transform\",\n                    \"target\": \"matrix_multiply.first.transform2\"\n                },\n                {\n                    \"source\": \".move_factor_x\",\n                    \"target\": \"translate_compound.move_factor_x\"\n                },\n                {\n                    \"source\": \".corner_h_influence\",\n                    \"target\": \"translate_compound.corner_h_influence\"\n                },\n                {\n                    \"source\": \".corner_v_influence\",\n                    \"target\": \"translate_compound.corner_v_influence\"\n                },\n                {\n                    \"source\": \".parameter\",\n                    \"target\": \"translate_compound.parameter\"\n                },\n                {\n                    \"source\": \".l_corner_translate\",\n                    \"target\": \"translate_compound.l_corner_translate\"\n"
-		+ "                },\n                {\n                    \"source\": \".rotate\",\n                    \"target\": \"slide_compound.rotate\"\n                },\n                {\n                    \"source\": \".flat_rotateY\",\n                    \"target\": \"slide_compound.flat_rotateY\"\n                }\n            ],\n            \"values\": [\n                {\n                    \"valueName\": \"value.value\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n"
-		+ "                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"value1.value\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"value4.value\",\n                    \"valueType\": \"bool\",\n                    \"value\": \"false\"\n                },\n                {\n                    \"valueName\": \"slide_compound.mouth_line_follow\",\n                    \"valueType\": \"bool\",\n                    \"value\": \"false\"\n                },\n                {\n                    \"valueName\": \"slide_compound.rotate\",\n                    \"valueType\": \"array<Math::float3>\",\n                    \"value\": []\n                },\n                {\n"
-		+ "                    \"valueName\": \"slide_compound.mouth_poser_m\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n"
-		+ "                {\n                    \"valueName\": \"slide_compound.flat_rotateY\",\n                    \"valueType\": \"array<float>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"slide_compound.translate\",\n                    \"valueType\": \"array<Math::float3>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"slide_compound.init_pos\",\n                    \"valueType\": \"array<Math::float3>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"jaw_pk_lerp_matrix.start_matrix\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n"
-		+ "                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"jaw_pk_lerp_matrix.end_matrix\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n"
-		+ "                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"lips_pk_lerp_matrix.start_matrix\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"1f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n"
-		+ "                            \"y\": \"1f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"1f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"1f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"lips_pk_lerp_matrix.end_matrix\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n"
-		+ "                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"value5.value\",\n                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n                        \"x\": \"0f\",\n                        \"y\": \"0f\",\n                        \"z\": \"0f\"\n                    }\n                },\n                {\n                    \"valueName\": \"translate_compound.move_factor_x\",\n                    \"valueType\": \"float\",\n"
-		+ "                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"translate_compound.corner_h_influence\",\n                    \"valueType\": \"array<float>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"translate_compound.corner_v_influence\",\n                    \"valueType\": \"array<float>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"translate_compound.parameter\",\n                    \"valueType\": \"array<float>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"translate_compound.l_corner_translate\",\n                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n                        \"x\": \"0f\",\n                        \"y\": \"0f\",\n                        \"z\": \"0f\"\n                    }\n                }\n            ],\n            \"reservedNodeNames\": [\n                {\n                    \"name\": \"input\"\n"
-		+ "                },\n                {\n                    \"name\": \"output\"\n                },\n                {\n                    \"name\": \"input1\"\n                }\n            ]\n        }\n    ]\n}\n");
-	setAttr ".dirtyFlag" yes;
+		+ "                            \"valueType\": \"Math::float3\",\n                            \"value\": {\n                                \"x\": \"0f\",\n                                \"y\": \"0f\",\n                                \"z\": \"0f\"\n                            }\n                        }\n                    ],\n                    \"reservedNodeNames\": [\n                        {\n                            \"name\": \"input\"\n                        },\n                        {\n                            \"name\": \"output\"\n                        }\n                    ]\n                },\n                {\n                    \"name\": \"left_translate_compound\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"io_nodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"io_inodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"input\",\n"
+		+ "                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"-2092.8 -1231.89\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"move_factor_x\"\n"
+		+ "                                                        },\n                                                        {\n                                                            \"metaName\": \"corner_h_influence\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"corner_v_influence\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"parameter\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"l_corner_translate\"\n                                                        }\n                                                    ]\n                                                }\n                                            ]\n"
+		+ "                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"io_onodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"output\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"896.405 -1458.45\"\n"
+		+ "                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"transform\"\n                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                }\n                            ]\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Math,divide\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n"
+		+ "                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Math,matrix_to_SRT\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Print,print\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"output\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Conversion,degrees_to_radians\"\n                        },\n                        {\n                            \"metaName\": \"ViewportRect\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"161.771 -2358.39 1189.16 1788.59\"\n"
+		+ "                        }\n                    ],\n                    \"ports\": [\n                        {\n                            \"portName\": \"transform\",\n                            \"portDirection\": \"output\"\n                        },\n                        {\n                            \"portName\": \"move_factor_x\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"float\"\n                        },\n                        {\n                            \"portName\": \"corner_h_influence\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<float>\"\n                        },\n                        {\n                            \"portName\": \"corner_v_influence\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<float>\"\n                        },\n                        {\n                            \"portName\": \"parameter\",\n                            \"portDirection\": \"input\",\n"
+		+ "                            \"portType\": \"array<float>\"\n                        },\n                        {\n                            \"portName\": \"l_corner_translate\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float3\"\n                        }\n                    ],\n                    \"compoundNodes\": [\n                        {\n                            \"nodeName\": \"SRT_to_matrix\",\n                            \"nodeType\": \"Core::Math::SRT_to_matrix\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"550.885 -1449.81\"\n"
+		+ "                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"clamp\",\n                            \"nodeType\": \"Core::Math::clamp\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-160.325 -1737.55\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"multiply2\",\n                            \"nodeType\": \"Core::Math::multiply\",\n                            \"multiInPortNames\": [\n                                \"output1\",\n"
+		+ "                                \"corner_h_influence\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-525.218 -1455.9\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"multiply3\",\n                            \"nodeType\": \"Core::Math::multiply\",\n                            \"multiInPortNames\": [\n                                \"y\",\n                                \"corner_v_influence\"\n                            ],\n                            \"metadata\": [\n"
+		+ "                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-538.844 -1154.46\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"reverse\",\n                            \"nodeType\": \"PK::Compounds::reverse\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n"
+		+ "                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-1678.31 -1751.73\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"scalar_to_vector3\",\n                            \"nodeType\": \"Core::Conversion::scalar_to_vector3\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"193.156 -1370.46\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"subtract\",\n"
+		+ "                            \"nodeType\": \"Core::Math::subtract\",\n                            \"multiInPortNames\": [\n                                \"x\",\n                                \"output1\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-882.164 -1715.27\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"vector3_to_scalar\",\n                            \"nodeType\": \"Core::Conversion::vector3_to_scalar\",\n                            \"metadata\": [\n"
+		+ "                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-1648.29 -1993.15\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"divide\",\n                            \"nodeType\": \"Core::Math::divide\",\n                            \"multiInPortNames\": [\n                                \"output1\",\n                                \"corner_h_influence\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n"
+		+ "                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-1153.82 -1470.18\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"divide1\",\n                            \"nodeType\": \"Core::Math::divide\",\n                            \"multiInPortNames\": [\n                                \"output1\",\n                                \"move_factor_x\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n"
+		+ "                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-1436.55 -1557.63\"\n                                }\n                            ]\n                        }\n                    ],\n                    \"connections\": [\n                        {\n                            \"source\": \"scalar_to_vector3.vector3\",\n                            \"target\": \"SRT_to_matrix.translation\"\n                        },\n                        {\n                            \"source\": \"SRT_to_matrix.transform\",\n                            \"target\": \".transform\"\n                        },\n                        {\n                            \"source\": \"multiply2.output\",\n                            \"target\": \"clamp.value\"\n                        },\n                        {\n                            \"source\": \"clamp.clamped\",\n                            \"target\": \"scalar_to_vector3.x\"\n                        },\n                        {\n"
+		+ "                            \"source\": \"subtract.output\",\n                            \"target\": \"multiply2.first.output1\"\n                        },\n                        {\n                            \"source\": \".corner_h_influence\",\n                            \"target\": \"multiply2.first.corner_h_influence\"\n                        },\n                        {\n                            \"source\": \"vector3_to_scalar.y\",\n                            \"target\": \"multiply3.first.y\"\n                        },\n                        {\n                            \"source\": \".corner_v_influence\",\n                            \"target\": \"multiply3.first.corner_v_influence\"\n                        },\n                        {\n                            \"source\": \"multiply3.output\",\n                            \"target\": \"scalar_to_vector3.y\"\n                        },\n                        {\n                            \"source\": \".parameter\",\n                            \"target\": \"reverse.input\"\n                        },\n"
+		+ "                        {\n                            \"source\": \"vector3_to_scalar.x\",\n                            \"target\": \"subtract.first.x\"\n                        },\n                        {\n                            \"source\": \".l_corner_translate\",\n                            \"target\": \"vector3_to_scalar.vector3\"\n                        },\n                        {\n                            \"source\": \".corner_h_influence\",\n                            \"target\": \"divide.first.corner_h_influence\"\n                        },\n                        {\n                            \"source\": \"divide.output\",\n                            \"target\": \"subtract.first.output1\"\n                        },\n                        {\n                            \"source\": \"reverse.output\",\n                            \"target\": \"divide1.first.output1\"\n                        },\n                        {\n                            \"source\": \".move_factor_x\",\n                            \"target\": \"divide1.first.move_factor_x\"\n"
+		+ "                        },\n                        {\n                            \"source\": \"divide1.output\",\n                            \"target\": \"divide.first.output1\"\n                        }\n                    ],\n                    \"values\": [\n                        {\n                            \"valueName\": \"clamp.max\",\n                            \"valueType\": \"float\",\n                            \"value\": \"100f\"\n                        },\n                        {\n                            \"valueName\": \"reverse.input\",\n                            \"valueType\": \"float\",\n                            \"value\": \"0f\"\n                        }\n                    ],\n                    \"reservedNodeNames\": [\n                        {\n                            \"name\": \"input\"\n                        },\n                        {\n                            \"name\": \"output\"\n                        }\n                    ]\n                },\n                {\n                    \"name\": \"right_slide_compound\",\n"
+		+ "                    \"metadata\": [\n                        {\n                            \"metaName\": \"io_nodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"io_inodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"input\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"-1532.77 -326.695\"\n"
+		+ "                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"mouth_poser_m\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"mouth_line_follow\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"rotate\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"flat_rotateY\"\n                                                        },\n"
+		+ "                                                        {\n                                                            \"metaName\": \"translate\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"init_pos\"\n                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"io_onodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"output\",\n                                            \"metadata\": [\n                                                {\n"
+		+ "                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"986.474 -346.373\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"slide_transform\"\n                                                        }\n                                                    ]\n"
+		+ "                                                }\n                                            ]\n                                        }\n                                    ]\n                                }\n                            ]\n                        },\n                        {\n                            \"metaName\": \"ViewportRect\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"10.4495 -1095.19 1247.14 2326.22\"\n                        }\n                    ],\n                    \"ports\": [\n                        {\n                            \"portName\": \"mouth_poser_m\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"mouth_line_follow\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"bool\"\n                        },\n                        {\n                            \"portName\": \"rotate\",\n"
+		+ "                            \"portDirection\": \"input\",\n                            \"portType\": \"array<Math::float3>\"\n                        },\n                        {\n                            \"portName\": \"flat_rotateY\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<float>\"\n                        },\n                        {\n                            \"portName\": \"translate\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<Math::float3>\"\n                        },\n                        {\n                            \"portName\": \"init_pos\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<Math::float3>\"\n                        },\n                        {\n                            \"portName\": \"slide_transform\",\n                            \"portDirection\": \"output\"\n                        }\n                    ],\n                    \"compoundNodes\": [\n"
+		+ "                        {\n                            \"nodeName\": \"Slide___SRT_to_matrix\",\n                            \"nodeType\": \"Core::Math::SRT_to_matrix\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"670.431 -338.04\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"if\",\n                            \"nodeType\": \"Core::Logic::if\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n"
+		+ "                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-395.778 762.002\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"if1\",\n                            \"nodeType\": \"Core::Logic::if\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n"
+		+ "                                    \"metaValue\": \"-715.962 -81.61\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"matrix_to_SRT\",\n                            \"nodeType\": \"Core::Math::matrix_to_SRT\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-208.728 -794.092\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"rotation_vector_to_quaternion\",\n                            \"nodeType\": \"Core::Math::rotation_vector_to_quaternion\",\n"
+		+ "                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"262.371 -280.056\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"scalar_to_vector3\",\n                            \"nodeType\": \"Core::Conversion::scalar_to_vector3\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n"
+		+ "                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-11.0763 566.292\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"value3\",\n                            \"valueType\": \"Math::float3\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-56.0335 -250.433\"\n                                },\n                                {\n                                    \"metaName\": \"PortExpandedState\",\n"
+		+ "                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"value\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"1\"\n                                        }\n                                    ]\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"vector3_to_scalar\",\n                            \"nodeType\": \"Core::Conversion::vector3_to_scalar\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n"
+		+ "                                    \"metaValue\": \"-860.656 594.068\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"vector3_to_scalar1\",\n                            \"nodeType\": \"Core::Conversion::vector3_to_scalar\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-392.116 -53.2025\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"vector3_to_scalar2\",\n                            \"nodeType\": \"Core::Conversion::vector3_to_scalar\",\n"
+		+ "                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-850.674 1048.31\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"degrees_to_radians\",\n                            \"nodeType\": \"Core::Conversion::degrees_to_radians\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n"
+		+ "                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-1016.45 61.1705\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"degrees_to_radians1\",\n                            \"nodeType\": \"Core::Conversion::degrees_to_radians\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-438.55 -291.182\"\n                                }\n                            ]\n"
+		+ "                        }\n                    ],\n                    \"connections\": [\n                        {\n                            \"source\": \"Slide___SRT_to_matrix.transform\",\n                            \"target\": \".slide_transform\"\n                        },\n                        {\n                            \"source\": \"if.output\",\n                            \"target\": \"scalar_to_vector3.y\"\n                        },\n                        {\n                            \"source\": \"if1.output\",\n                            \"target\": \"vector3_to_scalar1.vector3\"\n                        },\n                        {\n                            \"source\": \"matrix_to_SRT.scale\",\n                            \"target\": \"Slide___SRT_to_matrix.scale\"\n                        },\n                        {\n                            \"source\": \"rotation_vector_to_quaternion.quaternion\",\n                            \"target\": \"Slide___SRT_to_matrix.quaternion\"\n                        },\n                        {\n                            \"source\": \"scalar_to_vector3.vector3\",\n"
+		+ "                            \"target\": \"Slide___SRT_to_matrix.translation\"\n                        },\n                        {\n                            \"source\": \"value3.output\",\n                            \"target\": \"rotation_vector_to_quaternion.vector\"\n                        },\n                        {\n                            \"source\": \"vector3_to_scalar.x\",\n                            \"target\": \"scalar_to_vector3.x\"\n                        },\n                        {\n                            \"source\": \"vector3_to_scalar.y\",\n                            \"target\": \"if.true_case\"\n                        },\n                        {\n                            \"source\": \"vector3_to_scalar.z\",\n                            \"target\": \"scalar_to_vector3.z\"\n                        },\n                        {\n                            \"source\": \"vector3_to_scalar1.x\",\n                            \"target\": \"value3.value.x\"\n                        },\n                        {\n                            \"source\": \"vector3_to_scalar1.z\",\n"
+		+ "                            \"target\": \"value3.value.z\"\n                        },\n                        {\n                            \"source\": \"vector3_to_scalar2.y\",\n                            \"target\": \"if.false_case\"\n                        },\n                        {\n                            \"source\": \"degrees_to_radians.radians\",\n                            \"target\": \"if1.true_case\"\n                        },\n                        {\n                            \"source\": \"degrees_to_radians1.radians\",\n                            \"target\": \"value3.value.y\"\n                        },\n                        {\n                            \"source\": \".mouth_line_follow\",\n                            \"target\": \"if.condition\"\n                        },\n                        {\n                            \"source\": \".mouth_line_follow\",\n                            \"target\": \"if1.condition\"\n                        },\n                        {\n                            \"source\": \".rotate\",\n                            \"target\": \"degrees_to_radians.degrees\"\n"
+		+ "                        },\n                        {\n                            \"source\": \".mouth_poser_m\",\n                            \"target\": \"matrix_to_SRT.transform\"\n                        },\n                        {\n                            \"source\": \".flat_rotateY\",\n                            \"target\": \"degrees_to_radians1.degrees\"\n                        },\n                        {\n                            \"source\": \".translate\",\n                            \"target\": \"vector3_to_scalar.vector3\"\n                        },\n                        {\n                            \"source\": \".init_pos\",\n                            \"target\": \"vector3_to_scalar2.vector3\"\n                        }\n                    ],\n                    \"values\": [\n                        {\n                            \"valueName\": \"if1.false_case\",\n                            \"valueType\": \"Math::float3\",\n                            \"value\": {\n                                \"x\": \"0f\",\n                                \"y\": \"0f\",\n"
+		+ "                                \"z\": \"0f\"\n                            }\n                        },\n                        {\n                            \"valueName\": \"value3.value\",\n                            \"valueType\": \"Math::float3\",\n                            \"value\": {\n                                \"x\": \"0f\",\n                                \"y\": \"0f\",\n                                \"z\": \"0f\"\n                            }\n                        }\n                    ],\n                    \"reservedNodeNames\": [\n                        {\n                            \"name\": \"input\"\n                        },\n                        {\n                            \"name\": \"output\"\n                        }\n                    ]\n                },\n                {\n                    \"name\": \"right_translate_compound\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"io_nodes\",\n                            \"metadata\": [\n                                {\n"
+		+ "                                    \"metaName\": \"io_inodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"input\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"-2092.8 -1231.89\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n"
+		+ "                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"move_factor_x\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"corner_h_influence\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"corner_v_influence\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"parameter\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"r_corner_translate\"\n"
+		+ "                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"io_onodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"output\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n"
+		+ "                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"896.405 -1458.45\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"transform\"\n                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                }\n                            ]\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n"
+		+ "                            \"metaValue\": \"BifrostGraph,Core::Math,negate\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Math,divide\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Core::Math,matrix_to_SRT\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"BifrostGraph,Print,print\"\n                        },\n                        {\n                            \"metaName\": \"_recentNode_\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"output\"\n                        },\n                        {\n"
+		+ "                            \"metaName\": \"ViewportRect\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-2075.95 -2355.87 998.468 1862.39\"\n                        }\n                    ],\n                    \"ports\": [\n                        {\n                            \"portName\": \"move_factor_x\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"float\"\n                        },\n                        {\n                            \"portName\": \"corner_h_influence\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<float>\"\n                        },\n                        {\n                            \"portName\": \"corner_v_influence\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<float>\"\n                        },\n                        {\n                            \"portName\": \"parameter\",\n                            \"portDirection\": \"input\",\n"
+		+ "                            \"portType\": \"array<float>\"\n                        },\n                        {\n                            \"portName\": \"r_corner_translate\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float3\"\n                        },\n                        {\n                            \"portName\": \"transform\",\n                            \"portDirection\": \"output\"\n                        }\n                    ],\n                    \"compoundNodes\": [\n                        {\n                            \"nodeName\": \"SRT_to_matrix\",\n                            \"nodeType\": \"Core::Math::SRT_to_matrix\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n"
+		+ "                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"550.885 -1449.81\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"clamp\",\n                            \"nodeType\": \"Core::Math::clamp\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-209.94 -1688.29\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"multiply2\",\n"
+		+ "                            \"nodeType\": \"Core::Math::multiply\",\n                            \"multiInPortNames\": [\n                                \"output1\",\n                                \"corner_h_influence\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-525.218 -1457.11\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"multiply3\",\n                            \"nodeType\": \"Core::Math::multiply\",\n                            \"multiInPortNames\": [\n"
+		+ "                                \"y\",\n                                \"corner_v_influence\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-504.449 -1063.41\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"reverse\",\n                            \"nodeType\": \"PK::Compounds::reverse\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n"
+		+ "                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-1769.59 -1025.32\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"scalar_to_vector3\",\n                            \"nodeType\": \"Core::Conversion::scalar_to_vector3\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"193.156 -1370.46\"\n"
+		+ "                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"subtract\",\n                            \"nodeType\": \"Core::Math::subtract\",\n                            \"multiInPortNames\": [\n                                \"x\",\n                                \"output1\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-831.072 -1773.4\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"vector3_to_scalar\",\n"
+		+ "                            \"nodeType\": \"Core::Conversion::vector3_to_scalar\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-1666.39 -2019.69\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"divide\",\n                            \"nodeType\": \"Core::Math::divide\",\n                            \"multiInPortNames\": [\n                                \"output1\",\n                                \"corner_h_influence\"\n                            ],\n                            \"metadata\": [\n"
+		+ "                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-1153.82 -1470.18\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"divide1\",\n                            \"nodeType\": \"Core::Math::divide\",\n                            \"multiInPortNames\": [\n                                \"output1\",\n                                \"move_factor_x\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n"
+		+ "                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-1446.9 -1568.75\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"negate\",\n                            \"nodeType\": \"Core::Math::negate\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-1214.52 -2175.9\"\n"
+		+ "                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"negate1\",\n                            \"nodeType\": \"Core::Math::negate\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"6.50577 -1486.98\"\n                                }\n                            ]\n                        }\n                    ],\n                    \"connections\": [\n                        {\n                            \"source\": \"SRT_to_matrix.transform\",\n                            \"target\": \".transform\"\n"
+		+ "                        },\n                        {\n                            \"source\": \"multiply2.output\",\n                            \"target\": \"clamp.value\"\n                        },\n                        {\n                            \"source\": \"multiply3.output\",\n                            \"target\": \"scalar_to_vector3.y\"\n                        },\n                        {\n                            \"source\": \"reverse.output\",\n                            \"target\": \"divide1.first.output1\"\n                        },\n                        {\n                            \"source\": \"scalar_to_vector3.vector3\",\n                            \"target\": \"SRT_to_matrix.translation\"\n                        },\n                        {\n                            \"source\": \"subtract.output\",\n                            \"target\": \"multiply2.first.output1\"\n                        },\n                        {\n                            \"source\": \"vector3_to_scalar.y\",\n                            \"target\": \"multiply3.first.y\"\n"
+		+ "                        },\n                        {\n                            \"source\": \"divide.output\",\n                            \"target\": \"subtract.first.output1\"\n                        },\n                        {\n                            \"source\": \"divide1.output\",\n                            \"target\": \"divide.first.output1\"\n                        },\n                        {\n                            \"source\": \".move_factor_x\",\n                            \"target\": \"divide1.first.move_factor_x\"\n                        },\n                        {\n                            \"source\": \".corner_h_influence\",\n                            \"target\": \"multiply2.first.corner_h_influence\"\n                        },\n                        {\n                            \"source\": \".corner_h_influence\",\n                            \"target\": \"divide.first.corner_h_influence\"\n                        },\n                        {\n                            \"source\": \".corner_v_influence\",\n                            \"target\": \"multiply3.first.corner_v_influence\"\n"
+		+ "                        },\n                        {\n                            \"source\": \".parameter\",\n                            \"target\": \"reverse.input\"\n                        },\n                        {\n                            \"source\": \".r_corner_translate\",\n                            \"target\": \"vector3_to_scalar.vector3\"\n                        },\n                        {\n                            \"source\": \"vector3_to_scalar.x\",\n                            \"target\": \"negate.value\"\n                        },\n                        {\n                            \"source\": \"vector3_to_scalar.x\",\n                            \"target\": \"subtract.first.x\"\n                        },\n                        {\n                            \"source\": \"clamp.clamped\",\n                            \"target\": \"negate1.value\"\n                        },\n                        {\n                            \"source\": \"negate1.negated\",\n                            \"target\": \"scalar_to_vector3.x\"\n                        }\n"
+		+ "                    ],\n                    \"values\": [\n                        {\n                            \"valueName\": \"clamp.min\",\n                            \"valueType\": \"float\",\n                            \"value\": \"0f\"\n                        },\n                        {\n                            \"valueName\": \"clamp.max\",\n                            \"valueType\": \"float\",\n                            \"value\": \"100f\"\n                        },\n                        {\n                            \"valueName\": \"reverse.input\",\n                            \"valueType\": \"float\",\n                            \"value\": \"0f\"\n                        }\n                    ],\n                    \"watchPoints\": [\n                        {\n                            \"portName\": \"subtract.first.x\",\n                            \"enabled\": \"true\",\n                            \"parameters\": [\n                                {\n                                    \"last\": \"enable\",\n                                    \"max\": \"enable\",\n"
+		+ "                                    \"min\": \"enable\"\n                                }\n                            ]\n                        }\n                    ],\n                    \"reservedNodeNames\": [\n                        {\n                            \"name\": \"input\"\n                        },\n                        {\n                            \"name\": \"output\"\n                        }\n                    ]\n                },\n                {\n                    \"name\": \"top_left_compound\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"io_nodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"io_inodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"input\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n"
+		+ "                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"-648 -52.5\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"jaw_influence\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"lip_influence\"\n"
+		+ "                                                        },\n                                                        {\n                                                            \"metaName\": \"lips_wm\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"lips_poser_im\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"slide_transform\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"jaw_wm\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"jaw_poser_orient_wim\"\n                                                        },\n"
+		+ "                                                        {\n                                                            \"metaName\": \"lip_wm\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"lip_group_wim\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"sec_controls_group_wim\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"translate\"\n                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        }\n                                    ]\n"
+		+ "                                },\n                                {\n                                    \"metaName\": \"io_onodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"output\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"matrix\"\n                                                        }\n                                                    ]\n                                                },\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n"
+		+ "                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"225 -60.5\"\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                }\n                            ]\n                        },\n                        {\n                            \"metaName\": \"ViewportRect\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-832 -792 1228 1841\"\n                        }\n                    ],\n                    \"ports\": [\n                        {\n                            \"portName\": \"jaw_influence\",\n                            \"portDirection\": \"input\"\n"
+		+ "                        },\n                        {\n                            \"portName\": \"lip_influence\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<float>\"\n                        },\n                        {\n                            \"portName\": \"lips_wm\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"lips_poser_im\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"slide_transform\",\n                            \"portDirection\": \"input\"\n                        },\n                        {\n                            \"portName\": \"jaw_wm\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n"
+		+ "                        },\n                        {\n                            \"portName\": \"jaw_poser_orient_wim\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"lip_wm\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"lip_group_wim\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"sec_controls_group_wim\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"translate\",\n                            \"portDirection\": \"input\"\n"
+		+ "                        },\n                        {\n                            \"portName\": \"matrix\",\n                            \"portDirection\": \"output\"\n                        }\n                    ],\n                    \"compoundNodes\": [\n                        {\n                            \"nodeName\": \"lips_pk_lerp_matrix2\",\n                            \"nodeType\": \"PK::Compounds::pk_lerp_matrix\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"264.554 -627.667\"\n                                }\n                            ]\n                        },\n                        {\n"
+		+ "                            \"nodeName\": \"lips_pk_lerp_matrix3\",\n                            \"nodeType\": \"PK::Compounds::pk_lerp_matrix\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"949.774 -586.882\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"matrix_multiply6\",\n                            \"nodeType\": \"Core::Math::matrix_multiply\",\n                            \"multiInPortNames\": [\n                                \"lips_wm\",\n                                \"lips_poser_im\",\n"
+		+ "                                \"slide_transform\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-271.605 -764.535\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"matrix_multiply7\",\n                            \"nodeType\": \"Core::Math::matrix_multiply\",\n                            \"multiInPortNames\": [\n                                \"jaw_wm\",\n                                \"jaw_poser_orient_wim\",\n                                \"slide_transform\"\n"
+		+ "                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-292.195 -473.717\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"matrix_multiply8\",\n                            \"nodeType\": \"Core::Math::matrix_multiply\",\n                            \"multiInPortNames\": [\n                                \"t_lip_wm\",\n                                \"t_lip_group_wim\",\n                                \"transform\"\n                            ],\n                            \"metadata\": [\n"
+		+ "                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"625.922 -337.889\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"matrix_multiply9\",\n                            \"nodeType\": \"Core::Math::matrix_multiply\",\n                            \"multiInPortNames\": [\n                                \"sec_controls_group_wm\",\n                                \"transform\",\n                                \"transform1\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n"
+		+ "                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"1328.58 -274.184\"\n                                }\n                            ]\n                        }\n                    ],\n                    \"connections\": [\n                        {\n                            \"source\": \"matrix_multiply6.matrix\",\n                            \"target\": \"lips_pk_lerp_matrix2.start_matrix\"\n                        },\n                        {\n                            \"source\": \"matrix_multiply7.matrix\",\n                            \"target\": \"lips_pk_lerp_matrix2.end_matrix\"\n                        },\n                        {\n                            \"source\": \".jaw_influence\",\n                            \"target\": \"lips_pk_lerp_matrix2.fraction\"\n"
+		+ "                        },\n                        {\n                            \"source\": \"lips_pk_lerp_matrix2.transform\",\n                            \"target\": \"matrix_multiply8.first.transform\"\n                        },\n                        {\n                            \"source\": \"lips_pk_lerp_matrix2.transform\",\n                            \"target\": \"lips_pk_lerp_matrix3.start_matrix\"\n                        },\n                        {\n                            \"source\": \"matrix_multiply8.matrix\",\n                            \"target\": \"lips_pk_lerp_matrix3.end_matrix\"\n                        },\n                        {\n                            \"source\": \".lip_influence\",\n                            \"target\": \"lips_pk_lerp_matrix3.fraction\"\n                        },\n                        {\n                            \"source\": \"lips_pk_lerp_matrix3.transform\",\n                            \"target\": \"matrix_multiply9.first.transform\"\n                        },\n                        {\n                            \"source\": \".lips_wm\",\n"
+		+ "                            \"target\": \"matrix_multiply6.first.lips_wm\"\n                        },\n                        {\n                            \"source\": \".lips_poser_im\",\n                            \"target\": \"matrix_multiply6.first.lips_poser_im\"\n                        },\n                        {\n                            \"source\": \".slide_transform\",\n                            \"target\": \"matrix_multiply6.first.slide_transform\"\n                        },\n                        {\n                            \"source\": \".jaw_wm\",\n                            \"target\": \"matrix_multiply7.first.jaw_wm\"\n                        },\n                        {\n                            \"source\": \".jaw_poser_orient_wim\",\n                            \"target\": \"matrix_multiply7.first.jaw_poser_orient_wim\"\n                        },\n                        {\n                            \"source\": \".slide_transform\",\n                            \"target\": \"matrix_multiply7.first.slide_transform\"\n                        },\n"
+		+ "                        {\n                            \"source\": \".lip_wm\",\n                            \"target\": \"matrix_multiply8.first.t_lip_wm\"\n                        },\n                        {\n                            \"source\": \".lip_group_wim\",\n                            \"target\": \"matrix_multiply8.first.t_lip_group_wim\"\n                        },\n                        {\n                            \"source\": \".sec_controls_group_wim\",\n                            \"target\": \"matrix_multiply9.first.sec_controls_group_wm\"\n                        },\n                        {\n                            \"source\": \".translate\",\n                            \"target\": \"matrix_multiply9.first.transform1\"\n                        },\n                        {\n                            \"source\": \"matrix_multiply9.matrix\",\n                            \"target\": \".matrix\"\n                        }\n                    ],\n                    \"values\": [\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix2.start_matrix\",\n"
+		+ "                            \"valueType\": \"Math::float4x4\",\n                            \"value\": {\n                                \"c0\": {\n                                    \"x\": \"1f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c1\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"1f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c2\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"1f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c3\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n"
+		+ "                                    \"w\": \"1f\"\n                                }\n                            }\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix2.end_matrix\",\n                            \"valueType\": \"Math::float4x4\",\n                            \"value\": {\n                                \"c0\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c1\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c2\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n"
+		+ "                                    \"w\": \"0f\"\n                                },\n                                \"c3\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                }\n                            }\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix2.clamp_negative\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix2.clamp_above_one\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix2.always_use_shorter_arc\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n"
+		+ "                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix3.start_matrix\",\n                            \"valueType\": \"Math::float4x4\",\n                            \"value\": {\n                                \"c0\": {\n                                    \"x\": \"1f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c1\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"1f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c2\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"1f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c3\": {\n"
+		+ "                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"1f\"\n                                }\n                            }\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix3.end_matrix\",\n                            \"valueType\": \"Math::float4x4\",\n                            \"value\": {\n                                \"c0\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c1\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c2\": {\n"
+		+ "                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c3\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                }\n                            }\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix3.clamp_negative\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix3.clamp_above_one\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix3.always_use_shorter_arc\",\n"
+		+ "                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        }\n                    ],\n                    \"reservedNodeNames\": [\n                        {\n                            \"name\": \"input\"\n                        },\n                        {\n                            \"name\": \"output\"\n                        }\n                    ]\n                },\n                {\n                    \"name\": \"top_right_compound\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"io_nodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"io_inodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"input\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n"
+		+ "                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"-450 -60.5\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"jaw_influence\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"lip_influence\"\n"
+		+ "                                                        },\n                                                        {\n                                                            \"metaName\": \"lips_wm\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"lips_poser_im\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"slide_transform\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"jaw_wm\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"jaw_poser_orient_wim\"\n                                                        },\n"
+		+ "                                                        {\n                                                            \"metaName\": \"lip_wm\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"lip_group_wim\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"sec_controls_group_wim\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"translate\"\n                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        }\n                                    ]\n"
+		+ "                                },\n                                {\n                                    \"metaName\": \"io_onodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"output\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"1839.62 -193.987\"\n                                                },\n                                                {\n"
+		+ "                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"matrix\"\n                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                }\n                            ]\n                        },\n                        {\n                            \"metaName\": \"ViewportRect\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"1132.96 -887.751 1179.34 1768.05\"\n                        }\n                    ],\n                    \"ports\": [\n                        {\n                            \"portName\": \"jaw_influence\",\n"
+		+ "                            \"portDirection\": \"input\"\n                        },\n                        {\n                            \"portName\": \"lip_influence\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<float>\"\n                        },\n                        {\n                            \"portName\": \"lips_wm\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"lips_poser_im\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"slide_transform\",\n                            \"portDirection\": \"input\"\n                        },\n                        {\n                            \"portName\": \"jaw_wm\",\n                            \"portDirection\": \"input\",\n"
+		+ "                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"jaw_poser_orient_wim\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"lip_wm\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"lip_group_wim\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"sec_controls_group_wim\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"translate\",\n"
+		+ "                            \"portDirection\": \"input\"\n                        },\n                        {\n                            \"portName\": \"matrix\",\n                            \"portDirection\": \"output\"\n                        }\n                    ],\n                    \"compoundNodes\": [\n                        {\n                            \"nodeName\": \"lips_pk_lerp_matrix2\",\n                            \"nodeType\": \"PK::Compounds::pk_lerp_matrix\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"264.554 -627.667\"\n                                }\n                            ]\n"
+		+ "                        },\n                        {\n                            \"nodeName\": \"lips_pk_lerp_matrix3\",\n                            \"nodeType\": \"PK::Compounds::pk_lerp_matrix\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"975.774 -554.882\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"matrix_multiply6\",\n                            \"nodeType\": \"Core::Math::matrix_multiply\",\n                            \"multiInPortNames\": [\n                                \"lips_wm\",\n"
+		+ "                                \"lips_poser_im\",\n                                \"slide_transform\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-278.605 -710.535\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"matrix_multiply7\",\n                            \"nodeType\": \"Core::Math::matrix_multiply\",\n                            \"multiInPortNames\": [\n                                \"jaw_wm\",\n                                \"jaw_poser_orient_wim\",\n"
+		+ "                                \"slide_transform\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-296.195 -330.717\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"matrix_multiply8\",\n                            \"nodeType\": \"Core::Math::matrix_multiply\",\n                            \"multiInPortNames\": [\n                                \"t_lip_wm\",\n                                \"t_lip_group_wim\",\n                                \"transform\"\n"
+		+ "                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"625.922 -337.889\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"matrix_multiply9\",\n                            \"nodeType\": \"Core::Math::matrix_multiply\",\n                            \"multiInPortNames\": [\n                                \"sec_controls_group_wm\",\n                                \"transform\",\n                                \"transform1\"\n                            ],\n                            \"metadata\": [\n"
+		+ "                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"1394.61 -110.273\"\n                                }\n                            ]\n                        }\n                    ],\n                    \"connections\": [\n                        {\n                            \"source\": \"lips_pk_lerp_matrix2.transform\",\n                            \"target\": \"matrix_multiply8.first.transform\"\n                        },\n                        {\n                            \"source\": \"lips_pk_lerp_matrix2.transform\",\n                            \"target\": \"lips_pk_lerp_matrix3.start_matrix\"\n                        },\n                        {\n"
+		+ "                            \"source\": \"lips_pk_lerp_matrix3.transform\",\n                            \"target\": \"matrix_multiply9.first.transform\"\n                        },\n                        {\n                            \"source\": \"matrix_multiply6.matrix\",\n                            \"target\": \"lips_pk_lerp_matrix2.start_matrix\"\n                        },\n                        {\n                            \"source\": \"matrix_multiply7.matrix\",\n                            \"target\": \"lips_pk_lerp_matrix2.end_matrix\"\n                        },\n                        {\n                            \"source\": \"matrix_multiply8.matrix\",\n                            \"target\": \"lips_pk_lerp_matrix3.end_matrix\"\n                        },\n                        {\n                            \"source\": \"matrix_multiply9.matrix\",\n                            \"target\": \".matrix\"\n                        },\n                        {\n                            \"source\": \".jaw_influence\",\n                            \"target\": \"lips_pk_lerp_matrix2.fraction\"\n"
+		+ "                        },\n                        {\n                            \"source\": \".lip_influence\",\n                            \"target\": \"lips_pk_lerp_matrix3.fraction\"\n                        },\n                        {\n                            \"source\": \".lips_wm\",\n                            \"target\": \"matrix_multiply6.first.lips_wm\"\n                        },\n                        {\n                            \"source\": \".lips_poser_im\",\n                            \"target\": \"matrix_multiply6.first.lips_poser_im\"\n                        },\n                        {\n                            \"source\": \".slide_transform\",\n                            \"target\": \"matrix_multiply6.first.slide_transform\"\n                        },\n                        {\n                            \"source\": \".slide_transform\",\n                            \"target\": \"matrix_multiply7.first.slide_transform\"\n                        },\n                        {\n                            \"source\": \".jaw_wm\",\n                            \"target\": \"matrix_multiply7.first.jaw_wm\"\n"
+		+ "                        },\n                        {\n                            \"source\": \".jaw_poser_orient_wim\",\n                            \"target\": \"matrix_multiply7.first.jaw_poser_orient_wim\"\n                        },\n                        {\n                            \"source\": \".lip_wm\",\n                            \"target\": \"matrix_multiply8.first.t_lip_wm\"\n                        },\n                        {\n                            \"source\": \".lip_group_wim\",\n                            \"target\": \"matrix_multiply8.first.t_lip_group_wim\"\n                        },\n                        {\n                            \"source\": \".sec_controls_group_wim\",\n                            \"target\": \"matrix_multiply9.first.sec_controls_group_wm\"\n                        },\n                        {\n                            \"source\": \".translate\",\n                            \"target\": \"matrix_multiply9.first.transform1\"\n                        }\n                    ],\n                    \"values\": [\n"
+		+ "                        {\n                            \"valueName\": \"lips_pk_lerp_matrix2.start_matrix\",\n                            \"valueType\": \"Math::float4x4\",\n                            \"value\": {\n                                \"c0\": {\n                                    \"x\": \"1f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c1\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"1f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c2\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"1f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c3\": {\n"
+		+ "                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"1f\"\n                                }\n                            }\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix2.end_matrix\",\n                            \"valueType\": \"Math::float4x4\",\n                            \"value\": {\n                                \"c0\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c1\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c2\": {\n"
+		+ "                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c3\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                }\n                            }\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix2.clamp_negative\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix2.clamp_above_one\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix2.always_use_shorter_arc\",\n"
+		+ "                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix3.start_matrix\",\n                            \"valueType\": \"Math::float4x4\",\n                            \"value\": {\n                                \"c0\": {\n                                    \"x\": \"1f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c1\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"1f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c2\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"1f\",\n"
+		+ "                                    \"w\": \"0f\"\n                                },\n                                \"c3\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"1f\"\n                                }\n                            }\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix3.end_matrix\",\n                            \"valueType\": \"Math::float4x4\",\n                            \"value\": {\n                                \"c0\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c1\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n"
+		+ "                                    \"w\": \"0f\"\n                                },\n                                \"c2\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c3\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                }\n                            }\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix3.clamp_negative\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix3.clamp_above_one\",\n                            \"valueType\": \"bool\",\n"
+		+ "                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix3.always_use_shorter_arc\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        }\n                    ],\n                    \"reservedNodeNames\": [\n                        {\n                            \"name\": \"input\"\n                        },\n                        {\n                            \"name\": \"output\"\n                        }\n                    ]\n                },\n                {\n                    \"name\": \"bot_left_compound\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"io_nodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"io_inodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"input\",\n"
+		+ "                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"-980.859 -203.714\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"jaw_influence\"\n"
+		+ "                                                        },\n                                                        {\n                                                            \"metaName\": \"lip_influence\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"lips_wm\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"lips_poser_im\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"slide_transform\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"jaw_wm\"\n                                                        },\n"
+		+ "                                                        {\n                                                            \"metaName\": \"jaw_poser_orient_wim\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"lip_wm\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"lip_group_wim\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"sec_controls_group_wim\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"translate\"\n                                                        }\n"
+		+ "                                                    ]\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"io_onodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"output\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n"
+		+ "                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"matrix\"\n                                                        }\n                                                    ]\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"1842.12 -92.9902\"\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                }\n                            ]\n                        },\n                        {\n                            \"metaName\": \"ViewportRect\",\n                            \"metaType\": \"string\",\n"
+		+ "                            \"metaValue\": \"-1277 -561 1228 1841\"\n                        }\n                    ],\n                    \"ports\": [\n                        {\n                            \"portName\": \"jaw_influence\",\n                            \"portDirection\": \"input\"\n                        },\n                        {\n                            \"portName\": \"lip_influence\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<float>\"\n                        },\n                        {\n                            \"portName\": \"lips_wm\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"lips_poser_im\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"slide_transform\",\n"
+		+ "                            \"portDirection\": \"input\"\n                        },\n                        {\n                            \"portName\": \"jaw_wm\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"jaw_poser_orient_wim\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"lip_wm\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"lip_group_wim\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"sec_controls_group_wim\",\n"
+		+ "                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"translate\",\n                            \"portDirection\": \"input\"\n                        },\n                        {\n                            \"portName\": \"matrix\",\n                            \"portDirection\": \"output\"\n                        }\n                    ],\n                    \"compoundNodes\": [\n                        {\n                            \"nodeName\": \"lips_pk_lerp_matrix2\",\n                            \"nodeType\": \"PK::Compounds::pk_lerp_matrix\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n"
+		+ "                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"208.128 -726.413\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"lips_pk_lerp_matrix3\",\n                            \"nodeType\": \"PK::Compounds::pk_lerp_matrix\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"949.774 -586.882\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"matrix_multiply6\",\n"
+		+ "                            \"nodeType\": \"Core::Math::matrix_multiply\",\n                            \"multiInPortNames\": [\n                                \"lips_wm\",\n                                \"lips_poser_im\",\n                                \"slide_transform\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-391.472 -786.165\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"matrix_multiply7\",\n                            \"nodeType\": \"Core::Math::matrix_multiply\",\n"
+		+ "                            \"multiInPortNames\": [\n                                \"jaw_wm\",\n                                \"jaw_poser_orient_wim\",\n                                \"slide_transform\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-235.822 -433.037\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"matrix_multiply8\",\n                            \"nodeType\": \"Core::Math::matrix_multiply\",\n                            \"multiInPortNames\": [\n"
+		+ "                                \"t_lip_wm\",\n                                \"t_lip_group_wim\",\n                                \"transform\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"604.922 -355.889\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"matrix_multiply9\",\n                            \"nodeType\": \"Core::Math::matrix_multiply\",\n                            \"multiInPortNames\": [\n                                \"sec_controls_group_wm\",\n"
+		+ "                                \"transform\",\n                                \"transform1\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"1328.58 -274.184\"\n                                }\n                            ]\n                        }\n                    ],\n                    \"connections\": [\n                        {\n                            \"source\": \"lips_pk_lerp_matrix2.transform\",\n                            \"target\": \"matrix_multiply8.first.transform\"\n                        },\n                        {\n                            \"source\": \"lips_pk_lerp_matrix2.transform\",\n"
+		+ "                            \"target\": \"lips_pk_lerp_matrix3.start_matrix\"\n                        },\n                        {\n                            \"source\": \"lips_pk_lerp_matrix3.transform\",\n                            \"target\": \"matrix_multiply9.first.transform\"\n                        },\n                        {\n                            \"source\": \"matrix_multiply6.matrix\",\n                            \"target\": \"lips_pk_lerp_matrix2.start_matrix\"\n                        },\n                        {\n                            \"source\": \"matrix_multiply7.matrix\",\n                            \"target\": \"lips_pk_lerp_matrix2.end_matrix\"\n                        },\n                        {\n                            \"source\": \"matrix_multiply8.matrix\",\n                            \"target\": \"lips_pk_lerp_matrix3.end_matrix\"\n                        },\n                        {\n                            \"source\": \"matrix_multiply9.matrix\",\n                            \"target\": \".matrix\"\n                        },\n"
+		+ "                        {\n                            \"source\": \".jaw_influence\",\n                            \"target\": \"lips_pk_lerp_matrix2.fraction\"\n                        },\n                        {\n                            \"source\": \".lip_influence\",\n                            \"target\": \"lips_pk_lerp_matrix3.fraction\"\n                        },\n                        {\n                            \"source\": \".lips_wm\",\n                            \"target\": \"matrix_multiply6.first.lips_wm\"\n                        },\n                        {\n                            \"source\": \".lips_poser_im\",\n                            \"target\": \"matrix_multiply6.first.lips_poser_im\"\n                        },\n                        {\n                            \"source\": \".slide_transform\",\n                            \"target\": \"matrix_multiply6.first.slide_transform\"\n                        },\n                        {\n                            \"source\": \".slide_transform\",\n                            \"target\": \"matrix_multiply7.first.slide_transform\"\n"
+		+ "                        },\n                        {\n                            \"source\": \".jaw_wm\",\n                            \"target\": \"matrix_multiply7.first.jaw_wm\"\n                        },\n                        {\n                            \"source\": \".jaw_poser_orient_wim\",\n                            \"target\": \"matrix_multiply7.first.jaw_poser_orient_wim\"\n                        },\n                        {\n                            \"source\": \".lip_wm\",\n                            \"target\": \"matrix_multiply8.first.t_lip_wm\"\n                        },\n                        {\n                            \"source\": \".lip_group_wim\",\n                            \"target\": \"matrix_multiply8.first.t_lip_group_wim\"\n                        },\n                        {\n                            \"source\": \".sec_controls_group_wim\",\n                            \"target\": \"matrix_multiply9.first.sec_controls_group_wm\"\n                        },\n                        {\n                            \"source\": \".translate\",\n"
+		+ "                            \"target\": \"matrix_multiply9.first.transform1\"\n                        }\n                    ],\n                    \"values\": [\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix2.start_matrix\",\n                            \"valueType\": \"Math::float4x4\",\n                            \"value\": {\n                                \"c0\": {\n                                    \"x\": \"1f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c1\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"1f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c2\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"1f\",\n"
+		+ "                                    \"w\": \"0f\"\n                                },\n                                \"c3\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"1f\"\n                                }\n                            }\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix2.end_matrix\",\n                            \"valueType\": \"Math::float4x4\",\n                            \"value\": {\n                                \"c0\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c1\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n"
+		+ "                                    \"w\": \"0f\"\n                                },\n                                \"c2\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c3\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                }\n                            }\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix2.clamp_negative\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix2.clamp_above_one\",\n                            \"valueType\": \"bool\",\n"
+		+ "                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix2.always_use_shorter_arc\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix3.start_matrix\",\n                            \"valueType\": \"Math::float4x4\",\n                            \"value\": {\n                                \"c0\": {\n                                    \"x\": \"1f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c1\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"1f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n"
+		+ "                                \"c2\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"1f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c3\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"1f\"\n                                }\n                            }\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix3.end_matrix\",\n                            \"valueType\": \"Math::float4x4\",\n                            \"value\": {\n                                \"c0\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n"
+		+ "                                \"c1\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c2\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c3\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                }\n                            }\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix3.clamp_negative\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n"
+		+ "                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix3.clamp_above_one\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix3.always_use_shorter_arc\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        }\n                    ],\n                    \"reservedNodeNames\": [\n                        {\n                            \"name\": \"input\"\n                        },\n                        {\n                            \"name\": \"output\"\n                        }\n                    ]\n                },\n                {\n                    \"name\": \"bot_right_compound\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"ViewportRect\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1277 -561 1228 1841\"\n"
+		+ "                        },\n                        {\n                            \"metaName\": \"io_nodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"io_inodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"input\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"-980.859 -203.714\"\n"
+		+ "                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"jaw_influence\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"lip_influence\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"lips_wm\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"lips_poser_im\"\n                                                        },\n"
+		+ "                                                        {\n                                                            \"metaName\": \"slide_transform\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"jaw_wm\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"jaw_poser_orient_wim\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"lip_wm\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"lip_group_wim\"\n                                                        },\n                                                        {\n"
+		+ "                                                            \"metaName\": \"sec_controls_group_wim\"\n                                                        },\n                                                        {\n                                                            \"metaName\": \"translate\"\n                                                        }\n                                                    ]\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                },\n                                {\n                                    \"metaName\": \"io_onodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"output\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n"
+		+ "                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n                                                },\n                                                {\n                                                    \"metaName\": \"LayoutPos\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"1842.12 -92.9902\"\n                                                },\n                                                {\n                                                    \"metaName\": \"io_ports\",\n                                                    \"metadata\": [\n                                                        {\n                                                            \"metaName\": \"matrix\"\n                                                        }\n                                                    ]\n                                                }\n                                            ]\n"
+		+ "                                        }\n                                    ]\n                                }\n                            ]\n                        }\n                    ],\n                    \"ports\": [\n                        {\n                            \"portName\": \"jaw_influence\",\n                            \"portDirection\": \"input\"\n                        },\n                        {\n                            \"portName\": \"lip_influence\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"array<float>\"\n                        },\n                        {\n                            \"portName\": \"lips_wm\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"lips_poser_im\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n"
+		+ "                        {\n                            \"portName\": \"slide_transform\",\n                            \"portDirection\": \"input\"\n                        },\n                        {\n                            \"portName\": \"jaw_wm\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"jaw_poser_orient_wim\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"lip_wm\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"lip_group_wim\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n"
+		+ "                        {\n                            \"portName\": \"sec_controls_group_wim\",\n                            \"portDirection\": \"input\",\n                            \"portType\": \"Math::float4x4\"\n                        },\n                        {\n                            \"portName\": \"translate\",\n                            \"portDirection\": \"input\"\n                        },\n                        {\n                            \"portName\": \"matrix\",\n                            \"portDirection\": \"output\"\n                        }\n                    ],\n                    \"compoundNodes\": [\n                        {\n                            \"nodeName\": \"lips_pk_lerp_matrix2\",\n                            \"nodeType\": \"PK::Compounds::pk_lerp_matrix\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n"
+		+ "                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"208.128 -726.413\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"lips_pk_lerp_matrix3\",\n                            \"nodeType\": \"PK::Compounds::pk_lerp_matrix\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"949.774 -586.882\"\n                                }\n                            ]\n"
+		+ "                        },\n                        {\n                            \"nodeName\": \"matrix_multiply6\",\n                            \"nodeType\": \"Core::Math::matrix_multiply\",\n                            \"multiInPortNames\": [\n                                \"lips_wm\",\n                                \"lips_poser_im\",\n                                \"slide_transform\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-391.472 -786.165\"\n                                }\n                            ]\n                        },\n                        {\n"
+		+ "                            \"nodeName\": \"matrix_multiply7\",\n                            \"nodeType\": \"Core::Math::matrix_multiply\",\n                            \"multiInPortNames\": [\n                                \"jaw_wm\",\n                                \"jaw_poser_orient_wim\",\n                                \"slide_transform\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"-235.822 -433.037\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"matrix_multiply8\",\n"
+		+ "                            \"nodeType\": \"Core::Math::matrix_multiply\",\n                            \"multiInPortNames\": [\n                                \"t_lip_wm\",\n                                \"t_lip_group_wim\",\n                                \"transform\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"604.922 -355.889\"\n                                }\n                            ]\n                        },\n                        {\n                            \"nodeName\": \"matrix_multiply9\",\n                            \"nodeType\": \"Core::Math::matrix_multiply\",\n"
+		+ "                            \"multiInPortNames\": [\n                                \"sec_controls_group_wm\",\n                                \"transform\",\n                                \"transform1\"\n                            ],\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"DisplayMode\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"2\"\n                                },\n                                {\n                                    \"metaName\": \"LayoutPos\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"1328.58 -274.184\"\n                                }\n                            ]\n                        }\n                    ],\n                    \"connections\": [\n                        {\n                            \"source\": \"lips_pk_lerp_matrix2.transform\",\n                            \"target\": \"matrix_multiply8.first.transform\"\n"
+		+ "                        },\n                        {\n                            \"source\": \"lips_pk_lerp_matrix2.transform\",\n                            \"target\": \"lips_pk_lerp_matrix3.start_matrix\"\n                        },\n                        {\n                            \"source\": \"lips_pk_lerp_matrix3.transform\",\n                            \"target\": \"matrix_multiply9.first.transform\"\n                        },\n                        {\n                            \"source\": \"matrix_multiply6.matrix\",\n                            \"target\": \"lips_pk_lerp_matrix2.start_matrix\"\n                        },\n                        {\n                            \"source\": \"matrix_multiply7.matrix\",\n                            \"target\": \"lips_pk_lerp_matrix2.end_matrix\"\n                        },\n                        {\n                            \"source\": \"matrix_multiply8.matrix\",\n                            \"target\": \"lips_pk_lerp_matrix3.end_matrix\"\n                        },\n                        {\n                            \"source\": \"matrix_multiply9.matrix\",\n"
+		+ "                            \"target\": \".matrix\"\n                        },\n                        {\n                            \"source\": \".jaw_influence\",\n                            \"target\": \"lips_pk_lerp_matrix2.fraction\"\n                        },\n                        {\n                            \"source\": \".lip_influence\",\n                            \"target\": \"lips_pk_lerp_matrix3.fraction\"\n                        },\n                        {\n                            \"source\": \".lips_wm\",\n                            \"target\": \"matrix_multiply6.first.lips_wm\"\n                        },\n                        {\n                            \"source\": \".lips_poser_im\",\n                            \"target\": \"matrix_multiply6.first.lips_poser_im\"\n                        },\n                        {\n                            \"source\": \".slide_transform\",\n                            \"target\": \"matrix_multiply6.first.slide_transform\"\n                        },\n                        {\n                            \"source\": \".slide_transform\",\n"
+		+ "                            \"target\": \"matrix_multiply7.first.slide_transform\"\n                        },\n                        {\n                            \"source\": \".jaw_wm\",\n                            \"target\": \"matrix_multiply7.first.jaw_wm\"\n                        },\n                        {\n                            \"source\": \".jaw_poser_orient_wim\",\n                            \"target\": \"matrix_multiply7.first.jaw_poser_orient_wim\"\n                        },\n                        {\n                            \"source\": \".lip_wm\",\n                            \"target\": \"matrix_multiply8.first.t_lip_wm\"\n                        },\n                        {\n                            \"source\": \".lip_group_wim\",\n                            \"target\": \"matrix_multiply8.first.t_lip_group_wim\"\n                        },\n                        {\n                            \"source\": \".sec_controls_group_wim\",\n                            \"target\": \"matrix_multiply9.first.sec_controls_group_wm\"\n                        },\n"
+		+ "                        {\n                            \"source\": \".translate\",\n                            \"target\": \"matrix_multiply9.first.transform1\"\n                        }\n                    ],\n                    \"values\": [\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix2.start_matrix\",\n                            \"valueType\": \"Math::float4x4\",\n                            \"value\": {\n                                \"c0\": {\n                                    \"x\": \"1f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c1\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"1f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c2\": {\n                                    \"x\": \"0f\",\n"
+		+ "                                    \"y\": \"0f\",\n                                    \"z\": \"1f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c3\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"1f\"\n                                }\n                            }\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix2.end_matrix\",\n                            \"valueType\": \"Math::float4x4\",\n                            \"value\": {\n                                \"c0\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c1\": {\n                                    \"x\": \"0f\",\n"
+		+ "                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c2\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c3\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                }\n                            }\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix2.clamp_negative\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix2.clamp_above_one\",\n"
+		+ "                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix2.always_use_shorter_arc\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix3.start_matrix\",\n                            \"valueType\": \"Math::float4x4\",\n                            \"value\": {\n                                \"c0\": {\n                                    \"x\": \"1f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c1\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"1f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n"
+		+ "                                },\n                                \"c2\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"1f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c3\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"1f\"\n                                }\n                            }\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix3.end_matrix\",\n                            \"valueType\": \"Math::float4x4\",\n                            \"value\": {\n                                \"c0\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n"
+		+ "                                },\n                                \"c1\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c2\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                },\n                                \"c3\": {\n                                    \"x\": \"0f\",\n                                    \"y\": \"0f\",\n                                    \"z\": \"0f\",\n                                    \"w\": \"0f\"\n                                }\n                            }\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix3.clamp_negative\",\n                            \"valueType\": \"bool\",\n"
+		+ "                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix3.clamp_above_one\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        },\n                        {\n                            \"valueName\": \"lips_pk_lerp_matrix3.always_use_shorter_arc\",\n                            \"valueType\": \"bool\",\n                            \"value\": \"false\"\n                        }\n                    ],\n                    \"reservedNodeNames\": [\n                        {\n                            \"name\": \"input\"\n                        },\n                        {\n                            \"name\": \"output\"\n                        }\n                    ]\n                }\n            ],\n            \"compoundNodes\": [\n                {\n                    \"nodeName\": \"left_slide_compound\",\n                    \"nodeType\": \"left_slide_compound\",\n                    \"metadata\": [\n"
+		+ "                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-924.358 -774.912\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"multiply\",\n                    \"nodeType\": \"Core::Math::multiply\",\n                    \"multiInPortNames\": [\n                        \"corner_follow_jaw\",\n                        \"follow_jaw\"\n                    ],\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n"
+		+ "                            \"metaType\": \"string\",\n                            \"metaValue\": \"-252.169 -732.027\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"left_translate_compound\",\n                    \"nodeType\": \"left_translate_compound\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-931.634 528.186\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"change_range\",\n                    \"nodeType\": \"Core::Math::change_range\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n"
+		+ "                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-239.642 670.112\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"right_slide_compound\",\n                    \"nodeType\": \"right_slide_compound\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1046.78 1616.76\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"right_translate_compound\",\n"
+		+ "                    \"nodeType\": \"right_translate_compound\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-1045.68 2100.64\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"top_left_compound\",\n                    \"nodeType\": \"top_left_compound\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n"
+		+ "                            \"metaValue\": \"252.465 -517.136\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"top_right_compound\",\n                    \"nodeType\": \"top_right_compound\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"234.48 230.729\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"multiply1\",\n                    \"nodeType\": \"Core::Math::multiply\",\n                    \"multiInPortNames\": [\n                        \"corner_follow_jaw\",\n                        \"follow_jaw\"\n                    ],\n                    \"metadata\": [\n"
+		+ "                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-248.865 -14.304\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"bot_left_compound\",\n                    \"nodeType\": \"bot_left_compound\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"233.594 950.15\"\n                        }\n"
+		+ "                    ]\n                },\n                {\n                    \"nodeName\": \"bot_right_compound\",\n                    \"nodeType\": \"bot_right_compound\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"239.257 1828.11\"\n                        }\n                    ]\n                },\n                {\n                    \"nodeName\": \"change_range1\",\n                    \"nodeType\": \"Core::Math::change_range\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"DisplayMode\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"2\"\n                        },\n                        {\n"
+		+ "                            \"metaName\": \"LayoutPos\",\n                            \"metaType\": \"string\",\n                            \"metaValue\": \"-178.36 1558.96\"\n                        }\n                    ]\n                }\n            ],\n            \"connections\": [\n                {\n                    \"source\": \".mouth_line_follow\",\n                    \"target\": \"left_slide_compound.mouth_line_follow\"\n                },\n                {\n                    \"source\": \".mouth_poser_m\",\n                    \"target\": \"left_slide_compound.mouth_poser_m\"\n                },\n                {\n                    \"source\": \".init_pos\",\n                    \"target\": \"left_slide_compound.init_pos\"\n                },\n                {\n                    \"source\": \".l_corner_follow_jaw\",\n                    \"target\": \"multiply.first.corner_follow_jaw\"\n                },\n                {\n                    \"source\": \".t_follow_jaw\",\n                    \"target\": \"multiply.first.follow_jaw\"\n                },\n                {\n"
+		+ "                    \"source\": \".move_factor_x\",\n                    \"target\": \"left_translate_compound.move_factor_x\"\n                },\n                {\n                    \"source\": \".corner_h_influence\",\n                    \"target\": \"left_translate_compound.corner_h_influence\"\n                },\n                {\n                    \"source\": \".corner_v_influence\",\n                    \"target\": \"left_translate_compound.corner_v_influence\"\n                },\n                {\n                    \"source\": \".parameter\",\n                    \"target\": \"left_translate_compound.parameter\"\n                },\n                {\n                    \"source\": \".l_corner_translate\",\n                    \"target\": \"left_translate_compound.l_corner_translate\"\n                },\n                {\n                    \"source\": \".l_rotate\",\n                    \"target\": \"left_slide_compound.rotate\"\n                },\n                {\n                    \"source\": \".l_flat_rotateY\",\n                    \"target\": \"left_slide_compound.flat_rotateY\"\n"
+		+ "                },\n                {\n                    \"source\": \".b_follow_jaw\",\n                    \"target\": \"change_range.value\"\n                },\n                {\n                    \"source\": \".l_corner_follow_jaw\",\n                    \"target\": \"change_range.to_start\"\n                },\n                {\n                    \"source\": \".mouth_line_follow\",\n                    \"target\": \"right_slide_compound.mouth_line_follow\"\n                },\n                {\n                    \"source\": \".mouth_poser_m\",\n                    \"target\": \"right_slide_compound.mouth_poser_m\"\n                },\n                {\n                    \"source\": \".r_translate\",\n                    \"target\": \"right_slide_compound.translate\"\n                },\n                {\n                    \"source\": \".r_rotate\",\n                    \"target\": \"right_slide_compound.rotate\"\n                },\n                {\n                    \"source\": \".r_flat_rotateY\",\n                    \"target\": \"right_slide_compound.flat_rotateY\"\n"
+		+ "                },\n                {\n                    \"source\": \".l_translate\",\n                    \"target\": \"left_slide_compound.translate\"\n                },\n                {\n                    \"source\": \".init_pos\",\n                    \"target\": \"right_slide_compound.init_pos\"\n                },\n                {\n                    \"source\": \".move_factor_x\",\n                    \"target\": \"right_translate_compound.move_factor_x\"\n                },\n                {\n                    \"source\": \".corner_h_influence\",\n                    \"target\": \"right_translate_compound.corner_h_influence\"\n                },\n                {\n                    \"source\": \".corner_v_influence\",\n                    \"target\": \"right_translate_compound.corner_v_influence\"\n                },\n                {\n                    \"source\": \".parameter\",\n                    \"target\": \"right_translate_compound.parameter\"\n                },\n                {\n                    \"source\": \".r_corner_translate\",\n                    \"target\": \"right_translate_compound.r_corner_translate\"\n"
+		+ "                },\n                {\n                    \"source\": \"multiply.output\",\n                    \"target\": \"top_left_compound.jaw_influence\"\n                },\n                {\n                    \"source\": \".t_lip_influence\",\n                    \"target\": \"top_left_compound.lip_influence\"\n                },\n                {\n                    \"source\": \".lips_wm\",\n                    \"target\": \"top_left_compound.lips_wm\"\n                },\n                {\n                    \"source\": \".lips_poser_im\",\n                    \"target\": \"top_left_compound.lips_poser_im\"\n                },\n                {\n                    \"source\": \"left_slide_compound.slide_transform\",\n                    \"target\": \"top_left_compound.slide_transform\"\n                },\n                {\n                    \"source\": \".jaw_wm\",\n                    \"target\": \"top_left_compound.jaw_wm\"\n                },\n                {\n                    \"source\": \".jaw_poser_orient_wim\",\n                    \"target\": \"top_left_compound.jaw_poser_orient_wim\"\n"
+		+ "                },\n                {\n                    \"source\": \".t_lip_wm\",\n                    \"target\": \"top_left_compound.lip_wm\"\n                },\n                {\n                    \"source\": \".t_lip_group_wim\",\n                    \"target\": \"top_left_compound.lip_group_wim\"\n                },\n                {\n                    \"source\": \".sec_controls_group_wim\",\n                    \"target\": \"top_left_compound.sec_controls_group_wim\"\n                },\n                {\n                    \"source\": \"left_translate_compound.transform\",\n                    \"target\": \"top_left_compound.translate\"\n                },\n                {\n                    \"source\": \"top_left_compound.matrix\",\n                    \"target\": \".out_l_t_lips\"\n                },\n                {\n                    \"source\": \".t_lip_influence\",\n                    \"target\": \"top_right_compound.lip_influence\"\n                },\n                {\n                    \"source\": \".lips_wm\",\n                    \"target\": \"top_right_compound.lips_wm\"\n"
+		+ "                },\n                {\n                    \"source\": \".lips_poser_im\",\n                    \"target\": \"top_right_compound.lips_poser_im\"\n                },\n                {\n                    \"source\": \".jaw_wm\",\n                    \"target\": \"top_right_compound.jaw_wm\"\n                },\n                {\n                    \"source\": \".jaw_poser_orient_wim\",\n                    \"target\": \"top_right_compound.jaw_poser_orient_wim\"\n                },\n                {\n                    \"source\": \".t_lip_wm\",\n                    \"target\": \"top_right_compound.lip_wm\"\n                },\n                {\n                    \"source\": \".t_lip_group_wim\",\n                    \"target\": \"top_right_compound.lip_group_wim\"\n                },\n                {\n                    \"source\": \".sec_controls_group_wim\",\n                    \"target\": \"top_right_compound.sec_controls_group_wim\"\n                },\n                {\n                    \"source\": \"right_slide_compound.slide_transform\",\n                    \"target\": \"top_right_compound.slide_transform\"\n"
+		+ "                },\n                {\n                    \"source\": \"right_translate_compound.transform\",\n                    \"target\": \"top_right_compound.translate\"\n                },\n                {\n                    \"source\": \"top_right_compound.matrix\",\n                    \"target\": \".out_r_t_lips\"\n                },\n                {\n                    \"source\": \".t_follow_jaw\",\n                    \"target\": \"multiply1.first.follow_jaw\"\n                },\n                {\n                    \"source\": \".r_corner_follow_jaw\",\n                    \"target\": \"multiply1.first.corner_follow_jaw\"\n                },\n                {\n                    \"source\": \"multiply1.output\",\n                    \"target\": \"top_right_compound.jaw_influence\"\n                },\n                {\n                    \"source\": \".lips_wm\",\n                    \"target\": \"bot_left_compound.lips_wm\"\n                },\n                {\n                    \"source\": \".lips_poser_im\",\n                    \"target\": \"bot_left_compound.lips_poser_im\"\n"
+		+ "                },\n                {\n                    \"source\": \"left_slide_compound.slide_transform\",\n                    \"target\": \"bot_left_compound.slide_transform\"\n                },\n                {\n                    \"source\": \".jaw_wm\",\n                    \"target\": \"bot_left_compound.jaw_wm\"\n                },\n                {\n                    \"source\": \".jaw_poser_orient_wim\",\n                    \"target\": \"bot_left_compound.jaw_poser_orient_wim\"\n                },\n                {\n                    \"source\": \".sec_controls_group_wim\",\n                    \"target\": \"bot_left_compound.sec_controls_group_wim\"\n                },\n                {\n                    \"source\": \".b_lip_influence\",\n                    \"target\": \"bot_left_compound.lip_influence\"\n                },\n                {\n                    \"source\": \".b_lip_wm\",\n                    \"target\": \"bot_left_compound.lip_wm\"\n                },\n                {\n                    \"source\": \".b_lip_group_im\",\n                    \"target\": \"bot_left_compound.lip_group_wim\"\n"
+		+ "                },\n                {\n                    \"source\": \"left_translate_compound.transform\",\n                    \"target\": \"bot_left_compound.translate\"\n                },\n                {\n                    \"source\": \"bot_left_compound.matrix\",\n                    \"target\": \".out_l_b_lips\"\n                },\n                {\n                    \"source\": \"change_range.result\",\n                    \"target\": \"bot_left_compound.jaw_influence\"\n                },\n                {\n                    \"source\": \".b_lip_influence\",\n                    \"target\": \"bot_right_compound.lip_influence\"\n                },\n                {\n                    \"source\": \".lips_wm\",\n                    \"target\": \"bot_right_compound.lips_wm\"\n                },\n                {\n                    \"source\": \".lips_poser_im\",\n                    \"target\": \"bot_right_compound.lips_poser_im\"\n                },\n                {\n                    \"source\": \".jaw_wm\",\n                    \"target\": \"bot_right_compound.jaw_wm\"\n"
+		+ "                },\n                {\n                    \"source\": \".jaw_poser_orient_wim\",\n                    \"target\": \"bot_right_compound.jaw_poser_orient_wim\"\n                },\n                {\n                    \"source\": \".b_lip_wm\",\n                    \"target\": \"bot_right_compound.lip_wm\"\n                },\n                {\n                    \"source\": \".b_lip_group_im\",\n                    \"target\": \"bot_right_compound.lip_group_wim\"\n                },\n                {\n                    \"source\": \".sec_controls_group_wim\",\n                    \"target\": \"bot_right_compound.sec_controls_group_wim\"\n                },\n                {\n                    \"source\": \"right_slide_compound.slide_transform\",\n                    \"target\": \"bot_right_compound.slide_transform\"\n                },\n                {\n                    \"source\": \"right_translate_compound.transform\",\n                    \"target\": \"bot_right_compound.translate\"\n                },\n                {\n                    \"source\": \"bot_right_compound.matrix\",\n"
+		+ "                    \"target\": \".out_r_b_lips\"\n                },\n                {\n                    \"source\": \".b_follow_jaw\",\n                    \"target\": \"change_range1.value\"\n                },\n                {\n                    \"source\": \".r_corner_follow_jaw\",\n                    \"target\": \"change_range1.to_start\"\n                },\n                {\n                    \"source\": \"change_range1.result\",\n                    \"target\": \"bot_right_compound.jaw_influence\"\n                }\n            ],\n            \"values\": [\n                {\n                    \"valueName\": \"left_slide_compound.mouth_line_follow\",\n                    \"valueType\": \"bool\",\n                    \"value\": \"false\"\n                },\n                {\n                    \"valueName\": \"left_slide_compound.rotate\",\n                    \"valueType\": \"array<Math::float3>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"left_slide_compound.mouth_poser_m\",\n                    \"valueType\": \"Math::float4x4\",\n"
+		+ "                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"left_slide_compound.flat_rotateY\",\n                    \"valueType\": \"array<float>\",\n"
+		+ "                    \"value\": []\n                },\n                {\n                    \"valueName\": \"left_slide_compound.translate\",\n                    \"valueType\": \"array<Math::float3>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"left_slide_compound.init_pos\",\n                    \"valueType\": \"array<Math::float3>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"left_translate_compound.move_factor_x\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"left_translate_compound.corner_h_influence\",\n                    \"valueType\": \"array<float>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"left_translate_compound.corner_v_influence\",\n                    \"valueType\": \"array<float>\",\n                    \"value\": []\n                },\n                {\n"
+		+ "                    \"valueName\": \"left_translate_compound.parameter\",\n                    \"valueType\": \"array<float>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"left_translate_compound.l_corner_translate\",\n                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n                        \"x\": \"0f\",\n                        \"y\": \"0f\",\n                        \"z\": \"0f\"\n                    }\n                },\n                {\n                    \"valueName\": \"change_range.from_end\",\n                    \"valueType\": \"float\",\n                    \"value\": \"1f\"\n                },\n                {\n                    \"valueName\": \"change_range.to_end\",\n                    \"valueType\": \"float\",\n                    \"value\": \"1f\"\n                },\n                {\n                    \"valueName\": \"right_slide_compound.mouth_poser_m\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n"
+		+ "                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"right_slide_compound.mouth_line_follow\",\n                    \"valueType\": \"bool\",\n                    \"value\": \"false\"\n"
+		+ "                },\n                {\n                    \"valueName\": \"right_slide_compound.rotate\",\n                    \"valueType\": \"array<Math::float3>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"right_slide_compound.flat_rotateY\",\n                    \"valueType\": \"array<float>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"right_slide_compound.translate\",\n                    \"valueType\": \"array<Math::float3>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"right_slide_compound.init_pos\",\n                    \"valueType\": \"array<Math::float3>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"right_translate_compound.move_factor_x\",\n                    \"valueType\": \"float\",\n                    \"value\": \"0f\"\n                },\n                {\n                    \"valueName\": \"right_translate_compound.corner_h_influence\",\n"
+		+ "                    \"valueType\": \"array<float>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"right_translate_compound.corner_v_influence\",\n                    \"valueType\": \"array<float>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"right_translate_compound.parameter\",\n                    \"valueType\": \"array<float>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"right_translate_compound.r_corner_translate\",\n                    \"valueType\": \"Math::float3\",\n                    \"value\": {\n                        \"x\": \"0f\",\n                        \"y\": \"0f\",\n                        \"z\": \"0f\"\n                    }\n                },\n                {\n                    \"valueName\": \"top_left_compound.lip_influence\",\n                    \"valueType\": \"array<float>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"top_left_compound.lips_wm\",\n"
+		+ "                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"top_left_compound.lips_poser_im\",\n"
+		+ "                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"top_left_compound.slide_transform\",\n"
+		+ "                    \"valueType\": \"array<Math::float4x4>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"top_left_compound.jaw_wm\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n"
+		+ "                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"top_left_compound.jaw_poser_orient_wim\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n"
+		+ "                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"top_left_compound.lip_wm\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n"
+		+ "                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"top_left_compound.lip_group_wim\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n"
+		+ "                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"top_left_compound.sec_controls_group_wim\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n"
+		+ "                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"top_left_compound.translate\",\n                    \"valueType\": \"array<Math::float4x4>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"top_right_compound.lip_influence\",\n                    \"valueType\": \"array<float>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"top_right_compound.lips_wm\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n"
+		+ "                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"top_right_compound.lips_poser_im\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n"
+		+ "                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"top_right_compound.slide_transform\",\n                    \"valueType\": \"array<Math::float4x4>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"top_right_compound.jaw_wm\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n"
+		+ "                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"top_right_compound.jaw_poser_orient_wim\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n"
+		+ "                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"top_right_compound.lip_wm\",\n                    \"valueType\": \"Math::float4x4\",\n"
+		+ "                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"top_right_compound.lip_group_wim\",\n                    \"valueType\": \"Math::float4x4\",\n"
+		+ "                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"top_right_compound.sec_controls_group_wim\",\n                    \"valueType\": \"Math::float4x4\",\n"
+		+ "                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"top_right_compound.translate\",\n                    \"valueType\": \"array<Math::float4x4>\",\n"
+		+ "                    \"value\": []\n                },\n                {\n                    \"valueName\": \"bot_left_compound.lip_influence\",\n                    \"valueType\": \"array<float>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"bot_left_compound.lips_wm\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n"
+		+ "                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"bot_left_compound.lips_poser_im\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n"
+		+ "                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"bot_left_compound.slide_transform\",\n                    \"valueType\": \"array<Math::float4x4>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"bot_left_compound.jaw_wm\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n"
+		+ "                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"bot_left_compound.jaw_poser_orient_wim\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n"
+		+ "                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"bot_left_compound.lip_wm\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n"
+		+ "                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"bot_left_compound.lip_group_wim\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n"
+		+ "                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"bot_left_compound.sec_controls_group_wim\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n"
+		+ "                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"bot_left_compound.translate\",\n                    \"valueType\": \"array<Math::float4x4>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"bot_right_compound.lip_influence\",\n                    \"valueType\": \"array<float>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"bot_right_compound.lips_wm\",\n"
+		+ "                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"bot_right_compound.lips_poser_im\",\n"
+		+ "                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"bot_right_compound.slide_transform\",\n"
+		+ "                    \"valueType\": \"array<Math::float4x4>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"bot_right_compound.jaw_wm\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n"
+		+ "                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"bot_right_compound.jaw_poser_orient_wim\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n"
+		+ "                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"bot_right_compound.lip_wm\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n"
+		+ "                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"bot_right_compound.lip_group_wim\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n                            \"x\": \"0f\",\n"
+		+ "                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"bot_right_compound.sec_controls_group_wim\",\n                    \"valueType\": \"Math::float4x4\",\n                    \"value\": {\n                        \"c0\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c1\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c2\": {\n                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        },\n                        \"c3\": {\n"
+		+ "                            \"x\": \"0f\",\n                            \"y\": \"0f\",\n                            \"z\": \"0f\",\n                            \"w\": \"0f\"\n                        }\n                    }\n                },\n                {\n                    \"valueName\": \"bot_right_compound.translate\",\n                    \"valueType\": \"array<Math::float4x4>\",\n                    \"value\": []\n                },\n                {\n                    \"valueName\": \"change_range1.from_end\",\n                    \"valueType\": \"float\",\n                    \"value\": \"1f\"\n                },\n                {\n                    \"valueName\": \"change_range1.to_end\",\n                    \"valueType\": \"float\",\n                    \"value\": \"1f\"\n                },\n                {\n                    \"valueName\": \"change_range1.clamp\",\n                    \"valueType\": \"bool\",\n                    \"value\": \"true\"\n                }\n            ],\n            \"reservedNodeNames\": [\n                {\n                    \"name\": \"input\"\n"
+		+ "                },\n                {\n                    \"name\": \"input1\"\n                },\n                {\n                    \"name\": \"output1\"\n                },\n                {\n                    \"name\": \"input2\"\n                },\n                {\n                    \"name\": \"input3\"\n                }\n            ]\n        }\n    ]\n}\n");
 	setAttr -k on ".mouth_poser_m";
-	setAttr -s 2 -k on ".flat_rotateY";
-	setAttr -s 2 -k on ".flat_rotateY";
-	setAttr -k on ".flat_rotateY[0]";
-	setAttr -k on ".flat_rotateY[1]";
-	setAttr -s 2 -k on ".translate";
-	setAttr -s 2 -k on ".translate";
-	setAttr -k on ".translate[0]";
-	setAttr -k on ".translate[1]";
+	setAttr -s 2 -k on ".l_flat_rotateY";
+	setAttr -s 2 -k on ".l_flat_rotateY";
+	setAttr -k on ".l_flat_rotateY[0]";
+	setAttr -k on ".l_flat_rotateY[1]";
 	setAttr -k on ".mouth_line_follow";
-	setAttr -s 2 -k on ".rotate";
-	setAttr -s 2 -k on ".rotate";
-	setAttr -k on ".rotate[0]";
-	setAttr -k on ".rotate[1]";
+	setAttr -s 2 -k on ".l_rotate";
+	setAttr -s 2 -k on ".l_rotate";
+	setAttr -k on ".l_rotate[0]";
+	setAttr -k on ".l_rotate[1]";
 	setAttr -s 2 -k on ".init_pos";
 	setAttr -s 2 -k on ".init_pos";
 	setAttr -k on ".init_pos[0]";
 	setAttr -k on ".init_pos[1]";
-	setAttr -k on ".lips_jaw_m";
 	setAttr -k on ".lips_poser_im";
-	setAttr -k on ".corner_follow_jaw";
-	setAttr -s 2 -k on ".follow_jaw";
-	setAttr -s 2 -k on ".follow_jaw";
-	setAttr -k on ".follow_jaw[0]";
-	setAttr -k on ".follow_jaw[1]";
-	setAttr -k on ".t_lip_over_lips_m";
+	setAttr -k on ".l_corner_follow_jaw";
+	setAttr -s 2 -k on ".t_follow_jaw";
+	setAttr -s 2 -k on ".t_follow_jaw";
+	setAttr -k on ".t_follow_jaw[0]";
+	setAttr -k on ".t_follow_jaw[1]";
 	setAttr -s 2 -k on ".t_lip_influence";
 	setAttr -s 2 -k on ".t_lip_influence";
 	setAttr -k on ".t_lip_influence[0]";
@@ -5072,9 +5667,46 @@ createNode bifrostGraphShape -n "sec_controls_bifrostGraphShape" -p "sec_control
 	setAttr -s 2 -k on ".corner_v_influence";
 	setAttr -k on ".corner_v_influence[0]";
 	setAttr -k on ".corner_v_influence[1]";
+	setAttr -s 2 ".out_l_t_lips";
+	setAttr -s 2 -k on ".b_follow_jaw";
+	setAttr -s 2 -k on ".b_follow_jaw";
+	setAttr -k on ".b_follow_jaw[0]";
+	setAttr -k on ".b_follow_jaw[1]";
+	setAttr -s 2 -k on ".b_lip_influence";
+	setAttr -s 2 -k on ".b_lip_influence";
+	setAttr -k on ".b_lip_influence[0]";
+	setAttr -k on ".b_lip_influence[1]";
+	setAttr -k on ".b_lip_group_im";
+	setAttr -k on ".b_lip_wm";
+	setAttr -s 2 ".out_l_b_lips";
+	setAttr -s 2 -k on ".r_translate";
+	setAttr -s 2 -k on ".r_translate";
+	setAttr -k on ".r_translate[0]";
+	setAttr -k on ".r_translate[1]";
+	setAttr -s 2 -k on ".r_rotate";
+	setAttr -s 2 -k on ".r_rotate";
+	setAttr -k on ".r_rotate[0]";
+	setAttr -k on ".r_rotate[1]";
+	setAttr -s 2 -k on ".r_flat_rotateY";
+	setAttr -s 2 -k on ".r_flat_rotateY";
+	setAttr -k on ".r_flat_rotateY[0]";
+	setAttr -k on ".r_flat_rotateY[1]";
+	setAttr -s 2 -k on ".l_translate";
+	setAttr -s 2 -k on ".l_translate";
+	setAttr -k on ".l_translate[0]";
+	setAttr -k on ".l_translate[1]";
+	setAttr -s 2 ".out_r_t_lips";
+	setAttr -s 2 ".out_r_b_lips";
+	setAttr -k on ".r_corner_translate";
+	setAttr -k on ".sec_controls_group_wim";
+	setAttr -k on ".lips_wm";
+	setAttr -k on ".jaw_wm";
+	setAttr -k on ".jaw_poser_orient_wim";
+	setAttr -k on ".t_lip_wm";
+	setAttr -k on ".t_lip_group_wim";
+	setAttr -k on ".r_corner_follow_jaw";
 createNode transform -n "output" -p "mod";
 	rename -uid "AFB16E37-42AD-8512-D65A-39AE9AC2B3CB";
-	setAttr ".v" no;
 createNode transform -n "outJoints" -p "output";
 	rename -uid "4680219F-44AF-4F63-E8E5-4DBD55A04A83";
 createNode joint -n "root_outJoint" -p "outJoints";
@@ -5437,8 +6069,8 @@ createNode bifrostGraphShape -n "bifrostGraphShape1" -p "bifrostGraph1";
 		+ "                                {\n                                    \"metaName\": \"input\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"426.513 530.333\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"targets\"\n                                                },\n"
 		+ "                                                {\n                                                    \"metaName\": \"mouth_root\"\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                }\n                            ]\n                        },\n                        {\n                            \"metaName\": \"io_onodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"output\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"DisplayMode\",\n                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"2\"\n                                        },\n                                        {\n                                            \"metaName\": \"LayoutPos\",\n"
 		+ "                                            \"metaType\": \"string\",\n                                            \"metaValue\": \"1723.88 -249.405\"\n                                        },\n                                        {\n                                            \"metaName\": \"io_ports\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"out_weights\"\n                                                },\n                                                {\n                                                    \"metaName\": \"out_transform\"\n                                                }\n                                            ]\n                                        }\n                                    ]\n                                }\n                            ]\n                        }\n                    ]\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n"
-		+ "                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,User::Compounds,motion_path\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Constants,float\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Math,inverse_matrix\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Math,matrix_multiply\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,PK::Compounds,pk_lerp_matrix\"\n                },\n                {\n                    \"metaName\": \"internal\",\n                    \"metaValue\": \"true\"\n"
-		+ "                },\n                {\n                    \"metaName\": \"ViewportRect\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"943 -812 1214 1841\"\n                }\n            ],\n            \"ports\": [\n                {\n                    \"portName\": \"transform\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<Math::float4x4>\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"pathinfo\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"path\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"/locator1 /locator2 /locator3 /locator4\"\n                                },\n                                {\n                                    \"metaName\": \"setOperation\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"+\"\n"
+		+ "                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,User::Compounds,motion_path\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Constants,float\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Math,inverse_matrix\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,Core::Math,matrix_multiply\"\n                },\n                {\n                    \"metaName\": \"_recentNode_\",\n                    \"metaType\": \"string\",\n                    \"metaValue\": \"BifrostGraph,PK::Compounds,pk_lerp_matrix\"\n                },\n                {\n                    \"metaName\": \"ViewportRect\",\n                    \"metaType\": \"string\",\n"
+		+ "                    \"metaValue\": \"-732 -706 1228 1841\"\n                },\n                {\n                    \"metaName\": \"internal\",\n                    \"metaValue\": \"true\"\n                }\n            ],\n            \"ports\": [\n                {\n                    \"portName\": \"transform\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<Math::float4x4>\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"pathinfo\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"path\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"/locator1 /locator2 /locator3 /locator4\"\n                                },\n                                {\n                                    \"metaName\": \"setOperation\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"+\"\n"
 		+ "                                },\n                                {\n                                    \"metaName\": \"active\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"true\"\n                                }\n                            ]\n                        }\n                    ]\n                },\n                {\n                    \"portName\": \"control\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float4x4\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"pathinfo\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"path\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"/loc\"\n                                },\n                                {\n                                    \"metaName\": \"setOperation\",\n                                    \"metaType\": \"string\",\n"
 		+ "                                    \"metaValue\": \"+\"\n                                },\n                                {\n                                    \"metaName\": \"active\",\n                                    \"metaType\": \"string\",\n                                    \"metaValue\": \"true\"\n                                }\n                            ]\n                        }\n                    ]\n                },\n                {\n                    \"portName\": \"out_weights\",\n                    \"portDirection\": \"output\",\n                    \"portType\": \"array<float>\"\n                },\n                {\n                    \"portName\": \"radius\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"float\"\n                },\n                {\n                    \"portName\": \"targets\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"array<Math::float4x4>\"\n                },\n                {\n                    \"portName\": \"out_transform\",\n                    \"portDirection\": \"output\",\n"
 		+ "                    \"portType\": \"Math::float4x4\"\n                },\n                {\n                    \"portName\": \"mouth_root\",\n                    \"portDirection\": \"input\",\n                    \"portType\": \"Math::float4x4\"\n                }\n            ],\n            \"compounds\": [\n                {\n                    \"name\": \"inverse_distance\",\n                    \"metadata\": [\n                        {\n                            \"metaName\": \"io_nodes\",\n                            \"metadata\": [\n                                {\n                                    \"metaName\": \"io_inodes\",\n                                    \"metadata\": [\n                                        {\n                                            \"metaName\": \"input\",\n                                            \"metadata\": [\n                                                {\n                                                    \"metaName\": \"DisplayMode\",\n                                                    \"metaType\": \"string\",\n                                                    \"metaValue\": \"2\"\n"
@@ -12337,20 +12969,20 @@ createNode pointConstraint -n "init_target_pointConstraint1" -p "init_target";
 	setAttr ".rst" -type "double3" 1.7842084577295561 1.0146291658357622 0.70955858520774295 ;
 	setAttr -k on ".w0";
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "220FE9BA-405A-B146-8CA8-E2AC68B8BBA5";
+	rename -uid "16E84EE3-4055-4EB0-26EE-F2A9E2C26779";
 	setAttr -s 2 ".lnk";
 	setAttr -s 2 ".slnk";
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "653CDEEA-4D40-3A00-1C74-48A3C8DD23C6";
+	rename -uid "493D8C83-43D4-C9CA-F0EA-8C85344EBE56";
 	setAttr ".bsdt[0].bscd" -type "Int32Array" 1 0 ;
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "979B2055-46BB-3D12-7779-5887F5CC958F";
+	rename -uid "9F89F64E-420D-7448-D874-3A9BC17F435A";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "EA7B5B4C-478A-5BC0-687B-A99FC37436BB";
+	rename -uid "8194993F-4DC9-4B1A-1B53-06BD31690EBA";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "BE437A29-4D4A-40E7-7F86-0FA1CAC8125C";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "1234207D-4DE3-BF2A-AC4D-EDAC6E0AAB31";
+	rename -uid "CA23AA70-480E-E27E-55F4-B7A1577C983A";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "F6B18F4B-4E05-2FC6-C462-058D8E907542";
 	setAttr ".g" yes;
@@ -12847,7 +13479,7 @@ createNode objectSet -n "lips_add_moduleControlSet";
 	rename -uid "26901EED-4A5F-A986-3942-139087F08889";
 	addAttr -ci true -sn "cbId" -ln "cbId" -dt "string";
 	setAttr ".ihi" 0;
-	setAttr -s 9 ".dsm";
+	setAttr -s 12 ".dsm";
 	setAttr ".an" -type "string" "gControlSet";
 	setAttr ".cbId" -type "string" "65409471561e7538cfef170b:865e83396647";
 createNode objectSet -n "lips_main_moduleControlSet";
@@ -13738,9 +14370,6 @@ createNode nearestPointOnCurve -n "l_lip_1_nearestPointOnCurve";
 	rename -uid "D68B8676-438B-6CD7-2F96-438AC6D41F37";
 createNode composeMatrix -n "composeMatrix11";
 	rename -uid "DAF7EE23-41DF-55C3-DBC0-F8BC2B1F093E";
-createNode nearestPointOnCurve -n "l_lip_2_nearestPointOnCurve2";
-	rename -uid "3C773090-4CB6-ACEC-B083-08908BA5C832";
-	setAttr ".ip" -type "double3" 1.7261459339551686 0.8701862261417016 0.95415313923251965 ;
 createNode pairBlend -n "r_autoCorner_pairBlend";
 	rename -uid "E0061309-49EA-6B30-A0C1-879EB3272ACD";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -13758,14 +14387,9 @@ createNode composeMatrix -n "composeMatrix15";
 	setAttr ".is" -type "double3" -1 1 1 ;
 createNode transformGeometry -n "transformGeometry2";
 	rename -uid "AABF7FF5-435A-ED6C-35BA-DC9DAB7CEC6F";
-createNode motionPath -n "curveShape1_4_mpath1";
-	rename -uid "2E2A9394-4E40-96D3-8EDE-FEAB5F89B86B";
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
 createNode composeMatrix -n "composeMatrix18";
 	rename -uid "AB7F002E-436D-DC69-2933-2E82EF07A077";
-createNode motionPath -n "curveShape1_6_mpath1";
+createNode motionPath -n "r_mouthCorner_mpath";
 	rename -uid "9516FA8A-4947-C743-3CA8-BBBFC47D79B4";
 	setAttr ".f" yes;
 	setAttr ".fa" 0;
@@ -13773,15 +14397,6 @@ createNode motionPath -n "curveShape1_6_mpath1";
 	setAttr ".wut" 2;
 createNode decomposeMatrix -n "mouth_poser_decomposeMatrix";
 	rename -uid "BCFB882F-49B0-4C2C-5134-8CBCC0526079";
-createNode addDoubleLinear -n "addDoubleLinear93";
-	rename -uid "1F1B2402-470C-4625-CE25-9D93E513DD65";
-	setAttr ".ihi" 2;
-createNode multDoubleLinear -n "multDoubleLinear449";
-	rename -uid "022AE581-421D-7768-883F-B0BE2256E790";
-	setAttr ".i2" 0.65781939029693604;
-createNode multiplyDivide -n "multiplyDivide363";
-	rename -uid "93E1C366-4FF8-0B00-C10C-7A90CEB62D6A";
-	setAttr ".i2" -type "float3" -1 1 1 ;
 createNode nearestPointOnCurve -n "corner_nearestPointOnCurve";
 	rename -uid "329D78BF-48FF-7C65-621D-9BBBC5F4AFD3";
 createNode multDoubleLinear -n "l_mouthCorner_moveX_multDoubleLinear";
@@ -13797,23 +14412,8 @@ createNode addDoubleLinear -n "addDoubleLinear99";
 createNode multDoubleLinear -n "multDoubleLinear454";
 	rename -uid "217F52A7-4F82-7373-B94C-85BA6D8A4BE0";
 	setAttr ".i2" -1;
-createNode multDoubleLinear -n "multDoubleLinear457";
-	rename -uid "6A366F69-4645-1851-7E89-779896D09296";
 createNode multDoubleLinear -n "r_mouthCorner_moveX_multDoubleLinear";
 	rename -uid "950B04E0-4FED-FE69-9276-0BA9167E95D0";
-createNode multDoubleLinear -n "multDoubleLinear462";
-	rename -uid "042FE6FB-44D4-0CDD-2CFA-6690842A38A7";
-createNode multDoubleLinear -n "multDoubleLinear463";
-	rename -uid "F4548F62-4EAC-2F41-26D2-D1936D48D42F";
-	setAttr ".i2" -1;
-createNode multDoubleLinear -n "multDoubleLinear464";
-	rename -uid "4D92025D-4F71-6409-6F0A-698272BD2191";
-	setAttr ".i1" 0.65781939029693604;
-createNode reverse -n "reverse42";
-	rename -uid "F1B34950-494F-0B46-48F9-5C9394272DCD";
-createNode multDoubleLinear -n "multDoubleLinear465";
-	rename -uid "C75471D9-4586-F989-B197-2F8DB1D667B8";
-	setAttr ".i2" -1;
 createNode multMatrix -n "cheeks_multMatrix";
 	rename -uid "2F061711-4941-ABAD-0DAD-3AB8A33E39E1";
 	setAttr -s 3 ".i";
@@ -13827,9 +14427,6 @@ createNode multMatrix -n "multMatrix264";
 createNode composeMatrix -n "composeMatrix19";
 	rename -uid "1A8A278C-419B-A509-7B65-409E7E5E5E1B";
 	setAttr ".is" -type "double3" -1 1 1 ;
-createNode plusMinusAverage -n "plusMinusAverage177";
-	rename -uid "42B7D7F0-4C45-C703-6EC3-758EED07D61B";
-	setAttr -s 2 ".i3[1]" -type "float3"  0 0 0;
 createNode addDoubleLinear -n "addDoubleLinear111";
 	rename -uid "4C74C2EC-4DF8-A4A2-8C7C-2896F4308F2D";
 	setAttr ".ihi" 2;
@@ -13841,10 +14438,6 @@ createNode multDoubleLinear -n "multDoubleLinear479";
 createNode unitConversion -n "unitConversion311";
 	rename -uid "56A87C95-4B3E-693F-AE7A-88AC48DEB8D1";
 	setAttr ".cf" 2;
-createNode plusMinusAverage -n "plusMinusAverage178";
-	rename -uid "133C815F-49AB-F38A-3A06-FEA45AA1782C";
-	setAttr -s 2 ".i3[1]" -type "float3"  0 0 0;
-	setAttr -s 2 ".i3";
 createNode addDoubleLinear -n "addDoubleLinear112";
 	rename -uid "C915186B-4E1E-6E29-EE87-FB9802C8D023";
 	setAttr ".ihi" 2;
@@ -13892,36 +14485,11 @@ createNode unitConversion -n "unitConversion312";
 createNode unitConversion -n "unitConversion313";
 	rename -uid "28B253AA-4F54-4149-B22E-B098438FABDD";
 	setAttr ".cf" 57.295779513082323;
-createNode multiplyDivide -n "multiplyDivide368";
-	rename -uid "6819AF32-4364-81BB-F6B3-9FA11A5943C7";
-	setAttr ".op" 2;
-	setAttr ".i2" -type "float3" 0.5 1 1 ;
-createNode setRange -n "setRange127";
-	rename -uid "C2329682-4615-DC5F-4897-1081BF125B65";
-	setAttr ".n" -type "float3" 1 0 0 ;
-	setAttr ".m" -type "float3" 0.5 0.5 0 ;
-	setAttr ".on" -type "float3" 0.5 0.5 0 ;
-	setAttr ".om" -type "float3" 1 1 0 ;
-createNode reverse -n "reverse50";
-	rename -uid "4695FAB9-4CA8-ED5F-4182-C2A196271F3D";
-createNode motionPath -n "l_t_lip_2_init_mpath";
-	rename -uid "4F2C36F1-49CA-74FD-00B9-EA931EFCA5A9";
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
 createNode motionPath -n "l_lip_1_mpath";
 	rename -uid "2B58826B-4CF8-4A18-264F-9BB88DEC82CA";
 	setAttr ".f" yes;
 	setAttr ".fa" 0;
 	setAttr ".ua" 1;
-createNode condition -n "condition9";
-	rename -uid "5A740729-4B3D-3F37-9DF6-49BBB497931A";
-createNode unitConversion -n "unitConversion316";
-	rename -uid "3B30668C-4FF8-7A23-68EF-E89100DC1954";
-	setAttr ".cf" 57.295779513082323;
-createNode unitConversion -n "unitConversion317";
-	rename -uid "47BB8383-46F2-5A5B-E10A-3CA7A5ABC2DF";
-	setAttr ".cf" 57.295779513082323;
 createNode condition -n "condition10";
 	rename -uid "4778A203-4256-CB0D-1EBE-42BEF9701E77";
 createNode unitConversion -n "unitConversion324";
@@ -13960,7 +14528,7 @@ createNode motionPath -n "curveShape1_6_mpath3";
 createNode multMatrix -n "multMatrix283";
 	rename -uid "B748E562-41B1-D0EA-70FB-368B2A7AD4EB";
 	setAttr -s 2 ".i";
-createNode motionPath -n "curveShape1_6_mpath4";
+createNode motionPath -n "l_corner_init_mpath";
 	rename -uid "8A18B23E-4CA8-1F54-38C6-0782A2AF03CA";
 	setAttr ".u" 1;
 	setAttr ".f" yes;
@@ -14005,45 +14573,6 @@ createNode multMatrix -n "multMatrix291";
 	setAttr -s 3 ".i";
 createNode blendMatrix -n "blendMatrix27";
 	rename -uid "09BAC54F-4F2A-3082-BE37-CD984D6D739F";
-createNode composeMatrix -n "l_lip_1_slide_composeMatrix";
-	rename -uid "CD1BFE76-4875-9F52-6F5B-318E90F78E7D";
-createNode multMatrix -n "multMatrix293";
-	rename -uid "4647C050-4F27-DCF2-D39E-D6A6D8115F3F";
-	setAttr -s 2 ".i";
-createNode multMatrix -n "multMatrix294";
-	rename -uid "1F4BB312-4B2E-029F-774D-5EB1A899B311";
-	setAttr -s 2 ".i";
-createNode multMatrix -n "multMatrix296";
-	rename -uid "F8B08222-40BF-22C7-3802-89AB34D20417";
-	setAttr -s 2 ".i";
-createNode multMatrix -n "multMatrix299";
-	rename -uid "9F42879A-4B45-3F32-9187-13A3F4FAD863";
-	setAttr -s 2 ".i";
-createNode composeMatrix -n "reverse_composeMatrix";
-	rename -uid "D2FBA929-4157-DC86-B6F8-F6ABE68502FE";
-	setAttr ".is" -type "double3" -1 1 1 ;
-createNode multMatrix -n "multMatrix301";
-	rename -uid "860BD3E8-4AEA-0D3A-242D-73A36CCC29F6";
-	setAttr -s 2 ".i";
-createNode composeMatrix -n "l_t_lip_2_init_composeMatrix";
-	rename -uid "8D6DF7C8-4092-6DF6-19B4-AA95DC7A685A";
-createNode multMatrix -n "multMatrix302";
-	rename -uid "CB9F2BC3-48DD-5CCB-AF8E-919ACC18538B";
-	setAttr -s 2 ".i";
-createNode blendMatrix -n "blendMatrix33";
-	rename -uid "94285426-40B0-2F24-DC3F-04AFE17141A3";
-createNode multMatrix -n "multMatrix304";
-	rename -uid "146381C0-4B25-3C0B-CE36-3A9A3BF67729";
-	setAttr -s 2 ".i";
-createNode multMatrix -n "multMatrix305";
-	rename -uid "7B195A3E-44CA-C415-B371-A4A4D1EF0620";
-	setAttr -s 2 ".i";
-createNode multMatrix -n "multMatrix306";
-	rename -uid "BEFA0DDA-4806-719C-FFD8-FBBA7083243F";
-	setAttr -s 2 ".i";
-createNode multMatrix -n "multMatrix307";
-	rename -uid "AC5BE58B-4028-DFED-FE9E-6BBFB40177CB";
-	setAttr -s 2 ".i";
 createNode blendMatrix -n "corner_init_blendMatrix";
 	rename -uid "ED7B52C1-4909-7004-24C9-35BBC2BE74DD";
 createNode makeNurbSphere -n "makeNurbSphere22";
@@ -14122,18 +14651,6 @@ createNode addDoubleLinear -n "addDoubleLinear113";
 	rename -uid "41FE141C-495E-D6CD-D096-B196B0DAA1FA";
 	setAttr ".ihi" 2;
 	setAttr ".i1" 1;
-createNode reverse -n "reverse41";
-	rename -uid "DC79CED0-442D-FB64-E608-60BC33F5F2AF";
-createNode multiplyDivide -n "l_t_lip_1_multiplyDivide";
-	rename -uid "5861EF58-43FB-40DD-28AC-CB9081AFA7F3";
-	setAttr ".op" 2;
-	setAttr ".i2" -type "float3" 0.5 1 1 ;
-createNode addDoubleLinear -n "addDoubleLinear114";
-	rename -uid "D8B7D4F3-4C38-1717-B011-7CBA4EB43E68";
-	setAttr ".ihi" 2;
-	setAttr ".i2" -0.5;
-createNode reverse -n "l_t_lip_1_reverse";
-	rename -uid "4DAC221B-489D-75C3-2608-1692A552005D";
 createNode shapeEditorManager -n "shapeEditorManager1";
 	rename -uid "B68DBBED-4792-71F5-4F23-3B8BE262C364";
 	setAttr ".bsdt[0].bscd" -type "Int32Array" 1 0 ;
@@ -14164,8 +14681,6 @@ createNode tweak -n "tweak1";
 	rename -uid "9E916A33-45E6-FDA0-BD16-81BE112BDB53";
 createNode curveInfo -n "curveInfo";
 	rename -uid "B7D80CEC-4EC4-EE2E-E4C6-11A16816587A";
-createNode decomposeMatrix -n "decomposeMatrix51";
-	rename -uid "D4DE8421-47FC-56D8-81FB-E98215EE98B0";
 createNode makeNurbSphere -n "l_lipUp_makeNurbSphere";
 	rename -uid "F40E9387-4F3D-6116-397F-AB8D544FD283";
 createNode multDoubleLinear -n "l_lipUp_size_multDoubleLinear";
@@ -14230,48 +14745,15 @@ createNode multMatrix -n "multMatrix324";
 createNode multMatrix -n "multMatrix325";
 	rename -uid "C693BA04-4349-E35B-39B9-19A7117B8246";
 	setAttr -s 3 ".i";
-createNode distanceBetween -n "distanceBetween1";
-	rename -uid "E9FF396C-4E95-A6C9-107C-02A6D1380193";
-createNode distanceBetween -n "distanceBetween2";
-	rename -uid "A7A98E09-44AE-2698-5CF8-7B9AE739F987";
-createNode multiplyDivide -n "multiplyDivide370";
-	rename -uid "4F319201-4F41-1A78-A75E-60A97FC5D927";
-	setAttr ".op" 2;
-createNode multiplyDivide -n "multiplyDivide371";
-	rename -uid "1CEB5B7E-44FB-D9C7-568A-F2958D84D047";
-	setAttr ".op" 2;
-createNode distanceBetween -n "distanceBetween3";
-	rename -uid "73B2162C-4ECF-67CB-9E99-17BEB59DA7AB";
-createNode distanceBetween -n "distanceBetween4";
-	rename -uid "1420A695-48E3-77B1-2221-74A2ECBF1A2D";
-createNode multMatrix -n "lips_jaw__multMatrix";
-	rename -uid "6374A35B-48BE-CB9E-163C-B5ADE5BD9544";
-	setAttr -s 3 ".i";
-createNode addDoubleLinear -n "l_lip_1__uValue__addDoubleLinear";
+createNode addDoubleLinear -n "l_lip_1_uValue_addDoubleLinear";
 	rename -uid "FA7585A0-4B98-3E4B-75F8-1286EBDFE9CF";
 	setAttr ".ihi" 2;
 createNode multDoubleLinear -n "l_lip_1__corner__multDoubleLinear";
 	rename -uid "BD5222C8-4575-A76F-559A-A1A08AC3788F";
-createNode clamp -n "l_lip_1_corner_h_clamp";
-	rename -uid "2863BC3E-4B73-99D1-231D-A7811CA93F6A";
-	setAttr ".mx" -type "float3" 100 0 0 ;
-createNode multDoubleLinear -n "l_lip_1_corner_h_multDoubleLinear";
-	rename -uid "5BF8DB4F-439E-313E-AE61-9F9CE1FCEF84";
 createNode plusMinusAverage -n "l_lip_1_reverse_u_plusMinusAverage";
 	rename -uid "68CD8EA5-4C02-E707-A626-7A952E2E2005";
 	setAttr ".op" 2;
-	setAttr -s 2 ".i1[0:1]"  1 0.67289287;
-createNode multiplyDivide -n "l_lip_1_uFactor_multiplyDivide";
-	rename -uid "A8E2B50B-4A9D-F7ED-F4DA-DF919ED5E972";
-	setAttr ".op" 2;
-createNode multiplyDivide -n "l_lip_1_corner_h_multiplyDivide";
-	rename -uid "D9F1D4ED-43B9-0DE1-6A7E-60B0F18B4261";
-	setAttr ".op" 2;
-createNode plusMinusAverage -n "l_lip_1_corner_h_plusMinusAverage";
-	rename -uid "A4A64707-4B70-463E-2919-16933080500B";
-	setAttr ".op" 2;
-	setAttr -s 2 ".i1";
-	setAttr -s 2 ".i1";
+	setAttr -s 2 ".i1[0:1]"  1 0.68330944;
 createNode multiplyDivide -n "length_multiplyDivide";
 	rename -uid "B134582F-4168-EB52-A24D-56982661DA34";
 	setAttr ".op" 2;
@@ -14281,79 +14763,7 @@ createNode motionPath -n "l_lip_1_flat_mpath";
 	setAttr ".fa" 0;
 	setAttr ".ua" 1;
 	setAttr ".wut" 2;
-createNode condition -n "l_lip_1_mouthLineFollow_condition";
-	rename -uid "E1CF87B9-4693-3A22-0999-AAB043DBC72A";
-createNode unitConversion -n "unitConversion328";
-	rename -uid "0B33BCBB-4498-AEDD-7187-FA9E886D98DB";
-	setAttr ".cf" 57.295779513082323;
-createNode unitConversion -n "unitConversion329";
-	rename -uid "B30C36E3-4675-BA30-BFD1-B4A57F64E4EA";
-	setAttr ".cf" 57.295779513082323;
-createNode unitConversion -n "unitConversion330";
-	rename -uid "5CD92E36-4002-AA9D-5B89-4899A7E9E22A";
-	setAttr ".cf" 0.017453292519943295;
-createNode unitConversion -n "unitConversion331";
-	rename -uid "B5F25406-46FA-73DF-24E0-13B658271B0A";
-	setAttr ".cf" 0.017453292519943295;
-createNode multDoubleLinear -n "l_lip_1_corner_v_multDoubleLinear";
-	rename -uid "977319CC-4CDD-27A9-769E-E99C39CAD48D";
-createNode multMatrix -n "l_t_lip_1_group_multMatrix";
-	rename -uid "5920A98A-49DE-4A57-94E9-72AA9D59B938";
-	setAttr -s 3 ".i";
-createNode multDoubleLinear -n "t_lip_1__jaw__multDoubleLinear";
-	rename -uid "4A9CF421-4FDF-0E47-06F8-CA8DEF8F88BF";
-createNode multMatrix -n "t_lip_over_lips_multMatrix";
-	rename -uid "E8590EF3-441E-54A4-9985-4AAE11982278";
-	setAttr -s 4 ".i";
-createNode blendMatrix -n "t_lip_1__jaw__blendMatrix";
-	rename -uid "D6C1E747-4615-F5D6-A6F7-27925735E8B7";
-createNode blendMatrix -n "l_t_lip_1__tLip__blendMatrix";
-	rename -uid "9FEABA99-4C3D-3030-BAB0-5D9B626B4050";
-createNode multMatrix -n "l_b_lip_1_group_multMatrix";
-	rename -uid "69EBCAB5-4AB4-DD8D-C709-2FAF82D76CDF";
-	setAttr -s 3 ".i";
-createNode blendMatrix -n "b_lip_1__jaw__blendMatrix";
-	rename -uid "B0930EE8-4E82-0CD8-FE90-A7BD7C0107C4";
-createNode motionPath -n "l_lip_1_flat_mpath1";
-	rename -uid "6FF75EDF-4AAE-DC99-7E41-BBBB3B773791";
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wum" -type "matrix" 0.99716706540765787 0 0 0 0 0.99716706540765787 0 0
-		 0 0 0.99716706540765787 0 1.8064361931453623 1.1863699262156795 0.59579796735012913 1;
-createNode composeMatrix -n "composeMatrix25";
-	rename -uid "CAD50844-416C-2F69-6744-1293EE00A1CC";
-createNode inverseMatrix -n "inverseMatrix2";
-	rename -uid "EB5C95D0-434A-3A0B-9A3B-84BAF5C87CDC";
-createNode multMatrix -n "multMatrix333";
-	rename -uid "207D1774-4921-6750-27A2-1DA2713E732B";
-	setAttr -s 2 ".i";
-createNode multMatrix -n "multMatrix334";
-	rename -uid "B05936E6-48A3-F24C-E9EC-3CBF6C8BBB8D";
-	setAttr -s 2 ".i";
-createNode multMatrix -n "multMatrix336";
-	rename -uid "507A9604-4B88-F7D6-BAC6-AFB84635B8B5";
-	setAttr -s 3 ".i";
-createNode blendMatrix -n "l_b_lip_1__bLip__blendMatrix";
-	rename -uid "C1E16D59-4DAF-FDA6-C987-879F62A9DAAF";
-	setAttr ".imat" -type "matrix" 0.99999999999999989 0 0 0 0 1.0000000000000002 0 0
-		 0 0 1.0000000000000002 0 0 0 0 1;
-createNode setRange -n "l_b_lip_1_setRange";
-	rename -uid "BFD875CD-4003-5B4F-4F5A-65840DEFB24B";
-	setAttr ".m" -type "float3" 1 0 0 ;
-	setAttr ".om" -type "float3" 1 0 0 ;
-createNode multMatrix -n "l_b_lip_1__bMouth__multMatrix";
-	rename -uid "6F30D849-4730-893C-4314-579B6084F655";
-	setAttr -s 2 ".i";
-createNode inverseMatrix -n "l_b_lip_1__bMouth__inverseMatrix";
-	rename -uid "66D3C5C4-41B5-E426-6E71-B4BE6BE50344";
-createNode multMatrix -n "l_b_lip_1_multMatrix";
-	rename -uid "BFD8A2CF-4062-06EA-3E72-8BBCDB7C458F";
-	setAttr -s 4 ".i";
-createNode multMatrix -n "r_t_lip_1_group_multMatrix";
-	rename -uid "E4FC8B7E-4AD9-8822-4063-A3819FA28475";
-	setAttr -s 3 ".i";
-createNode multDoubleLinear -n "r_lip_1__corner__multDoubleLinear";
+createNode multDoubleLinear -n "r_lip_1_corner_multDoubleLinear";
 	rename -uid "AFADC968-4922-A6B6-9911-C6A7E8E8CACA";
 createNode addDoubleLinear -n "r_lip_1__uValue__addDoubleLinear";
 	rename -uid "566CF39B-405D-42AA-051B-54A935D66B2B";
@@ -14363,89 +14773,15 @@ createNode motionPath -n "r_lip_1_mpath";
 	setAttr ".f" yes;
 	setAttr ".fa" 0;
 	setAttr ".ua" 1;
-createNode condition -n "r_lip_1_mouthLineFollow_condition";
-	rename -uid "0797EA78-42B9-5895-F59D-508244957C04";
-	setAttr ".ct" -type "float3" 0 0 1.1306508 ;
-createNode unitConversion -n "unitConversion332";
-	rename -uid "5A15F0CD-4BD2-2B96-C64B-F2B1E1C76B0F";
-	setAttr ".cf" 57.295779513082323;
-createNode unitConversion -n "unitConversion333";
-	rename -uid "CA9640E4-4B82-7B15-FCE6-38B6E6D18537";
-	setAttr ".cf" 57.295779513082323;
-createNode composeMatrix -n "r_lip_1_slide_composeMatrix";
-	rename -uid "0CCD9D39-42C6-296B-8BB5-449C28D2BB3F";
 createNode motionPath -n "r_lip_1_flat_mpath";
 	rename -uid "1FED77C3-4ABD-1A93-A038-AAA612BEB375";
 	setAttr ".f" yes;
 	setAttr ".fa" 0;
 	setAttr ".ua" 1;
 	setAttr ".wut" 2;
-createNode unitConversion -n "unitConversion334";
-	rename -uid "ABA3F5DF-42D6-634E-63E0-F5A155E2C63C";
-	setAttr ".cf" 0.017453292519943295;
-createNode unitConversion -n "unitConversion335";
-	rename -uid "FCCE9F70-4EBD-C9B8-BE38-5A921D828CFD";
-	setAttr ".cf" 0.017453292519943295;
 createNode multDoubleLinear -n "multDoubleLinear486";
 	rename -uid "195272CC-4DA8-57A9-E752-5688761090B9";
 	setAttr ".i2" -1;
-createNode multDoubleLinear -n "r_lip_1_corner_v_multDoubleLinear";
-	rename -uid "B2DCCBA6-4583-68DB-B695-ABBCAD512042";
-createNode plusMinusAverage -n "l_lip_1_corner_h_plusMinusAverage1";
-	rename -uid "AAB78261-43B6-97B0-8B67-03B77DD8DDAE";
-	setAttr ".op" 2;
-	setAttr -s 2 ".i1";
-	setAttr -s 2 ".i1";
-createNode multDoubleLinear -n "l_lip_1_corner_h_multDoubleLinear1";
-	rename -uid "E1A88E30-4EFA-E375-A302-3D98602B793A";
-createNode clamp -n "l_lip_1_corner_h_clamp1";
-	rename -uid "FFCFAE09-4638-AE5C-A2A2-D0A6456F443A";
-	setAttr ".mx" -type "float3" 100 0 0 ;
-createNode multDoubleLinear -n "multDoubleLinear487";
-	rename -uid "CBFB8BB3-4E45-B7F6-B4C6-478DF368A454";
-	setAttr ".i2" -1;
-createNode multMatrix -n "r_b_lip_1_group_multMatrix";
-	rename -uid "832597E3-412E-169C-7ED9-208675E0ADC2";
-	setAttr -s 3 ".i";
-createNode multMatrix -n "r_b_lip_1__bMouth__multMatrix";
-	rename -uid "CCE72513-45BD-2FAA-7744-3CB96A7775C8";
-	setAttr -s 2 ".i";
-createNode blendMatrix -n "r_b_lip_1__bLip__blendMatrix";
-	rename -uid "7C86A0EE-41A6-8400-6664-B3B47039ECE5";
-	setAttr ".imat" -type "matrix" 0.99999999999999989 0 0 0 0 1.0000000000000002 0 0
-		 0 0 1.0000000000000002 0 0 0 0 1;
-createNode multMatrix -n "r_b_lip_1_multMatrix";
-	rename -uid "C0920ADF-4029-7330-8483-6E8231467742";
-	setAttr -s 4 ".i";
-createNode inverseMatrix -n "r_b_lip_1__bMouth__inverseMatrix";
-	rename -uid "38B31751-4360-D6F6-4647-4EBC9D39860F";
-createNode pickMatrix -n "lips_scale_pickMatrix";
-	rename -uid "3B9F0A35-4CCA-BEC7-DCA3-9F83D4417A48";
-	setAttr ".tra" no;
-	setAttr ".she" no;
-	setAttr ".rot" no;
-createNode uvPin -n "b_uvPin";
-	rename -uid "7A34E839-43D1-3FAF-87B6-2EB8556C8893";
-	setAttr -s 7 ".coord[0:6]" -type "double2" 0 0.125 0 0.25 0 0.375 
-		0 0.5 0 0.625 0 0.75 0 0.875;
-	setAttr -s 7 ".coord";
-	setAttr ".nrm" 2;
-	setAttr ".tng" 4;
-	setAttr -s 7 ".omat";
-createNode uvPin -n "t_uvPin";
-	rename -uid "92A5186F-47F5-71A7-07A6-95B8342171AB";
-	setAttr -s 7 ".coord[0:6]" -type "double2" 0 0.125 0 0.25 0 0.375 
-		0 0.5 0 0.625 0 0.75 0 0.875;
-	setAttr -s 7 ".coord";
-	setAttr ".nrm" 2;
-	setAttr ".tng" 4;
-	setAttr -s 7 ".omat";
-createNode reverse -n "r_t_lip_local_1_reverse";
-	rename -uid "55208F45-458C-BDFC-45CA-10BF6953B161";
-createNode reverse -n "r_t_lip_local_2_reverse";
-	rename -uid "F6EDEAF1-40D9-2E37-34DA-FF8CB972220B";
-createNode reverse -n "r_t_lip_local_3_reverse";
-	rename -uid "0BB1EFE8-4D8A-0B09-BB92-659F3A82D564";
 createNode decomposeMatrix -n "l_t_lip_1_outJoint_decMat";
 	rename -uid "C88035BD-4A57-4843-0A13-948920A284EC";
 createNode multMatrix -n "l_t_lip_1_outJoint_multMat";
@@ -14476,12 +14812,6 @@ createNode decomposeMatrix -n "r_t_lip_3_outJoint_decMat";
 createNode multMatrix -n "r_t_lip_3_outJoint_multMat";
 	rename -uid "8A79716F-4FB5-3A20-43A8-7D86CA634853";
 	setAttr -s 4 ".i";
-createNode reverse -n "r_b_lip_local_1_reverse";
-	rename -uid "AEBC985D-48A6-75B8-6192-5BBE5CCB4430";
-createNode reverse -n "r_b_lip_local_2_reverse";
-	rename -uid "63C85C27-4D73-FB11-B27E-DC81C87CBF1C";
-createNode reverse -n "r_b_lip_local_3_reverse";
-	rename -uid "88D189D2-4047-EB3C-9E21-E9A70A037C2F";
 createNode decomposeMatrix -n "l_b_lip_1_outJoint_decMat";
 	rename -uid "2828ED5B-4A88-DE0A-55A0-4294664C9CE1";
 createNode multMatrix -n "l_b_lip_1_outJoint_multMat";
@@ -14512,1044 +14842,370 @@ createNode decomposeMatrix -n "r_b_lip_3_outJoint_decMat";
 createNode multMatrix -n "r_b_lip_3_outJoint_multMat";
 	rename -uid "5625A0D1-4365-2AFE-DAF9-A48DCA4D69F6";
 	setAttr -s 4 ".i";
+createNode makeNurbSphere -n "lip_2_makeNurbSphere";
+	rename -uid "59525198-440B-4502-4F44-81BFB4A08C93";
+createNode multDoubleLinear -n "lip_2_size_multDoubleLinear";
+	rename -uid "C078D1D6-4820-B55D-105A-D5A1D77098AA";
+createNode multDoubleLinear -n "l_lip_1__corner__multDoubleLinear1";
+	rename -uid "D8DE4E42-4A4E-C257-5C83-5F8755B3F7DD";
+createNode decomposeMatrix -n "decomposeMatrix51";
+	rename -uid "D4DE8421-47FC-56D8-81FB-E98215EE98B0";
+createNode uvPin -n "t_uvPin";
+	rename -uid "92A5186F-47F5-71A7-07A6-95B8342171AB";
+	setAttr -s 7 ".coord[0:6]" -type "double2" 0.5 0.064999997615814209 
+		0.5 0.14999997615814209 0.5 0.2850000262260437 0.5 0.5 0.5 0.715 0.5 0.85 0.5 0.935;
+	setAttr -s 7 ".coord";
+	setAttr ".nrm" 2;
+	setAttr ".tng" 4;
+	setAttr -s 7 ".omat";
+createNode reverse -n "r_t_lip_local_1_reverse";
+	rename -uid "55208F45-458C-BDFC-45CA-10BF6953B161";
+createNode reverse -n "r_t_lip_local_2_reverse";
+	rename -uid "F6EDEAF1-40D9-2E37-34DA-FF8CB972220B";
+createNode reverse -n "r_t_lip_local_3_reverse";
+	rename -uid "0BB1EFE8-4D8A-0B09-BB92-659F3A82D564";
+createNode pickMatrix -n "lips_scale_pickMatrix";
+	rename -uid "3B9F0A35-4CCA-BEC7-DCA3-9F83D4417A48";
+	setAttr ".tra" no;
+	setAttr ".she" no;
+	setAttr ".rot" no;
+createNode uvPin -n "b_uvPin";
+	rename -uid "7A34E839-43D1-3FAF-87B6-2EB8556C8893";
+	setAttr -s 7 ".coord[0:6]" -type "double2" 0.5 0.064999997615814209 
+		0.5 0.14999997615814209 0.5 0.2850000262260437 0.5 0.5 0.5 0.715 0.5 0.85 0.5 0.935;
+	setAttr -s 7 ".coord";
+	setAttr ".nrm" 2;
+	setAttr ".tng" 4;
+	setAttr -s 7 ".omat";
+createNode reverse -n "r_b_lip_local_3_reverse";
+	rename -uid "88D189D2-4047-EB3C-9E21-E9A70A037C2F";
+createNode reverse -n "r_b_lip_local_1_reverse";
+	rename -uid "AEBC985D-48A6-75B8-6192-5BBE5CCB4430";
+createNode reverse -n "r_b_lip_local_2_reverse";
+	rename -uid "63C85C27-4D73-FB11-B27E-DC81C87CBF1C";
+createNode unitConversion -n "unitConversion343";
+	rename -uid "9FFD398B-4C45-31EF-A345-C39A5EAF3154";
+	setAttr ".cf" 57.295779513082323;
+createNode motionPath -n "l_lip_2_mpath";
+	rename -uid "DAC13B51-43E1-1094-D32A-F8AEA576131F";
+	setAttr ".f" yes;
+	setAttr ".fa" 0;
+	setAttr ".ua" 1;
+createNode addDoubleLinear -n "l_lip_1__uValue__addDoubleLinear1";
+	rename -uid "F3EA0888-41FE-A2E1-2528-C4AB2FBF8028";
+	setAttr ".ihi" 2;
+createNode nearestPointOnCurve -n "l_lip_2_nearestPointOnCurve";
+	rename -uid "7395EF47-4EB9-91CA-6FEC-8E822B7A2580";
+createNode unitConversion -n "unitConversion340";
+	rename -uid "540F4D7B-45D7-2B60-8B45-5CBD8613AA4A";
+	setAttr ".cf" 57.295779513082323;
+createNode unitConversion -n "unitConversion342";
+	rename -uid "75306B6C-4AB0-EA38-3978-8A9DD782DC7B";
+	setAttr ".cf" 57.295779513082323;
+createNode unitConversion -n "unitConversion341";
+	rename -uid "9C1ED13C-48C0-7F50-1964-0CBC43864C4A";
+	setAttr ".cf" 57.295779513082323;
 createNode motionPath -n "l_lip_2_flat_mpath";
 	rename -uid "77A59777-4A74-EF54-76C6-1089B9AE3FBE";
 	setAttr ".f" yes;
 	setAttr ".fa" 0;
 	setAttr ".ua" 1;
 	setAttr ".wut" 2;
-createNode makeNurbSphere -n "lip_2_makeNurbSphere";
-	rename -uid "59525198-440B-4502-4F44-81BFB4A08C93";
-createNode multDoubleLinear -n "lip_2_size_multDoubleLinear";
-	rename -uid "C078D1D6-4820-B55D-105A-D5A1D77098AA";
-createNode nearestPointOnCurve -n "l_lip_2_nearestPointOnCurve";
-	rename -uid "7395EF47-4EB9-91CA-6FEC-8E822B7A2580";
-createNode addDoubleLinear -n "l_lip_1__uValue__addDoubleLinear1";
-	rename -uid "F3EA0888-41FE-A2E1-2528-C4AB2FBF8028";
-	setAttr ".ihi" 2;
-createNode multDoubleLinear -n "l_lip_1__corner__multDoubleLinear1";
-	rename -uid "D8DE4E42-4A4E-C257-5C83-5F8755B3F7DD";
-createNode motionPath -n "l_lip_2_mpath";
-	rename -uid "DAC13B51-43E1-1094-D32A-F8AEA576131F";
+createNode unitConversion -n "unitConversion344";
+	rename -uid "88C078E6-4EEF-1816-7027-868FF918D62D";
+	setAttr ".cf" 57.295779513082323;
+createNode unitConversion -n "unitConversion345";
+	rename -uid "B0C9C803-443F-2ABD-E199-E58A03B69AF7";
+	setAttr ".cf" 57.295779513082323;
+createNode motionPath -n "r_lip_2_mpath";
+	rename -uid "96F3B913-4EC6-2ACF-6FF3-559653E57503";
 	setAttr ".f" yes;
 	setAttr ".fa" 0;
 	setAttr ".ua" 1;
-createNode unitConversion -n "unitConversion340";
-	rename -uid "540F4D7B-45D7-2B60-8B45-5CBD8613AA4A";
+createNode multDoubleLinear -n "r_lip_2__corner__multDoubleLinear";
+	rename -uid "E4ABBEAF-4A03-932A-5A4B-4481AF6035E4";
+createNode multDoubleLinear -n "multDoubleLinear488";
+	rename -uid "4C219220-49E0-E0FE-AFA6-C99259CF2212";
+	setAttr ".i2" -1;
+createNode addDoubleLinear -n "r_lip_1__uValue__addDoubleLinear1";
+	rename -uid "C68A7914-424C-089D-234B-80B6F8AD5088";
+	setAttr ".ihi" 2;
+createNode plusMinusAverage -n "l_lip_2_reverse_u_plusMinusAverage";
+	rename -uid "2B2FEA55-431C-5BA3-C2B8-4F839045B506";
+	setAttr ".op" 2;
+	setAttr -s 2 ".i1[0:1]"  1 0.83261514;
+createNode motionPath -n "r_lip_2_flat_mpath";
+	rename -uid "A4DD214A-4C85-12C0-8987-90AB7BE37F17";
+	setAttr ".f" yes;
+	setAttr ".fa" 0;
+	setAttr ".ua" 1;
+	setAttr ".wut" 2;
+	setAttr ".wum" -type "matrix" 0.99716706540765787 0 0 0 0 0.99716706540765787 0 0
+		 0 0 0.99716706540765787 0 1.8064361931453623 1.1863699262156795 0.59579796735012913 1;
+createNode unitConversion -n "unitConversion346";
+	rename -uid "FACC60D9-4F5E-463B-742E-D6A37E0C8D80";
 	setAttr ".cf" 57.295779513082323;
-createNode unitConversion -n "unitConversion341";
-	rename -uid "9C1ED13C-48C0-7F50-1964-0CBC43864C4A";
+createNode unitConversion -n "unitConversion347";
+	rename -uid "614EA02B-4BA7-79BA-9D4F-BFA64C05856F";
 	setAttr ".cf" 57.295779513082323;
-createNode unitConversion -n "unitConversion342";
-	rename -uid "75306B6C-4AB0-EA38-3978-8A9DD782DC7B";
-	setAttr ".cf" 57.295779513082323;
-createNode unitConversion -n "unitConversion343";
-	rename -uid "9FFD398B-4C45-31EF-A345-C39A5EAF3154";
-	setAttr ".cf" 57.295779513082323;
+createNode aimMatrix -n "l_b_lip_corner_aimMatrix";
+	rename -uid "E7A807A1-4194-A3BE-97E0-E6BD33C2181A";
+	setAttr ".smi" -type "double3" 0 0 -1 ;
+	setAttr ".sm" 2;
+	setAttr ".smiv" -type "double3" 0 0 1 ;
+createNode polyCube -n "polyCube1";
+	rename -uid "529AB68C-400E-8DCB-FEEE-0FAAB9D4ACC2";
+	setAttr ".cuv" 4;
+createNode polyCube -n "polyCube2";
+	rename -uid "C2B3A1FD-4F3A-F9F5-C245-59A0E48A95D8";
+	setAttr ".cuv" 4;
+createNode multMatrix -n "l_b_lip_corner_multMatrix";
+	rename -uid "049DD8D5-4371-DEC3-C072-6A85D7363FD4";
+	setAttr -s 2 ".i";
+createNode multMatrix -n "l_t_lip_corner_multMatrix";
+	rename -uid "10C27021-437D-024E-541C-64A1369113FE";
+	setAttr -s 2 ".i";
+createNode aimMatrix -n "l_t_lip_corner_aimMatrix";
+	rename -uid "AE4F3658-4EF1-B4BB-6350-3B853AD5CDF7";
+	setAttr ".smi" -type "double3" 0 0 -1 ;
+	setAttr ".sm" 2;
+	setAttr ".smiv" -type "double3" 0 0 1 ;
+createNode multMatrix -n "r_t_lip_corner_multMatrix";
+	rename -uid "F53D57CD-4E05-3981-A2AC-89B6C90270DF";
+	setAttr -s 2 ".i";
+createNode multMatrix -n "r_b_lip_corner_multMatrix";
+	rename -uid "B527F50E-4424-962F-7EA4-77ABD8003905";
+	setAttr -s 2 ".i";
+createNode aimMatrix -n "r_b_lip_corner_aimMatrix";
+	rename -uid "987E50E5-4D88-DEE1-D8B7-54A8CBBEC113";
+	setAttr ".smi" -type "double3" 0 0 -1 ;
+	setAttr ".sm" 2;
+	setAttr ".smiv" -type "double3" 0 0 1 ;
+createNode aimMatrix -n "r_t_lip_corner_aimMatrix";
+	rename -uid "2FFAD413-455A-4703-DC92-6E8F1402C952";
+	setAttr ".smi" -type "double3" 0 0 -1 ;
+	setAttr ".sm" 2;
+	setAttr ".smiv" -type "double3" 0 0 1 ;
+createNode polyCube -n "polyCube3";
+	rename -uid "5DE242E6-433D-3116-3C97-CB8FF58261F1";
+	setAttr ".w" 0.22999999999999998;
+	setAttr ".h" 0.22999999999999998;
+	setAttr ".d" 0.22999999999999998;
+	setAttr ".cuv" 4;
+createNode setRange -n "l_setRange_lipsUpDown";
+	rename -uid "EBB6F42D-4519-A2F4-8903-96B6A5A11325";
+	setAttr ".n" -type "float3" 0 1 0 ;
+	setAttr ".m" -type "float3" 1 0 0 ;
+createNode setRange -n "r_setRange_lipsUpDown";
+	rename -uid "B581EBC9-414A-1436-C6C2-2A91C5436C74";
+	setAttr ".n" -type "float3" 0 1 0 ;
+	setAttr ".m" -type "float3" 1 0 0 ;
+createNode blendTwoAttr -n "blendTwoAttr1";
+	rename -uid "A8456846-4313-9AD2-AD5F-579C2F6324F1";
+	setAttr -s 2 ".i";
+	setAttr -s 2 ".i";
+createNode blendTwoAttr -n "blendTwoAttr2";
+	rename -uid "11AAE5B9-4796-9E7E-6145-01AB39319020";
+	setAttr -s 2 ".i[0:1]"  0.5 -0.3;
+	setAttr ".ab" 1;
+createNode setRange -n "setRange125";
+	rename -uid "17D89824-4D18-8997-6B2C-D497F8A811F5";
+	setAttr ".n" -type "float3" 1 0 0 ;
+createNode setRange -n "setRange126";
+	rename -uid "E626E8DC-4F58-5601-A211-80A701426F2B";
+	setAttr ".n" -type "float3" 1 0 0 ;
+createNode blendTwoAttr -n "blendTwoAttr3";
+	rename -uid "16BE2281-44A9-D976-19C4-A7B0EE31465F";
+	setAttr -s 2 ".i";
+	setAttr -s 2 ".i";
 createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
-	rename -uid "D547527E-488D-28AF-C5D2-A7B39FC0DE2A";
+	rename -uid "01112B0A-497D-B8B3-4EC9-F7AD98269D72";
 	setAttr -s 5 ".tgi";
-	setAttr ".tgi[0].tn" -type "string" "Untitled_1";
-	setAttr ".tgi[0].vl" -type "double2" 16063.132117628336 -5737.1116328401513 ;
-	setAttr ".tgi[0].vh" -type "double2" 17606.427006645124 -4414.4908285074971 ;
-	setAttr -s 42 ".tgi[0].ni";
-	setAttr ".tgi[0].ni[0].x" 18710;
-	setAttr ".tgi[0].ni[0].y" -3531.428466796875;
-	setAttr ".tgi[0].ni[0].nvs" 18305;
-	setAttr ".tgi[0].ni[1].x" 19017.142578125;
-	setAttr ".tgi[0].ni[1].y" -4878.5712890625;
+	setAttr ".tgi[0].tn" -type "string" "Untitled_2";
+	setAttr ".tgi[0].vl" -type "double2" 22238.231717064667 -7488.0949405450801 ;
+	setAttr ".tgi[0].vh" -type "double2" 29398.670992973937 -5548.8093033196537 ;
+	setAttr -s 15 ".tgi[0].ni";
+	setAttr ".tgi[0].ni[0].x" 25425.71484375;
+	setAttr ".tgi[0].ni[0].y" -6375.71435546875;
+	setAttr ".tgi[0].ni[0].nvs" 18304;
+	setAttr ".tgi[0].ni[1].x" 25846.916015625;
+	setAttr ".tgi[0].ni[1].y" -6008.16650390625;
 	setAttr ".tgi[0].ni[1].nvs" 18304;
-	setAttr ".tgi[0].ni[2].x" 19017.142578125;
-	setAttr ".tgi[0].ni[2].y" -5341.4287109375;
-	setAttr ".tgi[0].ni[2].nvs" 18304;
-	setAttr ".tgi[0].ni[3].x" 18710;
-	setAttr ".tgi[0].ni[3].y" -5377.14306640625;
-	setAttr ".tgi[0].ni[3].nvs" 18304;
-	setAttr ".tgi[0].ni[4].x" 17306.982421875;
-	setAttr ".tgi[0].ni[4].y" -5592.44482421875;
-	setAttr ".tgi[0].ni[4].nvs" 18304;
-	setAttr ".tgi[0].ni[5].x" 18710;
-	setAttr ".tgi[0].ni[5].y" -5738.5712890625;
-	setAttr ".tgi[0].ni[5].nvs" 18304;
-	setAttr ".tgi[0].ni[6].x" 16499.373046875;
-	setAttr ".tgi[0].ni[6].y" -5396.1923828125;
-	setAttr ".tgi[0].ni[6].nvs" 18304;
-	setAttr ".tgi[0].ni[7].x" 16660;
-	setAttr ".tgi[0].ni[7].y" -4588.5712890625;
-	setAttr ".tgi[0].ni[7].nvs" 18304;
-	setAttr ".tgi[0].ni[8].x" 15674.2861328125;
-	setAttr ".tgi[0].ni[8].y" -4617.14306640625;
-	setAttr ".tgi[0].ni[8].nvs" 18304;
-	setAttr ".tgi[0].ni[9].x" 15987.142578125;
-	setAttr ".tgi[0].ni[9].y" -4725.71435546875;
-	setAttr ".tgi[0].ni[9].nvs" 18304;
-	setAttr ".tgi[0].ni[10].x" 18710;
-	setAttr ".tgi[0].ni[10].y" -4714.28564453125;
+	setAttr ".tgi[0].ni[2].x" 25048.72265625;
+	setAttr ".tgi[0].ni[2].y" -7160.935546875;
+	setAttr ".tgi[0].ni[2].nvs" 18305;
+	setAttr ".tgi[0].ni[3].x" 25457.33203125;
+	setAttr ".tgi[0].ni[3].y" -6053.61279296875;
+	setAttr ".tgi[0].ni[3].nvs" 18305;
+	setAttr ".tgi[0].ni[4].x" 25118.572265625;
+	setAttr ".tgi[0].ni[4].y" -5965.71435546875;
+	setAttr ".tgi[0].ni[4].nvs" 18305;
+	setAttr ".tgi[0].ni[5].x" 25821.427734375;
+	setAttr ".tgi[0].ni[5].y" -6504.28564453125;
+	setAttr ".tgi[0].ni[5].nvs" 18305;
+	setAttr ".tgi[0].ni[6].x" 25845.8203125;
+	setAttr ".tgi[0].ni[6].y" -5679.052734375;
+	setAttr ".tgi[0].ni[6].nvs" 18305;
+	setAttr ".tgi[0].ni[7].x" 26448.36328125;
+	setAttr ".tgi[0].ni[7].y" -6169.13818359375;
+	setAttr ".tgi[0].ni[7].nvs" 18305;
+	setAttr ".tgi[0].ni[8].x" 25118.572265625;
+	setAttr ".tgi[0].ni[8].y" -6142.85693359375;
+	setAttr ".tgi[0].ni[8].nvs" 18305;
+	setAttr ".tgi[0].ni[9].x" 25048.72265625;
+	setAttr ".tgi[0].ni[9].y" -6532.3642578125;
+	setAttr ".tgi[0].ni[9].nvs" 18305;
+	setAttr ".tgi[0].ni[10].x" 25835.8828125;
+	setAttr ".tgi[0].ni[10].y" -6249.580078125;
 	setAttr ".tgi[0].ni[10].nvs" 18305;
-	setAttr ".tgi[0].ni[11].x" 18710;
-	setAttr ".tgi[0].ni[11].y" -5174.28564453125;
-	setAttr ".tgi[0].ni[11].nvs" 18304;
-	setAttr ".tgi[0].ni[12].x" 16978.572265625;
-	setAttr ".tgi[0].ni[12].y" -4540;
+	setAttr ".tgi[0].ni[11].x" 25827.80078125;
+	setAttr ".tgi[0].ni[11].y" -7271.27685546875;
+	setAttr ".tgi[0].ni[11].nvs" 18305;
+	setAttr ".tgi[0].ni[12].x" 25821.427734375;
+	setAttr ".tgi[0].ni[12].y" -5920;
 	setAttr ".tgi[0].ni[12].nvs" 18304;
-	setAttr ".tgi[0].ni[13].x" 18710;
-	setAttr ".tgi[0].ni[13].y" -5535.71435546875;
+	setAttr ".tgi[0].ni[13].x" 25425.71484375;
+	setAttr ".tgi[0].ni[13].y" -6274.28564453125;
 	setAttr ".tgi[0].ni[13].nvs" 18304;
-	setAttr ".tgi[0].ni[14].x" 17592.857421875;
-	setAttr ".tgi[0].ni[14].y" -4725.71435546875;
-	setAttr ".tgi[0].ni[14].nvs" 18304;
-	setAttr ".tgi[0].ni[15].x" 18352.857421875;
-	setAttr ".tgi[0].ni[15].y" -5121.4287109375;
-	setAttr ".tgi[0].ni[15].nvs" 18304;
-	setAttr ".tgi[0].ni[16].x" 15987.142578125;
-	setAttr ".tgi[0].ni[16].y" -4567.14306640625;
-	setAttr ".tgi[0].ni[16].nvs" 18304;
-	setAttr ".tgi[0].ni[17].x" 16352.857421875;
-	setAttr ".tgi[0].ni[17].y" -4487.14306640625;
-	setAttr ".tgi[0].ni[17].nvs" 18304;
-	setAttr ".tgi[0].ni[18].x" 17994.28515625;
-	setAttr ".tgi[0].ni[18].y" -4741.4287109375;
-	setAttr ".tgi[0].ni[18].nvs" 18305;
-	setAttr ".tgi[0].ni[19].x" 19017.142578125;
-	setAttr ".tgi[0].ni[19].y" -3717.142822265625;
-	setAttr ".tgi[0].ni[19].nvs" 18304;
-	setAttr ".tgi[0].ni[20].x" 16920.671875;
-	setAttr ".tgi[0].ni[20].y" -5184.830078125;
-	setAttr ".tgi[0].ni[20].nvs" 18305;
-	setAttr ".tgi[0].ni[21].x" 18352.857421875;
-	setAttr ".tgi[0].ni[21].y" -4205.71435546875;
-	setAttr ".tgi[0].ni[21].nvs" 18304;
-	setAttr ".tgi[0].ni[22].x" 19017.142578125;
-	setAttr ".tgi[0].ni[22].y" -4777.14306640625;
-	setAttr ".tgi[0].ni[22].nvs" 18304;
-	setAttr ".tgi[0].ni[23].x" 18710;
-	setAttr ".tgi[0].ni[23].y" -5637.14306640625;
-	setAttr ".tgi[0].ni[23].nvs" 18304;
-	setAttr ".tgi[0].ni[24].x" 18352.857421875;
-	setAttr ".tgi[0].ni[24].y" -5222.85693359375;
-	setAttr ".tgi[0].ni[24].nvs" 18304;
-	setAttr ".tgi[0].ni[25].x" 15987.142578125;
-	setAttr ".tgi[0].ni[25].y" -4408.5712890625;
-	setAttr ".tgi[0].ni[25].nvs" 18304;
-	setAttr ".tgi[0].ni[26].x" 18710;
-	setAttr ".tgi[0].ni[26].y" -4958.5712890625;
-	setAttr ".tgi[0].ni[26].nvs" 18304;
-	setAttr ".tgi[0].ni[27].x" 17924.5234375;
-	setAttr ".tgi[0].ni[27].y" -5694.1611328125;
-	setAttr ".tgi[0].ni[27].nvs" 18305;
-	setAttr ".tgi[0].ni[28].x" 16758.216796875;
-	setAttr ".tgi[0].ni[28].y" -5606.275390625;
-	setAttr ".tgi[0].ni[28].nvs" 18304;
-	setAttr ".tgi[0].ni[29].x" 19017.142578125;
-	setAttr ".tgi[0].ni[29].y" -5138.5712890625;
-	setAttr ".tgi[0].ni[29].nvs" 18304;
-	setAttr ".tgi[0].ni[30].x" 17592.857421875;
-	setAttr ".tgi[0].ni[30].y" -4465.71435546875;
-	setAttr ".tgi[0].ni[30].nvs" 18304;
-	setAttr ".tgi[0].ni[31].x" 16660;
-	setAttr ".tgi[0].ni[31].y" -4487.14306640625;
-	setAttr ".tgi[0].ni[31].nvs" 18304;
-	setAttr ".tgi[0].ni[32].x" 19868.458984375;
-	setAttr ".tgi[0].ni[32].y" -4413.00341796875;
-	setAttr ".tgi[0].ni[32].nvs" 18305;
-	setAttr ".tgi[0].ni[33].x" 19017.142578125;
-	setAttr ".tgi[0].ni[33].y" -4561.4287109375;
-	setAttr ".tgi[0].ni[33].nvs" 18304;
-	setAttr ".tgi[0].ni[34].x" 17994.28515625;
-	setAttr ".tgi[0].ni[34].y" -5180;
-	setAttr ".tgi[0].ni[34].nvs" 18304;
-	setAttr ".tgi[0].ni[35].x" 17994.28515625;
-	setAttr ".tgi[0].ni[35].y" -4131.4287109375;
-	setAttr ".tgi[0].ni[35].nvs" 18304;
-	setAttr ".tgi[0].ni[36].x" 17285.71484375;
-	setAttr ".tgi[0].ni[36].y" -4542.85693359375;
-	setAttr ".tgi[0].ni[36].nvs" 18304;
-	setAttr ".tgi[0].ni[37].x" 19017.142578125;
-	setAttr ".tgi[0].ni[37].y" -5240;
-	setAttr ".tgi[0].ni[37].nvs" 18304;
-	setAttr ".tgi[0].ni[38].x" 18710;
-	setAttr ".tgi[0].ni[38].y" -5275.71435546875;
-	setAttr ".tgi[0].ni[38].nvs" 18304;
-	setAttr ".tgi[0].ni[39].x" 15674.2861328125;
-	setAttr ".tgi[0].ni[39].y" -4885.71435546875;
-	setAttr ".tgi[0].ni[39].nvs" 18304;
-	setAttr ".tgi[0].ni[40].x" 17380.724609375;
-	setAttr ".tgi[0].ni[40].y" -4956.80712890625;
-	setAttr ".tgi[0].ni[40].nvs" 18305;
-	setAttr ".tgi[0].ni[41].x" 19017.142578125;
-	setAttr ".tgi[0].ni[41].y" -4980;
-	setAttr ".tgi[0].ni[41].nvs" 18304;
-	setAttr ".tgi[1].tn" -type "string" "Untitled_2";
-	setAttr ".tgi[1].vl" -type "double2" 43001.307558674656 -2352.476399145407 ;
-	setAttr ".tgi[1].vh" -type "double2" 44342.704740361216 -1202.8841650247284 ;
-	setAttr -s 171 ".tgi[1].ni";
-	setAttr ".tgi[1].ni[0].x" 49410;
-	setAttr ".tgi[1].ni[0].y" -957.14288330078125;
-	setAttr ".tgi[1].ni[0].nvs" 18304;
-	setAttr ".tgi[1].ni[1].x" 47368.5703125;
-	setAttr ".tgi[1].ni[1].y" -2828.571533203125;
-	setAttr ".tgi[1].ni[1].nvs" 18304;
-	setAttr ".tgi[1].ni[2].x" 44977.14453125;
-	setAttr ".tgi[1].ni[2].y" -1925.7142333984375;
-	setAttr ".tgi[1].ni[2].nvs" 18304;
-	setAttr ".tgi[1].ni[3].x" 49100;
-	setAttr ".tgi[1].ni[3].y" -3155.71435546875;
-	setAttr ".tgi[1].ni[3].nvs" 18304;
-	setAttr ".tgi[1].ni[4].x" 49100;
-	setAttr ".tgi[1].ni[4].y" -3900;
+	setAttr ".tgi[0].ni[14].x" 25821.427734375;
+	setAttr ".tgi[0].ni[14].y" -6874.28564453125;
+	setAttr ".tgi[0].ni[14].nvs" 18305;
+	setAttr ".tgi[1].tn" -type "string" "Untitled_3";
+	setAttr ".tgi[1].vl" -type "double2" 14993.818085517883 8366.6663342051561 ;
+	setAttr ".tgi[1].vh" -type "double2" 21574.037604263234 10148.809120532023 ;
+	setAttr -s 11 ".tgi[1].ni";
+	setAttr ".tgi[1].ni[0].x" 18624.66015625;
+	setAttr ".tgi[1].ni[0].y" 9811.013671875;
+	setAttr ".tgi[1].ni[0].nvs" 18305;
+	setAttr ".tgi[1].ni[1].x" 17437.20703125;
+	setAttr ".tgi[1].ni[1].y" 9333.919921875;
+	setAttr ".tgi[1].ni[1].nvs" 18305;
+	setAttr ".tgi[1].ni[2].x" 17131.427734375;
+	setAttr ".tgi[1].ni[2].y" 9444.2861328125;
+	setAttr ".tgi[1].ni[2].nvs" 18305;
+	setAttr ".tgi[1].ni[3].x" 18318.10546875;
+	setAttr ".tgi[1].ni[3].y" 9623.3642578125;
+	setAttr ".tgi[1].ni[3].nvs" 18305;
+	setAttr ".tgi[1].ni[4].x" 18650.775390625;
+	setAttr ".tgi[1].ni[4].y" 9272.828125;
 	setAttr ".tgi[1].ni[4].nvs" 18304;
-	setAttr ".tgi[1].ni[5].x" 47061.4296875;
-	setAttr ".tgi[1].ni[5].y" -2708.571533203125;
+	setAttr ".tgi[1].ni[5].x" 18035.125;
+	setAttr ".tgi[1].ni[5].y" 9401.15625;
 	setAttr ".tgi[1].ni[5].nvs" 18304;
-	setAttr ".tgi[1].ni[6].x" 47061.4296875;
-	setAttr ".tgi[1].ni[6].y" -1084.2857666015625;
-	setAttr ".tgi[1].ni[6].nvs" 18304;
-	setAttr ".tgi[1].ni[7].x" 49100;
-	setAttr ".tgi[1].ni[7].y" -4725.71435546875;
+	setAttr ".tgi[1].ni[6].x" 18990.65234375;
+	setAttr ".tgi[1].ni[6].y" 9584.3076171875;
+	setAttr ".tgi[1].ni[6].nvs" 18305;
+	setAttr ".tgi[1].ni[7].x" 17745.71484375;
+	setAttr ".tgi[1].ni[7].y" 9235.7138671875;
 	setAttr ".tgi[1].ni[7].nvs" 18304;
-	setAttr ".tgi[1].ni[8].x" 49410;
-	setAttr ".tgi[1].ni[8].y" -1142.857177734375;
+	setAttr ".tgi[1].ni[8].x" 18981.10546875;
+	setAttr ".tgi[1].ni[8].y" 9296.8056640625;
 	setAttr ".tgi[1].ni[8].nvs" 18304;
-	setAttr ".tgi[1].ni[9].x" 47368.5703125;
-	setAttr ".tgi[1].ni[9].y" -1298.5714111328125;
+	setAttr ".tgi[1].ni[9].x" 18360;
+	setAttr ".tgi[1].ni[9].y" 9392.857421875;
 	setAttr ".tgi[1].ni[9].nvs" 18304;
-	setAttr ".tgi[1].ni[10].x" 48747.14453125;
-	setAttr ".tgi[1].ni[10].y" -3777.142822265625;
-	setAttr ".tgi[1].ni[10].nvs" 18304;
-	setAttr ".tgi[1].ni[11].x" 49410;
-	setAttr ".tgi[1].ni[11].y" -1244.2857666015625;
-	setAttr ".tgi[1].ni[11].nvs" 18304;
-	setAttr ".tgi[1].ni[12].x" 49410;
-	setAttr ".tgi[1].ni[12].y" -1345.7142333984375;
-	setAttr ".tgi[1].ni[12].nvs" 18304;
-	setAttr ".tgi[1].ni[13].x" 45378.5703125;
-	setAttr ".tgi[1].ni[13].y" -1878.5714111328125;
-	setAttr ".tgi[1].ni[13].nvs" 18304;
-	setAttr ".tgi[1].ni[14].x" 48747.14453125;
-	setAttr ".tgi[1].ni[14].y" -3201.428466796875;
-	setAttr ".tgi[1].ni[14].nvs" 18304;
-	setAttr ".tgi[1].ni[15].x" 43473.796875;
-	setAttr ".tgi[1].ni[15].y" -1435.3359375;
-	setAttr ".tgi[1].ni[15].nvs" 18305;
-	setAttr ".tgi[1].ni[16].x" 48385.71484375;
-	setAttr ".tgi[1].ni[16].y" -4300;
-	setAttr ".tgi[1].ni[16].nvs" 18304;
-	setAttr ".tgi[1].ni[17].x" 49410;
-	setAttr ".tgi[1].ni[17].y" -1447.142822265625;
-	setAttr ".tgi[1].ni[17].nvs" 18304;
-	setAttr ".tgi[1].ni[18].x" 46398.5703125;
-	setAttr ".tgi[1].ni[18].y" -1042.857177734375;
-	setAttr ".tgi[1].ni[18].nvs" 18304;
-	setAttr ".tgi[1].ni[19].x" 49410;
-	setAttr ".tgi[1].ni[19].y" -1548.5714111328125;
-	setAttr ".tgi[1].ni[19].nvs" 18304;
-	setAttr ".tgi[1].ni[20].x" 43302.19921875;
-	setAttr ".tgi[1].ni[20].y" -1894.003662109375;
-	setAttr ".tgi[1].ni[20].nvs" 18305;
-	setAttr ".tgi[1].ni[21].x" 47368.5703125;
-	setAttr ".tgi[1].ni[21].y" -1825.7142333984375;
-	setAttr ".tgi[1].ni[21].nvs" 18304;
-	setAttr ".tgi[1].ni[22].x" 48020;
-	setAttr ".tgi[1].ni[22].y" -3028.571533203125;
-	setAttr ".tgi[1].ni[22].nvs" 18304;
-	setAttr ".tgi[1].ni[23].x" 48385.71484375;
-	setAttr ".tgi[1].ni[23].y" -3450;
-	setAttr ".tgi[1].ni[23].nvs" 18304;
-	setAttr ".tgi[1].ni[24].x" 47061.4296875;
-	setAttr ".tgi[1].ni[24].y" -3184.28564453125;
-	setAttr ".tgi[1].ni[24].nvs" 18304;
-	setAttr ".tgi[1].ni[25].x" 47061.4296875;
-	setAttr ".tgi[1].ni[25].y" -1515.7142333984375;
-	setAttr ".tgi[1].ni[25].nvs" 18304;
-	setAttr ".tgi[1].ni[26].x" 48747.14453125;
-	setAttr ".tgi[1].ni[26].y" -3042.857177734375;
-	setAttr ".tgi[1].ni[26].nvs" 18304;
-	setAttr ".tgi[1].ni[27].x" 49100;
-	setAttr ".tgi[1].ni[27].y" -2642.857177734375;
-	setAttr ".tgi[1].ni[27].nvs" 18304;
-	setAttr ".tgi[1].ni[28].x" 49410;
-	setAttr ".tgi[1].ni[28].y" -1650;
-	setAttr ".tgi[1].ni[28].nvs" 18304;
-	setAttr ".tgi[1].ni[29].x" 46398.5703125;
-	setAttr ".tgi[1].ni[29].y" -2517.142822265625;
-	setAttr ".tgi[1].ni[29].nvs" 18304;
-	setAttr ".tgi[1].ni[30].x" 49410;
-	setAttr ".tgi[1].ni[30].y" -1751.4285888671875;
-	setAttr ".tgi[1].ni[30].nvs" 18304;
-	setAttr ".tgi[1].ni[31].x" 48385.71484375;
-	setAttr ".tgi[1].ni[31].y" -4141.4287109375;
-	setAttr ".tgi[1].ni[31].nvs" 18304;
-	setAttr ".tgi[1].ni[32].x" 46705.71484375;
-	setAttr ".tgi[1].ni[32].y" -2560;
-	setAttr ".tgi[1].ni[32].nvs" 18304;
-	setAttr ".tgi[1].ni[33].x" 48020;
-	setAttr ".tgi[1].ni[33].y" -3945.71435546875;
-	setAttr ".tgi[1].ni[33].nvs" 18304;
-	setAttr ".tgi[1].ni[34].x" 48747.14453125;
-	setAttr ".tgi[1].ni[34].y" -1058.5714111328125;
-	setAttr ".tgi[1].ni[34].nvs" 18304;
-	setAttr ".tgi[1].ni[35].x" 47061.4296875;
-	setAttr ".tgi[1].ni[35].y" -2810;
-	setAttr ".tgi[1].ni[35].nvs" 18304;
-	setAttr ".tgi[1].ni[36].x" 49410;
-	setAttr ".tgi[1].ni[36].y" -2161.428466796875;
-	setAttr ".tgi[1].ni[36].nvs" 18304;
-	setAttr ".tgi[1].ni[37].x" 49100;
-	setAttr ".tgi[1].ni[37].y" -2952.857177734375;
-	setAttr ".tgi[1].ni[37].nvs" 18304;
-	setAttr ".tgi[1].ni[38].x" 48747.14453125;
-	setAttr ".tgi[1].ni[38].y" -4715.71435546875;
-	setAttr ".tgi[1].ni[38].nvs" 18304;
-	setAttr ".tgi[1].ni[39].x" 48747.14453125;
-	setAttr ".tgi[1].ni[39].y" -4252.85693359375;
-	setAttr ".tgi[1].ni[39].nvs" 18304;
-	setAttr ".tgi[1].ni[40].x" 49100;
-	setAttr ".tgi[1].ni[40].y" -1837.142822265625;
-	setAttr ".tgi[1].ni[40].nvs" 18304;
-	setAttr ".tgi[1].ni[41].x" 49410;
-	setAttr ".tgi[1].ni[41].y" -2338.571533203125;
-	setAttr ".tgi[1].ni[41].nvs" 18304;
-	setAttr ".tgi[1].ni[42].x" 49410;
-	setAttr ".tgi[1].ni[42].y" -2440;
-	setAttr ".tgi[1].ni[42].nvs" 18304;
-	setAttr ".tgi[1].ni[43].x" 45741.4296875;
-	setAttr ".tgi[1].ni[43].y" -1467.142822265625;
-	setAttr ".tgi[1].ni[43].nvs" 18304;
-	setAttr ".tgi[1].ni[44].x" 49100;
-	setAttr ".tgi[1].ni[44].y" -2110;
-	setAttr ".tgi[1].ni[44].nvs" 18304;
-	setAttr ".tgi[1].ni[45].x" 43485.8828125;
-	setAttr ".tgi[1].ni[45].y" -2244.3046875;
-	setAttr ".tgi[1].ni[45].nvs" 18304;
-	setAttr ".tgi[1].ni[46].x" 43115.04296875;
-	setAttr ".tgi[1].ni[46].y" -1559.0755615234375;
-	setAttr ".tgi[1].ni[46].nvs" 18305;
-	setAttr ".tgi[1].ni[47].x" 46091.4296875;
-	setAttr ".tgi[1].ni[47].y" -1437.142822265625;
-	setAttr ".tgi[1].ni[47].nvs" 18304;
-	setAttr ".tgi[1].ni[48].x" 47061.4296875;
-	setAttr ".tgi[1].ni[48].y" -2334.28564453125;
-	setAttr ".tgi[1].ni[48].nvs" 18304;
-	setAttr ".tgi[1].ni[49].x" 49100;
-	setAttr ".tgi[1].ni[49].y" -957.14288330078125;
-	setAttr ".tgi[1].ni[49].nvs" 18304;
-	setAttr ".tgi[1].ni[50].x" 47688.5703125;
-	setAttr ".tgi[1].ni[50].y" -1387.142822265625;
-	setAttr ".tgi[1].ni[50].nvs" 18304;
-	setAttr ".tgi[1].ni[51].x" 46705.71484375;
-	setAttr ".tgi[1].ni[51].y" -2718.571533203125;
-	setAttr ".tgi[1].ni[51].nvs" 18304;
-	setAttr ".tgi[1].ni[52].x" 43652.85546875;
-	setAttr ".tgi[1].ni[52].y" -1212.857177734375;
-	setAttr ".tgi[1].ni[52].nvs" 18304;
-	setAttr ".tgi[1].ni[53].x" 48747.14453125;
-	setAttr ".tgi[1].ni[53].y" -3675.71435546875;
-	setAttr ".tgi[1].ni[53].nvs" 18304;
-	setAttr ".tgi[1].ni[54].x" 49410;
-	setAttr ".tgi[1].ni[54].y" -2541.428466796875;
-	setAttr ".tgi[1].ni[54].nvs" 18304;
-	setAttr ".tgi[1].ni[55].x" 47061.4296875;
-	setAttr ".tgi[1].ni[55].y" -1185.7142333984375;
-	setAttr ".tgi[1].ni[55].nvs" 18304;
-	setAttr ".tgi[1].ni[56].x" 47368.5703125;
-	setAttr ".tgi[1].ni[56].y" -3350;
-	setAttr ".tgi[1].ni[56].nvs" 18304;
-	setAttr ".tgi[1].ni[57].x" 49100;
-	setAttr ".tgi[1].ni[57].y" -3257.142822265625;
-	setAttr ".tgi[1].ni[57].nvs" 18304;
-	setAttr ".tgi[1].ni[58].x" 48747.14453125;
-	setAttr ".tgi[1].ni[58].y" -4037.142822265625;
-	setAttr ".tgi[1].ni[58].nvs" 18304;
-	setAttr ".tgi[1].ni[59].x" 46398.5703125;
-	setAttr ".tgi[1].ni[59].y" -2200;
-	setAttr ".tgi[1].ni[59].nvs" 18304;
-	setAttr ".tgi[1].ni[60].x" 48020;
-	setAttr ".tgi[1].ni[60].y" -2202.857177734375;
-	setAttr ".tgi[1].ni[60].nvs" 18304;
-	setAttr ".tgi[1].ni[61].x" 44977.14453125;
-	setAttr ".tgi[1].ni[61].y" -1767.142822265625;
-	setAttr ".tgi[1].ni[61].nvs" 18304;
-	setAttr ".tgi[1].ni[62].x" 44977.14453125;
-	setAttr ".tgi[1].ni[62].y" -1317.142822265625;
-	setAttr ".tgi[1].ni[62].nvs" 18304;
-	setAttr ".tgi[1].ni[63].x" 49100;
-	setAttr ".tgi[1].ni[63].y" -1388.5714111328125;
-	setAttr ".tgi[1].ni[63].nvs" 18304;
-	setAttr ".tgi[1].ni[64].x" 48747.14453125;
-	setAttr ".tgi[1].ni[64].y" -3517.142822265625;
-	setAttr ".tgi[1].ni[64].nvs" 18304;
-	setAttr ".tgi[1].ni[65].x" 49410;
-	setAttr ".tgi[1].ni[65].y" -2642.857177734375;
-	setAttr ".tgi[1].ni[65].nvs" 18304;
-	setAttr ".tgi[1].ni[66].x" 49410;
-	setAttr ".tgi[1].ni[66].y" -2744.28564453125;
-	setAttr ".tgi[1].ni[66].nvs" 18304;
-	setAttr ".tgi[1].ni[67].x" 49410;
-	setAttr ".tgi[1].ni[67].y" -2845.71435546875;
-	setAttr ".tgi[1].ni[67].nvs" 18304;
-	setAttr ".tgi[1].ni[68].x" 47061.4296875;
-	setAttr ".tgi[1].ni[68].y" -2911.428466796875;
-	setAttr ".tgi[1].ni[68].nvs" 18304;
-	setAttr ".tgi[1].ni[69].x" 49410;
-	setAttr ".tgi[1].ni[69].y" -2947.142822265625;
-	setAttr ".tgi[1].ni[69].nvs" 18304;
-	setAttr ".tgi[1].ni[70].x" 49100;
-	setAttr ".tgi[1].ni[70].y" -3678.571533203125;
-	setAttr ".tgi[1].ni[70].nvs" 18304;
-	setAttr ".tgi[1].ni[71].x" 49100;
-	setAttr ".tgi[1].ni[71].y" -4058.571533203125;
-	setAttr ".tgi[1].ni[71].nvs" 18304;
-	setAttr ".tgi[1].ni[72].x" 47061.4296875;
-	setAttr ".tgi[1].ni[72].y" -1617.142822265625;
-	setAttr ".tgi[1].ni[72].nvs" 18304;
-	setAttr ".tgi[1].ni[73].x" 48385.71484375;
-	setAttr ".tgi[1].ni[73].y" -1024.2857666015625;
-	setAttr ".tgi[1].ni[73].nvs" 18304;
-	setAttr ".tgi[1].ni[74].x" 49100;
-	setAttr ".tgi[1].ni[74].y" -3520;
-	setAttr ".tgi[1].ni[74].nvs" 18304;
-	setAttr ".tgi[1].ni[75].x" 49100;
-	setAttr ".tgi[1].ni[75].y" -2744.28564453125;
-	setAttr ".tgi[1].ni[75].nvs" 18304;
-	setAttr ".tgi[1].ni[76].x" 44225.90625;
-	setAttr ".tgi[1].ni[76].y" -1197.8896484375;
-	setAttr ".tgi[1].ni[76].nvs" 18304;
-	setAttr ".tgi[1].ni[77].x" 49410;
-	setAttr ".tgi[1].ni[77].y" -3048.571533203125;
-	setAttr ".tgi[1].ni[77].nvs" 18304;
-	setAttr ".tgi[1].ni[78].x" 49410;
-	setAttr ".tgi[1].ni[78].y" -3150;
-	setAttr ".tgi[1].ni[78].nvs" 18304;
-	setAttr ".tgi[1].ni[79].x" 48020;
-	setAttr ".tgi[1].ni[79].y" -3402.857177734375;
-	setAttr ".tgi[1].ni[79].nvs" 18305;
-	setAttr ".tgi[1].ni[80].x" 49410;
-	setAttr ".tgi[1].ni[80].y" -3251.428466796875;
-	setAttr ".tgi[1].ni[80].nvs" 18304;
-	setAttr ".tgi[1].ni[81].x" 48385.71484375;
-	setAttr ".tgi[1].ni[81].y" -3348.571533203125;
-	setAttr ".tgi[1].ni[81].nvs" 18304;
-	setAttr ".tgi[1].ni[82].x" 47688.5703125;
-	setAttr ".tgi[1].ni[82].y" -2645.71435546875;
-	setAttr ".tgi[1].ni[82].nvs" 18304;
-	setAttr ".tgi[1].ni[83].x" 47061.4296875;
-	setAttr ".tgi[1].ni[83].y" -1718.5714111328125;
-	setAttr ".tgi[1].ni[83].nvs" 18304;
-	setAttr ".tgi[1].ni[84].x" 46091.4296875;
-	setAttr ".tgi[1].ni[84].y" -2258.571533203125;
-	setAttr ".tgi[1].ni[84].nvs" 18304;
-	setAttr ".tgi[1].ni[85].x" 49410;
-	setAttr ".tgi[1].ni[85].y" -3352.857177734375;
-	setAttr ".tgi[1].ni[85].nvs" 18304;
-	setAttr ".tgi[1].ni[86].x" 48020;
-	setAttr ".tgi[1].ni[86].y" -4231.4287109375;
-	setAttr ".tgi[1].ni[86].nvs" 18304;
-	setAttr ".tgi[1].ni[87].x" 49100;
-	setAttr ".tgi[1].ni[87].y" -3054.28564453125;
-	setAttr ".tgi[1].ni[87].nvs" 18304;
-	setAttr ".tgi[1].ni[88].x" 46705.71484375;
-	setAttr ".tgi[1].ni[88].y" -2458.571533203125;
-	setAttr ".tgi[1].ni[88].nvs" 18304;
-	setAttr ".tgi[1].ni[89].x" 48020;
-	setAttr ".tgi[1].ni[89].y" -1935.7142333984375;
-	setAttr ".tgi[1].ni[89].nvs" 18305;
-	setAttr ".tgi[1].ni[90].x" 49410;
-	setAttr ".tgi[1].ni[90].y" -3517.142822265625;
-	setAttr ".tgi[1].ni[90].nvs" 18304;
-	setAttr ".tgi[1].ni[91].x" 49100;
-	setAttr ".tgi[1].ni[91].y" -4522.85693359375;
-	setAttr ".tgi[1].ni[91].nvs" 18304;
-	setAttr ".tgi[1].ni[92].x" 49410;
-	setAttr ".tgi[1].ni[92].y" -3618.571533203125;
-	setAttr ".tgi[1].ni[92].nvs" 18304;
-	setAttr ".tgi[1].ni[93].x" 48747.14453125;
-	setAttr ".tgi[1].ni[93].y" -3302.857177734375;
-	setAttr ".tgi[1].ni[93].nvs" 18304;
-	setAttr ".tgi[1].ni[94].x" 48020;
-	setAttr ".tgi[1].ni[94].y" -2927.142822265625;
-	setAttr ".tgi[1].ni[94].nvs" 18304;
-	setAttr ".tgi[1].ni[95].x" 49100;
-	setAttr ".tgi[1].ni[95].y" -1125.7142333984375;
-	setAttr ".tgi[1].ni[95].nvs" 18304;
-	setAttr ".tgi[1].ni[96].x" 49410;
-	setAttr ".tgi[1].ni[96].y" -3720;
-	setAttr ".tgi[1].ni[96].nvs" 18304;
-	setAttr ".tgi[1].ni[97].x" 48020;
-	setAttr ".tgi[1].ni[97].y" -1521.4285888671875;
-	setAttr ".tgi[1].ni[97].nvs" 18304;
-	setAttr ".tgi[1].ni[98].x" 49410;
-	setAttr ".tgi[1].ni[98].y" -3821.428466796875;
-	setAttr ".tgi[1].ni[98].nvs" 18304;
-	setAttr ".tgi[1].ni[99].x" 49100;
-	setAttr ".tgi[1].ni[99].y" -1490;
-	setAttr ".tgi[1].ni[99].nvs" 18304;
-	setAttr ".tgi[1].ni[100].x" 47688.5703125;
-	setAttr ".tgi[1].ni[100].y" -955.71429443359375;
-	setAttr ".tgi[1].ni[100].nvs" 18304;
-	setAttr ".tgi[1].ni[101].x" 45378.5703125;
-	setAttr ".tgi[1].ni[101].y" -1377.142822265625;
-	setAttr ".tgi[1].ni[101].nvs" 18304;
-	setAttr ".tgi[1].ni[102].x" 48385.71484375;
-	setAttr ".tgi[1].ni[102].y" -4458.5712890625;
-	setAttr ".tgi[1].ni[102].nvs" 18304;
-	setAttr ".tgi[1].ni[103].x" 49100;
-	setAttr ".tgi[1].ni[103].y" -4827.14306640625;
-	setAttr ".tgi[1].ni[103].nvs" 18304;
-	setAttr ".tgi[1].ni[104].x" 48747.14453125;
-	setAttr ".tgi[1].ni[104].y" -4512.85693359375;
-	setAttr ".tgi[1].ni[104].nvs" 18304;
-	setAttr ".tgi[1].ni[105].x" 49410;
-	setAttr ".tgi[1].ni[105].y" -3922.857177734375;
-	setAttr ".tgi[1].ni[105].nvs" 18304;
-	setAttr ".tgi[1].ni[106].x" 49100;
-	setAttr ".tgi[1].ni[106].y" -2312.857177734375;
-	setAttr ".tgi[1].ni[106].nvs" 18304;
-	setAttr ".tgi[1].ni[107].x" 48020;
-	setAttr ".tgi[1].ni[107].y" -3244.28564453125;
-	setAttr ".tgi[1].ni[107].nvs" 18304;
-	setAttr ".tgi[1].ni[108].x" 49100;
-	setAttr ".tgi[1].ni[108].y" -1227.142822265625;
-	setAttr ".tgi[1].ni[108].nvs" 18304;
-	setAttr ".tgi[1].ni[109].x" 46398.5703125;
-	setAttr ".tgi[1].ni[109].y" -2415.71435546875;
-	setAttr ".tgi[1].ni[109].nvs" 18304;
-	setAttr ".tgi[1].ni[110].x" 48385.71484375;
-	setAttr ".tgi[1].ni[110].y" -2640;
-	setAttr ".tgi[1].ni[110].nvs" 18304;
-	setAttr ".tgi[1].ni[111].x" 49410;
-	setAttr ".tgi[1].ni[111].y" -4024.28564453125;
-	setAttr ".tgi[1].ni[111].nvs" 18304;
-	setAttr ".tgi[1].ni[112].x" 49100;
-	setAttr ".tgi[1].ni[112].y" -4928.5712890625;
-	setAttr ".tgi[1].ni[112].nvs" 18304;
-	setAttr ".tgi[1].ni[113].x" 48747.14453125;
-	setAttr ".tgi[1].ni[113].y" -4354.28564453125;
-	setAttr ".tgi[1].ni[113].nvs" 18304;
-	setAttr ".tgi[1].ni[114].x" 49100;
-	setAttr ".tgi[1].ni[114].y" -1620;
-	setAttr ".tgi[1].ni[114].nvs" 18304;
-	setAttr ".tgi[1].ni[115].x" 47688.5703125;
-	setAttr ".tgi[1].ni[115].y" -1285.7142333984375;
-	setAttr ".tgi[1].ni[115].nvs" 18304;
-	setAttr ".tgi[1].ni[116].x" 47688.5703125;
-	setAttr ".tgi[1].ni[116].y" -2804.28564453125;
-	setAttr ".tgi[1].ni[116].nvs" 18304;
-	setAttr ".tgi[1].ni[117].x" 46705.71484375;
-	setAttr ".tgi[1].ni[117].y" -2991.428466796875;
-	setAttr ".tgi[1].ni[117].nvs" 18304;
-	setAttr ".tgi[1].ni[118].x" 46398.5703125;
-	setAttr ".tgi[1].ni[118].y" -1315.7142333984375;
-	setAttr ".tgi[1].ni[118].nvs" 18304;
-	setAttr ".tgi[1].ni[119].x" 49100;
-	setAttr ".tgi[1].ni[119].y" -4320;
-	setAttr ".tgi[1].ni[119].nvs" 18304;
-	setAttr ".tgi[1].ni[120].x" 48020;
-	setAttr ".tgi[1].ni[120].y" -1007.1428833007812;
-	setAttr ".tgi[1].ni[120].nvs" 18304;
-	setAttr ".tgi[1].ni[121].x" 45741.4296875;
-	setAttr ".tgi[1].ni[121].y" -1948.5714111328125;
-	setAttr ".tgi[1].ni[121].nvs" 18304;
-	setAttr ".tgi[1].ni[122].x" 47688.5703125;
-	setAttr ".tgi[1].ni[122].y" -3067.142822265625;
-	setAttr ".tgi[1].ni[122].nvs" 18304;
-	setAttr ".tgi[1].ni[123].x" 47688.5703125;
-	setAttr ".tgi[1].ni[123].y" -3784.28564453125;
-	setAttr ".tgi[1].ni[123].nvs" 18304;
-	setAttr ".tgi[1].ni[124].x" 43967.0703125;
-	setAttr ".tgi[1].ni[124].y" -1182.8035888671875;
-	setAttr ".tgi[1].ni[124].nvs" 18304;
-	setAttr ".tgi[1].ni[125].x" 48747.14453125;
-	setAttr ".tgi[1].ni[125].y" -1591.4285888671875;
-	setAttr ".tgi[1].ni[125].nvs" 18304;
-	setAttr ".tgi[1].ni[126].x" 49100;
-	setAttr ".tgi[1].ni[126].y" -2211.428466796875;
-	setAttr ".tgi[1].ni[126].nvs" 18304;
-	setAttr ".tgi[1].ni[127].x" 49410;
-	setAttr ".tgi[1].ni[127].y" -4125.71435546875;
-	setAttr ".tgi[1].ni[127].nvs" 18304;
-	setAttr ".tgi[1].ni[128].x" 49100;
-	setAttr ".tgi[1].ni[128].y" -4624.28564453125;
-	setAttr ".tgi[1].ni[128].nvs" 18304;
-	setAttr ".tgi[1].ni[129].x" 48385.71484375;
-	setAttr ".tgi[1].ni[129].y" -3551.428466796875;
-	setAttr ".tgi[1].ni[129].nvs" 18304;
-	setAttr ".tgi[1].ni[130].x" 49410;
-	setAttr ".tgi[1].ni[130].y" -4227.14306640625;
-	setAttr ".tgi[1].ni[130].nvs" 18304;
-	setAttr ".tgi[1].ni[131].x" 49410;
-	setAttr ".tgi[1].ni[131].y" -4328.5712890625;
-	setAttr ".tgi[1].ni[131].nvs" 18304;
-	setAttr ".tgi[1].ni[132].x" 49100;
-	setAttr ".tgi[1].ni[132].y" -4421.4287109375;
-	setAttr ".tgi[1].ni[132].nvs" 18304;
-	setAttr ".tgi[1].ni[133].x" 48747.14453125;
-	setAttr ".tgi[1].ni[133].y" -2840;
-	setAttr ".tgi[1].ni[133].nvs" 18304;
-	setAttr ".tgi[1].ni[134].x" 44574.28515625;
-	setAttr ".tgi[1].ni[134].y" -1515.7142333984375;
-	setAttr ".tgi[1].ni[134].nvs" 18304;
-	setAttr ".tgi[1].ni[135].x" 48747.14453125;
-	setAttr ".tgi[1].ni[135].y" -2007.142822265625;
-	setAttr ".tgi[1].ni[135].nvs" 18304;
-	setAttr ".tgi[1].ni[136].x" 47688.5703125;
-	setAttr ".tgi[1].ni[136].y" -1488.5714111328125;
-	setAttr ".tgi[1].ni[136].nvs" 18304;
-	setAttr ".tgi[1].ni[137].x" 48385.71484375;
-	setAttr ".tgi[1].ni[137].y" -3868.571533203125;
-	setAttr ".tgi[1].ni[137].nvs" 18304;
-	setAttr ".tgi[1].ni[138].x" 49100;
-	setAttr ".tgi[1].ni[138].y" -2845.71435546875;
-	setAttr ".tgi[1].ni[138].nvs" 18304;
-	setAttr ".tgi[1].ni[139].x" 48385.71484375;
-	setAttr ".tgi[1].ni[139].y" -1562.857177734375;
-	setAttr ".tgi[1].ni[139].nvs" 18304;
-	setAttr ".tgi[1].ni[140].x" 48385.71484375;
-	setAttr ".tgi[1].ni[140].y" -2137.142822265625;
-	setAttr ".tgi[1].ni[140].nvs" 18304;
-	setAttr ".tgi[1].ni[141].x" 43682.140625;
-	setAttr ".tgi[1].ni[141].y" -1864.95556640625;
-	setAttr ".tgi[1].ni[141].nvs" 18304;
-	setAttr ".tgi[1].ni[142].x" 46705.71484375;
-	setAttr ".tgi[1].ni[142].y" -1201.4285888671875;
-	setAttr ".tgi[1].ni[142].nvs" 18304;
-	setAttr ".tgi[1].ni[143].x" 48385.71484375;
-	setAttr ".tgi[1].ni[143].y" -3710;
-	setAttr ".tgi[1].ni[143].nvs" 18304;
-	setAttr ".tgi[1].ni[144].x" 46398.5703125;
-	setAttr ".tgi[1].ni[144].y" -1474.2857666015625;
-	setAttr ".tgi[1].ni[144].nvs" 18304;
-	setAttr ".tgi[1].ni[145].x" 47688.5703125;
-	setAttr ".tgi[1].ni[145].y" -2905.71435546875;
-	setAttr ".tgi[1].ni[145].nvs" 18304;
-	setAttr ".tgi[1].ni[146].x" 43856.890625;
-	setAttr ".tgi[1].ni[146].y" -1689.0775146484375;
-	setAttr ".tgi[1].ni[146].nvs" 18304;
-	setAttr ".tgi[1].ni[147].x" 46091.4296875;
-	setAttr ".tgi[1].ni[147].y" -2055.71435546875;
-	setAttr ".tgi[1].ni[147].nvs" 18304;
-	setAttr ".tgi[1].ni[148].x" 47368.5703125;
-	setAttr ".tgi[1].ni[148].y" -2727.142822265625;
-	setAttr ".tgi[1].ni[148].nvs" 18304;
-	setAttr ".tgi[1].ni[149].x" 49410;
-	setAttr ".tgi[1].ni[149].y" -4430;
-	setAttr ".tgi[1].ni[149].nvs" 18304;
-	setAttr ".tgi[1].ni[150].x" 49410;
-	setAttr ".tgi[1].ni[150].y" -4531.4287109375;
-	setAttr ".tgi[1].ni[150].nvs" 18304;
-	setAttr ".tgi[1].ni[151].x" 45378.5703125;
-	setAttr ".tgi[1].ni[151].y" -1980;
-	setAttr ".tgi[1].ni[151].nvs" 18304;
-	setAttr ".tgi[1].ni[152].x" 49100;
-	setAttr ".tgi[1].ni[152].y" -5201.4287109375;
-	setAttr ".tgi[1].ni[152].nvs" 18304;
-	setAttr ".tgi[1].ni[153].x" 49410;
-	setAttr ".tgi[1].ni[153].y" -4632.85693359375;
-	setAttr ".tgi[1].ni[153].nvs" 18304;
-	setAttr ".tgi[1].ni[154].x" 48747.14453125;
-	setAttr ".tgi[1].ni[154].y" -3404.28564453125;
-	setAttr ".tgi[1].ni[154].nvs" 18304;
-	setAttr ".tgi[1].ni[155].x" 48747.14453125;
-	setAttr ".tgi[1].ni[155].y" -2941.428466796875;
-	setAttr ".tgi[1].ni[155].nvs" 18304;
-	setAttr ".tgi[1].ni[156].x" 47688.5703125;
-	setAttr ".tgi[1].ni[156].y" -3282.857177734375;
-	setAttr ".tgi[1].ni[156].nvs" 18304;
-	setAttr ".tgi[1].ni[157].x" 48747.14453125;
-	setAttr ".tgi[1].ni[157].y" -3878.571533203125;
-	setAttr ".tgi[1].ni[157].nvs" 18304;
-	setAttr ".tgi[1].ni[158].x" 49410;
-	setAttr ".tgi[1].ni[158].y" -4734.28564453125;
-	setAttr ".tgi[1].ni[158].nvs" 18304;
-	setAttr ".tgi[1].ni[159].x" 48385.71484375;
-	setAttr ".tgi[1].ni[159].y" -3075.71435546875;
-	setAttr ".tgi[1].ni[159].nvs" 18304;
-	setAttr ".tgi[1].ni[160].x" 47368.5703125;
-	setAttr ".tgi[1].ni[160].y" -3125.71435546875;
-	setAttr ".tgi[1].ni[160].nvs" 18304;
-	setAttr ".tgi[1].ni[161].x" 48747.14453125;
-	setAttr ".tgi[1].ni[161].y" -4614.28564453125;
-	setAttr ".tgi[1].ni[161].nvs" 18304;
-	setAttr ".tgi[1].ni[162].x" 48747.14453125;
-	setAttr ".tgi[1].ni[162].y" -957.14288330078125;
-	setAttr ".tgi[1].ni[162].nvs" 18304;
-	setAttr ".tgi[1].ni[163].x" 49410;
-	setAttr ".tgi[1].ni[163].y" -4835.71435546875;
-	setAttr ".tgi[1].ni[163].nvs" 18304;
-	setAttr ".tgi[1].ni[164].x" 49100;
-	setAttr ".tgi[1].ni[164].y" -4217.14306640625;
-	setAttr ".tgi[1].ni[164].nvs" 18304;
-	setAttr ".tgi[1].ni[165].x" 47061.4296875;
-	setAttr ".tgi[1].ni[165].y" -2550;
-	setAttr ".tgi[1].ni[165].nvs" 18304;
-	setAttr ".tgi[1].ni[166].x" 49410;
-	setAttr ".tgi[1].ni[166].y" -4987.14306640625;
-	setAttr ".tgi[1].ni[166].nvs" 18304;
-	setAttr ".tgi[1].ni[167].x" 46705.71484375;
-	setAttr ".tgi[1].ni[167].y" -1514.2857666015625;
-	setAttr ".tgi[1].ni[167].nvs" 18304;
-	setAttr ".tgi[1].ni[168].x" 48747.14453125;
-	setAttr ".tgi[1].ni[168].y" -2282.857177734375;
-	setAttr ".tgi[1].ni[168].nvs" 18304;
-	setAttr ".tgi[1].ni[169].x" 49410;
-	setAttr ".tgi[1].ni[169].y" -5122.85693359375;
-	setAttr ".tgi[1].ni[169].nvs" 18304;
-	setAttr ".tgi[1].ni[170].x" 49410;
-	setAttr ".tgi[1].ni[170].y" -5224.28564453125;
-	setAttr ".tgi[1].ni[170].nvs" 18304;
-	setAttr ".tgi[2].tn" -type "string" "Untitled_3";
-	setAttr ".tgi[2].vl" -type "double2" 18767.775942676453 6651.8387411797903 ;
-	setAttr ".tgi[2].vh" -type "double2" 20099.820399067867 7561.7426382295125 ;
-	setAttr -s 20 ".tgi[2].ni";
-	setAttr ".tgi[2].ni[0].x" 17101.01171875;
-	setAttr ".tgi[2].ni[0].y" 7364.29052734375;
+	setAttr ".tgi[1].ni[10].x" 18020.509765625;
+	setAttr ".tgi[1].ni[10].y" 9753.06640625;
+	setAttr ".tgi[1].ni[10].nvs" 18305;
+	setAttr ".tgi[2].tn" -type "string" "Untitled_4";
+	setAttr ".tgi[2].vl" -type "double2" 26495.96964311519 642.85711731229583 ;
+	setAttr ".tgi[2].vh" -type "double2" 33713.551773896659 2597.6189443989451 ;
+	setAttr -s 12 ".tgi[2].ni";
+	setAttr ".tgi[2].ni[0].x" 29446.05078125;
+	setAttr ".tgi[2].ni[0].y" 2074.81298828125;
 	setAttr ".tgi[2].ni[0].nvs" 18305;
-	setAttr ".tgi[2].ni[1].x" 17132.26171875;
-	setAttr ".tgi[2].ni[1].y" 7096.0166015625;
-	setAttr ".tgi[2].ni[1].nvs" 18305;
-	setAttr ".tgi[2].ni[2].x" 17158.611328125;
-	setAttr ".tgi[2].ni[2].y" 7944.7900390625;
+	setAttr ".tgi[2].ni[1].x" 28815.71484375;
+	setAttr ".tgi[2].ni[1].y" 2131.428466796875;
+	setAttr ".tgi[2].ni[1].nvs" 18304;
+	setAttr ".tgi[2].ni[2].x" 28490.380859375;
+	setAttr ".tgi[2].ni[2].y" 1610.8997802734375;
 	setAttr ".tgi[2].ni[2].nvs" 18305;
-	setAttr ".tgi[2].ni[3].x" 17316.5;
-	setAttr ".tgi[2].ni[3].y" 5817.30078125;
+	setAttr ".tgi[2].ni[3].x" 28514.9921875;
+	setAttr ".tgi[2].ni[3].y" 2602.243408203125;
 	setAttr ".tgi[2].ni[3].nvs" 18305;
-	setAttr ".tgi[2].ni[4].x" 17294.734375;
-	setAttr ".tgi[2].ni[4].y" 5327.64306640625;
-	setAttr ".tgi[2].ni[4].nvs" 18305;
-	setAttr ".tgi[2].ni[5].x" 18670.642578125;
-	setAttr ".tgi[2].ni[5].y" 5845.5947265625;
+	setAttr ".tgi[2].ni[4].x" 29124.998046875;
+	setAttr ".tgi[2].ni[4].y" 2134.252197265625;
+	setAttr ".tgi[2].ni[4].nvs" 18304;
+	setAttr ".tgi[2].ni[5].x" 29769.287109375;
+	setAttr ".tgi[2].ni[5].y" 2187.98974609375;
 	setAttr ".tgi[2].ni[5].nvs" 18305;
-	setAttr ".tgi[2].ni[6].x" 18206.392578125;
-	setAttr ".tgi[2].ni[6].y" 5646.9375;
+	setAttr ".tgi[2].ni[6].x" 30595.396484375;
+	setAttr ".tgi[2].ni[6].y" 2149.921875;
 	setAttr ".tgi[2].ni[6].nvs" 18305;
-	setAttr ".tgi[2].ni[7].x" 18688.998046875;
-	setAttr ".tgi[2].ni[7].y" 6906.95556640625;
+	setAttr ".tgi[2].ni[7].x" 30166.2265625;
+	setAttr ".tgi[2].ni[7].y" 1914.5145263671875;
 	setAttr ".tgi[2].ni[7].nvs" 18305;
-	setAttr ".tgi[2].ni[8].x" 18671.18359375;
-	setAttr ".tgi[2].ni[8].y" 6379.7822265625;
+	setAttr ".tgi[2].ni[8].x" 29178.498046875;
+	setAttr ".tgi[2].ni[8].y" 1452.865478515625;
 	setAttr ".tgi[2].ni[8].nvs" 18305;
-	setAttr ".tgi[2].ni[9].x" 17940.369140625;
-	setAttr ".tgi[2].ni[9].y" 7047.16259765625;
-	setAttr ".tgi[2].ni[9].nvs" 18305;
-	setAttr ".tgi[2].ni[10].x" 18321.376953125;
-	setAttr ".tgi[2].ni[10].y" 6905.48486328125;
+	setAttr ".tgi[2].ni[9].x" 28830.6953125;
+	setAttr ".tgi[2].ni[9].y" 1987.8194580078125;
+	setAttr ".tgi[2].ni[9].nvs" 18304;
+	setAttr ".tgi[2].ni[10].x" 29596.92578125;
+	setAttr ".tgi[2].ni[10].y" 1628.384521484375;
 	setAttr ".tgi[2].ni[10].nvs" 18305;
-	setAttr ".tgi[2].ni[11].x" 17769.517578125;
-	setAttr ".tgi[2].ni[11].y" 5849.2080078125;
+	setAttr ".tgi[2].ni[11].x" 28856.375;
+	setAttr ".tgi[2].ni[11].y" 1111.4801025390625;
 	setAttr ".tgi[2].ni[11].nvs" 18305;
-	setAttr ".tgi[2].ni[12].x" 17103.78125;
-	setAttr ".tgi[2].ni[12].y" 6832.71044921875;
-	setAttr ".tgi[2].ni[12].nvs" 18305;
-	setAttr ".tgi[2].ni[13].x" 17126.845703125;
-	setAttr ".tgi[2].ni[13].y" 6432.390625;
-	setAttr ".tgi[2].ni[13].nvs" 18305;
-	setAttr ".tgi[2].ni[14].x" 17133.23046875;
-	setAttr ".tgi[2].ni[14].y" 6200.2392578125;
-	setAttr ".tgi[2].ni[14].nvs" 18305;
-	setAttr ".tgi[2].ni[15].x" 19573.404296875;
-	setAttr ".tgi[2].ni[15].y" 7448.25048828125;
-	setAttr ".tgi[2].ni[15].nvs" 18305;
-	setAttr ".tgi[2].ni[16].x" 17796.69140625;
-	setAttr ".tgi[2].ni[16].y" 6516.21630859375;
-	setAttr ".tgi[2].ni[16].nvs" 18305;
-	setAttr ".tgi[2].ni[17].x" 17814.49609375;
-	setAttr ".tgi[2].ni[17].y" 5390.34130859375;
-	setAttr ".tgi[2].ni[17].nvs" 18305;
-	setAttr ".tgi[2].ni[18].x" 17457.572265625;
-	setAttr ".tgi[2].ni[18].y" 7128.48779296875;
-	setAttr ".tgi[2].ni[18].nvs" 18304;
-	setAttr ".tgi[2].ni[19].x" 18666.37890625;
-	setAttr ".tgi[2].ni[19].y" 7489.03564453125;
-	setAttr ".tgi[2].ni[19].nvs" 18305;
-	setAttr ".tgi[3].tn" -type "string" "Untitled_4";
-	setAttr ".tgi[3].vl" -type "double2" 31921.61268513387 2347.3814319235794 ;
-	setAttr ".tgi[3].vh" -type "double2" 33075.041734678416 3335.8828959705238 ;
-	setAttr -s 81 ".tgi[3].ni";
-	setAttr ".tgi[3].ni[0].x" 32494.671875;
-	setAttr ".tgi[3].ni[0].y" 2220.367919921875;
+	setAttr ".tgi[3].tn" -type "string" "Untitled_5";
+	setAttr ".tgi[3].vl" -type "double2" 25004.291358958526 5238.2545225580225 ;
+	setAttr ".tgi[3].vh" -type "double2" 26400.089639135171 6771.8679249194756 ;
+	setAttr -s 7 ".tgi[3].ni";
+	setAttr ".tgi[3].ni[0].x" 25574.453125;
+	setAttr ".tgi[3].ni[0].y" 6556.38671875;
 	setAttr ".tgi[3].ni[0].nvs" 18305;
-	setAttr ".tgi[3].ni[1].x" 31064.845703125;
-	setAttr ".tgi[3].ni[1].y" 2489.708984375;
-	setAttr ".tgi[3].ni[1].nvs" 18304;
-	setAttr ".tgi[3].ni[2].x" 29786.73046875;
-	setAttr ".tgi[3].ni[2].y" -849.50494384765625;
+	setAttr ".tgi[3].ni[1].x" 25102.857421875;
+	setAttr ".tgi[3].ni[1].y" 6429.6640625;
+	setAttr ".tgi[3].ni[1].nvs" 18305;
+	setAttr ".tgi[3].ni[2].x" 25988.572265625;
+	setAttr ".tgi[3].ni[2].y" 6320;
 	setAttr ".tgi[3].ni[2].nvs" 18304;
-	setAttr ".tgi[3].ni[3].x" 28576.076171875;
-	setAttr ".tgi[3].ni[3].y" -858.10455322265625;
-	setAttr ".tgi[3].ni[3].nvs" 18305;
-	setAttr ".tgi[3].ni[4].x" 30380.978515625;
-	setAttr ".tgi[3].ni[4].y" 3677.7939453125;
-	setAttr ".tgi[3].ni[4].nvs" 18304;
-	setAttr ".tgi[3].ni[5].x" 29144.130859375;
-	setAttr ".tgi[3].ni[5].y" 2733.487548828125;
+	setAttr ".tgi[3].ni[3].x" 25988.572265625;
+	setAttr ".tgi[3].ni[3].y" 6160;
+	setAttr ".tgi[3].ni[3].nvs" 18304;
+	setAttr ".tgi[3].ni[4].x" 25377.814453125;
+	setAttr ".tgi[3].ni[4].y" 6144.36962890625;
+	setAttr ".tgi[3].ni[4].nvs" 18305;
+	setAttr ".tgi[3].ni[5].x" 25988.572265625;
+	setAttr ".tgi[3].ni[5].y" 6058.5712890625;
 	setAttr ".tgi[3].ni[5].nvs" 18304;
-	setAttr ".tgi[3].ni[6].x" 29774.42578125;
-	setAttr ".tgi[3].ni[6].y" -563.0595703125;
-	setAttr ".tgi[3].ni[6].nvs" 18304;
-	setAttr ".tgi[3].ni[7].x" 30783.650390625;
-	setAttr ".tgi[3].ni[7].y" 2361.4052734375;
-	setAttr ".tgi[3].ni[7].nvs" 18304;
-	setAttr ".tgi[3].ni[8].x" 30302.6953125;
-	setAttr ".tgi[3].ni[8].y" -801.768798828125;
-	setAttr ".tgi[3].ni[8].nvs" 18304;
-	setAttr ".tgi[3].ni[9].x" 31424.7578125;
-	setAttr ".tgi[3].ni[9].y" 955.712646484375;
-	setAttr ".tgi[3].ni[9].nvs" 18304;
-	setAttr ".tgi[3].ni[10].x" 31261.8359375;
-	setAttr ".tgi[3].ni[10].y" -1431.1578369140625;
-	setAttr ".tgi[3].ni[10].nvs" 18304;
-	setAttr ".tgi[3].ni[11].x" 31560.265625;
-	setAttr ".tgi[3].ni[11].y" 769.64306640625;
-	setAttr ".tgi[3].ni[11].nvs" 18304;
-	setAttr ".tgi[3].ni[12].x" 31318.587890625;
-	setAttr ".tgi[3].ni[12].y" 410.50286865234375;
-	setAttr ".tgi[3].ni[12].nvs" 18304;
-	setAttr ".tgi[3].ni[13].x" 29028.759765625;
-	setAttr ".tgi[3].ni[13].y" 2604.911865234375;
-	setAttr ".tgi[3].ni[13].nvs" 18304;
-	setAttr ".tgi[3].ni[14].x" 33078.14453125;
-	setAttr ".tgi[3].ni[14].y" -597.2431640625;
-	setAttr ".tgi[3].ni[14].nvs" 18305;
-	setAttr ".tgi[3].ni[15].x" 28623.0703125;
-	setAttr ".tgi[3].ni[15].y" 2955.52099609375;
-	setAttr ".tgi[3].ni[15].nvs" 18304;
-	setAttr ".tgi[3].ni[16].x" 31247.4609375;
-	setAttr ".tgi[3].ni[16].y" -615.5050048828125;
-	setAttr ".tgi[3].ni[16].nvs" 18304;
-	setAttr ".tgi[3].ni[17].x" 31036.607421875;
-	setAttr ".tgi[3].ni[17].y" 2997.38671875;
-	setAttr ".tgi[3].ni[17].nvs" 18304;
-	setAttr ".tgi[3].ni[18].x" 30379;
-	setAttr ".tgi[3].ni[18].y" 3961.64111328125;
-	setAttr ".tgi[3].ni[18].nvs" 18304;
-	setAttr ".tgi[3].ni[19].x" 32438.267578125;
-	setAttr ".tgi[3].ni[19].y" 912.98248291015625;
-	setAttr ".tgi[3].ni[19].nvs" 18305;
-	setAttr ".tgi[3].ni[20].x" 32781.26171875;
-	setAttr ".tgi[3].ni[20].y" 1171.6004638671875;
-	setAttr ".tgi[3].ni[20].nvs" 18305;
-	setAttr ".tgi[3].ni[21].x" 30573.236328125;
-	setAttr ".tgi[3].ni[21].y" 2070.84130859375;
-	setAttr ".tgi[3].ni[21].nvs" 18304;
-	setAttr ".tgi[3].ni[22].x" 28477.548828125;
-	setAttr ".tgi[3].ni[22].y" 2112.66650390625;
-	setAttr ".tgi[3].ni[22].nvs" 18305;
-	setAttr ".tgi[3].ni[23].x" 31572.087890625;
-	setAttr ".tgi[3].ni[23].y" -1507.9942626953125;
-	setAttr ".tgi[3].ni[23].nvs" 18304;
-	setAttr ".tgi[3].ni[24].x" 30768.6328125;
-	setAttr ".tgi[3].ni[24].y" 2474.0810546875;
-	setAttr ".tgi[3].ni[24].nvs" 18304;
-	setAttr ".tgi[3].ni[25].x" 31845.046875;
-	setAttr ".tgi[3].ni[25].y" 957.44378662109375;
-	setAttr ".tgi[3].ni[25].nvs" 18304;
-	setAttr ".tgi[3].ni[26].x" 31009.6484375;
-	setAttr ".tgi[3].ni[26].y" 3142.88330078125;
-	setAttr ".tgi[3].ni[26].nvs" 18304;
-	setAttr ".tgi[3].ni[27].x" 31605.06640625;
-	setAttr ".tgi[3].ni[27].y" -489.23321533203125;
-	setAttr ".tgi[3].ni[27].nvs" 18304;
-	setAttr ".tgi[3].ni[28].x" 31465.5625;
-	setAttr ".tgi[3].ni[28].y" 3625.8193359375;
-	setAttr ".tgi[3].ni[28].nvs" 18305;
-	setAttr ".tgi[3].ni[29].x" 30787.5078125;
-	setAttr ".tgi[3].ni[29].y" 2579.830078125;
-	setAttr ".tgi[3].ni[29].nvs" 18304;
-	setAttr ".tgi[3].ni[30].x" 31682.541015625;
-	setAttr ".tgi[3].ni[30].y" 855.8328857421875;
-	setAttr ".tgi[3].ni[30].nvs" 18304;
-	setAttr ".tgi[3].ni[31].x" 32091.486328125;
-	setAttr ".tgi[3].ni[31].y" 930.7784423828125;
-	setAttr ".tgi[3].ni[31].nvs" 18304;
-	setAttr ".tgi[3].ni[32].x" 32091.791015625;
-	setAttr ".tgi[3].ni[32].y" 802.86590576171875;
-	setAttr ".tgi[3].ni[32].nvs" 18304;
-	setAttr ".tgi[3].ni[33].x" 32424.37890625;
-	setAttr ".tgi[3].ni[33].y" -937.055419921875;
-	setAttr ".tgi[3].ni[33].nvs" 18305;
-	setAttr ".tgi[3].ni[34].x" 30055.115234375;
-	setAttr ".tgi[3].ni[34].y" -849.60064697265625;
-	setAttr ".tgi[3].ni[34].nvs" 18304;
-	setAttr ".tgi[3].ni[35].x" 28903.154296875;
-	setAttr ".tgi[3].ni[35].y" 2487.116943359375;
-	setAttr ".tgi[3].ni[35].nvs" 18304;
-	setAttr ".tgi[3].ni[36].x" 31604.421875;
-	setAttr ".tgi[3].ni[36].y" 1061.9923095703125;
-	setAttr ".tgi[3].ni[36].nvs" 18304;
-	setAttr ".tgi[3].ni[37].x" 31347.4453125;
-	setAttr ".tgi[3].ni[37].y" 1980.777099609375;
-	setAttr ".tgi[3].ni[37].nvs" 18304;
-	setAttr ".tgi[3].ni[38].x" 30303.275390625;
-	setAttr ".tgi[3].ni[38].y" -896.447998046875;
-	setAttr ".tgi[3].ni[38].nvs" 18304;
-	setAttr ".tgi[3].ni[39].x" 30738.201171875;
-	setAttr ".tgi[3].ni[39].y" 4327.84716796875;
-	setAttr ".tgi[3].ni[39].nvs" 18305;
-	setAttr ".tgi[3].ni[40].x" 29405.998046875;
-	setAttr ".tgi[3].ni[40].y" -483.61810302734375;
-	setAttr ".tgi[3].ni[40].nvs" 18304;
-	setAttr ".tgi[3].ni[41].x" 33101.265625;
-	setAttr ".tgi[3].ni[41].y" -1334.768310546875;
-	setAttr ".tgi[3].ni[41].nvs" 18305;
-	setAttr ".tgi[3].ni[42].x" 31128.328125;
-	setAttr ".tgi[3].ni[42].y" 1098.9293212890625;
-	setAttr ".tgi[3].ni[42].nvs" 18304;
-	setAttr ".tgi[3].ni[43].x" 32661.236328125;
-	setAttr ".tgi[3].ni[43].y" 3265.3564453125;
-	setAttr ".tgi[3].ni[43].nvs" 18305;
-	setAttr ".tgi[3].ni[44].x" 28310.61328125;
-	setAttr ".tgi[3].ni[44].y" 3032.279052734375;
-	setAttr ".tgi[3].ni[44].nvs" 18304;
-	setAttr ".tgi[3].ni[45].x" 28849.38671875;
-	setAttr ".tgi[3].ni[45].y" 2959.354248046875;
-	setAttr ".tgi[3].ni[45].nvs" 18305;
-	setAttr ".tgi[3].ni[46].x" 31835.248046875;
-	setAttr ".tgi[3].ni[46].y" -1193.2130126953125;
-	setAttr ".tgi[3].ni[46].nvs" 18304;
-	setAttr ".tgi[3].ni[47].x" 32016.94140625;
-	setAttr ".tgi[3].ni[47].y" -506.58334350585938;
-	setAttr ".tgi[3].ni[47].nvs" 18304;
-	setAttr ".tgi[3].ni[48].x" 29792.54296875;
-	setAttr ".tgi[3].ni[48].y" -420.07138061523438;
-	setAttr ".tgi[3].ni[48].nvs" 18304;
-	setAttr ".tgi[3].ni[49].x" 29738.03125;
-	setAttr ".tgi[3].ni[49].y" 2268.15185546875;
-	setAttr ".tgi[3].ni[49].nvs" 18304;
-	setAttr ".tgi[3].ni[50].x" 29422.16796875;
-	setAttr ".tgi[3].ni[50].y" 3077.316162109375;
-	setAttr ".tgi[3].ni[50].nvs" 18305;
-	setAttr ".tgi[3].ni[51].x" 31098.0703125;
-	setAttr ".tgi[3].ni[51].y" 3830.865234375;
-	setAttr ".tgi[3].ni[51].nvs" 18304;
-	setAttr ".tgi[3].ni[52].x" 30254.90234375;
-	setAttr ".tgi[3].ni[52].y" 2169.56103515625;
-	setAttr ".tgi[3].ni[52].nvs" 18304;
-	setAttr ".tgi[3].ni[53].x" 32358.23046875;
-	setAttr ".tgi[3].ni[53].y" -499.00674438476562;
-	setAttr ".tgi[3].ni[53].nvs" 18304;
-	setAttr ".tgi[3].ni[54].x" 31058.369140625;
-	setAttr ".tgi[3].ni[54].y" 2667.95703125;
-	setAttr ".tgi[3].ni[54].nvs" 18304;
-	setAttr ".tgi[3].ni[55].x" 29087.287109375;
-	setAttr ".tgi[3].ni[55].y" -557.95660400390625;
-	setAttr ".tgi[3].ni[55].nvs" 18304;
-	setAttr ".tgi[3].ni[56].x" 28654.525390625;
-	setAttr ".tgi[3].ni[56].y" -673.59423828125;
-	setAttr ".tgi[3].ni[56].nvs" 18304;
-	setAttr ".tgi[3].ni[57].x" 29766.041015625;
-	setAttr ".tgi[3].ni[57].y" -954.64013671875;
-	setAttr ".tgi[3].ni[57].nvs" 18304;
-	setAttr ".tgi[3].ni[58].x" 31031.380859375;
-	setAttr ".tgi[3].ni[58].y" 2853.087158203125;
-	setAttr ".tgi[3].ni[58].nvs" 18304;
-	setAttr ".tgi[3].ni[59].x" 30879.54296875;
-	setAttr ".tgi[3].ni[59].y" 2033.0732421875;
-	setAttr ".tgi[3].ni[59].nvs" 18305;
-	setAttr ".tgi[3].ni[60].x" 31351.314453125;
-	setAttr ".tgi[3].ni[60].y" 2473.845703125;
-	setAttr ".tgi[3].ni[60].nvs" 18305;
-	setAttr ".tgi[3].ni[61].x" 31793.576171875;
-	setAttr ".tgi[3].ni[61].y" 2927.32958984375;
-	setAttr ".tgi[3].ni[61].nvs" 18305;
-	setAttr ".tgi[3].ni[62].x" 30789.296875;
-	setAttr ".tgi[3].ni[62].y" 2766.211181640625;
-	setAttr ".tgi[3].ni[62].nvs" 18304;
-	setAttr ".tgi[3].ni[63].x" 30006;
-	setAttr ".tgi[3].ni[63].y" 1997.710205078125;
-	setAttr ".tgi[3].ni[63].nvs" 18304;
-	setAttr ".tgi[3].ni[64].x" 31127.162109375;
-	setAttr ".tgi[3].ni[64].y" 929.03546142578125;
-	setAttr ".tgi[3].ni[64].nvs" 18304;
-	setAttr ".tgi[3].ni[65].x" 28580.271484375;
-	setAttr ".tgi[3].ni[65].y" 3131.9873046875;
-	setAttr ".tgi[3].ni[65].nvs" 18304;
-	setAttr ".tgi[3].ni[66].x" 32113.279296875;
-	setAttr ".tgi[3].ni[66].y" -1291.117431640625;
-	setAttr ".tgi[3].ni[66].nvs" 18304;
-	setAttr ".tgi[3].ni[67].x" 32511.5234375;
-	setAttr ".tgi[3].ni[67].y" -1698.9248046875;
-	setAttr ".tgi[3].ni[67].nvs" 18304;
-	setAttr ".tgi[3].ni[68].x" 28870.447265625;
-	setAttr ".tgi[3].ni[68].y" -603.84454345703125;
-	setAttr ".tgi[3].ni[68].nvs" 18304;
-	setAttr ".tgi[3].ni[69].x" 30775.638671875;
-	setAttr ".tgi[3].ni[69].y" 2654.4853515625;
-	setAttr ".tgi[3].ni[69].nvs" 18304;
-	setAttr ".tgi[3].ni[70].x" 28669.603515625;
-	setAttr ".tgi[3].ni[70].y" 3250.318359375;
-	setAttr ".tgi[3].ni[70].nvs" 18304;
-	setAttr ".tgi[3].ni[71].x" 31312.390625;
-	setAttr ".tgi[3].ni[71].y" 1731.370361328125;
-	setAttr ".tgi[3].ni[71].nvs" 18304;
-	setAttr ".tgi[3].ni[72].x" 31374.791015625;
-	setAttr ".tgi[3].ni[72].y" 2873.959716796875;
-	setAttr ".tgi[3].ni[72].nvs" 18305;
-	setAttr ".tgi[3].ni[73].x" 28452.80859375;
-	setAttr ".tgi[3].ni[73].y" 2473.101806640625;
-	setAttr ".tgi[3].ni[73].nvs" 18305;
-	setAttr ".tgi[3].ni[74].x" 30377.142578125;
-	setAttr ".tgi[3].ni[74].y" 3850;
-	setAttr ".tgi[3].ni[74].nvs" 18304;
-	setAttr ".tgi[3].ni[75].x" 30727.931640625;
-	setAttr ".tgi[3].ni[75].y" 3100.94970703125;
-	setAttr ".tgi[3].ni[75].nvs" 18304;
-	setAttr ".tgi[3].ni[76].x" 30689.765625;
-	setAttr ".tgi[3].ni[76].y" 3645.22998046875;
-	setAttr ".tgi[3].ni[76].nvs" 18305;
-	setAttr ".tgi[3].ni[77].x" 30533.40234375;
-	setAttr ".tgi[3].ni[77].y" -370.48468017578125;
-	setAttr ".tgi[3].ni[77].nvs" 18305;
-	setAttr ".tgi[3].ni[78].x" 32266.09375;
-	setAttr ".tgi[3].ni[78].y" -222.64375305175781;
-	setAttr ".tgi[3].ni[78].nvs" 18305;
-	setAttr ".tgi[3].ni[79].x" 28191.544921875;
-	setAttr ".tgi[3].ni[79].y" 2747.707763671875;
-	setAttr ".tgi[3].ni[79].nvs" 18304;
-	setAttr ".tgi[3].ni[80].x" 31086.099609375;
-	setAttr ".tgi[3].ni[80].y" 3736.618896484375;
-	setAttr ".tgi[3].ni[80].nvs" 18304;
-	setAttr ".tgi[4].tn" -type "string" "Untitled_5";
-	setAttr ".tgi[4].vl" -type "double2" 33137.131630470969 3749.1882376531939 ;
-	setAttr ".tgi[4].vh" -type "double2" 34553.081982406315 4962.6733639889308 ;
-	setAttr -s 13 ".tgi[4].ni";
-	setAttr ".tgi[4].ni[0].x" 34067.87109375;
-	setAttr ".tgi[4].ni[0].y" 4461.24072265625;
-	setAttr ".tgi[4].ni[0].nvs" 18305;
-	setAttr ".tgi[4].ni[1].x" 32842.69140625;
-	setAttr ".tgi[4].ni[1].y" 5228.19873046875;
-	setAttr ".tgi[4].ni[1].nvs" 18304;
-	setAttr ".tgi[4].ni[2].x" 32044.9765625;
-	setAttr ".tgi[4].ni[2].y" 5083.3369140625;
+	setAttr ".tgi[3].ni[6].x" 26099.076171875;
+	setAttr ".tgi[3].ni[6].y" 6553.361328125;
+	setAttr ".tgi[3].ni[6].nvs" 18305;
+	setAttr ".tgi[4].tn" -type "string" "Untitled_6";
+	setAttr ".tgi[4].vl" -type "double2" 46834.740647261628 7071.8025945997715 ;
+	setAttr ".tgi[4].vh" -type "double2" 48230.538927438269 8605.4159969612265 ;
+	setAttr -s 10 ".tgi[4].ni";
+	setAttr ".tgi[4].ni[0].x" 47431.4296875;
+	setAttr ".tgi[4].ni[0].y" 7337.14306640625;
+	setAttr ".tgi[4].ni[0].nvs" 18304;
+	setAttr ".tgi[4].ni[1].x" 47343.19140625;
+	setAttr ".tgi[4].ni[1].y" 7634.36962890625;
+	setAttr ".tgi[4].ni[1].nvs" 18305;
+	setAttr ".tgi[4].ni[2].x" 47952.18359375;
+	setAttr ".tgi[4].ni[2].y" 8358.9072265625;
 	setAttr ".tgi[4].ni[2].nvs" 18305;
-	setAttr ".tgi[4].ni[3].x" 34330;
-	setAttr ".tgi[4].ni[3].y" 4808.5712890625;
-	setAttr ".tgi[4].ni[3].nvs" 1921;
-	setAttr ".tgi[4].ni[4].x" 32408.990234375;
-	setAttr ".tgi[4].ni[4].y" 5172.5361328125;
+	setAttr ".tgi[4].ni[3].x" 48219.83203125;
+	setAttr ".tgi[4].ni[3].y" 8352.521484375;
+	setAttr ".tgi[4].ni[3].nvs" 18304;
+	setAttr ".tgi[4].ni[4].x" 46945.04296875;
+	setAttr ".tgi[4].ni[4].y" 8243.109375;
 	setAttr ".tgi[4].ni[4].nvs" 18305;
-	setAttr ".tgi[4].ni[5].x" 32726.337890625;
-	setAttr ".tgi[4].ni[5].y" 4990.3505859375;
-	setAttr ".tgi[4].ni[5].nvs" 18305;
-	setAttr ".tgi[4].ni[6].x" 32422.720703125;
-	setAttr ".tgi[4].ni[6].y" 4204.13525390625;
-	setAttr ".tgi[4].ni[6].nvs" 1921;
-	setAttr ".tgi[4].ni[7].x" 32360.974609375;
-	setAttr ".tgi[4].ni[7].y" 4736.66015625;
-	setAttr ".tgi[4].ni[7].nvs" 1921;
-	setAttr ".tgi[4].ni[8].x" 33009.08984375;
-	setAttr ".tgi[4].ni[8].y" 4832.744140625;
+	setAttr ".tgi[4].ni[5].x" 48219.83203125;
+	setAttr ".tgi[4].ni[5].y" 8251.0927734375;
+	setAttr ".tgi[4].ni[5].nvs" 18304;
+	setAttr ".tgi[4].ni[6].x" 48219.83203125;
+	setAttr ".tgi[4].ni[6].y" 8149.6640625;
+	setAttr ".tgi[4].ni[6].nvs" 18305;
+	setAttr ".tgi[4].ni[7].x" 47528.01953125;
+	setAttr ".tgi[4].ni[7].y" 8464.2392578125;
+	setAttr ".tgi[4].ni[7].nvs" 18305;
+	setAttr ".tgi[4].ni[8].x" 47330.5390625;
+	setAttr ".tgi[4].ni[8].y" 8058.357421875;
 	setAttr ".tgi[4].ni[8].nvs" 18305;
-	setAttr ".tgi[4].ni[9].x" 33637.97265625;
-	setAttr ".tgi[4].ni[9].y" 4866.14599609375;
+	setAttr ".tgi[4].ni[9].x" 47776.72265625;
+	setAttr ".tgi[4].ni[9].y" 8524.3701171875;
 	setAttr ".tgi[4].ni[9].nvs" 18305;
-	setAttr ".tgi[4].ni[10].x" 33978.5703125;
-	setAttr ".tgi[4].ni[10].y" 4835.71435546875;
-	setAttr ".tgi[4].ni[10].nvs" 18304;
-	setAttr ".tgi[4].ni[11].x" 33291.97265625;
-	setAttr ".tgi[4].ni[11].y" 5080.8525390625;
-	setAttr ".tgi[4].ni[11].nvs" 18305;
-	setAttr ".tgi[4].ni[12].x" 33805.84375;
-	setAttr ".tgi[4].ni[12].y" 4662.96533203125;
-	setAttr ".tgi[4].ni[12].nvs" 18305;
 select -ne :time1;
 	setAttr -av -k on ".cch";
 	setAttr -av -k on ".fzn";
@@ -15664,7 +15320,7 @@ select -ne :defaultRenderUtilityList1;
 	setAttr -cb on ".ihi";
 	setAttr -av -k on ".nds";
 	setAttr -cb on ".bnm";
-	setAttr -s 219 ".u";
+	setAttr -s 168 ".u";
 select -ne :defaultRenderingList1;
 	setAttr -av -k on ".cch";
 	setAttr -k on ".ihi";
@@ -15681,7 +15337,7 @@ select -ne :initialShadingGroup;
 	setAttr -k on ".vwm";
 	setAttr -k on ".tpv";
 	setAttr -k on ".uit";
-	setAttr -s 9 ".dsm";
+	setAttr -s 16 ".dsm";
 	setAttr -k on ".mwc";
 	setAttr -av -cb on ".an";
 	setAttr -cb on ".il";
@@ -15710,6 +15366,7 @@ select -ne :initialParticleSE;
 	setAttr -cb on ".epo";
 	setAttr -k on ".ro" yes;
 	setAttr -k on ".hio";
+lockNode -l 0 -lu 1;
 select -ne :defaultRenderGlobals;
 	addAttr -ci true -h true -sn "dss" -ln "defaultSurfaceShader" -dt "string";
 	setAttr -av -k on ".cch";
@@ -15988,11 +15645,8 @@ connectAttr "makeNurbSphere20.os" "t_head_poserNurbsShape.cr";
 connectAttr "makeNurbSphere21.os" "b_head_poserNurbsShape.cr";
 connectAttr "multMatrix284.o" "l_mouthCorner_initLoc.opm";
 connectAttr "l_lipUp_1_makeNurbSphere.os" "l_lipDown_poserNurbsShape.cr";
-connectAttr "c_lip_poserOrientShape.wp" "posers_curve4Shape.cp[0]";
-connectAttr "l_lip_1_nearestPointOnCurve.p" "posers_curve4Shape.cp[1]";
-connectAttr "l_lip_2_nearestPointOnCurve2.p" "posers_curve4Shape.cp[2]";
-connectAttr "lip_corner_poserOrientShape.wp" "posers_curve4Shape.cp[3]";
-connectAttr "sweepMeshCreator1.outMeshArray[0]" "posers_sweep4Shape.i";
+connectAttr "sweepMeshCreator1.outMeshArray[0]" "posers_init_curve_sweepShape.i"
+		;
 connectAttr "t_poserOrientShape.wp" "posers_curve1Shape.cp[0]";
 connectAttr "poserOrientShape.wp" "posers_curve1Shape.cp[1]";
 connectAttr "b_poserOrientShape.wp" "posers_curve1Shape.cp[2]";
@@ -16008,7 +15662,8 @@ connectAttr "lip_corner_init_mirror_multiplyDivide.o" "init_curveShape.cp[0]";
 connectAttr "lip_1_init_mirror_multiplyDivide.o" "init_curveShape.cp[1]";
 connectAttr "c_lip_poserOrientShape.wp" "init_curveShape.cp[2]";
 connectAttr "lip_1_pivotShape.wp" "init_curveShape.cp[3]";
-connectAttr "lip_corner_poserOrientShape.wp" "init_curveShape.cp[4]";
+connectAttr "lip_2_pivotShape.wp" "init_curveShape.cp[4]";
+connectAttr "lip_corner_poserOrientShape.wp" "init_curveShape.cp[5]";
 connectAttr "init_curveShape.ws" "init_corner_flat_curveShape.cr";
 connectAttr "mouth_root_decomposeMatrix.otx" "input.tx";
 connectAttr "mouth_root_decomposeMatrix.oty" "input.ty";
@@ -16065,18 +15720,30 @@ connectAttr "b_lip_group_decomposeMatrix.osz" "b_lip_group.sz";
 connectAttr "multMatrix235.o" "c_b_lip_group.opm";
 connectAttr "l_mouthCorner_pairBlend.ot" "l_mouthCorner_autoGroup.t";
 connectAttr "l_mouthCorner_pairBlend.or" "l_mouthCorner_autoGroup.r";
-connectAttr "clamp29.opr" "l_mouthCorner_reverseGroup.tx";
+connectAttr "addDoubleLinear111.o" "l_mouthCorner_reverseGroup.tx";
 connectAttr "multMatrix245.o" "l_mouthCorner_reverseGroup.opm";
 connectAttr "l_mouthCorner.deepOffset" "l_mouthCorner.tz" -l on;
 connectAttr "length_multiplyDivide.ox" "l_mouthCorner.moveFactorX";
+connectAttr "l_mouthCorner.limits" "l_mouthCorner.mtxe";
+connectAttr "l_mouthCorner.limits" "l_mouthCorner.mtye";
+connectAttr "l_mouthCorner.limits" "l_mouthCorner.xtxe";
+connectAttr "l_mouthCorner.limits" "l_mouthCorner.xtye";
+connectAttr "l_t_lip_corner_multMatrix.o" "l_t_lip_corner_aim_group.opm";
+connectAttr "l_b_lip_corner_multMatrix.o" "l_b_lip_corner_aim_group.opm";
 connectAttr "r_autoCorner_pairBlend.or" "r_autoCorner_group.r";
 connectAttr "r_autoCorner_pairBlend.ot" "r_autoCorner_group.t";
 connectAttr "clamp30.opr" "r_mouthCorner_reverseGroup.tx";
 connectAttr "multMatrix249.o" "r_mouthCorner_reverseGroup.opm";
 connectAttr "r_mouthCorner.deepOffset" "r_mouthCorner.tz" -l on;
+connectAttr "r_mouthCorner.limits" "r_mouthCorner.mtxe";
+connectAttr "r_mouthCorner.limits" "r_mouthCorner.mtye";
+connectAttr "r_mouthCorner.limits" "r_mouthCorner.xtxe";
+connectAttr "r_mouthCorner.limits" "r_mouthCorner.xtye";
 connectAttr "l_mouthCornerShape.ws" "r_mouthCornerShape.cr";
 connectAttr "l_lipShape.ws" "r_lipShape.cr";
 connectAttr "l_cornerLip_localShape.ws" "r_cornerLip_localShape.cr";
+connectAttr "r_t_lip_corner_multMatrix.o" "r_t_lip_corner_aim_group.opm";
+connectAttr "r_b_lip_corner_multMatrix.o" "r_b_lip_corner_aim_group.opm";
 connectAttr "t_lip_group_decomposeMatrix.otx" "t_lip_group.tx";
 connectAttr "t_lip_group_decomposeMatrix.oty" "t_lip_group.ty";
 connectAttr "t_lip_group_decomposeMatrix.otz" "t_lip_group.tz";
@@ -16088,21 +15755,26 @@ connectAttr "t_lip_group_decomposeMatrix.osy" "t_lip_group.sy";
 connectAttr "t_lip_group_decomposeMatrix.osz" "t_lip_group.sz";
 connectAttr "multMatrix234.o" "c_t_lip_group.opm";
 connectAttr "transformGeometry1.og" "lips_ctrl1Shape.cr";
-connectAttr "r_t_lip_1_group_multMatrix.o" "r_t_lip_1_group.opm";
-connectAttr "r_lip_1_corner_v_multDoubleLinear.o" "r_t_lip_1_group.ty";
-connectAttr "multDoubleLinear487.o" "r_t_lip_1_group.tx";
+connectAttr "sec_controls_bifrostGraphShape.out_r_t_lips[0]" "r_t_lip_1_group.opm"
+		;
 connectAttr "l_t_lip_1Shape.ws" "r_t_lip_1Shape.cr";
-connectAttr "r_b_lip_1_group_multMatrix.o" "r_b_lip_1_group.opm";
-connectAttr "multDoubleLinear487.o" "r_b_lip_1_group.tx";
-connectAttr "r_lip_1_corner_v_multDoubleLinear.o" "r_b_lip_1_group.ty";
+connectAttr "sec_controls_bifrostGraphShape.out_r_b_lips[0]" "r_b_lip_1_group.opm"
+		;
 connectAttr "l_b_lip_1Shape.ws" "r_b_lip_1Shape.cr";
-connectAttr "l_t_lip_1_group_multMatrix.o" "l_t_lip_1_group.opm";
-connectAttr "l_lip_1_corner_h_clamp.opr" "l_t_lip_1_group.tx";
-connectAttr "l_lip_1_corner_v_multDoubleLinear.o" "l_t_lip_1_group.ty";
-connectAttr "l_b_lip_1_group_multMatrix.o" "l_b_lip_1_group.opm";
-connectAttr "l_lip_1_corner_h_clamp.opr" "l_b_lip_1_group.tx";
-connectAttr "l_lip_1_corner_v_multDoubleLinear.o" "l_b_lip_1_group.ty";
+connectAttr "sec_controls_bifrostGraphShape.out_l_t_lips[0]" "l_t_lip_1_group.opm"
+		;
+connectAttr "sec_controls_bifrostGraphShape.out_l_b_lips[0]" "l_b_lip_1_group.opm"
+		;
+connectAttr "sec_controls_bifrostGraphShape.out_l_t_lips[1]" "l_t_lip_2_group.opm"
+		;
+connectAttr "sec_controls_bifrostGraphShape.out_l_b_lips[1]" "l_b_lip_2_group.opm"
+		;
+connectAttr "sec_controls_bifrostGraphShape.out_r_t_lips[1]" "r_t_lip_2_group.opm"
+		;
+connectAttr "sec_controls_bifrostGraphShape.out_r_b_lips[1]" "r_b_lip_2_group.opm"
+		;
 connectAttr "zip_bifrostGraphShape.out_t_matrix[3]" "c_t_lip_local_group.opm";
+connectAttr "polyCube3.out" "pCubeShape1.i";
 connectAttr "zip_bifrostGraphShape.out_b_matrix[3]" "c_b_lip_local_group.opm";
 connectAttr "zip_bifrostGraphShape.out_t_matrix[4]" "l_t_lip_local_1_group.opm";
 connectAttr "zip_bifrostGraphShape.out_t_matrix[2]" "r_t_lip_local_1_group.opm";
@@ -16150,26 +15822,34 @@ connectAttr "l_cheek_group_multMat2.o" "l_lipDown_group.opm";
 connectAttr "blendMatrix41.omat" "l_lipDown_group_2.opm";
 connectAttr "multMatrix322.o" "r_lipDown_group.opm";
 connectAttr "blendMatrix42.omat" "r_lipDown_group_2.opm";
-connectAttr "t_lip_surfLoc_0Shape.wp" "t_lip_surfShape.cp[0]";
-connectAttr "t_lip_surfLoc_1Shape.wp" "t_lip_surfShape.cp[1]";
-connectAttr "t_lip_surfLoc_2Shape.wp" "t_lip_surfShape.cp[2]";
-connectAttr "t_lip_surfLoc_3Shape.wp" "t_lip_surfShape.cp[3]";
-connectAttr "t_lip_surfLoc_4Shape.wp" "t_lip_surfShape.cp[4]";
-connectAttr "t_lip_surfLoc_5Shape.wp" "t_lip_surfShape.cp[5]";
-connectAttr "t_lip_surfLoc_6Shape.wp" "t_lip_surfShape.cp[6]";
-connectAttr "t_lip_surfLoc_7Shape.wp" "t_lip_surfShape.cp[7]";
-connectAttr "t_lip_surfLoc_8Shape.wp" "t_lip_surfShape.cp[8]";
-connectAttr "t_lip_surfLoc_9Shape.wp" "t_lip_surfShape.cp[9]";
-connectAttr "b_lip_surfLoc_0Shape.wp" "b_lip_surfShape.cp[0]";
-connectAttr "b_lip_surfLoc_1Shape.wp" "b_lip_surfShape.cp[1]";
-connectAttr "b_lip_surfLoc_2Shape.wp" "b_lip_surfShape.cp[2]";
-connectAttr "b_lip_surfLoc_3Shape.wp" "b_lip_surfShape.cp[3]";
-connectAttr "b_lip_surfLoc_4Shape.wp" "b_lip_surfShape.cp[4]";
-connectAttr "b_lip_surfLoc_5Shape.wp" "b_lip_surfShape.cp[5]";
-connectAttr "b_lip_surfLoc_6Shape.wp" "b_lip_surfShape.cp[6]";
-connectAttr "b_lip_surfLoc_7Shape.wp" "b_lip_surfShape.cp[7]";
-connectAttr "b_lip_surfLoc_8Shape.wp" "b_lip_surfShape.cp[8]";
-connectAttr "b_lip_surfLoc_9Shape.wp" "b_lip_surfShape.cp[9]";
+connectAttr "r_t_lip_corner_surfUpLocShape.wp" "t_lip_surfShape.cp[0]";
+connectAttr "r_t_lip_2_surfUpLocShape.wp" "t_lip_surfShape.cp[1]";
+connectAttr "r_t_lip_1_surfUpLocShape.wp" "t_lip_surfShape.cp[2]";
+connectAttr "c_t_lip_surfUpLocShape.wp" "t_lip_surfShape.cp[3]";
+connectAttr "l_t_lip_1_surfUpLocShape.wp" "t_lip_surfShape.cp[4]";
+connectAttr "l_t_lip_2_surfUpLocShape.wp" "t_lip_surfShape.cp[5]";
+connectAttr "l_t_lip_corner_surfUpLocShape.wp" "t_lip_surfShape.cp[6]";
+connectAttr "r_t_lip_corner_surfDnLocShape.wp" "t_lip_surfShape.cp[7]";
+connectAttr "r_t_lip_2_surfDnLocShape.wp" "t_lip_surfShape.cp[8]";
+connectAttr "r_t_lip_1_surfDnLocShape.wp" "t_lip_surfShape.cp[9]";
+connectAttr "c_t_lip_surfDnLocShape.wp" "t_lip_surfShape.cp[10]";
+connectAttr "l_t_lip_1_surfDnLocShape.wp" "t_lip_surfShape.cp[11]";
+connectAttr "l_t_lip_2_surfDnLocShape.wp" "t_lip_surfShape.cp[12]";
+connectAttr "l_t_lip_corner_surfDnLocShape.wp" "t_lip_surfShape.cp[13]";
+connectAttr "r_b_lip_corner_surfUpLocShape.wp" "b_lip_surfShape.cp[0]";
+connectAttr "r_b_lip_2_surfUpLocShape.wp" "b_lip_surfShape.cp[1]";
+connectAttr "r_b_lip_1_surfUpLocShape.wp" "b_lip_surfShape.cp[2]";
+connectAttr "c_b_lip_surfUpLocShape.wp" "b_lip_surfShape.cp[3]";
+connectAttr "l_b_lip_1_surfUpLocShape.wp" "b_lip_surfShape.cp[4]";
+connectAttr "l_b_lip_2_surfUpLocShape.wp" "b_lip_surfShape.cp[5]";
+connectAttr "l_b_lip_corner_surfUpLocShape.wp" "b_lip_surfShape.cp[6]";
+connectAttr "r_b_lip_corner_surfDnLocShape.wp" "b_lip_surfShape.cp[7]";
+connectAttr "r_b_lip_2_surfDnLocShape.wp" "b_lip_surfShape.cp[8]";
+connectAttr "r_b_lip_1_surfDnLocShape.wp" "b_lip_surfShape.cp[9]";
+connectAttr "c_b_lip_surfDnLocShape.wp" "b_lip_surfShape.cp[10]";
+connectAttr "l_b_lip_1_surfDnLocShape.wp" "b_lip_surfShape.cp[11]";
+connectAttr "l_b_lip_2_surfDnLocShape.wp" "b_lip_surfShape.cp[12]";
+connectAttr "l_b_lip_corner_surfDnLocShape.wp" "b_lip_surfShape.cp[13]";
 connectAttr "l_mouthCorner.zip" "zip_bifrostGraphShape.l_zip";
 connectAttr "r_mouthCorner.zip" "zip_bifrostGraphShape.r_zip";
 connectAttr "t_uvPin.omat[0]" "zip_bifrostGraphShape.t_matrix[0]";
@@ -16189,30 +15869,33 @@ connectAttr "b_uvPin.omat[6]" "zip_bifrostGraphShape.b_matrix[6]";
 connectAttr "lips_scale_pickMatrix.tmat" "zip_bifrostGraphShape.scale_matrix";
 connectAttr "l_mouthCorner.zipDropoff" "zip_bifrostGraphShape.l_dropoff";
 connectAttr "r_mouthCorner.zipDropoff" "zip_bifrostGraphShape.r_dropoff";
+connectAttr "r_t_lip_local_3_reverse.ox" "zip_bifrostGraphShape.parameter[0]";
+connectAttr "r_t_lip_local_2_reverse.ox" "zip_bifrostGraphShape.parameter[1]";
+connectAttr "r_t_lip_local_1_reverse.ox" "zip_bifrostGraphShape.parameter[2]";
+connectAttr "c_t_lip_local.pos" "zip_bifrostGraphShape.parameter[3]";
+connectAttr "l_t_lip_local_1.pos" "zip_bifrostGraphShape.parameter[4]";
+connectAttr "l_t_lip_local_2.pos" "zip_bifrostGraphShape.parameter[5]";
+connectAttr "l_t_lip_local_3.pos" "zip_bifrostGraphShape.parameter[6]";
+connectAttr "l_mouthCorner.tx" "zip_bifrostGraphShape.l_corner_move_x";
+connectAttr "r_mouthCorner.tx" "zip_bifrostGraphShape.r_corner_move_x";
 connectAttr "mouth_poser.wm" "sec_controls_bifrostGraphShape.mouth_poser_m";
-connectAttr "unitConversion340.o" "sec_controls_bifrostGraphShape.flat_rotateY[0]"
+connectAttr "unitConversion340.o" "sec_controls_bifrostGraphShape.l_flat_rotateY[0]"
 		;
-connectAttr "unitConversion341.o" "sec_controls_bifrostGraphShape.flat_rotateY[1]"
+connectAttr "unitConversion341.o" "sec_controls_bifrostGraphShape.l_flat_rotateY[1]"
 		;
-connectAttr "l_lip_1_mpath.ac" "sec_controls_bifrostGraphShape.translate[0]";
-connectAttr "l_lip_2_mpath.ac" "sec_controls_bifrostGraphShape.translate[1]";
 connectAttr "lip_corner_poser.mouthLineFollow" "sec_controls_bifrostGraphShape.mouth_line_follow"
 		;
-connectAttr "unitConversion342.o" "sec_controls_bifrostGraphShape.rotate[0]";
-connectAttr "unitConversion343.o" "sec_controls_bifrostGraphShape.rotate[1]";
+connectAttr "unitConversion342.o" "sec_controls_bifrostGraphShape.l_rotate[0]";
+connectAttr "unitConversion343.o" "sec_controls_bifrostGraphShape.l_rotate[1]";
 connectAttr "lip_1_pivotShape.wp" "sec_controls_bifrostGraphShape.init_pos[0]";
 connectAttr "lip_2_pivotShape.wp" "sec_controls_bifrostGraphShape.init_pos[1]";
-connectAttr "l_mouthCorner.folowJaw" "sec_controls_bifrostGraphShape.corner_follow_jaw"
+connectAttr "blendTwoAttr1.o" "sec_controls_bifrostGraphShape.l_corner_follow_jaw"
 		;
-connectAttr "l_t_lip_1.followJaw" "sec_controls_bifrostGraphShape.follow_jaw[0]"
+connectAttr "l_t_lip_1.followJaw" "sec_controls_bifrostGraphShape.t_follow_jaw[0]"
 		;
-connectAttr "l_t_lip_2.followJaw" "sec_controls_bifrostGraphShape.follow_jaw[1]"
+connectAttr "l_t_lip_2.followJaw" "sec_controls_bifrostGraphShape.t_follow_jaw[1]"
 		;
 connectAttr "lips_poser.wim" "sec_controls_bifrostGraphShape.lips_poser_im";
-connectAttr "lips_jaw__multMatrix.o" "sec_controls_bifrostGraphShape.lips_jaw_m"
-		;
-connectAttr "t_lip_over_lips_multMatrix.o" "sec_controls_bifrostGraphShape.t_lip_over_lips_m"
-		;
 connectAttr "l_t_lip_1.t_lip_influence" "sec_controls_bifrostGraphShape.t_lip_influence[0]"
 		;
 connectAttr "l_t_lip_2.t_lip_influence" "sec_controls_bifrostGraphShape.t_lip_influence[1]"
@@ -16232,6 +15915,38 @@ connectAttr "l_t_lip_2.corner_h_influence" "sec_controls_bifrostGraphShape.corne
 connectAttr "l_t_lip_1.corner_v_influence" "sec_controls_bifrostGraphShape.corner_v_influence[0]"
 		;
 connectAttr "l_t_lip_2.corner_v_influence" "sec_controls_bifrostGraphShape.corner_v_influence[1]"
+		;
+connectAttr "l_b_lip_1.followJaw" "sec_controls_bifrostGraphShape.b_follow_jaw[0]"
+		;
+connectAttr "l_b_lip_2.followJaw" "sec_controls_bifrostGraphShape.b_follow_jaw[1]"
+		;
+connectAttr "b_lip_group.wim" "sec_controls_bifrostGraphShape.b_lip_group_im";
+connectAttr "l_b_lip_1.b_lip_influence" "sec_controls_bifrostGraphShape.b_lip_influence[0]"
+		;
+connectAttr "l_b_lip_2.b_lip_influence" "sec_controls_bifrostGraphShape.b_lip_influence[1]"
+		;
+connectAttr "b_lip.wm" "sec_controls_bifrostGraphShape.b_lip_wm";
+connectAttr "l_lip_1_mpath.ac" "sec_controls_bifrostGraphShape.l_translate[0]";
+connectAttr "l_lip_2_mpath.ac" "sec_controls_bifrostGraphShape.l_translate[1]";
+connectAttr "unitConversion344.o" "sec_controls_bifrostGraphShape.r_flat_rotateY[0]"
+		;
+connectAttr "unitConversion346.o" "sec_controls_bifrostGraphShape.r_flat_rotateY[1]"
+		;
+connectAttr "unitConversion345.o" "sec_controls_bifrostGraphShape.r_rotate[0]";
+connectAttr "unitConversion347.o" "sec_controls_bifrostGraphShape.r_rotate[1]";
+connectAttr "r_lip_1_mpath.ac" "sec_controls_bifrostGraphShape.r_translate[0]";
+connectAttr "r_lip_2_mpath.ac" "sec_controls_bifrostGraphShape.r_translate[1]";
+connectAttr "r_mouthCorner.t" "sec_controls_bifrostGraphShape.r_corner_translate"
+		;
+connectAttr "sec_controls_group.wim" "sec_controls_bifrostGraphShape.sec_controls_group_wim"
+		;
+connectAttr "lips.wm" "sec_controls_bifrostGraphShape.lips_wm";
+connectAttr "jaw.wm" "sec_controls_bifrostGraphShape.jaw_wm";
+connectAttr "jaw_poserOrient.wim" "sec_controls_bifrostGraphShape.jaw_poser_orient_wim"
+		;
+connectAttr "t_lip.wm" "sec_controls_bifrostGraphShape.t_lip_wm";
+connectAttr "t_lip_group.wim" "sec_controls_bifrostGraphShape.t_lip_group_wim";
+connectAttr "blendTwoAttr3.o" "sec_controls_bifrostGraphShape.r_corner_follow_jaw"
 		;
 connectAttr "decomposeMatrix1.os" "outJoints.s";
 connectAttr "decomposeMatrix2.ot" "root_outJoint.t";
@@ -16579,8 +16294,12 @@ connectAttr "decomposeMatrix6.osz" "l_cheek_outJoint.sz";
 connectAttr "setRange_jawOpenFactor.oz" "bs_weights.jawOpen";
 connectAttr "multiplyDivide_openFactor.ox" "bs_weights.l_jawOpen";
 connectAttr "multiplyDivide_openFactor.oy" "bs_weights.r_jawOpen";
+connectAttr "l_setRange_lipsUpDown.ox" "bs_weights.l_lipsUp";
+connectAttr "l_setRange_lipsUpDown.oy" "bs_weights.l_lipsDown";
 connectAttr "l_setRange_lipsFrontBack.oy" "bs_weights.l_lipsFront";
 connectAttr "l_setRange_lipsFrontBack.ox" "bs_weights.l_lipsBack";
+connectAttr "r_setRange_lipsUpDown.ox" "bs_weights.r_lipsUp";
+connectAttr "r_setRange_lipsUpDown.oy" "bs_weights.r_lipsDown";
 connectAttr "r_setRange_lipsFrontBack.oy" "bs_weights.r_lipsFront";
 connectAttr "r_setRange_lipsFrontBack.ox" "bs_weights.r_lipsBack";
 connectAttr "setRange_cheekUp.ox" "bs_weights.l_cheekUp_up";
@@ -16711,12 +16430,12 @@ connectAttr "addDoubleLinear78.o" "plusMinusAverage165.i1[0]";
 connectAttr "dropoff_multiplyDivide.oy" "plusMinusAverage165.i1[1]";
 connectAttr "dropoff_multiplyDivide.oy" "addDoubleLinear78.i1";
 connectAttr "multDoubleLinear148.o" "addDoubleLinear78.i2";
-connectAttr "plusMinusAverage177.o3x" "l_setRange_lipsFrontBack.vx";
-connectAttr "plusMinusAverage177.o3x" "l_setRange_lipsFrontBack.vy";
+connectAttr "l_mouthCorner.tx" "l_setRange_lipsFrontBack.vx";
+connectAttr "l_mouthCorner.tx" "l_setRange_lipsFrontBack.vy";
 connectAttr "l_mouthCorner.backBsLimit" "l_setRange_lipsFrontBack.omx";
 connectAttr "l_mouthCorner.frontBsLimit" "l_setRange_lipsFrontBack.ony";
-connectAttr "plusMinusAverage178.o3x" "r_setRange_lipsFrontBack.vx";
-connectAttr "plusMinusAverage178.o3x" "r_setRange_lipsFrontBack.vy";
+connectAttr "r_mouthCorner.tx" "r_setRange_lipsFrontBack.vx";
+connectAttr "r_mouthCorner.tx" "r_setRange_lipsFrontBack.vy";
 connectAttr "l_mouthCorner.backBsLimit" "r_setRange_lipsFrontBack.omx";
 connectAttr "l_mouthCorner.frontBsLimit" "r_setRange_lipsFrontBack.ony";
 connectAttr "b_lip_group_multMatrix.o" "b_lip_group_decomposeMatrix.imat";
@@ -16770,6 +16489,9 @@ connectAttr "l_b_lip_1.iog" "lips_add_moduleControlSet.dsm" -na;
 connectAttr "r_t_lip_1.iog" "lips_add_moduleControlSet.dsm" -na;
 connectAttr "r_b_lip_1.iog" "lips_add_moduleControlSet.dsm" -na;
 connectAttr "l_t_lip_2.iog" "lips_add_moduleControlSet.dsm" -na;
+connectAttr "l_b_lip_2.iog" "lips_add_moduleControlSet.dsm" -na;
+connectAttr "r_t_lip_2.iog" "lips_add_moduleControlSet.dsm" -na;
+connectAttr "r_b_lip_2.iog" "lips_add_moduleControlSet.dsm" -na;
 connectAttr "l_mouthCorner.iog" "lips_main_moduleControlSet.dsm" -na;
 connectAttr "b_lip.iog" "lips_main_moduleControlSet.dsm" -na;
 connectAttr "t_lip.iog" "lips_main_moduleControlSet.dsm" -na;
@@ -16839,7 +16561,7 @@ connectAttr "nose_outJoint.iog" "skinJointsSet.dsm" -na;
 connectAttr "r_nostril_outJoint.iog" "skinJointsSet.dsm" -na;
 connectAttr "l_nostril_outJoint.iog" "skinJointsSet.dsm" -na;
 connectAttr "root_outJoint.iog" "skinJointsSet.dsm" -na;
-connectAttr "posers_curve4Shape.ws" "sweepMeshCreator1.inCurveArray[0]";
+connectAttr "init_curveShape.ws" "sweepMeshCreator1.inCurveArray[0]";
 connectAttr "posers_curve1Shape.ws" "sweepMeshCreator1.inCurveArray[1]";
 connectAttr "posers_curve2Shape.ws" "sweepMeshCreator1.inCurveArray[2]";
 connectAttr "posers_curve3Shape.ws" "sweepMeshCreator1.inCurveArray[3]";
@@ -17094,7 +16816,7 @@ connectAttr "c_lip_poser.wm" "multMatrix235.i[0]";
 connectAttr "b_mouth_poser.wim" "multMatrix235.i[1]";
 connectAttr "composeMatrix11.omat" "multMatrix245.i[0]";
 connectAttr "jaw_poserOrient.wim" "multMatrix245.i[1]";
-connectAttr "l_mouthCorner.folowJaw" "l_mouthCorner_pairBlend.w";
+connectAttr "blendTwoAttr1.o" "l_mouthCorner_pairBlend.w";
 connectAttr "jaw.t" "l_mouthCorner_pairBlend.it2";
 connectAttr "jaw.r" "l_mouthCorner_pairBlend.ir2";
 connectAttr "lip_1_pivotShape.wp" "lip_1_init_mirror_multiplyDivide.i1";
@@ -17112,8 +16834,7 @@ connectAttr "l_mouthCorner_flat_mpath.ry" "composeMatrix11.iry";
 connectAttr "unitConversion315.o" "composeMatrix11.irz";
 connectAttr "unitConversion314.o" "composeMatrix11.irx";
 connectAttr "mouth_poser_decomposeMatrix.os" "composeMatrix11.is";
-connectAttr "init_curve_rebuildCurve.oc" "l_lip_2_nearestPointOnCurve2.ic";
-connectAttr "r_mouthCorner.folowJaw" "r_autoCorner_pairBlend.w";
+connectAttr "blendTwoAttr3.o" "r_autoCorner_pairBlend.w";
 connectAttr "jaw.r" "r_autoCorner_pairBlend.ir2";
 connectAttr "jaw.t" "r_autoCorner_pairBlend.it2";
 connectAttr "composeMatrix14.omat" "multMatrix249.i[0]";
@@ -17123,22 +16844,17 @@ connectAttr "lips_ctrlShape.ws" "transformGeometry1.ig";
 connectAttr "composeMatrix15.omat" "transformGeometry1.txf";
 connectAttr "mouth_ctrlShape.ws" "transformGeometry2.ig";
 connectAttr "composeMatrix15.omat" "transformGeometry2.txf";
-connectAttr "addDoubleLinear93.o" "curveShape1_4_mpath1.u";
-connectAttr "init_curve_rebuildCurve.oc" "curveShape1_4_mpath1.gp";
-connectAttr "curveShape1_6_mpath1.xc" "composeMatrix18.itx";
-connectAttr "curveShape1_6_mpath1.zc" "composeMatrix18.itz";
+connectAttr "r_mouthCorner_mpath.xc" "composeMatrix18.itx";
+connectAttr "r_mouthCorner_mpath.zc" "composeMatrix18.itz";
 connectAttr "condition10.ocb" "composeMatrix18.ity";
 connectAttr "curveShape1_6_mpath3.ry" "composeMatrix18.iry";
 connectAttr "unitConversion327.o" "composeMatrix18.irz";
 connectAttr "unitConversion326.o" "composeMatrix18.irx";
 connectAttr "mouth_poser_decomposeMatrix.os" "composeMatrix18.is";
-connectAttr "init_curve_rebuildCurve.oc" "curveShape1_6_mpath1.gp";
-connectAttr "addDoubleLinear99.o" "curveShape1_6_mpath1.u";
-connectAttr "r_lip_corner_loc.wm" "curveShape1_6_mpath1.wum";
+connectAttr "init_curve_rebuildCurve.oc" "r_mouthCorner_mpath.gp";
+connectAttr "addDoubleLinear99.o" "r_mouthCorner_mpath.u";
+connectAttr "r_lip_corner_loc.wm" "r_mouthCorner_mpath.wum";
 connectAttr "mouth_poser.wm" "mouth_poser_decomposeMatrix.imat";
-connectAttr "multDoubleLinear449.o" "addDoubleLinear93.i2";
-connectAttr "l_lip_2_nearestPointOnCurve2.pr" "addDoubleLinear93.i1";
-connectAttr "l_mouthCorner_moveX_multDoubleLinear.o" "multDoubleLinear449.i1";
 connectAttr "init_curveShape.ws" "corner_nearestPointOnCurve.ic";
 connectAttr "lip_corner_poserOrientShape.wp" "corner_nearestPointOnCurve.ip";
 connectAttr "l_mouthCorner.tx" "l_mouthCorner_moveX_multDoubleLinear.i1";
@@ -17149,17 +16865,9 @@ connectAttr "corner_nearestPointOnCurve.pr" "reverse40.ix";
 connectAttr "reverse40.ox" "addDoubleLinear99.i1";
 connectAttr "multDoubleLinear454.o" "addDoubleLinear99.i2";
 connectAttr "r_mouthCorner_moveX_multDoubleLinear.o" "multDoubleLinear454.i1";
-connectAttr "l_t_lip_1.corner_h_influence" "multDoubleLinear457.i1";
-connectAttr "l_mouthCorner_moveX_multDoubleLinear.o" "multDoubleLinear457.i2";
 connectAttr "r_mouthCorner.tx" "r_mouthCorner_moveX_multDoubleLinear.i1";
 connectAttr "l_mouthCorner.moveFactorX" "r_mouthCorner_moveX_multDoubleLinear.i2"
 		;
-connectAttr "l_t_lip_1.corner_h_influence" "multDoubleLinear462.i1";
-connectAttr "r_mouthCorner_moveX_multDoubleLinear.o" "multDoubleLinear462.i2";
-connectAttr "multDoubleLinear462.o" "multDoubleLinear463.i1";
-connectAttr "r_mouthCorner_moveX_multDoubleLinear.o" "multDoubleLinear464.i2";
-connectAttr "l_lip_2_nearestPointOnCurve2.pr" "reverse42.ix";
-connectAttr "multDoubleLinear464.o" "multDoubleLinear465.i1";
 connectAttr "cheeks_blendMatrix.omat" "cheeks_multMatrix.i[0]";
 connectAttr "b_head_poser.wm" "cheeks_multMatrix.i[1]";
 connectAttr "root_poser.wim" "cheeks_multMatrix.i[2]";
@@ -17168,34 +16876,31 @@ connectAttr "t_head.m" "cheeks_blendMatrix.tgt[0].tmat";
 connectAttr "l_cheek.followTopHead" "cheeks_blendMatrix.env";
 connectAttr "lip_corner_poser.m" "multMatrix264.i[0]";
 connectAttr "composeMatrix19.omat" "multMatrix264.i[1]";
-connectAttr "l_mouthCorner.t" "plusMinusAverage177.i3[0]";
-connectAttr "multDoubleLinear482.o" "addDoubleLinear111.i1";
+connectAttr "clamp29.opr" "addDoubleLinear111.i1";
 connectAttr "multDoubleLinear480.o" "addDoubleLinear111.i2";
 connectAttr "l_mouthCorner.jawInInfluence" "multDoubleLinear478.i1";
 connectAttr "unitConversion311.o" "multDoubleLinear479.i1";
 connectAttr "multDoubleLinear478.o" "multDoubleLinear479.i2";
 connectAttr "jaw.rx" "unitConversion311.i";
-connectAttr "r_mouthCorner.t" "plusMinusAverage178.i3[0]";
-connectAttr "multDoubleLinear479.o" "plusMinusAverage178.i3[1].i3x";
 connectAttr "multDoubleLinear483.o" "addDoubleLinear112.i1";
 connectAttr "multDoubleLinear481.o" "addDoubleLinear112.i2";
 connectAttr "condition5.ocr" "multDoubleLinear480.i1";
 connectAttr "multDoubleLinear479.o" "multDoubleLinear480.i2";
-connectAttr "l_mouthCorner.folowJaw" "setRange123.vx";
-connectAttr "l_mouthCorner.folowJaw" "setRange123.vy";
-connectAttr "l_mouthCorner.folowJaw" "condition5.ft";
+connectAttr "blendTwoAttr1.o" "setRange123.vx";
+connectAttr "blendTwoAttr1.o" "setRange123.vy";
+connectAttr "blendTwoAttr1.o" "condition5.ft";
 connectAttr "setRange123.ox" "condition5.cfr";
 connectAttr "setRange123.oy" "condition5.ctr";
 connectAttr "condition6.ocr" "multDoubleLinear481.i1";
 connectAttr "multDoubleLinear479.o" "multDoubleLinear481.i2";
-connectAttr "r_mouthCorner.folowJaw" "condition6.ft";
+connectAttr "blendTwoAttr3.o" "condition6.ft";
 connectAttr "setRange124.ox" "condition6.cfr";
 connectAttr "setRange124.oy" "condition6.ctr";
-connectAttr "r_mouthCorner.folowJaw" "setRange124.vx";
-connectAttr "r_mouthCorner.folowJaw" "setRange124.vy";
+connectAttr "blendTwoAttr3.o" "setRange124.vx";
+connectAttr "blendTwoAttr3.o" "setRange124.vy";
 connectAttr "l_mouthCorner.tx" "multDoubleLinear482.i1";
 connectAttr "r_mouthCorner.tx" "multDoubleLinear483.i1";
-connectAttr "addDoubleLinear111.o" "clamp29.ipr";
+connectAttr "multDoubleLinear482.o" "clamp29.ipr";
 connectAttr "addDoubleLinear112.o" "clamp30.ipr";
 connectAttr "lip_corner_poser.mouthLineFollow" "condition8.ft";
 connectAttr "lip_corner_poserOrientShape.wp.wpy" "condition8.ctb";
@@ -17204,27 +16909,15 @@ connectAttr "unitConversion313.o" "condition8.cfr";
 connectAttr "l_mouthCorner_mpath.yc" "condition8.cfb";
 connectAttr "l_mouthCorner_mpath.rz" "unitConversion312.i";
 connectAttr "l_mouthCorner_mpath.rx" "unitConversion313.i";
-connectAttr "l_lip_2_nearestPointOnCurve2.pr" "setRange127.vx";
-connectAttr "l_lip_2_nearestPointOnCurve2.pr" "setRange127.vy";
-connectAttr "multiplyDivide368.ox" "reverse50.ix";
-connectAttr "l_lip_2_nearestPointOnCurve2.pr" "l_t_lip_2_init_mpath.u";
-connectAttr "init_curve_rebuildCurve.oc" "l_t_lip_2_init_mpath.gp";
-connectAttr "l_lip_1__uValue__addDoubleLinear.o" "l_lip_1_mpath.u";
+connectAttr "l_lip_1_uValue_addDoubleLinear.o" "l_lip_1_mpath.u";
 connectAttr "init_curve_rebuildCurve.oc" "l_lip_1_mpath.gp";
-connectAttr "lip_corner_poser.mouthLineFollow" "condition9.ft";
-connectAttr "l_lip_2_nearestPointOnCurve2.py" "condition9.ctb";
-connectAttr "unitConversion317.o" "condition9.cfg";
-connectAttr "unitConversion316.o" "condition9.cfr";
-connectAttr "curveShape1_4_mpath1.yc" "condition9.cfb";
-connectAttr "curveShape1_4_mpath1.rx" "unitConversion316.i";
-connectAttr "curveShape1_4_mpath1.rz" "unitConversion317.i";
 connectAttr "lip_corner_poser.mouthLineFollow" "condition10.ft";
 connectAttr "lip_corner_poserOrientShape.wp.wpy" "condition10.ctb";
 connectAttr "unitConversion325.o" "condition10.cfg";
 connectAttr "unitConversion324.o" "condition10.cfr";
-connectAttr "curveShape1_6_mpath1.yc" "condition10.cfb";
-connectAttr "curveShape1_6_mpath1.rx" "unitConversion324.i";
-connectAttr "curveShape1_6_mpath1.rz" "unitConversion325.i";
+connectAttr "r_mouthCorner_mpath.yc" "condition10.cfb";
+connectAttr "r_mouthCorner_mpath.rx" "unitConversion324.i";
+connectAttr "r_mouthCorner_mpath.rz" "unitConversion325.i";
 connectAttr "condition10.ocr" "unitConversion326.i";
 connectAttr "condition10.ocg" "unitConversion327.i";
 connectAttr "condition8.ocg" "unitConversion315.i";
@@ -17238,11 +16931,11 @@ connectAttr "addDoubleLinear99.o" "curveShape1_6_mpath3.u";
 connectAttr "r_lip_corner_loc.wm" "curveShape1_6_mpath3.wum";
 connectAttr "b_head_poser.wm" "multMatrix283.i[0]";
 connectAttr "root_poser.wim" "multMatrix283.i[1]";
-connectAttr "init_curve_rebuildCurve.oc" "curveShape1_6_mpath4.gp";
-connectAttr "lip_corner_poser.wm" "curveShape1_6_mpath4.wum";
-connectAttr "curveShape1_6_mpath4.ac" "composeMatrix22.it";
-connectAttr "curveShape1_6_mpath4.rx" "composeMatrix22.irx";
-connectAttr "curveShape1_6_mpath4.rz" "composeMatrix22.irz";
+connectAttr "init_curve_rebuildCurve.oc" "l_corner_init_mpath.gp";
+connectAttr "lip_corner_poser.wm" "l_corner_init_mpath.wum";
+connectAttr "l_corner_init_mpath.ac" "composeMatrix22.it";
+connectAttr "l_corner_init_mpath.rx" "composeMatrix22.irx";
+connectAttr "l_corner_init_mpath.rz" "composeMatrix22.irz";
 connectAttr "curveShape1_6_mpath5.ry" "composeMatrix22.iry";
 connectAttr "mainPoser_decomposeMatrix.os" "composeMatrix22.is";
 connectAttr "composeMatrix22.omat" "multMatrix284.i[0]";
@@ -17273,38 +16966,6 @@ connectAttr "r_mouthCorner.wm" "multMatrix291.i[1]";
 connectAttr "r_cheek_group.wim" "multMatrix291.i[2]";
 connectAttr "multMatrix291.o" "blendMatrix27.tgt[0].tmat";
 connectAttr "l_cheek.lipCornerInfluence" "blendMatrix27.env";
-connectAttr "l_lip_1_mpath.xc" "l_lip_1_slide_composeMatrix.itx";
-connectAttr "l_lip_1_mpath.zc" "l_lip_1_slide_composeMatrix.itz";
-connectAttr "l_lip_1_mouthLineFollow_condition.ocb" "l_lip_1_slide_composeMatrix.ity"
-		;
-connectAttr "unitConversion330.o" "l_lip_1_slide_composeMatrix.irx";
-connectAttr "unitConversion331.o" "l_lip_1_slide_composeMatrix.irz";
-connectAttr "l_lip_1_flat_mpath.ry" "l_lip_1_slide_composeMatrix.iry";
-connectAttr "mouth_poser_decomposeMatrix.os" "l_lip_1_slide_composeMatrix.is";
-connectAttr "l_lip_1_slide_composeMatrix.omat" "multMatrix293.i[0]";
-connectAttr "corner_init_blendMatrix.omat" "multMatrix293.i[1]";
-connectAttr "l_lip_1_slide_composeMatrix.omat" "multMatrix294.i[0]";
-connectAttr "t_mouth_poser.wim" "multMatrix294.i[1]";
-connectAttr "l_lip_1_slide_composeMatrix.omat" "multMatrix296.i[0]";
-connectAttr "lips_poser.wim" "multMatrix296.i[1]";
-connectAttr "multMatrix294.o" "multMatrix299.i[0]";
-connectAttr "reverse_composeMatrix.omat" "multMatrix299.i[1]";
-connectAttr "multMatrix296.o" "multMatrix301.i[0]";
-connectAttr "reverse_composeMatrix.omat" "multMatrix301.i[1]";
-connectAttr "l_t_lip_2_init_mpath.ac" "l_t_lip_2_init_composeMatrix.it";
-connectAttr "l_t_lip_2_init_mpath.r" "l_t_lip_2_init_composeMatrix.ir";
-connectAttr "mouth_poser_decomposeMatrix.os" "l_t_lip_2_init_composeMatrix.is";
-connectAttr "l_t_lip_2_init_composeMatrix.omat" "multMatrix302.i[0]";
-connectAttr "t_mouth_poser.wim" "multMatrix302.i[1]";
-connectAttr "l_t_lip_1.t_lip_influence" "blendMatrix33.env";
-connectAttr "blendMatrix33.omat" "multMatrix304.i[0]";
-connectAttr "sec_controls_group.wim" "multMatrix304.i[2]";
-connectAttr "l_t_lip_2_init_composeMatrix.omat" "multMatrix305.i[0]";
-connectAttr "corner_init_blendMatrix.omat" "multMatrix305.i[1]";
-connectAttr "l_t_lip_2_init_composeMatrix.omat" "multMatrix306.i[0]";
-connectAttr "lips_poser.wim" "multMatrix306.i[1]";
-connectAttr "l_lip_1_slide_composeMatrix.omat" "multMatrix307.i[0]";
-connectAttr "b_mouth_poser.wim" "multMatrix307.i[1]";
 connectAttr "lip_corner_poser.wim" "corner_init_blendMatrix.imat";
 connectAttr "l_mouthCorner_initLoc.wim" "corner_init_blendMatrix.tgt[0].tmat";
 connectAttr "lip_corner_poser.mouthLineFollow" "corner_init_blendMatrix.env";
@@ -17343,10 +17004,6 @@ connectAttr "b_head.msg" "b_head_tag.act";
 connectAttr "b_tooth.msg" "b_tooth_tag.act";
 connectAttr "t_tooth.msg" "t_tooth_tag.act";
 connectAttr "l_mouthCorner_moveX_multDoubleLinear.o" "addDoubleLinear113.i2";
-connectAttr "l_lip_1_nearestPointOnCurve.pr" "reverse41.ix";
-connectAttr "addDoubleLinear114.o" "l_t_lip_1_multiplyDivide.i1x";
-connectAttr "l_lip_1_nearestPointOnCurve.pr" "addDoubleLinear114.i1";
-connectAttr "l_t_lip_1_multiplyDivide.ox" "l_t_lip_1_reverse.ix";
 connectAttr "blendShape1.mlpr" "shapeEditorManager1.bspr[0]";
 connectAttr "shapeEditorManager.obsv[0]" "shapeEditorManager1.bsdt[0].bdpv";
 connectAttr "renderLayerManager1.rlmi[0]" "defaultRenderLayer1.rlid";
@@ -17363,7 +17020,6 @@ connectAttr "bifrostGraphShape1.out_weights[2]" "blendShape1.w[2]";
 connectAttr "bifrostGraphShape1.out_weights[3]" "blendShape1.w[3]";
 connectAttr "pSphereShape1Orig.w" "tweak1.ip[0].ig";
 connectAttr "init_curve_rebuildCurve.oc" "curveInfo.ic";
-connectAttr "bifrostGraphShape1.out_transform" "decomposeMatrix51.imat";
 connectAttr "l_lipUp_size_multDoubleLinear.o" "l_lipUp_makeNurbSphere.r";
 connectAttr "l_lipUp_poser.size" "l_lipUp_size_multDoubleLinear.i1";
 connectAttr "mainPoser.globalSize" "l_lipUp_size_multDoubleLinear.i2";
@@ -17414,199 +17070,33 @@ connectAttr "l_lipDown_group.wim" "multMatrix324.i[2]";
 connectAttr "multMatrix323.o" "multMatrix325.i[0]";
 connectAttr "r_mouthCorner.wm" "multMatrix325.i[1]";
 connectAttr "r_lipDown_group.wim" "multMatrix325.i[2]";
-connectAttr "lips.wm" "distanceBetween1.im1";
-connectAttr "l_mouthCorner.wm" "distanceBetween1.im2";
-connectAttr "lips.wm" "distanceBetween2.im1";
-connectAttr "l_mouthCorner_reverseGroup.wm" "distanceBetween2.im2";
-connectAttr "distanceBetween2.d" "multiplyDivide370.i1x";
-connectAttr "distanceBetween1.d" "multiplyDivide370.i2x";
-connectAttr "distanceBetween4.d" "multiplyDivide371.i1x";
-connectAttr "distanceBetween3.d" "multiplyDivide371.i2x";
-connectAttr "lips.wm" "distanceBetween3.im1";
-connectAttr "r_mouthCorner.wm" "distanceBetween3.im2";
-connectAttr "r_mouthCorner_reverseGroup.wm" "distanceBetween4.im1";
-connectAttr "lips.wm" "distanceBetween4.im2";
-connectAttr "jaw_poserOrient.wim" "lips_jaw__multMatrix.i[1]";
-connectAttr "jaw.wm" "lips_jaw__multMatrix.i[2]";
-connectAttr "lips.wim" "lips_jaw__multMatrix.i[3]";
-connectAttr "l_lip_1__corner__multDoubleLinear.o" "l_lip_1__uValue__addDoubleLinear.i2"
+connectAttr "l_lip_1__corner__multDoubleLinear.o" "l_lip_1_uValue_addDoubleLinear.i2"
 		;
-connectAttr "l_lip_1_nearestPointOnCurve.pr" "l_lip_1__uValue__addDoubleLinear.i1"
+connectAttr "l_lip_1_nearestPointOnCurve.pr" "l_lip_1_uValue_addDoubleLinear.i1"
 		;
 connectAttr "l_mouthCorner_moveX_multDoubleLinear.o" "l_lip_1__corner__multDoubleLinear.i1"
 		;
 connectAttr "l_t_lip_1.corner_h_influence" "l_lip_1__corner__multDoubleLinear.i2"
 		;
-connectAttr "l_lip_1_corner_h_multDoubleLinear.o" "l_lip_1_corner_h_clamp.ipr";
-connectAttr "l_lip_1_corner_h_plusMinusAverage.o1" "l_lip_1_corner_h_multDoubleLinear.i1"
-		;
-connectAttr "l_t_lip_1.corner_h_influence" "l_lip_1_corner_h_multDoubleLinear.i2"
-		;
 connectAttr "l_lip_1_nearestPointOnCurve.pr" "l_lip_1_reverse_u_plusMinusAverage.i1[1]"
-		;
-connectAttr "l_lip_1_reverse_u_plusMinusAverage.o1" "l_lip_1_uFactor_multiplyDivide.i1x"
-		;
-connectAttr "l_mouthCorner.moveFactorX" "l_lip_1_uFactor_multiplyDivide.i2x";
-connectAttr "l_lip_1_uFactor_multiplyDivide.ox" "l_lip_1_corner_h_multiplyDivide.i1x"
-		;
-connectAttr "l_t_lip_1.corner_h_influence" "l_lip_1_corner_h_multiplyDivide.i2x"
-		;
-connectAttr "l_mouthCorner.tx" "l_lip_1_corner_h_plusMinusAverage.i1[0]";
-connectAttr "l_lip_1_corner_h_multiplyDivide.ox" "l_lip_1_corner_h_plusMinusAverage.i1[1]"
 		;
 connectAttr "curveInfo.al" "length_multiplyDivide.i2x";
 connectAttr "mainPoser_decomposeMatrix.osx" "length_multiplyDivide.i1x";
 connectAttr "flat_rebuildCurve.oc" "l_lip_1_flat_mpath.gp";
-connectAttr "l_lip_1__uValue__addDoubleLinear.o" "l_lip_1_flat_mpath.u";
+connectAttr "l_lip_1_uValue_addDoubleLinear.o" "l_lip_1_flat_mpath.u";
 connectAttr "lip_corner_poser.wm" "l_lip_1_flat_mpath.wum";
-connectAttr "lip_corner_poser.mouthLineFollow" "l_lip_1_mouthLineFollow_condition.ft"
+connectAttr "r_mouthCorner_moveX_multDoubleLinear.o" "r_lip_1_corner_multDoubleLinear.i1"
 		;
-connectAttr "lip_1_pivotShape.wp.wpy" "l_lip_1_mouthLineFollow_condition.ctb";
-connectAttr "unitConversion329.o" "l_lip_1_mouthLineFollow_condition.cfg";
-connectAttr "unitConversion328.o" "l_lip_1_mouthLineFollow_condition.cfr";
-connectAttr "l_lip_1_mpath.yc" "l_lip_1_mouthLineFollow_condition.cfb";
-connectAttr "l_lip_1_mpath.rx" "unitConversion328.i";
-connectAttr "l_lip_1_mpath.rz" "unitConversion329.i";
-connectAttr "l_lip_1_mouthLineFollow_condition.ocr" "unitConversion330.i";
-connectAttr "l_lip_1_mouthLineFollow_condition.ocg" "unitConversion331.i";
-connectAttr "l_mouthCorner.ty" "l_lip_1_corner_v_multDoubleLinear.i1";
-connectAttr "l_t_lip_1.corner_v_influence" "l_lip_1_corner_v_multDoubleLinear.i2"
-		;
-connectAttr "l_lip_1_slide_composeMatrix.omat" "l_t_lip_1_group_multMatrix.i[0]"
-		;
-connectAttr "t_lip_1__jaw__blendMatrix.omat" "l_t_lip_1_group_multMatrix.i[1]";
-connectAttr "l_t_lip_1__tLip__blendMatrix.omat" "l_t_lip_1_group_multMatrix.i[2]"
-		;
-connectAttr "l_mouthCorner.folowJaw" "t_lip_1__jaw__multDoubleLinear.i1";
-connectAttr "l_t_lip_1.followJaw" "t_lip_1__jaw__multDoubleLinear.i2";
-connectAttr "lips.wm" "t_lip_over_lips_multMatrix.i[1]";
-connectAttr "t_lip_group.wim" "t_lip_over_lips_multMatrix.i[2]";
-connectAttr "t_lip.wm" "t_lip_over_lips_multMatrix.i[3]";
-connectAttr "lips.wim" "t_lip_over_lips_multMatrix.i[4]";
-connectAttr "lips_poser.wim" "t_lip_1__jaw__blendMatrix.imat";
-connectAttr "lips_jaw__multMatrix.o" "t_lip_1__jaw__blendMatrix.tgt[0].tmat";
-connectAttr "t_lip_1__jaw__multDoubleLinear.o" "t_lip_1__jaw__blendMatrix.env";
-connectAttr "t_lip_over_lips_multMatrix.o" "l_t_lip_1__tLip__blendMatrix.tgt[0].tmat"
-		;
-connectAttr "l_t_lip_1.t_lip_influence" "l_t_lip_1__tLip__blendMatrix.env";
-connectAttr "l_b_lip_1__bLip__blendMatrix.omat" "l_b_lip_1_group_multMatrix.i[0]"
-		;
-connectAttr "l_lip_1_slide_composeMatrix.omat" "l_b_lip_1_group_multMatrix.i[1]"
-		;
-connectAttr "b_lip_1__jaw__blendMatrix.omat" "l_b_lip_1_group_multMatrix.i[2]";
-connectAttr "lips_poser.wim" "b_lip_1__jaw__blendMatrix.imat";
-connectAttr "lips_jaw__multMatrix.o" "b_lip_1__jaw__blendMatrix.tgt[0].tmat";
-connectAttr "l_b_lip_1_setRange.ox" "b_lip_1__jaw__blendMatrix.env";
-connectAttr "init_curve_rebuildCurve.oc" "l_lip_1_flat_mpath1.gp";
-connectAttr "l_lip_1_nearestPointOnCurve.pr" "l_lip_1_flat_mpath1.u";
-connectAttr "l_lip_1_flat_mpath1.ac" "composeMatrix25.it";
-connectAttr "l_lip_1_flat_mpath1.r" "composeMatrix25.ir";
-connectAttr "mouth_poser_decomposeMatrix.os" "composeMatrix25.is";
-connectAttr "composeMatrix25.omat" "inverseMatrix2.imat";
-connectAttr "lips_poser.wm" "multMatrix333.i[0]";
-connectAttr "inverseMatrix2.omat" "multMatrix333.i[1]";
-connectAttr "composeMatrix25.omat" "multMatrix334.i[0]";
-connectAttr "sec_controls_group.wim" "multMatrix334.i[1]";
-connectAttr "composeMatrix25.omat" "multMatrix336.i[0]";
-connectAttr "b_mouth_poser.wim" "multMatrix336.i[1]";
-connectAttr "jaw.im" "multMatrix336.i[2]";
-connectAttr "l_b_lip_1_multMatrix.o" "l_b_lip_1__bLip__blendMatrix.tgt[0].tmat";
-connectAttr "l_b_lip_1.b_lip_influence" "l_b_lip_1__bLip__blendMatrix.env";
-connectAttr "l_b_lip_1.followJaw" "l_b_lip_1_setRange.vx";
-connectAttr "l_mouthCorner.folowJaw" "l_b_lip_1_setRange.nx";
-connectAttr "l_lip_1_slide_composeMatrix.omat" "l_b_lip_1__bMouth__multMatrix.i[0]"
-		;
-connectAttr "b_mouth_poser.wim" "l_b_lip_1__bMouth__multMatrix.i[1]";
-connectAttr "l_b_lip_1__bMouth__multMatrix.o" "l_b_lip_1__bMouth__inverseMatrix.imat"
-		;
-connectAttr "l_b_lip_1__bMouth__multMatrix.o" "l_b_lip_1_multMatrix.i[0]";
-connectAttr "b_lip.wm" "l_b_lip_1_multMatrix.i[1]";
-connectAttr "b_lip_group.wim" "l_b_lip_1_multMatrix.i[2]";
-connectAttr "l_b_lip_1__bMouth__inverseMatrix.omat" "l_b_lip_1_multMatrix.i[3]";
-connectAttr "r_lip_1_slide_composeMatrix.omat" "r_t_lip_1_group_multMatrix.i[0]"
-		;
-connectAttr "t_lip_1__jaw__blendMatrix.omat" "r_t_lip_1_group_multMatrix.i[1]";
-connectAttr "l_t_lip_1__tLip__blendMatrix.omat" "r_t_lip_1_group_multMatrix.i[2]"
-		;
-connectAttr "r_mouthCorner_moveX_multDoubleLinear.o" "r_lip_1__corner__multDoubleLinear.i1"
-		;
-connectAttr "l_t_lip_1.corner_h_influence" "r_lip_1__corner__multDoubleLinear.i2"
-		;
+connectAttr "l_t_lip_1.corner_h_influence" "r_lip_1_corner_multDoubleLinear.i2";
 connectAttr "multDoubleLinear486.o" "r_lip_1__uValue__addDoubleLinear.i2";
 connectAttr "l_lip_1_reverse_u_plusMinusAverage.o1" "r_lip_1__uValue__addDoubleLinear.i1"
 		;
 connectAttr "r_lip_1__uValue__addDoubleLinear.o" "r_lip_1_mpath.u";
 connectAttr "init_curve_rebuildCurve.oc" "r_lip_1_mpath.gp";
-connectAttr "lip_corner_poser.mouthLineFollow" "r_lip_1_mouthLineFollow_condition.ft"
-		;
-connectAttr "unitConversion332.o" "r_lip_1_mouthLineFollow_condition.cfg";
-connectAttr "unitConversion333.o" "r_lip_1_mouthLineFollow_condition.cfr";
-connectAttr "r_lip_1_mpath.yc" "r_lip_1_mouthLineFollow_condition.cfb";
-connectAttr "r_lip_1_mpath.rz" "unitConversion332.i";
-connectAttr "r_lip_1_mpath.rx" "unitConversion333.i";
-connectAttr "r_lip_1_mpath.xc" "r_lip_1_slide_composeMatrix.itx";
-connectAttr "r_lip_1_mpath.zc" "r_lip_1_slide_composeMatrix.itz";
-connectAttr "r_lip_1_mouthLineFollow_condition.ocb" "r_lip_1_slide_composeMatrix.ity"
-		;
-connectAttr "unitConversion335.o" "r_lip_1_slide_composeMatrix.irx";
-connectAttr "unitConversion334.o" "r_lip_1_slide_composeMatrix.irz";
-connectAttr "r_lip_1_flat_mpath.ry" "r_lip_1_slide_composeMatrix.iry";
-connectAttr "mouth_poser_decomposeMatrix.os" "r_lip_1_slide_composeMatrix.is";
 connectAttr "flat_rebuildCurve.oc" "r_lip_1_flat_mpath.gp";
 connectAttr "r_lip_1__uValue__addDoubleLinear.o" "r_lip_1_flat_mpath.u";
 connectAttr "lip_corner_poser.wm" "r_lip_1_flat_mpath.wum";
-connectAttr "r_lip_1_mouthLineFollow_condition.ocg" "unitConversion334.i";
-connectAttr "r_lip_1_mouthLineFollow_condition.ocr" "unitConversion335.i";
-connectAttr "r_lip_1__corner__multDoubleLinear.o" "multDoubleLinear486.i1";
-connectAttr "l_t_lip_1.corner_v_influence" "r_lip_1_corner_v_multDoubleLinear.i1"
-		;
-connectAttr "r_mouthCorner.ty" "r_lip_1_corner_v_multDoubleLinear.i2";
-connectAttr "r_mouthCorner.tx" "l_lip_1_corner_h_plusMinusAverage1.i1[0]";
-connectAttr "l_lip_1_corner_h_multiplyDivide.ox" "l_lip_1_corner_h_plusMinusAverage1.i1[1]"
-		;
-connectAttr "l_lip_1_corner_h_plusMinusAverage1.o1" "l_lip_1_corner_h_multDoubleLinear1.i1"
-		;
-connectAttr "l_t_lip_1.corner_h_influence" "l_lip_1_corner_h_multDoubleLinear1.i2"
-		;
-connectAttr "l_lip_1_corner_h_multDoubleLinear1.o" "l_lip_1_corner_h_clamp1.ipr"
-		;
-connectAttr "l_lip_1_corner_h_clamp1.opr" "multDoubleLinear487.i1";
-connectAttr "r_b_lip_1__bLip__blendMatrix.omat" "r_b_lip_1_group_multMatrix.i[0]"
-		;
-connectAttr "r_lip_1_slide_composeMatrix.omat" "r_b_lip_1_group_multMatrix.i[1]"
-		;
-connectAttr "b_lip_1__jaw__blendMatrix.omat" "r_b_lip_1_group_multMatrix.i[2]";
-connectAttr "r_lip_1_slide_composeMatrix.omat" "r_b_lip_1__bMouth__multMatrix.i[0]"
-		;
-connectAttr "b_mouth_poser.wim" "r_b_lip_1__bMouth__multMatrix.i[1]";
-connectAttr "r_b_lip_1_multMatrix.o" "r_b_lip_1__bLip__blendMatrix.tgt[0].tmat";
-connectAttr "l_b_lip_1.b_lip_influence" "r_b_lip_1__bLip__blendMatrix.env";
-connectAttr "r_b_lip_1__bMouth__multMatrix.o" "r_b_lip_1_multMatrix.i[0]";
-connectAttr "b_lip.wm" "r_b_lip_1_multMatrix.i[1]";
-connectAttr "b_lip_group.wim" "r_b_lip_1_multMatrix.i[2]";
-connectAttr "r_b_lip_1__bMouth__inverseMatrix.omat" "r_b_lip_1_multMatrix.i[3]";
-connectAttr "r_b_lip_1__bMouth__multMatrix.o" "r_b_lip_1__bMouth__inverseMatrix.imat"
-		;
-connectAttr "lips.wm" "lips_scale_pickMatrix.imat";
-connectAttr "b_lip_surfShape.ws" "b_uvPin.curgeom";
-connectAttr "r_b_lip_local_3_reverse.ox" "b_uvPin.coord[0].cv";
-connectAttr "r_b_lip_local_2_reverse.ox" "b_uvPin.coord[1].cv";
-connectAttr "r_b_lip_local_1_reverse.ox" "b_uvPin.coord[2].cv";
-connectAttr "c_t_lip_local.pos" "b_uvPin.coord[3].cv";
-connectAttr "l_t_lip_local_1.pos" "b_uvPin.coord[4].cv";
-connectAttr "l_t_lip_local_2.pos" "b_uvPin.coord[5].cv";
-connectAttr "l_t_lip_local_3.pos" "b_uvPin.coord[6].cv";
-connectAttr "t_lip_surfShape.ws" "t_uvPin.curgeom";
-connectAttr "r_t_lip_local_3_reverse.ox" "t_uvPin.coord[0].cv";
-connectAttr "r_t_lip_local_2_reverse.ox" "t_uvPin.coord[1].cv";
-connectAttr "r_t_lip_local_1_reverse.ox" "t_uvPin.coord[2].cv";
-connectAttr "c_t_lip_local.pos" "t_uvPin.coord[3].cv";
-connectAttr "l_t_lip_local_1.pos" "t_uvPin.coord[4].cv";
-connectAttr "l_t_lip_local_2.pos" "t_uvPin.coord[5].cv";
-connectAttr "l_t_lip_local_3.pos" "t_uvPin.coord[6].cv";
-connectAttr "l_t_lip_local_1.pos" "r_t_lip_local_1_reverse.ix";
-connectAttr "l_t_lip_local_2.pos" "r_t_lip_local_2_reverse.ix";
-connectAttr "l_t_lip_local_3.pos" "r_t_lip_local_3_reverse.ix";
+connectAttr "r_lip_1_corner_multDoubleLinear.o" "multDoubleLinear486.i1";
 connectAttr "l_t_lip_1_outJoint_multMat.o" "l_t_lip_1_outJoint_decMat.imat";
 connectAttr "l_t_lip_local_1.m" "l_t_lip_1_outJoint_multMat.i[0]";
 connectAttr "l_t_lip_local_1_group.m" "l_t_lip_1_outJoint_multMat.i[1]";
@@ -17643,9 +17133,6 @@ connectAttr "r_t_lip_local_3_group.m" "r_t_lip_3_outJoint_multMat.i[1]";
 connectAttr "zip_bifrostGraphShape.out_t_matrix[0]" "r_t_lip_3_outJoint_multMat.i[2]"
 		;
 connectAttr "mouth_outJoint.wim" "r_t_lip_3_outJoint_multMat.i[3]";
-connectAttr "l_t_lip_local_1.pos" "r_b_lip_local_1_reverse.ix";
-connectAttr "l_t_lip_local_2.pos" "r_b_lip_local_2_reverse.ix";
-connectAttr "l_t_lip_local_3.pos" "r_b_lip_local_3_reverse.ix";
 connectAttr "l_b_lip_1_outJoint_multMat.o" "l_b_lip_1_outJoint_decMat.imat";
 connectAttr "l_b_lip_local_1.m" "l_b_lip_1_outJoint_multMat.i[0]";
 connectAttr "l_b_lip_local_1_group.m" "l_b_lip_1_outJoint_multMat.i[1]";
@@ -17682,597 +17169,194 @@ connectAttr "r_b_lip_local_3_group.m" "r_b_lip_3_outJoint_multMat.i[1]";
 connectAttr "zip_bifrostGraphShape.out_b_matrix[0]" "r_b_lip_3_outJoint_multMat.i[2]"
 		;
 connectAttr "mouth_outJoint.wim" "r_b_lip_3_outJoint_multMat.i[3]";
-connectAttr "flat_rebuildCurve.oc" "l_lip_2_flat_mpath.gp";
-connectAttr "l_lip_1__uValue__addDoubleLinear1.o" "l_lip_2_flat_mpath.u";
-connectAttr "lip_corner_poser.wm" "l_lip_2_flat_mpath.wum";
 connectAttr "lip_2_size_multDoubleLinear.o" "lip_2_makeNurbSphere.r";
 connectAttr "lip_2_poser.size" "lip_2_size_multDoubleLinear.i1";
 connectAttr "mainPoser.globalSize" "lip_2_size_multDoubleLinear.i2";
-connectAttr "lip_2_pivotShape.wp" "l_lip_2_nearestPointOnCurve.ip";
-connectAttr "init_curve_rebuildCurve.oc" "l_lip_2_nearestPointOnCurve.ic";
-connectAttr "l_lip_1__corner__multDoubleLinear1.o" "l_lip_1__uValue__addDoubleLinear1.i2"
-		;
-connectAttr "l_lip_2_nearestPointOnCurve.pr" "l_lip_1__uValue__addDoubleLinear1.i1"
-		;
 connectAttr "l_mouthCorner_moveX_multDoubleLinear.o" "l_lip_1__corner__multDoubleLinear1.i1"
 		;
 connectAttr "l_t_lip_2.corner_h_influence" "l_lip_1__corner__multDoubleLinear1.i2"
 		;
+connectAttr "bifrostGraphShape1.out_transform" "decomposeMatrix51.imat";
+connectAttr "t_lip_surfShape.ws" "t_uvPin.curgeom";
+connectAttr "r_t_lip_local_3_reverse.ox" "t_uvPin.coord[0].cv";
+connectAttr "r_t_lip_local_2_reverse.ox" "t_uvPin.coord[1].cv";
+connectAttr "r_t_lip_local_1_reverse.ox" "t_uvPin.coord[2].cv";
+connectAttr "c_t_lip_local.pos" "t_uvPin.coord[3].cv";
+connectAttr "l_t_lip_local_1.pos" "t_uvPin.coord[4].cv";
+connectAttr "l_t_lip_local_2.pos" "t_uvPin.coord[5].cv";
+connectAttr "l_t_lip_local_3.pos" "t_uvPin.coord[6].cv";
+connectAttr "l_t_lip_local_1.pos" "r_t_lip_local_1_reverse.ix";
+connectAttr "l_t_lip_local_2.pos" "r_t_lip_local_2_reverse.ix";
+connectAttr "l_t_lip_local_3.pos" "r_t_lip_local_3_reverse.ix";
+connectAttr "lips.wm" "lips_scale_pickMatrix.imat";
+connectAttr "b_lip_surfShape.ws" "b_uvPin.curgeom";
+connectAttr "r_b_lip_local_3_reverse.ox" "b_uvPin.coord[0].cv";
+connectAttr "r_b_lip_local_2_reverse.ox" "b_uvPin.coord[1].cv";
+connectAttr "r_b_lip_local_1_reverse.ox" "b_uvPin.coord[2].cv";
+connectAttr "c_t_lip_local.pos" "b_uvPin.coord[3].cv";
+connectAttr "l_t_lip_local_1.pos" "b_uvPin.coord[4].cv";
+connectAttr "l_t_lip_local_2.pos" "b_uvPin.coord[5].cv";
+connectAttr "l_t_lip_local_3.pos" "b_uvPin.coord[6].cv";
+connectAttr "l_t_lip_local_3.pos" "r_b_lip_local_3_reverse.ix";
+connectAttr "l_t_lip_local_1.pos" "r_b_lip_local_1_reverse.ix";
+connectAttr "l_t_lip_local_2.pos" "r_b_lip_local_2_reverse.ix";
+connectAttr "l_lip_2_mpath.r" "unitConversion343.i";
 connectAttr "l_lip_1__uValue__addDoubleLinear1.o" "l_lip_2_mpath.u";
 connectAttr "init_curve_rebuildCurve.oc" "l_lip_2_mpath.gp";
+connectAttr "l_lip_1__corner__multDoubleLinear1.o" "l_lip_1__uValue__addDoubleLinear1.i2"
+		;
+connectAttr "l_lip_2_nearestPointOnCurve.pr" "l_lip_1__uValue__addDoubleLinear1.i1"
+		;
+connectAttr "lip_2_pivotShape.wp" "l_lip_2_nearestPointOnCurve.ip";
+connectAttr "init_curve_rebuildCurve.oc" "l_lip_2_nearestPointOnCurve.ic";
 connectAttr "l_lip_1_flat_mpath.ry" "unitConversion340.i";
-connectAttr "l_lip_2_flat_mpath.ry" "unitConversion341.i";
 connectAttr "l_lip_1_mpath.r" "unitConversion342.i";
-connectAttr "l_lip_2_mpath.r" "unitConversion343.i";
-connectAttr "l_lip_2_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn";
-connectAttr "t_lip_over_lips_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
+connectAttr "l_lip_2_flat_mpath.ry" "unitConversion341.i";
+connectAttr "flat_rebuildCurve.oc" "l_lip_2_flat_mpath.gp";
+connectAttr "l_lip_1__uValue__addDoubleLinear1.o" "l_lip_2_flat_mpath.u";
+connectAttr "lip_corner_poser.wm" "l_lip_2_flat_mpath.wum";
+connectAttr "r_lip_1_flat_mpath.ry" "unitConversion344.i";
+connectAttr "r_lip_1_mpath.r" "unitConversion345.i";
+connectAttr "r_lip_1__uValue__addDoubleLinear1.o" "r_lip_2_mpath.u";
+connectAttr "init_curve_rebuildCurve.oc" "r_lip_2_mpath.gp";
+connectAttr "r_mouthCorner_moveX_multDoubleLinear.o" "r_lip_2__corner__multDoubleLinear.i1"
+		;
+connectAttr "l_t_lip_2.corner_h_influence" "r_lip_2__corner__multDoubleLinear.i2"
+		;
+connectAttr "r_lip_2__corner__multDoubleLinear.o" "multDoubleLinear488.i1";
+connectAttr "multDoubleLinear488.o" "r_lip_1__uValue__addDoubleLinear1.i2";
+connectAttr "l_lip_2_reverse_u_plusMinusAverage.o1" "r_lip_1__uValue__addDoubleLinear1.i1"
+		;
+connectAttr "l_lip_2_nearestPointOnCurve.pr" "l_lip_2_reverse_u_plusMinusAverage.i1[1]"
+		;
+connectAttr "flat_rebuildCurve.oc" "r_lip_2_flat_mpath.gp";
+connectAttr "r_lip_1__uValue__addDoubleLinear1.o" "r_lip_2_flat_mpath.u";
+connectAttr "r_lip_2_flat_mpath.ry" "unitConversion346.i";
+connectAttr "r_lip_2_mpath.r" "unitConversion347.i";
+connectAttr "l_b_lip_1.wm" "l_b_lip_corner_aimMatrix.pmat";
+connectAttr "l_lip.wm" "l_b_lip_corner_aimMatrix.imat";
+connectAttr "l_lip.wm" "l_b_lip_corner_aimMatrix.smat";
+connectAttr "l_b_lip_corner_aimMatrix.tmat" "l_b_lip_corner_multMatrix.i[0]";
+connectAttr "l_lip.wim" "l_b_lip_corner_multMatrix.i[1]";
+connectAttr "l_t_lip_corner_aimMatrix.tmat" "l_t_lip_corner_multMatrix.i[0]";
+connectAttr "l_lip.wim" "l_t_lip_corner_multMatrix.i[1]";
+connectAttr "l_t_lip_1.wm" "l_t_lip_corner_aimMatrix.pmat";
+connectAttr "l_lip.wm" "l_t_lip_corner_aimMatrix.imat";
+connectAttr "l_lip.wm" "l_t_lip_corner_aimMatrix.smat";
+connectAttr "r_t_lip_corner_aimMatrix.tmat" "r_t_lip_corner_multMatrix.i[0]";
+connectAttr "r_lip.wim" "r_t_lip_corner_multMatrix.i[1]";
+connectAttr "r_b_lip_corner_aimMatrix.tmat" "r_b_lip_corner_multMatrix.i[0]";
+connectAttr "r_lip.wim" "r_b_lip_corner_multMatrix.i[1]";
+connectAttr "r_b_lip_1.wm" "r_b_lip_corner_aimMatrix.pmat";
+connectAttr "r_lip.wm" "r_b_lip_corner_aimMatrix.imat";
+connectAttr "r_lip.wm" "r_b_lip_corner_aimMatrix.smat";
+connectAttr "r_t_lip_1.wm" "r_t_lip_corner_aimMatrix.pmat";
+connectAttr "r_lip.wm" "r_t_lip_corner_aimMatrix.imat";
+connectAttr "r_lip.wm" "r_t_lip_corner_aimMatrix.smat";
+connectAttr "l_mouthCorner.ty" "l_setRange_lipsUpDown.vx";
+connectAttr "l_mouthCorner.ty" "l_setRange_lipsUpDown.vy";
+connectAttr "l_mouthCorner.upBsLimit" "l_setRange_lipsUpDown.omx";
+connectAttr "l_mouthCorner.downBsLimit" "l_setRange_lipsUpDown.ony";
+connectAttr "r_mouthCorner.ty" "r_setRange_lipsUpDown.vx";
+connectAttr "r_mouthCorner.ty" "r_setRange_lipsUpDown.vy";
+connectAttr "l_mouthCorner.upBsLimit" "r_setRange_lipsUpDown.omx";
+connectAttr "l_mouthCorner.downBsLimit" "r_setRange_lipsUpDown.ony";
+connectAttr "l_mouthCorner.autoFollowJaw" "blendTwoAttr1.ab";
+connectAttr "l_mouthCorner.folowJaw" "blendTwoAttr1.i[0]";
+connectAttr "setRange125.ox" "blendTwoAttr1.i[1]";
+connectAttr "l_mouthCorner.ty" "setRange125.vx";
+connectAttr "l_mouthCorner.downBsLimit" "setRange125.onx";
+connectAttr "l_mouthCorner.upBsLimit" "setRange125.omx";
+connectAttr "r_mouthCorner.ty" "setRange126.vx";
+connectAttr "l_mouthCorner.downBsLimit" "setRange126.onx";
+connectAttr "l_mouthCorner.upBsLimit" "setRange126.omx";
+connectAttr "r_mouthCorner.autoFollowJaw" "blendTwoAttr3.ab";
+connectAttr "r_mouthCorner.folowJaw" "blendTwoAttr3.i[0]";
+connectAttr "setRange126.ox" "blendTwoAttr3.i[1]";
+connectAttr "l_cheekUp.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn";
+connectAttr "l_setRange_lipsUpDown.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
+		;
+connectAttr "r_mouthCorner.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn";
+connectAttr "setRange_jawOpenFactor.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn"
+		;
+connectAttr "unitConversion101.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[4].dn"
+		;
+connectAttr "r_setRange_lipsFrontBack.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn"
+		;
+connectAttr "multiplyDivide_openFactor.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[6].dn"
+		;
+connectAttr "bs_weights.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[7].dn";
+connectAttr "jaw.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[8].dn";
+connectAttr "l_mouthCorner.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[9].dn";
+connectAttr "setRange_cheekUp.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[10].dn"
+		;
+connectAttr "r_setRange_lipsUpDown.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[11].dn"
+		;
+connectAttr "setRange_cheeksOut.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[12].dn"
+		;
+connectAttr "plusMinusAverage_MoveAndSmileFactor.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[13].dn"
+		;
+connectAttr "l_setRange_lipsFrontBack.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[14].dn"
+		;
+connectAttr "clamp29.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn";
+connectAttr "multDoubleLinear478.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn"
+		;
+connectAttr "l_mouthCorner.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn";
+connectAttr "addDoubleLinear111.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn"
+		;
+connectAttr "clamp30.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn";
+connectAttr "multDoubleLinear481.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn"
+		;
+connectAttr "l_mouthCorner_reverseGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[6].dn"
+		;
+connectAttr "multDoubleLinear479.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[7].dn"
+		;
+connectAttr "r_mouthCorner_reverseGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[8].dn"
 		;
-connectAttr "unitConversion342.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn"
+connectAttr "addDoubleLinear112.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[9].dn"
 		;
-connectAttr "lips.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn";
-connectAttr "flat_rebuildCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[4].dn"
+connectAttr "multDoubleLinear480.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[10].dn"
 		;
-connectAttr "l_lip_1_flat_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn"
+connectAttr "multDoubleLinear482.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn"
 		;
-connectAttr "init_curveShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[6].dn";
-connectAttr "curveInfo.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[7].dn";
-connectAttr "lip_corner_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[8].dn"
+connectAttr "unitConversion311.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn"
 		;
-connectAttr "lip_corner_init_mirror_multiplyDivide.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[9].dn"
+connectAttr "l_mouthCorner.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn";
+connectAttr "jaw.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn";
+connectAttr "multDoubleLinear479.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[4].dn"
 		;
-connectAttr "l_lip_1_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[10].dn";
-connectAttr "t_lip_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[11].dn";
-connectAttr "length_multiplyDivide.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[12].dn"
+connectAttr "clamp29.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[5].dn";
+connectAttr "l_mouthCorner_reverseGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[6].dn"
 		;
-connectAttr "jaw_poserOrient.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[13].dn"
+connectAttr "addDoubleLinear111.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[7].dn"
 		;
-connectAttr "l_mouthCorner_moveX_multDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[14].dn"
+connectAttr "condition5.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[8].dn";
+connectAttr "multDoubleLinear478.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[9].dn"
 		;
-connectAttr "lip_corner_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[15].dn"
+connectAttr "multDoubleLinear480.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[10].dn"
 		;
-connectAttr "lip_1_init_mirror_multiplyDivide.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[16].dn"
+connectAttr "setRange123.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[11].dn";
+connectAttr "blendTwoAttr3.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[0].dn";
+connectAttr "r_mouthCorner.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[1].dn";
+connectAttr "condition6.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[2].dn";
+connectAttr "r_autoCorner_pairBlend.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[3].dn"
 		;
-connectAttr "root_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[17].dn";
-connectAttr "l_lip_2_nearestPointOnCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[18].dn"
+connectAttr "setRange126.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[4].dn";
+connectAttr "sec_controls_bifrostGraphShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[5].dn"
 		;
-connectAttr "unitConversion343.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[19].dn"
+connectAttr "setRange124.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[6].dn";
+connectAttr "blendTwoAttr3.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[0].dn";
+connectAttr "setRange126.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[1].dn";
+connectAttr "setRange123.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[2].dn";
+connectAttr "l_mouthCorner_pairBlend.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[3].dn"
 		;
-connectAttr "init_curve_rebuildCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[20].dn"
+connectAttr "l_mouthCorner.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[4].dn";
+connectAttr "condition5.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[5].dn";
+connectAttr "sec_controls_bifrostGraphShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[6].dn"
 		;
-connectAttr "l_lip_1__uValue__addDoubleLinear1.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[21].dn"
-		;
-connectAttr "lips_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[22].dn";
-connectAttr "jaw.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[23].dn";
-connectAttr "l_lip_1__uValue__addDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[24].dn"
-		;
-connectAttr "c_lip_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[25].dn"
-		;
-connectAttr "l_lip_2_flat_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[26].dn"
-		;
-connectAttr "l_lip_1_nearestPointOnCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[27].dn"
-		;
-connectAttr "init_corner_flat_curveShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[28].dn"
-		;
-connectAttr "lips_jaw__multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[29].dn"
-		;
-connectAttr "lip_2_pivotShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[30].dn"
-		;
-connectAttr "mainPoser_decomposeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[31].dn"
-		;
-connectAttr "sec_controls_bifrostGraphShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[32].dn"
-		;
-connectAttr "unitConversion341.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[33].dn"
-		;
-connectAttr "l_lip_1__corner__multDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[34].dn"
-		;
-connectAttr "l_lip_1__corner__multDoubleLinear1.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[35].dn"
-		;
-connectAttr "l_mouthCorner.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[36].dn";
-connectAttr "unitConversion340.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[37].dn"
-		;
-connectAttr "t_lip.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[38].dn";
-connectAttr "lip_1_pivotShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[39].dn"
-		;
-connectAttr "l_t_lip_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[40].dn";
-connectAttr "mouth_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[41].dn";
-connectAttr "l_cheekUp_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn"
-		;
-connectAttr "l_lip_1_slide_composeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn"
-		;
-connectAttr "l_lip_1_nearestPointOnCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn"
-		;
-connectAttr "multDoubleLinear487.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn"
-		;
-connectAttr "l_t_lip_1_multiplyDivide.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn"
-		;
-connectAttr "unitConversion325.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn"
-		;
-connectAttr "unitConversion313.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[6].dn"
-		;
-connectAttr "blendMatrix40.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[7].dn";
-connectAttr "r_b_lip_1_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[8].dn";
-connectAttr "condition8.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[9].dn";
-connectAttr "composeMatrix25.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[10].dn"
-		;
-connectAttr "multDoubleLinear465.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[11].dn"
-		;
-connectAttr "posers_sweep4Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[12].dn"
-		;
-connectAttr "l_lip_1__corner__multDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[13].dn"
-		;
-connectAttr "l_t_lip_2_init_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[14].dn"
-		;
-connectAttr "init_curve_rebuildCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[15].dn"
-		;
-connectAttr "multMatrix321.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[16].dn";
-connectAttr "l_t_lip_1_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[17].dn"
-		;
-connectAttr "addDoubleLinear113.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[18].dn"
-		;
-connectAttr "multMatrix299.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[19].dn";
-connectAttr "init_corner_flat_curveShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[20].dn"
-		;
-connectAttr "r_lip_1_slide_composeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[21].dn"
-		;
-connectAttr "corner_init_blendMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[22].dn"
-		;
-connectAttr "l_lip_1_corner_h_multDoubleLinear1.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[23].dn"
-		;
-connectAttr "composeMatrix22.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[24].dn"
-		;
-connectAttr "unitConversion334.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[25].dn"
-		;
-connectAttr "r_mouthCorner_reverseGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[26].dn"
-		;
-connectAttr "blendMatrix42.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[27].dn";
-connectAttr "multiplyDivide370.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[28].dn"
-		;
-connectAttr "unitConversion329.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[29].dn"
-		;
-connectAttr "multMatrix293.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[30].dn";
-connectAttr "l_b_lip_1_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[31].dn"
-		;
-connectAttr "l_lip_1_mouthLineFollow_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[32].dn"
-		;
-connectAttr "l_b_lip_1__bMouth__inverseMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[33].dn"
-		;
-connectAttr "r_b_lip_1__bLip__blendMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[34].dn"
-		;
-connectAttr "unitConversion331.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[35].dn"
-		;
-connectAttr "sec_controls_bifrostGraphShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[36].dn"
-		;
-connectAttr "multDoubleLinear462.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[37].dn"
-		;
-connectAttr "curveShape1_4_mpath1.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[38].dn"
-		;
-connectAttr "l_b_lip_1__bLip__blendMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[39].dn"
-		;
-connectAttr "unitConversion342.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[40].dn"
-		;
-connectAttr "reverse42.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[41].dn";
-connectAttr "multMatrix305.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[42].dn";
-connectAttr "r_lip_1__uValue__addDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[43].dn"
-		;
-connectAttr "unitConversion343.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[44].dn"
-		;
-connectAttr "flat_rebuildCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[45].dn"
-		;
-connectAttr "init_curveShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[46].dn"
-		;
-connectAttr "r_lip_1_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[47].dn";
-connectAttr "l_lip_1_flat_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[48].dn"
-		;
-connectAttr "blendMatrix24.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[49].dn";
-connectAttr "l_mouthCorner_flat_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[50].dn"
-		;
-connectAttr "curveShape1_6_mpath5.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[51].dn"
-		;
-connectAttr "curveInfo.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[52].dn";
-connectAttr "multMatrix324.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[53].dn";
-connectAttr "r_lipDown_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[54].dn"
-		;
-connectAttr "unitConversion312.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[55].dn"
-		;
-connectAttr "l_lip_1_uFactor_multiplyDivide.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[56].dn"
-		;
-connectAttr "l_lip_1_corner_h_clamp.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[57].dn"
-		;
-connectAttr "multMatrix288.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[58].dn";
-connectAttr "addDoubleLinear99.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[59].dn"
-		;
-connectAttr "l_lip_1__corner__multDoubleLinear1.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[60].dn"
-		;
-connectAttr "l_mouthCorner_moveX_multDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[61].dn"
-		;
-connectAttr "r_lip_1__corner__multDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[62].dn"
-		;
-connectAttr "l_t_lip_1_group_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[63].dn"
-		;
-connectAttr "multMatrix291.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[64].dn";
-connectAttr "multiplyDivide371.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[65].dn"
-		;
-connectAttr "posers_sweep2Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[66].dn"
-		;
-connectAttr "multDoubleLinear463.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[67].dn"
-		;
-connectAttr "unitConversion330.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[68].dn"
-		;
-connectAttr "posers_sweep3Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[69].dn"
-		;
-connectAttr "blendMatrix41.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[70].dn";
-connectAttr "blendMatrix25.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[71].dn";
-connectAttr "unitConversion335.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[72].dn"
-		;
-connectAttr "r_b_lip_1_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[73].dn"
-		;
-connectAttr "blendMatrix27.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[74].dn";
-connectAttr "sweepMeshCreator1.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[75].dn"
-		;
-connectAttr "l_mouthCorner.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[76].dn";
-connectAttr "posers_sweep1Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[77].dn"
-		;
-connectAttr "multMatrix336.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[78].dn";
-connectAttr "l_lip_2_nearestPointOnCurve2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[79].dn"
-		;
-connectAttr "multMatrix306.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[80].dn";
-connectAttr "multMatrix323.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[81].dn";
-connectAttr "curveShape1_6_mpath3.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[82].dn"
-		;
-connectAttr "r_lip_1_flat_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[83].dn"
-		;
-connectAttr "multDoubleLinear454.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[84].dn"
-		;
-connectAttr "multMatrix302.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[85].dn";
-connectAttr "multDoubleLinear449.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[86].dn"
-		;
-connectAttr "l_t_lip_2_init_composeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[87].dn"
-		;
-connectAttr "curveShape1_6_mpath1.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[88].dn"
-		;
-connectAttr "l_lip_2_nearestPointOnCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[89].dn"
-		;
-connectAttr "r_cheek_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[90].dn"
-		;
-connectAttr "r_t_lip_1_group_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[91].dn"
-		;
-connectAttr "setRange127.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[92].dn";
-connectAttr "l_lip_1_corner_h_clamp1.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[93].dn"
-		;
-connectAttr "composeMatrix18.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[94].dn"
-		;
-connectAttr "r_b_lip_1_group_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[95].dn"
-		;
-connectAttr "l_lipDown_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[96].dn"
-		;
-connectAttr "composeMatrix11.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[97].dn"
-		;
-connectAttr "multMatrix334.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[98].dn";
-connectAttr "multMatrix294.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[99].dn";
-connectAttr "r_b_lip_1__bMouth__multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[100].dn"
-		;
-connectAttr "multDoubleLinear486.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[101].dn"
-		;
-connectAttr "addDoubleLinear93.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[102].dn"
-		;
-connectAttr "unitConversion317.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[103].dn"
-		;
-connectAttr "multMatrix319.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[104].dn";
-connectAttr "l_t_lip_1_reverse.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[105].dn"
-		;
-connectAttr "unitConversion341.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[106].dn"
-		;
-connectAttr "l_lip_1_corner_h_plusMinusAverage1.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[107].dn"
-		;
-connectAttr "multDoubleLinear464.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[108].dn"
-		;
-connectAttr "unitConversion328.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[109].dn"
-		;
-connectAttr "multMatrix285.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[110].dn";
-connectAttr "reverse41.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[111].dn";
-connectAttr "unitConversion316.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[112].dn"
-		;
-connectAttr "multMatrix290.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[113].dn";
-connectAttr "distanceBetween2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[114].dn"
-		;
-connectAttr "unitConversion315.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[115].dn"
-		;
-connectAttr "unitConversion326.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[116].dn"
-		;
-connectAttr "curveShape1_6_mpath4.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[117].dn"
-		;
-connectAttr "unitConversion332.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[118].dn"
-		;
-connectAttr "l_b_lip_1_group_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[119].dn"
-		;
-connectAttr "r_b_lip_1__bMouth__inverseMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[120].dn"
-		;
-connectAttr "l_lip_1__uValue__addDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[121].dn"
-		;
-connectAttr "l_mouthCorner_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[122].dn"
-		;
-connectAttr "l_b_lip_1__bMouth__multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[123].dn"
-		;
-connectAttr "length_multiplyDivide.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[124].dn"
-		;
-connectAttr "l_mouthCorner_reverseGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[125].dn"
-		;
-connectAttr "unitConversion340.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[126].dn"
-		;
-connectAttr "r_cheekUp_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[127].dn"
-		;
-connectAttr "blendMatrix39.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[128].dn";
-connectAttr "l_lip_1_corner_h_plusMinusAverage.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[129].dn"
-		;
-connectAttr "multDoubleLinear457.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[130].dn"
-		;
-connectAttr "multMatrix333.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[131].dn";
-connectAttr "blendMatrix26.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[132].dn";
-connectAttr "multMatrix325.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[133].dn";
-connectAttr "r_mouthCorner_moveX_multDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[134].dn"
-		;
-connectAttr "l_lip_2_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[135].dn";
-connectAttr "unitConversion314.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[136].dn"
-		;
-connectAttr "multMatrix289.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[137].dn";
-connectAttr "distanceBetween4.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[138].dn"
-		;
-connectAttr "multMatrix245.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[139].dn";
-connectAttr "l_lip_1__uValue__addDoubleLinear1.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[140].dn"
-		;
-connectAttr "corner_nearestPointOnCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[141].dn"
-		;
-connectAttr "l_mouthCorner_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[142].dn"
-		;
-connectAttr "l_lip_1_flat_mpath1.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[143].dn"
-		;
-connectAttr "unitConversion333.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[144].dn"
-		;
-connectAttr "unitConversion327.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[145].dn"
-		;
-connectAttr "reverse40.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[146].dn";
-connectAttr "l_lip_1_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[147].dn";
-connectAttr "condition10.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[148].dn";
-connectAttr "l_b_lip_1_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[149].dn"
-		;
-connectAttr "l_cheek_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[150].dn"
-		;
-connectAttr "l_lip_1_reverse_u_plusMinusAverage.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[151].dn"
-		;
-connectAttr "multMatrix296.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[152].dn";
-connectAttr "r_t_lip_1_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[153].dn"
-		;
-connectAttr "l_lip_1_corner_h_multDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[154].dn"
-		;
-connectAttr "posers_curve4Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[155].dn"
-		;
-connectAttr "l_lip_1_corner_h_multiplyDivide.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[156].dn"
-		;
-connectAttr "addDoubleLinear114.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[157].dn"
-		;
-connectAttr "r_lipUp_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[158].dn"
-		;
-connectAttr "multMatrix249.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[159].dn";
-connectAttr "multMatrix284.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[160].dn";
-connectAttr "multMatrix320.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[161].dn";
-connectAttr "multMatrix286.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[162].dn";
-connectAttr "l_lipUp_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[163].dn"
-		;
-connectAttr "inverseMatrix2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[164].dn"
-		;
-connectAttr "unitConversion324.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[165].dn"
-		;
-connectAttr "condition9.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[166].dn";
-connectAttr "r_lip_1_mouthLineFollow_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[167].dn"
-		;
-connectAttr "l_lip_2_flat_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[168].dn"
-		;
-connectAttr "multMatrix307.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[169].dn";
-connectAttr "multMatrix301.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[170].dn";
-connectAttr "flat_rebuildCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn"
-		;
-connectAttr "init_curve_rebuildCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn"
-		;
-connectAttr "lip_corner_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn"
-		;
-connectAttr "lip_2_pivotShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn"
-		;
-connectAttr "l_t_lip_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[4].dn";
-connectAttr "l_lip_2_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[5].dn";
-connectAttr "l_lip_1__uValue__addDoubleLinear1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[6].dn"
-		;
-connectAttr "l_lip_1_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[7].dn";
-connectAttr "l_lip_2_flat_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[8].dn"
-		;
-connectAttr "l_lip_1_nearestPointOnCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[9].dn"
-		;
-connectAttr "l_lip_1__uValue__addDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[10].dn"
-		;
-connectAttr "l_lip_2_nearestPointOnCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[11].dn"
-		;
-connectAttr "l_mouthCorner.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[12].dn";
-connectAttr "l_mouthCorner_moveX_multDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[13].dn"
-		;
-connectAttr "l_t_lip_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[14].dn";
-connectAttr "sec_controls_bifrostGraphShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[15].dn"
-		;
-connectAttr "l_lip_1__corner__multDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[16].dn"
-		;
-connectAttr "l_lip_1__corner__multDoubleLinear1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[17].dn"
-		;
-connectAttr "lip_1_pivotShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[18].dn"
-		;
-connectAttr "l_lip_1_flat_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[19].dn"
-		;
-connectAttr "l_t_lip_1_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[0].dn";
-connectAttr "t_lip_over_lips_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[1].dn"
-		;
-connectAttr "unitConversion333.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[2].dn"
-		;
-connectAttr "r_mouthCorner.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[3].dn";
-connectAttr "lip_corner_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[4].dn"
-		;
-connectAttr "l_lip_1__uValue__addDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[5].dn"
-		;
-connectAttr "r_lip_1_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[6].dn";
-connectAttr "t_lip.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[7].dn";
-connectAttr "unitConversion335.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[8].dn"
-		;
-connectAttr "l_b_lip_1__bMouth__multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[9].dn"
-		;
-connectAttr "r_b_lip_1__bMouth__multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[10].dn"
-		;
-connectAttr "b_lip.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[11].dn";
-connectAttr "l_b_lip_1_setRange.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[12].dn"
-		;
-connectAttr "l_lip_1__corner__multDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[13].dn"
-		;
-connectAttr "r_b_lip_1_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[14].dn"
-		;
-connectAttr "init_curve_rebuildCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[15].dn"
-		;
-connectAttr "l_lip_1_corner_h_plusMinusAverage1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[16].dn"
-		;
-connectAttr "lips_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[17].dn";
-connectAttr "unitConversion328.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[18].dn"
-		;
-connectAttr "l_b_lip_1_group_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[19].dn"
-		;
-connectAttr "l_b_lip_1_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[20].dn"
-		;
-connectAttr "l_lip_1_corner_h_plusMinusAverage.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[21].dn"
-		;
-connectAttr "l_mouthCorner.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[22].dn";
-connectAttr "r_b_lip_1__bMouth__inverseMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[23].dn"
-		;
-connectAttr "t_lip_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[24].dn";
-connectAttr "l_b_lip_1_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[25].dn"
-		;
-connectAttr "mouth_poser_decomposeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[26].dn"
-		;
-connectAttr "l_lip_1_corner_h_multDoubleLinear1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[27].dn"
-		;
-connectAttr "l_lip_1_slide_composeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[28].dn"
-		;
-connectAttr "lips.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[29].dn";
-connectAttr "l_b_lip_1__bMouth__inverseMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[30].dn"
-		;
-connectAttr "l_b_lip_1__bLip__blendMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[31].dn"
-		;
-connectAttr "b_lip_1__jaw__blendMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[32].dn"
-		;
-connectAttr "r_b_lip_1_group_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[33].dn"
-		;
-connectAttr "r_lip_1_mouthLineFollow_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[34].dn"
-		;
-connectAttr "l_mouthCorner_moveX_multDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[35].dn"
-		;
-connectAttr "b_lip_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[36].dn";
-connectAttr "l_lip_1_corner_h_clamp.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[37].dn"
-		;
-connectAttr "unitConversion334.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[38].dn"
-		;
-connectAttr "l_lip_1_mouthLineFollow_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[39].dn"
-		;
-connectAttr "r_lip_1__uValue__addDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[40].dn"
-		;
-connectAttr "r_t_lip_1_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[41].dn"
-		;
-connectAttr "l_b_lip_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[42].dn";
-connectAttr "sec_controls_bifrostGraphShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[43].dn"
-		;
-connectAttr "init_curveShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[44].dn"
-		;
-connectAttr "l_lip_1_nearestPointOnCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[45].dn"
-		;
-connectAttr "r_b_lip_1_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[46].dn"
-		;
-connectAttr "l_lip_1_corner_h_clamp1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[47].dn"
-		;
-connectAttr "r_lip_1_flat_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[48].dn"
-		;
-connectAttr "l_lip_1_reverse_u_plusMinusAverage.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[49].dn"
-		;
-connectAttr "l_lip_1_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[50].dn";
-connectAttr "unitConversion331.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[51].dn"
-		;
-connectAttr "l_lip_1_corner_h_multiplyDivide.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[52].dn"
-		;
-connectAttr "multDoubleLinear487.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[53].dn"
-		;
-connectAttr "lips_jaw__multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[54].dn"
-		;
-connectAttr "multDoubleLinear486.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[55].dn"
-		;
-connectAttr "r_mouthCorner_moveX_multDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[56].dn"
-		;
-connectAttr "unitConversion332.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[57].dn"
-		;
-connectAttr "t_lip_1__jaw__multDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[58].dn"
-		;
-connectAttr "l_lip_1_corner_h_multDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[59].dn"
-		;
-connectAttr "l_t_lip_1__tLip__blendMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[60].dn"
-		;
-connectAttr "l_t_lip_1_group_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[61].dn"
-		;
-connectAttr "jaw.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[62].dn";
-connectAttr "l_lip_1_uFactor_multiplyDivide.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[63].dn"
-		;
-connectAttr "b_mouth_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[64].dn";
-connectAttr "init_corner_flat_curveShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[65].dn"
-		;
-connectAttr "r_b_lip_1__bLip__blendMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[66].dn"
-		;
-connectAttr "r_t_lip_1_group_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[67].dn"
-		;
-connectAttr "r_lip_1__corner__multDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[68].dn"
-		;
-connectAttr "jaw_poserOrient.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[69].dn"
-		;
-connectAttr "flat_rebuildCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[70].dn"
-		;
-connectAttr "l_lip_1_corner_v_multDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[71].dn"
-		;
-connectAttr "t_lip_1__jaw__blendMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[72].dn"
-		;
-connectAttr "l_t_lip_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[73].dn";
-connectAttr "unitConversion329.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[74].dn"
-		;
-connectAttr "mouth_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[75].dn";
-connectAttr "l_lip_1_flat_mpath.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[76].dn"
-		;
-connectAttr "r_lip_1_slide_composeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[77].dn"
-		;
-connectAttr "r_lip_1_corner_v_multDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[78].dn"
-		;
-connectAttr "lip_1_pivotShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[79].dn"
-		;
-connectAttr "unitConversion330.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[80].dn"
-		;
-connectAttr "sec_controls_bifrostGraphShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[0].dn"
-		;
-connectAttr "sec_controls_bifrostGraph.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[1].dn"
-		;
-connectAttr "l_lip_1_nearestPointOnCurve.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[2].dn"
-		;
-connectAttr "l_t_lip_1_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[3].dn";
-connectAttr "l_lip_1_reverse_u_plusMinusAverage.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[4].dn"
-		;
-connectAttr "l_lip_1_uFactor_multiplyDivide.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[5].dn"
-		;
-connectAttr "l_t_lip_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[6].dn";
-connectAttr "l_mouthCorner.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[7].dn";
-connectAttr "l_lip_1_corner_h_multiplyDivide.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[8].dn"
-		;
-connectAttr "l_lip_1_corner_h_multDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[9].dn"
-		;
-connectAttr "l_lip_1_corner_h_clamp.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[10].dn"
-		;
-connectAttr "l_lip_1_corner_h_plusMinusAverage.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[11].dn"
-		;
-connectAttr "l_lip_1_corner_v_multDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[12].dn"
-		;
+connectAttr "blendTwoAttr1.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[7].dn";
+connectAttr "setRange125.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[8].dn";
+connectAttr "blendTwoAttr2.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[9].dn";
 connectAttr "eyes_decomposeMatrix24.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "eyes_decomposeMatrix25.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "eyes_composeMatrix1.msg" ":defaultRenderUtilityList1.u" -na;
@@ -18378,31 +17462,18 @@ connectAttr "lip_1_init_mirror_multiplyDivide.msg" ":defaultRenderUtilityList1.u
 connectAttr "lip_corner_init_mirror_multiplyDivide.msg" ":defaultRenderUtilityList1.u"
 		 -na;
 connectAttr "multMatrix249.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "addDoubleLinear93.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear449.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multiplyDivide363.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "l_mouthCorner_moveX_multDoubleLinear.msg" ":defaultRenderUtilityList1.u"
 		 -na;
 connectAttr "reverse40.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "addDoubleLinear99.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear454.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "l_t_lip_1_multiplyDivide.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear457.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "reverse41.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "r_mouthCorner_moveX_multDoubleLinear.msg" ":defaultRenderUtilityList1.u"
 		 -na;
-connectAttr "multDoubleLinear462.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear463.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear464.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "reverse42.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear465.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "cheeks_multMatrix.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix264.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "plusMinusAverage177.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "addDoubleLinear111.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear478.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear479.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "plusMinusAverage178.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "addDoubleLinear112.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multDoubleLinear480.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "setRange123.msg" ":defaultRenderUtilityList1.u" -na;
@@ -18415,11 +17486,6 @@ connectAttr "multDoubleLinear483.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "clamp29.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "clamp30.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "condition8.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "l_t_lip_1_reverse.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multiplyDivide368.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "setRange127.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "reverse50.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "condition9.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "condition10.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix283.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix284.msg" ":defaultRenderUtilityList1.u" -na;
@@ -18429,18 +17495,7 @@ connectAttr "multMatrix288.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix289.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix290.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix291.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix293.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix294.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix296.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix299.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix301.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix302.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix304.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix305.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix306.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix307.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "addDoubleLinear113.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "addDoubleLinear114.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "curveInfo.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "cheeks_multMatrix1.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix318.msg" ":defaultRenderUtilityList1.u" -na;
@@ -18452,74 +17507,40 @@ connectAttr "multMatrix322.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix323.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix324.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix325.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "distanceBetween1.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "distanceBetween2.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multiplyDivide370.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multiplyDivide371.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "distanceBetween3.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "distanceBetween4.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "lips_jaw__multMatrix.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "l_lip_1__uValue__addDoubleLinear.msg" ":defaultRenderUtilityList1.u"
-		 -na;
+connectAttr "l_lip_1_uValue_addDoubleLinear.msg" ":defaultRenderUtilityList1.u" 
+		-na;
 connectAttr "l_lip_1__corner__multDoubleLinear.msg" ":defaultRenderUtilityList1.u"
-		 -na;
-connectAttr "l_lip_1_corner_h_clamp.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "l_lip_1_corner_h_multDoubleLinear.msg" ":defaultRenderUtilityList1.u"
 		 -na;
 connectAttr "l_lip_1_reverse_u_plusMinusAverage.msg" ":defaultRenderUtilityList1.u"
 		 -na;
-connectAttr "l_lip_1_uFactor_multiplyDivide.msg" ":defaultRenderUtilityList1.u" 
-		-na;
-connectAttr "l_lip_1_corner_h_multiplyDivide.msg" ":defaultRenderUtilityList1.u"
-		 -na;
-connectAttr "l_lip_1_corner_h_plusMinusAverage.msg" ":defaultRenderUtilityList1.u"
-		 -na;
 connectAttr "length_multiplyDivide.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "l_lip_1_mouthLineFollow_condition.msg" ":defaultRenderUtilityList1.u"
-		 -na;
-connectAttr "l_lip_1_corner_v_multDoubleLinear.msg" ":defaultRenderUtilityList1.u"
-		 -na;
-connectAttr "l_t_lip_1_group_multMatrix.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "t_lip_1__jaw__multDoubleLinear.msg" ":defaultRenderUtilityList1.u" 
-		-na;
-connectAttr "t_lip_over_lips_multMatrix.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "l_b_lip_1_group_multMatrix.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "l_b_lip_1_setRange.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "inverseMatrix2.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix333.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix334.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multMatrix336.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "l_b_lip_1__bMouth__multMatrix.msg" ":defaultRenderUtilityList1.u" -na
-		;
-connectAttr "l_b_lip_1__bMouth__inverseMatrix.msg" ":defaultRenderUtilityList1.u"
-		 -na;
-connectAttr "l_b_lip_1_multMatrix.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "r_t_lip_1_group_multMatrix.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "r_lip_1__corner__multDoubleLinear.msg" ":defaultRenderUtilityList1.u"
+connectAttr "r_lip_1_corner_multDoubleLinear.msg" ":defaultRenderUtilityList1.u"
 		 -na;
 connectAttr "r_lip_1__uValue__addDoubleLinear.msg" ":defaultRenderUtilityList1.u"
 		 -na;
-connectAttr "r_lip_1_mouthLineFollow_condition.msg" ":defaultRenderUtilityList1.u"
-		 -na;
 connectAttr "multDoubleLinear486.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "r_lip_1_corner_v_multDoubleLinear.msg" ":defaultRenderUtilityList1.u"
-		 -na;
-connectAttr "l_lip_1_corner_h_plusMinusAverage1.msg" ":defaultRenderUtilityList1.u"
-		 -na;
-connectAttr "l_lip_1_corner_h_multDoubleLinear1.msg" ":defaultRenderUtilityList1.u"
-		 -na;
-connectAttr "l_lip_1_corner_h_clamp1.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "multDoubleLinear487.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "r_b_lip_1_group_multMatrix.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "r_b_lip_1__bMouth__multMatrix.msg" ":defaultRenderUtilityList1.u" -na
-		;
-connectAttr "r_b_lip_1_multMatrix.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "r_b_lip_1__bMouth__inverseMatrix.msg" ":defaultRenderUtilityList1.u"
-		 -na;
 connectAttr "l_lip_1__uValue__addDoubleLinear1.msg" ":defaultRenderUtilityList1.u"
 		 -na;
 connectAttr "l_lip_1__corner__multDoubleLinear1.msg" ":defaultRenderUtilityList1.u"
 		 -na;
+connectAttr "r_lip_2__corner__multDoubleLinear.msg" ":defaultRenderUtilityList1.u"
+		 -na;
+connectAttr "multDoubleLinear488.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "r_lip_1__uValue__addDoubleLinear1.msg" ":defaultRenderUtilityList1.u"
+		 -na;
+connectAttr "l_lip_2_reverse_u_plusMinusAverage.msg" ":defaultRenderUtilityList1.u"
+		 -na;
+connectAttr "l_b_lip_corner_multMatrix.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "l_t_lip_corner_multMatrix.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "r_t_lip_corner_multMatrix.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "r_b_lip_corner_multMatrix.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "l_setRange_lipsUpDown.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "r_setRange_lipsUpDown.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "blendTwoAttr1.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "blendTwoAttr2.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "setRange125.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "setRange126.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "blendTwoAttr3.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "defaultRenderLayer.msg" ":defaultRenderingList1.r" -na;
 connectAttr "defaultRenderLayer1.msg" ":defaultRenderingList1.r" -na;
 connectAttr "bifrostGraphShape1.iog" ":initialShadingGroup.dsm" -na;
@@ -18531,6 +17552,13 @@ connectAttr "pSphereShape5.iog" ":initialShadingGroup.dsm" -na;
 connectAttr "t_lip_surfShape.iog" ":initialShadingGroup.dsm" -na;
 connectAttr "b_lip_surfShape.iog" ":initialShadingGroup.dsm" -na;
 connectAttr "sec_controls_bifrostGraphShape.iog" ":initialShadingGroup.dsm" -na;
+connectAttr "pCubeShape1.iog" ":initialShadingGroup.dsm" -na;
+connectAttr "pCubeShape2.iog" ":initialShadingGroup.dsm" -na;
+connectAttr "pCubeShape3.iog" ":initialShadingGroup.dsm" -na;
+connectAttr "pCubeShape4.iog" ":initialShadingGroup.dsm" -na;
+connectAttr "pCubeShape5.iog" ":initialShadingGroup.dsm" -na;
+connectAttr "pCubeShape6.iog" ":initialShadingGroup.dsm" -na;
+connectAttr "pCubeShape7.iog" ":initialShadingGroup.dsm" -na;
 dataStructure -fmt "raw" -as "name=NodeProfileStruct:string=NodeProfileTag:int32=NodeProfileTagColor";
 applyMetadata -fmt "raw" -v "channel\nname ProfileTag\nstream\nname ProfileTagStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"root_poser\" 0\nendStream\nendChannel\nchannel\nname ProfileTagColor\nstream\nname ProfileTagColorStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"\" 255\n1\n\"\" 0\n2\n\"\" 0\nendStream\nendChannel\nendAssociations\n" 
 		root_poser;

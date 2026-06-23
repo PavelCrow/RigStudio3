@@ -760,3 +760,6 @@ Updated mouth module
 New browsSurf module
 Updated display outJoints options
 Fiexed twists joints size
+
+---Version 3.23.1
+Fixed foot toe twist on disable autostretch leg

@@ -17,7 +17,7 @@ class Spine(module.Module) :
 		super(self.__class__, self).connect(target, opposite=False, makeSeamless=False)		
 
 		# reroot end skin joint after connect
-		last_id = len(cmds.listRelatives(self.name+"_bendJoints"))
+		last_id = len(cmds.listRelatives(self.name+"_surf_joints"))
 		
 		cmds.parent(self.name+"_end_skinJoint", self.name+"_local_%s_skinJoint" %last_id)
 		utils.removeTransformParentJoint(self.name+"_end_skinJoint")
@@ -34,7 +34,7 @@ class Spine(module.Module) :
 		widget.jointsCount_spinBox.setValue(self.jointsCount)
 
 	def getOptions(self): #
-		self.jointsCount = len(cmds.listRelatives(self.name+'_bendJoints'))
+		self.jointsCount = len(cmds.listRelatives(self.name+'_surf_joints'))
 
 		optionsData = {}
 		optionsData['jointsCount'] = self.jointsCount
@@ -62,176 +62,76 @@ class Spine(module.Module) :
 	
 	def rebuildJoints(self, count):
 		name = self.name
-		
+
 		cmds.parent(name+'_end_skinJoint', name+'_root_skinJoint')
 		utils.removeTransformParentJoint(name+'_end_skinJoint')
-		cmds.delete(name+'_local_1_skinJoint')
-		# cmds.parent(name+'_end_outJoint', name+'_root_outJoint')
-		# utils.removeTransformParentJoint(name+'_end_outJoint')
-		cmds.delete(name+'_local_1_outJoint')
-		
-		# joints
-		for f in cmds.listRelatives(name+'_bendJoints'):
-			cmds.delete(f)
-	
-		bend_joints = []
-		follicles = []
-		for i in range(count):
-			f = cmds.createNode("follicle")
-			fT = cmds.listRelatives(f, p=1)[0]
-			fT = cmds.rename(fT, name+'_local_%s_follicle' %(i+1))
-			f = fT + "Shape"
-			utils.addModuleNameAttr(fT, name)
-			cmds.connectAttr(f+".outTranslate", fT+".t")
-			cmds.connectAttr(f+".outRotate", fT+".r")
-			follicles.append(f)
-	
-			cmds.connectAttr(name+"_bend_surfShape.worldSpace[0]", f+".inputSurface")
-			cmds.setAttr( f+".parameterV", 0.5 )
-	
-			mp = cmds.createNode("motionPath")
-			cmds.connectAttr(name+"_bend_crvShape.worldSpace[0]", mp+".geometryPath")
-			cmds.setAttr( mp+".fractionMode", 1 )
-			cmds.setAttr( mp+".uValue", (i+1)*1.0/(count+1) )
-	
-			near = cmds.createNode("nearestPointOnCurve")
-			cmds.connectAttr(name+"_bend_crvShape.worldSpace[0]", near+".inputCurve")
-			cmds.connectAttr(mp+".allCoordinates", near+".inPosition")
-			u = cmds.getAttr( near+".parameter")
-			cmds.setAttr( f+".parameterU", u )
-			cmds.delete(near)
-	
-			cmds.select(fT)
-			j = cmds.joint(n=name+'_bend_%s_joint' %(i+1))
-			
-			bend_joints.append(j)
-			utils.addModuleNameAttr(j, name)
-	
-			cmds.parent(fT, name+"_bendJoints")
-	
-			cmds.connectAttr(name+"_squash_blendTwoAttr.output", j+".sy")
-			cmds.connectAttr(name+"_squash_blendTwoAttr.output", j+".sz")
-		
-		for i in range(count-1):
-			con = cmds.aimConstraint(bend_joints[i+1], bend_joints[i] , mo=0, n=bend_joints[i]+"_aimConstraint")[0]
-			utils.addModuleNameAttr(con, name)
-			cmds.setAttr(con+'.worldUpType', 2)
-			cmds.setAttr(con+'.worldUpVectorY', -1)
-			cmds.connectAttr(follicles[i]+".worldMatrix[0]", con+".worldUpMatrix")
-		con = cmds.aimConstraint(name+"_chest_out", bend_joints[count-1], n=bend_joints[count-1]+"_aimConstraint")[0]
-		utils.addModuleNameAttr(con, name)
-		cmds.setAttr(con+'.worldUpType', 2)
-		cmds.setAttr(con+'.worldUpVectorY', -1)
-		cmds.connectAttr(follicles[count-1]+".worldMatrix[0]", con+".worldUpMatrix")
-		
 
-		# init locs
+		cmds.delete(name+'_local_1_skinJoint')
+		cmds.delete(name+'_local_1_outJoint')
+		for f in cmds.listRelatives(name+'_surf_joints'):
+			cmds.delete(f)
 		for f in cmds.listRelatives(name+'_joints_initLocs'):
-			if f.split("_")[-1] == "initFollicle":
-				cmds.delete(f)
-		
-		locs = []
-		follicles = []
+			cmds.delete(f)
+
 		for i in range(count):
-			f = cmds.createNode("follicle")
-			fT = cmds.listRelatives(f, p=1)[0]
-			fT = cmds.rename(fT, name+'_local_%s_initFollicle' %(i+1))
-			f = fT + "Shape"
-			utils.addModuleNameAttr(fT, name)
+			pos = (1/(count+1)*(i+1))
+			j = cmds.joint(n=name+'_surf_%s_joint' %(i+1))
+			utils.addModuleNameAttr(j, name)
+			cmds.parent(j, name+"_surf_joints")
+			utils.resetAttrs(j)
+			utils.resetJointOrient(j)
+			oj = cmds.joint(n=name+'_local_%s_outJoint' %(i+1))
+			utils.addModuleNameAttr(oj, name)
+			if i == 0: pj = f"{name}_root_outJoint"
+			else: pj = f"{name}_local_{i}_outJoint"
+			cmds.parent(oj, pj)
+			utils.resetJointOrient(oj)
+			l = cmds.spaceLocator(n=f"{name}_local_{i+1}_initLoc")[0]
+			cmds.parent(l, name+'_joints_initLocs')
+
+			cmds.addAttr(oj, ln="pos", at="double", min=0, max=1, dv=0, k=1 )
+			cmds.setAttr(oj+".pos", pos)
+
+			cmds.connectAttr(oj+".pos", f"{name}_uvPin.coordinate[{i}].coordinateU")
+			cmds.connectAttr(oj+".pos", f"{name}_init_uvPin.coordinate[{i}].coordinateU")
+			cmds.setAttr(f"{name}_uvPin.coordinate[{i}].coordinateV", 0.5)
+			cmds.setAttr(f"{name}_init_uvPin.coordinate[{i}].coordinateV", 0.5)
+
+			cmds.connectAttr(f"{name}_uvPin.outputMatrix[{i}]", f"{j}.offsetParentMatrix")
+			cmds.connectAttr(f"{name}_init_uvPin.outputMatrix[{i}]", f"{l}.offsetParentMatrix")
+			utils.connectByMatrix(oj, [j, pj], ['worldMatrix[0]', 'worldInverseMatrix[0]'], attrs=['t', 'r'], module_name=name)
+			cmds.connectAttr(name+"_squash_blendTwoAttr.output", oj+".sy")
+			cmds.connectAttr(name+"_squash_blendTwoAttr.output", oj+".sz")
 			
-			cmds.connectAttr(f+".outTranslate", fT+".t")
-			cmds.connectAttr(f+".outRotate", fT+".r")
-			follicles.append(f)
-			
-			cmds.connectAttr(name+"_root_poser_decMat.outputScaleX", fT+".scaleX")
-			cmds.connectAttr(name+"_root_poser_decMat.outputScaleY", fT+".scaleY")
-			cmds.connectAttr(name+"_root_poser_decMat.outputScaleZ", fT+".scaleZ")			
-	
-			cmds.connectAttr(name+"_init_surf.worldSpace[0]", f+".inputSurface")
-			cmds.setAttr( f+".parameterV", 0.5 )
-			
-			mp = cmds.createNode("motionPath")
-			cmds.connectAttr(name+"_bend_crvShape.worldSpace[0]", mp+".geometryPath")
-			cmds.setAttr( mp+".fractionMode", 1 )
-			cmds.setAttr( mp+".uValue", (i+1)*1.0/(count+1) )
-			
-			near = cmds.createNode("nearestPointOnCurve")
-			cmds.connectAttr(name+"_bend_crvShape.worldSpace[0]", near+".inputCurve")
-			cmds.connectAttr(mp+".allCoordinates", near+".inPosition")
-			u = cmds.getAttr( near+".parameter")
-			cmds.setAttr( f+".parameterU", u )
-			cmds.delete(near)
-			
-			l = cmds.spaceLocator(n=name+'_local_%s_initLoc' %(i+1))[0]
-			locs.append(l)
-			utils.addModuleNameAttr(l, name)
-			cmds.parent(l, fT)
-			utils.resetAttrs(l)
-			
-			cmds.parent(fT, name+"_joints_initLocs")
-		
-		for i in range(count-1):
-			con = cmds.aimConstraint(locs[i+1], locs[i] , mo=0, n=locs[i]+"_aimConstraint")[0]
-			utils.addModuleNameAttr(con, name)
-			cmds.setAttr(con+'.worldUpType', 2)
-			cmds.setAttr(con+'.worldUpVectorY', -1)
-			cmds.connectAttr(follicles[i]+".worldMatrix[0]", con+".worldUpMatrix")
-		con = cmds.aimConstraint(name+"_end_poser", locs[count-1], n=locs[count-1]+"_aimConstraint")[0]
-		utils.addModuleNameAttr(con, name)
-		cmds.setAttr(con+'.worldUpType', 2)
-		cmds.setAttr(con+'.worldUpVectorY', -1)
-		cmds.connectAttr(follicles[count-1]+".worldMatrix[0]", con+".worldUpMatrix")
-	
-	
-	
-		out_joints = []
-		cmds.select(name+'_root_outJoint')
-		for i in range(count):
-			j_out = cmds.joint(n=name+'_local_%s_outJoint' %(i+1))
-			utils.addModuleNameAttr(j_out, name)
-			out_joints.append(j_out)
-	
-		for i in range(count):
-			utils.connectByMatrix(out_joints[i], [bend_joints[i], out_joints[i]], ['worldMatrix[0]', 'parentInverseMatrix[0]'], name, attrs=['t', 'r'])
-			cmds.connectAttr(name+"_squash_blendTwoAttr.output", out_joints[i]+".scaleY")
-			cmds.connectAttr(name+"_squash_blendTwoAttr.output", out_joints[i]+".scaleZ")		
-	
-		skin_joints = []
 		cmds.select(name+'_root_skinJoint')
+		r = cmds.getAttr(name+'_end_skinJoint.radius')
 		for i in range(count):
 			j = cmds.joint(n=name+'_local_%s_skinJoint' %(i+1))
 			utils.addModuleNameAttr(j, name)
-			skin_joints.append(j)
-	
-		for i in range(count):
-			utils.connectByMatrix(skin_joints[i], [bend_joints[i], skin_joints[i]], ['worldMatrix[0]', 'parentInverseMatrix[0]'], name)
-			cmds.disconnectAttr(name+"_local_%s_skinJoint_decMat.outputScaleX" %(i+1), skin_joints[i]+".scaleX")
-			cmds.disconnectAttr(name+"_local_%s_skinJoint_decMat.outputScaleY" %(i+1), skin_joints[i]+".scaleY")
-			cmds.disconnectAttr(name+"_local_%s_skinJoint_decMat.outputScaleZ" %(i+1), skin_joints[i]+".scaleZ")
-			cmds.connectAttr(name+"_squash_blendTwoAttr.output", skin_joints[i]+".scaleY")
-			cmds.connectAttr(name+"_squash_blendTwoAttr.output", skin_joints[i]+".scaleZ")
-	
-		cmds.parent(name+'_end_skinJoint', skin_joints[count-1])
-		utils.removeTransformParentJoint(name+'_end_skinJoint')
-	
-		# cmds.parent(name+'_end_outJoint', out_joints[count-1])
-		# utils.removeTransformParentJoint(name+'_end_outJoint')
+			utils.connectByMatrix(j, [name+f'_local_{i+1}_outJoint', j], ['worldMatrix[0]', 'parentInverseMatrix[0]'], attrs=['t', 'r'], module_name=name)
+			cmds.connectAttr(name+f'_local_{i+1}_outJoint.scale', j+".s")
+			cmds.setAttr(oj+".segmentScaleCompensate", 0)
+			cmds.setAttr(oj+".radius", r)
+			cmds.select(j)
 
-		# hide last local out joint
-		cmds.setAttr(name+'_end_outJoint.drawStyle', 2)
+		cmds.parent(name+'_end_skinJoint', j)
+		utils.removeTransformParentJoint(name+'_end_skinJoint')
+		utils.resetJointOrient(name+'_end_skinJoint')
 	
 	def delete(self):
-		cmds.delete(self.name+"_multiplyDivide1846")
+		# cmds.delete(self.name+"_multiplyDivide1846")
 		super(self.__class__, self).delete()
 	
 	def addSkinJoints(self):
 		super(self.__class__, self).addSkinJoints()
 		
 		joints = cmds.sets(self.name+'_skinJointsSet', q=1)
-		last_id = len(cmds.listRelatives(self.name+"_bendJoints"))
+		last_id = len(cmds.listRelatives(self.name+"_surf_joints"))
+		r = cmds.getAttr(self.name+'_end_skinJoint.radius')
 
 		for o in joints:		
 			cmds.setAttr(o.replace("outJoint", "skinJoint")+".segmentScaleCompensate", 1)
+			cmds.setAttr(o.replace("outJoint", "skinJoint")+".radius", r)
 
 		cmds.parent(self.name+"_end_skinJoint", self.name+"_local_%s_skinJoint" %last_id)
 		utils.removeTransformParentJoint(self.name+"_end_skinJoint")

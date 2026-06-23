@@ -387,9 +387,10 @@ class Module(object):
 
         # reroot skin joints
         jointsRoot = self.name+'_root_skinJoint'
-        utils.parentTo(jointsRoot, 'skeleton')	
-        utils.removeTransformParentJoint(jointsRoot)
-        utils.resetJointOrient(jointsRoot)
+        if cmds.objExists(jointsRoot):
+            utils.parentTo(jointsRoot, 'skeleton')	
+            utils.removeTransformParentJoint(jointsRoot)
+            utils.resetJointOrient(jointsRoot)
 
     def setControlAttrs(self, data):
         for attr in data['controlsAttrData']:
@@ -635,7 +636,6 @@ class Module(object):
                                 savedName = utils.incrementNameIfExists(savedName)				
                         utils.renameControl(cName, savedName)
                 except: print ("Skipped setting control name", int_name)
-        
         # set controls shapes
         if load == "controlShapes" or load == "all":
             if not sym:

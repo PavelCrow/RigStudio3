@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: browsSurf.ma
-//Last modified: Sat, May 16, 2026 09:15:04 AM
+//Last modified: Sun, Jun 07, 2026 06:31:19 PM
 //Codeset: 1251
 requires maya "2022";
 requires -nodeType "sweepMeshCreator" -dataType "sweepMeshData" -dataType "sweepProfileData"
@@ -14,18 +14,18 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202110272215-ad32f8f1e6";
 fileInfo "osv" "Windows 10 Pro v2009 (Build: 26200)";
-fileInfo "UUID" "ECCC6328-4C72-A86A-9890-AA8A7A0B3529";
+fileInfo "UUID" "21DA0CBA-4B52-C0FD-B1D1-8798DCFB0EC5";
 createNode transform -s -n "persp";
 	rename -uid "A4D0191F-4C07-40E2-DAA3-F4BD8CCE28C7";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" -0.55534758174479859 2.4879145512956362 5.0393729312237898 ;
-	setAttr ".r" -type "double3" -16.800000000000267 5.2000000000000028 9.9803083504335761e-17 ;
+	setAttr ".t" -type "double3" 1.9839445640847613 3.5116441337127897 8.157558112512314 ;
+	setAttr ".r" -type "double3" -17.400000000000407 11.600000000000101 2.0292945097660926e-16 ;
 createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "7DF56705-4079-569B-B066-61B2A8E255D4";
 	setAttr -k off ".v" no;
 	setAttr ".fl" 34.999999999999993;
 	setAttr ".fcp" 50000;
-	setAttr ".coi" 4.3236377045992169;
+	setAttr ".coi" 7.99239316409232;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -90,6 +90,7 @@ createNode transform -n "mod";
 	setAttr -l on ".moduleType" -type "string" "brows";
 createNode transform -n "posers" -p "mod";
 	rename -uid "F60E72F0-4685-27F6-4291-5D82848FC331";
+	setAttr ".v" no;
 createNode transform -n "mainPoser" -p "posers";
 	rename -uid "22ACBA55-4E8C-D89C-EFFF-D39AAC206E52";
 	addAttr -ci true -sn "size" -ln "size" -dv 1 -min 0 -at "double";
@@ -1309,7 +1310,6 @@ createNode transform -n "b_posers_sweep_curve" -p "posers";
 createNode nurbsCurve -n "b_posers_sweep_curveShape" -p "b_posers_sweep_curve";
 	rename -uid "2E9777E8-49D4-A34B-CA13-BD90138EBFEE";
 	setAttr -k off ".v";
-	setAttr -s 2 ".iog";
 	setAttr ".tw" yes;
 createNode transform -n "m_posers_sweep_curve" -p "posers";
 	rename -uid "1CD65C3C-4387-E7EC-E26B-F58970B7C41D";
@@ -1411,7 +1411,6 @@ createNode transform -n "c_brow" -p "c_brow_group";
 	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
 	addAttr -ci true -sn "type" -ln "type" -dt "string";
 	setAttr -l on -k off ".v";
-	setAttr -s 2 ".iog";
 	setAttr -k on ".s";
 	setAttr ".rp" -type "double3" 0 -4.4408920985006262e-16 0 ;
 	setAttr ".sp" -type "double3" 0 -4.4408920985006262e-16 0 ;
@@ -1447,6 +1446,7 @@ createNode transform -n "l_brow_group" -p "l_controls";
 createNode transform -n "l_brow" -p "l_brow_group";
 	rename -uid "C7175E89-45D4-4B77-CE6D-5A9ED03F36A3";
 	setAttr -l on -k off ".v";
+	setAttr ".t" -type "double3" 0 -0.3328404423482843 0 ;
 	setAttr -l on -k off ".tz";
 	setAttr -l on -k off ".rx";
 	setAttr -l on -k off ".ry";
@@ -1568,6 +1568,45 @@ createNode transform -n "l_brow_in_inner_1_target" -p "l_brow_in";
 createNode locator -n "l_brow_in_inner_1_targetShape" -p "l_brow_in_inner_1_target";
 	rename -uid "340FCF6F-4077-3D3D-9CF7-2C88B3F165CB";
 	setAttr -k off ".v";
+createNode transform -n "l_brow_local_1" -p "l_brow_in";
+	rename -uid "F95EEB2E-4088-0858-8473-06A8E635085C";
+	addAttr -ci true -sn "mCache" -ln "mCache" -nn "mCache" -min 0 -max 1 -at "bool";
+	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
+	addAttr -ci true -sn "type" -ln "type" -dt "string";
+	addAttr -ci true -sn "middleFollow" -ln "middleFollow" -dv 0.5 -min 0 -max 1 -at "double";
+	setAttr -l on -k off ".v";
+	setAttr -k on ".s" -type "double3" 1.0000000000000004 1 1 ;
+	setAttr -k on ".s";
+	setAttr -k off ".sx";
+	setAttr -k off ".sy";
+	setAttr -k off ".sz";
+	setAttr ".rp" -type "double3" 0 -4.4408920985006262e-16 0 ;
+	setAttr ".rpt" -type "double3" -1.209802222376112e-17 7.5737149675020619e-18 -8.0765629391217996e-17 ;
+	setAttr ".sp" -type "double3" 0 -4.4408920985006262e-16 0 ;
+	setAttr -l on ".internalName" -type "string" "l_brow_inner_1";
+	setAttr -l on ".type" -type "string" "control";
+	setAttr ".middleFollow" 0.66666666635622585;
+createNode nurbsCurve -n "l_brow_local_1Shape" -p "l_brow_local_1";
+	rename -uid "500C87D3-4B70-1D8B-CD6F-34A1FABAF963";
+	setAttr -k off ".v";
+	setAttr ".ove" yes;
+	setAttr ".ovc" 20;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		0.069893832072459999 0.069893832072464732 0.17743666548437578
+		2.805276737581941e-17 0.098844805243105793 0.17743666548437578
+		-0.069893832072459777 0.069893832072464732 0.17743666548437578
+		-0.098844805243100423 5.5674118130023864e-15 0.17743666548437562
+		-0.069893832072459985 -0.069893832072455059 0.17743666548437562
+		9.5459088761541885e-18 -0.098844805243095468 0.17743666548437562
+		0.069893832072459555 -0.069893832072455059 0.17743666548437562
+		0.098844805243100436 5.4856793236286771e-15 0.17743666548437562
+		0.069893832072459999 0.069893832072464732 0.17743666548437578
+		2.805276737581941e-17 0.098844805243105793 0.17743666548437578
+		-0.069893832072459777 0.069893832072464732 0.17743666548437578
+		;
 createNode transform -n "l_brow_c_target" -p "l_brow_in_offset";
 	rename -uid "EE1ED94A-473D-3553-F55F-C7AF2D6CF1BB";
 	setAttr ".v" no;
@@ -1660,6 +1699,46 @@ createNode transform -n "l_brow_mid_outer_1_target" -p "l_brow_mid";
 createNode locator -n "l_brow_mid_outer_1_targetShape" -p "l_brow_mid_outer_1_target";
 	rename -uid "428D200C-4631-271B-45AD-E4A2967522B5";
 	setAttr -k off ".v";
+createNode transform -n "l_brow_local_3" -p "l_brow_mid";
+	rename -uid "1EDB40D6-4DBC-2827-6B72-D3AEADCA4877";
+	addAttr -ci true -sn "mCache" -ln "mCache" -nn "mCache" -min 0 -max 1 -at "bool";
+	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
+	addAttr -ci true -sn "type" -ln "type" -dt "string";
+	addAttr -ci true -sn "middleFollow" -ln "middleFollow" -dv 0.5 -min 0 -max 1 -at "double";
+	setAttr -l on -k off ".v";
+	setAttr -k on ".s" -type "double3" 1 0.99999999999999956 1 ;
+	setAttr -k on ".s";
+	setAttr -k off ".sx";
+	setAttr -k off ".sy";
+	setAttr -k off ".sz";
+	setAttr ".rp" -type "double3" 0 -4.4408920985006242e-16 0 ;
+	setAttr ".rpt" -type "double3" 3.0515886214981678e-17 1.084483439232883e-18 5.5515197408637751e-18 ;
+	setAttr ".sp" -type "double3" 0 -4.4408920985006262e-16 0 ;
+	setAttr ".spt" -type "double3" 0 1.9721522630525278e-31 0 ;
+	setAttr -l on ".internalName" -type "string" "l_brow_inner_1";
+	setAttr -l on ".type" -type "string" "control";
+	setAttr ".middleFollow" 0.66666666635622585;
+createNode nurbsCurve -n "l_brow_local_3Shape" -p "l_brow_local_3";
+	rename -uid "2BC8DFBE-4C87-E710-DA77-57B89EFEB120";
+	setAttr -k off ".v";
+	setAttr ".ove" yes;
+	setAttr ".ovc" 20;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		0.069893832072459999 0.069893832072464732 0.17743666548437578
+		2.805276737581941e-17 0.098844805243105793 0.17743666548437578
+		-0.069893832072459777 0.069893832072464732 0.17743666548437578
+		-0.098844805243100423 5.5674118130023864e-15 0.17743666548437562
+		-0.069893832072459985 -0.069893832072455059 0.17743666548437562
+		9.5459088761541885e-18 -0.098844805243095468 0.17743666548437562
+		0.069893832072459555 -0.069893832072455059 0.17743666548437562
+		0.098844805243100436 5.4856793236286771e-15 0.17743666548437562
+		0.069893832072459999 0.069893832072464732 0.17743666548437578
+		2.805276737581941e-17 0.098844805243105793 0.17743666548437578
+		-0.069893832072459777 0.069893832072464732 0.17743666548437578
+		;
 createNode transform -n "l_brow_out_pinned" -p "l_controls";
 	rename -uid "B3306D16-44E7-4D1A-E68C-029E6CBD28C0";
 	addAttr -ci true -k true -sn "U" -ln "U" -min 0 -max 1 -at "double";
@@ -1740,13 +1819,53 @@ createNode transform -n "l_brow_out_outer_1_target" -p "l_brow_out";
 createNode locator -n "l_brow_out_outer_1_targetShape" -p "l_brow_out_outer_1_target";
 	rename -uid "4873A74C-4869-0318-CEBA-E58D1D7FBDA2";
 	setAttr -k off ".v";
-createNode transform -n "l_brow_inner_1_group" -p "l_controls";
+createNode transform -n "l_brow_local_5" -p "l_brow_out";
+	rename -uid "A0C6D91B-493B-ED23-84B1-0B994023A70D";
+	addAttr -ci true -sn "mCache" -ln "mCache" -nn "mCache" -min 0 -max 1 -at "bool";
+	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
+	addAttr -ci true -sn "type" -ln "type" -dt "string";
+	addAttr -ci true -sn "middleFollow" -ln "middleFollow" -dv 0.5 -min 0 -max 1 -at "double";
+	setAttr -l on -k off ".v";
+	setAttr -k on ".s" -type "double3" 1 0.99999999999999944 0.99999999999999978 ;
+	setAttr -k on ".s";
+	setAttr -k off ".sx";
+	setAttr -k off ".sy";
+	setAttr -k off ".sz";
+	setAttr ".rp" -type "double3" 0 -4.4408920985006227e-16 0 ;
+	setAttr ".rpt" -type "double3" 3.0929999791499075e-17 1.0829213240176636e-18 -1.9974344869091522e-18 ;
+	setAttr ".sp" -type "double3" 0 -4.4408920985006262e-16 0 ;
+	setAttr ".spt" -type "double3" 0 3.4512664603419231e-31 0 ;
+	setAttr -l on ".internalName" -type "string" "l_brow_inner_1";
+	setAttr -l on ".type" -type "string" "control";
+	setAttr ".middleFollow" 0.66666666635622585;
+createNode nurbsCurve -n "l_brow_local_5Shape" -p "l_brow_local_5";
+	rename -uid "2412993B-41DF-629D-4EDF-E4BA17CCE5A7";
+	setAttr -k off ".v";
+	setAttr ".ove" yes;
+	setAttr ".ovc" 20;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		0.069893832072459999 0.069893832072464732 0.17743666548437578
+		2.805276737581941e-17 0.098844805243105793 0.17743666548437578
+		-0.069893832072459777 0.069893832072464732 0.17743666548437578
+		-0.098844805243100423 5.5674118130023864e-15 0.17743666548437562
+		-0.069893832072459985 -0.069893832072455059 0.17743666548437562
+		9.5459088761541885e-18 -0.098844805243095468 0.17743666548437562
+		0.069893832072459555 -0.069893832072455059 0.17743666548437562
+		0.098844805243100436 5.4856793236286771e-15 0.17743666548437562
+		0.069893832072459999 0.069893832072464732 0.17743666548437578
+		2.805276737581941e-17 0.098844805243105793 0.17743666548437578
+		-0.069893832072459777 0.069893832072464732 0.17743666548437578
+		;
+createNode transform -n "l_brow_local_2_group" -p "l_controls";
 	rename -uid "D7758C2A-4638-FA1A-C6A8-34AE8037E0B6";
 	setAttr ".t" -type "double3" 0 1.6653345369377348e-16 0 ;
 	setAttr ".s" -type "double3" 1.0000000000000002 1 1.0000000000000002 ;
 	setAttr ".rp" -type "double3" 0 4.4408920985006262e-16 0 ;
 	setAttr ".sp" -type "double3" 0 4.4408920985006262e-16 0 ;
-createNode transform -n "l_brow_inner_1" -p "l_brow_inner_1_group";
+createNode transform -n "l_brow_local_2" -p "l_brow_local_2_group";
 	rename -uid "A935849F-44E5-1523-8A56-9597550CBB2D";
 	addAttr -ci true -sn "mCache" -ln "mCache" -nn "mCache" -min 0 -max 1 -at "bool";
 	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
@@ -1762,7 +1881,7 @@ createNode transform -n "l_brow_inner_1" -p "l_brow_inner_1_group";
 	setAttr -l on ".internalName" -type "string" "l_brow_inner_1";
 	setAttr -l on ".type" -type "string" "control";
 	setAttr ".middleFollow" 0.66666666635622585;
-createNode nurbsCurve -n "l_brow_inner_1Shape" -p "l_brow_inner_1";
+createNode nurbsCurve -n "l_brow_local_2Shape" -p "l_brow_local_2";
 	rename -uid "BDA9CA78-4BF5-76D7-C97F-4DB5FDADFC27";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
@@ -1783,13 +1902,13 @@ createNode nurbsCurve -n "l_brow_inner_1Shape" -p "l_brow_inner_1";
 		2.805276737581941e-17 0.098844805243105793 0.17743666548437578
 		-0.069893832072459777 0.069893832072464732 0.17743666548437578
 		;
-createNode transform -n "l_brow_outer_1_group" -p "l_controls";
+createNode transform -n "l_brow_local_4_group" -p "l_controls";
 	rename -uid "0BA980CE-4271-59FC-029E-79814413FDA1";
 	setAttr ".t" -type "double3" -2.2204460492503131e-16 1.6653345369377348e-16 3.4694469519536142e-18 ;
 	setAttr ".s" -type "double3" 0.99999999999999989 1 0.99999999999999989 ;
 	setAttr ".rp" -type "double3" 0 4.4408920985006262e-16 0 ;
 	setAttr ".sp" -type "double3" 0 4.4408920985006262e-16 0 ;
-createNode transform -n "l_brow_outer_1" -p "l_brow_outer_1_group";
+createNode transform -n "l_brow_local_4" -p "l_brow_local_4_group";
 	rename -uid "D25B4296-426E-91EB-808E-B1BE63A6FB31";
 	addAttr -ci true -sn "mCache" -ln "mCache" -nn "mCache" -min 0 -max 1 -at "bool";
 	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
@@ -1805,7 +1924,7 @@ createNode transform -n "l_brow_outer_1" -p "l_brow_outer_1_group";
 	setAttr -l on ".internalName" -type "string" "l_brow_outer_1";
 	setAttr -l on ".type" -type "string" "control";
 	setAttr ".middleFollow" 0.76119403030945743;
-createNode nurbsCurve -n "l_brow_outer_1Shape" -p "l_brow_outer_1";
+createNode nurbsCurve -n "l_brow_local_4Shape" -p "l_brow_local_4";
 	rename -uid "A35CC190-43A3-7D67-1193-5B800B28E9A8";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
@@ -1835,6 +1954,7 @@ createNode transform -n "r_brow_group" -p "r_controls";
 createNode transform -n "r_brow" -p "r_brow_group";
 	rename -uid "72734781-44CE-3D5F-7D56-D182058B91D6";
 	setAttr -l on -k off ".v";
+	setAttr ".t" -type "double3" 0 -0.33284044234828436 0 ;
 	setAttr -l on -k off ".tz";
 	setAttr -l on -k off ".rx";
 	setAttr -l on -k off ".ry";
@@ -1876,6 +1996,7 @@ createNode transform -n "r_brow_in" -p "r_brow_in_offset";
 	addAttr -ci true -sn "default_offsetU" -ln "default_offsetU" -dt "string";
 	addAttr -ci true -sn "default_offsetV" -ln "default_offsetV" -dt "string";
 	setAttr -l on -k off ".v";
+	setAttr -s 2 ".iog";
 	setAttr -k on ".s" -type "double3" 1 1.0000000000000002 1.0000000000000002 ;
 	setAttr -k on ".s";
 	setAttr ".rp" -type "double3" 0 -4.4408920985006271e-16 1.1102230246251565e-16 ;
@@ -1907,6 +2028,46 @@ createNode transform -n "r_brow_in_inner_1_target" -p "r_brow_in";
 createNode locator -n "r_brow_in_inner_1_targetShape" -p "r_brow_in_inner_1_target";
 	rename -uid "38AC875A-4CD5-ABEB-0679-35BC96579279";
 	setAttr -k off ".v";
+createNode transform -n "r_brow_local_1" -p "r_brow_in";
+	rename -uid "8512DE3C-4103-EDA3-3043-E4A6684EB320";
+	addAttr -ci true -sn "mCache" -ln "mCache" -nn "mCache" -min 0 -max 1 -at "bool";
+	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
+	addAttr -ci true -sn "type" -ln "type" -dt "string";
+	addAttr -ci true -sn "middleFollow" -ln "middleFollow" -dv 0.5 -min 0 -max 1 -at "double";
+	setAttr -l on -k off ".v";
+	setAttr -s 2 ".iog";
+	setAttr -k on ".s" -type "double3" 1.0000000000000002 1 1 ;
+	setAttr -k on ".s";
+	setAttr -k off ".sx";
+	setAttr -k off ".sy";
+	setAttr -k off ".sz";
+	setAttr ".rp" -type "double3" 0 -4.4408920985006262e-16 0 ;
+	setAttr ".rpt" -type "double3" -1.2098022223761126e-17 7.5737149675020696e-18 -8.0765629391218021e-17 ;
+	setAttr ".sp" -type "double3" 0 -4.4408920985006262e-16 0 ;
+	setAttr -l on ".internalName" -type "string" "r_brow_inner_1";
+	setAttr -l on ".type" -type "string" "control";
+	setAttr ".middleFollow" 0.66666666635622585;
+createNode nurbsCurve -n "r_brow_local_1Shape" -p "r_brow_local_1";
+	rename -uid "E16E0A21-4B1E-FED2-3366-589CD8BEF914";
+	setAttr -k off ".v";
+	setAttr ".ove" yes;
+	setAttr ".ovc" 20;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		0.069893832072459999 0.069893832072464732 0.17743666548437578
+		2.805276737581941e-17 0.098844805243105793 0.17743666548437578
+		-0.069893832072459777 0.069893832072464732 0.17743666548437578
+		-0.098844805243100423 5.5674118130023864e-15 0.17743666548437562
+		-0.069893832072459985 -0.069893832072455059 0.17743666548437562
+		9.5459088761541885e-18 -0.098844805243095468 0.17743666548437562
+		0.069893832072459555 -0.069893832072455059 0.17743666548437562
+		0.098844805243100436 5.4856793236286771e-15 0.17743666548437562
+		0.069893832072459999 0.069893832072464732 0.17743666548437578
+		2.805276737581941e-17 0.098844805243105793 0.17743666548437578
+		-0.069893832072459777 0.069893832072464732 0.17743666548437578
+		;
 createNode transform -n "r_brow_c_target" -p "r_brow_in_offset";
 	rename -uid "AC3AADB6-4EAA-3001-7EB8-1185E7C72FF1";
 	setAttr ".v" no;
@@ -1982,6 +2143,46 @@ createNode transform -n "r_brow_mid_outer_1_target" -p "r_brow_mid";
 createNode locator -n "r_brow_mid_outer_1_targetShape" -p "r_brow_mid_outer_1_target";
 	rename -uid "E667F357-45AE-D773-6698-CAA9402F10FD";
 	setAttr -k off ".v";
+createNode transform -n "r_brow_local_3" -p "r_brow_mid";
+	rename -uid "9379242B-49F1-E646-8FDA-CCB469BAAAF3";
+	addAttr -ci true -sn "mCache" -ln "mCache" -nn "mCache" -min 0 -max 1 -at "bool";
+	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
+	addAttr -ci true -sn "type" -ln "type" -dt "string";
+	addAttr -ci true -sn "middleFollow" -ln "middleFollow" -dv 0.5 -min 0 -max 1 -at "double";
+	setAttr -l on -k off ".v";
+	setAttr -k on ".s" -type "double3" 0.99999999999999978 0.99999999999999989 1.0000000000000002 ;
+	setAttr -k on ".s";
+	setAttr -k off ".sx";
+	setAttr -k off ".sy";
+	setAttr -k off ".sz";
+	setAttr ".rp" -type "double3" 0 -4.4408920985006247e-16 0 ;
+	setAttr ".rpt" -type "double3" 3.0515886214981647e-17 1.084483439232877e-18 5.5515197408637882e-18 ;
+	setAttr ".sp" -type "double3" 0 -4.4408920985006262e-16 0 ;
+	setAttr ".spt" -type "double3" 0 1.4791141972893969e-31 0 ;
+	setAttr -l on ".internalName" -type "string" "r_brow_inner_1";
+	setAttr -l on ".type" -type "string" "control";
+	setAttr ".middleFollow" 0.66666666635622585;
+createNode nurbsCurve -n "r_brow_local_3Shape" -p "r_brow_local_3";
+	rename -uid "231FDD93-402D-00D7-E23F-3882D196EFA5";
+	setAttr -k off ".v";
+	setAttr ".ove" yes;
+	setAttr ".ovc" 20;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		0.069893832072459999 0.069893832072464732 0.17743666548437578
+		2.805276737581941e-17 0.098844805243105793 0.17743666548437578
+		-0.069893832072459777 0.069893832072464732 0.17743666548437578
+		-0.098844805243100423 5.5674118130023864e-15 0.17743666548437562
+		-0.069893832072459985 -0.069893832072455059 0.17743666548437562
+		9.5459088761541885e-18 -0.098844805243095468 0.17743666548437562
+		0.069893832072459555 -0.069893832072455059 0.17743666548437562
+		0.098844805243100436 5.4856793236286771e-15 0.17743666548437562
+		0.069893832072459999 0.069893832072464732 0.17743666548437578
+		2.805276737581941e-17 0.098844805243105793 0.17743666548437578
+		-0.069893832072459777 0.069893832072464732 0.17743666548437578
+		;
 createNode transform -n "r_brow_out_pinned" -p "r_controls";
 	rename -uid "3E5B5E30-438E-5143-2EBB-28AA49CDCA46";
 	addAttr -ci true -k true -sn "U" -ln "U" -min 0 -max 1 -at "double";
@@ -2013,6 +2214,7 @@ createNode transform -n "r_brow_out" -p "r_brow_out_offset";
 	addAttr -ci true -sn "default_offsetU" -ln "default_offsetU" -dt "string";
 	addAttr -ci true -sn "default_offsetV" -ln "default_offsetV" -dt "string";
 	setAttr -l on -k off ".v";
+	setAttr -s 2 ".iog";
 	setAttr -k on ".s";
 	setAttr ".rp" -type "double3" 0 -4.4408920985006262e-16 1.1102230246251563e-16 ;
 	setAttr ".sp" -type "double3" 0 -4.4408920985006262e-16 1.1102230246251563e-16 ;
@@ -2042,12 +2244,52 @@ createNode transform -n "r_brow_out_outer_1_target" -p "r_brow_out";
 createNode locator -n "r_brow_out_outer_1_targetShape" -p "r_brow_out_outer_1_target";
 	rename -uid "936989F4-4906-CFC5-6AB2-52B08A8641F9";
 	setAttr -k off ".v";
-createNode transform -n "r_brow_inner_1_group" -p "r_controls";
+createNode transform -n "r_brow_local_5" -p "r_brow_out";
+	rename -uid "F1E545FE-483C-B7C8-E7C7-EC9947173792";
+	addAttr -ci true -sn "mCache" -ln "mCache" -nn "mCache" -min 0 -max 1 -at "bool";
+	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
+	addAttr -ci true -sn "type" -ln "type" -dt "string";
+	addAttr -ci true -sn "middleFollow" -ln "middleFollow" -dv 0.5 -min 0 -max 1 -at "double";
+	setAttr -l on -k off ".v";
+	setAttr -s 2 ".iog";
+	setAttr -k on ".s" -type "double3" 0.99999999999999978 1 1.0000000000000002 ;
+	setAttr -k on ".s";
+	setAttr -k off ".sx";
+	setAttr -k off ".sy";
+	setAttr -k off ".sz";
+	setAttr ".rp" -type "double3" 0 -4.4408920985006262e-16 0 ;
+	setAttr ".rpt" -type "double3" 3.0929999791499093e-17 1.0829213240176642e-18 -1.997434486909141e-18 ;
+	setAttr ".sp" -type "double3" 0 -4.4408920985006262e-16 0 ;
+	setAttr -l on ".internalName" -type "string" "r_brow_inner_1";
+	setAttr -l on ".type" -type "string" "control";
+	setAttr ".middleFollow" 0.66666666635622585;
+createNode nurbsCurve -n "r_brow_local_5Shape" -p "r_brow_local_5";
+	rename -uid "8930CE2F-457B-880F-835A-4AA8F773C36D";
+	setAttr -k off ".v";
+	setAttr ".ove" yes;
+	setAttr ".ovc" 20;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		0.069893832072459999 0.069893832072464732 0.17743666548437578
+		2.805276737581941e-17 0.098844805243105793 0.17743666548437578
+		-0.069893832072459777 0.069893832072464732 0.17743666548437578
+		-0.098844805243100423 5.5674118130023864e-15 0.17743666548437562
+		-0.069893832072459985 -0.069893832072455059 0.17743666548437562
+		9.5459088761541885e-18 -0.098844805243095468 0.17743666548437562
+		0.069893832072459555 -0.069893832072455059 0.17743666548437562
+		0.098844805243100436 5.4856793236286771e-15 0.17743666548437562
+		0.069893832072459999 0.069893832072464732 0.17743666548437578
+		2.805276737581941e-17 0.098844805243105793 0.17743666548437578
+		-0.069893832072459777 0.069893832072464732 0.17743666548437578
+		;
+createNode transform -n "r_brow_local_1_group" -p "r_controls";
 	rename -uid "D139BF1E-47CB-E72F-95CE-36BF6B249DDF";
 	setAttr ".rp" -type "double3" 0 6.4941916929536672e-16 0 ;
 	setAttr ".sp" -type "double3" 0 4.4408920985006262e-16 0 ;
 	setAttr ".spt" -type "double3" 0 2.0532995944530415e-16 0 ;
-createNode transform -n "r_brow_inner_1" -p "r_brow_inner_1_group";
+createNode transform -n "r_brow_local_2" -p "r_brow_local_1_group";
 	rename -uid "0BCD91E1-42B4-F440-666D-0A92B4DE5979";
 	addAttr -ci true -sn "mCache" -ln "mCache" -nn "mCache" -min 0 -max 1 -at "bool";
 	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
@@ -2062,18 +2304,18 @@ createNode transform -n "r_brow_inner_1" -p "r_brow_inner_1_group";
 	setAttr ".sp" -type "double3" 0 -4.4408920985006262e-16 0 ;
 	setAttr -l on ".internalName" -type "string" "r_brow_inner_1";
 	setAttr -l on ".type" -type "string" "control";
-createNode nurbsCurve -n "r_brow_inner_1Shape" -p "r_brow_inner_1";
+createNode nurbsCurve -n "r_brow_local_2Shape" -p "r_brow_local_2";
 	rename -uid "CC051532-412E-C5ED-78D0-65999ACE1B73";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 20;
 	setAttr ".tw" yes;
-createNode transform -n "r_brow_outer_1_group" -p "r_controls";
+createNode transform -n "r_brow_local_4_group" -p "r_controls";
 	rename -uid "6BADCFF9-4FC6-836F-96D7-9C947A0F7042";
 	setAttr ".rp" -type "double3" 0 6.4941916929536672e-16 0 ;
 	setAttr ".sp" -type "double3" 0 4.4408920985006262e-16 0 ;
 	setAttr ".spt" -type "double3" 0 2.0532995944530415e-16 0 ;
-createNode transform -n "r_brow_outer_1" -p "r_brow_outer_1_group";
+createNode transform -n "r_brow_local_4" -p "r_brow_local_4_group";
 	rename -uid "172D5A8A-44E3-C1AD-6749-CFA497299166";
 	addAttr -ci true -sn "mCache" -ln "mCache" -nn "mCache" -min 0 -max 1 -at "bool";
 	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
@@ -2088,7 +2330,7 @@ createNode transform -n "r_brow_outer_1" -p "r_brow_outer_1_group";
 	setAttr ".sp" -type "double3" 0 -4.4408920985006262e-16 0 ;
 	setAttr -l on ".internalName" -type "string" "r_brow_outer_1";
 	setAttr -l on ".type" -type "string" "control";
-createNode nurbsCurve -n "r_brow_outer_1Shape" -p "r_brow_outer_1";
+createNode nurbsCurve -n "r_brow_local_4Shape" -p "r_brow_local_4";
 	rename -uid "93036CC4-4357-7E7A-F75D-B09006BA3114";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
@@ -2128,7 +2370,6 @@ createNode joint -n "root_outJoint" -p "outJoints";
 createNode joint -n "c_outJoint" -p "root_outJoint";
 	rename -uid "E5D066FB-4CD6-863D-52C7-ADAA0BFDD02A";
 	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr -s 2 ".iog";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 30;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
@@ -2138,6 +2379,7 @@ createNode joint -n "c_outJoint" -p "root_outJoint";
 createNode joint -n "r_brow_in_outJoint" -p "root_outJoint";
 	rename -uid "E7E37A31-4633-B286-D7FE-DA98C01E8CC5";
 	addAttr -ci true -k true -sn "pos" -ln "pos" -min 0 -max 1 -at "double";
+	setAttr -s 2 ".iog";
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
 	setAttr ".ssc" no;
@@ -2145,6 +2387,7 @@ createNode joint -n "r_brow_in_outJoint" -p "root_outJoint";
 createNode joint -n "r_brow_mid_outJoint" -p "root_outJoint";
 	rename -uid "958BFEE1-4544-DD87-6C9D-9E9C8693EFE4";
 	addAttr -ci true -k true -sn "pos" -ln "pos" -min 0 -max 1 -at "double";
+	setAttr -s 2 ".iog";
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
 	setAttr ".ssc" no;
@@ -2174,6 +2417,7 @@ createNode joint -n "l_brow_in_outJoint" -p "root_outJoint";
 	rename -uid "66006A20-44A4-BE51-D273-89B153970E74";
 	addAttr -ci true -k true -sn "pos" -ln "pos" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr -s 2 ".iog";
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
 	setAttr ".jo" -type "double3" 3.975693351829396e-16 0 -7.4544250346801159e-16 ;
@@ -2192,6 +2436,7 @@ createNode joint -n "l_brow_mid_outJoint" -p "root_outJoint";
 	rename -uid "F97A6735-4350-E154-D3B2-01ACE8AA64F7";
 	addAttr -ci true -k true -sn "pos" -ln "pos" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr -s 2 ".iog";
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
 	setAttr ".ssc" no;
@@ -2213,19 +2458,19 @@ createNode joint -n "l_brow_out_outJoint" -p "root_outJoint";
 	setAttr ".ssc" no;
 	setAttr -k on ".pos";
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "B6B872B7-4ADB-BE54-6356-2796AC845926";
+	rename -uid "E05D9F08-478F-7D39-541F-ADA25C0CD9E9";
 	setAttr -s 19 ".lnk";
 	setAttr -s 19 ".slnk";
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "D19C9C72-4D38-F77C-98E0-FDA8F68C11E2";
+	rename -uid "E3D0B227-40E8-66AB-0954-10BD79C3A128";
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "6C98DEB7-4AB5-6151-BF4E-59AD26D67EAF";
+	rename -uid "03FC01F6-41F2-B120-DDBD-509FFB1CB6B4";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "DEA53CF2-4F78-F924-59B7-7196E5319D95";
+	rename -uid "F42ED7B9-492E-9588-BF9E-8EB4A40D9893";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "356E7AEF-4F89-2E51-95AC-2A84FAF990FE";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "C5A208C8-4DF9-88E6-194D-3D9B5AB13A6D";
+	rename -uid "CA1997E0-42CF-93B0-E396-C1BC93BAF2CD";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "CEFBE309-4364-95F8-B1F6-DEB1E80758D3";
 	setAttr ".g" yes;
@@ -2996,7 +3241,6 @@ createNode clamp -n "clamp11";
 createNode multiplyDivide -n "multiplyDivide26";
 	rename -uid "52891D0C-48C8-8AD3-4FF1-F78A90A8745B";
 	setAttr ".op" 2;
-	setAttr ".i2" -type "float3" 0.70308572 0.81163907 1 ;
 createNode multiplyDivide -n "multiplyDivide27";
 	rename -uid "B3E4CF13-44BC-E2A6-C3AF-ACA1FFC06BED";
 	setAttr ".i2" -type "float3" -1 -1 0 ;
@@ -3038,12 +3282,12 @@ createNode multMatrix -n "multMatrix26";
 createNode objectSet -n "l_add_moduleControlSet";
 	rename -uid "8098B0A6-421F-DAE5-E4D8-ADA9CC3A7C70";
 	setAttr ".ihi" 0;
-	setAttr -s 2 ".dsm";
+	setAttr -s 5 ".dsm";
 	setAttr ".an" -type "string" "gControlSet";
 createNode objectSet -n "r_sec_moduleControlSet";
 	rename -uid "AAF5C2DC-45DF-D3AE-5A3C-C68A957D9F4B";
 	setAttr ".ihi" 0;
-	setAttr -s 2 ".dsm";
+	setAttr -s 5 ".dsm";
 	setAttr ".an" -type "string" "gControlSet";
 createNode objectSet -n "l_moduleControlSet";
 	rename -uid "534D9FDA-4A90-0AE9-FF94-51BE04112D23";
@@ -3123,359 +3367,404 @@ createNode blendMatrix -n "blendMatrix10";
 	rename -uid "F4D4C6E1-4C0B-B5DA-6B37-FE921F321CEC";
 	setAttr ".env" 0.5;
 createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
-	rename -uid "4C5C6ACD-4B63-2AEB-7EF4-289E131812B4";
+	rename -uid "074C6002-43EE-CCC8-CD5B-5FB06E93812D";
 	setAttr -s 6 ".tgi";
 	setAttr ".tgi[0].tn" -type "string" "Untitled_1";
-	setAttr ".tgi[0].vl" -type "double2" 1210.1970612705061 -5113.8232326275365 ;
-	setAttr ".tgi[0].vh" -type "double2" 2524.5354588817336 -3702.011828483634 ;
+	setAttr ".tgi[0].vl" -type "double2" 1210.7142376048243 -5131.6086949156334 ;
+	setAttr ".tgi[0].vh" -type "double2" 2526.1903758086896 -3686.2480975513622 ;
 	setAttr -s 15 ".tgi[0].ni";
 	setAttr ".tgi[0].ni[0].x" 1408.688232421875;
 	setAttr ".tgi[0].ni[0].y" -4724.3642578125;
 	setAttr ".tgi[0].ni[0].nvs" 18305;
-	setAttr ".tgi[0].ni[1].x" 1736.6793212890625;
-	setAttr ".tgi[0].ni[1].y" -4373.11279296875;
-	setAttr ".tgi[0].ni[1].nvs" 18305;
-	setAttr ".tgi[0].ni[2].x" 3087.3642578125;
-	setAttr ".tgi[0].ni[2].y" -4055.218017578125;
-	setAttr ".tgi[0].ni[2].nvs" 18305;
-	setAttr ".tgi[0].ni[3].x" 2083.749267578125;
-	setAttr ".tgi[0].ni[3].y" -3877.314208984375;
-	setAttr ".tgi[0].ni[3].nvs" 18304;
-	setAttr ".tgi[0].ni[4].x" 2771.8544921875;
-	setAttr ".tgi[0].ni[4].y" -4123.82373046875;
-	setAttr ".tgi[0].ni[4].nvs" 18305;
-	setAttr ".tgi[0].ni[5].x" 1421.8004150390625;
-	setAttr ".tgi[0].ni[5].y" -4260.529296875;
-	setAttr ".tgi[0].ni[5].nvs" 18304;
-	setAttr ".tgi[0].ni[6].x" 2122.671630859375;
-	setAttr ".tgi[0].ni[6].y" -4463.892578125;
+	setAttr ".tgi[0].ni[1].x" 2457.95849609375;
+	setAttr ".tgi[0].ni[1].y" -4119.1123046875;
+	setAttr ".tgi[0].ni[1].nvs" 18304;
+	setAttr ".tgi[0].ni[2].x" 2083.749267578125;
+	setAttr ".tgi[0].ni[2].y" -3877.314208984375;
+	setAttr ".tgi[0].ni[2].nvs" 18304;
+	setAttr ".tgi[0].ni[3].x" 1423.99169921875;
+	setAttr ".tgi[0].ni[3].y" -3984.90966796875;
+	setAttr ".tgi[0].ni[3].nvs" 18305;
+	setAttr ".tgi[0].ni[4].x" 1437.9034423828125;
+	setAttr ".tgi[0].ni[4].y" -4535.595703125;
+	setAttr ".tgi[0].ni[4].nvs" 18304;
+	setAttr ".tgi[0].ni[5].x" 2771.8544921875;
+	setAttr ".tgi[0].ni[5].y" -4123.82373046875;
+	setAttr ".tgi[0].ni[5].nvs" 18305;
+	setAttr ".tgi[0].ni[6].x" 2309.02978515625;
+	setAttr ".tgi[0].ni[6].y" -4666.95703125;
 	setAttr ".tgi[0].ni[6].nvs" 18304;
-	setAttr ".tgi[0].ni[7].x" 1737.3233642578125;
-	setAttr ".tgi[0].ni[7].y" -4007.060302734375;
-	setAttr ".tgi[0].ni[7].nvs" 18305;
-	setAttr ".tgi[0].ni[8].x" 1437.9034423828125;
-	setAttr ".tgi[0].ni[8].y" -4535.595703125;
-	setAttr ".tgi[0].ni[8].nvs" 18304;
-	setAttr ".tgi[0].ni[9].x" 1423.99169921875;
-	setAttr ".tgi[0].ni[9].y" -3984.90966796875;
+	setAttr ".tgi[0].ni[7].x" 2096.861572265625;
+	setAttr ".tgi[0].ni[7].y" -4281.1005859375;
+	setAttr ".tgi[0].ni[7].nvs" 18304;
+	setAttr ".tgi[0].ni[8].x" 1531.6705322265625;
+	setAttr ".tgi[0].ni[8].y" -3695.811279296875;
+	setAttr ".tgi[0].ni[8].nvs" 18305;
+	setAttr ".tgi[0].ni[9].x" 1736.6793212890625;
+	setAttr ".tgi[0].ni[9].y" -4373.11279296875;
 	setAttr ".tgi[0].ni[9].nvs" 18305;
-	setAttr ".tgi[0].ni[10].x" 2425.250732421875;
-	setAttr ".tgi[0].ni[10].y" -4390.39990234375;
+	setAttr ".tgi[0].ni[10].x" 1421.8004150390625;
+	setAttr ".tgi[0].ni[10].y" -4260.529296875;
 	setAttr ".tgi[0].ni[10].nvs" 18304;
-	setAttr ".tgi[0].ni[11].x" 2457.95849609375;
-	setAttr ".tgi[0].ni[11].y" -4119.1123046875;
+	setAttr ".tgi[0].ni[11].x" 2425.250732421875;
+	setAttr ".tgi[0].ni[11].y" -4390.39990234375;
 	setAttr ".tgi[0].ni[11].nvs" 18304;
-	setAttr ".tgi[0].ni[12].x" 2096.861572265625;
-	setAttr ".tgi[0].ni[12].y" -4281.1005859375;
-	setAttr ".tgi[0].ni[12].nvs" 18304;
-	setAttr ".tgi[0].ni[13].x" 1531.6705322265625;
-	setAttr ".tgi[0].ni[13].y" -3695.811279296875;
-	setAttr ".tgi[0].ni[13].nvs" 18305;
-	setAttr ".tgi[0].ni[14].x" 2309.02978515625;
-	setAttr ".tgi[0].ni[14].y" -4666.95703125;
-	setAttr ".tgi[0].ni[14].nvs" 18304;
+	setAttr ".tgi[0].ni[12].x" 3087.3642578125;
+	setAttr ".tgi[0].ni[12].y" -4055.218017578125;
+	setAttr ".tgi[0].ni[12].nvs" 18305;
+	setAttr ".tgi[0].ni[13].x" 2122.671630859375;
+	setAttr ".tgi[0].ni[13].y" -4463.892578125;
+	setAttr ".tgi[0].ni[13].nvs" 18304;
+	setAttr ".tgi[0].ni[14].x" 1737.3233642578125;
+	setAttr ".tgi[0].ni[14].y" -4007.060302734375;
+	setAttr ".tgi[0].ni[14].nvs" 18305;
 	setAttr ".tgi[1].tn" -type "string" "Untitled_2";
-	setAttr ".tgi[1].vl" -type "double2" 4167.8461988894123 -6241.343171513332 ;
-	setAttr ".tgi[1].vh" -type "double2" 5866.4735421669011 -4416.743464932154 ;
+	setAttr ".tgi[1].vl" -type "double2" 4167.8569772413866 -6263.6870020423476 ;
+	setAttr ".tgi[1].vh" -type "double2" 5867.8569096894589 -4395.8363839100593 ;
 	setAttr -s 14 ".tgi[1].ni";
-	setAttr ".tgi[1].ni[0].x" 4282.85693359375;
-	setAttr ".tgi[1].ni[0].y" -4800;
-	setAttr ".tgi[1].ni[0].nvs" 18304;
-	setAttr ".tgi[1].ni[1].x" 4579.916015625;
-	setAttr ".tgi[1].ni[1].y" -4699.15966796875;
+	setAttr ".tgi[1].ni[0].x" 4905.54638671875;
+	setAttr ".tgi[1].ni[0].y" -4738.6552734375;
+	setAttr ".tgi[1].ni[0].nvs" 18305;
+	setAttr ".tgi[1].ni[1].x" 4941.45654296875;
+	setAttr ".tgi[1].ni[1].y" -5084.23828125;
 	setAttr ".tgi[1].ni[1].nvs" 18305;
-	setAttr ".tgi[1].ni[2].x" 5204.28564453125;
-	setAttr ".tgi[1].ni[2].y" -5811.4287109375;
+	setAttr ".tgi[1].ni[2].x" 5226.974609375;
+	setAttr ".tgi[1].ni[2].y" -5129.32763671875;
 	setAttr ".tgi[1].ni[2].nvs" 18304;
-	setAttr ".tgi[1].ni[3].x" 4239.15966796875;
-	setAttr ".tgi[1].ni[3].y" -5103.94970703125;
+	setAttr ".tgi[1].ni[3].x" 4967.69873046875;
+	setAttr ".tgi[1].ni[3].y" -5408.2607421875;
 	setAttr ".tgi[1].ni[3].nvs" 18305;
-	setAttr ".tgi[1].ni[4].x" 5226.974609375;
-	setAttr ".tgi[1].ni[4].y" -5129.32763671875;
-	setAttr ".tgi[1].ni[4].nvs" 18304;
-	setAttr ".tgi[1].ni[5].x" 5280.63037109375;
-	setAttr ".tgi[1].ni[5].y" -5454.25048828125;
-	setAttr ".tgi[1].ni[5].nvs" 18304;
-	setAttr ".tgi[1].ni[6].x" 4967.69873046875;
-	setAttr ".tgi[1].ni[6].y" -5408.2607421875;
+	setAttr ".tgi[1].ni[4].x" 4242.00537109375;
+	setAttr ".tgi[1].ni[4].y" -5416.28076171875;
+	setAttr ".tgi[1].ni[4].nvs" 18305;
+	setAttr ".tgi[1].ni[5].x" 4610.57763671875;
+	setAttr ".tgi[1].ni[5].y" -4906.470703125;
+	setAttr ".tgi[1].ni[5].nvs" 18305;
+	setAttr ".tgi[1].ni[6].x" 4239.15966796875;
+	setAttr ".tgi[1].ni[6].y" -5103.94970703125;
 	setAttr ".tgi[1].ni[6].nvs" 18305;
-	setAttr ".tgi[1].ni[7].x" 4941.45654296875;
-	setAttr ".tgi[1].ni[7].y" -5084.23828125;
+	setAttr ".tgi[1].ni[7].x" 4617.95458984375;
+	setAttr ".tgi[1].ni[7].y" -5756.60546875;
 	setAttr ".tgi[1].ni[7].nvs" 18305;
 	setAttr ".tgi[1].ni[8].x" 4247.36376953125;
 	setAttr ".tgi[1].ni[8].y" -5748.763671875;
 	setAttr ".tgi[1].ni[8].nvs" 18305;
-	setAttr ".tgi[1].ni[9].x" 4242.00537109375;
-	setAttr ".tgi[1].ni[9].y" -5416.28076171875;
-	setAttr ".tgi[1].ni[9].nvs" 18305;
-	setAttr ".tgi[1].ni[10].x" 4617.95458984375;
-	setAttr ".tgi[1].ni[10].y" -5756.60546875;
-	setAttr ".tgi[1].ni[10].nvs" 18305;
-	setAttr ".tgi[1].ni[11].x" 4610.57763671875;
-	setAttr ".tgi[1].ni[11].y" -4906.470703125;
-	setAttr ".tgi[1].ni[11].nvs" 18305;
-	setAttr ".tgi[1].ni[12].x" 5204.28564453125;
-	setAttr ".tgi[1].ni[12].y" -4800;
+	setAttr ".tgi[1].ni[9].x" 4282.85693359375;
+	setAttr ".tgi[1].ni[9].y" -4800;
+	setAttr ".tgi[1].ni[9].nvs" 18304;
+	setAttr ".tgi[1].ni[10].x" 5204.28564453125;
+	setAttr ".tgi[1].ni[10].y" -5811.4287109375;
+	setAttr ".tgi[1].ni[10].nvs" 18304;
+	setAttr ".tgi[1].ni[11].x" 5204.28564453125;
+	setAttr ".tgi[1].ni[11].y" -4800;
+	setAttr ".tgi[1].ni[11].nvs" 18304;
+	setAttr ".tgi[1].ni[12].x" 5280.63037109375;
+	setAttr ".tgi[1].ni[12].y" -5454.25048828125;
 	setAttr ".tgi[1].ni[12].nvs" 18304;
-	setAttr ".tgi[1].ni[13].x" 4905.54638671875;
-	setAttr ".tgi[1].ni[13].y" -4738.6552734375;
+	setAttr ".tgi[1].ni[13].x" 4579.916015625;
+	setAttr ".tgi[1].ni[13].y" -4699.15966796875;
 	setAttr ".tgi[1].ni[13].nvs" 18305;
 	setAttr ".tgi[2].tn" -type "string" "Untitled_3";
-	setAttr ".tgi[2].vl" -type "double2" -2642.2833265966678 -2479.9580240028622 ;
-	setAttr ".tgi[2].vh" -type "double2" -1214.5522742064702 -946.34462164140825 ;
+	setAttr ".tgi[2].vl" -type "double2" -2642.8570378394402 -2499.1556015038091 ;
+	setAttr ".tgi[2].vh" -type "double2" -1213.0951898911665 -928.22521468526656 ;
 	setAttr -s 7 ".tgi[2].ni";
-	setAttr ".tgi[2].ni[0].x" -2059.090087890625;
-	setAttr ".tgi[2].ni[0].y" -1362.731201171875;
-	setAttr ".tgi[2].ni[0].nvs" 18304;
-	setAttr ".tgi[2].ni[1].x" -1672.535400390625;
-	setAttr ".tgi[2].ni[1].y" -1971.134521484375;
-	setAttr ".tgi[2].ni[1].nvs" 18304;
-	setAttr ".tgi[2].ni[2].x" -2381.5966796875;
-	setAttr ".tgi[2].ni[2].y" -1874.3697509765625;
+	setAttr ".tgi[2].ni[0].x" -2356.890625;
+	setAttr ".tgi[2].ni[0].y" -1375.79833984375;
+	setAttr ".tgi[2].ni[0].nvs" 18305;
+	setAttr ".tgi[2].ni[1].x" -1728.5714111328125;
+	setAttr ".tgi[2].ni[1].y" -1298.655517578125;
+	setAttr ".tgi[2].ni[1].nvs" 18305;
+	setAttr ".tgi[2].ni[2].x" -2336.72265625;
+	setAttr ".tgi[2].ni[2].y" -1168.4874267578125;
 	setAttr ".tgi[2].ni[2].nvs" 18305;
-	setAttr ".tgi[2].ni[3].x" -2013.5294189453125;
-	setAttr ".tgi[2].ni[3].y" -1830;
+	setAttr ".tgi[2].ni[3].x" -2381.5966796875;
+	setAttr ".tgi[2].ni[3].y" -1874.3697509765625;
 	setAttr ".tgi[2].ni[3].nvs" 18305;
-	setAttr ".tgi[2].ni[4].x" -1728.5714111328125;
-	setAttr ".tgi[2].ni[4].y" -1298.655517578125;
-	setAttr ".tgi[2].ni[4].nvs" 18305;
-	setAttr ".tgi[2].ni[5].x" -2356.890625;
-	setAttr ".tgi[2].ni[5].y" -1375.79833984375;
-	setAttr ".tgi[2].ni[5].nvs" 18305;
-	setAttr ".tgi[2].ni[6].x" -2336.72265625;
-	setAttr ".tgi[2].ni[6].y" -1168.4874267578125;
+	setAttr ".tgi[2].ni[4].x" -1672.535400390625;
+	setAttr ".tgi[2].ni[4].y" -1971.134521484375;
+	setAttr ".tgi[2].ni[4].nvs" 18304;
+	setAttr ".tgi[2].ni[5].x" -2059.090087890625;
+	setAttr ".tgi[2].ni[5].y" -1362.731201171875;
+	setAttr ".tgi[2].ni[5].nvs" 18304;
+	setAttr ".tgi[2].ni[6].x" -2013.5294189453125;
+	setAttr ".tgi[2].ni[6].y" -1830;
 	setAttr ".tgi[2].ni[6].nvs" 18305;
 	setAttr ".tgi[3].tn" -type "string" "Untitled_4";
-	setAttr ".tgi[3].vl" -type "double2" 483.48857739268595 -2497.100944137977 ;
-	setAttr ".tgi[3].vh" -type "double2" 1821.6924931066678 -1059.6541247277255 ;
+	setAttr ".tgi[3].vl" -type "double2" 483.33331412739301 -2514.92708105256 ;
+	setAttr ".tgi[3].vh" -type "double2" 1822.6189751946765 -1043.4061108853159 ;
 	setAttr -s 33 ".tgi[3].ni";
-	setAttr ".tgi[3].ni[0].x" 304.28570556640625;
-	setAttr ".tgi[3].ni[0].y" -2520;
+	setAttr ".tgi[3].ni[0].x" -617.14288330078125;
+	setAttr ".tgi[3].ni[0].y" -1950;
 	setAttr ".tgi[3].ni[0].nvs" 18304;
-	setAttr ".tgi[3].ni[1].x" -617.14288330078125;
-	setAttr ".tgi[3].ni[1].y" -1950;
+	setAttr ".tgi[3].ni[1].x" -924.28570556640625;
+	setAttr ".tgi[3].ni[1].y" -1985.7142333984375;
 	setAttr ".tgi[3].ni[1].nvs" 18304;
-	setAttr ".tgi[3].ni[2].x" 304.28570556640625;
-	setAttr ".tgi[3].ni[2].y" -1100;
+	setAttr ".tgi[3].ni[2].x" -2.8571429252624512;
+	setAttr ".tgi[3].ni[2].y" -1977.142822265625;
 	setAttr ".tgi[3].ni[2].nvs" 18304;
-	setAttr ".tgi[3].ni[3].x" -310;
-	setAttr ".tgi[3].ni[3].y" -1972.857177734375;
-	setAttr ".tgi[3].ni[3].nvs" 18305;
+	setAttr ".tgi[3].ni[3].x" 304.28570556640625;
+	setAttr ".tgi[3].ni[3].y" -1505.7142333984375;
+	setAttr ".tgi[3].ni[3].nvs" 18304;
 	setAttr ".tgi[3].ni[4].x" -924.28570556640625;
-	setAttr ".tgi[3].ni[4].y" -1985.7142333984375;
+	setAttr ".tgi[3].ni[4].y" -2101.428466796875;
 	setAttr ".tgi[3].ni[4].nvs" 18304;
-	setAttr ".tgi[3].ni[5].x" 938.14678955078125;
-	setAttr ".tgi[3].ni[5].y" -1957.336181640625;
-	setAttr ".tgi[3].ni[5].nvs" 18305;
-	setAttr ".tgi[3].ni[6].x" 641.2432861328125;
-	setAttr ".tgi[3].ni[6].y" -1994.6798095703125;
+	setAttr ".tgi[3].ni[5].x" 304.28570556640625;
+	setAttr ".tgi[3].ni[5].y" -2215.71435546875;
+	setAttr ".tgi[3].ni[5].nvs" 18304;
+	setAttr ".tgi[3].ni[6].x" -617.14288330078125;
+	setAttr ".tgi[3].ni[6].y" -2051.428466796875;
 	setAttr ".tgi[3].ni[6].nvs" 18304;
-	setAttr ".tgi[3].ni[7].x" -617.14288330078125;
-	setAttr ".tgi[3].ni[7].y" -2051.428466796875;
+	setAttr ".tgi[3].ni[7].x" 641.2432861328125;
+	setAttr ".tgi[3].ni[7].y" -1994.6798095703125;
 	setAttr ".tgi[3].ni[7].nvs" 18304;
-	setAttr ".tgi[3].ni[8].x" 304.28570556640625;
-	setAttr ".tgi[3].ni[8].y" -1404.2857666015625;
+	setAttr ".tgi[3].ni[8].x" -924.28570556640625;
+	setAttr ".tgi[3].ni[8].y" -2202.857177734375;
 	setAttr ".tgi[3].ni[8].nvs" 18304;
 	setAttr ".tgi[3].ni[9].x" 304.28570556640625;
-	setAttr ".tgi[3].ni[9].y" -2114.28564453125;
+	setAttr ".tgi[3].ni[9].y" -1302.857177734375;
 	setAttr ".tgi[3].ni[9].nvs" 18304;
-	setAttr ".tgi[3].ni[10].x" 1282.308837890625;
-	setAttr ".tgi[3].ni[10].y" -1919.7451171875;
-	setAttr ".tgi[3].ni[10].nvs" 18305;
-	setAttr ".tgi[3].ni[11].x" -310;
-	setAttr ".tgi[3].ni[11].y" -1871.4285888671875;
+	setAttr ".tgi[3].ni[10].x" 304.28570556640625;
+	setAttr ".tgi[3].ni[10].y" -2317.142822265625;
+	setAttr ".tgi[3].ni[10].nvs" 18304;
+	setAttr ".tgi[3].ni[11].x" -924.28570556640625;
+	setAttr ".tgi[3].ni[11].y" -1884.2857666015625;
 	setAttr ".tgi[3].ni[11].nvs" 18304;
-	setAttr ".tgi[3].ni[12].x" 304.28570556640625;
-	setAttr ".tgi[3].ni[12].y" -1302.857177734375;
-	setAttr ".tgi[3].ni[12].nvs" 18304;
-	setAttr ".tgi[3].ni[13].x" 677.474853515625;
-	setAttr ".tgi[3].ni[13].y" -1567.955078125;
-	setAttr ".tgi[3].ni[13].nvs" 18304;
-	setAttr ".tgi[3].ni[14].x" 304.28570556640625;
-	setAttr ".tgi[3].ni[14].y" -1810;
+	setAttr ".tgi[3].ni[12].x" 1282.308837890625;
+	setAttr ".tgi[3].ni[12].y" -1919.7451171875;
+	setAttr ".tgi[3].ni[12].nvs" 18305;
+	setAttr ".tgi[3].ni[13].x" 971.227783203125;
+	setAttr ".tgi[3].ni[13].y" -2196.34619140625;
+	setAttr ".tgi[3].ni[13].nvs" 18305;
+	setAttr ".tgi[3].ni[14].x" 677.474853515625;
+	setAttr ".tgi[3].ni[14].y" -1567.955078125;
 	setAttr ".tgi[3].ni[14].nvs" 18304;
 	setAttr ".tgi[3].ni[15].x" 304.28570556640625;
-	setAttr ".tgi[3].ni[15].y" -2418.571533203125;
+	setAttr ".tgi[3].ni[15].y" -1708.5714111328125;
 	setAttr ".tgi[3].ni[15].nvs" 18304;
 	setAttr ".tgi[3].ni[16].x" 304.28570556640625;
-	setAttr ".tgi[3].ni[16].y" -2012.857177734375;
+	setAttr ".tgi[3].ni[16].y" -1201.4285888671875;
 	setAttr ".tgi[3].ni[16].nvs" 18304;
-	setAttr ".tgi[3].ni[17].x" 304.28570556640625;
-	setAttr ".tgi[3].ni[17].y" -1607.142822265625;
-	setAttr ".tgi[3].ni[17].nvs" 18304;
-	setAttr ".tgi[3].ni[18].x" 304.28570556640625;
-	setAttr ".tgi[3].ni[18].y" -1505.7142333984375;
-	setAttr ".tgi[3].ni[18].nvs" 18304;
+	setAttr ".tgi[3].ni[17].x" -310;
+	setAttr ".tgi[3].ni[17].y" -1972.857177734375;
+	setAttr ".tgi[3].ni[17].nvs" 18305;
+	setAttr ".tgi[3].ni[18].x" 1580;
+	setAttr ".tgi[3].ni[18].y" -1890;
+	setAttr ".tgi[3].ni[18].nvs" 18305;
 	setAttr ".tgi[3].ni[19].x" 304.28570556640625;
-	setAttr ".tgi[3].ni[19].y" -2621.428466796875;
+	setAttr ".tgi[3].ni[19].y" -2012.857177734375;
 	setAttr ".tgi[3].ni[19].nvs" 18304;
-	setAttr ".tgi[3].ni[20].x" -2.8571429252624512;
-	setAttr ".tgi[3].ni[20].y" -1977.142822265625;
+	setAttr ".tgi[3].ni[20].x" 304.28570556640625;
+	setAttr ".tgi[3].ni[20].y" -2621.428466796875;
 	setAttr ".tgi[3].ni[20].nvs" 18304;
-	setAttr ".tgi[3].ni[21].x" 1580;
-	setAttr ".tgi[3].ni[21].y" -1890;
-	setAttr ".tgi[3].ni[21].nvs" 18305;
-	setAttr ".tgi[3].ni[22].x" -924.28570556640625;
-	setAttr ".tgi[3].ni[22].y" -2101.428466796875;
-	setAttr ".tgi[3].ni[22].nvs" 18304;
+	setAttr ".tgi[3].ni[21].x" 304.28570556640625;
+	setAttr ".tgi[3].ni[21].y" -2418.571533203125;
+	setAttr ".tgi[3].ni[21].nvs" 18304;
+	setAttr ".tgi[3].ni[22].x" 938.14678955078125;
+	setAttr ".tgi[3].ni[22].y" -1957.336181640625;
+	setAttr ".tgi[3].ni[22].nvs" 18305;
 	setAttr ".tgi[3].ni[23].x" 304.28570556640625;
-	setAttr ".tgi[3].ni[23].y" -1201.4285888671875;
+	setAttr ".tgi[3].ni[23].y" -1404.2857666015625;
 	setAttr ".tgi[3].ni[23].nvs" 18304;
-	setAttr ".tgi[3].ni[24].x" 971.227783203125;
-	setAttr ".tgi[3].ni[24].y" -2196.34619140625;
-	setAttr ".tgi[3].ni[24].nvs" 18305;
+	setAttr ".tgi[3].ni[24].x" 304.28570556640625;
+	setAttr ".tgi[3].ni[24].y" -1810;
+	setAttr ".tgi[3].ni[24].nvs" 18304;
 	setAttr ".tgi[3].ni[25].x" 304.28570556640625;
-	setAttr ".tgi[3].ni[25].y" -2317.142822265625;
+	setAttr ".tgi[3].ni[25].y" -2520;
 	setAttr ".tgi[3].ni[25].nvs" 18304;
-	setAttr ".tgi[3].ni[26].x" -924.28570556640625;
-	setAttr ".tgi[3].ni[26].y" -2202.857177734375;
+	setAttr ".tgi[3].ni[26].x" -617.14288330078125;
+	setAttr ".tgi[3].ni[26].y" -2152.857177734375;
 	setAttr ".tgi[3].ni[26].nvs" 18304;
 	setAttr ".tgi[3].ni[27].x" 304.28570556640625;
-	setAttr ".tgi[3].ni[27].y" -1911.4285888671875;
+	setAttr ".tgi[3].ni[27].y" -1100;
 	setAttr ".tgi[3].ni[27].nvs" 18304;
-	setAttr ".tgi[3].ni[28].x" 304.28570556640625;
-	setAttr ".tgi[3].ni[28].y" -2215.71435546875;
+	setAttr ".tgi[3].ni[28].x" -310;
+	setAttr ".tgi[3].ni[28].y" -1871.4285888671875;
 	setAttr ".tgi[3].ni[28].nvs" 18304;
-	setAttr ".tgi[3].ni[29].x" -617.14288330078125;
-	setAttr ".tgi[3].ni[29].y" -2152.857177734375;
+	setAttr ".tgi[3].ni[29].x" 304.28570556640625;
+	setAttr ".tgi[3].ni[29].y" -1911.4285888671875;
 	setAttr ".tgi[3].ni[29].nvs" 18304;
-	setAttr ".tgi[3].ni[30].x" -924.28570556640625;
-	setAttr ".tgi[3].ni[30].y" -1884.2857666015625;
+	setAttr ".tgi[3].ni[30].x" 304.28570556640625;
+	setAttr ".tgi[3].ni[30].y" -1607.142822265625;
 	setAttr ".tgi[3].ni[30].nvs" 18304;
 	setAttr ".tgi[3].ni[31].x" 304.28570556640625;
-	setAttr ".tgi[3].ni[31].y" -1708.5714111328125;
+	setAttr ".tgi[3].ni[31].y" -2114.28564453125;
 	setAttr ".tgi[3].ni[31].nvs" 18304;
 	setAttr ".tgi[3].ni[32].x" -617.14288330078125;
 	setAttr ".tgi[3].ni[32].y" -1832.857177734375;
 	setAttr ".tgi[3].ni[32].nvs" 18304;
 	setAttr ".tgi[4].tn" -type "string" "Untitled_5";
-	setAttr ".tgi[4].vl" -type "double2" 3233.0793639363505 -3709.2491296481553 ;
-	setAttr ".tgi[4].vh" -type "double2" 8883.0234712680158 2359.7020156610256 ;
+	setAttr ".tgi[4].vl" -type "double2" 3233.3332048522152 -3780.177453642345 ;
+	setAttr ".tgi[4].vh" -type "double2" 8884.5234564845669 2428.9870311433524 ;
 	setAttr -s 25 ".tgi[4].ni";
-	setAttr ".tgi[4].ni[0].x" 5840.84619140625;
-	setAttr ".tgi[4].ni[0].y" 211.41258239746094;
+	setAttr ".tgi[4].ni[0].x" 6642.974609375;
+	setAttr ".tgi[4].ni[0].y" -127.51752471923828;
 	setAttr ".tgi[4].ni[0].nvs" 18305;
-	setAttr ".tgi[4].ni[1].x" 3418.571533203125;
-	setAttr ".tgi[4].ni[1].y" 62.857143402099609;
+	setAttr ".tgi[4].ni[1].x" 5919.92041015625;
+	setAttr ".tgi[4].ni[1].y" 419.0711669921875;
 	setAttr ".tgi[4].ni[1].nvs" 18305;
-	setAttr ".tgi[4].ni[2].x" 6320.4189453125;
-	setAttr ".tgi[4].ni[2].y" 0.63356125354766846;
+	setAttr ".tgi[4].ni[2].x" 4528.15771484375;
+	setAttr ".tgi[4].ni[2].y" -520.15228271484375;
 	setAttr ".tgi[4].ni[2].nvs" 18305;
-	setAttr ".tgi[4].ni[3].x" 5592.71240234375;
-	setAttr ".tgi[4].ni[3].y" -62.888763427734375;
-	setAttr ".tgi[4].ni[3].nvs" 18305;
-	setAttr ".tgi[4].ni[4].x" 4032.857177734375;
-	setAttr ".tgi[4].ni[4].y" -54.285713195800781;
-	setAttr ".tgi[4].ni[4].nvs" 18304;
-	setAttr ".tgi[4].ni[5].x" 4655.75390625;
-	setAttr ".tgi[4].ni[5].y" -273.18991088867188;
-	setAttr ".tgi[4].ni[5].nvs" 18304;
-	setAttr ".tgi[4].ni[6].x" 4528.15771484375;
-	setAttr ".tgi[4].ni[6].y" -520.15228271484375;
-	setAttr ".tgi[4].ni[6].nvs" 18305;
-	setAttr ".tgi[4].ni[7].x" 5911.2509765625;
-	setAttr ".tgi[4].ni[7].y" -217.68389892578125;
-	setAttr ".tgi[4].ni[7].nvs" 18305;
-	setAttr ".tgi[4].ni[8].x" 5919.92041015625;
-	setAttr ".tgi[4].ni[8].y" 419.0711669921875;
-	setAttr ".tgi[4].ni[8].nvs" 18305;
+	setAttr ".tgi[4].ni[3].x" 5638.70263671875;
+	setAttr ".tgi[4].ni[3].y" 365.89324951171875;
+	setAttr ".tgi[4].ni[3].nvs" 18304;
+	setAttr ".tgi[4].ni[4].x" 5911.2509765625;
+	setAttr ".tgi[4].ni[4].y" -217.68389892578125;
+	setAttr ".tgi[4].ni[4].nvs" 18305;
+	setAttr ".tgi[4].ni[5].x" 6320.4189453125;
+	setAttr ".tgi[4].ni[5].y" 0.63356125354766846;
+	setAttr ".tgi[4].ni[5].nvs" 18305;
+	setAttr ".tgi[4].ni[6].x" 4116.51513671875;
+	setAttr ".tgi[4].ni[6].y" -616.44000244140625;
+	setAttr ".tgi[4].ni[6].nvs" 18304;
+	setAttr ".tgi[4].ni[7].x" 4655.75390625;
+	setAttr ".tgi[4].ni[7].y" -273.18991088867188;
+	setAttr ".tgi[4].ni[7].nvs" 18304;
+	setAttr ".tgi[4].ni[8].x" 4340;
+	setAttr ".tgi[4].ni[8].y" -80;
+	setAttr ".tgi[4].ni[8].nvs" 18304;
 	setAttr ".tgi[4].ni[9].x" 3725.71435546875;
 	setAttr ".tgi[4].ni[9].y" -37.142856597900391;
 	setAttr ".tgi[4].ni[9].nvs" 18304;
-	setAttr ".tgi[4].ni[10].x" 4340;
-	setAttr ".tgi[4].ni[10].y" -80;
+	setAttr ".tgi[4].ni[10].x" 4694.28564453125;
+	setAttr ".tgi[4].ni[10].y" 25.714284896850586;
 	setAttr ".tgi[4].ni[10].nvs" 18304;
-	setAttr ".tgi[4].ni[11].x" 4982.1298828125;
-	setAttr ".tgi[4].ni[11].y" -158.60264587402344;
+	setAttr ".tgi[4].ni[11].x" 6484.28564453125;
+	setAttr ".tgi[4].ni[11].y" 420;
 	setAttr ".tgi[4].ni[11].nvs" 18304;
-	setAttr ".tgi[4].ni[12].x" 4116.51513671875;
-	setAttr ".tgi[4].ni[12].y" -616.44000244140625;
-	setAttr ".tgi[4].ni[12].nvs" 18304;
-	setAttr ".tgi[4].ni[13].x" 3809.37255859375;
-	setAttr ".tgi[4].ni[13].y" -616.44000244140625;
-	setAttr ".tgi[4].ni[13].nvs" 18304;
-	setAttr ".tgi[4].ni[14].x" 3809.37255859375;
-	setAttr ".tgi[4].ni[14].y" -515.01141357421875;
-	setAttr ".tgi[4].ni[14].nvs" 18304;
-	setAttr ".tgi[4].ni[15].x" 5638.70263671875;
-	setAttr ".tgi[4].ni[15].y" 365.89324951171875;
+	setAttr ".tgi[4].ni[12].x" 6337.69384765625;
+	setAttr ".tgi[4].ni[12].y" -438.3564453125;
+	setAttr ".tgi[4].ni[12].nvs" 18305;
+	setAttr ".tgi[4].ni[13].x" 5285.369140625;
+	setAttr ".tgi[4].ni[13].y" -252.80696105957031;
+	setAttr ".tgi[4].ni[13].nvs" 18305;
+	setAttr ".tgi[4].ni[14].x" 3418.571533203125;
+	setAttr ".tgi[4].ni[14].y" 62.857143402099609;
+	setAttr ".tgi[4].ni[14].nvs" 18305;
+	setAttr ".tgi[4].ni[15].x" 4032.857177734375;
+	setAttr ".tgi[4].ni[15].y" -54.285713195800781;
 	setAttr ".tgi[4].ni[15].nvs" 18304;
-	setAttr ".tgi[4].ni[16].x" 6337.69384765625;
-	setAttr ".tgi[4].ni[16].y" -438.3564453125;
+	setAttr ".tgi[4].ni[16].x" 5592.71240234375;
+	setAttr ".tgi[4].ni[16].y" -62.888763427734375;
 	setAttr ".tgi[4].ni[16].nvs" 18305;
-	setAttr ".tgi[4].ni[17].x" 3791.06982421875;
-	setAttr ".tgi[4].ni[17].y" -418.39932250976562;
+	setAttr ".tgi[4].ni[17].x" 4116.51513671875;
+	setAttr ".tgi[4].ni[17].y" -515.01141357421875;
 	setAttr ".tgi[4].ni[17].nvs" 18304;
-	setAttr ".tgi[4].ni[18].x" 6642.974609375;
-	setAttr ".tgi[4].ni[18].y" -127.51752471923828;
-	setAttr ".tgi[4].ni[18].nvs" 18305;
-	setAttr ".tgi[4].ni[19].x" 5285.369140625;
-	setAttr ".tgi[4].ni[19].y" -252.80696105957031;
-	setAttr ".tgi[4].ni[19].nvs" 18305;
-	setAttr ".tgi[4].ni[20].x" 3809.37255859375;
-	setAttr ".tgi[4].ni[20].y" -717.86859130859375;
+	setAttr ".tgi[4].ni[18].x" 3809.37255859375;
+	setAttr ".tgi[4].ni[18].y" -515.01141357421875;
+	setAttr ".tgi[4].ni[18].nvs" 18304;
+	setAttr ".tgi[4].ni[19].x" 3809.37255859375;
+	setAttr ".tgi[4].ni[19].y" -616.44000244140625;
+	setAttr ".tgi[4].ni[19].nvs" 18304;
+	setAttr ".tgi[4].ni[20].x" 3791.06982421875;
+	setAttr ".tgi[4].ni[20].y" -418.39932250976562;
 	setAttr ".tgi[4].ni[20].nvs" 18304;
-	setAttr ".tgi[4].ni[21].x" 4694.28564453125;
-	setAttr ".tgi[4].ni[21].y" 25.714284896850586;
+	setAttr ".tgi[4].ni[21].x" 3809.37255859375;
+	setAttr ".tgi[4].ni[21].y" -717.86859130859375;
 	setAttr ".tgi[4].ni[21].nvs" 18304;
-	setAttr ".tgi[4].ni[22].x" 6484.28564453125;
-	setAttr ".tgi[4].ni[22].y" 420;
-	setAttr ".tgi[4].ni[22].nvs" 18304;
-	setAttr ".tgi[4].ni[23].x" 4116.51513671875;
-	setAttr ".tgi[4].ni[23].y" -515.01141357421875;
+	setAttr ".tgi[4].ni[22].x" 5840.84619140625;
+	setAttr ".tgi[4].ni[22].y" 211.41258239746094;
+	setAttr ".tgi[4].ni[22].nvs" 18305;
+	setAttr ".tgi[4].ni[23].x" 6700.06396484375;
+	setAttr ".tgi[4].ni[23].y" -603.0650634765625;
 	setAttr ".tgi[4].ni[23].nvs" 18304;
-	setAttr ".tgi[4].ni[24].x" 6700.06396484375;
-	setAttr ".tgi[4].ni[24].y" -603.0650634765625;
+	setAttr ".tgi[4].ni[24].x" 4982.1298828125;
+	setAttr ".tgi[4].ni[24].y" -158.60264587402344;
 	setAttr ".tgi[4].ni[24].nvs" 18304;
 	setAttr ".tgi[5].tn" -type "string" "Untitled_6";
-	setAttr ".tgi[5].vl" -type "double2" -3074.9708773115685 -2394.5822854414773 ;
-	setAttr ".tgi[5].vh" -type "double2" -1241.2210126363134 -424.83919948954053 ;
-	setAttr -s 15 ".tgi[5].ni";
-	setAttr ".tgi[5].ni[0].x" -3023.9580078125;
-	setAttr ".tgi[5].ni[0].y" -1069.7296142578125;
-	setAttr ".tgi[5].ni[0].nvs" 18305;
-	setAttr ".tgi[5].ni[1].x" -2100;
-	setAttr ".tgi[5].ni[1].y" -1047.142822265625;
+	setAttr ".tgi[5].vl" -type "double2" -1647.2148514734104 -3468.5316829291583 ;
+	setAttr ".tgi[5].vh" -type "double2" 281.05018098247587 -1349.8780500381333 ;
+	setAttr -s 30 ".tgi[5].ni";
+	setAttr ".tgi[5].ni[0].x" -2911.428466796875;
+	setAttr ".tgi[5].ni[0].y" -1820;
+	setAttr ".tgi[5].ni[0].nvs" 18304;
+	setAttr ".tgi[5].ni[1].x" -761.4285888671875;
+	setAttr ".tgi[5].ni[1].y" -2415.71435546875;
 	setAttr ".tgi[5].ni[1].nvs" 18304;
-	setAttr ".tgi[5].ni[2].x" -2527.939697265625;
-	setAttr ".tgi[5].ni[2].y" -1951.1453857421875;
+	setAttr ".tgi[5].ni[2].x" -2297.142822265625;
+	setAttr ".tgi[5].ni[2].y" -1745.7142333984375;
 	setAttr ".tgi[5].ni[2].nvs" 18304;
-	setAttr ".tgi[5].ni[3].x" -2712.127197265625;
-	setAttr ".tgi[5].ni[3].y" -1201.2393798828125;
-	setAttr ".tgi[5].ni[3].nvs" 18305;
-	setAttr ".tgi[5].ni[4].x" -2407.142822265625;
-	setAttr ".tgi[5].ni[4].y" -1554.2857666015625;
+	setAttr ".tgi[5].ni[3].x" -2604.28564453125;
+	setAttr ".tgi[5].ni[3].y" -2384.28564453125;
+	setAttr ".tgi[5].ni[3].nvs" 18304;
+	setAttr ".tgi[5].ni[4].x" -1990;
+	setAttr ".tgi[5].ni[4].y" -2412.857177734375;
 	setAttr ".tgi[5].ni[4].nvs" 18304;
-	setAttr ".tgi[5].ni[5].x" -2407.142822265625;
-	setAttr ".tgi[5].ni[5].y" -1452.857177734375;
+	setAttr ".tgi[5].ni[5].x" -1068.5714111328125;
+	setAttr ".tgi[5].ni[5].y" -2258.571533203125;
 	setAttr ".tgi[5].ni[5].nvs" 18304;
-	setAttr ".tgi[5].ni[6].x" -2407.142822265625;
-	setAttr ".tgi[5].ni[6].y" -1148.5714111328125;
+	setAttr ".tgi[5].ni[6].x" -774.19854736328125;
+	setAttr ".tgi[5].ni[6].y" -1916.1409912109375;
 	setAttr ".tgi[5].ni[6].nvs" 18304;
-	setAttr ".tgi[5].ni[7].x" -2100;
-	setAttr ".tgi[5].ni[7].y" -1148.5714111328125;
+	setAttr ".tgi[5].ni[7].x" -1682.857177734375;
+	setAttr ".tgi[5].ni[7].y" -2308.571533203125;
 	setAttr ".tgi[5].ni[7].nvs" 18304;
-	setAttr ".tgi[5].ni[8].x" -2407.142822265625;
-	setAttr ".tgi[5].ni[8].y" -1351.4285888671875;
+	setAttr ".tgi[5].ni[8].x" -1375.7142333984375;
+	setAttr ".tgi[5].ni[8].y" -2221.428466796875;
 	setAttr ".tgi[5].ni[8].nvs" 18304;
-	setAttr ".tgi[5].ni[9].x" -2100;
-	setAttr ".tgi[5].ni[9].y" -1250;
+	setAttr ".tgi[5].ni[9].x" -1375.7142333984375;
+	setAttr ".tgi[5].ni[9].y" -2018.5714111328125;
 	setAttr ".tgi[5].ni[9].nvs" 18304;
-	setAttr ".tgi[5].ni[10].x" -2100;
-	setAttr ".tgi[5].ni[10].y" -1351.4285888671875;
+	setAttr ".tgi[5].ni[10].x" -2604.28564453125;
+	setAttr ".tgi[5].ni[10].y" -1768.5714111328125;
 	setAttr ".tgi[5].ni[10].nvs" 18304;
-	setAttr ".tgi[5].ni[11].x" -2100;
-	setAttr ".tgi[5].ni[11].y" -1452.857177734375;
-	setAttr ".tgi[5].ni[11].nvs" 18304;
-	setAttr ".tgi[5].ni[12].x" -2407.142822265625;
-	setAttr ".tgi[5].ni[12].y" -1250;
+	setAttr ".tgi[5].ni[11].x" -1682.857177734375;
+	setAttr ".tgi[5].ni[11].y" -1984.2857666015625;
+	setAttr ".tgi[5].ni[11].nvs" 18305;
+	setAttr ".tgi[5].ni[12].x" -1990;
+	setAttr ".tgi[5].ni[12].y" -1822.857177734375;
 	setAttr ".tgi[5].ni[12].nvs" 18304;
-	setAttr ".tgi[5].ni[13].x" -2100;
-	setAttr ".tgi[5].ni[13].y" -1554.2857666015625;
+	setAttr ".tgi[5].ni[13].x" -454.28570556640625;
+	setAttr ".tgi[5].ni[13].y" -2415.71435546875;
 	setAttr ".tgi[5].ni[13].nvs" 18304;
-	setAttr ".tgi[5].ni[14].x" -2407.142822265625;
-	setAttr ".tgi[5].ni[14].y" -1047.142822265625;
+	setAttr ".tgi[5].ni[14].x" -1375.7142333984375;
+	setAttr ".tgi[5].ni[14].y" -2120;
 	setAttr ".tgi[5].ni[14].nvs" 18304;
+	setAttr ".tgi[5].ni[15].x" -1990;
+	setAttr ".tgi[5].ni[15].y" -2152.857177734375;
+	setAttr ".tgi[5].ni[15].nvs" 18304;
+	setAttr ".tgi[5].ni[16].x" -2297.142822265625;
+	setAttr ".tgi[5].ni[16].y" -2412.857177734375;
+	setAttr ".tgi[5].ni[16].nvs" 18304;
+	setAttr ".tgi[5].ni[17].x" -1990;
+	setAttr ".tgi[5].ni[17].y" -1721.4285888671875;
+	setAttr ".tgi[5].ni[17].nvs" 18304;
+	setAttr ".tgi[5].ni[18].x" -1375.7142333984375;
+	setAttr ".tgi[5].ni[18].y" -1917.142822265625;
+	setAttr ".tgi[5].ni[18].nvs" 18304;
+	setAttr ".tgi[5].ni[19].x" -454.28570556640625;
+	setAttr ".tgi[5].ni[19].y" -2035.7142333984375;
+	setAttr ".tgi[5].ni[19].nvs" 18304;
+	setAttr ".tgi[5].ni[20].x" -2297.142822265625;
+	setAttr ".tgi[5].ni[20].y" -2152.857177734375;
+	setAttr ".tgi[5].ni[20].nvs" 18304;
+	setAttr ".tgi[5].ni[21].x" -147.14285278320312;
+	setAttr ".tgi[5].ni[21].y" -2035.7142333984375;
+	setAttr ".tgi[5].ni[21].nvs" 18304;
+	setAttr ".tgi[5].ni[22].x" -1990;
+	setAttr ".tgi[5].ni[22].y" -2254.28564453125;
+	setAttr ".tgi[5].ni[22].nvs" 18304;
+	setAttr ".tgi[5].ni[23].x" -1682.857177734375;
+	setAttr ".tgi[5].ni[23].y" -1825.7142333984375;
+	setAttr ".tgi[5].ni[23].nvs" 18304;
+	setAttr ".tgi[5].ni[24].x" -1068.5714111328125;
+	setAttr ".tgi[5].ni[24].y" -2032.857177734375;
+	setAttr ".tgi[5].ni[24].nvs" 18304;
+	setAttr ".tgi[5].ni[25].x" -1990;
+	setAttr ".tgi[5].ni[25].y" -2051.428466796875;
+	setAttr ".tgi[5].ni[25].nvs" 18304;
+	setAttr ".tgi[5].ni[26].x" -2297.142822265625;
+	setAttr ".tgi[5].ni[26].y" -2051.428466796875;
+	setAttr ".tgi[5].ni[26].nvs" 18304;
+	setAttr ".tgi[5].ni[27].x" -2297.142822265625;
+	setAttr ".tgi[5].ni[27].y" -1950;
+	setAttr ".tgi[5].ni[27].nvs" 18304;
+	setAttr ".tgi[5].ni[28].x" -147.14285278320312;
+	setAttr ".tgi[5].ni[28].y" -2415.71435546875;
+	setAttr ".tgi[5].ni[28].nvs" 18304;
+	setAttr ".tgi[5].ni[29].x" -2297.142822265625;
+	setAttr ".tgi[5].ni[29].y" -2254.28564453125;
+	setAttr ".tgi[5].ni[29].nvs" 18304;
 select -ne :time1;
 	setAttr -av -k on ".cch";
 	setAttr -av -k on ".fzn";
@@ -3634,6 +3923,7 @@ select -ne :initialParticleSE;
 	setAttr -k on ".epo";
 	setAttr -k on ".ro" yes;
 	setAttr -k on ".hio";
+lockNode -l 0 -lu 1;
 select -ne :defaultRenderGlobals;
 	addAttr -ci true -h true -sn "dss" -ln "defaultSurfaceShader" -dt "string";
 	setAttr -av -k on ".cch";
@@ -3918,8 +4208,8 @@ connectAttr "plusMinusAverage5.o3" "l_brow_out_offset.t";
 connectAttr "l_brow.rz" "l_brow_out_offset.rz";
 connectAttr "l_brow_out_outer_1_target_multMatrix.o" "l_brow_out_outer_1_target.opm"
 		;
-connectAttr "l_brow_inner_1_multMatrix.o" "l_brow_inner_1_group.opm";
-connectAttr "l_brow_outer_1_multMatrix.o" "l_brow_outer_1_group.opm";
+connectAttr "l_brow_inner_1_multMatrix.o" "l_brow_local_2_group.opm";
+connectAttr "l_brow_outer_1_multMatrix.o" "l_brow_local_4_group.opm";
 connectAttr "multMatrix2.o" "r_brow_group.opm";
 connectAttr "l_browShape.ws" "r_browShape.cr";
 connectAttr "multMatrix19.o" "r_brow_in_pinned.opm";
@@ -3947,12 +4237,12 @@ connectAttr "r_brow.rz" "r_brow_out_offset.rz";
 connectAttr "l_brow_outShape.ws" "r_brow_outShape.cr";
 connectAttr "l_brow_out_outer_1_target_multMatrix.o" "r_brow_out_outer_1_target.opm"
 		;
-connectAttr "r_brow_inner_1_multMatrix.o" "r_brow_inner_1_group.opm";
-connectAttr "l_brow_inner_1.middleFollow" "r_brow_inner_1.middleFollow";
-connectAttr "l_brow_inner_1Shape.ws" "r_brow_inner_1Shape.cr";
-connectAttr "r_brow_outer_1_multMatrix.o" "r_brow_outer_1_group.opm";
-connectAttr "l_brow_outer_1.middleFollow" "r_brow_outer_1.middleFollow";
-connectAttr "l_brow_outer_1Shape.ws" "r_brow_outer_1Shape.cr";
+connectAttr "r_brow_inner_1_multMatrix.o" "r_brow_local_1_group.opm";
+connectAttr "l_brow_local_2.middleFollow" "r_brow_local_2.middleFollow";
+connectAttr "l_brow_local_2Shape.ws" "r_brow_local_2Shape.cr";
+connectAttr "r_brow_outer_1_multMatrix.o" "r_brow_local_4_group.opm";
+connectAttr "l_brow_local_4.middleFollow" "r_brow_local_4.middleFollow";
+connectAttr "l_brow_local_4Shape.ws" "r_brow_local_4Shape.cr";
 connectAttr "loft.os" "surfShape.cr";
 connectAttr "multMatrix32.o" "root_outJoint.opm";
 connectAttr "root_outJoint.s" "c_outJoint.is";
@@ -4198,7 +4488,7 @@ connectAttr "l_brow_inner_1_blendMatrix.omat" "l_brow_inner_1_pickMatrix.imat";
 connectAttr "l_brow_in_inner_1_target.wm" "l_brow_inner_1_blendMatrix.imat";
 connectAttr "l_brow_mid_inner_1_target.wm" "l_brow_inner_1_blendMatrix.tgt[0].tmat"
 		;
-connectAttr "l_brow_inner_1.middleFollow" "l_brow_inner_1_blendMatrix.env";
+connectAttr "l_brow_local_2.middleFollow" "l_brow_inner_1_blendMatrix.env";
 connectAttr "r_brow_inner_1_pickMatrix.tmat" "r_brow_inner_1_multMatrix.i[0]";
 connectAttr "main_controls.wim" "r_brow_inner_1_multMatrix.i[1]";
 connectAttr "composeMatrix1.omat" "r_brow_inner_1_multMatrix.i[2]";
@@ -4206,7 +4496,7 @@ connectAttr "r_brow_inner_1_blendMatrix.omat" "r_brow_inner_1_pickMatrix.imat";
 connectAttr "r_brow_in_inner_1_target.wm" "r_brow_inner_1_blendMatrix.imat";
 connectAttr "r_brow_mid_inner_1_target.wm" "r_brow_inner_1_blendMatrix.tgt[0].tmat"
 		;
-connectAttr "r_brow_inner_1.middleFollow" "r_brow_inner_1_blendMatrix.env";
+connectAttr "r_brow_local_2.middleFollow" "r_brow_inner_1_blendMatrix.env";
 connectAttr "outer_1_poser_multDoubleLinear.o" "outer_1_poser_makeNurbSphere.r";
 connectAttr "mainPoser.globalSize" "outer_1_poser_multDoubleLinear.i1";
 connectAttr "outer_1_poser.size" "outer_1_poser_multDoubleLinear.i2";
@@ -4221,7 +4511,7 @@ connectAttr "main_controls.wim" "l_brow_outer_1_multMatrix.i[1]";
 connectAttr "l_brow_out_outer_1_target.wm" "l_brow_outer_1_blendMatrix.imat";
 connectAttr "l_brow_mid_outer_1_target.wm" "l_brow_outer_1_blendMatrix.tgt[0].tmat"
 		;
-connectAttr "l_brow_outer_1.middleFollow" "l_brow_outer_1_blendMatrix.env";
+connectAttr "l_brow_local_4.middleFollow" "l_brow_outer_1_blendMatrix.env";
 connectAttr "r_brow_outer_1_pickMatrix.tmat" "r_brow_outer_1_multMatrix.i[0]";
 connectAttr "main_controls.wim" "r_brow_outer_1_multMatrix.i[1]";
 connectAttr "composeMatrix1.omat" "r_brow_outer_1_multMatrix.i[2]";
@@ -4229,7 +4519,7 @@ connectAttr "r_brow_outer_1_blendMatrix.omat" "r_brow_outer_1_pickMatrix.imat";
 connectAttr "r_brow_out_outer_1_target.wm" "r_brow_outer_1_blendMatrix.imat";
 connectAttr "r_brow_mid_outer_1_target.wm" "r_brow_outer_1_blendMatrix.tgt[0].tmat"
 		;
-connectAttr "r_brow_outer_1.middleFollow" "r_brow_outer_1_blendMatrix.env";
+connectAttr "r_brow_local_4.middleFollow" "r_brow_outer_1_blendMatrix.env";
 connectAttr "side_mainPoser.wm" "multMatrix3.i[0]";
 connectAttr "mainPoser.wim" "multMatrix3.i[1]";
 connectAttr "l_brow.m" "multMatrix4.i[0]";
@@ -4352,15 +4642,15 @@ connectAttr "unitConversion4.o" "eulerToQuat1.irx";
 connectAttr "eulerToQuat1.oqx" "multiplyDivide17.i1x";
 connectAttr "eulerToQuat1.oqw" "multiplyDivide17.i1y";
 connectAttr "l_brow.rz" "unitConversion4.i";
-connectAttr "l_brow_in.wm" "multMatrix14.i[0]";
+connectAttr "l_brow_local_1.wm" "multMatrix14.i[0]";
 connectAttr "root_outJoint.wim" "multMatrix14.i[1]";
-connectAttr "l_brow_inner_1.wm" "multMatrix15.i[0]";
+connectAttr "l_brow_local_2.wm" "multMatrix15.i[0]";
 connectAttr "root_outJoint.wim" "multMatrix15.i[1]";
-connectAttr "l_brow_outer_1.wm" "multMatrix16.i[0]";
+connectAttr "l_brow_local_4.wm" "multMatrix16.i[0]";
 connectAttr "root_outJoint.wim" "multMatrix16.i[1]";
-connectAttr "l_brow_mid.wm" "multMatrix17.i[0]";
+connectAttr "l_brow_local_3.wm" "multMatrix17.i[0]";
 connectAttr "root_outJoint.wim" "multMatrix17.i[1]";
-connectAttr "l_brow_out.wm" "multMatrix18.i[0]";
+connectAttr "l_brow_local_5.wm" "multMatrix18.i[0]";
 connectAttr "root_outJoint.wim" "multMatrix18.i[1]";
 connectAttr "pickMatrix1.tmat" "multMatrix19.i[0]";
 connectAttr "uvPin.omat[4]" "multMatrix19.i[1]";
@@ -4420,6 +4710,8 @@ connectAttr "multiplyDivide4.o" "clamp11.mn";
 connectAttr "plusMinusAverage7.o3" "clamp11.mx";
 connectAttr "multiplyDivide24.o" "clamp11.ip";
 connectAttr "clamp11.op" "multiplyDivide26.i1";
+connectAttr "multiplyDivide16.ox" "multiplyDivide26.i2x";
+connectAttr "multiplyDivide16.oy" "multiplyDivide26.i2y";
 connectAttr "multiplyDivide26.o" "multiplyDivide27.i1";
 connectAttr "r_brow.t" "plusMinusAverage20.i3[0]";
 connectAttr "r_brow_mid.t" "plusMinusAverage20.i3[1]";
@@ -4433,20 +4725,26 @@ connectAttr "multiplyDivide28.o" "multiplyDivide29.i1";
 connectAttr "r_brow.t" "plusMinusAverage21.i3[0]";
 connectAttr "eulerToQuat2.oqx" "plusMinusAverage21.i3[1].i3y";
 connectAttr "eulerToQuat2.oqw" "plusMinusAverage21.i3[1].i3x";
-connectAttr "r_brow_in.wm" "multMatrix22.i[0]";
+connectAttr "r_brow_local_1.wm" "multMatrix22.i[0]";
 connectAttr "root_outJoint.wim" "multMatrix22.i[1]";
-connectAttr "r_brow_out.wm" "multMatrix23.i[0]";
+connectAttr "r_brow_local_5.wm" "multMatrix23.i[0]";
 connectAttr "root_outJoint.wim" "multMatrix23.i[1]";
-connectAttr "r_brow_mid.wm" "multMatrix24.i[0]";
+connectAttr "r_brow_local_3.wm" "multMatrix24.i[0]";
 connectAttr "root_outJoint.wim" "multMatrix24.i[1]";
-connectAttr "r_brow_outer_1.wm" "multMatrix25.i[0]";
+connectAttr "r_brow_local_4.wm" "multMatrix25.i[0]";
 connectAttr "root_outJoint.wim" "multMatrix25.i[1]";
-connectAttr "r_brow_inner_1.wm" "multMatrix26.i[0]";
+connectAttr "r_brow_local_2.wm" "multMatrix26.i[0]";
 connectAttr "root_outJoint.wim" "multMatrix26.i[1]";
-connectAttr "l_brow_inner_1.iog" "l_add_moduleControlSet.dsm" -na;
-connectAttr "l_brow_outer_1.iog" "l_add_moduleControlSet.dsm" -na;
-connectAttr "r_brow_inner_1.iog" "r_sec_moduleControlSet.dsm" -na;
-connectAttr "r_brow_outer_1.iog" "r_sec_moduleControlSet.dsm" -na;
+connectAttr "l_brow_local_2.iog" "l_add_moduleControlSet.dsm" -na;
+connectAttr "l_brow_local_4.iog" "l_add_moduleControlSet.dsm" -na;
+connectAttr "l_brow_local_1.iog" "l_add_moduleControlSet.dsm" -na;
+connectAttr "l_brow_local_3.iog" "l_add_moduleControlSet.dsm" -na;
+connectAttr "l_brow_local_5.iog" "l_add_moduleControlSet.dsm" -na;
+connectAttr "r_brow_local_2.iog" "r_sec_moduleControlSet.dsm" -na;
+connectAttr "r_brow_local_4.iog" "r_sec_moduleControlSet.dsm" -na;
+connectAttr "r_brow_local_1.iog" "r_sec_moduleControlSet.dsm" -na;
+connectAttr "r_brow_local_3.iog" "r_sec_moduleControlSet.dsm" -na;
+connectAttr "r_brow_local_5.iog" "r_sec_moduleControlSet.dsm" -na;
 connectAttr "l_main_moduleControlSet.msg" "l_moduleControlSet.dnsm" -na;
 connectAttr "l_add_moduleControlSet.msg" "l_moduleControlSet.dnsm" -na;
 connectAttr "r_sec_moduleControlSet.msg" "r_moduleControlSet.dnsm" -na;
@@ -4502,163 +4800,188 @@ connectAttr "out_poser.m" "blendMatrix10.imat";
 connectAttr "middle_poser.m" "blendMatrix10.tgt[0].tmat";
 connectAttr "l_brow_out_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn"
 		;
-connectAttr "l_brow_out_outer_1_target_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
+connectAttr "l_brow_outer_1_blendMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
 		;
-connectAttr "l_brow_outer_1_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn"
+connectAttr "l_brow_mid_outer_1_target.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn"
 		;
-connectAttr "l_brow_mid_outer_1_target.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn"
+connectAttr "middle_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn";
+connectAttr "out_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[4].dn";
+connectAttr "l_brow_outer_1_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn"
 		;
-connectAttr "l_brow_outer_1_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[4].dn"
+connectAttr "root_connector.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[6].dn";
+connectAttr "l_brow_out_outer_1_target.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[7].dn"
 		;
-connectAttr "outer_1_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn";
-connectAttr "l_brow_outer_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[6].dn";
-connectAttr "l_brow_mid_outer_1_target_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[7].dn"
+connectAttr "l_brow_mid_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[8].dn"
 		;
-connectAttr "out_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[8].dn";
-connectAttr "middle_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[9].dn";
-connectAttr "main_controls.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[10].dn";
-connectAttr "l_brow_outer_1_blendMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[11].dn"
+connectAttr "l_brow_out_outer_1_target_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[9].dn"
 		;
-connectAttr "l_brow_out_outer_1_target.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[12].dn"
+connectAttr "outer_1_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[10].dn";
+connectAttr "main_controls.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[11].dn";
+connectAttr "l_brow_local_4_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[12].dn"
 		;
-connectAttr "l_brow_mid_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[13].dn"
+connectAttr "l_brow_local_4.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[13].dn";
+connectAttr "l_brow_mid_outer_1_target_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[14].dn"
 		;
-connectAttr "root_connector.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[14].dn";
-connectAttr "side_mainPoser.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn";
-connectAttr "pickMatrix1.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn";
-connectAttr "loft.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn";
-connectAttr "l_brow_in.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn";
-connectAttr "l_brow_mid_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn"
+connectAttr "multMatrix42.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn";
+connectAttr "multMatrix44.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn";
+connectAttr "l_brow_mid_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn"
 		;
-connectAttr "l_brow_out_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn"
-		;
-connectAttr "multMatrix45.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[6].dn";
-connectAttr "multMatrix44.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[7].dn";
+connectAttr "multMatrix45.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn";
+connectAttr "l_brow_mid.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn";
+connectAttr "uvPin.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn";
+connectAttr "l_brow_in.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[6].dn";
+connectAttr "mainPoser.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[7].dn";
 connectAttr "l_brow_out.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[8].dn";
-connectAttr "l_brow_mid.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[9].dn";
-connectAttr "mainPoser.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[10].dn";
-connectAttr "uvPin.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[11].dn";
-connectAttr "l_brow_in_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[12].dn"
+connectAttr "side_mainPoser.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[9].dn";
+connectAttr "loft.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[10].dn";
+connectAttr "l_brow_in_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[11].dn"
 		;
-connectAttr "multMatrix42.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[13].dn";
-connectAttr "blendMatrix9.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn";
-connectAttr "outer_1_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn";
-connectAttr "out_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn";
-connectAttr "blendMatrix10.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn";
-connectAttr "inner_1_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[4].dn";
-connectAttr "in_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[5].dn";
-connectAttr "middle_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[6].dn";
-connectAttr "out_down_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[0].dn"
+connectAttr "l_brow_out_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[12].dn"
 		;
-connectAttr "distanceBetween2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[1].dn"
+connectAttr "pickMatrix1.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[13].dn";
+connectAttr "in_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn";
+connectAttr "inner_1_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn";
+connectAttr "middle_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn";
+connectAttr "out_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn";
+connectAttr "outer_1_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[4].dn";
+connectAttr "blendMatrix9.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[5].dn";
+connectAttr "blendMatrix10.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[6].dn";
+connectAttr "distanceBetween2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[0].dn"
 		;
-connectAttr "out_down_ibtw_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[2].dn"
+connectAttr "out_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[1].dn";
+connectAttr "multiplyDivide2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[2].dn";
+connectAttr "out_up_ibtw_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[3].dn"
 		;
-connectAttr "multiplyDivide16.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[3].dn"
+connectAttr "mid_down_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[4].dn";
+connectAttr "mid_down_ibtw_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[5].dn"
 		;
-connectAttr "out_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[4].dn";
-connectAttr "pickMatrix1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[5].dn";
-connectAttr "side_mainPoser.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[6].dn";
-connectAttr "l_brow_mid.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[7].dn";
-connectAttr "in_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[8].dn"
+connectAttr "l_brow_mid.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[6].dn";
+connectAttr "side_mainPoser.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[7].dn";
+connectAttr "mid_up_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[8].dn";
+connectAttr "in_down_ibtw_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[9].dn"
 		;
-connectAttr "plusMinusAverage6.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[9].dn"
+connectAttr "mid_up_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[10].dn"
 		;
-connectAttr "multMatrix11.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[10].dn";
-connectAttr "plusMinusAverage1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[11].dn"
+connectAttr "in_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[11].dn";
+connectAttr "multMatrix11.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[12].dn";
+connectAttr "mainPoser.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[13].dn";
+connectAttr "clamp1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[14].dn";
+connectAttr "in_up_ibtw_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[15].dn"
 		;
-connectAttr "in_down_ibtw_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[12].dn"
+connectAttr "out_up_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[16].dn"
 		;
-connectAttr "clamp1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[13].dn";
-connectAttr "out_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[14].dn"
+connectAttr "multiplyDivide16.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[17].dn"
 		;
-connectAttr "mid_down_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[15].dn"
+connectAttr "l_brow_mid_pinned.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[18].dn"
 		;
-connectAttr "mid_up_ibtw_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[16].dn"
+connectAttr "mid_up_ibtw_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[19].dn"
 		;
-connectAttr "in_down_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[17].dn"
+connectAttr "middle_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[20].dn"
 		;
-connectAttr "out_up_ibtw_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[18].dn"
+connectAttr "mid_down_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[21].dn"
 		;
-connectAttr "middle_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[19].dn"
+connectAttr "pickMatrix1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[22].dn";
+connectAttr "in_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[23].dn"
 		;
-connectAttr "multiplyDivide2.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[20].dn"
+connectAttr "out_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[24].dn"
 		;
-connectAttr "l_brow_mid_pinned.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[21].dn"
+connectAttr "out_down_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[25].dn"
 		;
-connectAttr "mid_down_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[22].dn";
-connectAttr "out_up_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[23].dn"
+connectAttr "distanceBetween1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[26].dn"
 		;
-connectAttr "mainPoser.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[24].dn";
-connectAttr "mid_up_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[25].dn"
+connectAttr "out_down_ibtw_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[27].dn"
 		;
-connectAttr "mid_up_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[26].dn";
-connectAttr "in_up_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[27].dn"
+connectAttr "plusMinusAverage1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[28].dn"
 		;
-connectAttr "mid_down_ibtw_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[28].dn"
+connectAttr "in_up_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[29].dn"
 		;
-connectAttr "distanceBetween1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[29].dn"
+connectAttr "in_down_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[30].dn"
 		;
-connectAttr "in_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[30].dn";
-connectAttr "in_up_ibtw_poserOrientShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[31].dn"
+connectAttr "plusMinusAverage6.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[31].dn"
 		;
 connectAttr "l_brow.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[32].dn";
-connectAttr "mainPoser.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[0].dn";
-connectAttr "l_brow.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[1].dn";
-connectAttr "multMatrix12.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[2].dn";
-connectAttr "clamp6.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[3].dn";
-connectAttr "eulerToQuat1.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[4].dn";
-connectAttr "multiplyDivide16.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[5].dn"
+connectAttr "l_brow_in_pinned.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[0].dn"
 		;
-connectAttr "l_brow_in.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[6].dn";
-connectAttr "uvPin.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[7].dn";
-connectAttr "pickMatrix1.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[8].dn";
+connectAttr "pickMatrix1.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[1].dn";
+connectAttr "l_brow_in.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[2].dn";
+connectAttr "side_mainPoser.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[3].dn";
+connectAttr "uvPin.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[4].dn";
+connectAttr "multMatrix12.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[5].dn";
+connectAttr "distanceBetween1.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[6].dn"
+		;
+connectAttr "multiplyDivide16.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[7].dn"
+		;
+connectAttr "multiplyDivide17.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[8].dn"
+		;
 connectAttr "unitConversion4.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[9].dn";
-connectAttr "multiplyDivide17.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[10].dn"
+connectAttr "plusMinusAverage3.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[10].dn"
 		;
-connectAttr "multiplyDivide13.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[11].dn"
+connectAttr "l_brow_in_initLocShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[11].dn"
 		;
-connectAttr "distanceBetween1.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[12].dn"
+connectAttr "multMatrix42.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[12].dn";
+connectAttr "plusMinusAverage11.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[13].dn"
 		;
-connectAttr "mid_down_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[13].dn";
-connectAttr "out_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[14].dn";
-connectAttr "side_mainPoser.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[15].dn";
-connectAttr "multMatrix42.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[16].dn";
-connectAttr "in_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[17].dn";
-connectAttr "l_brow_in_pinned.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[18].dn"
+connectAttr "l_brow.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[14].dn";
+connectAttr "eulerToQuat1.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[15].dn";
+connectAttr "clamp6.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[16].dn";
+connectAttr "distanceBetween2.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[17].dn"
 		;
-connectAttr "plusMinusAverage11.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[19].dn"
+connectAttr "out_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[18].dn";
+connectAttr "mid_down_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[19].dn";
+connectAttr "in_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[20].dn";
+connectAttr "mid_up_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[21].dn";
+connectAttr "mainPoser.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[22].dn";
+connectAttr "l_brow_in_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[23].dn"
 		;
-connectAttr "mid_up_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[20].dn";
-connectAttr "plusMinusAverage3.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[21].dn"
+connectAttr "multiplyDivide13.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[24].dn"
 		;
-connectAttr "l_brow_in_initLocShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[22].dn"
+connectAttr "r_brow.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[0].dn";
+connectAttr "multiplyDivide8.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[1].dn";
+connectAttr "eulerToQuat2.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[2].dn";
+connectAttr "l_brow.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[3].dn";
+connectAttr "eulerToQuat1.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[4].dn";
+connectAttr "clamp3.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[5].dn";
+connectAttr "multiplyDivide28.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[6].dn"
 		;
-connectAttr "distanceBetween2.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[23].dn"
+connectAttr "plusMinusAverage2.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[7].dn"
 		;
-connectAttr "l_brow_in_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[24].dn"
+connectAttr "multiplyDivide11.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[8].dn"
 		;
-connectAttr "surfShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[0].dn";
-connectAttr "r_brow_mid_pinned.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[1].dn"
+connectAttr "multiplyDivide10.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[9].dn"
 		;
-connectAttr "surf.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[2].dn";
-connectAttr "uvPin.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[3].dn";
-connectAttr "multMatrix11.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[4].dn";
-connectAttr "multMatrix12.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[5].dn";
-connectAttr "multMatrix10.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[6].dn";
-connectAttr "l_brow_out_pinned.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[7].dn"
+connectAttr "unitConversion5.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[10].dn"
 		;
-connectAttr "multMatrix19.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[8].dn";
-connectAttr "r_brow_out_pinned.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[9].dn"
+connectAttr "multiplyDivide16.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[11].dn"
 		;
-connectAttr "r_brow_in_pinned.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[10].dn"
+connectAttr "r_brow_out.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[12].dn";
+connectAttr "multiplyDivide9.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[13].dn"
 		;
-connectAttr "l_brow_in_pinned.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[11].dn"
+connectAttr "plusMinusAverage9.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[14].dn"
 		;
-connectAttr "multMatrix21.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[12].dn";
-connectAttr "l_brow_mid_pinned.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[13].dn"
+connectAttr "distanceBetween1.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[15].dn"
 		;
-connectAttr "multMatrix20.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[14].dn";
+connectAttr "unitConversion4.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[16].dn"
+		;
+connectAttr "multiplyDivide19.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[17].dn"
+		;
+connectAttr "multiplyDivide25.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[18].dn"
+		;
+connectAttr "multiplyDivide29.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[19].dn"
+		;
+connectAttr "mid_down_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[20].dn";
+connectAttr "r_brow_out_reverse.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[21].dn"
+		;
+connectAttr "l_brow_out.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[22].dn";
+connectAttr "plusMinusAverage18.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[23].dn"
+		;
+connectAttr "clamp12.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[24].dn";
+connectAttr "distanceBetween2.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[25].dn"
+		;
+connectAttr "out_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[26].dn";
+connectAttr "in_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[27].dn";
+connectAttr "l_brow_out_reverse.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[28].dn"
+		;
+connectAttr "mid_up_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[5].ni[29].dn";
 connectAttr "red_rsSG.pa" ":renderPartition.st" -na;
 connectAttr "green_rsSG.pa" ":renderPartition.st" -na;
 connectAttr "blue_rsSG.pa" ":renderPartition.st" -na;
@@ -4819,13 +5142,13 @@ applyMetadata -fmt "raw" -v "channel\nname ProfileTag\nstream\nname ProfileTagSt
 applyMetadata -fmt "raw" -v "channel\nname ProfileTag\nstream\nname ProfileTagStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"pointMatrixMult1\" 0\nendStream\nendChannel\nchannel\nname ProfileTagColor\nstream\nname ProfileTagColorStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"\" 255\n1\n\"\" 0\n2\n\"\" 0\nendStream\nendChannel\nendAssociations\n" 
 		l_brow_out_outer_1_target;
 applyMetadata -fmt "raw" -v "channel\nname ProfileTag\nstream\nname ProfileTagStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"brows_l_brow_in_inner_1_target\" 0\nendStream\nendChannel\nchannel\nname ProfileTagColor\nstream\nname ProfileTagColorStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"\" 255\n1\n\"\" 0\n2\n\"\" 0\nendStream\nendChannel\nendAssociations\n" 
-		l_brow_inner_1_group;
+		l_brow_local_2_group;
 applyMetadata -fmt "raw" -v "channel\nname ProfileTag\nstream\nname ProfileTagStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"brows_l_brow_in_inner_1_target\" 0\nendStream\nendChannel\nchannel\nname ProfileTagColor\nstream\nname ProfileTagColorStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"\" 255\n1\n\"\" 0\n2\n\"\" 0\nendStream\nendChannel\nendAssociations\n" 
-		l_brow_inner_1;
+		l_brow_local_2;
 applyMetadata -fmt "raw" -v "channel\nname ProfileTag\nstream\nname ProfileTagStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"pointMatrixMult1\" 0\nendStream\nendChannel\nchannel\nname ProfileTagColor\nstream\nname ProfileTagColorStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"\" 255\n1\n\"\" 0\n2\n\"\" 0\nendStream\nendChannel\nendAssociations\n" 
-		l_brow_outer_1_group;
+		l_brow_local_4_group;
 applyMetadata -fmt "raw" -v "channel\nname ProfileTag\nstream\nname ProfileTagStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"pointMatrixMult1\" 0\nendStream\nendChannel\nchannel\nname ProfileTagColor\nstream\nname ProfileTagColorStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"\" 255\n1\n\"\" 0\n2\n\"\" 0\nendStream\nendChannel\nendAssociations\n" 
-		l_brow_outer_1;
+		l_brow_local_4;
 applyMetadata -fmt "raw" -v "channel\nname ProfileTag\nstream\nname ProfileTagStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"brows_l_brow_in_inner_1_target\" 0\nendStream\nendChannel\nchannel\nname ProfileTagColor\nstream\nname ProfileTagColorStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"\" 255\n1\n\"\" 0\n2\n\"\" 0\nendStream\nendChannel\nendAssociations\n" 
 		l_brow_mid_inner_1_target_multMatrix;
 applyMetadata -fmt "raw" -v "channel\nname ProfileTag\nstream\nname ProfileTagStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"brows_l_brow_in_inner_1_target_multMatrix\" 0\nendStream\nendChannel\nchannel\nname ProfileTagColor\nstream\nname ProfileTagColorStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"\" 255\n1\n\"\" 0\n2\n\"\" 0\nendStream\nendChannel\nendAssociations\n" 

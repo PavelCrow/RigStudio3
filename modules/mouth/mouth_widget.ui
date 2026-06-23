@@ -287,7 +287,7 @@
             <item>
              <widget class="QStackedWidget" name="stackedWidget">
               <property name="currentIndex">
-               <number>1</number>
+               <number>0</number>
               </property>
               <widget class="QWidget" name="page">
                <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -314,19 +314,6 @@
                    </property>
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayout_3">
-                     <item>
-                      <spacer name="horizontalSpacer_5">
-                       <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                        <size>
-                         <width>0</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                      </spacer>
-                     </item>
                      <item>
                       <widget class="QLabel" name="count_label_2">
                        <property name="text">
@@ -381,23 +368,6 @@
                        </property>
                       </spacer>
                      </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_4">
-                     <item>
-                      <spacer name="horizontalSpacer_4">
-                       <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                        <size>
-                         <width>0</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                      </spacer>
-                     </item>
                      <item>
                       <widget class="QPushButton" name="setJointsCount_btn">
                        <property name="minimumSize">
@@ -416,19 +386,6 @@
                         <string>Rebuild</string>
                        </property>
                       </widget>
-                     </item>
-                     <item>
-                      <spacer name="horizontalSpacer_7">
-                       <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                        <size>
-                         <width>0</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                      </spacer>
                      </item>
                     </layout>
                    </item>
@@ -751,7 +708,7 @@
                  </size>
                 </property>
                 <property name="text">
-                 <string>Set</string>
+                 <string>Rebuild</string>
                 </property>
                </widget>
               </item>

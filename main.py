@@ -795,6 +795,7 @@ class MainWindow:
         self.win.ikFkSwitch_btn.clicked.connect(tools.ikFkSwitch)
         self.win.symmetry_btn.clicked.connect(tools.symmetry)
         self.win.mirror_btn.clicked.connect(tools.mirror)
+        self.win.fixControlInternalName_btn.clicked.connect(tools.fixControlInternalName)
 
 
         # self.win.connectByMultMatrix_btn.clicked.connect(tools.connectByMultMatrix)

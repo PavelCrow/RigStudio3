@@ -8054,10 +8054,10 @@
            <item>
             <widget class="QLabel" name="smf_label">
              <property name="enabled">
-              <bool>false</bool>
+              <bool>true</bool>
              </property>
              <property name="text">
-              <string>SMF Tools</string>
+              <string>Developer Tools</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -8105,6 +8105,16 @@
                 <property name="bottomMargin">
                  <number>10</number>
                 </property>
+                <item>
+                 <widget class="QPushButton" name="fixControlInternalName_btn">
+                  <property name="enabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="text">
+                   <string>Fix Control Internal Name</string>
+                  </property>
+                 </widget>
+                </item>
                </layout>
               </item>
              </layout>
