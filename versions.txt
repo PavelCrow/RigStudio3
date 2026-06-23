@@ -763,3 +763,8 @@ Fiexed twists joints size
 
 ---Version 3.23.1
 Fixed foot toe twist on disable autostretch leg
+
+---Version 3.24.0
+New Spine module
+FingersIK module update
+Mouth module update
