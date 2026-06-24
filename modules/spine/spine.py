@@ -17,12 +17,12 @@ class Spine(module.Module) :
 		super(self.__class__, self).connect(target, opposite=False, makeSeamless=False)		
 
 		# reroot end skin joint after connect
-		last_id = len(cmds.listRelatives(self.name+"_surf_joints"))
+		# last_id = len(cmds.listRelatives(self.name+"_surf_joints"))
 		
-		cmds.parent(self.name+"_end_skinJoint", self.name+"_local_%s_skinJoint" %last_id)
-		utils.removeTransformParentJoint(self.name+"_end_skinJoint")
+		# cmds.parent(self.name+"_end_skinJoint", self.name+"_local_%s_skinJoint" %last_id)
+		# utils.removeTransformParentJoint(self.name+"_end_skinJoint")
 
-		cmds.setAttr(self.name+"_end_skinJoint.jointOrient", 0,0,0)
+		# cmds.setAttr(self.name+"_end_skinJoint.jointOrient", 0,0,0)
 	
 	def connectSignals(self, mainInstance, w): #
 		module = mainInstance.curModule
@@ -63,6 +63,7 @@ class Spine(module.Module) :
 	def rebuildJoints(self, count):
 		name = self.name
 
+		cmds.parent(name+'_end_outJoint', name+'_root_outJoint')
 		cmds.parent(name+'_end_skinJoint', name+'_root_skinJoint')
 		utils.removeTransformParentJoint(name+'_end_skinJoint')
 
@@ -88,9 +89,12 @@ class Spine(module.Module) :
 			utils.resetJointOrient(oj)
 			l = cmds.spaceLocator(n=f"{name}_local_{i+1}_initLoc")[0]
 			cmds.parent(l, name+'_joints_initLocs')
+			cmds.setAttr(j+".segmentScaleCompensate", 0)
+
 
 			cmds.addAttr(oj, ln="pos", at="double", min=0, max=1, dv=0, k=1 )
 			cmds.setAttr(oj+".pos", pos)
+			cmds.setAttr(oj+'.drawStyle', 2)
 
 			cmds.connectAttr(oj+".pos", f"{name}_uvPin.coordinate[{i}].coordinateU")
 			cmds.connectAttr(oj+".pos", f"{name}_init_uvPin.coordinate[{i}].coordinateU")
@@ -108,12 +112,14 @@ class Spine(module.Module) :
 		for i in range(count):
 			j = cmds.joint(n=name+'_local_%s_skinJoint' %(i+1))
 			utils.addModuleNameAttr(j, name)
-			utils.connectByMatrix(j, [name+f'_local_{i+1}_outJoint', j], ['worldMatrix[0]', 'parentInverseMatrix[0]'], attrs=['t', 'r'], module_name=name)
-			cmds.connectAttr(name+f'_local_{i+1}_outJoint.scale', j+".s")
-			cmds.setAttr(oj+".segmentScaleCompensate", 0)
-			cmds.setAttr(oj+".radius", r)
+			utils.connectByMatrix(j, [name+f'_local_{i+1}_outJoint', j], ['worldMatrix[0]', 'parentInverseMatrix[0]'], attrs=['t', 'r', 's', 'shr'], module_name=name)
+			cmds.setAttr(j+".segmentScaleCompensate", 0)
+			cmds.setAttr(j+".radius", r)
+			cmds.setAttr(j+'.drawStyle', 0)
 			cmds.select(j)
 
+		cmds.parent(name+'_end_outJoint', oj)
+		cmds.setAttr(name+'_end_outJoint.drawStyle', 0)
 		cmds.parent(name+'_end_skinJoint', j)
 		utils.removeTransformParentJoint(name+'_end_skinJoint')
 		utils.resetJointOrient(name+'_end_skinJoint')
@@ -126,16 +132,11 @@ class Spine(module.Module) :
 		super(self.__class__, self).addSkinJoints()
 		
 		joints = cmds.sets(self.name+'_skinJointsSet', q=1)
-		last_id = len(cmds.listRelatives(self.name+"_surf_joints"))
-		r = cmds.getAttr(self.name+'_end_skinJoint.radius')
-
-		for o in joints:		
-			cmds.setAttr(o.replace("outJoint", "skinJoint")+".segmentScaleCompensate", 1)
-			cmds.setAttr(o.replace("outJoint", "skinJoint")+".radius", r)
-
-		cmds.parent(self.name+"_end_skinJoint", self.name+"_local_%s_skinJoint" %last_id)
-		utils.removeTransformParentJoint(self.name+"_end_skinJoint")
-		cmds.setAttr(self.name+"_end_skinJoint.jointOrient", 0,0,0)
+		
+		for oj in joints:		
+			sj = oj.replace("outJoint", "skinJoint")
+			cmds.setAttr(sj.replace("outJoint", "skinJoint")+".segmentScaleCompensate", 0)
+			utils.connectByMatrix(sj, [oj, sj], ['worldMatrix[0]', 'parentInverseMatrix[0]'], attrs=['t', 'r', 's', 'shr'], module_name=self.name)
 
 		cmds.setAttr(self.name+"_root_skinJoint.segmentScaleCompensate", 0)
 

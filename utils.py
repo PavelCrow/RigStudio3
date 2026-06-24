@@ -714,6 +714,9 @@ def connectByMatrix(obj, targets, inputs=[], useDM=True, attrs=['t', 'r', 's'], 
 			cmds.connectAttr(dMat+".outputScaleY", obj+'.scaleY', f=1)			
 		if not cmds.getAttr(obj+'.scaleZ', lock=1):
 			cmds.connectAttr(dMat+".outputScaleZ", obj+'.scaleZ', f=1)		
+	if 'shr' in attrs:
+		cmds.connectAttr(dMat+".outputShear", obj+'.shear', f=1)			
+
 
 	if len(targets) > 1:
 		mMat = cmds.createNode('multMatrix', n=obj+"_multMat")
