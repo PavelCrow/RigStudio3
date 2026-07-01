@@ -589,6 +589,7 @@ class Inbetweens(object):
 			par_s_j = data["parent_j"].replace("outJoint", "skinJoint").replace("twJoint", "skinJoint")
 
 			root_s_j = cmds.joint(n=root_s_j)
+			cmds.setAttr(root_s_j+".segmentScaleCompensate", 0)
 			cmds.sets(root_s_j, e=1, forceElement=set)
 			pm.parent(root_s_j, par_s_j)
 			utils.removeTransformParentJoint(root_s_j)

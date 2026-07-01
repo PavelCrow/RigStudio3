@@ -30,11 +30,14 @@ class Limb(module.Module) :
 		# w.swapEndOrient_btn.clicked.connect(partial(self.swapEndPose, main, opp_module))
 		# w.addMiddleTwistOffsetControl_btn.clicked.connect(self.addMiddleTwistOffsetControl)
 		w.aimDistance_spinBox.valueChanged.connect(self.update_aim_distance)
+		w.ikSymmetry_checkBox.clicked.connect(partial(self.ikSymmetryToggle, w))
 
 	def updateOptionsPage(self, w):
 		w.aimDistance_spinBox.setValue(cmds.getAttr(self.name+"_mod.aim_offset"))
 		self.widget = w
-		
+
+		w.ikSymmetry_checkBox.setChecked(self.getOptions()['ikSymmetry'])
+
 	def setMirrored(self):
 		# fix joint positions (Update)
 		oppModuleName = utils.getOppositeObject(self.name)
@@ -229,18 +232,26 @@ class Limb(module.Module) :
 
 	def getData(self):
 		data = super(self.__class__, self).getData()
+		
 		optionsData = self.getOptions()
+		
 		data['optionsData'] = optionsData	
 
 		return data	
-	
+
 	def getOptions(self):
 		optionsData = {}
 		optionsData['aimDistance'] = cmds.getAttr(self.name+"_mod.aim_offset")
+		optionsData['ikSymmetry'] = cmds.getAttr(self.name+"_mod.ikSymmetryBehaviour")
 		return optionsData
 	
 	def setOptions(self, optionsData):
-		self.update_aim_distance(optionsData['aimDistance'])
+		# old templates may store optionsData as a bool (no options dict yet)
+		if not isinstance(optionsData, dict):
+			optionsData = {}
+		if 'aimDistance' in optionsData:
+			self.update_aim_distance(optionsData['aimDistance'])
+		self.ikSymmetryToggle(set=True, v=optionsData.get('ikSymmetry', False))
 	
 	def twistOverride(self, t_name, data):
 		if t_name == self.name+"_root":
@@ -261,3 +272,14 @@ class Limb(module.Module) :
 	def ibtwOverride(self, name):
 		if name == self.name + "_middle_twist_0" :
 			cmds.connectAttr(self.name+"_middleOffset.worldMatrix[0]", self.name+"_middle_twist_0_ibtw_joints_group_multMat.matrixIn[0]", f=1)
+
+	def ikSymmetryToggle(self, w=None, set=False, v=False):
+		if not set:
+			v = not cmds.getAttr(self.name+"_mod.ikSymmetryBehaviour")
+		
+		cmds.setAttr(self.name+"_mod.ikSymmetryBehaviour", v)
+		opp_mod = utils.getOppositeIfExists(self.name+"_mod")
+		cmds.setAttr(opp_mod+".ikSymmetryBehaviour", v)
+
+		if w:
+			self.updateOptionsPage(w)			

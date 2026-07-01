@@ -156,9 +156,14 @@ class LimbCurved(module.Module) :
 		return data	
 	
 	def setOptions(self, optionsData):
-		self.update_aim_distance(optionsData['aimDistance'])
+		# old templates may store optionsData as a bool (no options dict yet)
+		if not isinstance(optionsData, dict):
+			optionsData = {}
+		if 'aimDistance' in optionsData:
+			self.update_aim_distance(optionsData['aimDistance'])
 
-		self.rebuildWithNewOptions(joints_count=optionsData['jointsCount'])
+		if 'jointsCount' in optionsData:
+			self.rebuildWithNewOptions(joints_count=optionsData['jointsCount'])
 		# if self.symmetrical and not self.opposite:
 		# 	self.rebuildWithNewOptions(name=utils.getOpposite(self.name), joints_count=optionsData['jointsCount'])
 

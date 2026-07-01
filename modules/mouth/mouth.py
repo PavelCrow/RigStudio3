@@ -114,7 +114,10 @@ class Mouth(module.Module) :
 		return optionsData	
 	
 	def setOptions(self, optionsData):
-		
+		# old templates may store optionsData as a bool (no options dict yet)
+		if not isinstance(optionsData, dict):
+			optionsData = {}
+
 		if 'topEdges' in optionsData:
 			self.topEdges = optionsData['topEdges']
 		else:

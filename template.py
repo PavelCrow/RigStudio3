@@ -141,7 +141,7 @@ class Template(object):
 		data['twistsData'] = self.main.twistClass.getTwistsData()
 		data['ibtwsData'] = self.main.ibtwClass.getIbtwsData()
 		# data['sets'] = self.sets.getData()
-
+		 
 		fullPath = os.path.join(self.rootPath, 'templates', 'rigs', t_name + ".tmpl")
 		print(fullPath)
 		# format data 

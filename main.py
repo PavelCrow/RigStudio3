@@ -1934,6 +1934,9 @@ class MainWindow:
                         cmds.connectAttr(s + '.worldSpace[0]', tg + '.inputGeometry')
                         cmds.connectAttr(c_mat + '.outputMatrix', tg + '.transform')
                         cmds.connectAttr(tg + '.outputGeometry', utils.getOpposite(s) + '.create')
+
+                        if cmds.objExists(modName+"_mod.ikSymmetryBehaviour"):
+                            cmds.connectAttr(modName+"_ikSymmetryBehaviour_condition.outColorB", c_mat + '.inputScaleX')
 	
 
         if len(sel) != 0:
@@ -3142,6 +3145,8 @@ class MainWindow:
                     cmds.connectAttr(c_mat + '.outputMatrix', tg + '.transform')
                     cmds.connectAttr(tg + '.outputGeometry', s + '.create', f=1)
 
+                    if cmds.objExists(newModuleName+"_mod.ikSymmetryBehaviour"):
+                        cmds.connectAttr(newModuleName+"_ikSymmetryBehaviour_condition.outColorB", c_mat + '.inputScaleX')
             else:
                 for s in shapes:
                     # print utils.getOpposite(s), s

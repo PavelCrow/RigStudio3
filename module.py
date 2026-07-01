@@ -730,7 +730,7 @@ class Module(object):
                         cmds.setAttr(cName+"."+a, keyable=0, lock=1)
 
                 # except: cmds.warning(cName+" control is not exists in saved data")
-        
+
         # set options
         if load == "options" or load == "all":
             if not sym:

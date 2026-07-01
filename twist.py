@@ -396,6 +396,9 @@ class Twist(object):
                                     cmds.connectAttr(s+'.worldSpace[0]', tg+'.inputGeometry')
                                     cmds.connectAttr(c_mat+'.outputMatrix', tg+'.transform')
                                     cmds.connectAttr(tg+'.outputGeometry', utils.getOpposite(s)+'.create')
+
+                                    if cmds.objExists(moduleName+"_mod.ikSymmetryBehaviour"):
+                                        cmds.connectAttr(moduleName+"_ikSymmetryBehaviour_condition.outColorB", c_mat + '.inputScaleX')                                    
                                 else:
                                     cmds.connectAttr(s+'.worldSpace[0]', utils.getOpposite(s)+'.create')
 

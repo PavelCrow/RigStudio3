@@ -1,5 +1,6 @@
 import maya.cmds as cmds
 import pymel.core as pm
+from functools import partial
 
 from ... import utils, module
 
@@ -113,7 +114,14 @@ class Foot(module.Module) :
 			
 			ik_end = utils.getControlNameFromInternal(inputModuleName, "ik_end")
 			cmds.setAttr(ik_end+"Shape.v", True)
-				
+
+	def connectSignals(self, main, w):
+		w.ikSymmetry_checkBox.clicked.connect(partial(self.ikSymmetryToggle, w))
+
+	def updateOptionsPage(self, w):
+		self.widget = w
+		w.ikSymmetry_checkBox.setChecked(self.getOptions()['ikSymmetry'])
+
 	def getParent(self):
 		connectionNode_name = self.name+'_root_connector_multMat'
 		#print connectionNode_name
@@ -133,3 +141,34 @@ class Foot(module.Module) :
 	def bake(self):
 		
 		super(self.__class__, self).bake(addObjects=[self.name+"_fk_connector", self.name+"_ikRev_connector"])
+
+	def getData(self):
+		data = super(self.__class__, self).getData()
+		
+		optionsData = self.getOptions()
+		
+		data['optionsData'] = optionsData	
+
+		return data	
+
+	def getOptions(self):
+		optionsData = {}
+		optionsData['ikSymmetry'] = cmds.getAttr(self.name+"_mod.ikSymmetryBehaviour")
+		return optionsData
+	
+	def setOptions(self, optionsData):
+		# old templates may store optionsData as a bool (no options dict yet)
+		if not isinstance(optionsData, dict):
+			optionsData = {}
+		self.ikSymmetryToggle(set=True, v=optionsData.get('ikSymmetry', False))
+
+	def ikSymmetryToggle(self, w=None, set=False, v=False):
+		if not set:
+			v = not cmds.getAttr(self.name+"_mod.ikSymmetryBehaviour")
+		
+		cmds.setAttr(self.name+"_mod.ikSymmetryBehaviour", v)
+		opp_mod = utils.getOppositeIfExists(self.name+"_mod")
+		cmds.setAttr(opp_mod+".ikSymmetryBehaviour", v)
+
+		if w:
+			self.updateOptionsPage(w)			

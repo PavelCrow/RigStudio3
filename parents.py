@@ -934,6 +934,11 @@ class Parents(object):
                 angle = getAngle(grp_name, ctrl_name)
                 if angle > 5:
                     cmds.setAttr(t_name+'.rx', 0)
+                
+            if "_ik_" in obj:
+                if cmds.objExists(moduleName+"_mod.ikSymmetryBehaviour"):
+                    print(444, moduleName+"_ikSymmetryBehaviour_condition")
+                    cmds.connectAttr(moduleName+"_ikSymmetryBehaviour_condition.outColorR", obj+".sx")
 
         # make connections
         if attrType == 'switcher':

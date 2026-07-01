@@ -15,6 +15,13 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
+    <widget class="QCheckBox" name="ikSymmetry_checkBox">
+     <property name="text">
+      <string>Ik Symmetry Behaviour</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QFrame" name="delete_frame">
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
