@@ -54,6 +54,13 @@
     </layout>
    </item>
    <item>
+    <widget class="QCheckBox" name="ikSymmetry_checkBox">
+     <property name="text">
+      <string>Ik Symmetry Behaviour</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QPushButton" name="matchFkToIK">
      <property name="text">
       <string>Match FK to IK</string>

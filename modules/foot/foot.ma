@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: foot.ma
-//Last modified: Fri, Jun 26, 2026 08:08:46 AM
+//Last modified: Thu, Jul 02, 2026 08:20:07 AM
 //Codeset: 1251
 requires maya "2022";
 requires -nodeType "sweepMeshCreator" -dataType "sweepMeshData" -dataType "sweepProfileData"
@@ -13,7 +13,7 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202110272215-ad32f8f1e6";
 fileInfo "osv" "Windows 10 Pro v2009 (Build: 26200)";
-fileInfo "UUID" "82811BDA-4149-1075-0079-FDBBDD1D286A";
+fileInfo "UUID" "6420FDBA-4161-C3A0-2B0C-58A7C80D31A9";
 createNode transform -n "mod";
 	rename -uid "004B43DA-47F7-458F-3E16-DB8E5B0E6C0C";
 	addAttr -ci true -sn "ikFk" -ln "ikFk" -min 0 -max 1 -at "double";
@@ -1478,15 +1478,15 @@ createNode multMatrix -n "multMatrix161";
 	rename -uid "D7FC7943-4C70-84E5-1639-D2B4F135D926";
 	setAttr -s 2 ".i";
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "E1390E57-43AF-8A2D-1F0F-E3A09C7F33E6";
+	rename -uid "97A734B6-44F6-D8C1-99C2-B9B606AC6DA6";
 	setAttr -s 23 ".lnk";
 	setAttr -s 23 ".slnk";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "98E10DD8-4B38-0ED3-CCD5-9B9858A3EDD8";
+	rename -uid "843AC1F5-44EF-91A1-CF22-D087A324C5CD";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "19CE01F8-4DF6-369B-03C9-E4ACC39F3E53";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "40D904A0-4AD8-4E3B-7A1B-05B973DDACC6";
+	rename -uid "F16D9872-47A0-4DB0-2D55-4089F7EEEDAF";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "281C2244-47AF-B8DB-A19E-3DB775F64F4B";
 	setAttr ".g" yes;
@@ -1950,9 +1950,9 @@ createNode unitConversion -n "unitConversion1958";
 	rename -uid "AAE42689-40F5-998E-1D32-DA8AB7C039DF";
 	setAttr ".cf" 0.017453292519943295;
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "3E6C348B-46C8-0389-AF44-60AFD87E0032";
+	rename -uid "D69F2E51-4097-61BF-AFA0-B9AC30A832C3";
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "977F3C0B-4AC9-AB96-A9B7-328CDE26EF59";
+	rename -uid "60F8E3D2-49C7-FE15-682E-B2B28273AB32";
 createNode floatConstant -n "floatConstant1";
 	rename -uid "8427F90B-4326-33CB-3E71-4684E1E74A14";
 	setAttr "._f" -90;
@@ -2008,94 +2008,94 @@ createNode condition -n "ikSymmetryBehaviour_condition";
 	setAttr ".ct" -type "float3" -1 1 1 ;
 	setAttr ".cf" -type "float3" 1 1 -1 ;
 createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
-	rename -uid "6A7589F8-4CCE-B3B5-0532-B68C4157BE92";
+	rename -uid "EBACAD03-47EC-C130-BD1E-3EA4579184CB";
 	setAttr -s 3 ".tgi";
 	setAttr ".tgi[0].tn" -type "string" "Untitled_1";
-	setAttr ".tgi[0].vl" -type "double2" -5204.7616979432587 -10199.477925367268 ;
-	setAttr ".tgi[0].vh" -type "double2" 8511.9044236720674 9891.1446042859989 ;
+	setAttr ".tgi[0].vl" -type "double2" -5204.9290169189962 -10201.190070831602 ;
+	setAttr ".tgi[0].vh" -type "double2" 8513.2622187909801 9891.6662736071648 ;
 	setAttr -s 13 ".tgi[0].ni";
-	setAttr ".tgi[0].ni[0].x" 1295.7142333984375;
-	setAttr ".tgi[0].ni[0].y" 98.571426391601562;
+	setAttr ".tgi[0].ni[0].x" 988.5714111328125;
+	setAttr ".tgi[0].ni[0].y" 34.285713195800781;
 	setAttr ".tgi[0].ni[0].nvs" 18304;
-	setAttr ".tgi[0].ni[1].x" 988.5714111328125;
-	setAttr ".tgi[0].ni[1].y" -67.142860412597656;
+	setAttr ".tgi[0].ni[1].x" 362.85714721679688;
+	setAttr ".tgi[0].ni[1].y" 164.28572082519531;
 	setAttr ".tgi[0].ni[1].nvs" 18304;
 	setAttr ".tgi[0].ni[2].x" 1627.8299560546875;
 	setAttr ".tgi[0].ni[2].y" -187.4549560546875;
 	setAttr ".tgi[0].ni[2].nvs" 18304;
-	setAttr ".tgi[0].ni[3].x" 670;
-	setAttr ".tgi[0].ni[3].y" -107.14286041259766;
+	setAttr ".tgi[0].ni[3].x" 988.5714111328125;
+	setAttr ".tgi[0].ni[3].y" -67.142860412597656;
 	setAttr ".tgi[0].ni[3].nvs" 18304;
 	setAttr ".tgi[0].ni[4].x" 670;
-	setAttr ".tgi[0].ni[4].y" 95.714286804199219;
+	setAttr ".tgi[0].ni[4].y" -5.7142858505249023;
 	setAttr ".tgi[0].ni[4].nvs" 18304;
-	setAttr ".tgi[0].ni[5].x" 988.5714111328125;
-	setAttr ".tgi[0].ni[5].y" 34.285713195800781;
+	setAttr ".tgi[0].ni[5].x" 1354.2857666015625;
+	setAttr ".tgi[0].ni[5].y" -514.28570556640625;
 	setAttr ".tgi[0].ni[5].nvs" 18304;
-	setAttr ".tgi[0].ni[6].x" 1301.543701171875;
-	setAttr ".tgi[0].ni[6].y" -7.5206913948059082;
-	setAttr ".tgi[0].ni[6].nvs" 18305;
-	setAttr ".tgi[0].ni[7].x" 1602.857177734375;
-	setAttr ".tgi[0].ni[7].y" 128.57142639160156;
-	setAttr ".tgi[0].ni[7].nvs" 18305;
-	setAttr ".tgi[0].ni[8].x" 670;
-	setAttr ".tgi[0].ni[8].y" -5.7142858505249023;
+	setAttr ".tgi[0].ni[6].x" 670;
+	setAttr ".tgi[0].ni[6].y" 95.714286804199219;
+	setAttr ".tgi[0].ni[6].nvs" 18304;
+	setAttr ".tgi[0].ni[7].x" 362.85714721679688;
+	setAttr ".tgi[0].ni[7].y" 62.857143402099609;
+	setAttr ".tgi[0].ni[7].nvs" 18304;
+	setAttr ".tgi[0].ni[8].x" 1295.7142333984375;
+	setAttr ".tgi[0].ni[8].y" 98.571426391601562;
 	setAttr ".tgi[0].ni[8].nvs" 18304;
-	setAttr ".tgi[0].ni[9].x" 362.85714721679688;
-	setAttr ".tgi[0].ni[9].y" 62.857143402099609;
+	setAttr ".tgi[0].ni[9].x" 670;
+	setAttr ".tgi[0].ni[9].y" -107.14286041259766;
 	setAttr ".tgi[0].ni[9].nvs" 18304;
 	setAttr ".tgi[0].ni[10].x" 362.85714721679688;
 	setAttr ".tgi[0].ni[10].y" -38.571430206298828;
 	setAttr ".tgi[0].ni[10].nvs" 18304;
-	setAttr ".tgi[0].ni[11].x" 362.85714721679688;
-	setAttr ".tgi[0].ni[11].y" 164.28572082519531;
-	setAttr ".tgi[0].ni[11].nvs" 18304;
-	setAttr ".tgi[0].ni[12].x" 1354.2857666015625;
-	setAttr ".tgi[0].ni[12].y" -514.28570556640625;
-	setAttr ".tgi[0].ni[12].nvs" 18304;
+	setAttr ".tgi[0].ni[11].x" 1301.543701171875;
+	setAttr ".tgi[0].ni[11].y" -7.5206913948059082;
+	setAttr ".tgi[0].ni[11].nvs" 18305;
+	setAttr ".tgi[0].ni[12].x" 1602.857177734375;
+	setAttr ".tgi[0].ni[12].y" 128.57142639160156;
+	setAttr ".tgi[0].ni[12].nvs" 18305;
 	setAttr ".tgi[1].tn" -type "string" "Untitled_2";
-	setAttr ".tgi[1].vl" -type "double2" 1926.6284827105205 -2212.7726036796048 ;
-	setAttr ".tgi[1].vh" -type "double2" 2973.6872768707244 -679.15920131815062 ;
+	setAttr ".tgi[1].vl" -type "double2" 1926.1903996505464 -2214.5173200898184 ;
+	setAttr ".tgi[1].vh" -type "double2" 2974.9998817841256 -678.33970781551443 ;
 	setAttr -s 6 ".tgi[1].ni";
-	setAttr ".tgi[1].ni[0].x" 1431.4285888671875;
-	setAttr ".tgi[1].ni[0].y" -1471.4285888671875;
-	setAttr ".tgi[1].ni[0].nvs" 18304;
-	setAttr ".tgi[1].ni[1].x" 1738.5714111328125;
-	setAttr ".tgi[1].ni[1].y" -1272.857177734375;
-	setAttr ".tgi[1].ni[1].nvs" 18305;
+	setAttr ".tgi[1].ni[0].x" 2064.20166015625;
+	setAttr ".tgi[1].ni[0].y" -1295.462158203125;
+	setAttr ".tgi[1].ni[0].nvs" 18305;
+	setAttr ".tgi[1].ni[1].x" 1431.4285888671875;
+	setAttr ".tgi[1].ni[1].y" -1471.4285888671875;
+	setAttr ".tgi[1].ni[1].nvs" 18304;
 	setAttr ".tgi[1].ni[2].x" 1738.5714111328125;
 	setAttr ".tgi[1].ni[2].y" -1471.4285888671875;
 	setAttr ".tgi[1].ni[2].nvs" 18304;
-	setAttr ".tgi[1].ni[3].x" 2064.20166015625;
-	setAttr ".tgi[1].ni[3].y" -1295.462158203125;
+	setAttr ".tgi[1].ni[3].x" 2458.739501953125;
+	setAttr ".tgi[1].ni[3].y" -1372.941162109375;
 	setAttr ".tgi[1].ni[3].nvs" 18305;
-	setAttr ".tgi[1].ni[4].x" 2045.7142333984375;
-	setAttr ".tgi[1].ni[4].y" -1470;
-	setAttr ".tgi[1].ni[4].nvs" 18304;
-	setAttr ".tgi[1].ni[5].x" 2458.739501953125;
-	setAttr ".tgi[1].ni[5].y" -1372.941162109375;
-	setAttr ".tgi[1].ni[5].nvs" 18305;
+	setAttr ".tgi[1].ni[4].x" 1738.5714111328125;
+	setAttr ".tgi[1].ni[4].y" -1272.857177734375;
+	setAttr ".tgi[1].ni[4].nvs" 18305;
+	setAttr ".tgi[1].ni[5].x" 2045.7142333984375;
+	setAttr ".tgi[1].ni[5].y" -1470;
+	setAttr ".tgi[1].ni[5].nvs" 18304;
 	setAttr ".tgi[2].tn" -type "string" "Untitled_3";
-	setAttr ".tgi[2].vl" -type "double2" -383.76739690114152 -2381.1409694362746 ;
-	setAttr ".tgi[2].vh" -type "double2" 726.3166055752863 -755.21536388291941 ;
+	setAttr ".tgi[2].vl" -type "double2" -383.51498802206225 -2382.1427624850089 ;
+	setAttr ".tgi[2].vh" -type "double2" 727.56259339845781 -754.76187477036262 ;
 	setAttr -s 6 ".tgi[2].ni";
 	setAttr ".tgi[2].ni[0].x" -354.36709594726562;
 	setAttr ".tgi[2].ni[0].y" -1415.3857421875;
 	setAttr ".tgi[2].ni[0].nvs" 18305;
-	setAttr ".tgi[2].ni[1].x" 437.65911865234375;
-	setAttr ".tgi[2].ni[1].y" -1342.3304443359375;
+	setAttr ".tgi[2].ni[1].x" 466.11904907226562;
+	setAttr ".tgi[2].ni[1].y" -1058.1529541015625;
 	setAttr ".tgi[2].ni[1].nvs" 18305;
-	setAttr ".tgi[2].ni[2].x" 466.11904907226562;
-	setAttr ".tgi[2].ni[2].y" -1058.1529541015625;
+	setAttr ".tgi[2].ni[2].x" -716.04058837890625;
+	setAttr ".tgi[2].ni[2].y" -1225.283203125;
 	setAttr ".tgi[2].ni[2].nvs" 18305;
-	setAttr ".tgi[2].ni[3].x" 27.691106796264648;
-	setAttr ".tgi[2].ni[3].y" -1118.872802734375;
+	setAttr ".tgi[2].ni[3].x" -380.568603515625;
+	setAttr ".tgi[2].ni[3].y" -1111.3995361328125;
 	setAttr ".tgi[2].ni[3].nvs" 18305;
-	setAttr ".tgi[2].ni[4].x" -380.568603515625;
-	setAttr ".tgi[2].ni[4].y" -1111.3995361328125;
+	setAttr ".tgi[2].ni[4].x" 27.691106796264648;
+	setAttr ".tgi[2].ni[4].y" -1118.872802734375;
 	setAttr ".tgi[2].ni[4].nvs" 18305;
-	setAttr ".tgi[2].ni[5].x" -716.04058837890625;
-	setAttr ".tgi[2].ni[5].y" -1225.283203125;
+	setAttr ".tgi[2].ni[5].x" 437.65911865234375;
+	setAttr ".tgi[2].ni[5].y" -1342.3304443359375;
 	setAttr ".tgi[2].ni[5].nvs" 18305;
 select -ne :time1;
 	setAttr -av -k on ".cch";
@@ -3033,43 +3033,43 @@ connectAttr "mod.ikSymmetryBehaviour" "ikSymmetryBehaviour_multDoubleLinear.i2";
 connectAttr "ikSymmetryBehaviour_multDoubleLinear.o" "ikSymmetryBehaviour_condition.ft"
 		;
 connectAttr "mirror_condition.ocr" "ikSymmetryBehaviour_condition.cfg";
-connectAttr "toe_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn";
-connectAttr "mirror_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
+connectAttr "multiplyDivide3.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn";
+connectAttr "toeTip_poser_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
 		;
 connectAttr "ik_toe_upv.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn";
-connectAttr "mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn";
-connectAttr "toeBall_toeTip_distance.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[4].dn"
+connectAttr "mirror_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn"
 		;
-connectAttr "multiplyDivide3.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn";
-connectAttr "multDoubleLinear1624.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[6].dn"
+connectAttr "mainPoser_decomposeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[4].dn"
 		;
-connectAttr "toeTip_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[7].dn";
-connectAttr "mainPoser_decomposeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[8].dn"
+connectAttr "ik_toe_upvShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn";
+connectAttr "toeBall_toeTip_distance.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[6].dn"
 		;
-connectAttr "toe_poser_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[9].dn"
+connectAttr "toe_poser_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[7].dn"
 		;
+connectAttr "toe_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[8].dn";
+connectAttr "mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[9].dn";
 connectAttr "mainPoser.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[10].dn";
-connectAttr "toeTip_poser_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[11].dn"
+connectAttr "multDoubleLinear1624.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[11].dn"
 		;
-connectAttr "ik_toe_upvShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[12].dn"
+connectAttr "toeTip_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[12].dn"
 		;
-connectAttr "root_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn";
-connectAttr "mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn";
+connectAttr "mirror_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn"
+		;
+connectAttr "root_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn";
 connectAttr "multMatrix195.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn";
-connectAttr "mirror_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn"
+connectAttr "ik_heel_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn";
+connectAttr "mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn";
+connectAttr "decomposeMatrix240.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn"
 		;
-connectAttr "decomposeMatrix240.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn"
-		;
-connectAttr "ik_heel_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn";
 connectAttr "mirror_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn"
 		;
-connectAttr "mirror_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn";
-connectAttr "ik_heel_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn";
-connectAttr "ikSymmetryBehaviour_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn"
+connectAttr "ik_heel_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn";
+connectAttr "mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn";
+connectAttr "ikSymmetryBehaviour_multDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn"
 		;
-connectAttr "ikSymmetryBehaviour_multDoubleLinear.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[4].dn"
+connectAttr "ikSymmetryBehaviour_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[4].dn"
 		;
-connectAttr "mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[5].dn";
+connectAttr "mirror_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[5].dn";
 connectAttr "black_rsSG.pa" ":renderPartition.st" -na;
 connectAttr "green_rsSG.pa" ":renderPartition.st" -na;
 connectAttr "blue_rsSG.pa" ":renderPartition.st" -na;

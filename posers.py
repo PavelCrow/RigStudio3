@@ -75,10 +75,10 @@ def createPoser(name=""):
 		if ok:
 			if cmds.objExists(name+"_poser"):
 				name = incrementPoserIfExists(name)
-	
-			if " ":
-				name.replace(" ", "_")
-			
+
+			if " " in name:
+				name = name.replace(" ", "_")
+
 			if "-" in name  or name[0].isdigit():
 				QtWidgets.QMessageBox.information(None, "Warning", "Wrong Name.")
 				return
@@ -307,9 +307,9 @@ def renamePoser():
 		if cmds.objExists(name+"_poser"):
 			name = incrementPoserIfExists(name)
 
-		if " ":
-			name.replace(" ", "_")
-		
+		if " " in name:
+			name = name.replace(" ", "_")
+
 		if "-" in name  or name[0].isdigit():
 			QtWidgets.QMessageBox.information(None, "Warning", "Wrong Name.")
 			return

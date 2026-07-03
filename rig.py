@@ -290,16 +290,6 @@ class Rig:
 
         debugEnd(traceback.extract_stack()[-1][2])
 
-    def getSkinJoints(self):
-        debugStart(traceback.extract_stack()[-1][2], True)
-
-        all_joints = []
-        for m in self.modules:
-            if cmds.objExists(m + "_skinJoints"):
-                joints = cmds.listRelatives(m + "_skinJoints", allDescendents=1, type='joint')
-                if type(joints).__name__ != "NoneType":
-                    all_joints += joints
-
     def toggleVis_posers(self, state=None): #
         if not cmds.objExists(self.root + ".posersVis"):
             cmds.warning("Cannot find the "+self.root + ".posersVis")

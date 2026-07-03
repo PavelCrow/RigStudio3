@@ -715,7 +715,7 @@ class Module(object):
                     if data['controlsColorData'][intName]:
                         cmds.setAttr(s+".overrideEnabled", 1)
                     else:
-                        cmds.setAttr(s+".overrideEnabled", 1)
+                        cmds.setAttr(s+".overrideEnabled", 0)
                     cmds.setAttr(s+'.overrideColor', data['controlsColorData'][intName])				
 
                 # attributes

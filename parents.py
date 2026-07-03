@@ -937,7 +937,6 @@ class Parents(object):
                 
             if "_ik_" in obj:
                 if cmds.objExists(moduleName+"_mod.ikSymmetryBehaviour"):
-                    print(444, moduleName+"_ikSymmetryBehaviour_condition")
                     cmds.connectAttr(moduleName+"_ikSymmetryBehaviour_condition.outColorR", obj+".sx")
 
         # make connections

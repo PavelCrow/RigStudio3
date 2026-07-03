@@ -386,21 +386,22 @@ class Twist(object):
                         if mirrorShape:
                             shapes = cmds.listRelatives(c, s=1)
                             for s in shapes:	
-                                if s == s.split("Shape")[0][-1].isdigit():
-                                    tg = cmds.createNode('transformGeometry', n=s+'_TG')
-                                    c_mat = cmds.createNode('composeMatrix', n=s+'_compMat')
-                                    cmds.sets(tg, e=1, forceElement=set)
-                                    cmds.sets(c_mat, e=1, forceElement=set)
-                                    cmds.setAttr(c_mat+'.inputScaleY', -1)
+                                # print(4444, s)
+                                # if s == s.split("Shape")[0][-1].isdigit():
+                                #     tg = cmds.createNode('transformGeometry', n=s+'_TG')
+                                #     c_mat = cmds.createNode('composeMatrix', n=s+'_compMat')
+                                #     cmds.sets(tg, e=1, forceElement=set)
+                                #     cmds.sets(c_mat, e=1, forceElement=set)
+                                #     cmds.setAttr(c_mat+'.inputScaleY', -1)
 
-                                    cmds.connectAttr(s+'.worldSpace[0]', tg+'.inputGeometry')
-                                    cmds.connectAttr(c_mat+'.outputMatrix', tg+'.transform')
-                                    cmds.connectAttr(tg+'.outputGeometry', utils.getOpposite(s)+'.create')
+                                #     cmds.connectAttr(s+'.worldSpace[0]', tg+'.inputGeometry')
+                                #     cmds.connectAttr(c_mat+'.outputMatrix', tg+'.transform')
+                                #     cmds.connectAttr(tg+'.outputGeometry', utils.getOpposite(s)+'.create')
 
-                                    if cmds.objExists(moduleName+"_mod.ikSymmetryBehaviour"):
-                                        cmds.connectAttr(moduleName+"_ikSymmetryBehaviour_condition.outColorB", c_mat + '.inputScaleX')                                    
-                                else:
-                                    cmds.connectAttr(s+'.worldSpace[0]', utils.getOpposite(s)+'.create')
+                                #     if cmds.objExists(moduleName+"_mod.ikSymmetryBehaviour"):
+                                #         cmds.connectAttr(moduleName+"_ikSymmetryBehaviour_condition.outColorB", c_mat + '.inputScaleX')                                    
+                                # else:
+                                cmds.connectAttr(s+'.worldSpace[0]', utils.getOpposite(s)+'.create')
 
                         else:						
                             shapes = cmds.listRelatives(c, s=1)
@@ -419,7 +420,7 @@ class Twist(object):
                 # Безопасно получаем список, по умолчанию пустой
                 twist_multipliers = data.get('jointsTwistMultiplier', [])
                 for i, twistMultiplier in enumerate(twist_multipliers):
-                    cmds.setAttr(t_name+"_twist _%s_skinJoint.twistMultiplier" %i, twistMultiplier)
+                    cmds.setAttr(t_name+"_twist_%s_skinJoint.twistMultiplier" %i, twistMultiplier)
             else:
                 self.changeJointsCount(5, moduleName=moduleName)
 
@@ -472,7 +473,7 @@ class Twist(object):
                     if data['controlsColorData'][intName]:
                         cmds.setAttr(s+".overrideEnabled", 1)
                     else:
-                        cmds.setAttr(s+".overrideEnabled", 1)
+                        cmds.setAttr(s+".overrideEnabled", 0)
                     cmds.setAttr(s+'.overrideColor', data['controlsColorData'][intName])				
 
                 # attributes

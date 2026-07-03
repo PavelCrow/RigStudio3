@@ -1,5 +1,6 @@
 import maya.cmds as cmds
 import pymel.core as pm
+from functools import partial
 
 from ... import utils, module
 
@@ -21,19 +22,23 @@ class LimbQuadrupped(module.Module) :
 	def connectSignals(self, mainInstance, w):
 		w.aimDistance_spinBox.valueChanged.connect(self.update_aim_distance)
 		w.matchFkToIK.clicked.connect(self.matchFkToIK)
+		w.ikSymmetry_checkBox.clicked.connect(partial(self.ikSymmetryToggle, w))
 
 	def updateOptionsPage(self, w):
 		w.aimDistance_spinBox.setValue(cmds.getAttr(self.name+"_mod.aim_offset"))
 		self.widget = w
+		w.ikSymmetry_checkBox.setChecked(self.getOptions()['ikSymmetry'])
 	
 	def getOptions(self):
 		optionsData = {}
 		optionsData['aimDistance'] = cmds.getAttr(self.name+"_mod.aim_offset")
+		optionsData['ikSymmetry'] = cmds.getAttr(self.name+"_mod.ikSymmetryBehaviour")
 		return optionsData
 
 	def setOptions(self, optionsData):
 		if optionsData:
 			self.update_aim_distance(optionsData['aimDistance'])
+			self.ikSymmetryToggle(set=True, v=optionsData.get('ikSymmetry', False))
 
 	def connect_ankle_to_posers(self):
 		
@@ -289,3 +294,14 @@ class LimbQuadrupped(module.Module) :
 		cmds.delete(self.name+"_multiplyDivide357")
 
 		super(self.__class__, self).delete()
+
+	def ikSymmetryToggle(self, w=None, set=False, v=False):
+		if not set:
+			v = not cmds.getAttr(self.name+"_mod.ikSymmetryBehaviour")
+		
+		cmds.setAttr(self.name+"_mod.ikSymmetryBehaviour", v)
+		opp_mod = utils.getOppositeIfExists(self.name+"_mod")
+		cmds.setAttr(opp_mod+".ikSymmetryBehaviour", v)
+
+		if w:
+			self.updateOptionsPage(w)					
