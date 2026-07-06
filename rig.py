@@ -226,8 +226,6 @@ class Rig:
         cmds.select(objAttr)
 
     def loadPos(self):
-        debugStart(traceback.extract_stack()[-1][2])
-
         controls = self.getControls()
 
         # on creating main
@@ -255,11 +253,7 @@ class Rig:
                     except:
                         print("miss attr - ", attr)
 
-        debugEnd(traceback.extract_stack()[-1][2])
-
     def resetPos(self):
-        debugStart(traceback.extract_stack()[-1][2])
-
         sel = cmds.ls(sl=True)
 
         controls = self.getControls()
@@ -287,8 +281,6 @@ class Rig:
             cmds.select(sel)
         else:
             cmds.select(clear=1)
-
-        debugEnd(traceback.extract_stack()[-1][2])
 
     def toggleVis_posers(self, state=None): #
         if not cmds.objExists(self.root + ".posersVis"):
@@ -472,12 +464,7 @@ class Rig:
                 self.modules[moduleName] = m
 
     def create_module(self, moduleName, moduleType, options): #
-        moduleTypeCap = utils.capitalizeName(moduleType)
-
-        # importlib.import_module('rigStudio3.modules.%s.%s' % (moduleType, moduleType))
-        exec('from .modules.%s import %s' % (moduleType, moduleType)) 	# from .modules.moduleA import moduleA
-        exec('importlib.reload(%s)' % (moduleType))						# importlib.reload(moduleA)
-        m = eval('%s.%s(moduleName)' % (moduleType, moduleTypeCap))  	# m = modules.moduleA.moduleA.ModuleA(name)
+        m = utils.importModuleClass(moduleType)(moduleName)
         m.main = self.main
         m.create(options)
         

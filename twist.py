@@ -46,6 +46,9 @@ class Twist(object):
         self.win.twistToggleOffsetLocators_btn.clicked.connect(self.toggleOffsetLocators)
 
     def loadTwistsData(self):
+        # Populate the twist cache with names only (cheap). The expensive
+        # per-twist getData() is deferred to getTwist() on first access, so
+        # opening a window / refreshing the list no longer reads every twist.
         self.twists = {}
 
         if not cmds.objExists('twists'):
@@ -53,10 +56,32 @@ class Twist(object):
 
         twists_gr = cmds.listRelatives('twists') or []
         for t_gr in twists_gr:
-            twist = {}
-            t_name = t_gr.split('_mod')[0]
-            twist = self.getData(t_name)
-            self.twists[t_name] = twist
+            self.twists[t_gr.split('_mod')[0]] = {}
+
+    def getTwist(self, t_name):
+        """Return twist data, loading and caching it on first access."""
+        if not self.twists.get(t_name):
+            self.twists[t_name] = self.getData(t_name)
+        return self.twists[t_name]
+
+    def getFrameData(self, twName):
+        """Cheap subset of getData for the UI frame (no curve/shape reads).
+
+        Used when selecting a twist in the list so switching is instant; the
+        full getData (which reconstructs control curves) is only needed for
+        saving templates and reset().
+        """
+        data = {'name': twName}
+        data['jointsCount'] = len(cmds.listRelatives(twName+'_joints') or [])
+        try:  # old characters may lack these attrs
+            data['target'] = cmds.getAttr(twName+"_mod.target")
+            data['endTarget'] = cmds.getAttr(twName+"_mod.endTarget")
+            data['rootOrientTarget'] = cmds.getAttr(twName+"_mod.rootOrientTarget")
+            data['endOrientTarget'] = cmds.getAttr(twName+"_mod.endOrientTarget")
+        except:
+            data['target'] = data['endTarget'] = ''
+            data['rootOrientTarget'] = data['endOrientTarget'] = ''
+        return data
 
     def doubleClckItem(self):
         if self.curTwistName: cmds.select(self.curTwistName+"_mod")
@@ -65,10 +90,9 @@ class Twist(object):
         # get current twist 
         try:
             self.curTwistName = self.win.twists_listWidget.currentItem().text()
-            self.curTwist = self.twists[self.curTwistName]
         except:
             self.curTwistName = ''
-            self.curTwist = {}
+        self.curTwist = {}
 
         # update cur twist frame
         self.updateFrame()
@@ -108,9 +132,9 @@ class Twist(object):
             if not cmds.objExists(self.curTwistName+"_mod"):
                 return
             self.win.twist_frame.setEnabled(True)
-            data = self.getData(self.curTwistName)
+            data = self.getFrameData(self.curTwistName)
 
-            self.win.twistName_lineEdit.setText(self.curTwist['name'])	
+            self.win.twistName_lineEdit.setText(data['name'])
             self.win.twistsJointsCount_lineEdit.setText(str(data['jointsCount']))
 
             self.win.twistRootJoint_lineEdit.setText(data['target'])
@@ -654,7 +678,7 @@ class Twist(object):
     def reset(self, resetRootOnly=False, resetEndOnly=False, t_name=None):
         if not t_name:
             t_name = self.curTwistName
-        twist = self.twists[t_name]
+        twist = self.getTwist(t_name)
         target_outJoint = twist['target']
         endTarget_outJoint = twist['endTarget']
     

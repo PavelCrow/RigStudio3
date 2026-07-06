@@ -180,7 +180,6 @@ class treeWidgetClass(QtWidgets.QTreeWidget):
 
 		self.setCurrentItem(root_item)
 
-		debugEnd(traceback.extract_stack()[-1][2])	
 
 	def getSetObjects(self, set):
 		if not cmds.objExists(set):
@@ -329,7 +328,6 @@ class Sets(object):
 		self.win.setsAddSelection_btn.clicked.connect(self.addSelectedToControlSet)
 		self.win.setsRemoveControl_btn.clicked.connect(self.removeFromControlSet)
 
-		debugEnd(traceback.extract_stack()[-1][2])
 
 	def update(self):
 		self.treeWidget.updateControlSetTree()	
@@ -370,8 +368,9 @@ class Sets(object):
 			else:
 				self.listWidget.setEnabled(True)
 
-			#cmds.select(currentControlSet)	
-		except: pass
+			#cmds.select(currentControlSet)
+		except Exception as e:
+			cmds.warning("Cannot update set controls: %s" % e)
 
 	def addControlSet(self, name=''):
 		if not name or name == "":
@@ -537,7 +536,6 @@ class Sets(object):
 		# add menu to button
 		self.win.setsTemplate_btn.setMenu(menu)
 
-		debugEnd(traceback.extract_stack()[-1][2])			
 
 	def getData(self):
 		sets_list = []

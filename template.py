@@ -11,7 +11,7 @@ else:
     from PySide6 import QtWidgets, QtGui, QtCore, QtUiTools
     from shiboken6 import wrapInstance
 
-import os, json
+import os, json, time
 
 
 
@@ -20,6 +20,102 @@ class Template(object):
 		self.main = None
 		self.rootPath = os.path.normpath(os.path.dirname(__file__))
 	
+
+	def _log_migration(self, report):
+		if report:
+			print("[rigStudio] template migrated from an older format:")
+			for line in report:
+				print(line)
+
+	def _migrate_module(self, mData, report=None):
+		"""Normalize one module's saved data to the current schema.
+
+		Fills missing keys with safe defaults and coerces wrong types so that
+		templates saved by older versions load without crashing. For an
+		up-to-date template this is a no-op.
+		"""
+		if not isinstance(mData, dict):
+			return mData
+
+		name = mData.get('name', '?')
+		fixed = []
+
+		if 'parent' not in mData:
+			mData['parent'] = None
+			fixed.append('parent')
+
+		for key in ('symmetrical', 'opposite', 'seamless'):
+			if not isinstance(mData.get(key), bool):
+				mData[key] = bool(mData.get(key, False))
+				fixed.append(key)
+
+		# these are all expected to be dicts; old templates sometimes stored
+		# optionsData as a bool (False) when a module had no options yet
+		for key in ('posersAttrsData', 'posersShapeData', 'controlsAttrData',
+					'controlsNamesData', 'controlsVisData', 'controlsColorData',
+					'controlsShapeData', 'optionsData'):
+			if not isinstance(mData.get(key), dict):
+				mData[key] = {}
+				fixed.append(key)
+
+		if not isinstance(mData.get('additionalControlsData'), list):
+			mData['additionalControlsData'] = []
+			fixed.append('additionalControlsData')
+
+		parents = mData.get('parents')
+		if not isinstance(parents, list):
+			parents = []
+			fixed.append('parents')
+		clean = [p for p in parents if isinstance(p, dict) and 'control' in p]
+		if len(clean) != len(parents):
+			fixed.append('parents(dropped %d)' % (len(parents) - len(clean)))
+		mData['parents'] = clean
+
+		if fixed and report is not None:
+			report.append("  module '%s': %s" % (name, ", ".join(fixed)))
+
+		return mData
+
+	def _migrate(self, data):
+		"""Normalize a whole rig / compound template to the current schema.
+
+		Mutates and returns data. Runs once at the top of a load so the rest of
+		the load path can assume a consistent shape. A no-op for current templates.
+		"""
+		if not isinstance(data, dict):
+			return data
+
+		report = []
+
+		if not isinstance(data.get('modulesData'), list):
+			data['modulesData'] = []
+		for mData in data['modulesData']:
+			self._migrate_module(mData, report)
+
+		for key in ('twistsData', 'ibtwsData'):
+			if not isinstance(data.get(key), list):
+				data[key] = []
+				report.append("  top-level: reset '%s' to empty list" % key)
+
+		# twist entries: ensure the fields the loader reads unconditionally exist.
+		# Missing orient targets default to the plain targets (== "no offset orient").
+		twists = []
+		dropped = 0
+		for tw in data['twistsData']:
+			if not isinstance(tw, dict) or 'target' not in tw:
+				dropped += 1
+				continue
+			tw.setdefault('endTarget', tw['target'])
+			tw.setdefault('rootOrientTarget', tw['target'])
+			tw.setdefault('endOrientTarget', tw['endTarget'])
+			twists.append(tw)
+		if dropped:
+			report.append("  twists: dropped %d entry(ies) without a target" % dropped)
+		data['twistsData'] = twists
+
+		self._log_migration(report)
+
+		return data
 
 	def module_save(self):
 		m = self.main.curModule
@@ -62,6 +158,11 @@ class Template(object):
 			with open(path, mode='r') as f:
 				mData = json.load(f)
 
+		# normalize older-format templates before anything reads the data
+		report = []
+		self._migrate_module(mData, report)
+		self._log_migration(report)
+
 		# set module paraneters
 		mod.setData(mData)
 
@@ -87,6 +188,25 @@ class Template(object):
 
 		print("Template file %s was deleted" % path)
 	
+	def rig_delete(self, tName):
+		result = QtWidgets.QMessageBox().question(self.main.win, 'Delete Rig Template',
+											'To delete %s template?' % tName,
+											QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+		if result == QtWidgets.QMessageBox.No:
+			return
+
+		path = os.path.join(self.rootPath, 'templates', 'rigs', tName + '.tmpl')
+		os.remove(path)
+		self.main.rigTemplatesMenuUpdate()
+
+		print("Template file %s was deleted" % path)
+
+	def compound_delete(self, tPath):
+		os.remove(tPath)
+		self.main.compoundModuleMenuUpdate()
+
+		print("Template file %s was deleted" % tPath)
+
 	def rig_save(self):
 		data = {}
 		modulesData = []
@@ -122,7 +242,6 @@ class Template(object):
 
 		for name in self.main.rig.modules:
 			m = self.main.rig.modules[name]
-			print("Get data from", name)
 			mData = m.getData()
 			modulesData.append(mData)
 
@@ -265,7 +384,10 @@ class Template(object):
 		self.main.updateModulesTree()
 
 	def load_modules(self, data, load):
-		
+
+		# normalize older-format templates before anything reads the data
+		data = self._migrate(data)
+
 		# rename data
 		modulesRename = {}
 		new_modules_names = []
@@ -309,16 +431,13 @@ class Template(object):
 								old_parent_module_name = mData["parent"].split("_")[0]
 							else :
 								old_parent_module_name = mData["parent"].split("_")[0] + "_" + mData["parent"].split("_")[1]
-							print(333, old_parent_module_name)
 							if old_parent_module_name in modulesRename:
 								mData["parent"] = modulesRename[old_parent_module_name] + mData["parent"][len(old_parent_module_name):] 
 		
 		# rename oss
 		for mData in data['modulesData']:
 			name = mData["name"]
-			print("Get OS Data", name )
 			for par_data in mData["parents"]:
-				print(111, par_data)
 				control = par_data["control"]
 				new_name = utils.incrementNameIfExists(control)
 				par_data["control"] = new_name
@@ -397,7 +516,6 @@ class Template(object):
 			cmds.progressBar(progressControl, e=1, maxValue=len(modulesData), progress=0)
 			for mData in modulesData:
 				mod = mData[0]
-				print("Set Data", mod.name)
 				mod.setData(mData[1], sym=False, namingForce=True, load=load)
 				cmds.progressBar(progressControl, edit=True, step=1)
 			cmds.progressBar(progressControl2, edit=True, step=1)
@@ -480,7 +598,7 @@ class Template(object):
 				for d in mData['parents']:
 					self.par_class.os_makeConstraint(d)
 
-		print_main_messages = True
+		print_main_messages = utils.isDebug()
 
 		# create progress window
 		window = cmds.window(t='Import modules')
@@ -496,17 +614,32 @@ class Template(object):
 		# self.main.twistClass.twists = {}
 		# self.main.win.twists_listWidget.clear()
 
-		create_modules()
-		create_addControls()
-		connect_modules(modulesData)
-		set_modules(modulesData)
-		if load == 'rig': mirror_modules(modulesData)
-		if "twistsData" in data:
-			create_twists(data["twistsData"]) 
-			create_ibtws(data["ibtwsData"])
-		create_oss(modulesData)
-		set_modules(modulesData, load="controlVis")
-		set_modules(modulesData, load="options")
+		# suspend viewport redraws during the whole batch build; the per-module
+		# refresh() calls inside create() become no-ops while suspended, so a big
+		# rig loads with a single redraw at the end instead of one per module
+		cmds.refresh(suspend=True)
+		_t0_total = time.time()
+		def _t(label, fn, *a):
+			t0 = time.time()
+			fn(*a)
+			if print_main_messages:
+				print("[load] %-18s %6.2fs" % (label, time.time() - t0))
+		try:
+			_t('create_modules', create_modules)
+			_t('create_addControls', create_addControls)
+			_t('connect_modules', connect_modules, modulesData)
+			_t('set_modules', set_modules, modulesData)
+			if load == 'rig': _t('mirror_modules', mirror_modules, modulesData)
+			if "twistsData" in data:
+				_t('create_twists', create_twists, data["twistsData"])
+				_t('create_ibtws', create_ibtws, data["ibtwsData"])
+			_t('create_oss', create_oss, modulesData)
+			_t('set_modules(vis)', set_modules, modulesData, "controlVis")
+			_t('set_modules(opt)', set_modules, modulesData, "options")
+		finally:
+			cmds.refresh(suspend=False)
+		if print_main_messages:
+			print("[load] %-18s %6.2fs" % ("TOTAL", time.time() - _t0_total))
 
 		# update joints placement
 		cmds.refresh()

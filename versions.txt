@@ -770,4 +770,16 @@ FingersIK module update
 Mouth module update
 
 ---Version 3.24.1
-ik controls symmetry behaviour 
+ik controls symmetry behaviour
+
+---Version 3.24.2
+Performance: much faster window opening on scenes with an existing rig
+Performance: faster twist list update and instant twist selection
+Performance: template loading suspends viewport redraw
+Fixed crash when loading templates saved by older versions (auto-migration)
+Fixed twist multiplier not loading from templates
+Fixed poser names with spaces not being replaced
+Fixed control color override being always enabled on load
+Restored Debug menu option (toggles module reload and load timing)
+Fixed missing imports (Move Tool, module create/duplicate/edit, Sets window)
+Code cleanup: removed large dead duplicated template code

@@ -203,18 +203,44 @@ def getModuleNameFromHierarhy(controlName):
 
 	return p[:-4]
 
+_module_debug = None  # lazily read from config.json, cached per session
+
+def isDebug():
+	"""Return the 'debug' flag from config.json (cached)."""
+	global _module_debug
+	if _module_debug is None:
+		try:
+			with open(os.path.join(modulePath, "config.json")) as f:
+				_module_debug = bool(json.load(f).get("debug", False))
+		except Exception:
+			_module_debug = False
+	return _module_debug
+
+def setDebug(value):
+	"""Update the debug flag at runtime so isDebug() reflects it immediately."""
+	global _module_debug
+	_module_debug = bool(value)
+
+def importModuleClass(m_type): #
+	"""Import a module package and return its class.
+
+	The module code is reloaded only in debug mode (so edits are picked up
+	during development); in normal use the cached import is reused, which is
+	much faster when opening a window over an existing rig.
+	"""
+	mod = importlib.import_module('rigStudio3.modules.%s.%s' % (m_type, m_type))
+	if isDebug():
+		importlib.reload(mod)
+	return getattr(mod, capitalizeName(m_type))
+
 def getModuleInstance(moduleName): #
 	m_type = cmds.getAttr(moduleName+"_mod.moduleType")
-	m_typeCap = capitalizeName(m_type)
 
 	if not os.path.isdir(os.path.join(modulePath, "modules", m_type)):
 		cmds.warning("Module folder is not exist "+m_type)
-		return False	
+		return False
 
-	# importlib.import_module('rigStudio3.modules.%s.%s' % (moduleType, moduleType))
-	exec('from .modules.%s import %s' % (m_type, m_type)) 	# from .modules.moduleA import moduleA
-	exec('importlib.reload(%s)' % (m_type))						# importlib.reload(moduleA)
-	m = eval('%s.%s(moduleName)' % (m_type, m_typeCap))  	# m = modules.moduleA.moduleA.ModuleA(name)
+	m = importModuleClass(m_type)(moduleName)
 	m.load()
 
 	return m
@@ -236,8 +262,8 @@ def getControlInstance(name): #
 		c = controller.Control()
 		c.load(name)
 		return c
-	except: 
-		cmds.warning("Cannot load the control", name)
+	except Exception as e:
+		cmds.warning("Cannot load the control '%s': %s" % (name, e))
 		return False
 
 def getAdditionalControlInstance(name):

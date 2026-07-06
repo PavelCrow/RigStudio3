@@ -614,7 +614,8 @@ class Module(object):
                             # if not (cmds.listConnections(p_name+'.'+attr, d=False, s=True) or []) and not cmds.getAttr(p_name+'.'+attr, lock=1): # only not connections and not locked
                             try:
                                 cmds.setAttr(p_name+'.'+attr, value)
-                            except: pass
+                            except Exception as e:
+                                cmds.warning("Cannot set %s.%s = %s (%s)" % (p_name, attr, value, e))
         
         # set control names
         if load == "controlNames" or load == "all":
