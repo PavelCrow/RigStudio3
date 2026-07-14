@@ -320,6 +320,10 @@ class Inbetweens(object):
 					cmds.setAttr(name+"_ibtw_offsetLoc.rx", data["offset"][0][0])
 					cmds.setAttr(name+"_ibtw_offsetLoc.ry", data["offset"][0][1])
 					cmds.setAttr(name+"_ibtw_offsetLoc.rz", data["offset"][0][2])
+					if "offsetT" in data:
+						cmds.setAttr(name+"_ibtw_offsetLoc.t", *data["offsetT"][0], type="double3")
+					if "offsetS" in data:
+						cmds.setAttr(name+"_ibtw_offsetLoc.s", *data["offsetS"][0], type="double3")
 				else:
 					cmds.setAttr(name+"_ibtw_parent_offsetLoc.rx", data["parentOffset"][0][0])
 					cmds.setAttr(name+"_ibtw_parent_offsetLoc.ry", data["parentOffset"][0][1])
@@ -327,6 +331,12 @@ class Inbetweens(object):
 					cmds.setAttr(name+"_ibtw_child_offsetLoc.rx", data["childOffset"][0][0])
 					cmds.setAttr(name+"_ibtw_child_offsetLoc.ry", data["childOffset"][0][1])
 					cmds.setAttr(name+"_ibtw_child_offsetLoc.rz", data["childOffset"][0][2])
+					if "parentOffsetT" in data:
+						cmds.setAttr(name+"_ibtw_parent_offsetLoc.t", *data["parentOffsetT"][0], type="double3")
+						cmds.setAttr(name+"_ibtw_child_offsetLoc.t", *data["childOffsetT"][0], type="double3")
+					if "parentOffsetS" in data:
+						cmds.setAttr(name+"_ibtw_parent_offsetLoc.s", *data["parentOffsetS"][0], type="double3")
+						cmds.setAttr(name+"_ibtw_child_offsetLoc.s", *data["childOffsetS"][0], type="double3")
 
 					if "parentOffsetR" in data:
 						if utils.getObjectSide(root) == "l":
@@ -337,6 +347,12 @@ class Inbetweens(object):
 							cmds.setAttr(opp_name+"_ibtw_child_offsetLoc.rx", data["childOffsetR"][0][0])
 							cmds.setAttr(opp_name+"_ibtw_child_offsetLoc.ry", data["childOffsetR"][0][1])
 							cmds.setAttr(opp_name+"_ibtw_child_offsetLoc.rz", data["childOffsetR"][0][2])
+							if "parentOffsetTR" in data:
+								cmds.setAttr(opp_name+"_ibtw_parent_offsetLoc.t", *data["parentOffsetTR"][0], type="double3")
+								cmds.setAttr(opp_name+"_ibtw_child_offsetLoc.t", *data["childOffsetTR"][0], type="double3")
+							if "parentOffsetSR" in data:
+								cmds.setAttr(opp_name+"_ibtw_parent_offsetLoc.s", *data["parentOffsetSR"][0], type="double3")
+								cmds.setAttr(opp_name+"_ibtw_child_offsetLoc.s", *data["childOffsetSR"][0], type="double3")
 
 		# module override
 		mod = utils.getModuleInstance(moduleName)
@@ -422,6 +438,8 @@ class Inbetweens(object):
 			data["parent_j"] = cmds.listRelatives(child_j, p=1)[0]
 			
 			data["offset"] = cmds.getAttr(name+"_ibtw_offsetLoc.r")
+			data["offsetT"] = cmds.getAttr(name+"_ibtw_offsetLoc.t")
+			data["offsetS"] = cmds.getAttr(name+"_ibtw_offsetLoc.s")
 		else:
 			if utils.isSymmetrical(root) and utils.getObjectSide(root) == "r":
 				data["child_j"] = cmds.listRelatives(name+"_ibtw_child_offsetLoc_mirrorGroup", p=1)[0]
@@ -432,6 +450,10 @@ class Inbetweens(object):
 
 			data["parentOffset"] = cmds.getAttr(name+"_ibtw_parent_offsetLoc.r")
 			data["childOffset"] = cmds.getAttr(name+"_ibtw_child_offsetLoc.r")
+			data["parentOffsetT"] = cmds.getAttr(name+"_ibtw_parent_offsetLoc.t")
+			data["childOffsetT"] = cmds.getAttr(name+"_ibtw_child_offsetLoc.t")
+			data["parentOffsetS"] = cmds.getAttr(name+"_ibtw_parent_offsetLoc.s")
+			data["childOffsetS"] = cmds.getAttr(name+"_ibtw_child_offsetLoc.s")
 
 			if utils.isSymmetrical(root):
 				if utils.getObjectSide(root) == "l":
@@ -439,6 +461,10 @@ class Inbetweens(object):
 					if cmds.objExists(opp_name+"_ibtw_root"):
 						data["parentOffsetR"] = cmds.getAttr(opp_name+"_ibtw_parent_offsetLoc.r")
 						data["childOffsetR"] = cmds.getAttr(opp_name+"_ibtw_child_offsetLoc.r")
+						data["parentOffsetTR"] = cmds.getAttr(opp_name+"_ibtw_parent_offsetLoc.t")
+						data["childOffsetTR"] = cmds.getAttr(opp_name+"_ibtw_child_offsetLoc.t")
+						data["parentOffsetSR"] = cmds.getAttr(opp_name+"_ibtw_parent_offsetLoc.s")
+						data["childOffsetSR"] = cmds.getAttr(opp_name+"_ibtw_child_offsetLoc.s")
 				# if local:
 				# 	pass
 
