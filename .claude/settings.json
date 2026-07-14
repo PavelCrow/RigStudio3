@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(git add inbetweens.py)",
+      "PowerShell(git push)",
+      "PowerShell(Test-NetConnection github.com -Port 443)",
+      "PowerShell(git push 2>&1; echo \"exit: $LASTEXITCODE\")"
+    ]
+  }
+}

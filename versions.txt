@@ -783,3 +783,8 @@ Fixed control color override being always enabled on load
 Restored Debug menu option (toggles module reload and load timing)
 Fixed missing imports (Move Tool, module create/duplicate/edit, Sets window)
 Code cleanup: removed large dead duplicated template code
+
+---Version 3.24.3
+Fix ik controls symmetry behaviour in foot and limb and limbQuadrupped modules
+Templates update
+

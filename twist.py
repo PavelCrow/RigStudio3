@@ -784,6 +784,7 @@ class Twist(object):
                 # cmds.sets(j, e=1, forceElement='skinJointsSet')
                 cmds.sets(j, e=1, forceElement=twSet)
                 cmds.parent(j, twName+"_joints")
+                utils.removeTransformParentJoint(j)
 
                 mp = cmds.createNode('motionPath', n=twName+'_curve_%s_mpath' %i)
                 cmds.sets(mp, e=1, forceElement=twSet)

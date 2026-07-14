@@ -88,7 +88,7 @@ class BatWing(module.Module) :
                 cmds.joint(name=sj)
                 cmds.parent(sj, j_gr.replace("outJoint", "skinJoint"))
                 utils.resetAttrs(sj)
-                utils.connectByMatrix(sj, [j, sj], ["worldMatrix[0]", "parentInverseMatrix"], module_name=m_name)
+                utils.connectByMatrix(sj, [j, sj], ["worldMatrix[0]", "parentInverseMatrix"], attrs=['t', 'r'], module_name=m_name)
                 utils.removeTransformParentJoint(sj)
                 joints.append(sj)
 
@@ -114,7 +114,7 @@ class BatWing(module.Module) :
                 utils.resetAttrs(sj_opp)
                 utils.removeTransformParentJoint(sj_opp)
                 
-                utils.connectByMatrix(sj_opp, [j_opp, sj_opp], ["worldMatrix[0]", "parentInverseMatrix"], module_name=m_name_opp)
+                utils.connectByMatrix(sj_opp, [j_opp, sj_opp], ["worldMatrix[0]", "parentInverseMatrix"], attrs=['t', 'r'], module_name=m_name_opp)
 
                 joints.append(sj_opp)
 
@@ -227,3 +227,11 @@ class BatWing(module.Module) :
                 utils.removeTransformParentJoint(sj)
                 utils.resetAttrs(sj)
                 utils.connectByMatrix(sj, [jnt_opp, sj], ["worldMatrix[0]", "parentInverseMatrix"], module_name=m_name_opp)
+
+    def connect(self, target, opposite=False, makeSeamless=False):
+        super(self.__class__, self).connect(target, opposite=opposite, makeSeamless=makeSeamless)
+
+        if opposite:
+            for o in cmds.ls(f"{self.name}_*_closed"):
+                cmds.connectAttr("l"+o[1:]+".t", o+".t") 
+                cmds.connectAttr("l"+o[1:]+".r", o+".r")

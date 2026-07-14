@@ -704,6 +704,7 @@ def removeTransformParentJoint(jnt): #
 			return
 		tr_par = cmds.listRelatives(tr, p=1)[0]
 		resetAttrs(tr, debug=1)
+
 		cmds.parent(jnt, tr_par)
 		cmds.delete(tr)
 
