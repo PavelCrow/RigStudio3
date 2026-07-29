@@ -961,6 +961,8 @@ def mirrorRoot(target):
 	cmds.select(sel)
 
 def symmetry():
+	cmds.undoInfo(openChunk=True)
+
 	controls = cmds.ls(selection=True)
 	filtered_controls = []
 	clear_names = []
@@ -1123,6 +1125,8 @@ def symmetry():
 		p = parents[c]
 		changeParent(c, p)
 
+	cmds.undoInfo(closeChunk=True)
+
 def mirrorByConstraint(source, target, ns):
 	sel = cmds.ls(sl=True)
 	
@@ -1241,7 +1245,9 @@ def mirror():
 	controls = cmds.ls(selection=True)
 	if len(controls) == 0:
 		return
-	
+
+	cmds.undoInfo(openChunk=True)
+
 	filtered_controls = []
 	clear_names = []
 	parents = {}
@@ -1432,6 +1438,8 @@ def mirror():
 		changeParent(c, p)
 				
 	cmds.select(controls)
+
+	cmds.undoInfo(closeChunk=True)
 					
 def changeParent(o, parentName):
 	if not cmds.attributeQuery( 'parent', node=o, exists=True ):

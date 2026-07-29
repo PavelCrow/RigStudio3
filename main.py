@@ -50,6 +50,7 @@ from functools import partial
 from rigStudio3 import utils, parents, twist, inbetweens, rig, tools, template, sets
 from rigStudio3.ui.action import ActionClass as Action
 from rigStudio3.ui.groupLabel import GroupLabel
+from rigStudio3.animTools import setMirrorAttrs
 
 # if os.path.exists(os.path.join(utils.modulePath, "check.py")):
 #     from rigStudio3 import check
@@ -797,6 +798,7 @@ class MainWindow:
         self.win.symmetry_btn.clicked.connect(tools.symmetry)
         self.win.mirror_btn.clicked.connect(tools.mirror)
         self.win.fixControlInternalName_btn.clicked.connect(tools.fixControlInternalName)
+        self.win.loadMirorTemplates_btn.clicked.connect(setMirrorAttrs.run)
 
 
         # self.win.connectByMultMatrix_btn.clicked.connect(tools.connectByMultMatrix)
