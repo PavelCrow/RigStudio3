@@ -790,3 +790,6 @@ Templates update
 
 ---Version 3.24.4
 switchIkFk.py update
+
+---Version 3.25.0
+new BrowsCurved module

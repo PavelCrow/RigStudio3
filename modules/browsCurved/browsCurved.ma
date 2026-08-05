@@ -1,26 +1,19 @@
 //Maya ASCII 2022 scene
-//Name: brows3.ma
-//Last modified: Wed, Aug 05, 2026 06:44:05 AM
+//Name: browsCurved.ma
+//Last modified: Wed, Aug 05, 2026 11:12:02 AM
 //Codeset: 1251
 requires maya "2022";
 requires -nodeType "sweepMeshCreator" -dataType "sweepMeshData" -dataType "sweepProfileData"
 		 "sweep" "1.0";
 requires "stereoCamera" "10.0";
 requires -nodeType "ngst2SkinLayerData" -dataType "ngst2SkinLayerDataStorage" "ngSkinTools2" "2.4.0";
-requires "pk_blendMatrixNode.py" "1.0";
-requires "BluePencil" "1.0";
-requires "madHairsMaya.py" "Unknown";
-requires "Mayatomr" "2013.0 - 3.10.1.11 ";
-requires "ngSkinTools" "1.0.960";
-requires "chevelureMaya" "0.0.104 made in Khimki";
-requires "pk_softIk.py" "1.0";
 currentUnit -l centimeter -a degree -t pal;
 fileInfo "application" "maya";
 fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202110272215-ad32f8f1e6";
 fileInfo "osv" "Windows 10 Pro v2009 (Build: 26200)";
-fileInfo "UUID" "1A8572C7-4BAB-CF17-198A-B2AC39153834";
+fileInfo "UUID" "6AFC0B23-4041-2B0A-8257-C6B99EAD33F7";
 createNode transform -n "mod";
 	rename -uid "A8281E66-4053-4FC7-AA21-27BF6ABE5693";
 	addAttr -ci true -sn "version" -ln "version" -dt "string";
@@ -28,6 +21,7 @@ createNode transform -n "mod";
 	setAttr -l on ".version" -type "string" "1.0";
 createNode transform -n "posers" -p "mod";
 	rename -uid "5398EABE-47D0-16C1-DA73-F0819DD934A9";
+	setAttr ".v" no;
 	setAttr ".t" -type "double3" 0 14.11026115562764 6.6996021718382446 ;
 createNode transform -n "mainPoser" -p "posers";
 	rename -uid "51616D80-472B-390A-B2E9-3AB55B869EED";
@@ -913,6 +907,7 @@ createNode locator -n "root_connectorShape" -p "root_connector";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
 createNode transform -n "system" -p "mod";
 	rename -uid "BE0A76BD-48C9-7557-E616-429013534A82";
+	setAttr ".v" no;
 createNode transform -n "l_curve" -p "system";
 	rename -uid "E29C962A-4744-8C32-5F03-F1A09DD6C3AA";
 createNode nurbsCurve -n "l_curveShape" -p "l_curve";
@@ -963,759 +958,6 @@ createNode nurbsCurve -n "r_curveShape" -p "r_curve";
 		-4.572372004271406 17.73478761245676 5.4689254807409196
 		-4.8711760210111033 17.0908647540905 4.4637330730635609
 		;
-createNode transform -n "l_joints" -p "system";
-	rename -uid "6F30F53F-4F50-5033-B8B1-888400FF42DB";
-createNode transform -n "l_loc_01" -p "l_joints";
-	rename -uid "BFD72058-4968-0CE8-A092-6AA01423E70D";
-createNode locator -n "l_loc_Shape1" -p "l_loc_01";
-	rename -uid "DB78EC9E-4535-A679-F77F-EDA1338AA265";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.2 0.2 0.2 ;
-createNode joint -n "l_wide_joint_01" -p "l_loc_01";
-	rename -uid "B1C1FC9D-4D46-5ADA-7FAD-8BBC643D8348";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" 0 -5.5511151231257827e-17 4.4408920985006262e-16 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0.35847340894294133 1.7595469210814927 -0.37677826619729932 1;
-createNode joint -n "l_narrow_joint_01" -p "l_wide_joint_01";
-	rename -uid "87CD817C-439D-491D-754A-859BD6AFD5B9";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -7.8409501114151681e-16 4.5970172113385388e-16 0.1 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-	setAttr ".smd" 7;
-	setAttr ".jo" -type "double3" 5.6136523207358654e-07 0.020524929560431105 0.0015670630755830106 ;
-	setAttr ".bps" -type "matrix" 0.97653319203954692 -0.14856903364614946 -0.15591718021598072 0
-		 -0.13518939440062952 0.14069820715283532 -0.98077920152579134 0 0.16765068591164289 0.97884179352203138 0.11731151165988996 0
-		 0.25635546460741154 2.4879724944481638 -0.21877223401966014 1;
-	setAttr ".radi" 0.5;
-createNode transform -n "l_loc_02" -p "l_joints";
-	rename -uid "836713AF-443C-F6C9-5ADC-DD9678EFA406";
-createNode locator -n "l_loc_Shape2" -p "l_loc_02";
-	rename -uid "00D4FB00-49A5-720A-2F9D-EC8FCE05714B";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.2 0.2 0.2 ;
-createNode joint -n "l_wide_joint_02" -p "l_loc_02";
-	rename -uid "634E1034-44BE-81B9-E864-D6915B61E4B2";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" 0 5.5511151231257827e-17 2.2204460492503131e-16 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0.48903989679533322 1.7398471074099642 -0.39719916247604237 1;
-createNode joint -n "l_narrow_joint_02" -p "l_wide_joint_02";
-	rename -uid "9AF5D210-436C-BD20-F4F3-E08B1B4B3C9B";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -7.8409501114151681e-16 4.5970172113385388e-16 0.1 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-	setAttr ".smd" 7;
-	setAttr ".jo" -type "double3" 0 0.10220166309181129 0.0078030157857976006 ;
-	setAttr ".bps" -type "matrix" 0.99860817581162231 0.05256798909275226 0.0042799211357854089 0
-		 -0.052567506293394579 0.99861734739726171 -0.00022529835694341295 0 -0.0042858469732579181 -4.7010328572613669e-20 0.99999081571568549 0
-		 0.46795748785601238 1.9207371824760735 -0.19457001497914478 1;
-	setAttr ".radi" 0.5;
-createNode transform -n "l_loc_03" -p "l_joints";
-	rename -uid "662ADBA7-4A5B-1312-587E-13BF3577E57F";
-createNode locator -n "l_loc_Shape3" -p "l_loc_03";
-	rename -uid "FF94BD2E-484C-2EEE-6EFB-D9936DFBB4E0";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.2 0.2 0.2 ;
-createNode joint -n "l_wide_joint_03" -p "l_loc_03";
-	rename -uid "C95698B2-4D95-F05B-A5D8-25A466777520";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" 0 0 2.2204460492503131e-16 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0.73211268225355253 1.7106223672297269 -0.41700906669734028 1;
-createNode joint -n "l_narrow_joint_03" -p "l_wide_joint_03";
-	rename -uid "ADC97647-45E1-184D-68D1-CC85F8D8462F";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -7.8409501114151681e-16 4.5970172113385388e-16 0.1 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-	setAttr ".smd" 7;
-	setAttr ".jo" -type "double3" -0.014947426168202547 5.4715394353564477 0.40003532613619852 ;
-	setAttr ".bps" -type "matrix" 0.9815522494785438 -0.064880644650772909 0.17984905752688893 0
-		 0.18659811382252003 0.12006760081413102 -0.97507174872037816 0 0.041669238791798409 0.99064336326674018 0.12995922958402556 0
-		 0.60127030393619885 2.5030242459226266 -0.21962267800953283 1;
-	setAttr ".radi" 0.5;
-createNode transform -n "l_loc_04" -p "l_joints";
-	rename -uid "49744C4E-48C7-12DC-870C-F08A44CAE668";
-	setAttr ".r" -type "double3" 0.87165550540483283 4.9142074086282959 10.071054111404793 ;
-createNode locator -n "l_loc_Shape4" -p "l_loc_04";
-	rename -uid "52066928-463E-8A10-FF77-94A06377DE5A";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.2 0.2 0.2 ;
-createNode joint -n "l_wide_joint_04" -p "l_loc_04";
-	rename -uid "56B39B18-47FF-4064-E522-A398006A59C7";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.98097237463711839 0.17422652689439089 -0.085663980325053971 0
-		 -0.17356599772653691 0.9847055993170335 0.015156751197855626 0 0.086994509206069617 0 0.99620879105135141 0
-		 1.2978516111222405 1.7658561666841304 -0.37168225483071865 1;
-createNode joint -n "l_narrow_joint_04" -p "l_wide_joint_04";
-	rename -uid "B69DBE4D-4F83-5F76-DBA4-F191CFF08F40";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -7.8409501114151681e-16 4.5970172113385388e-16 0.1 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.98186051663175111 0.18504715511237968 -0.04132161981875717 0
-		 -0.066442630300150476 0.13168388655029947 -0.98906255156173306 0 -0.17758181989840216 0.97386698496654212 0.14159022859558043 0
-		 1.370624844238632 2.4851167523063666 -0.19771222964487101 1;
-	setAttr ".radi" 0.5;
-createNode transform -n "l_loc_05" -p "l_joints";
-	rename -uid "157A2653-4D57-3A5F-DFA9-2EA2C4200660";
-	setAttr ".r" -type "double3" 0 11.975114764027875 13.104518627909007 ;
-createNode locator -n "l_loc_Shape5" -p "l_loc_05";
-	rename -uid "41B4720D-456E-ECD1-6926-5B81726A4607";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.2 0.2 0.2 ;
-createNode joint -n "l_wide_joint_05" -p "l_loc_05";
-	rename -uid "0FD2B121-49C2-524F-417C-B784ABBF33CF";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -4.4408920985006262e-16 -1.1102230246251565e-16 -2.2204460492503131e-16 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.95276262901079067 0.22179401901129139 -0.20748683305517351 0
-		 -0.22672811928297024 0.97395808940960449 0 0 0.20208347950006639 0.047043099434579121 0.9782378106108629 0
-		 1.9697055107441415 1.9297819720060316 -0.4055164302940843 1;
-createNode joint -n "l_narrow_joint_05" -p "l_wide_joint_05";
-	rename -uid "483F2932-41E5-E6BB-E37E-2FA7525CC648";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -7.8409501114151681e-16 4.5970172113385388e-16 0.1 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.9123595911014819 0.25837800233344538 -0.31755438028047189 0
-		 -0.3508261537151669 0.093660903476225521 -0.93174494633962945 0 -0.21099996775961485 0.96149282008249815 0.17609818436101551 0
-		 2.0623377877831484 2.4810764115376989 -0.28976778741712522 1;
-	setAttr ".radi" 0.5;
-createNode transform -n "l_loc_06" -p "l_joints";
-	rename -uid "6A6DD97E-421E-B177-A989-AD878D77FC82";
-	setAttr ".r" -type "double3" -2.1366055940166007e-16 21.506489430467905 7.3115666479521888 ;
-createNode locator -n "l_loc_Shape6" -p "l_loc_06";
-	rename -uid "92A3FF35-4735-7EDF-89E3-83991C597942";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.2 0.2 0.2 ;
-createNode joint -n "l_wide_joint_06" -p "l_loc_06";
-	rename -uid "D9265D56-49C2-E97D-D4F2-4092E5F8766F";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -4.4408920985006262e-16 1.1102230246251565e-16 0 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.92281095071576791 0.11840416469866186 -0.36660660526110656 0
-		 -0.14181545636694678 0.9891827875935959 -0.037493853682939518 0 0.35820151531574412 0.086590221795392247 0.92962024930340748 0
-		 2.7767310337867834 2.1534040500242737 -0.59896348366976604 1;
-createNode joint -n "l_narrow_joint_06" -p "l_wide_joint_06";
-	rename -uid "E425C9DC-4B84-72A8-71FB-1B8BAFB69499";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -7.8409501114151681e-16 4.5970172113385388e-16 0.1 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-	setAttr ".smd" 7;
-	setAttr ".jo" -type "double3" 8.5448866967523055e-16 -21.480342141229219 -11.880907695567332 ;
-	setAttr ".bps" -type "matrix" 0.94552017923526643 0.0062122970952937593 -0.32550422120720535 0
-		 -0.32552925595188681 0.032540644228110878 -0.94497185671988693 0 0.0047216711364166664 0.99945110627684997 0.032790120214177466 0
-		 2.7937328658609659 2.4751616187598291 -0.51153462216398893 1;
-	setAttr ".radi" 0.5;
-createNode transform -n "l_loc_07" -p "l_joints";
-	rename -uid "4C63DF55-4DFC-F23E-9171-0488512AE2CC";
-	setAttr ".r" -type "double3" -2.8117950969738182e-17 27.906945851283524 0.42030565642014506 ;
-createNode locator -n "l_loc_Shape7" -p "l_loc_07";
-	rename -uid "591FE552-43A3-EB42-03D5-BCB18C8A06DF";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.2 0.2 0.2 ;
-createNode joint -n "l_wide_joint_07" -p "l_loc_07";
-	rename -uid "1D58BBF3-4BBA-478F-7535-3782BDFF529F";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" 0 0 4.4408920985006262e-16 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.88368512011399547 0.0064825807435925824 -0.4680369479389595 0
-		 -0.037286885836961985 0.99770147504436668 -0.056581400114141873 0 0.46659435983913783 0.0674517816013636 0.88189566306060663 0
-		 3.5924831459585125 2.2656345029427802 -0.97081928355743663 1;
-createNode joint -n "l_narrow_joint_07" -p "l_wide_joint_07";
-	rename -uid "2783E435-4B7A-0EE4-888E-7C84EF621833";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -7.8409501114151681e-16 4.5970172113385388e-16 0.1 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-	setAttr ".smd" 7;
-	setAttr ".jo" -type "double3" 1.1153992714754708e-16 -26.989213905794479 -2.1935552225737327 ;
-	setAttr ".bps" -type "matrix" 0.87107658668481203 -0.012798663016731888 -0.49098042155927268 0
-		 -0.49100896690989937 0.0010237231077783592 -0.87115391659859509 0 0.011652233417268582 0.99991756971061507 -0.0053925170752394842 0
-		 3.5610746514070923 2.4693898230078863 -0.84798026806573201 1;
-	setAttr ".radi" 0.5;
-createNode transform -n "l_loc_08" -p "l_joints";
-	rename -uid "6430816E-4E18-4BC2-2DFB-E1BAB325979D";
-	setAttr ".r" -type "double3" -3.0568871012229839 43.647060530854802 -4.4242893335345759 ;
-createNode locator -n "l_loc_Shape8" -p "l_loc_08";
-	rename -uid "1AE6AEEE-4E94-64F4-0D35-539C51C393BD";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.2 0.2 0.2 ;
-createNode joint -n "l_wide_joint_08" -p "l_loc_08";
-	rename -uid "BF1E2FAC-40B2-0D61-8D50-F2B0DB7EBBC6";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" 0 0 4.4408920985006262e-16 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.7214489477589785 -0.055820134985929012 -0.69021411772551822 0
-		 -0.0025268374759057494 0.99652683098729455 -0.083233948691567056 0 0.69246301769107721 0.061793103600423914 0.71880218522038042 0
-		 4.3366684928167221 2.2555176751993167 -1.5157313948765205 1;
-createNode joint -n "l_narrow_joint_08" -p "l_wide_joint_08";
-	rename -uid "78FBF5CE-4FAC-AF6F-51E9-BBB530402453";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -7.8409501114151681e-16 4.5970172113385388e-16 0.1 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-	setAttr ".smd" 7;
-	setAttr ".jo" -type "double3" -7.9625159470237726e-16 -41.50034579245164 2.8360284978810619 ;
-	setAttr ".bps" -type "matrix" 0.72740323171878118 -0.053092102549245165 -0.68415332136296247 0
-		 -0.6848709801202566 0.0060905292048132236 -0.72863889962252526 0 0.042851826964459348 0.9985710460958227 -0.031930969683087958 0
-		 4.2850849858159963 2.4434987134393977 -1.3304684700572627 1;
-	setAttr ".radi" 0.5;
-createNode transform -n "l_loc_09" -p "l_joints";
-	rename -uid "A2FF71F7-4C3B-0D01-51E0-A9A6BA1BD90B";
-	setAttr ".r" -type "double3" -6.9244030509677739 50.468622580596062 -8.9483462795754107 ;
-createNode locator -n "l_loc_Shape9" -p "l_loc_09";
-	rename -uid "46D74EAC-450E-082F-DBF7-2E90DD844CBF";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.2 0.2 0.2 ;
-createNode joint -n "l_wide_joint_09" -p "l_loc_09";
-	rename -uid "B1F03D10-48EE-4102-1ED0-798A20327DF6";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" 8.8817841970012523e-16 0 -4.4408920985006262e-16 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.62875382720332462 -0.099003847450818222 -0.77127612627846009 0
-		 0.02332528256890877 0.99381676344617231 -0.10855492566648194 0 0.77725449884207976 0.050264091390474476 0.62717538627280145 0
-		 4.8500171155293907 2.2016924311002142 -2.0839201633018014 1;
-createNode joint -n "l_narrow_joint_09" -p "l_wide_joint_09";
-	rename -uid "747E16C2-4E30-F07E-0DFB-A493C17E1D5E";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -7.8409501114151681e-16 4.5970172113385388e-16 0.1 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-	setAttr ".smd" 7;
-	setAttr ".jo" -type "double3" 3.0012877574683765e-15 -48.522089454503188 6.2352406508086871 ;
-	setAttr ".bps" -type "matrix" 0.61506929668458132 -0.13238956975083982 -0.77727907607057189 0
-		 -0.78282541609413414 0.015244260229992486 -0.62205464426132695 0 0.094202591222216664 0.99108052869140162 -0.094261643608586396 0
-		 4.8299267388574112 2.3674023634050121 -1.8907455411714809 1;
-	setAttr ".radi" 0.5;
-createNode transform -n "l_loc_10" -p "l_joints";
-	rename -uid "B7E76430-4ABB-A3B2-14A3-8CAF647AB185";
-	setAttr ".r" -type "double3" -20.200006423662721 53.73475475211162 -24.528367972006784 ;
-createNode locator -n "l_loc_Shape10" -p "l_loc_10";
-	rename -uid "AB88DD07-4053-6B3F-98D2-B58DE882307A";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.2 0.2 0.2 ;
-createNode joint -n "l_wide_joint_10" -p "l_loc_10";
-	rename -uid "73352CA4-414E-E363-DDE5-69AB0A4663BD";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.53814260016844595 -0.24556756340592806 -0.80628724018603914 0
-		 0.11352312072824368 0.96901678579603912 -0.21936036539364598 0 0.83517366035098628 0.026514913697554869 0.54934680886262222 0
-		 5.2440748898852281 2.0922133882270444 -2.6286306268318995 1;
-createNode joint -n "l_narrow_joint_10" -p "l_wide_joint_10";
-	rename -uid "B5325DCE-4451-7930-A93D-E0B4955E482F";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -7.8409501114151681e-16 4.5970172113385388e-16 0.1 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-	setAttr ".smd" 7;
-	setAttr ".jo" -type "double3" 2.7638159609971067e-15 -54.87291758734132 13.289083001062663 ;
-	setAttr ".bps" -type "matrix" 0.46418578737292987 -0.24316893171523965 -0.85170442375829081 0
-		 -0.87617942917273706 0.014823397513973217 -0.48175707029651327 0 0.12977350536804541 0.9698706808304971 -0.20617880533623734 0
-		 5.2507977113340836 2.2384054154927955 -2.4472098550651493 1;
-	setAttr ".radi" 0.5;
-createNode transform -n "l_loc_11" -p "l_joints";
-	rename -uid "42E97B12-47D3-F51C-09DF-48B354DE7F6C";
-	setAttr ".r" -type "double3" -37.364146685772916 58.85225203632654 -41.738950828744343 ;
-createNode locator -n "l_loc_Shape11" -p "l_loc_11";
-	rename -uid "3B964F03-4D14-DCF1-D4DF-A399CF6B9390";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.2 0.2 0.2 ;
-createNode joint -n "l_wide_joint_11" -p "l_loc_11";
-	rename -uid "8BC87D27-4BE8-043F-6BF4-8DA152DB9429";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.38596214902817838 -0.34435068836814969 -0.85583632952681521 0
-		 0.14156424583144556 0.93884109593710341 -0.31390597458760261 0 0.91158805598785908 -2.7755575615628909e-16 0.41110487248423089 0
-		 5.4890864652212965 1.9160741948397664 -3.1173825266054336 1;
-createNode joint -n "l_narrow_joint_11" -p "l_wide_joint_11";
-	rename -uid "7104F1ED-4788-D7C4-0817-1A891B2C5725";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -7.8409501114151681e-16 4.5970172113385388e-16 0.1 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-	setAttr ".smd" 7;
-	setAttr ".jo" -type "double3" 3.8016418359695397e-15 -65.271855232913722 21.673656533975954 ;
-	setAttr ".bps" -type "matrix" 0.46649685948129221 -0.24542638928586272 -0.84979207311918104 0
-		 0.19172783604565519 0.96595051338359172 -0.17372404145433049 0 0.86349355352506352 -0.081887075513048774 0.49766795143406461 0
-		 5.7038486822088856 2.0252858910058791 -3.1741555749073953 1;
-	setAttr ".radi" 0.5;
-createNode transform -n "l_loc_12" -p "l_joints";
-	rename -uid "483F4DDD-445D-FA17-D4C6-70A609AFF9FC";
-	setAttr ".r" -type "double3" -50.562741335204272 60.215848110512901 -54.4788882873845 ;
-createNode locator -n "l_loc_Shape12" -p "l_loc_12";
-	rename -uid "F9439BCE-4D93-19CF-CEAE-EEBE59EA73FB";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.2 0.2 0.2 ;
-createNode joint -n "l_wide_joint_12" -p "l_loc_12";
-	rename -uid "45E7F4EC-4171-1814-45BE-7FBF4C222696";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.28860384236914605 -0.40429247591636397 -0.86790288401824167 0
-		 0.12757114120863811 0.91462975783505773 -0.3836378631122187 0 0.94891170616685461 -5.5511151231257827e-16 0.31554171499107564 0
-		 5.65081668269878 1.6815601583253508 -3.6142412366784837 1;
-createNode joint -n "l_narrow_joint_12" -p "l_wide_joint_12";
-	rename -uid "E590AF6A-414D-DC3E-06B3-5095ECC44BDD";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -7.8409501114151681e-16 4.5970172113385388e-16 0.1 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-	setAttr ".smd" 7;
-	setAttr ".jo" -type "double3" 9.9822822608595931e-15 -71.420511710178971 25.390950863308248 ;
-	setAttr ".bps" -type "matrix" 0.99866193211244425 -0.0056058434222838018 -0.051409336398793956 -2.7718436771197015e-17
-		 0.012349605414729029 0.99119724175339963 0.13181621746413899 -3.4277040691169182e-19
-		 0.05021785136323554 -0.13227472343564936 0.98994018250825766 -1.3938253707666975e-18
-		 5.5995439689033875 1.7404372487367228 -3.4548355778754218 0.99999999999999989;
-	setAttr ".radi" 0.5;
-createNode transform -n "l_loc_13" -p "l_joints";
-	rename -uid "5162C72D-4EBA-FF55-132C-21B1B46EAFB3";
-	setAttr ".r" -type "double3" -86.96321151753294 65.404231397014343 -87.238301103748924 ;
-createNode locator -n "l_loc_Shape13" -p "l_loc_13";
-	rename -uid "5AC78E53-45DA-941E-4CA4-7F9B89A156AD";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.2 0.2 0.2 ;
-createNode joint -n "l_wide_joint_13" -p "l_loc_13";
-	rename -uid "E5D01E87-4F0C-82E7-AE38-2794E485E4B7";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.02005403761509128 -0.41573023908465356 -0.90926684965743121 0
-		 0.0091667730895113337 0.90948797040456608 -0.41562916399178318 0 0.99975687336794938 -4.2743586448068535e-15 0.022049810737103548 0
-		 5.7065352105949039 1.3873411295542808 -4.1569194901322506 1;
-createNode joint -n "l_narrow_joint_13" -p "l_wide_joint_13";
-	rename -uid "DEF64A61-40FB-0C49-B2E4-C093D23C9604";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -7.8409501114151681e-16 4.5970172113385388e-16 0.1 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-	setAttr ".smd" 7;
-	setAttr ".jo" -type "double3" -9.0557734019996739e-14 -88.427667128696498 23.63616822389168 ;
-	setAttr ".bps" -type "matrix" 0.99327265375092155 -0.11225584836900863 -0.028426392974771168 0
-		 0.11540257478712558 0.93928492424242227 0.32315023877974924 0 -0.0095750218330752142 -0.32425677417420473 0.94592064326720071 0
-		 5.6573036965265064 1.3974666152489152 -3.963001707329822 1;
-	setAttr ".radi" 0.5;
-createNode transform -n "r_joints" -p "system";
-	rename -uid "2BDAE2B0-4494-23E2-4415-7EAEE698DE45";
-createNode transform -n "r_loc_01" -p "r_joints";
-	rename -uid "A9B0524F-440F-D1B9-ADA0-6DA32599ACA5";
-createNode locator -n "r_loc_Shape1" -p "r_loc_01";
-	rename -uid "240FE665-4A0E-1B13-B340-94866C439F10";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.2 0.2 0.2 ;
-createNode joint -n "r_wide_joint_01" -p "r_loc_01";
-	rename -uid "7A570476-4BFC-262D-FAA1-7D9AAA312EEB";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" 0 -5.5511151231257827e-17 4.4408920985006262e-16 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 -0.358473408942942 1.7595469210814927 -0.37677826619729932 1;
-createNode joint -n "r_narrow_joint_01" -p "r_wide_joint_01";
-	rename -uid "87B16730-410C-E049-57CB-80B19BFF9370";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -7.8409501114151681e-16 4.5970172113385388e-16 0.1 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-	setAttr ".smd" 7;
-	setAttr ".jo" -type "double3" -4.7393961035297363e-23 0.020524929560431098 0.0015670630755830119 ;
-	setAttr ".bps" -type "matrix" -0.97663652076520702 -0.14862245363910639 -0.15521750088802025 0
-		 0.13447897889732727 0.14070558269347966 -0.98087580418400599 0 0.16762013763973324 -0.97883262372745827 -0.11743161492739862 0
-		 -0.35847340894294277 1.7595469210814931 -0.27677826619729928 1;
-	setAttr ".radi" 0.5;
-createNode transform -n "r_loc_02" -p "r_joints";
-	rename -uid "BFCD5284-416B-3FC7-09A7-E0B492D3BE9E";
-createNode locator -n "r_loc_Shape2" -p "r_loc_02";
-	rename -uid "00C6F3ED-408C-DE3A-F623-60968A47AE12";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.2 0.2 0.2 ;
-createNode joint -n "r_wide_joint_02" -p "r_loc_02";
-	rename -uid "1AF5D18C-44C4-F254-5C49-688ED52236C1";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" 0 5.5511151231257827e-17 2.2204460492503131e-16 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 -0.48903989679533355 1.7398471074099642 -0.39719916247604237 1;
-createNode joint -n "r_narrow_joint_02" -p "r_wide_joint_02";
-	rename -uid "7459BACA-4762-3F33-E1AA-DFA720135379";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -7.8409501114151681e-16 4.5970172113385388e-16 0.1 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-	setAttr ".smd" 7;
-	setAttr ".jo" -type "double3" -1.5166090685791232e-21 0.10220166309181129 0.0078030157857976049 ;
-	setAttr ".bps" -type "matrix" -0.97832565143423755 -0.14586070252551273 -0.14698154715656989 0
-		 0.12676274640066973 0.13940441113329516 -0.9820883953502042 0 0.16373797931675654 -0.97943405373477965 -0.11789320809072223 0
-		 -0.48903989679533433 1.7398471074099646 -0.29719916247604239 1;
-	setAttr ".radi" 0.5;
-createNode transform -n "r_loc_03" -p "r_joints";
-	rename -uid "907AC601-429C-D7CE-1577-4C8C57ABA5AD";
-createNode locator -n "r_loc_Shape3" -p "r_loc_03";
-	rename -uid "30ACD8C7-4700-32B9-E148-B48B68E03AB1";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.2 0.2 0.2 ;
-createNode joint -n "r_wide_joint_03" -p "r_loc_03";
-	rename -uid "5C2DFDA8-4BAE-ECF2-9692-8E81D211C62C";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" 0 0 2.2204460492503131e-16 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 -0.73211268225355253 1.7106223672297269 -0.41700906669734028 1;
-createNode joint -n "r_narrow_joint_03" -p "r_wide_joint_03";
-	rename -uid "D51D9B6C-498C-307B-5458-5A88CF5395BB";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -7.8409501114151681e-16 4.5970172113385388e-16 0.1 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-	setAttr ".smd" 7;
-	setAttr ".jo" -type "double3" -0.014947426168202547 5.4715394353564477 0.40003532613619852 ;
-	setAttr ".bps" -type "matrix" -0.96985936397406824 -0.034997963982602798 0.24113887415530594 0
-		 -0.24362149720573967 0.12049746880485013 -0.96235592485881127 0 0.0046238740304874303 -0.99209651875646487 -0.12539185484015136 0
-		 -0.7321126822535533 1.7106223672297274 -0.3170090666973403 1;
-	setAttr ".radi" 0.5;
-createNode transform -n "r_loc_04" -p "r_joints";
-	rename -uid "AD48050C-4895-4DDB-1143-E58B5DD5820D";
-	setAttr ".r" -type "double3" 0.87165550540483283 4.9142074086282959 10.071054111404793 ;
-createNode locator -n "r_loc_Shape4" -p "r_loc_04";
-	rename -uid "0B4C6672-48FC-77F3-44CA-B6841980D6C8";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.2 0.2 0.2 ;
-createNode joint -n "r_wide_joint_04" -p "r_loc_04";
-	rename -uid "5EF3DDD0-41D3-8947-B37F-D3AC9222FE2C";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.98097237463711839 0.17422652689439089 -0.085663980325053971 0
-		 -0.17356599772653691 0.9847055993170335 0.015156751197855626 0 0.086994509206069617 0 0.99620879105135141 0
-		 -1.2970708816142038 1.7967327858938913 -0.36773973672697757 1;
-createNode joint -n "r_narrow_joint_04" -p "r_wide_joint_04";
-	rename -uid "971CD2D1-48EA-8566-AE8B-179EB88461B8";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -7.8409501114151681e-16 4.5970172113385388e-16 0.1 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" -0.98728868030119743 0.11045919952822067 0.11427960005488615 0
-		 -0.099156584726047534 0.13386430449751283 -0.98602653092442871 0 -0.12421366049910194 -0.98482440730364817 -0.12120995554999542 0
-		 -1.2883714306935976 1.7967327858938915 -0.26811885762184234 1;
-	setAttr ".radi" 0.5;
-createNode transform -n "r_loc_05" -p "r_joints";
-	rename -uid "2413BE2E-430A-BB61-D7FE-7A850367F565";
-	setAttr ".r" -type "double3" 0 11.975114764027875 13.104518627909007 ;
-createNode locator -n "r_loc_Shape5" -p "r_loc_05";
-	rename -uid "4125A8EA-4EDD-91EA-34B8-45B6950E6902";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.2 0.2 0.2 ;
-createNode joint -n "r_wide_joint_05" -p "r_loc_05";
-	rename -uid "29C5739F-45C8-60C3-7DDF-B6B2FF6106D9";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -4.4408920985006262e-16 -1.1102230246251565e-16 -2.2204460492503131e-16 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.95276262901079067 0.22179401901129139 -0.20748683305517351 0
-		 -0.22866555260185709 0.97345937094447432 -0.0094296433482688926 0 0.19988856348909473 0.056429303125301311 0.97819236141725152 0
-		 -1.9677142856974927 2.0085317783005725 -0.39546116696123246 1;
-createNode joint -n "r_narrow_joint_05" -p "r_wide_joint_05";
-	rename -uid "B8CAD881-429F-0EAD-0581-A3BC41840E16";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -7.8409501114151681e-16 4.5970172113385388e-16 0.1 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" -0.99492395951874746 0.060891725674276677 0.080115619700199925 0
-		 -0.075910711520282129 0.068488836353832891 -0.99475969116736052 0 -0.066059659793424125 -0.99579188440120692 -0.063518850026355086 0
-		 -1.9477254293485842 2.014174708613103 -0.29764193081950713 1;
-	setAttr ".radi" 0.5;
-createNode transform -n "r_loc_06" -p "r_joints";
-	rename -uid "499D344F-42CB-206C-09A7-BE98B2C47585";
-	setAttr ".r" -type "double3" -2.1366055940166007e-16 21.506489430467905 7.3115666479521888 ;
-createNode locator -n "r_loc_Shape6" -p "r_loc_06";
-	rename -uid "F17B49DD-4290-DBA4-9BC1-03A96A452FFE";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.2 0.2 0.2 ;
-createNode joint -n "r_wide_joint_06" -p "r_loc_06";
-	rename -uid "8F7BD347-4417-3C10-9952-ADAD40C7CBFF";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -4.4408920985006262e-16 1.1102230246251565e-16 0 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.92281095071576791 0.11840416469866186 -0.36660660526110656 0
-		 -0.14512506399878322 0.98833888873859954 -0.046097253782620508 0 0.35687345801895909 0.095742857639420795 0.92923336152584846 0
-		 -2.7756254811207941 2.1971269122098511 -0.5933806776461219 1;
-createNode joint -n "r_narrow_joint_06" -p "r_wide_joint_06";
-	rename -uid "97A55FEE-4327-11FB-14A0-AEA5D4BB9E4C";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -7.8409501114151681e-16 4.5970172113385388e-16 0.1 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-	setAttr ".smd" 7;
-	setAttr ".jo" -type "double3" 4.2724433483761518e-16 -21.480342141229219 -11.880907695567338 ;
-	setAttr ".bps" -type "matrix" -0.91882363883689822 0.1516074437135535 -0.36438757350541351 0
-		 0.35461482486956181 -0.08813251242936708 -0.93084960452031007 0 -0.17323812137416922 -0.98450385639850557 0.02721598866878544 0
-		 -2.7399381353188992 2.2067011979737936 -0.50045734149353682 1;
-	setAttr ".radi" 0.5;
-createNode transform -n "r_loc_07" -p "r_joints";
-	rename -uid "723ACE81-4B8E-6C49-0ABD-92AFE35F83AE";
-	setAttr ".r" -type "double3" -2.8117950969738182e-17 27.906945851283524 0.42030565642014506 ;
-createNode locator -n "r_loc_Shape7" -p "r_loc_07";
-	rename -uid "A648BF63-4CB0-BE6E-2A81-9E8AB028A2CA";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.2 0.2 0.2 ;
-createNode joint -n "r_wide_joint_07" -p "r_loc_07";
-	rename -uid "07F17449-437C-A46F-1B04-0CA93A62B13C";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" 0 0 4.4408920985006262e-16 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.88368512011399547 0.0064825807435925824 -0.4680369479389595 0
-		 -0.037600775754120901 0.9976558715202386 -0.057174676946018653 0 0.46656916973992379 0.068122963588617358 0.88185739872164248 0
-		 -3.5924027943070191 2.2688122838778151 -0.97041352479281973 1;
-createNode joint -n "r_narrow_joint_07" -p "r_wide_joint_07";
-	rename -uid "6058E3FA-4104-CD59-8FB5-E49338486CBF";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -7.8409501114151681e-16 4.5970172113385388e-16 0.1 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-	setAttr ".smd" 7;
-	setAttr ".jo" -type "double3" 0 -26.989213905794475 -2.1935552225737327 ;
-	setAttr ".bps" -type "matrix" -0.87522044335444749 -0.019562487304379719 -0.48332854728943014 0
-		 0.48351740846229041 -0.064598692771610719 -0.87294783613118021 0 -0.014145361372396885 -0.99771955878526575 0.065996899692176952 0
-		 -3.5457458773330273 2.2756245802366775 -0.88222778492065512 1;
-	setAttr ".radi" 0.5;
-createNode transform -n "r_loc_08" -p "r_joints";
-	rename -uid "D361937F-44C2-0785-BA34-5397AE1BB8B9";
-	setAttr ".r" -type "double3" -3.0568871012229839 43.647060530854802 -4.4242893335345759 ;
-createNode locator -n "r_loc_Shape8" -p "r_loc_08";
-	rename -uid "E3A5A554-4E40-FFB9-E40E-B3AAD4FC9ED0";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.2 0.2 0.2 ;
-createNode joint -n "r_wide_joint_08" -p "r_loc_08";
-	rename -uid "D9C4EC55-4439-9B4D-8902-9E83F965EB52";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" 0 0 4.4408920985006262e-16 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.7214489477589785 -0.055820134985929012 -0.69021411772551822 0
-		 -0.0025268374759057494 0.99652683098729455 -0.083233948691567056 0 0.69246301769107721 0.061793103600423914 0.71880218522038042 0
-		 -4.3366684928167221 2.2555176751993167 -1.5157313948765205 1;
-createNode joint -n "r_narrow_joint_08" -p "r_wide_joint_08";
-	rename -uid "9C7882B5-4F01-8729-36DE-3D8E967F944B";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -7.8409501114151681e-16 4.5970172113385388e-16 0.1 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-	setAttr ".smd" 7;
-	setAttr ".jo" -type "double3" 0 -41.50034579245164 2.8360284978810624 ;
-	setAttr ".bps" -type "matrix" -0.75175031732163133 -0.10221020229388342 -0.65147872947155372 0
-		 0.6553809681778987 -0.0062499270677742217 -0.75527261631933118 0 0.073124872355626064 -0.99474318945077023 0.071685005993460588 0
-		 -4.2674221910476149 2.2616969855593596 -1.4438511763544819 1;
-	setAttr ".radi" 0.5;
-createNode transform -n "r_loc_09" -p "r_joints";
-	rename -uid "772D3C28-4BC8-F263-25D4-20B0A319E213";
-	setAttr ".r" -type "double3" -6.9244030509677739 50.468622580596062 -8.9483462795754107 ;
-createNode locator -n "r_loc_Shape9" -p "r_loc_09";
-	rename -uid "64A7F1A2-4302-880C-F4C1-70A421BAC348";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.2 0.2 0.2 ;
-createNode joint -n "r_wide_joint_09" -p "r_loc_09";
-	rename -uid "EE02A01B-4820-5B37-5F9E-58813CE211E3";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" 8.8817841970012523e-16 0 -4.4408920985006262e-16 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.62875382720332462 -0.099003847450818222 -0.77127612627846009 0
-		 0.02332528256890877 0.99381676344617231 -0.10855492566648194 0 0.77725449884207976 0.050264091390474476 0.62717538627280145 0
-		 -4.8500171155293907 2.2016924311002142 -2.0839201633018014 1;
-createNode joint -n "r_narrow_joint_09" -p "r_wide_joint_09";
-	rename -uid "03583A58-4754-F2DE-C083-67A593F7205D";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -7.8409501114151681e-16 4.5970172113385388e-16 0.1 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-	setAttr ".smd" 7;
-	setAttr ".jo" -type "double3" 0 -48.522089454503188 6.2352406508086871 ;
-	setAttr ".bps" -type "matrix" -0.64978885484030713 -0.15321385428222289 -0.7445132362700535 0
-		 0.74976800298444335 0.031867063183378688 -0.66093300113157216 0 0.12498954286676454 -0.9876791002851345 0.09416798306168013 0
-		 -4.7722916656451835 2.2067188402392621 -2.0212026246745207 1;
-	setAttr ".radi" 0.5;
-createNode transform -n "r_loc_10" -p "r_joints";
-	rename -uid "628D7347-4CDE-4373-2A5C-58824CBF4019";
-	setAttr ".r" -type "double3" -20.200006423662721 53.73475475211162 -24.528367972006784 ;
-createNode locator -n "r_loc_Shape10" -p "r_loc_10";
-	rename -uid "4A03E412-43A7-210F-7D5D-C29FB6264928";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.2 0.2 0.2 ;
-createNode joint -n "r_wide_joint_10" -p "r_loc_10";
-	rename -uid "40301AE8-4C7D-810A-0D39-7585B4C3B03B";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.53814260016844595 -0.24556756340592806 -0.80628724018603914 0
-		 0.11352312072824368 0.96901678579603912 -0.21936036539364598 0 0.83517366035098628 0.026514913697554869 0.54934680886262222 0
-		 -5.2440748898852281 2.0922133882270444 -2.6286306268318995 1;
-createNode joint -n "r_narrow_joint_10" -p "r_wide_joint_10";
-	rename -uid "9AC1A1E8-4B95-402F-BBEA-168A372B1412";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -7.8409501114151681e-16 4.5970172113385388e-16 0.1 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-	setAttr ".smd" 7;
-	setAttr ".jo" -type "double3" 0 -54.872917587341306 13.289083001062663 ;
-	setAttr ".bps" -type "matrix" -0.53472568159853728 -0.26142611953107403 -0.80357005261887671 0
-		 0.83105557067300262 0.0095059350692855513 -0.55610815103883193 0 0.15301988070949979 -0.96517667876165714 0.21217656534657017 0
-		 -5.1605575238501302 2.0948648795968006 -2.5736959459456368 1;
-	setAttr ".radi" 0.5;
-createNode transform -n "r_loc_11" -p "r_joints";
-	rename -uid "B046E955-4C22-9F09-AD54-73A1A7BEF344";
-	setAttr ".r" -type "double3" -37.364146685772916 58.85225203632654 -41.738950828744343 ;
-createNode locator -n "r_loc_Shape11" -p "r_loc_11";
-	rename -uid "18B8ED82-4350-6D24-82DF-06B795AD0648";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.2 0.2 0.2 ;
-createNode joint -n "r_wide_joint_11" -p "r_loc_11";
-	rename -uid "0C738EB5-43E6-A7CC-FD36-DD86C41DDBAF";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.38596214902817838 -0.34435068836814969 -0.85583632952681521 0
-		 0.14156424583144556 0.93884109593710341 -0.31390597458760261 0 0.91158805598785908 -2.7755575615628909e-16 0.41110487248423089 0
-		 -5.4890864652212965 1.9160741948397664 -3.1173825266054327 1;
-createNode joint -n "r_narrow_joint_11" -p "r_wide_joint_11";
-	rename -uid "66216A2C-4907-F71F-3570-0BB2BAE397FC";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -7.8409501114151681e-16 4.5970172113385388e-16 0.1 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-	setAttr ".smd" 7;
-	setAttr ".jo" -type "double3" -3.8016418359695452e-15 -65.271855232913737 21.673656533975965 ;
-	setAttr ".bps" -type "matrix" -0.34166471207237115 -0.35561805252547807 -0.86994311609581099 0
-		 0.23428503301057135 -0.92865216423854946 0.28760333997068493 0 -0.91015149718700072 -0.10555073932969004 0.40060366148503518 0
-		 -5.3979276596225105 1.916074194839767 -3.0762720393570091 1;
-	setAttr ".radi" 0.5;
-createNode transform -n "r_loc_12" -p "r_joints";
-	rename -uid "B5A08291-4FA0-ACB0-2BE4-DFAF8E9A2426";
-	setAttr ".r" -type "double3" -50.562741335204272 60.215848110512901 -54.4788882873845 ;
-createNode locator -n "r_loc_Shape12" -p "r_loc_12";
-	rename -uid "1F882B81-46E3-EAC1-4C91-489989311994";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.2 0.2 0.2 ;
-createNode joint -n "r_wide_joint_12" -p "r_loc_12";
-	rename -uid "E729BF33-4263-C6E5-A348-21A94B767724";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.28860384236914605 -0.40429247591636397 -0.86790288401824167 0
-		 0.12757114120863811 0.91462975783505773 -0.3836378631122187 0 0.94891170616685461 -5.5511151231257827e-16 0.31554171499107564 0
-		 -5.6508166826987791 1.6815601583253503 -3.6142412366784828 1;
-createNode joint -n "r_narrow_joint_12" -p "r_wide_joint_12";
-	rename -uid "381EAB90-49D9-8F99-8596-34A64CAE5792";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -7.8409501114151681e-16 4.5970172113385388e-16 0.1 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-	setAttr ".smd" 7;
-	setAttr ".jo" -type "double3" 4.9911411304297918e-15 -71.420511710178957 25.390950863308245 ;
-	setAttr ".bps" -type "matrix" -0.23718294855173963 -0.41296502119351086 -0.87932027167974802 0
-		 0.2727241469066663 -0.89705363042553665 0.34773024578600636 0 -0.93239787033773025 -0.15733618595545132 0.32539135818066472 0
-		 -5.5559255120820934 1.681560158325351 -3.5826870651793747 1;
-	setAttr ".radi" 0.5;
-createNode transform -n "r_loc_13" -p "r_joints";
-	rename -uid "4874CACD-4874-31A0-F3AE-69A422333D61";
-	setAttr ".r" -type "double3" -86.96321151753294 65.404231397014343 -87.238301103748924 ;
-createNode locator -n "r_loc_Shape13" -p "r_loc_13";
-	rename -uid "D245456F-4834-7648-097A-179E50C9BF0C";
-	setAttr -k off ".v";
-	setAttr ".los" -type "double3" 0.2 0.2 0.2 ;
-createNode joint -n "r_wide_joint_13" -p "r_loc_13";
-	rename -uid "F8042F25-4551-DA5D-7424-9B976829CAF0";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".smd" 7;
-	setAttr ".bps" -type "matrix" 0.02005403761509128 -0.41573023908465356 -0.90926684965743121 0
-		 0.0091667730895113337 0.90948797040456608 -0.41562916399178318 0 0.99975687336794938 -4.2743586448068535e-15 0.022049810737103548 0
-		 -5.7066395538030399 1.3873411295542804 -4.1569194901322479 1;
-createNode joint -n "r_narrow_joint_13" -p "r_wide_joint_13";
-	rename -uid "E4295B4D-462C-1A88-F83D-E69C7B658F54";
-	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
-	setAttr ".t" -type "double3" -7.8409501114151681e-16 4.5970172113385388e-16 0.1 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-	setAttr ".smd" 7;
-	setAttr ".jo" -type "double3" -5.7956949772798448e-14 -88.427667128696513 23.636168223891833 ;
-	setAttr ".bps" -type "matrix" -0.00044431853538778876 -0.51503351924447016 -0.85716992284826188 0
-		 0.33846722598388435 -0.80665571853825724 0.48450643822791672 0 -0.94097807600167482 -0.28990865079225198 0.17468037863481639 0
-		 -5.6066638664662447 1.3873411295542806 -4.1547145090585369 1;
-	setAttr ".radi" 0.5;
 createNode transform -n "controls" -p "mod";
 	rename -uid "FCAA7EB7-4CB0-AB78-DB1E-ABB14D792469";
 createNode transform -n "l_brow_group" -p "controls";
@@ -2934,7 +2176,7 @@ createNode nurbsCurve -n "l_brow_out_botShape" -p "l_brow_out_bot";
 		;
 createNode transform -n "l_brow_last" -p "l_brow";
 	rename -uid "30B03FD1-4024-18E4-E718-258634CE233A";
-	setAttr -l on -k off ".v";
+	setAttr -l on -k off ".v" no;
 	setAttr ".rp" -type "double3" 0.0083187522378920225 -4.4408920985006271e-16 0.058087172128885568 ;
 	setAttr ".rpt" -type "double3" 0.02829506273834876 0 -0.012231422678987577 ;
 	setAttr ".sp" -type "double3" 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 ;
@@ -2976,8 +2218,6 @@ createNode transform -n "r_brow" -p "r_brow_group";
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
-	setAttr ".mntl" -type "double3" -1 -0.8 -1 ;
-	setAttr ".mxtl" -type "double3" 1 1.3 1 ;
 	setAttr ".mtye" yes;
 	setAttr ".xtye" yes;
 	setAttr -cb on ".limits" yes;
@@ -2991,16 +2231,7 @@ createNode nurbsCurve -n "r_browShape" -p "r_brow";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 17;
-	setAttr ".cc" -type "nurbsCurve" 
-		1 4 0 no 3
-		5 0 1 2 3 4
-		5
-		-0.57704111374401301 0.32149004962247585 0.73921323294834762
-		0.57704111374401301 0.32149004962247585 0.73921323294834762
-		0.57704111374401301 -0.32149004962247585 0.73921323294834762
-		-0.57704111374401301 -0.32149004962247585 0.73921323294834762
-		-0.57704111374401301 0.32149004962247585 0.73921323294834762
-		;
+	setAttr ".tw" yes;
 createNode transform -n "r_brow_in_group" -p "r_brow";
 	rename -uid "39FA7BD2-43D3-DC13-3D0F-A89B6A8E1279";
 	setAttr ".rp" -type "double3" -2.2204460492503131e-16 0 0 ;
@@ -3020,22 +2251,7 @@ createNode nurbsCurve -n "r_brow_in_1Shape" -p "r_brow_in";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 18;
-	setAttr ".cc" -type "nurbsCurve" 
-		3 8 2 no 3
-		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
-		11
-		0.26173958088278698 0.26173958088278659 0.24600004032846876
-		-1.4969281253863699e-16 0.37015566509428743 0.24600004032846876
-		-0.26173958088278654 0.2617395808827867 0.24600004032846876
-		-0.37015566509428721 3.7768447602452791e-16 0.24600004032846876
-		-0.26173958088278676 -0.26173958088278615 0.24600004032846876
-		-2.1899760301195837e-16 -0.37015566509428688 0.24600004032846876
-		0.26173958088278632 -0.26173958088278626 0.24600004032846876
-		0.37015566509428721 6.7376763049622086e-17 0.24600004032846876
-		0.26173958088278698 0.26173958088278659 0.24600004032846876
-		-1.4969281253863699e-16 0.37015566509428743 0.24600004032846876
-		-0.26173958088278654 0.2617395808827867 0.24600004032846876
-		;
+	setAttr ".tw" yes;
 createNode transform -n "r_brow_local_2_rotateOffset" -p "r_brow_in";
 	rename -uid "5FB1C080-4F37-D561-430F-D5B670B4933E";
 	setAttr ".rp" -type "double3" 0 -4.4408920985006262e-16 0 ;
@@ -3064,22 +2280,7 @@ createNode nurbsCurve -n "r_brow_local_2Shape" -p "r_brow_local_2";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 20;
-	setAttr ".cc" -type "nurbsCurve" 
-		3 8 2 no 3
-		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
-		11
-		0.061328389338584727 0.061328372464537345 0.12249364956903555
-		1.6874047159554095e-08 0.086731416097617836 0.12249364956903555
-		-0.061328355590490248 0.061328372464537345 0.12249364956903555
-		-0.086731399223570746 -4.1355873594643409e-18 0.12249364956903555
-		-0.061328355590490304 -0.061328372464537415 0.12249364956903555
-		1.6874047104042944e-08 -0.086731416097617892 0.12249364956903555
-		0.061328389338584505 -0.061328372464537456 0.12249364956903555
-		0.086731432971665107 -7.6843990634803227e-17 0.12249364956903555
-		0.061328389338584727 0.061328372464537345 0.12249364956903555
-		1.6874047159554095e-08 0.086731416097617836 0.12249364956903555
-		-0.061328355590490248 0.061328372464537345 0.12249364956903555
-		;
+	setAttr ".tw" yes;
 createNode transform -n "r_curve_loc_05" -p "r_brow_local_2";
 	rename -uid "A92B0658-466F-401E-3347-469BFB01F2AA";
 	setAttr ".v" no;
@@ -3119,22 +2320,7 @@ createNode nurbsCurve -n "r_brow_local_1Shape" -p "r_brow_local_1";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 20;
-	setAttr ".cc" -type "nurbsCurve" 
-		3 8 2 no 3
-		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
-		11
-		0.061328355941495105 0.061328372464537345 0.092136783948363971
-		-1.6523042434268831e-08 0.086731416097617836 0.092136783948363971
-		-0.061328388987579863 0.061328372464537352 0.092136783948363971
-		-0.086731432620660354 -2.3245953851651257e-19 0.092136783948363971
-		-0.061328388987579918 -0.061328372464537408 0.092136783948363971
-		-1.6523042434268831e-08 -0.086731416097617892 0.092136783948363971
-		0.061328355941494939 -0.061328372464537449 0.092136783948363971
-		0.08673139957457543 -7.2940862813855387e-17 0.092136783948363971
-		0.061328355941495105 0.061328372464537345 0.092136783948363971
-		-1.6523042434268831e-08 0.086731416097617836 0.092136783948363971
-		-0.061328388987579863 0.061328372464537352 0.092136783948363971
-		;
+	setAttr ".tw" yes;
 createNode transform -n "r_curve_loc_04" -p "r_brow_local_1";
 	rename -uid "A9D7C0D8-4E38-17BC-A535-92B6BB5FF6A4";
 	setAttr ".v" no;
@@ -3183,22 +2369,7 @@ createNode nurbsCurve -n "r_brow_midShape" -p "r_brow_mid";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 18;
-	setAttr ".cc" -type "nurbsCurve" 
-		3 8 2 no 3
-		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
-		11
-		0.2617395808827872 0.2617395808827867 0.24600004032846876
-		7.2351792386394334e-17 0.37015566509428749 0.24600004032846876
-		-0.26173958088278632 0.26173958088278676 0.24600004032846876
-		-0.37015566509428699 4.06433255023748e-16 0.24600004032846876
-		-0.26173958088278654 -0.2617395808827862 0.24600004032846876
-		3.0470019130729245e-18 -0.37015566509428688 0.24600004032846876
-		0.26173958088278654 -0.26173958088278632 0.24600004032846876
-		0.37015566509428743 1.0036007404543408e-16 0.24600004032846876
-		0.2617395808827872 0.2617395808827867 0.24600004032846876
-		7.2351792386394334e-17 0.37015566509428749 0.24600004032846876
-		-0.26173958088278632 0.26173958088278676 0.24600004032846876
-		;
+	setAttr ".tw" yes;
 createNode transform -n "r_brow_local_3_rotateOffset" -p "r_brow_mid";
 	rename -uid "0EF01166-4DC2-E5C8-9757-ED89F0528619";
 	setAttr ".rp" -type "double3" 4.4408920985006271e-16 0 0 ;
@@ -3226,22 +2397,7 @@ createNode nurbsCurve -n "r_brow_local_3Shape" -p "r_brow_local_3";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 20;
-	setAttr ".cc" -type "nurbsCurve" 
-		3 8 2 no 3
-		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
-		11
-		0.061328393846884412 0.061328372464536977 0.10273604085023856
-		2.1382346858389578e-08 0.08673141609761742 0.10273604085023856
-		-0.061328351082190452 0.061328372464536991 0.10273604085023856
-		-0.086731394715270901 -3.7840217730146047e-16 0.10273604085023856
-		-0.061328351082190508 -0.061328372464537768 0.10273604085023856
-		2.1382346858389578e-08 -0.086731416097618308 0.10273604085023856
-		0.061328393846884245 -0.06132837246453781 0.10273604085023856
-		0.086731437479964729 -4.5111058057679936e-16 0.10273604085023856
-		0.061328393846884412 0.061328372464536977 0.10273604085023856
-		2.1382346858389578e-08 0.08673141609761742 0.10273604085023856
-		-0.061328351082190452 0.061328372464536991 0.10273604085023856
-		;
+	setAttr ".tw" yes;
 createNode transform -n "r_curve_loc_06" -p "r_brow_local_3";
 	rename -uid "080A6464-4754-442E-4E73-BB8B3D622311";
 	setAttr ".v" no;
@@ -3270,22 +2426,7 @@ createNode nurbsCurve -n "r_brow_local_4Shape" -p "r_brow_local_4";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 20;
-	setAttr ".cc" -type "nurbsCurve" 
-		3 8 2 no 3
-		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
-		11
-		0.061328408185214525 0.061328372464537345 0.11333539462545711
-		3.5720676971884302e-08 0.086731416097617836 0.11333539462545711
-		-0.061328336743860457 0.061328372464537352 0.11333539462545711
-		-0.086731380376940906 -2.3245953851651257e-19 0.11333539462545711
-		-0.061328336743860512 -0.061328372464537408 0.11333539462545711
-		3.5720676971884302e-08 -0.086731416097617892 0.11333539462545711
-		0.061328408185214414 -0.061328372464537449 0.11333539462545711
-		0.08673145181829485 -7.2940862813855387e-17 0.11333539462545711
-		0.061328408185214525 0.061328372464537345 0.11333539462545711
-		3.5720676971884302e-08 0.086731416097617836 0.11333539462545711
-		-0.061328336743860457 0.061328372464537352 0.11333539462545711
-		;
+	setAttr ".tw" yes;
 createNode transform -n "r_curve_loc_07" -p "r_brow_local_4";
 	rename -uid "866D5E25-475A-82B6-DB76-EB89933DFA1D";
 	setAttr ".v" no;
@@ -3314,22 +2455,7 @@ createNode nurbsCurve -n "r_brow_out_1Shape" -p "r_brow_out";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 18;
-	setAttr ".cc" -type "nurbsCurve" 
-		3 8 2 no 3
-		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
-		11
-		0.27005833312067951 0.26173958088278665 0.30408721245735482
-		0.0083187522378923556 0.37015566509428743 0.30408721245735482
-		-0.25342082864489412 0.2617395808827867 0.30408721245735476
-		-0.3618369128563948 3.4878972196155583e-16 0.30408721245735471
-		-0.25342082864489435 -0.26173958088278626 0.30408721245735471
-		0.008318752237892281 -0.37015566509428693 0.30408721245735476
-		0.27005833312067884 -0.26173958088278637 0.30408721245735482
-		0.37847441733217974 4.3422447273662952e-17 0.30408721245735482
-		0.27005833312067951 0.26173958088278665 0.30408721245735482
-		0.0083187522378923556 0.37015566509428743 0.30408721245735482
-		-0.25342082864489412 0.2617395808827867 0.30408721245735476
-		;
+	setAttr ".tw" yes;
 createNode transform -n "r_brow_local_out_rotateOffset" -p "r_brow_out";
 	rename -uid "12EBDE1E-47CF-3316-E5BF-B183A0A172F7";
 	setAttr ".rp" -type "double3" 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 ;
@@ -3360,22 +2486,7 @@ createNode nurbsCurve -n "r_brow_local_5Shape" -p "r_brow_local_5";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 20;
-	setAttr ".cc" -type "nurbsCurve" 
-		3 8 2 no 3
-		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
-		11
-		0.06132837246453729 0.061328372464537359 0.16806907454159573
-		-2.7755575615628914e-16 0.086731416097617864 0.16806907454159573
-		-0.061328372464537623 0.061328372464537373 0.16806907454159573
-		-0.086731416097618114 2.7523116077112389e-17 0.16806907454159573
-		-0.061328372464537678 -0.061328372464537387 0.16806907454159573
-		-3.3306690738754696e-16 -0.086731416097617864 0.16806907454159573
-		0.061328372464537123 -0.061328372464537428 0.16806907454159573
-		0.086731416097617614 -4.5185287198226695e-17 0.16806907454159573
-		0.06132837246453729 0.061328372464537359 0.16806907454159573
-		-2.7755575615628914e-16 0.086731416097617864 0.16806907454159573
-		-0.061328372464537623 0.061328372464537373 0.16806907454159573
-		;
+	setAttr ".tw" yes;
 createNode transform -n "r_curve_loc_08" -p "r_brow_local_5";
 	rename -uid "78D8E7DE-4950-04B6-B0E1-D5B755EC5E32";
 	setAttr ".v" no;
@@ -3411,22 +2522,7 @@ createNode nurbsCurve -n "r_brow_local_6Shape" -p "r_brow_local_6";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 20;
-	setAttr ".cc" -type "nurbsCurve" 
-		3 8 2 no 3
-		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
-		11
-		0.061328372464537997 0.061328372464537415 0.14786423441070157
-		3.0531133177191805e-16 0.086731416097617947 0.14786423441070157
-		-0.061328372464536887 0.061328372464537415 0.14786423441070157
-		-0.086731416097617434 6.9156479500555759e-17 0.14786423441070157
-		-0.061328372464536943 -0.061328372464537345 0.14786423441070151
-		3.0531133177191805e-16 -0.086731416097617781 0.14786423441070151
-		0.061328372464537775 -0.061328372464537387 0.14786423441070151
-		0.086731416097618294 -3.5519237747831276e-18 0.14786423441070157
-		0.061328372464537997 0.061328372464537415 0.14786423441070157
-		3.0531133177191805e-16 0.086731416097617947 0.14786423441070157
-		-0.061328372464536887 0.061328372464537415 0.14786423441070157
-		;
+	setAttr ".tw" yes;
 createNode transform -n "r_curve_loc_09" -p "r_brow_local_6";
 	rename -uid "A20EE35D-4B69-03D9-6BF8-BABEE2A42585";
 	setAttr ".v" no;
@@ -3461,22 +2557,7 @@ createNode nurbsCurve -n "r_brow_local_7Shape" -p "r_brow_local_7";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 20;
-	setAttr ".cc" -type "nurbsCurve" 
-		3 8 2 no 3
-		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
-		11
-		0.061328372464536485 0.061328372464537317 0.11685676523725148
-		-1.1102230246251565e-15 0.086731416097617822 0.11685676523725148
-		-0.061328372464538483 0.061328372464537331 0.11685676523725148
-		-0.086731416097619002 -2.7988035154145438e-17 0.11685676523725148
-		-0.061328372464538539 -0.061328372464537428 0.11685676523725148
-		-1.1657341758564144e-15 -0.086731416097617905 0.11685676523725148
-		0.061328372464536263 -0.06132837246453747 0.11685676523725148
-		0.086731416097616809 -1.0069643842948432e-16 0.11685676523725148
-		0.061328372464536485 0.061328372464537317 0.11685676523725148
-		-1.1102230246251565e-15 0.086731416097617822 0.11685676523725148
-		-0.061328372464538483 0.061328372464537331 0.11685676523725148
-		;
+	setAttr ".tw" yes;
 createNode transform -n "r_curve_loc_10" -p "r_brow_local_7";
 	rename -uid "31DCB233-45AB-B137-C8D2-9A9593158A5E";
 	setAttr ".v" no;
@@ -3499,7 +2580,7 @@ createNode locator -n "r_curve_loc_11Shape" -p "r_curve_loc_11";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
 createNode transform -n "r_brow_last" -p "r_brow";
 	rename -uid "743C9CD7-4C8C-C52F-825D-AD8A11AC1785";
-	setAttr -l on -k off ".v";
+	setAttr -l on -k off ".v" no;
 	setAttr ".rp" -type "double3" 0.0083187522378920277 -4.4408920985006271e-16 -0.058087172128885603 ;
 	setAttr ".rpt" -type "double3" -0.065185966986014449 -0.0059440557057102413 0.044892124069687206 ;
 	setAttr ".sp" -type "double3" 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 ;
@@ -3533,9 +2614,7 @@ createNode transform -n "brow_center" -p "brow_center_group_1";
 	rename -uid "94CEF185-4353-023E-DD0E-B5B60D2B0500";
 	addAttr -ci true -sn "auto" -ln "auto" -dv 1 -min 0 -max 1 -at "double";
 	setAttr -l on -k off ".v";
-	setAttr -l on -k off ".rx";
-	setAttr -l on -k off ".ry";
-	setAttr -l on -k off ".rz";
+	setAttr -k on ".r";
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
@@ -3549,17 +2628,17 @@ createNode nurbsCurve -n "brow_centerShape" -p "brow_center";
 		3 8 2 no 3
 		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
 		11
-		0.097872788158612195 0.097850813185347219 0.14702188252118847
-		-9.1663743262415665e-10 0.13839104980759742 0.14702188252118847
-		-0.097872789991886616 0.097850813185347219 0.14702188252118847
-		-0.13841302661413687 -2.1975889901997018e-05 0.14702188252118847
-		-0.097872789991887005 -0.097894764965151398 0.14702188252118847
-		-9.1663743262415665e-10 -0.13843500158740146 0.14702188252118847
-		0.097872788158611834 -0.097894764965151454 0.14702188252118847
-		0.13841302478086215 -2.1975889902113044e-05 0.14702188252118847
-		0.097872788158612195 0.097850813185347219 0.14702188252118847
-		-9.1663743262415665e-10 0.13839104980759742 0.14702188252118847
-		-0.097872789991886616 0.097850813185347219 0.14702188252118847
+		0.13854366353029141 0.13851255689320272 0.20811658282990531
+		-1.2975446028874219e-09 0.19589922184576541 0.20811658282990531
+		-0.13854366612537994 0.13851255689320272 0.20811658282990531
+		-0.19593033107794278 -3.1107934632728625e-05 0.20811658282990531
+		-0.13854366612538047 -0.13857477276246841 0.20811658282990531
+		-1.2975446028874219e-09 -0.19596143771503094 0.20811658282990531
+		0.13854366353029088 -0.13857477276246849 0.20811658282990531
+		0.1959303284828538 -3.1107934632892861e-05 0.20811658282990531
+		0.13854366353029141 0.13851255689320272 0.20811658282990531
+		-1.2975446028874219e-09 0.19589922184576541 0.20811658282990531
+		-0.13854366612537994 0.13851255689320272 0.20811658282990531
 		;
 createNode transform -n "l_curve_loc_01" -p "brow_center";
 	rename -uid "68991CB5-4159-D73A-B25F-738F000B8679";
@@ -3571,6 +2650,7 @@ createNode locator -n "l_curve_loc_01Shape" -p "l_curve_loc_01";
 createNode joint -n "center_joint" -p "brow_center";
 	rename -uid "7F78EB26-41C3-013B-8AA6-5898070CF102";
 	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr ".v" no;
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
 	setAttr ".smd" 7;
@@ -3602,20 +2682,56 @@ createNode joint -n "root_outJoint" -p "outJoints";
 	setAttr -s 2 ".iog";
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
-createNode transform -n "curve9_gr" -p "output";
+	setAttr ".ds" 2;
+createNode joint -n "center_outJoint" -p "root_outJoint";
+	rename -uid "67426A94-4165-E105-5C99-07AD73FCD4F9";
+	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
+	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
+	setAttr ".mxrl" -type "double3" 360 360 360 ;
+	setAttr ".smd" 7;
+	setAttr ".jo" -type "double3" 0 0.020524929560431074 0.0015670630755830136 ;
+	setAttr ".bps" -type "matrix" 0.99999993546247146 2.7350408496995549e-05 -0.00035822759190772338 0
+		 -2.7350410251952839e-05 0.9999999996259773 0 0 0.00035822759177374375 9.79767157682776e-09 0.99999993583649416 0
+		 0.07869584205023189 1.8144733465923859 -0.31882773645014717 1;
+	setAttr ".liw" yes;
+createNode transform -n "bs_weights" -p "output";
 	rename -uid "37F78733-4234-0A17-A792-A88BA071DD14";
+	addAttr -ci true -sn "l_brow_1_up" -ln "l_brow_1_up" -at "double";
+	addAttr -ci true -sn "l_brow_2_up" -ln "l_brow_2_up" -at "double";
+	addAttr -ci true -sn "l_brow_3_up" -ln "l_brow_3_up" -at "double";
+	addAttr -ci true -sn "r_brow_1_up" -ln "r_brow_1_up" -at "double";
+	addAttr -ci true -sn "r_brow_2_up" -ln "r_brow_2_up" -at "double";
+	addAttr -ci true -sn "r_brow_3_up" -ln "r_brow_3_up" -at "double";
+	addAttr -ci true -sn "l_brow_1_down" -ln "l_brow_1_down" -at "double";
+	addAttr -ci true -sn "l_brow_2_down" -ln "l_brow_2_down" -at "double";
+	addAttr -ci true -sn "l_brow_3_down" -ln "l_brow_3_down" -at "double";
+	addAttr -ci true -sn "r_brow_1_down" -ln "r_brow_1_down" -at "double";
+	addAttr -ci true -sn "r_brow_2_down" -ln "r_brow_2_down" -at "double";
+	addAttr -ci true -sn "r_brow_3_down" -ln "r_brow_3_down" -at "double";
+	setAttr -k on ".l_brow_1_up";
+	setAttr -k on ".l_brow_2_up";
+	setAttr -k on ".l_brow_3_up";
+	setAttr -k on ".r_brow_1_up";
+	setAttr -k on ".r_brow_2_up";
+	setAttr -k on ".r_brow_3_up";
+	setAttr -k on ".l_brow_1_down";
+	setAttr -k on ".l_brow_2_down";
+	setAttr -k on ".l_brow_3_down";
+	setAttr -k on ".r_brow_1_down";
+	setAttr -k on ".r_brow_2_down";
+	setAttr -k on ".r_brow_3_down";
 createNode transform -s -n "persp";
 	rename -uid "6DD988D0-4F67-01C8-21B5-089512DF5F58";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 1.8849804687080156 20.195519266092475 19.324835698885924 ;
-	setAttr ".r" -type "double3" -7.8000000000003835 4.8000000000001339 -2.4935535882964322e-16 ;
+	setAttr ".t" -type "double3" 5.691457757339486 21.657261099558799 18.434005356389441 ;
+	setAttr ".r" -type "double3" -13.200000000001895 25.200000000000284 0 ;
 	setAttr ".rp" -type "double3" 0 0 2.2204460492503131e-16 ;
 	setAttr ".rpt" -type "double3" 7.8318074438749568e-15 2.2130181764198789e-14 -1.4375173266478273e-15 ;
 createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "C0598692-4A65-CD2F-2E76-769943D8CE56";
 	setAttr -k off ".v" no;
 	setAttr ".fl" 34.999999999999979;
-	setAttr ".coi" 14.498282739585843;
+	setAttr ".coi" 14.369419198084262;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -3669,18 +2785,18 @@ createNode camera -s -n "sideShape" -p "side";
 	setAttr ".hc" -type "string" "viewSet -s %camera";
 	setAttr ".o" yes;
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "0D791FF5-4FC3-1A47-FDBD-D785076CA228";
+	rename -uid "84B9EC3C-4236-5508-1BA1-C6B167F42412";
 	setAttr -s 24 ".lnk";
 	setAttr -s 24 ".slnk";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "FB51481B-4F54-8088-4301-FC8D2547EACF";
+	rename -uid "E2EEC6A4-4F05-DB76-0942-AE9DFDBAECAB";
 	setAttr ".cdl" 1;
 	setAttr -s 3 ".dli[1:2]"  3 1;
 	setAttr -s 2 ".dli";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "47598A7F-4076-9A26-4738-16A1F08E3130";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "46A9C10F-44DD-CE98-3C80-67A7C5E7819F";
+	rename -uid "9B610B26-48B9-59E7-8F94-10B913334EEB";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "50669F66-46C9-894E-CDC6-858734AB76F8";
 	setAttr ".g" yes;
@@ -3769,10 +2885,10 @@ createNode shadingEngine -n "black_rsSG";
 createNode materialInfo -n "materialInfo1";
 	rename -uid "8DB900E0-43C7-80AF-0ADC-A7AE8603C4D0";
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "3AF7E9D3-49BC-0F57-EBEE-ABB9B0EC7B57";
+	rename -uid "B8DC4BF8-4A0A-0BDD-9AC6-859F63846984";
 	setAttr ".bsdt[0].bscd" -type "Int32Array" 1 0 ;
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "9D2F2120-48A0-7F14-A49E-2788BC89AFAB";
+	rename -uid "FB079AD6-4A5F-791E-406D-4FB334FF5930";
 createNode multiplyDivide -n "size_multiplyDivide";
 	rename -uid "FC884255-462D-CC24-783E-69B68427DF01";
 createNode makeNurbSphere -n "mid_makeNurbSphere";
@@ -4233,7 +3349,7 @@ createNode network -n "hyperNode_sessionData";
 	addAttr -ci true -sn "hyperNodeSessionJSON" -ln "hyperNodeSessionJSON" -dt "string";
 	setAttr ".ihi" 0;
 	setAttr ".hyperNodeSessionJSON" -type "string" (
-		"{\"tabs\": [{\"name\": \"Up Offset\", \"nodes\": {}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -1994.8035024848782, \"cy\": -69.15318808614245, \"scale\": 0.1879884407325692}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Limits Positions\", \"nodes\": {\"up_vis_condition\": {\"x\": -2166.6568703927096, \"y\": 874.1147865853516, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"colorIfFalse\", \"outColor\"]}, \"down_vis_condition\": {\"x\": -2189.562862399022, \"y\": 2630.4536162250015, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"colorIfTrue\", \"outColor\"]}, \"multDoubleLinear6\": {\"x\": -490.84109558006315, \"y\": 2777.707056746256, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_1_group_1\": {\"x\": 739.580257279335, \"y\": 731.973061854147, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow\": {\"x\": -2494.931235842602, \"y\": 363.32108307228737, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_brow\": {\"x\": -910.3714456407814, \"y\": 845.1024105177219, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_in_group_1\": {\"x\": 283.43579711559767, \"y\": 345.7943039171994, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group_1\": {\"x\": 259.76156139464166, \"y\": 86.3084541293361, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_group_1\": {\"x\": 287.6704399282422, \"y\": -179.49899178341397, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode3\": {\"x\": -395.65400887599316, \"y\": -118.86328269234969, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_in_group_1\": {\"x\": 766.0758577850279, \"y\": 396.4457630312555, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_mid_group_1\": {\"x\": 720.0655778401981, \"y\": 116.70134708316337, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_out_group_1\": {\"x\": 717.3590907846199, \"y\": -148.15739005924854, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode4\": {\"x\": -409.360285531814, \"y\": 571.1603330517914, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3_top\": {\"x\": -654.3660599517458, \"y\": 1755.0770391535198, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_top\": {\"x\": -654.3660599517458, \"y\": 1911.0770391535189, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_top\": {\"x\": -654.3660599517458, \"y\": 2067.0770391535193, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_top\": {\"x\": -654.3660599517458, \"y\": 2223.0770391535193, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_top\": {\"x\": -654.3660599517458, \"y\": 2379.0770391535193, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3_bot\": {\"x\": -1001.0039742674024, \"y\": 2974.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_bot\": {\"x\": -1001.0039742674024, \"y\": 3130.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_bot\": {\"x\": -1001.0039742674024, \"y\": 3286.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_bot\": {\"x\": -1001.0039742674024, \"y\": 3442.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_bot\": {\"x\": -1001.0039742674024, \"y\": 3598.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_bot\": {\"x\": -1589.5823838428544, \"y\": 884.8684080840438, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_bot\": {\"x\": -1589.5823838428544, \"y\": 572.8684080840438, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_bot\": {\"x\": -1589.5823838428544, \"y\": 728.8684080840438, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_top\": {\"x\": -1605.7733050593943, \"y\": 1377.240307037215, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_top\": {\"x\": -1590.7236369844452, \"y\": 1039.419853873925, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_top\": {\"x\": -1605.7733050593943, \"y\": 1221.240307037215, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_midShape\": {\"x\": -103.11179961164635, \"y\": 2814.3503646322097, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_1Shape\": {\"x\": -103.11179961164635, \"y\": 2970.3503646322097, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3Shape\": {\"x\": 386.8111748537466, \"y\": 2894.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4Shape\": {\"x\": 386.8111748537466, \"y\": 3050.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5Shape\": {\"x\": 386.8111748537466, \"y\": 3206.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6Shape\": {\"x\": 386.8111748537466, \"y\": 3362.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7Shape\": {\"x\": 386.8111748537466, \"y\": 3518.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_bot\": {\"x\": -1144.4963303125119, \"y\": 181.2747320270655, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_top\": {\"x\": -1227.1018650322728, \"y\": -43.72759313175617, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1Shape\": {\"x\": 421.1196816708501, \"y\": 2444.873929804466, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_group_1\": {\"x\": 329.0846799346817, \"y\": 752.1165622477623, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_bot\": {\"x\": -1002.0342895341465, \"y\": 2673.075343360965, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_top\": {\"x\": -664.1307711498106, \"y\": 1522.354308311582, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2Shape\": {\"x\": 386.8111748537466, \"y\": 2738.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_1Shape\": {\"x\": -117.4179670236613, \"y\": 2685.2506906095537, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -40.013470762132066, \"cy\": 437.98528807198613, \"scale\": 0.9246885934977689}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Local Controls\", \"nodes\": {\"l_curve9_5_loc_moveOffset\": {\"x\": 1429.234514928237, \"y\": 1076.0109511657433, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_local_4_moveOffset\": {\"x\": 1438.0651915864876, \"y\": 775.1131621721725, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_local_7_rotateOffset\": {\"x\": 1490.8491645270976, \"y\": 1586.4956355805161, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_curve9_3_loc_moveOffset\": {\"x\": 1437.8507537297994, \"y\": 527.0551049994947, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow\": {\"x\": -1739.378953487646, \"y\": 137.3582187643736, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"minTransLimitEnable\", \"rotate\", \"translate\"]}, \"r_brow_local_2_rotateOffset\": {\"x\": -630.2311870407996, \"y\": -27.432186803719844, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\"]}, \"r_brow_in\": {\"x\": -1745.427055503622, \"y\": 2620.3880802635827, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"unitConversion59\": {\"x\": -1073.5190718009053, \"y\": 47.324359257401454, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow\": {\"x\": -1755.6593343750458, \"y\": 2230.357333894182, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_mid\": {\"x\": -1734.2663701107542, \"y\": 1219.6641350509706, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"r_brow_mid\": {\"x\": -1739.571056147512, \"y\": 3102.653994878301, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_brow_out\": {\"x\": -1703.852813382678, \"y\": 1724.1765822733835, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"r_brow_out\": {\"x\": -1689.0018459518478, \"y\": 3482.208085942973, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"r_brow_local_1_moveOffset\": {\"x\": 1512.0907572016654, \"y\": 2012.81123502651, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_curve9_5_loc_moveOffset\": {\"x\": 1575.1589401218994, \"y\": 3415.2578859666005, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_brow_local_4_moveOffset\": {\"x\": 1582.4262086829349, \"y\": 3061.10587777533, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_brow_local_7_rotateOffset\": {\"x\": 1612.845253694074, \"y\": 4063.193504678843, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"r_curve9_2_loc_moveOffset\": {\"x\": 1512.3589515567824, \"y\": 2359.05979166998, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_curve9_3_loc_moveOffset\": {\"x\": 1530.2836675818512, \"y\": 2747.1840200994898, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_local_hyperNode\": {\"x\": 42.97125716579603, \"y\": 944.5979658912006, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve9_6_loc_moveOffset\": {\"x\": 1463.228035201765, \"y\": 1326.0289661584961, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_curve9_6_loc_moveOffset\": {\"x\": 1615.8431315318644, \"y\": 3705.435167356371, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"multDoubleLinear64\": {\"x\": -1068.6977208355947, \"y\": 2520.352348138507, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear65\": {\"x\": -1154.6373648747235, \"y\": 1781.7116627119099, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion87\": {\"x\": 96.74710315806637, \"y\": 2857.84695731484, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage53\": {\"x\": -1634.8174828385586, \"y\": 2873.256285418064, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage54\": {\"x\": -1674.2236025194027, \"y\": 1271.3956969659007, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear48\": {\"x\": -2210.671506792376, \"y\": 1543.3947047202132, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear49\": {\"x\": -2204.605530791863, \"y\": 3127.3698456958937, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear51\": {\"x\": -2209.4543891902604, \"y\": 1051.499838778564, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage55\": {\"x\": 2146.665023713691, \"y\": 2060.8664082288738, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage56\": {\"x\": 2137.2786732568547, \"y\": 2827.8250078369756, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear67\": {\"x\": -1154.5220580907555, \"y\": 974.1480101703723, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear68\": {\"x\": -347.6046702713435, \"y\": 840.1849306401605, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion88\": {\"x\": -739.0547055381572, \"y\": 1876.1115624071695, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear69\": {\"x\": -340.99820939120093, \"y\": 2267.4886512127628, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear70\": {\"x\": -333.4583766983511, \"y\": 3133.7851497348393, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear71\": {\"x\": -345.46269299507514, \"y\": 1441.8105479141154, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear72\": {\"x\": -1095.4422251795627, \"y\": 3500.562451047821, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion89\": {\"x\": 1091.8351278447349, \"y\": 3598.947957734646, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear73\": {\"x\": 523.1000818415463, \"y\": 2068.060133928398, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear74\": {\"x\": 504.2234756067777, \"y\": 2439.549293539281, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear75\": {\"x\": 463.61805057808067, \"y\": 1059.4013230499572, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear76\": {\"x\": 499.7023756826069, \"y\": 3220.191390408489, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage57\": {\"x\": 2168.1646481338757, \"y\": 1304.5420009948698, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage58\": {\"x\": 2157.2043070261316, \"y\": 3290.892832057253, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion90\": {\"x\": 121.09644437527312, \"y\": 1497.3228031671965, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear77\": {\"x\": 1509.105586196707, \"y\": 3630.570979338425, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear78\": {\"x\": 1486.458364803993, \"y\": 3453.3487528397686, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear79\": {\"x\": 1463.4574725058524, \"y\": 3172.4957521466804, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear80\": {\"x\": -374.70815937325335, \"y\": 570.1341476433568, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion91\": {\"x\": -728.5490280277414, \"y\": 418.67143694170363, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear81\": {\"x\": 715.2708653488725, \"y\": 698.823690017412, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear82\": {\"x\": 1531.486627428786, \"y\": 3851.3919704469167, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"clamp18\": {\"x\": 2161.4979543218997, \"y\": 3905.5231972876236, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear83\": {\"x\": -1302.8513656189955, \"y\": 3820.6566058213607, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear84\": {\"x\": 583.2736396327249, \"y\": 2683.0426249992083, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_moveOffset\": {\"x\": 1429.2074050921362, \"y\": -75.16161677367381, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve9_2_loc_moveOffset\": {\"x\": 1444.2380514399285, \"y\": 223.76090673751605, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion57\": {\"x\": -1066.7750606323048, \"y\": -321.34825129275345, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_rotateOffset\": {\"x\": -649.9376013229803, \"y\": -386.8824012562231, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in\": {\"x\": -1736.6328496490178, \"y\": 741.9721598559564, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": 4, \"notes\": [], \"view\": {\"cx\": 238.05726998309126, \"cy\": 1366.124106152967, \"scale\": 1.10897684418019}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 3\", \"nodes\": {\"l_brow_local_3_group_1\": {\"x\": -3344.5706504287286, \"y\": -1642.2152273153836, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\"]}, \"l_brow_local_3_top\": {\"x\": -4567.663228225373, \"y\": -1722.5031462899315, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3_bot\": {\"x\": -4578.1329164802255, \"y\": -1504.0234655443223, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode5\": {\"x\": -3976.108229299178, \"y\": -2172.563785668608, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode6\": {\"x\": -3950.744887280922, \"y\": -1624.225493864628, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode7\": {\"x\": -3978.729746881162, \"y\": -992.9426861364456, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_group\": {\"x\": -3417.618423470978, \"y\": -951.0464661833422, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_top\": {\"x\": -4625.970940172138, \"y\": -1080.108694358415, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_bot\": {\"x\": -4606.512767600461, \"y\": -820.0074710999415, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_group_1\": {\"x\": -3356.559534173694, \"y\": -366.92476215960886, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_top\": {\"x\": -4597.580373641829, \"y\": -495.35398556092275, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_bot\": {\"x\": -4600.1535657163995, \"y\": -216.6984966731013, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode8\": {\"x\": -3953.254386550529, \"y\": -382.83070681020575, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_group_1\": {\"x\": -3435.472031710467, \"y\": 353.12024554882015, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_top\": {\"x\": -4585.88064544554, \"y\": 230.15744155559213, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_bot\": {\"x\": -4594.22370635609, \"y\": 514.3371955449311, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode9\": {\"x\": -4002.6345704509367, \"y\": 289.37623854573746, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_group_1\": {\"x\": -3425.089002895046, \"y\": 990.5103701763926, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_top\": {\"x\": -4570.363727888548, \"y\": 846.9186374794167, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_bot\": {\"x\": -4568.846807722995, \"y\": 1124.2722507237618, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode10\": {\"x\": -3989.834838511675, \"y\": 955.8149536465123, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"up_down_setRange1\": {\"x\": -5188.476101808852, \"y\": 900.3821552628244, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"outValue\"]}, \"up_down_setRange\": {\"x\": -5141.426450141917, \"y\": -589.9464601692215, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"outValue\"]}, \"r_brow_local_2_group_1\": {\"x\": -3074.8262851081518, \"y\": -1867.4320223921638, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_3_group_1\": {\"x\": -3111.033373024211, \"y\": -1332.2474422307703, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_4_group\": {\"x\": -3081.4907290456563, \"y\": -749.6439762226261, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_5_group_1\": {\"x\": -3020.742717199687, \"y\": -147.5961385009074, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_6_group_1\": {\"x\": -3109.323705977312, \"y\": 544.2763114254969, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_7_group_1\": {\"x\": -3120.3151978185024, \"y\": 1172.3391939210214, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode11\": {\"x\": -3937.402227923659, \"y\": -1894.1032199528868, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode12\": {\"x\": -3942.908644602938, \"y\": -1366.5001791220457, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode13\": {\"x\": -3933.7035802657083, \"y\": -663.1624291049643, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode14\": {\"x\": -3947.6700099592035, \"y\": -134.8843861553629, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode15\": {\"x\": -3991.632098340228, \"y\": 530.3303777702599, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode16\": {\"x\": -3989.834838511675, \"y\": 1194.6194371877982, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_bot\": {\"x\": -4614.325026808659, \"y\": -1989.2501833151512, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_top\": {\"x\": -4586.892796880182, \"y\": -2303.9678436193226, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_group_1\": {\"x\": -3357.690204260645, \"y\": -2188.1175765262287, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -3756.868334461066, \"cy\": -1524.589591542921, \"scale\": 1.1445703221901302}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 5\", \"nodes\": {\"l_curve_loc_01Shape\": {\"x\": -2576.473661788548, \"y\": -1810.4533830982177, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_06Shape\": {\"x\": -2334.6666666666665, \"y\": -862.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_07Shape\": {\"x\": -2334.6666666666665, \"y\": -706.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_08Shape\": {\"x\": -2334.6666666666665, \"y\": -550.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_09Shape\": {\"x\": -2334.6666666666665, \"y\": -394.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_12Shape\": {\"x\": -2315.6971112205542, \"y\": 80.73461968851441, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_02Shape\": {\"x\": -2334.6666666666665, \"y\": -1486.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_03Shape\": {\"x\": -2334.6666666666665, \"y\": -1330.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_04Shape\": {\"x\": -2334.6666666666665, \"y\": -1174.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_05Shape\": {\"x\": -2334.6666666666665, \"y\": -1018.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -864.8178177306453, \"cy\": -600.0425812882609, \"scale\": 0.5816253894027233}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 6\", \"nodes\": {\"l_brow_mid\": {\"x\": -3279.592385711044, \"y\": -1072.245475887653, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out\": {\"x\": -3247.0048378997517, \"y\": -823.4864292284245, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_brow\": {\"x\": -3250.49355694966, \"y\": -1783.2273491605335, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve9_2_loc_moveOffset\": {\"x\": -2271.602612211118, \"y\": -1237.0570565523803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in\": {\"x\": -3264.6497042659466, \"y\": -1395.870794556709, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": 3176.366581908561, \"cy\": -3222.0491574685943, \"scale\": 0.7004858987853599}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Local Init Position\", \"nodes\": {\"mid_mainPoser\": {\"x\": 625.828107567229, \"y\": -4912.367590250758, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_1_poser\": {\"x\": 579.7643754469279, \"y\": -6262.364361997303, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix59\": {\"x\": 989.588693214276, \"y\": -6136.408366914609, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"in_mainPoser\": {\"x\": 588.3372870076138, \"y\": -5962.082067359466, \"width\": 234.232137161958, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_2_poser\": {\"x\": 588.8320062734404, \"y\": -5571.016450258607, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix60\": {\"x\": 971.2593109796278, \"y\": -5664.323815999474, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"l_brow_local_3_group\": {\"x\": 1432.8748761575484, \"y\": -5129.637786698762, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix61\": {\"x\": 1026.1959632938767, \"y\": -5118.857981827443, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"local_3_poser\": {\"x\": 608.9129175822877, \"y\": -5187.5282218056145, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_group\": {\"x\": 1463.1026844756236, \"y\": -4665.251729790567, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix62\": {\"x\": 1069.5645342645628, \"y\": -4706.352271896964, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"local_4_poser\": {\"x\": 660.9428469328705, \"y\": -4541.054760418152, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_group\": {\"x\": 1470.041463436909, \"y\": -4185.1888229419255, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix63\": {\"x\": 1048.6515178954537, \"y\": -4300.4848431038845, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"local_5_poser\": {\"x\": 609.4934442260718, \"y\": -4193.083156041814, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"out_mainPoser\": {\"x\": 618.6887330257752, \"y\": -3932.0979650688732, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_group\": {\"x\": 1475.6833335828833, \"y\": -3771.695047283213, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix64\": {\"x\": 1057.3812551267677, \"y\": -3876.3705993576737, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"local_6_poser\": {\"x\": 610.2680003878909, \"y\": -3646.2465057977015, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_group\": {\"x\": 1533.5370167418955, \"y\": -3432.4817894643797, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_7_poser\": {\"x\": 610.2680003878905, \"y\": -3372.0536245138273, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix65\": {\"x\": 1112.9396793264182, \"y\": -3456.9931828831504, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"r_brow_local_1_group\": {\"x\": 1436.7922418548765, \"y\": -6067.299722022102, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_2_group\": {\"x\": 1427.2225061262827, \"y\": -5499.585963715228, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_3_group\": {\"x\": 1435.1530883894227, \"y\": -5234.675028054771, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_4_group\": {\"x\": 1480.9566359675355, \"y\": -4795.691368274052, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_5_group\": {\"x\": 1467.166004600157, \"y\": -4342.065250827147, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_6_group\": {\"x\": 1471.8277749792733, \"y\": -3913.390089461798, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_7_group\": {\"x\": 1540.7357761897167, \"y\": -3537.6601460195916, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_group\": {\"x\": 1437.2505827883774, \"y\": -6195.780626198113, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_group\": {\"x\": 1435.7979697024327, \"y\": -5795.5369041821, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": 5, \"notes\": [], \"view\": {\"cx\": 1465.2017099483767, \"cy\": -3845.7918149239076, \"scale\": 1.3786497697106637}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 8\", \"nodes\": {}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": 214.22308883030036, \"cy\": 1992.6789206290202, \"scale\": 0.24740563815688726}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Limits Positions\", \"nodes\": {\"blendMatrix1\": {\"x\": -141.56959874763538, \"y\": 1767.0604867519587, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix2\": {\"x\": -78.48314362272141, \"y\": 1021.4804171910872, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix3\": {\"x\": -187.4227873745779, \"y\": 320.36825012212046, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix4\": {\"x\": -182.88215131229754, \"y\": 628.2237784730197, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix5\": {\"x\": -148.96999598746487, \"y\": 2077.2131935227562, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix6\": {\"x\": -64.12782651424254, \"y\": 1299.295158080291, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"multMatrix48\": {\"x\": 390.5017926751634, \"y\": 1938.1304703556586, \"width\": 58, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"multMatrix49\": {\"x\": 441.7429996902672, \"y\": 1193.5241228774244, \"width\": 58, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"multMatrix50\": {\"x\": 422.8450079591119, \"y\": 513.327898111087, \"width\": 58, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"l_brow_in_group_1\": {\"x\": 729.4716456990075, \"y\": 425.9544872116985, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_bot\": {\"x\": -651.0868360892679, \"y\": 714.8530803061245, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group_1\": {\"x\": 751.2939526130042, \"y\": 1115.7180774517633, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group\": {\"x\": 626.4062081722725, \"y\": -851.3106580164614, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_mid_bot\": {\"x\": -615.9755427150907, \"y\": 1365.8780424840943, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_group_1\": {\"x\": 772.6345377753617, \"y\": 1741.942711307439, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_brow_out_bot\": {\"x\": -603.0514818382629, \"y\": 2182.4095646903797, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_top\": {\"x\": -653.8637953447529, \"y\": 338.10545203479035, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_top\": {\"x\": -618.2454104053027, \"y\": 1085.5475589866642, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_top\": {\"x\": -609.5024522886177, \"y\": 1808.790155325404, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldInverseMatrix\"]}}, \"basket_entry_id\": 2, \"notes\": [], \"view\": {\"cx\": 445.6217962632999, \"cy\": 1949.9173397186014, \"scale\": 0.38822158487459013}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Joints\", \"nodes\": {\"curve9_1_mpath\": {\"x\": -2169.273776889795, \"y\": 935.1550532592105, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath5\": {\"x\": -2158.3661041477494, \"y\": 367.2995127969548, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath\": {\"x\": -2271.0498077863385, \"y\": 1914.214404827273, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath2\": {\"x\": -2307.535554711515, \"y\": 2182.958447924242, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_2_mpath\": {\"x\": -2178.8752892385255, \"y\": 1128.096300134952, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_4_mpath\": {\"x\": -2190.3971040570023, \"y\": 1394.9200407621765, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_6_mpath\": {\"x\": -2236.484363330909, \"y\": 1750.0776949977226, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_0_mpath\": {\"x\": -2169.273776889795, \"y\": 776.7792508388984, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath4\": {\"x\": -2184.97353139744, \"y\": 582.216098122861, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath1\": {\"x\": -2299.85434483253, \"y\": 2061.068392429108, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath3\": {\"x\": -2336.3400917577064, \"y\": 2352.8560651630323, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_5_mpath\": {\"x\": -2215.361036163701, \"y\": 1589.7815901076647, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out\": {\"x\": -2982.1556813391408, \"y\": 1519.738927074029, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear18\": {\"x\": -1308.2211547058437, \"y\": 2113.0007797673234, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear17\": {\"x\": -1308.2211547058437, \"y\": 1957.0007797673234, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear21\": {\"x\": -1306.7330806409618, \"y\": 459.4998904923532, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear11\": {\"x\": -1308.2211547058432, \"y\": 783.4044830114067, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear13\": {\"x\": -1315.661525030252, \"y\": 1310.9274456066732, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear19\": {\"x\": -1308.2211547058437, \"y\": 2425.0007797673234, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear20\": {\"x\": -1312.6853769004883, \"y\": 627.4044830114067, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear22\": {\"x\": -1308.2211547058437, \"y\": 2269.0007797673234, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear15\": {\"x\": -1308.2211547058437, \"y\": 1645.0007797673234, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear14\": {\"x\": -1308.2211547058437, \"y\": 1489.0007797673234, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_3_mpath\": {\"x\": -2228.815480223774, \"y\": 1269.0660371775443, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear23\": {\"x\": -1311.197302835607, \"y\": 1105.8210014655788, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear16\": {\"x\": -1308.2211547058437, \"y\": 1801.0007797673234, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear12\": {\"x\": -1315.6615250302516, \"y\": 928.987964557235, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange29\": {\"x\": -1774.4566750629067, \"y\": 2029.1072901700882, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange31\": {\"x\": -1774.4566750629067, \"y\": 625.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange30\": {\"x\": -1774.4566750629067, \"y\": 2341.107290170088, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange21\": {\"x\": -1774.4566750629067, \"y\": 1093.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange23\": {\"x\": -1774.4566750629067, \"y\": 937.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange22\": {\"x\": -1774.4566750629067, \"y\": 781.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange33\": {\"x\": -1774.4566750629067, \"y\": 2185.107290170088, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange28\": {\"x\": -1774.4566750629067, \"y\": 1873.1072901700882, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange24\": {\"x\": -1774.4566750629067, \"y\": 1249.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange32\": {\"x\": -1774.4566750629067, \"y\": 469.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange25\": {\"x\": -1774.4566750629067, \"y\": 1405.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange26\": {\"x\": -1774.4566750629067, \"y\": 1561.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange27\": {\"x\": -1774.4566750629067, \"y\": 1717.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": 3, \"notes\": [], \"view\": {\"cx\": -2542.77731906583, \"cy\": 1622.0923306810214, \"scale\": 0.7114268270509011}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 10\", \"nodes\": {\"l_curve9_2_loc_moveOffset\": {\"x\": -11053.9824265778, \"y\": -9586.424686618291, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_local_hyperNode\": {\"x\": -11605.252463343033, \"y\": -9631.398822907242, \"width\": 321.78550356552114, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow\": {\"x\": -12149.582141494906, \"y\": -9721.848820268959, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in\": {\"x\": -12192.151790648146, \"y\": -9585.121586038378, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_mid\": {\"x\": -12185.28535117666, \"y\": -9346.724312380562, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out\": {\"x\": -12185.28535117666, \"y\": -9190.724312380562, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_last\": {\"x\": -11568.157373544846, \"y\": -8788.040205139572, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_8_poser\": {\"x\": -12423.221209337353, \"y\": -8922.996063559833, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldMatrix\"]}, \"multMatrix68\": {\"x\": -12023.504621039168, \"y\": -8779.798625999405, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"full_mainPoser\": {\"x\": -12422.466274524324, \"y\": -8514.500138120997, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldInverseMatrix\"]}, \"r_brow_last\": {\"x\": -11567.127176152318, \"y\": -8432.622104719794, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -11601.052837180063, \"cy\": -8652.627899784686, \"scale\": 0.9706877606754594}, \"group_path\": [], \"group_history\": []}], \"active_tab\": 10, \"basket\": [{\"name\": \"Limits Positions\", \"nodes\": {\"main\": {\"x\": -1825.5607163550967, \"y\": 950.7685322270993, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"setRange18\": {\"x\": -1319.763812799787, \"y\": 1011.2544182582883, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"oldMax\", \"outValue\", \"value\"]}, \"blendMatrix1\": {\"x\": -141.56959874763538, \"y\": 1767.0604867519587, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix2\": {\"x\": -78.48314362272141, \"y\": 1021.4804171910872, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix3\": {\"x\": -187.4227873745779, \"y\": 320.36825012212046, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix4\": {\"x\": -182.88215131229754, \"y\": 628.2237784730197, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix5\": {\"x\": -148.96999598746487, \"y\": 2077.2131935227562, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix6\": {\"x\": -64.12782651424254, \"y\": 1299.295158080291, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"multMatrix48\": {\"x\": 390.5017926751634, \"y\": 1938.1304703556586, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"multMatrix49\": {\"x\": 441.7429996902672, \"y\": 1193.5241228774244, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"multMatrix50\": {\"x\": 422.8450079591119, \"y\": 513.327898111087, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"condition1\": {\"x\": -1331.6973432035552, \"y\": 1331.140654551796, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"outColor\"]}, \"condition2\": {\"x\": -1317.6003841987715, \"y\": 1735.922080887228, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"colorIfTrue\", \"outColor\"]}, \"l_brow_in_group_1\": {\"x\": 729.4716456990075, \"y\": 425.9544872116985, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_bot\": {\"x\": -651.0868360892679, \"y\": 714.8530803061245, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group_1\": {\"x\": 751.2939526130042, \"y\": 1115.7180774517633, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group\": {\"x\": 626.4062081722725, \"y\": -851.3106580164614, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_mid_bot\": {\"x\": -615.9755427150907, \"y\": 1365.8780424840943, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_group_1\": {\"x\": 772.6345377753617, \"y\": 1741.942711307439, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_brow_out_bot\": {\"x\": -603.0514818382629, \"y\": 2182.4095646903797, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_top\": {\"x\": -653.8637953447529, \"y\": 338.10545203479035, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_top\": {\"x\": -618.2454104053027, \"y\": 1085.5475589866642, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_top\": {\"x\": -609.5024522886177, \"y\": 1808.790155325404, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldInverseMatrix\"]}}, \"view\": {\"cx\": -1470.0649377902198, \"cy\": 1245.3230445873469, \"scale\": 1.027845750998805}, \"group_path\": [], \"group_history\": [], \"id\": 2}, {\"name\": \"Joints\", \"nodes\": {\"wide_joint_01\": {\"x\": -924.4861322306755, \"y\": 419.1768768918133, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_02\": {\"x\": -958.2211547058437, \"y\": 698.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_03\": {\"x\": -958.2211547058437, \"y\": 854.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_04\": {\"x\": -958.2211547058437, \"y\": 1010.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_05\": {\"x\": -958.2211547058437, \"y\": 1166.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_06\": {\"x\": -922.5073771486836, \"y\": 1320.5473806915552, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_07\": {\"x\": -958.2211547058437, \"y\": 1478.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_08\": {\"x\": -958.2211547058437, \"y\": 1634.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_09\": {\"x\": -958.2211547058437, \"y\": 1790.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_10\": {\"x\": -958.2211547058437, \"y\": 1946.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_11\": {\"x\": -958.2211547058437, \"y\": 2102.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_12\": {\"x\": -958.2211547058437, \"y\": 2258.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_13\": {\"x\": -958.2211547058437, \"y\": 2414.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_1_mpath\": {\"x\": -2169.273776889795, \"y\": 935.1550532592105, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath5\": {\"x\": -2158.3661041477494, \"y\": 367.2995127969548, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath\": {\"x\": -2271.0498077863385, \"y\": 1914.214404827273, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath2\": {\"x\": -2307.535554711515, \"y\": 2182.958447924242, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_2_mpath\": {\"x\": -2178.8752892385255, \"y\": 1128.096300134952, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_4_mpath\": {\"x\": -2190.3971040570023, \"y\": 1394.9200407621765, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_6_mpath\": {\"x\": -2236.484363330909, \"y\": 1750.0776949977226, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_0_mpath\": {\"x\": -2169.273776889795, \"y\": 776.7792508388984, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath4\": {\"x\": -2184.97353139744, \"y\": 582.216098122861, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath1\": {\"x\": -2299.85434483253, \"y\": 2061.068392429108, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath3\": {\"x\": -2336.3400917577064, \"y\": 2352.8560651630323, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_5_mpath\": {\"x\": -2215.361036163701, \"y\": 1589.7815901076647, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curveShape\": {\"x\": -2982.1556813391408, \"y\": 1363.738927074029, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out\": {\"x\": -2982.1556813391408, \"y\": 1519.738927074029, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear18\": {\"x\": -1308.2211547058437, \"y\": 2113.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear17\": {\"x\": -1308.2211547058437, \"y\": 1957.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear21\": {\"x\": -1306.7330806409618, \"y\": 459.4998904923532, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear11\": {\"x\": -1308.2211547058432, \"y\": 783.4044830114067, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear13\": {\"x\": -1315.661525030252, \"y\": 1310.9274456066732, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear19\": {\"x\": -1308.2211547058437, \"y\": 2425.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear20\": {\"x\": -1312.6853769004883, \"y\": 627.4044830114067, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear22\": {\"x\": -1308.2211547058437, \"y\": 2269.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear15\": {\"x\": -1308.2211547058437, \"y\": 1645.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear14\": {\"x\": -1308.2211547058437, \"y\": 1489.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_3_mpath\": {\"x\": -2228.815480223774, \"y\": 1269.0660371775443, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear23\": {\"x\": -1311.197302835607, \"y\": 1105.8210014655788, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear16\": {\"x\": -1308.2211547058437, \"y\": 1801.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear12\": {\"x\": -1315.6615250302516, \"y\": 928.987964557235, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange29\": {\"x\": -1774.4566750629067, \"y\": 2029.1072901700882, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange31\": {\"x\": -1774.4566750629067, \"y\": 625.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange30\": {\"x\": -1774.4566750629067, \"y\": 2341.107290170088, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange21\": {\"x\": -1774.4566750629067, \"y\": 1093.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange23\": {\"x\": -1774.4566750629067, \"y\": 937.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange22\": {\"x\": -1774.4566750629067, \"y\": 781.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange33\": {\"x\": -1774.4566750629067, \"y\": 2185.107290170088, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange28\": {\"x\": -1774.4566750629067, \"y\": 1873.1072901700882, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange24\": {\"x\": -1774.4566750629067, \"y\": 1249.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange32\": {\"x\": -1774.4566750629067, \"y\": 469.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange25\": {\"x\": -1774.4566750629067, \"y\": 1405.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange26\": {\"x\": -1774.4566750629067, \"y\": 1561.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange27\": {\"x\": -1774.4566750629067, \"y\": 1717.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": 3, \"notes\": [], \"view\": {\"cx\": -1501.2085001450007, \"cy\": 985.3437814622149, \"scale\": 0.7114268270509011}, \"group_path\": [], \"group_history\": [], \"id\": 3}, {\"id\": 4, \"basket_entry_id\": 4, \"name\": \"Local Controls\", \"nodes\": {}, \"notes\": [], \"view\": {}, \"group_path\": [], \"group_history\": []}, {\"id\": 5, \"basket_entry_id\": 5, \"name\": \"Local Init Position\", \"nodes\": {}, \"notes\": [], \"view\": {}, \"group_path\": [], \"group_history\": []}]}");
+		"{\"tabs\": [{\"name\": \"Up Offset\", \"nodes\": {}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -1984.1645504716255, \"cy\": -58.51423607288976, \"scale\": 0.1879884407325692}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Limits Positions\", \"nodes\": {\"up_vis_condition\": {\"x\": -2166.6568703927096, \"y\": 874.1147865853516, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"colorIfFalse\", \"outColor\"]}, \"down_vis_condition\": {\"x\": -2189.562862399022, \"y\": 2630.4536162250015, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"colorIfTrue\", \"outColor\"]}, \"multDoubleLinear6\": {\"x\": -490.84109558006315, \"y\": 2777.707056746256, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_1_group_1\": {\"x\": 739.580257279335, \"y\": 731.973061854147, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow\": {\"x\": -2494.931235842602, \"y\": 363.32108307228737, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_brow\": {\"x\": -910.3714456407814, \"y\": 845.1024105177219, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_in_group_1\": {\"x\": 283.43579711559767, \"y\": 345.7943039171994, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group_1\": {\"x\": 259.76156139464166, \"y\": 86.3084541293361, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_group_1\": {\"x\": 287.6704399282422, \"y\": -179.49899178341397, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode3\": {\"x\": -395.65400887599316, \"y\": -118.86328269234969, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_in_group_1\": {\"x\": 766.0758577850279, \"y\": 396.4457630312555, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_mid_group_1\": {\"x\": 720.0655778401981, \"y\": 116.70134708316337, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_out_group_1\": {\"x\": 717.3590907846199, \"y\": -148.15739005924854, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode4\": {\"x\": -409.360285531814, \"y\": 571.1603330517914, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3_top\": {\"x\": -654.3660599517458, \"y\": 1755.0770391535198, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_top\": {\"x\": -654.3660599517458, \"y\": 1911.0770391535189, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_top\": {\"x\": -654.3660599517458, \"y\": 2067.0770391535193, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_top\": {\"x\": -654.3660599517458, \"y\": 2223.0770391535193, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_top\": {\"x\": -654.3660599517458, \"y\": 2379.0770391535193, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3_bot\": {\"x\": -1001.0039742674024, \"y\": 2974.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_bot\": {\"x\": -1001.0039742674024, \"y\": 3130.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_bot\": {\"x\": -1001.0039742674024, \"y\": 3286.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_bot\": {\"x\": -1001.0039742674024, \"y\": 3442.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_bot\": {\"x\": -1001.0039742674024, \"y\": 3598.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_bot\": {\"x\": -1589.5823838428544, \"y\": 884.8684080840438, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_bot\": {\"x\": -1589.5823838428544, \"y\": 572.8684080840438, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_bot\": {\"x\": -1589.5823838428544, \"y\": 728.8684080840438, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_top\": {\"x\": -1605.7733050593943, \"y\": 1377.240307037215, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_top\": {\"x\": -1590.7236369844452, \"y\": 1039.419853873925, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_top\": {\"x\": -1605.7733050593943, \"y\": 1221.240307037215, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_midShape\": {\"x\": -103.11179961164635, \"y\": 2814.3503646322097, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_1Shape\": {\"x\": -103.11179961164635, \"y\": 2970.3503646322097, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3Shape\": {\"x\": 386.8111748537466, \"y\": 2894.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4Shape\": {\"x\": 386.8111748537466, \"y\": 3050.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5Shape\": {\"x\": 386.8111748537466, \"y\": 3206.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6Shape\": {\"x\": 386.8111748537466, \"y\": 3362.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7Shape\": {\"x\": 386.8111748537466, \"y\": 3518.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_bot\": {\"x\": -1144.4963303125119, \"y\": 181.2747320270655, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_top\": {\"x\": -1227.1018650322728, \"y\": -43.72759313175617, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1Shape\": {\"x\": 421.1196816708501, \"y\": 2444.873929804466, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_group_1\": {\"x\": 329.0846799346817, \"y\": 752.1165622477623, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_bot\": {\"x\": -1002.0342895341465, \"y\": 2673.075343360965, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_top\": {\"x\": -664.1307711498106, \"y\": 1522.354308311582, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2Shape\": {\"x\": 386.8111748537466, \"y\": 2738.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_1Shape\": {\"x\": -117.4179670236613, \"y\": 2685.2506906095537, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -37.85058045066547, \"cy\": 440.1481783834528, \"scale\": 0.9246885934977689}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Local Controls\", \"nodes\": {\"l_curve9_5_loc_moveOffset\": {\"x\": 1429.234514928237, \"y\": 1076.0109511657433, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_local_4_moveOffset\": {\"x\": 1438.0651915864876, \"y\": 775.1131621721725, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_local_7_rotateOffset\": {\"x\": 1490.8491645270976, \"y\": 1586.4956355805161, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_curve9_3_loc_moveOffset\": {\"x\": 1437.8507537297994, \"y\": 527.0551049994947, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow\": {\"x\": -1739.378953487646, \"y\": 137.3582187643736, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"minTransLimitEnable\", \"rotate\", \"translate\"]}, \"r_brow_local_2_rotateOffset\": {\"x\": -630.2311870407996, \"y\": -27.432186803719844, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\"]}, \"r_brow_in\": {\"x\": -1745.427055503622, \"y\": 2620.3880802635827, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"unitConversion59\": {\"x\": -1073.5190718009053, \"y\": 47.324359257401454, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow\": {\"x\": -1755.6593343750458, \"y\": 2230.357333894182, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_mid\": {\"x\": -1734.2663701107542, \"y\": 1219.6641350509706, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"r_brow_mid\": {\"x\": -1739.571056147512, \"y\": 3102.653994878301, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_brow_out\": {\"x\": -1703.852813382678, \"y\": 1724.1765822733835, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"r_brow_out\": {\"x\": -1689.0018459518478, \"y\": 3482.208085942973, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"r_brow_local_1_moveOffset\": {\"x\": 1512.0907572016654, \"y\": 2012.81123502651, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_curve9_5_loc_moveOffset\": {\"x\": 1575.1589401218994, \"y\": 3415.2578859666005, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_brow_local_4_moveOffset\": {\"x\": 1582.4262086829349, \"y\": 3061.10587777533, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_brow_local_7_rotateOffset\": {\"x\": 1612.845253694074, \"y\": 4063.193504678843, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"r_curve9_2_loc_moveOffset\": {\"x\": 1512.3589515567824, \"y\": 2359.05979166998, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_curve9_3_loc_moveOffset\": {\"x\": 1530.2836675818512, \"y\": 2747.1840200994898, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_local_hyperNode\": {\"x\": 42.97125716579603, \"y\": 944.5979658912006, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve9_6_loc_moveOffset\": {\"x\": 1463.228035201765, \"y\": 1326.0289661584961, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_curve9_6_loc_moveOffset\": {\"x\": 1615.8431315318644, \"y\": 3705.435167356371, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"multDoubleLinear64\": {\"x\": -1068.6977208355947, \"y\": 2520.352348138507, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear65\": {\"x\": -1154.6373648747235, \"y\": 1781.7116627119099, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion87\": {\"x\": 96.74710315806637, \"y\": 2857.84695731484, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage53\": {\"x\": -1634.8174828385586, \"y\": 2873.256285418064, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage54\": {\"x\": -1674.2236025194027, \"y\": 1271.3956969659007, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear48\": {\"x\": -2210.671506792376, \"y\": 1543.3947047202132, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear49\": {\"x\": -2204.605530791863, \"y\": 3127.3698456958937, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear51\": {\"x\": -2209.4543891902604, \"y\": 1051.499838778564, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage55\": {\"x\": 2146.665023713691, \"y\": 2060.8664082288738, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage56\": {\"x\": 2137.2786732568547, \"y\": 2827.8250078369756, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear67\": {\"x\": -1154.5220580907555, \"y\": 974.1480101703723, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear68\": {\"x\": -347.6046702713435, \"y\": 840.1849306401605, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion88\": {\"x\": -739.0547055381572, \"y\": 1876.1115624071695, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear69\": {\"x\": -340.99820939120093, \"y\": 2267.4886512127628, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear70\": {\"x\": -333.4583766983511, \"y\": 3133.7851497348393, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear71\": {\"x\": -345.46269299507514, \"y\": 1441.8105479141154, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear72\": {\"x\": -1095.4422251795627, \"y\": 3500.562451047821, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion89\": {\"x\": 1091.8351278447349, \"y\": 3598.947957734646, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear73\": {\"x\": 523.1000818415463, \"y\": 2068.060133928398, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear74\": {\"x\": 504.2234756067777, \"y\": 2439.549293539281, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear75\": {\"x\": 463.61805057808067, \"y\": 1059.4013230499572, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear76\": {\"x\": 499.7023756826069, \"y\": 3220.191390408489, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage57\": {\"x\": 2168.1646481338757, \"y\": 1304.5420009948698, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage58\": {\"x\": 2157.2043070261316, \"y\": 3290.892832057253, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion90\": {\"x\": 121.09644437527312, \"y\": 1497.3228031671965, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear77\": {\"x\": 1509.105586196707, \"y\": 3630.570979338425, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear78\": {\"x\": 1486.458364803993, \"y\": 3453.3487528397686, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear79\": {\"x\": 1463.4574725058524, \"y\": 3172.4957521466804, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear80\": {\"x\": -374.70815937325335, \"y\": 570.1341476433568, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion91\": {\"x\": -728.5490280277414, \"y\": 418.67143694170363, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear81\": {\"x\": 715.2708653488725, \"y\": 698.823690017412, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear82\": {\"x\": 1531.486627428786, \"y\": 3851.3919704469167, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"clamp18\": {\"x\": 2161.4979543218997, \"y\": 3905.5231972876236, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear83\": {\"x\": -1302.8513656189955, \"y\": 3820.6566058213607, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear84\": {\"x\": 583.2736396327249, \"y\": 2683.0426249992083, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_moveOffset\": {\"x\": 1429.2074050921362, \"y\": -75.16161677367381, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve9_2_loc_moveOffset\": {\"x\": 1444.2380514399285, \"y\": 223.76090673751605, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion57\": {\"x\": -1066.7750606323048, \"y\": -321.34825129275345, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_rotateOffset\": {\"x\": -649.9376013229803, \"y\": -386.8824012562231, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in\": {\"x\": -1736.6328496490178, \"y\": 741.9721598559564, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": 4, \"notes\": [], \"view\": {\"cx\": 239.86073414962985, \"cy\": 1367.9275703195055, \"scale\": 1.10897684418019}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 3\", \"nodes\": {\"l_brow_local_3_group_1\": {\"x\": -3344.5706504287286, \"y\": -1642.2152273153836, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\"]}, \"l_brow_local_3_top\": {\"x\": -4567.663228225373, \"y\": -1722.5031462899315, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3_bot\": {\"x\": -4578.1329164802255, \"y\": -1504.0234655443223, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode5\": {\"x\": -3976.108229299178, \"y\": -2172.563785668608, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode6\": {\"x\": -3950.744887280922, \"y\": -1624.225493864628, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode7\": {\"x\": -3978.729746881162, \"y\": -992.9426861364456, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_group\": {\"x\": -3417.618423470978, \"y\": -951.0464661833422, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_top\": {\"x\": -4625.970940172138, \"y\": -1080.108694358415, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_bot\": {\"x\": -4606.512767600461, \"y\": -820.0074710999415, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_group_1\": {\"x\": -3356.559534173694, \"y\": -366.92476215960886, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_top\": {\"x\": -4597.580373641829, \"y\": -495.35398556092275, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_bot\": {\"x\": -4600.1535657163995, \"y\": -216.6984966731013, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode8\": {\"x\": -3953.254386550529, \"y\": -382.83070681020575, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_group_1\": {\"x\": -3435.472031710467, \"y\": 353.12024554882015, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_top\": {\"x\": -4585.88064544554, \"y\": 230.15744155559213, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_bot\": {\"x\": -4594.22370635609, \"y\": 514.3371955449311, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode9\": {\"x\": -4002.6345704509367, \"y\": 289.37623854573746, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_group_1\": {\"x\": -3425.089002895046, \"y\": 990.5103701763926, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_top\": {\"x\": -4570.363727888548, \"y\": 846.9186374794167, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_bot\": {\"x\": -4568.846807722995, \"y\": 1124.2722507237618, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode10\": {\"x\": -3989.834838511675, \"y\": 955.8149536465123, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"up_down_setRange1\": {\"x\": -5188.476101808852, \"y\": 900.3821552628244, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"outValue\"]}, \"up_down_setRange\": {\"x\": -5141.426450141917, \"y\": -589.9464601692215, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"outValue\"]}, \"r_brow_local_2_group_1\": {\"x\": -3074.8262851081518, \"y\": -1867.4320223921638, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_3_group_1\": {\"x\": -3111.033373024211, \"y\": -1332.2474422307703, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_4_group\": {\"x\": -3081.4907290456563, \"y\": -749.6439762226261, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_5_group_1\": {\"x\": -3020.742717199687, \"y\": -147.5961385009074, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_6_group_1\": {\"x\": -3109.323705977312, \"y\": 544.2763114254969, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_7_group_1\": {\"x\": -3120.3151978185024, \"y\": 1172.3391939210214, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode11\": {\"x\": -3937.402227923659, \"y\": -1894.1032199528868, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode12\": {\"x\": -3942.908644602938, \"y\": -1366.5001791220457, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode13\": {\"x\": -3933.7035802657083, \"y\": -663.1624291049643, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode14\": {\"x\": -3947.6700099592035, \"y\": -134.8843861553629, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode15\": {\"x\": -3991.632098340228, \"y\": 530.3303777702599, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode16\": {\"x\": -3989.834838511675, \"y\": 1194.6194371877982, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_bot\": {\"x\": -4614.325026808659, \"y\": -1989.2501833151512, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_top\": {\"x\": -4586.892796880182, \"y\": -2303.9678436193226, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_group_1\": {\"x\": -3357.690204260645, \"y\": -2188.1175765262287, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -3755.120953840386, \"cy\": -1522.8422109222413, \"scale\": 1.1445703221901302}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 5\", \"nodes\": {\"l_curve_loc_01Shape\": {\"x\": -2576.473661788548, \"y\": -1810.4533830982177, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_06Shape\": {\"x\": -2334.6666666666665, \"y\": -862.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_07Shape\": {\"x\": -2334.6666666666665, \"y\": -706.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_08Shape\": {\"x\": -2334.6666666666665, \"y\": -550.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_09Shape\": {\"x\": -2334.6666666666665, \"y\": -394.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_12Shape\": {\"x\": -2315.6971112205542, \"y\": 80.73461968851441, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_02Shape\": {\"x\": -2334.6666666666665, \"y\": -1486.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_03Shape\": {\"x\": -2334.6666666666665, \"y\": -1330.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_04Shape\": {\"x\": -2334.6666666666665, \"y\": -1174.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_05Shape\": {\"x\": -2334.6666666666665, \"y\": -1018.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -861.3791782963286, \"cy\": -596.6039418539442, \"scale\": 0.5816253894027233}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 6\", \"nodes\": {\"l_brow_mid\": {\"x\": -3279.592385711044, \"y\": -1072.245475887653, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out\": {\"x\": -3247.0048378997517, \"y\": -823.4864292284245, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_brow\": {\"x\": -3250.49355694966, \"y\": -1783.2273491605335, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve9_2_loc_moveOffset\": {\"x\": -2271.602612211118, \"y\": -1237.0570565523803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in\": {\"x\": -3264.6497042659466, \"y\": -1395.870794556709, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": 3179.221742881063, \"cy\": -3219.193996496092, \"scale\": 0.7004858987853599}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Local Init Position\", \"nodes\": {\"mid_mainPoser\": {\"x\": 625.828107567229, \"y\": -4912.367590250758, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_1_poser\": {\"x\": 579.7643754469279, \"y\": -6262.364361997303, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix59\": {\"x\": 989.588693214276, \"y\": -6136.408366914609, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"in_mainPoser\": {\"x\": 588.3372870076138, \"y\": -5962.082067359466, \"width\": 234.232137161958, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_2_poser\": {\"x\": 588.8320062734404, \"y\": -5571.016450258607, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix60\": {\"x\": 971.2593109796278, \"y\": -5664.323815999474, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"l_brow_local_3_group\": {\"x\": 1432.8748761575484, \"y\": -5129.637786698762, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix61\": {\"x\": 1026.1959632938767, \"y\": -5118.857981827443, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"local_3_poser\": {\"x\": 608.9129175822877, \"y\": -5187.5282218056145, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_group\": {\"x\": 1463.1026844756236, \"y\": -4665.251729790567, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix62\": {\"x\": 1069.5645342645628, \"y\": -4706.352271896964, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"local_4_poser\": {\"x\": 660.9428469328705, \"y\": -4541.054760418152, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_group\": {\"x\": 1470.041463436909, \"y\": -4185.1888229419255, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix63\": {\"x\": 1048.6515178954537, \"y\": -4300.4848431038845, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"local_5_poser\": {\"x\": 609.4934442260718, \"y\": -4193.083156041814, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"out_mainPoser\": {\"x\": 618.6887330257752, \"y\": -3932.0979650688732, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_group\": {\"x\": 1475.6833335828833, \"y\": -3771.695047283213, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix64\": {\"x\": 1057.3812551267677, \"y\": -3876.3705993576737, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"local_6_poser\": {\"x\": 610.2680003878909, \"y\": -3646.2465057977015, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_group\": {\"x\": 1533.5370167418955, \"y\": -3432.4817894643797, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_7_poser\": {\"x\": 610.2680003878905, \"y\": -3372.0536245138273, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix65\": {\"x\": 1112.9396793264182, \"y\": -3456.9931828831504, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"r_brow_local_1_group\": {\"x\": 1436.7922418548765, \"y\": -6067.299722022102, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_2_group\": {\"x\": 1427.2225061262827, \"y\": -5499.585963715228, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_3_group\": {\"x\": 1435.1530883894227, \"y\": -5234.675028054771, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_4_group\": {\"x\": 1480.9566359675355, \"y\": -4795.691368274052, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_5_group\": {\"x\": 1467.166004600157, \"y\": -4342.065250827147, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_6_group\": {\"x\": 1471.8277749792733, \"y\": -3913.390089461798, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_7_group\": {\"x\": 1540.7357761897167, \"y\": -3537.6601460195916, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_group\": {\"x\": 1437.2505827883774, \"y\": -6195.780626198113, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_group\": {\"x\": 1435.7979697024327, \"y\": -5795.5369041821, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": 5, \"notes\": [], \"view\": {\"cx\": 1466.6524047107018, \"cy\": -3844.3411201615822, \"scale\": 1.3786497697106637}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 8\", \"nodes\": {}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": 222.30697897483998, \"cy\": 2000.7628107735597, \"scale\": 0.24740563815688726}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Limits Positions\", \"nodes\": {\"blendMatrix1\": {\"x\": -141.56959874763538, \"y\": 1767.0604867519587, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix2\": {\"x\": -78.48314362272141, \"y\": 1021.4804171910872, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix3\": {\"x\": -187.4227873745779, \"y\": 320.36825012212046, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix4\": {\"x\": -182.88215131229754, \"y\": 628.2237784730197, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix5\": {\"x\": -148.96999598746487, \"y\": 2077.2131935227562, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix6\": {\"x\": -64.12782651424254, \"y\": 1299.295158080291, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"multMatrix48\": {\"x\": 390.5017926751634, \"y\": 1938.1304703556586, \"width\": 58, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"multMatrix49\": {\"x\": 441.7429996902672, \"y\": 1193.5241228774244, \"width\": 58, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"multMatrix50\": {\"x\": 422.8450079591119, \"y\": 513.327898111087, \"width\": 58, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"l_brow_in_group_1\": {\"x\": 729.4716456990075, \"y\": 425.9544872116985, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_bot\": {\"x\": -651.0868360892679, \"y\": 714.8530803061245, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group_1\": {\"x\": 751.2939526130042, \"y\": 1115.7180774517633, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group\": {\"x\": 626.4062081722725, \"y\": -851.3106580164614, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_mid_bot\": {\"x\": -615.9755427150907, \"y\": 1365.8780424840943, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_group_1\": {\"x\": 772.6345377753617, \"y\": 1741.942711307439, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_brow_out_bot\": {\"x\": -603.0514818382629, \"y\": 2182.4095646903797, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_top\": {\"x\": -653.8637953447529, \"y\": 338.10545203479035, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_top\": {\"x\": -618.2454104053027, \"y\": 1085.5475589866642, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_top\": {\"x\": -609.5024522886177, \"y\": 1808.790155325404, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldInverseMatrix\"]}}, \"basket_entry_id\": 2, \"notes\": [], \"view\": {\"cx\": 450.77349332992765, \"cy\": 1955.0690367852292, \"scale\": 0.38822158487459013}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Joints\", \"nodes\": {\"l_brow_out\": {\"x\": -2982.1556813391408, \"y\": 1519.738927074029, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": 3, \"notes\": [], \"view\": {\"cx\": -2539.966067192899, \"cy\": 1624.9035825539522, \"scale\": 0.7114268270509011}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 10\", \"nodes\": {\"l_curve9_2_loc_moveOffset\": {\"x\": -11053.9824265778, \"y\": -9586.424686618291, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_local_hyperNode\": {\"x\": -11605.252463343033, \"y\": -9631.398822907242, \"width\": 321.78550356552114, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow\": {\"x\": -12149.582141494906, \"y\": -9721.848820268959, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in\": {\"x\": -12192.151790648146, \"y\": -9585.121586038378, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_mid\": {\"x\": -12185.28535117666, \"y\": -9346.724312380562, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out\": {\"x\": -12185.28535117666, \"y\": -9190.724312380562, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_last\": {\"x\": -11568.157373544846, \"y\": -8788.040205139572, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_8_poser\": {\"x\": -12423.221209337353, \"y\": -8922.996063559833, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldMatrix\"]}, \"multMatrix68\": {\"x\": -12023.504621039168, \"y\": -8779.798625999405, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"full_mainPoser\": {\"x\": -12422.466274524324, \"y\": -8514.500138120997, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldInverseMatrix\"]}, \"r_brow_last\": {\"x\": -11567.127176152318, \"y\": -8432.622104719794, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -11590.82623367668, \"cy\": -8384.054152709863, \"scale\": 0.719103179701115}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 11\", \"nodes\": {\"l_brow\": {\"x\": -797.3292612043762, \"y\": -774.6461032768063, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"maxTransLimitEnable\", \"translate\"]}, \"bs_weights\": {\"x\": 570.8865178411223, \"y\": 219.90507991822722, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": false, \"expanded_attrs\": []}, \"setRange16\": {\"x\": -45.65841628159234, \"y\": -273.7451342875384, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"oldMax\", \"outValue\", \"value\"]}, \"l_brow_in\": {\"x\": -766.6837207468366, \"y\": -275.62472812652277, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"plusMinusAverage59\": {\"x\": -416.4303094979894, \"y\": -92.89962662407834, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"input3D\", \"input3D[0]\", \"input3D[1]\", \"output3D\"]}, \"l_brow_mid\": {\"x\": -760.9685541434476, \"y\": 36.70230096365272, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_out\": {\"x\": -756.0780899180165, \"y\": 332.08053138843644, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"setRange17\": {\"x\": -42.8939380447826, \"y\": 64.09089744588698, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"oldMin\", \"outValue\", \"value\"]}, \"setRange18\": {\"x\": -16.799944813862112, \"y\": 608.1697537662981, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"oldMax\", \"outValue\", \"value\"]}, \"plusMinusAverage60\": {\"x\": -412.7141149536742, \"y\": 783.483960506607, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"input3D\", \"input3D[0]\", \"input3D[1]\", \"output3D\"]}, \"setRange19\": {\"x\": -14.035466577052375, \"y\": 946.0057854997235, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"oldMin\", \"outValue\", \"value\"]}, \"r_brow_out\": {\"x\": -799.1355257311144, \"y\": 1304.2640850816365, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_brow_mid\": {\"x\": -806.6782088081387, \"y\": 1127.3803386156214, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_brow\": {\"x\": -835.7816201851157, \"y\": 777.920488809367, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_brow_in\": {\"x\": -806.6782088081388, \"y\": 1023.9120407659777, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": 262.42744951266747, \"cy\": 847.557204433138, \"scale\": 1.0783932874611102}, \"group_path\": [], \"group_history\": []}], \"active_tab\": 11, \"basket\": [{\"name\": \"Limits Positions\", \"nodes\": {\"main\": {\"x\": -1825.5607163550967, \"y\": 950.7685322270993, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"setRange18\": {\"x\": -1319.763812799787, \"y\": 1011.2544182582883, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"oldMax\", \"outValue\", \"value\"]}, \"blendMatrix1\": {\"x\": -141.56959874763538, \"y\": 1767.0604867519587, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix2\": {\"x\": -78.48314362272141, \"y\": 1021.4804171910872, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix3\": {\"x\": -187.4227873745779, \"y\": 320.36825012212046, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix4\": {\"x\": -182.88215131229754, \"y\": 628.2237784730197, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix5\": {\"x\": -148.96999598746487, \"y\": 2077.2131935227562, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix6\": {\"x\": -64.12782651424254, \"y\": 1299.295158080291, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"multMatrix48\": {\"x\": 390.5017926751634, \"y\": 1938.1304703556586, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"multMatrix49\": {\"x\": 441.7429996902672, \"y\": 1193.5241228774244, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"multMatrix50\": {\"x\": 422.8450079591119, \"y\": 513.327898111087, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"condition1\": {\"x\": -1331.6973432035552, \"y\": 1331.140654551796, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"outColor\"]}, \"condition2\": {\"x\": -1317.6003841987715, \"y\": 1735.922080887228, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"colorIfTrue\", \"outColor\"]}, \"l_brow_in_group_1\": {\"x\": 729.4716456990075, \"y\": 425.9544872116985, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_bot\": {\"x\": -651.0868360892679, \"y\": 714.8530803061245, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group_1\": {\"x\": 751.2939526130042, \"y\": 1115.7180774517633, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group\": {\"x\": 626.4062081722725, \"y\": -851.3106580164614, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_mid_bot\": {\"x\": -615.9755427150907, \"y\": 1365.8780424840943, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_group_1\": {\"x\": 772.6345377753617, \"y\": 1741.942711307439, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_brow_out_bot\": {\"x\": -603.0514818382629, \"y\": 2182.4095646903797, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_top\": {\"x\": -653.8637953447529, \"y\": 338.10545203479035, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_top\": {\"x\": -618.2454104053027, \"y\": 1085.5475589866642, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_top\": {\"x\": -609.5024522886177, \"y\": 1808.790155325404, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldInverseMatrix\"]}}, \"view\": {\"cx\": -1470.0649377902198, \"cy\": 1245.3230445873469, \"scale\": 1.027845750998805}, \"group_path\": [], \"group_history\": [], \"id\": 2}, {\"name\": \"Joints\", \"nodes\": {\"wide_joint_01\": {\"x\": -924.4861322306755, \"y\": 419.1768768918133, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_02\": {\"x\": -958.2211547058437, \"y\": 698.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_03\": {\"x\": -958.2211547058437, \"y\": 854.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_04\": {\"x\": -958.2211547058437, \"y\": 1010.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_05\": {\"x\": -958.2211547058437, \"y\": 1166.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_06\": {\"x\": -922.5073771486836, \"y\": 1320.5473806915552, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_07\": {\"x\": -958.2211547058437, \"y\": 1478.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_08\": {\"x\": -958.2211547058437, \"y\": 1634.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_09\": {\"x\": -958.2211547058437, \"y\": 1790.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_10\": {\"x\": -958.2211547058437, \"y\": 1946.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_11\": {\"x\": -958.2211547058437, \"y\": 2102.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_12\": {\"x\": -958.2211547058437, \"y\": 2258.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_13\": {\"x\": -958.2211547058437, \"y\": 2414.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_1_mpath\": {\"x\": -2169.273776889795, \"y\": 935.1550532592105, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath5\": {\"x\": -2158.3661041477494, \"y\": 367.2995127969548, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath\": {\"x\": -2271.0498077863385, \"y\": 1914.214404827273, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath2\": {\"x\": -2307.535554711515, \"y\": 2182.958447924242, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_2_mpath\": {\"x\": -2178.8752892385255, \"y\": 1128.096300134952, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_4_mpath\": {\"x\": -2190.3971040570023, \"y\": 1394.9200407621765, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_6_mpath\": {\"x\": -2236.484363330909, \"y\": 1750.0776949977226, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_0_mpath\": {\"x\": -2169.273776889795, \"y\": 776.7792508388984, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath4\": {\"x\": -2184.97353139744, \"y\": 582.216098122861, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath1\": {\"x\": -2299.85434483253, \"y\": 2061.068392429108, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath3\": {\"x\": -2336.3400917577064, \"y\": 2352.8560651630323, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_5_mpath\": {\"x\": -2215.361036163701, \"y\": 1589.7815901076647, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curveShape\": {\"x\": -2982.1556813391408, \"y\": 1363.738927074029, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out\": {\"x\": -2982.1556813391408, \"y\": 1519.738927074029, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear18\": {\"x\": -1308.2211547058437, \"y\": 2113.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear17\": {\"x\": -1308.2211547058437, \"y\": 1957.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear21\": {\"x\": -1306.7330806409618, \"y\": 459.4998904923532, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear11\": {\"x\": -1308.2211547058432, \"y\": 783.4044830114067, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear13\": {\"x\": -1315.661525030252, \"y\": 1310.9274456066732, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear19\": {\"x\": -1308.2211547058437, \"y\": 2425.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear20\": {\"x\": -1312.6853769004883, \"y\": 627.4044830114067, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear22\": {\"x\": -1308.2211547058437, \"y\": 2269.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear15\": {\"x\": -1308.2211547058437, \"y\": 1645.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear14\": {\"x\": -1308.2211547058437, \"y\": 1489.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_3_mpath\": {\"x\": -2228.815480223774, \"y\": 1269.0660371775443, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear23\": {\"x\": -1311.197302835607, \"y\": 1105.8210014655788, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear16\": {\"x\": -1308.2211547058437, \"y\": 1801.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear12\": {\"x\": -1315.6615250302516, \"y\": 928.987964557235, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange29\": {\"x\": -1774.4566750629067, \"y\": 2029.1072901700882, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange31\": {\"x\": -1774.4566750629067, \"y\": 625.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange30\": {\"x\": -1774.4566750629067, \"y\": 2341.107290170088, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange21\": {\"x\": -1774.4566750629067, \"y\": 1093.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange23\": {\"x\": -1774.4566750629067, \"y\": 937.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange22\": {\"x\": -1774.4566750629067, \"y\": 781.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange33\": {\"x\": -1774.4566750629067, \"y\": 2185.107290170088, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange28\": {\"x\": -1774.4566750629067, \"y\": 1873.1072901700882, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange24\": {\"x\": -1774.4566750629067, \"y\": 1249.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange32\": {\"x\": -1774.4566750629067, \"y\": 469.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange25\": {\"x\": -1774.4566750629067, \"y\": 1405.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange26\": {\"x\": -1774.4566750629067, \"y\": 1561.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange27\": {\"x\": -1774.4566750629067, \"y\": 1717.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": 3, \"notes\": [], \"view\": {\"cx\": -1501.2085001450007, \"cy\": 985.3437814622149, \"scale\": 0.7114268270509011}, \"group_path\": [], \"group_history\": [], \"id\": 3}, {\"id\": 4, \"basket_entry_id\": 4, \"name\": \"Local Controls\", \"nodes\": {}, \"notes\": [], \"view\": {}, \"group_path\": [], \"group_history\": []}, {\"id\": 5, \"basket_entry_id\": 5, \"name\": \"Local Init Position\", \"nodes\": {}, \"notes\": [], \"view\": {}, \"group_path\": [], \"group_history\": []}]}");
 createNode setRange -n "setRange14";
 	rename -uid "2055E302-4275-EEC3-263B-5B9F6046C041";
 	setAttr ".om" -type "float3" 1 1 1 ;
@@ -4243,14 +3359,6 @@ createNode setRange -n "setRange_top_up";
 createNode setRange -n "setRange15";
 	rename -uid "90A1841D-4766-9373-EB0B-D9B061FAB513";
 	setAttr ".on" -type "float3" -1 -1 -1 ;
-createNode motionPath -n "curve9_1_mpath";
-	rename -uid "EE2562B4-4425-C389-1425-54AD821096FE";
-	setAttr ".u" 0.23985714285714285;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-	setAttr ".wu" -type "double3" 0 0 -1 ;
 createNode plusMinusAverage -n "plusMinusAverage24";
 	rename -uid "D7EE8A4E-47BD-A12A-8C6B-F3AC7A008553";
 	setAttr ".op" 2;
@@ -4277,337 +3385,6 @@ createNode unitConversion -n "unitConversion24";
 	rename -uid "0E3D02E1-4893-208E-A1B0-4A8615FB051B";
 createNode unitConversion -n "unitConversion26";
 	rename -uid "B20D43B0-46C9-8431-C2FF-0D9019151D65";
-createNode dagPose -n "bindPose1";
-	rename -uid "FC109DAD-407F-2FF7-6B53-87A1AD47F583";
-	setAttr -s 83 ".wm";
-	setAttr ".wm[1]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1;
-	setAttr ".wm[15]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1;
-	setAttr ".wm[16]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1;
-	setAttr ".wm[17]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1;
-	setAttr ".wm[18]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1;
-	setAttr ".wm[19]" -type "matrix" 0.95276262901079067 0.22179401901129139 -0.20748683305517351 0
-		 -0.22672811928297024 0.97395808940960449 0 0 0.20208347950006639 0.047043099434579121 0.9782378106108629 0
-		 1.9697055107441419 1.9297819720060319 -0.40551643029408418 1;
-	setAttr ".wm[20]" -type "matrix" 0.7214489477589785 -0.055820134985929012 -0.69021411772551822 0
-		 0.040334265190964932 0.99844084077633399 -0.03858801007245969 0 0.69129195194864501 -3.4694469519536142e-17 0.7225755581051938 0
-		 4.3366684928167221 2.2555176751993167 -1.5157313948765208 1;
-	setAttr ".wm[21]" -type "matrix" 0.92281095071576791 0.11840416469866186 -0.36660660526110656 0
-		 -0.12726484578274372 0.99186877107200755 -3.4694469519536142e-18 0 0.36362564302721434 0.046656133081489928 0.93037605137864943 0
-		 2.7767310337867839 2.1534040500242737 -0.59896348366976615 1;
-	setAttr ".wm[22]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0.73211268225355253 1.7106223672297269 -0.4170090666973405 1;
-	setAttr ".wm[23]" -type "matrix" 0.62875382720332462 -0.099003847450818222 -0.77127612627846009 0
-		 0.062556384346068597 0.99508705055886193 -0.076736305537938365 0 0.77508407515231459 1.3183898417423739e-16 0.63185811417222548 0
-		 4.8500171155293907 2.2016924311002142 -2.0839201633018005 1;
-	setAttr ".wm[24]" -type "matrix" 0.53814260016844595 -0.24556756340592806 -0.80628724018603914 0
-		 0.13632470062255755 0.96937947770874311 -0.20425230524352606 0 0.83175604469346298 2.2204460492503126e-16 0.55514131724803706 0
-		 5.2440748898852281 2.0922133882270444 -2.6286306268318995 1;
-	setAttr ".wm[25]" -type "matrix" 0.98097237463711839 0.17422652689439089 -0.085663980325053971 0
-		 -0.17356599772653691 0.9847055993170335 0.015156751197855626 0 0.086994509206069617 0 0.99620879105135141 0
-		 1.2978516111222405 1.7658561666841304 -0.37168225483071865 1;
-	setAttr ".wm[26]" -type "matrix" 0.88368512011399547 0.0064825807435925824 -0.4680369479389595 0
-		 -0.0073356517769392364 0.99997309374453047 0 0 0.46802435481726906 0.0034333560688216448 0.88370889741134984 0
-		 3.5924831459585125 2.2656345029427802 -0.97081928355743707 1;
-	setAttr ".wm[27]" -type "matrix" 0.38596214902817838 -0.34435068836814969 -0.85583632952681521 0
-		 0.14156424583144556 0.93884109593710341 -0.31390597458760261 0 0.91158805598785908 -2.7755575615628909e-16 0.41110487248423089 0
-		 5.4890864652212965 1.9160741948397664 -3.1173825266054336 1;
-	setAttr ".wm[28]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0.48903989679533322 1.7398471074099642 -0.39719916247604259 1;
-	setAttr ".wm[29]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0.35847340894294133 1.7595469210814927 -0.37677826619729976 1;
-	setAttr ".wm[30]" -type "matrix" 0.02005403761509128 -0.41573023908465356 -0.90926684965743121 0
-		 0.0091667730895113337 0.90948797040456608 -0.41562916399178318 0 0.99975687336794938 -4.2743586448068535e-15 0.022049810737103548 0
-		 5.7065352105949039 1.3873411295542808 -4.1569194901322506 1;
-	setAttr ".wm[31]" -type "matrix" 0.28860384236914605 -0.40429247591636397 -0.86790288401824167 0
-		 0.12757114120863811 0.91462975783505773 -0.3836378631122187 0 0.94891170616685461 -5.5511151231257827e-16 0.31554171499107564 0
-		 5.65081668269878 1.6815601583253508 -3.6142412366784837 1;
-	setAttr ".wm[44]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1;
-	setAttr ".wm[45]" -type "matrix" 0.88368512011399547 0.0064825807435925824 -0.4680369479389595 0
-		 -0.0073356517769392364 0.99997309374453047 0 0 0.46802435481726906 0.0034333560688216448 0.88370889741134984 0
-		 -3.5924027943070191 2.2688122838778151 -0.97041352479282017 1;
-	setAttr ".wm[47]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 -0.73211268225355253 1.7106223672297269 -0.4170090666973405 1;
-	setAttr ".wm[49]" -type "matrix" 0.53814260016844595 -0.24556756340592806 -0.80628724018603914 0
-		 0.13632470062255755 0.96937947770874311 -0.20425230524352606 0 0.83175604469346298 2.2204460492503126e-16 0.55514131724803706 0
-		 -5.2440748898852281 2.0922133882270444 -2.6286306268318995 1;
-	setAttr ".wm[51]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 -0.48903989679533355 1.7398471074099642 -0.39719916247604259 1;
-	setAttr ".wm[53]" -type "matrix" 0.92281095071576791 0.11840416469866186 -0.36660660526110656 0
-		 -0.12726484578274372 0.99186877107200755 -3.4694469519536142e-18 0 0.36362564302721434 0.046656133081489928 0.93037605137864943 0
-		 -2.7756254811207937 2.1971269122098511 -0.59338067764612201 1;
-	setAttr ".wm[55]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 -0.358473408942942 1.7595469210814927 -0.37677826619729976 1;
-	setAttr ".wm[57]" -type "matrix" 0.38596214902817838 -0.34435068836814969 -0.85583632952681521 0
-		 0.14156424583144556 0.93884109593710341 -0.31390597458760261 0 0.91158805598785908 -2.7755575615628909e-16 0.41110487248423089 0
-		 -5.4890864652212965 1.9160741948397664 -3.1173825266054327 1;
-	setAttr ".wm[59]" -type "matrix" 0.02005403761509128 -0.41573023908465356 -0.90926684965743121 0
-		 0.0091667730895113337 0.90948797040456608 -0.41562916399178318 0 0.99975687336794938 -4.2743586448068535e-15 0.022049810737103548 0
-		 -5.7066395538030399 1.3873411295542804 -4.1569194901322479 1;
-	setAttr ".wm[61]" -type "matrix" 0.28860384236914605 -0.40429247591636397 -0.86790288401824167 0
-		 0.12757114120863811 0.91462975783505773 -0.3836378631122187 0 0.94891170616685461 -5.5511151231257827e-16 0.31554171499107564 0
-		 -5.6508166826987791 1.6815601583253503 -3.6142412366784828 1;
-	setAttr ".wm[63]" -type "matrix" 0.62875382720332462 -0.099003847450818222 -0.77127612627846009 0
-		 0.062556384346068597 0.99508705055886193 -0.076736305537938365 0 0.77508407515231459 1.3183898417423739e-16 0.63185811417222548 0
-		 -4.8500171155293907 2.2016924311002142 -2.0839201633018005 1;
-	setAttr ".wm[65]" -type "matrix" 0.7214489477589785 -0.055820134985929012 -0.69021411772551822 0
-		 0.040334265190964932 0.99844084077633399 -0.03858801007245969 0 0.69129195194864501 -3.4694469519536142e-17 0.7225755581051938 0
-		 -4.3366684928167221 2.2555176751993167 -1.5157313948765208 1;
-	setAttr ".wm[67]" -type "matrix" 0.98097237463711839 0.17422652689439089 -0.085663980325053971 0
-		 -0.17356599772653691 0.9847055993170335 0.015156751197855626 0 0.086994509206069617 0 0.99620879105135141 0
-		 -1.2970708816142038 1.7967327858938913 -0.36773973672697757 1;
-	setAttr ".wm[69]" -type "matrix" 0.95276262901079067 0.22179401901129139 -0.20748683305517351 0
-		 -0.22672811928297024 0.97395808940960449 0 0 0.20208347950006639 0.047043099434579121 0.9782378106108629 0
-		 -1.9677142856974923 2.0085317783005725 -0.39546116696123235 1;
-	setAttr -s 84 ".xm";
-	setAttr ".xm[0]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[1]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[2]" -type "matrix" "xform" 1 1 1 -0.001212861213584833 0.20960451607255151
-		 -0.0058289521404223405 0 -4.4408920985006262e-16 0 -5.5511151231257827e-17 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[3]" -type "matrix" "xform" 1 1 1 -0.05383376692629311 0.72027494286338367
-		 -0.081514756295880231 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1
-		 1 1 yes;
-	setAttr ".xm[4]" -type "matrix" "xform" 1 1 1 -0.0033505636446138636 0.36846587426917304
-		 -0.0093021151224284646 0 0 0 -1.1102230246251565e-16 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[5]" -type "matrix" "xform" 1 1 1 0.0056478073832262107 -0.12835985529297569
-		 -0.044092725770237734 0 0 0 2.2204460492503131e-16 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[6]" -type "matrix" "xform" 1 1 1 -0.15341252659601687 0.84154458169271584
-		 -0.20446842758955058 0 8.8817841970012523e-16 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[7]" -type "matrix" "xform" 1 1 1 -0.36960891090371883 0.96766925873184451
-		 -0.43969632187782187 0 0 4.4408920985006262e-16 4.4408920985006262e-16 0 0 0 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[8]" -type "matrix" "xform" 1 1 1 -0.0005929613417722427 0.0590428693508952
-		 -0.010048395439141499 0 0 0 5.5511151231257827e-17 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[9]" -type "matrix" "xform" 1 1 1 -0.0047874731169450018 0.46673096229788696
-		 -0.010639234833711484 0 0 -4.4408920985006262e-16 3.3306690738754696e-16 0 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[10]" -type "matrix" "xform" 1 1 1 -0.36960891090371867 0.96766925873184417
-		 -0.43969632187782154 0 0 0 4.4408920985006262e-16 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[11]" -type "matrix" "xform" 1 1 1 0 0 0 0 5.5511151231257827e-17
-		 2.2204460492503131e-16 2.2204460492503131e-16 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
-		0 0 0 1 1 1 1 yes;
-	setAttr ".xm[12]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 -2.2204460492503131e-16
-		 4.4408920985006262e-16 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[13]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 -8.8817841970012523e-16
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[14]" -type "matrix" "xform" 0.99999999999999989 1 1 0 1.7486486517066133e-18
-		 -4.4479236537028494e-17 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1
-		 1 1 yes;
-	setAttr ".xm[15]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[16]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[17]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[18]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[19]" -type "matrix" "xform" 1 1 1 0 0.20900518093647025 0.22871699694594186 0 1.9697055107441419
-		 1.9297819720060319 -0.40551643029408418 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1
-		 1 1 yes;
-	setAttr ".xm[20]" -type "matrix" "xform" 1 1 1 -0.053352744778086249 0.76178491508068036
-		 -0.077218415931043921 0 4.3366684928167221 2.2555176751993167 -1.5157313948765208 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[21]" -type "matrix" "xform" 1 1 1 -3.729080243211894e-18 0.37535905110702505
-		 0.12761091148577081 0 2.7767310337867839 2.1534040500242737 -0.59896348366976615 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[22]" -type "matrix" "xform" 1 1 1 0 0 0 0 0.73211268225355253 1.7106223672297269
-		 -0.4170090666973405 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[23]" -type "matrix" "xform" 1 1 1 -0.12085363197452838 0.88084363297775858
-		 -0.15617810518717593 0 4.8500171155293907 2.2016924311002142 -2.0839201633018005 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[24]" -type "matrix" "xform" 1 1 1 -0.35255662101691909 0.9378483931760172
-		 -0.42810078125224271 0 5.2440748898852281 2.0922133882270444 -2.6286306268318995 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[25]" -type "matrix" "xform" 1 1 1 0.015213258512449562 0.085769099406462157
-		 0.17577305339052546 0 1.2978516111222405 1.7658561666841304 -0.37168225483071865 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[26]" -type "matrix" "xform" 1 1 1 -4.9075082333626376e-19 0.4870680892806693
-		 0.0073357175692875748 0 3.5924831459585125 2.2656345029427802 -0.97081928355743707 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[27]" -type "matrix" "xform" 1 1 1 -0.65212738186486452 1.0271655702474356
-		 -0.72848211828960463 0 5.4890864652212965 1.9160741948397664 -3.1173825266054336 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[28]" -type "matrix" "xform" 1 1 1 0 0 0 0 0.48903989679533322 1.7398471074099642
-		 -0.39719916247604259 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[29]" -type "matrix" "xform" 1 1 1 0 0 0 0 0.35847340894294133 1.7595469210814927
-		 -0.37677826619729976 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[30]" -type "matrix" "xform" 1 1 1 -1.5177943690892044 1.1415191826141509
-		 -1.522595588106622 0 5.7065352105949039 1.3873411295542808 -4.1569194901322506 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[31]" -type "matrix" "xform" 1 1 1 -0.88248631513354836 1.0509648114092565
-		 -0.95083597344103432 0 5.65081668269878 1.6815601583253508 -3.6142412366784837 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[32]" -type "matrix" "xform" 1 1 1 -1.44376972849083 -0.14807493426529411
-		 -0.028580772241409438 0 -7.8409501114151681e-16 4.5970172113385388e-16 0.10000000000000001 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 -0.00029691511069550905 0.047729301694791414 0.0034932068295622011 0.99885415507329733 1
-		 1 1 yes;
-	setAttr ".xm[33]" -type "matrix" "xform" 1 1 1 -1.439537407108159 -0.016692267291281204
-		 0.19617696738102844 0 -7.8409501114151681e-16 4.5970172113385388e-16 0.10000000000000001 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[34]" -type "matrix" "xform" 1 1 1 -0.85019732509001167 1.0537352313732187
-		 -1.0685636740135982 0 -7.8409501114151681e-16 4.5970172113385388e-16 0.10000000000000001 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0.12827630992388248 -0.56941653729506181 0.17844796188437329 0.7921277171432185 1
-		 1 1 yes;
-	setAttr ".xm[35]" -type "matrix" "xform" 1 1 1 -0.66757681337770836 1.0427196730638248
-		 -0.83326479720462743 0 -7.8409501114151681e-16 4.5970172113385388e-16 0.10000000000000001 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0.10139503156870817 -0.529681411526433 0.15832817118528728 0.82709663284628876 1
-		 1 1 yes;
-	setAttr ".xm[36]" -type "matrix" "xform" 1 1 1 -1.913787979965633 0.97343807192679743
-		 -0.42441091154192739 0 -7.8409501114151681e-16 4.5970172113385388e-16 0.10000000000000001 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0.053314780417885996 -0.45766972797472888 0.10269464481491387 0.88156098156104268 1
-		 1 1 yes;
-	setAttr ".xm[37]" -type "matrix" "xform" 1 1 1 -1.4411475051374629 0.1210588398159963
-		 0.26901659439565134 0 -7.8409501114151681e-16 4.5970172113385388e-16 0.10000000000000001 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[38]" -type "matrix" "xform" 1 1 1 -1.4530990861226529 0.32844973582998155
-		 0.23487364124329677 0 -7.8409501114151681e-16 4.5970172113385388e-16 0.10000000000000001 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 -0.01928682930232065 -0.18535476620418487 -0.1016818409564213 0.97720644291806025 1
-		 1 1 yes;
-	setAttr ".xm[39]" -type "matrix" "xform" 1 1 1 -1.5521106407676541 0.51723513584419989
-		 0.040195647595435667 0 -7.8409501114151681e-16 4.5970172113385388e-16 0.10000000000000001 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 -0.0044666751367957022 -0.23331108441098838 -0.018612758759950367 0.97221373777350772 1
-		 1 1 yes;
-	setAttr ".xm[40]" -type "matrix" "xform" 1 1 1 -1.6881636793301167 0.88912007366122958
-		 -0.16859907478315569 0 -7.8409501114151681e-16 4.5970172113385388e-16 0.10000000000000001 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0.022346869923781158 -0.410286475227647 0.049582686215017983 0.91033355583411635 1
-		 1 1 yes;
-	setAttr ".xm[41]" -type "matrix" "xform" 1 1 1 -1.4516968138375059 0.1562017703977186
-		 -0.15100032443152844 0 -7.8409501114151681e-16 4.5970172113385388e-16 0.10000000000000001 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 -2.4494179400802472e-09 0.00017911379881025533 1.3675204907887633e-05 0.99999998386561773 1
-		 1 1 yes;
-	setAttr ".xm[42]" -type "matrix" "xform" 1 1 1 -1.6041596196396315 0.75633434535689947
-		 -0.056908886813168344 0 -7.8409501114151681e-16 4.5970172113385388e-16 0.10000000000000001 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0.0087675298295234634 -0.35418536045527627 0.023141288632859199 0.93484776387402513 1
-		 1 1 yes;
-	setAttr ".xm[43]" -type "matrix" "xform" 1 1 1 -1.2359340899098972 1.0459375465043546
-		 -1.5801413586940078 0 -7.8409501114151681e-16 4.5970172113385388e-16 0.10000000000000001 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0.14281834403721641 -0.6825565544142238 0.14679239826384632 0.70154933001507336 1
-		 1 1 yes;
-	setAttr ".xm[44]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[45]" -type "matrix" "xform" 1 1 1 -4.9075082333626376e-19 0.4870680892806693
-		 0.0073357175692875748 0 -3.5924027943070191 2.2688122838778151 -0.97041352479282017 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[46]" -type "matrix" "xform" 1 1 1 -0.064743763882212493 0 0 0 0
-		 0 4.4408920985006262e-16 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[47]" -type "matrix" "xform" 1 1 1 0 0 0 0 -0.73211268225355253
-		 1.7106223672297269 -0.4170090666973405 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1
-		 1 1 yes;
-	setAttr ".xm[48]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 0 2.2204460492503131e-16 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[49]" -type "matrix" "xform" 1 1 1 -0.35255662101691909 0.9378483931760172
-		 -0.42810078125224271 0 -5.2440748898852281 2.0922133882270444 -2.6286306268318995 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[50]" -type "matrix" "xform" 1 1 1 -0.027355872123401643 0 0 0 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[51]" -type "matrix" "xform" 1 1 1 0 0 0 0 -0.48903989679533355
-		 1.7398471074099642 -0.39719916247604259 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1
-		 1 1 yes;
-	setAttr ".xm[52]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 5.5511151231257827e-17
-		 2.2204460492503131e-16 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[53]" -type "matrix" "xform" 1 1 1 -3.729080243211894e-18 0.37535905110702505
-		 0.12761091148577081 0 -2.7756254811207937 2.1971269122098511 -0.59338067764612201 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[54]" -type "matrix" "xform" 1 1 1 -0.049567199455799529 0 0 0 -4.4408920985006262e-16
-		 1.1102230246251565e-16 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[55]" -type "matrix" "xform" 1 1 1 0 0 0 0 -0.358473408942942 1.7595469210814927
-		 -0.37677826619729976 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[56]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 -5.5511151231257827e-17
-		 4.4408920985006262e-16 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[57]" -type "matrix" "xform" 1 1 1 -0.65212738186486452 1.0271655702474356
-		 -0.72848211828960463 0 -5.4890864652212965 1.9160741948397664 -3.1173825266054327 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[58]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[59]" -type "matrix" "xform" 1 1 1 -1.5177943690892044 1.1415191826141509
-		 -1.522595588106622 0 -5.7066395538030399 1.3873411295542804 -4.1569194901322479 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[60]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[61]" -type "matrix" "xform" 1 1 1 -0.88248631513354836 1.0509648114092565
-		 -0.95083597344103432 0 -5.6508166826987791 1.6815601583253503 -3.6142412366784828 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[62]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[63]" -type "matrix" "xform" 1 1 1 -0.12085363197452838 0.88084363297775858
-		 -0.15617810518717593 0 -4.8500171155293907 2.2016924311002142 -2.0839201633018005 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[64]" -type "matrix" "xform" 1 1 1 -0.050533760483930164 0 0 0 8.8817841970012523e-16
-		 0 -4.4408920985006262e-16 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[65]" -type "matrix" "xform" 1 1 1 -0.053352744778086249 0.76178491508068036
-		 -0.077218415931043921 0 -4.3366684928167221 2.2555176751993167 -1.5157313948765208 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[66]" -type "matrix" "xform" 1 1 1 -0.061929177117027029 0 0 0 0
-		 0 4.4408920985006262e-16 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[67]" -type "matrix" "xform" 1 1 1 0.015213258512449562 0.085769099406462157
-		 0.17577305339052546 0 -1.2970708816142038 1.7967327858938913 -0.36773973672697757 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[68]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[69]" -type "matrix" "xform" 1 1 1 0 0.20900518093647025 0.22871699694594186 0 -1.9677142856974923
-		 2.0085317783005725 -0.39546116696123235 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1
-		 1 1 yes;
-	setAttr ".xm[70]" -type "matrix" "xform" 1 1 1 -0.0096395674786778022 0 0 0 -4.4408920985006262e-16
-		 -1.1102230246251565e-16 -2.2204460492503131e-16 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
-		0 0 0 1 1 1 1 yes;
-	setAttr ".xm[71]" -type "matrix" "xform" 1 1 1 1.4516968138375059 2.9853908831920744
-		 0.15100032443152855 0 -7.8409501114151681e-16 4.5970172113385388e-16 0.10000000000000001 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 -2.449417940080248e-09 0.00017911379881025528 1.367520490788764e-05 0.99999998386561773 1
-		 1 1 yes;
-	setAttr ".xm[72]" -type "matrix" "xform" 1 1 1 1.4515903909492949 2.9923123876570861
-		 0.14790508864783058 0 -7.8409501114151681e-16 4.5970172113385388e-16 0.10000000000000001 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 -6.0731657541686759e-08 0.0008918776406752158 6.8094131388397885e-05 0.99999959995864973 1
-		 1 1 yes;
-	setAttr ".xm[73]" -type "matrix" "xform" 1 1 1 1.44376972849083 3.2896675878550874
-		 0.028580772241409313 0 -7.8409501114151681e-16 4.5970172113385388e-16 0.10000000000000001 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 -0.00029691511069550905 0.047729301694791414 0.0034932068295622011 0.99885415507329733 1
-		 1 1 yes;
-	setAttr ".xm[74]" -type "matrix" "xform" 1 1 1 -1.7027870140346553 -0.027961291396432168
-		 2.8557439012865595 0 -7.8409501114151681e-16 4.5970172113385388e-16 0.10000000000000001 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[75]" -type "matrix" "xform" 1 1 1 -1.7036273593991547 0.11733842946847715
-		 2.8494493275071751 0 -7.8409501114151681e-16 4.5970172113385388e-16 0.10000000000000001 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[76]" -type "matrix" "xform" 1 1 1 -1.6671177265674062 0.34113442840193031
-		 2.9815374152171503 0 -7.8409501114151681e-16 4.5970172113385388e-16 0.10000000000000001 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 -0.019286829302320656 -0.18535476620418487 -0.10168184095642133 0.97720644291806025 1
-		 1 1 yes;
-	setAttr ".xm[77]" -type "matrix" "xform" 1 1 1 -1.5815315169281372 0.51893010838335552
-		 3.1185041475264907 0 -7.8409501114151681e-16 4.5970172113385388e-16 0.10000000000000001 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 -0.0044666751367957013 -0.23331108441098836 -0.018612758759950367 0.97221373777350772 1
-		 1 1 yes;
-	setAttr ".xm[78]" -type "matrix" "xform" 1 1 1 1.6041596196396315 2.3852583082328938
-		 0.056908886813168191 0 -7.8409501114151681e-16 4.5970172113385388e-16 0.10000000000000001 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0.0087675298295234634 -0.35418536045527627 0.023141288632859199 0.93484776387402513 1
-		 1 1 yes;
-	setAttr ".xm[79]" -type "matrix" "xform" 1 1 1 1.6881636793301167 2.2524725799285634
-		 0.16859907478315561 0 -7.8409501114151681e-16 4.5970172113385388e-16 0.10000000000000001 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0.022346869923781158 -0.410286475227647 0.049582686215017983 0.91033355583411635 1
-		 1 1 yes;
-	setAttr ".xm[80]" -type "matrix" "xform" 1 1 1 1.913787979965633 2.1681545816629955
-		 0.42441091154192723 0 -7.8409501114151681e-16 4.5970172113385388e-16 0.10000000000000001 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0.053314780417885975 -0.45766972797472877 0.10269464481491386 0.88156098156104268 1
-		 1 1 yes;
-	setAttr ".xm[81]" -type "matrix" "xform" 1 1 1 0.66757681337771269 1.0427196730638268
-		 -2.3083278563851608 0 -7.8409501114151681e-16 4.5970172113385388e-16 0.10000000000000001 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0.10139503156870822 -0.52968141152643311 0.1583281711852873 0.82709663284628865 1
-		 1 1 yes;
-	setAttr ".xm[82]" -type "matrix" "xform" 1 1 1 0.850197325090019 1.0537352313732198
-		 -2.0730289795761858 0 -7.8409501114151681e-16 4.5970172113385388e-16 0.10000000000000001 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0.12827630992388248 -0.56941653729506181 0.17844796188437326 0.7921277171432185 1
-		 1 1 yes;
-	setAttr ".xm[83]" -type "matrix" "xform" 1 1 1 1.2355054812735637 1.0459397438600391
-		 -1.5620102327921894 0 -7.8409501114151681e-16 4.5970172113385388e-16 0.10000000000000001 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0.14281834403721677 -0.68255655441422369 0.14679239826384669 0.70154933001507325 1
-		 1 1 yes;
-	setAttr -s 83 ".m";
-	setAttr -s 84 ".p";
-	setAttr -s 83 ".g[1:83]" yes no no no no no no no no no yes yes yes 
-		yes yes yes yes yes yes yes yes yes yes yes yes yes yes yes yes yes yes no no no 
-		no no no no no no no no no yes yes no yes no yes no yes no yes no yes no yes no yes 
-		no yes no yes no yes no yes no yes no no no no no no no no no no no no no no;
-	setAttr ".bp" yes;
 createNode ngst2SkinLayerData -n "ngSkinToolsData_skinCluster1";
 	rename -uid "F36BCF30-4F2C-96A3-8AA6-B7B9357BCD1F";
 	setAttr ".ld" -type "ngst2SkinLayerDataStorage" 16 135140 {
@@ -4750,525 +3527,6 @@ createNode shadingEngine -n "pasted__lambert1SG1";
 	rename -uid "32AF0550-4C10-237D-8309-2EA3235F608A";
 	setAttr ".ihi" 0;
 	setAttr ".ro" yes;
-createNode dagPose -n "bindPose2";
-	rename -uid "1E0B8279-4741-5642-64C2-208A612CBC20";
-	setAttr -s 54 ".wm";
-	setAttr ".wm[0]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1;
-	setAttr ".wm[1]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1;
-	setAttr ".wm[2]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 2.0398644296349921 2.4815695822776562 -0.37445713714264545 1;
-	setAttr ".wm[3]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 4.2367745609273433 2.4424747776526203 -1.4204922260716097 1;
-	setAttr ".wm[4]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 2.7817164963164016 2.4749591256379517 -0.61342466420438058 1;
-	setAttr ".wm[5]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0.70127410945108282 2.4877433703732934 -0.3157712342028775 1;
-	setAttr ".wm[6]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 4.7690416596980789 2.3693887704274319 -1.9670909607121996 1;
-	setAttr ".wm[7]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 5.1856584173036024 2.2226540091895961 -2.5239854223914282 1;
-	setAttr ".wm[8]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 1.3136817828054954 2.4839869639267671 -0.28424375989347261 1;
-	setAttr ".wm[9]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 3.4997507065522644 2.4695591132399732 -0.92909555926019083 1;
-	setAttr ".wm[10]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 5.4269494359427863 2.0123037406372943 -3.0214157982041221 1;
-	setAttr ".wm[11]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0.4284806968512816 2.4879605600745816 -0.31861592110075515 1;
-	setAttr ".wm[12]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0.25635546460741232 2.4879724944481634 -0.31877223401966015 1;
-	setAttr ".wm[13]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 5.6573036965265073 1.3974666152489148 -4.0630017073298221 1;
-	setAttr ".wm[14]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 5.5995439689033883 1.7404372487367226 -3.5548355778754219 1;
-	setAttr -s 55 ".xm";
-	setAttr ".xm[0]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[1]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[2]" -type "matrix" "xform" 1 1 1 0 0 0 0 2.0398644296349921 2.4815695822776562
-		 -0.37445713714264545 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[3]" -type "matrix" "xform" 1 1 1 0 0 0 0 4.2367745609273433 2.4424747776526203
-		 -1.4204922260716097 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[4]" -type "matrix" "xform" 1 1 1 0 0 0 0 2.7817164963164016 2.4749591256379517
-		 -0.61342466420438058 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[5]" -type "matrix" "xform" 1 1 1 0 0 0 0 0.70127410945108282 2.4877433703732934
-		 -0.3157712342028775 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[6]" -type "matrix" "xform" 1 1 1 0 0 0 0 4.7690416596980789 2.3693887704274319
-		 -1.9670909607121996 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[7]" -type "matrix" "xform" 1 1 1 0 0 0 0 5.1856584173036024 2.2226540091895961
-		 -2.5239854223914282 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[8]" -type "matrix" "xform" 1 1 1 0 0 0 0 1.3136817828054954 2.4839869639267671
-		 -0.28424375989347261 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[9]" -type "matrix" "xform" 1 1 1 0 0 0 0 3.4997507065522644 2.4695591132399732
-		 -0.92909555926019083 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[10]" -type "matrix" "xform" 1 1 1 0 0 0 0 5.4269494359427863 2.0123037406372943
-		 -3.0214157982041221 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[11]" -type "matrix" "xform" 1 1 1 0 0 0 0 0.4284806968512816 2.4879605600745816
-		 -0.31861592110075515 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[12]" -type "matrix" "xform" 1 1 1 0 0 0 0 0.25635546460741232 2.4879724944481634
-		 -0.31877223401966015 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[13]" -type "matrix" "xform" 1 1 1 0 0 0 0 5.6573036965265073 1.3974666152489148
-		 -4.0630017073298221 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[14]" -type "matrix" "xform" 1 1 1 0 0 0 0 5.5995439689033883 1.7404372487367226
-		 -3.5548355778754219 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[15]" -type "matrix" "xform" 1.0000000000000002 1 1 0.00010017988911377874
-		 -0.037138725304506043 -0.002680588326444112 0 -1.1102230246251565e-16 -4.4408920985006262e-16
-		 0.13809058428673227 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[16]" -type "matrix" "xform" 1 1 1 8.6532284031652531e-05 0.028143817850503308
-		 0.0030750424948058248 0 0 2.2204460492503131e-16 0.17086786122620745 0 0 0 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[17]" -type "matrix" "xform" 0.99999999999999978 0.99999999999999978
-		 0.99999999999999978 -2.1424056005629373e-16 2.6111377443567807e-16 -3.743925494323487e-16 0 8.8817841970012523e-16
-		 0 0.12078723821221526 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[18]" -type "matrix" "xform" 0.99999999999999989 1 1 4.0556096411541063e-17
-		 -1.0671323441490644e-16 1.0497964594448721e-16 0 -1.7763568394002505e-15 -8.8817841970012523e-16
-		 0.17393399462051651 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[19]" -type "matrix" "xform" 1.0000000000000004 1.0000000000000002 0.99999999999999989 1.3877787807814454e-17
-		 -1.6653345369377341e-16 -2.7755575615628901e-17 0 0 -1.7763568394002505e-15
-		 0.17275889417179302 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[20]" -type "matrix" "xform" 1 1 0.99999999999999989 0.023165917283892432
-		 0.19069222897900601 0.12164101588901639 0 0 -4.4408920985006262e-16 0.11959103174494723 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[21]" -type "matrix" "xform" 1 1 1 -1.4728480938795455e-17 -8.4877473768830772e-17
-		 6.4710494195982851e-17 0 1.3322676295501878e-15 -6.6613381477509392e-16 0.12211514779335164 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[22]" -type "matrix" "xform" 0.99999999999999989 1 0.99999999999999989 0
-		 0 5.2041704279304228e-18 0 -1.7763568394002505e-15 0 0.14565156977692084 0 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[23]" -type "matrix" "xform" 0.99999999999999967 0.99999999999999989
-		 0.99999999999999978 1.6991322473467368e-17 -1.5425489361733475e-16 -4.5618231234037411e-18 0 -0.0012080619179570817
-		 -5.9845574036376803e-05 0.1167854628847711 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
-		0 0 0 1 1 1 1 yes;
-	setAttr ".xm[24]" -type "matrix" "xform" 1 0.99999999999999989 1 -3.2605892103074585e-17
-		 3.0357688373128547e-16 -1.5548590675981362e-16 0 0 0 0.12017128704373858 0 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[25]" -type "matrix" "xform" 1 1.0000000000000004 1.0000000000000002 -1.350000847030991
-		 1.807581861967833e-15 2.7755575615628914e-15 0 -8.8817841970012523e-16 1.3322676295501878e-15
-		 0.1412362061804231 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[26]" -type "matrix" "xform" 0.99999999999999989 1 0.99999999999999978 -0.00013153087958367264
-		 -0.0024986450235488442 0.05272858289739342 0 -0.00030978764172800988 -4.2189456816998927e-08
-		 0.12381057193631043 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[27]" -type "matrix" "xform" 0.99999999999999967 1 1 -4.9037854338102533e-05
-		 -0.00090383424813920629 0.054229577503306772 0 -0.00010814720739532602 -2.9578706151056622e-09
-		 0.11947805176177143 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[28]" -type "matrix" "xform" 0.99999999999999989 1 1 -0.064743763882212466
-		 1.6653345369377353e-16 -7.2818803650229728e-17 0 4.4408920985006262e-16 0 4.4408920985006262e-16 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[29]" -type "matrix" "xform" 1 1 1 2.7755575615628914e-17 0 0 0 -1.1102230246251565e-16
-		 0 2.2204460492503131e-16 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[30]" -type "matrix" "xform" 1 0.99999999999999978 0.99999999999999978 -0.027355872123401723
-		 2.2204460492503131e-16 -1.9428902930940239e-16 0 1.3322676295501878e-15 8.8817841970012523e-16
-		 8.8817841970012523e-16 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[31]" -type "matrix" "xform" 1 1 1 2.7755575615628914e-17 0 0 0 -1.1102230246251565e-16
-		 2.2204460492503131e-16 2.2204460492503131e-16 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
-		0 0 0 1 1 1 1 yes;
-	setAttr ".xm[32]" -type "matrix" "xform" 0.99999999999999956 1 1.0000000000000002 -0.049567199455799502
-		 3.8857805861880499e-16 1.526556658859591e-16 0 0 -4.4408920985006262e-16 -4.4408920985006262e-16 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[33]" -type "matrix" "xform" 1 1 1 0 0 0 0 -1.1102230246251565e-16
-		 -2.2204460492503131e-16 4.4408920985006262e-16 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
-		0 0 0 1 1 1 1 yes;
-	setAttr ".xm[34]" -type "matrix" "xform" 0.99999999999999978 0.99999999999999978
-		 0.99999999999999967 0 -1.6653345369377353e-16 -1.1102230246251568e-16 0 1.1379786002407855e-15
-		 -8.8817841970012523e-16 2.6645352591003757e-15 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
-		0 0 0 1 1 1 1 yes;
-	setAttr ".xm[35]" -type "matrix" "xform" 0.99999999999999967 0.99999999999999933
-		 0.99999999999999989 3.0778279228531612e-16 -1.2196405570054608e-16 -2.019619097310546e-16 0 -8.8817841970012523e-16
-		 -2.2204460492503131e-15 4.4408920985006262e-15 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
-		0 0 0 1 1 1 1 yes;
-	setAttr ".xm[36]" -type "matrix" "xform" 0.99999999999999978 0.99999999999999944
-		 0.99999999999999956 3.0302915045730446e-16 -3.0378846487734099e-16 -1.1991241675735068e-16 0 1.3322676295501878e-15
-		 -8.8817841970012523e-16 4.4408920985006262e-15 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
-		0 0 0 1 1 1 1 yes;
-	setAttr ".xm[37]" -type "matrix" "xform" 1 0.99999999999999967 0.99999999999999944 -0.050533760483930219
-		 0 -4.163336342344337e-17 0 2.4424906541753444e-15 -4.4408920985006262e-16 1.7763568394002505e-15 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[38]" -type "matrix" "xform" 1 0.99999999999999978 0.99999999999999867 -0.061929177117027681
-		 1.6653345369377348e-16 4.8572257327350599e-17 0 1.3322676295501878e-15 -4.4408920985006262e-16
-		 1.7763568394002505e-15 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[39]" -type "matrix" "xform" 1 1 0.99999999999999989 2.9490299091605721e-17
-		 -5.5511151231257827e-17 1.4961989980299961e-17 0 -2.2204460492503131e-16 2.2204460492503131e-16
-		 -1.1102230246251565e-16 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[40]" -type "matrix" "xform" 0.99999999999999989 0.99999999999999989
-		 0.99999999999999989 -0.0096395674786778594 -2.775557561562892e-17 -8.3266726846886765e-17 0 -4.4408920985006262e-16
-		 -4.4408920985006262e-16 -3.3306690738754696e-16 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
-		0 0 0 1 1 1 1 yes;
-	setAttr ".xm[41]" -type "matrix" "xform" 0.99999999999999978 1 0.99999999999999989 1.4516422655745187
-		 2.9857450347828771 0.15101919845461209 0 -7.7715611723760958e-16 2.2204460492503131e-16
-		 0.10000000000000003 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[42]" -type "matrix" "xform" 1.0000000000000002 1 1 1.4513246391551973
-		 2.9940766732530588 0.14800198446980461 0 -7.7715611723760958e-16 6.6613381477509392e-16
-		 0.099999999999999978 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[43]" -type "matrix" "xform" 1 1 1 1.441229509946655 3.3851318373782968
-		 0.036069956148426563 0 -7.7715611723760958e-16 4.4408920985006262e-16 0.099999999999999978 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[44]" -type "matrix" "xform" 1 1 0.99999999999999989 -1.702787014034655
-		 -0.027961291396432157 2.8557439012865595 0 -9.9920072216264089e-16 6.6613381477509392e-16
-		 0.10000000000000009 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[45]" -type "matrix" "xform" 1.0000000000000002 1 0.99999999999999978 -1.7036273593991547
-		 0.11733842946847713 2.8494493275071751 0 -8.8817841970012523e-16 4.4408920985006262e-16
-		 0.10000000000000009 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[46]" -type "matrix" "xform" 1 0.99999999999999989 0.99999999999999989 -1.7441621031175032
-		 0.7102054058396895 2.7348340435198679 0 -1.7763568394002505e-15 1.7763568394002505e-15
-		 0.099999999999999867 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[47]" -type "matrix" "xform" 1.0000000000000002 1.0000000000000002 1.0000000000000002 -1.6006214149507612
-		 0.9897893629587593 3.0667751293173264 0 -4.4408920985006262e-16 1.7763568394002505e-15
-		 0.10000000000000098 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[48]" -type "matrix" "xform" 0.99999999999999978 0.99999999999999989
-		 1 1.9977565583178014 1.6692279967956425 0.48402152853581137 0 -1.3322676295501878e-15
-		 1.3322676295501878e-15 0.10000000000000009 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
-		0 0 0 1 1 1 1 yes;
-	setAttr ".xm[49]" -type "matrix" "xform" 1 0.99999999999999989 1.0000000000000002 1.010450929693929
-		 1.3689237813292288 -0.44662411131227703 0 -8.8817841970012523e-16 4.4408920985006262e-16
-		 0.10000000000000053 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[50]" -type "matrix" "xform" 1 0.99999999999999978 0.99999999999999978 1.0583143092031924
-		 1.1083396101692977 -0.31390299571020774 0 -2.2204460492503131e-16 8.8817841970012523e-16
-		 0.09999999999999698 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[51]" -type "matrix" "xform" 1.0000000000000002 0.99999999999999978 1 2.6787754562347139
-		 0.7329908104132159 -0.14741091112072716 0 -7.4940054162198066e-16 8.8817841970012523e-16
-		 0.099999999999999645 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[52]" -type "matrix" "xform" 1 1.0000000000000004 1.0000000000000002 2.7012552663285225
-		 0.52652021441947416 -0.081782591882050573 0 -6.6613381477509392e-16 4.4408920985006262e-16
-		 0.10000000000000053 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[53]" -type "matrix" "xform" 0.99999999999999978 1 1.0000000000000002 2.7849463518784221
-		 0.0193458517916144 -0.11241364487995958 0 -4.4408920985006262e-16 8.8817841970012523e-16
-		 0.099999999999999645 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[54]" -type "matrix" "xform" 0.99999999999999978 0.99999999999999978
-		 1 0 0.00035822759956943633 2.7350410255303654e-05 0 2.7755575615628914e-17 -2.2204460492503131e-16
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr -s 53 ".m";
-	setAttr -s 55 ".p";
-	setAttr -s 54 ".g[1:54]" yes no no no no no no no no no no no no no 
-		yes yes yes yes yes yes yes yes yes yes yes yes yes yes yes yes yes yes yes yes yes 
-		yes yes yes yes yes yes yes yes yes yes yes yes yes yes yes yes yes yes yes;
-	setAttr ".bp" yes;
-createNode dagPose -n "bindPose3";
-	rename -uid "35D95D04-4C43-876A-2735-588000324AEC";
-	setAttr -s 28 ".wm";
-	setAttr ".wm[0]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1;
-	setAttr ".wm[1]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1;
-	setAttr ".wm[2]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 1.9482143394724152 1.9625472011571192 -0.3553432128421391 1;
-	setAttr ".wm[3]" -type "matrix" 0.74803442239915352 -0.049477825289127933 -0.66181300056029679 0
-		 0.037056502437239326 0.99877522236219829 -0.03278522262331527 0 0.66262456831382555 -1.0408340855860846e-17 0.74895172171970892 0
-		 4.1795908193619491 2.2187619928976217 -1.3898331632819709 1;
-	setAttr ".wm[4]" -type "matrix" 0.91060882773021001 0.2058781116930721 -0.35833750290125593 0
-		 -0.19157848874846542 0.97857764287035243 0.075388855430754284 0 0.36618198413994479 6.9388939039072268e-18 0.9305432577217102 0
-		 2.7546497223467901 2.1251475935514126 -0.60271964923867027 1;
-	setAttr ".wm[5]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0.70409840259324952 1.9295577230521677 -0.31011143609610997 1;
-	setAttr ".wm[6]" -type "matrix" 0.658413130945953 -0.10861080308664686 -0.74477905613062245 0
-		 0.071936329113051298 0.9940843492646253 -0.081372422237912703 0 0.7492111274878972 2.0816681711721691e-17 0.66233125129976611 0
-		 4.7143384631032497 2.1601561378256262 -1.936434359380276 1;
-	setAttr ".wm[7]" -type "matrix" 0.55998446004375291 -0.22986430586996887 -0.79597726437155492 0
-		 0.13226206166642371 0.9732226882306626 -0.1880009206276122 0 0.81787783412515458 6.9388939039072296e-17 0.57539190856906075 0
-		 5.1416584100058742 2.0495183497814171 -2.4638906398992804 1;
-	setAttr ".wm[8]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 1.2718925029892085 1.9265288187538827 -0.28307797414240093 1;
-	setAttr ".wm[9]" -type "matrix" 0.89043900620462513 0.038275409168330707 -0.4534902085848343 0
-		 -0.034106909888821091 0.99926722804913248 0.017370251720656576 0 0.45382275717195525 3.4694469519536134e-18 0.89109197340838198 0
-		 3.5009831207642934 2.2321897214986119 -0.93109283907096763 1;
-	setAttr ".wm[10]" -type "matrix" 0.38873958498497607 -0.3693195214302849 -0.84408804407846805 0
-		 0.15449126765796273 0.9293024755646061 -0.33545395679128664 0 0.90830280374066008 -2.7755575615628914e-17 0.41831329971309272 0
-		 5.4151629397431646 1.8748879048246798 -2.9382492925294752 1;
-	setAttr ".wm[11]" -type "matrix" 0.99999839983492667 -0.00013618831662627406 0.0017837545595036216 0
-		 0.00013618809996544427 0.99999999072637114 2.4292653298604973e-07 0 -0.0017837545760454993 0 0.99999840910854076 0
-		 0.46848812268202877 1.9207371824760728 -0.31837983736114517 1;
-	setAttr ".wm[12]" -type "matrix" 0.99999993546247168 -2.7350406742146099e-05 0.00035822759204170746 0
-		 2.7350408497044199e-05 0.99999999962597763 0 0 -0.0003582275919077223 9.797670977253197e-09 0.99999993583649405 0
-		 0.34333136445127976 1.9140278841119811 -0.31868805732180411 1;
-	setAttr ".wm[13]" -type "matrix" 0.025137083676262328 -0.40092741093298689 -0.91576489241880432 0
-		 0.011001023680239167 0.91610982483683245 -0.40077645429268294 0 0.99962348136797952 -8.3266726846886716e-17 0.027438941265300221 0
-		 5.6863818108640221 1.3638552213067503 -4.037145529401009 1;
-	setAttr ".wm[14]" -type "matrix" 0.28784226390842926 -0.42879245778034836 -0.85631995145433715 0
-		 0.13662184892496665 0.90340302642325043 -0.40644488217424435 0 0.94788253571019743 8.3266726846886716e-17 0.31861999073442693 0
-		 5.6054504891052348 1.642762317504374 -3.4259280254289259 1;
-	setAttr ".wm[15]" -type "matrix" 0.99930684650822932 -0.0026787366833575408 0.037130188412657923 0
-		 0.0026768654179544545 0.99999641217824387 0.00010011080858191827 0 -0.03713032336665547 -6.4889910140854343e-07 0.99931043179097578 0
-		 0.70409840259324941 1.9295577230521674 -0.17202085180937776 1;
-	setAttr ".wm[16]" -type "matrix" 0.99959926283149447 0.0030738198995531874 -0.028140102664311658 0
-		 -0.0030726026212457638 0.99999527580445358 8.6498016178573629e-05 0 0.028140235604287373 1.3552527156068805e-20 0.99960398515618931 0
-		 1.2718925029892085 1.9265288187538827 -0.11221011291619348 1;
-	setAttr ".wm[17]" -type "matrix" 0.28784226390842904 -0.42879245778034869 -0.85631995145433715 0
-		 0.13662184892496659 0.90340302642325021 -0.40644488217424474 0 0.94788253571019754 1.4742853714588762e-16 0.31861999073442671 0
-		 5.7199426027432621 1.6427623175043737 -3.3874427967089131 1;
-	setAttr ".wm[18]" -type "matrix" 0.38873958498497607 -0.36931952143028485 -0.84408804407846805 0
-		 0.15449126765796276 0.9293024755646061 -0.33545395679128659 0 0.90830280374066008 -8.1904894852124588e-17 0.41831329971309272 0
-		 5.5731476747227902 1.87488790482468 -2.865490389307487 1;
-	setAttr ".wm[19]" -type "matrix" 0.55998446004375313 -0.22986430586996892 -0.7959772643715548 0
-		 0.13226206166642374 0.9732226882306626 -0.18800092062761226 0 0.81787783412515447 1.0772039208068369e-16 0.57539190856906097 0
-		 5.2829540801969568 2.0495183497814158 -2.3644865700594906 1;
-	setAttr ".wm[20]" -type "matrix" 0.97461805693655157 0.11914173940028475 -0.18953862146247502 0
-		 -0.11695070042757569 0.99287725622690881 0.022743960447222322 0 0.19089834143522622 -1.3877787807814454e-17 0.98160981211338738 0
-		 1.9482143394724152 1.962547201157119 -0.23575218109719187 1;
-	setAttr ".wm[21]" -type "matrix" 0.91060882773021001 0.20587811169307207 -0.35833750290125588 0
-		 -0.19157848874846539 0.97857764287035243 0.075388855430754256 0 0.36618198413994474 9.2694265885051718e-18 0.9305432577217102 0
-		 2.7993660894593031 2.1251475935514121 -0.48908622179387723 1;
-	setAttr ".wm[22]" -type "matrix" 0.89043900620462513 0.038275409168330721 -0.4534902085848343 0
-		 -0.034106909888821105 0.99926722804913248 0.017370251720656583 0 0.45382275717195525 5.2060116423576938e-18 0.89109197340838198 0
-		 3.5670831177468778 2.2321897214986119 -0.80130389432842186 1;
-	setAttr ".wm[23]" -type "matrix" 0.74803442239915363 -0.049477825289127919 -0.66181300056029668 0
-		 0.037056502437239333 0.99877522236219829 -0.032785222623315249 0 0.66262456831382543 -2.225459801739747e-17 0.74895172171970903 0
-		 4.1795908193619482 2.2187619928976221 -1.3898331632819707 1;
-	setAttr ".wm[24]" -type "matrix" 0.65841313094595288 -0.10861080308664688 -0.74477905613062256 0
-		 0.071936329113051284 0.9940843492646253 -0.081372422237912745 0 0.74921112748789731 4.3436099146007814e-17 0.662331251299766 0
-		 4.8043721285609609 2.1601561378256262 -1.8568411604622932 1;
-	setAttr ".wm[25]" -type "matrix" 0.02513708367626245 -0.40092741093298417 -0.91576489241880554 0
-		 0.011001023680239204 0.91610982483683367 -0.40077645429268022 0 0.99962348136797952 -1.488094429295852e-16 0.027438941265300349 0
-		 5.827564838981302 1.363855221306751 -4.0332701574350907 1;
-	setAttr ".wm[26]" -type "matrix" 0.99860817581162209 0.052567989092752274 0.0042799211357854071 0
-		 -0.0525675062933946 0.99861734739726216 -0.00022529835694342748 0 -0.0042858469732579172 -4.716914725022385e-20 0.99999081571568538 0
-		 0.46795748785601227 1.9207371824760737 -0.19457001497914486 1;
-	setAttr ".wm[27]" -type "matrix" 0.99853062317913044 0.054175668922531603 0.0012615348958164164 0
-		 -0.054175625673735094 0.99853142008491458 -6.8454825888328123e-05 0 -0.0012633908169897166 9.7976637865906394e-09 0.99999920192150327 0
-		 0.34318041691601475 1.9140278852825872 -0.19921005196747701 1;
-	setAttr -s 28 ".xm";
-	setAttr ".xm[0]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[1]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[2]" -type "matrix" "xform" 1 1 1 0 0 0 0 1.9482143394724152 1.9625472011571192
-		 -0.3553432128421391 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[3]" -type "matrix" "xform" 1 1 1 -0.043746885583129773 0.72323458861645729
-		 -0.066047574106631479 0 4.1795908193619491 2.2187619928976217 -1.3898331632819709 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[4]" -type "matrix" "xform" 1 1 1 0.080839403144621735 0.36648653035259721
-		 0.22235017499947779 0 2.7546497223467901 2.1251475935514126 -0.60271964923867027 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[5]" -type "matrix" "xform" 1 1 1 0 0 0 0 0.70409840259324952 1.9295577230521677
-		 -0.31011143609610997 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[6]" -type "matrix" "xform" 1 1 1 -0.12224499283356938 0.84020368416342173
-		 -0.1634861602266863 0 4.7143384631032497 2.1601561378256262 -1.936434359380276 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[7]" -type "matrix" "xform" 1 1 1 -0.31580073136735826 0.92062031185932802
-		 -0.38951096586190243 0 5.1416584100058742 2.0495183497814171 -2.4638906398992804 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[8]" -type "matrix" "xform" 1 1 1 0 0 0 0 1.2718925029892085 1.9265288187538827
-		 -0.28307797414240093 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[9]" -type "matrix" "xform" 1 1 1 0.019490751338591353 0.47067748841589607
-		 0.042958429700569803 0 3.5009831207642934 2.2321897214986119 -0.93109283907096763 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[10]" -type "matrix" "xform" 1 1 1 -0.67591080415288862 1.0048621222936369
-		 -0.75978562649782999 0 5.4151629397431646 1.8748879048246798 -2.9382492925294752 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[11]" -type "matrix" "xform" 1 1 1 2.4292691945640625e-07 -0.0017837555054241705
-		 -0.00013618853370843311 0 0.46848812268202877 1.9207371824760728 -0.31837983736114517 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[12]" -type "matrix" "xform" 1 1 1 9.7976709809177428e-09 -0.00035822759970342041
-		 -2.7350408500454082e-05 0 0.34333136445127976 1.9140278841119811 -0.31868805732180411 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[13]" -type "matrix" "xform" 1 1 1 -1.5024385455858902 1.1574078762824183
-		 -1.5081809434051852 0 5.6863818108640221 1.3638552213067503 -4.037145529401009 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[14]" -type "matrix" "xform" 1 1 1 -0.90593788613569648 1.0281012874658044
-		 -0.97960271440219315 0 5.6054504891052348 1.642762317504374 -3.4259280254289259 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[15]" -type "matrix" "xform" 1 1 1 0.0012928436489914887 -0.13262807023255421
-		 -0.0097762191953686996 0 -1.0444668677699432e-16 -2.6578751524723175e-16 0.13809058428673221 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 -0.00029691511069550905 0.047729301694791414 0.0034932068295622011 0.99885415507329733 1
-		 1 1 yes;
-	setAttr ".xm[16]" -type "matrix" "xform" 1 1 1 8.6532284031624667e-05 0.02814381785050327
-		 0.0030750424948056106 0 0 0 0.17086786122620745 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[17]" -type "matrix" "xform" 1 1 1 -0.90593788613569648 1.0281012874658044
-		 -0.97960271440219315 0 3.7471990724343041e-16 -2.3252970957807391e-17 0.12078723821221612 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0.12827630992388248 -0.56941653729506181 0.17844796188437329 0.7921277171432185 1
-		 1 1 yes;
-	setAttr ".xm[18]" -type "matrix" "xform" 1 1 1 -0.67591080415288862 1.0048621222936369
-		 -0.75978562649782999 0 -1.7508638012016189e-15 -3.9996805837441773e-16 0.17393399462051443 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0.10139503156870816 -0.52968141152643289 0.15832817118528728 0.82709663284628876 1
-		 1 1 yes;
-	setAttr ".xm[19]" -type "matrix" "xform" 1 1 1 -0.31580073136735826 0.92062031185932802
-		 -0.38951096586190243 0 -9.5489355353822237e-16 -1.6200271526236018e-15 0.1727588941717936 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0.053314780417885989 -0.45766972797472888 0.10269464481491386 0.88156098156104268 1
-		 1 1 yes;
-	setAttr ".xm[20]" -type "matrix" "xform" 1 1 1 0.023165917283892438 0.19069222897900606
-		 0.12164101588901644 0 0 -2.2204460492503131e-16 0.11959103174494723 0 0 0 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[21]" -type "matrix" "xform" 1 1 1 0.080839403144621735 0.36648653035259721
-		 0.22235017499947779 0 9.3007784259751653e-16 -4.2504728698109861e-16 0.1221151477933515 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 -0.01928682930232065 -0.18535476620418487 -0.1016818409564213 0.97720644291806025 1
-		 1 1 yes;
-	setAttr ".xm[22]" -type "matrix" "xform" 1 1 1 0.019490751338591353 0.47067748841589607
-		 0.042958429700569803 0 -1.4918503456589256e-15 4.0151305144871657e-17 0.1456515697769209 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 -0.0044666751367957022 -0.23331108441098838 -0.018612758759950367 0.97221373777350772 1
-		 1 1 yes;
-	setAttr ".xm[23]" -type "matrix" "xform" 1 1 1 -0.043746885583129773 0.72323458861645729
-		 -0.066047574106631479 0 -4.4408920985006262e-16 4.4408920985006262e-16 -2.2204460492503131e-16 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0.0087675298295234617 -0.35418536045527627 0.023141288632859195 0.93484776387402513 1
-		 1 1 yes;
-	setAttr ".xm[24]" -type "matrix" "xform" 1 1 1 -0.12224499283356938 0.84020368416342173
-		 -0.1634861602266863 0 -1.3258354295734515e-16 -2.1851573084189745e-17 0.12017128704373839 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0.022346869923781154 -0.41028647522764694 0.049582686215017983 0.91033355583411635 1
-		 1 1 yes;
-	setAttr ".xm[25]" -type "matrix" "xform" 1 1 1 -1.5024385455858902 1.1574078762824183
-		 -1.5081809434051852 0 -4.4408920985006262e-16 4.4408920985006262e-16 0.1412362061804231 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0.14281834403721641 -0.6825565544142238 0.14679239826384632 0.70154933001507336 1
-		 1 1 yes;
-	setAttr ".xm[26]" -type "matrix" "xform" 1 1 1 -0.00022530042235449331 -0.0042799342022961278
-		 0.052592712392001265 0 -0.00030978764172796542 -4.2189456941615129e-08 0.12381057193631041 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 -6.0731657541686732e-08 0.0008918776406752158 6.8094131388397858e-05 0.99999959995864973 1
-		 1 1 yes;
-	setAttr ".xm[27]" -type "matrix" "xform" 1 1 1 -6.8445097123063917e-05 -0.0012615357612283764
-		 0.054202248104978347 0 -0.00010814720739522021 -2.9578706950183325e-09 0.11947805176177147 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 -2.4494179400802472e-09 0.00017911379881025533 1.3675204907887633e-05 0.99999998386561773 1
-		 1 1 yes;
-	setAttr -s 26 ".m";
-	setAttr -s 28 ".p";
-	setAttr -s 27 ".g[1:27]" yes no no no no no no no no no no no no no 
-		no no no no no no no no no no no no no;
-	setAttr ".bp" yes;
-createNode dagPose -n "bindPose4";
-	rename -uid "32C17A88-4063-70C4-7767-639AFFF1101A";
-	setAttr -s 27 ".wm";
-	setAttr ".wm[0]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1;
-	setAttr ".wm[1]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1;
-	setAttr ".wm[2]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 1.9482143394724152 1.9625472011571192 -0.3553432128421391 1;
-	setAttr ".wm[3]" -type "matrix" 0.74803442239915352 -0.049477825289127933 -0.66181300056029679 0
-		 0.037056502437239326 0.99877522236219829 -0.03278522262331527 0 0.66262456831382555 -1.0408340855860846e-17 0.74895172171970892 0
-		 4.1795908193619491 2.2187619928976217 -1.3898331632819709 1;
-	setAttr ".wm[4]" -type "matrix" 0.91060882773021001 0.2058781116930721 -0.35833750290125593 0
-		 -0.19157848874846542 0.97857764287035243 0.075388855430754284 0 0.36618198413994479 6.9388939039072268e-18 0.9305432577217102 0
-		 2.7546497223467901 2.1251475935514126 -0.60271964923867027 1;
-	setAttr ".wm[5]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0.70409840259324952 1.9295577230521677 -0.31011143609610997 1;
-	setAttr ".wm[6]" -type "matrix" 0.658413130945953 -0.10861080308664686 -0.74477905613062245 0
-		 0.071936329113051298 0.9940843492646253 -0.081372422237912703 0 0.7492111274878972 2.0816681711721691e-17 0.66233125129976611 0
-		 4.7143384631032497 2.1601561378256262 -1.936434359380276 1;
-	setAttr ".wm[7]" -type "matrix" 0.55998446004375291 -0.22986430586996887 -0.79597726437155492 0
-		 0.13226206166642371 0.9732226882306626 -0.1880009206276122 0 0.81787783412515458 6.9388939039072296e-17 0.57539190856906075 0
-		 5.1416584100058742 2.0495183497814171 -2.4638906398992804 1;
-	setAttr ".wm[8]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 1.2718925029892085 1.9265288187538827 -0.28307797414240093 1;
-	setAttr ".wm[9]" -type "matrix" 0.89043900620462513 0.038275409168330707 -0.4534902085848343 0
-		 -0.034106909888821091 0.99926722804913248 0.017370251720656576 0 0.45382275717195525 3.4694469519536134e-18 0.89109197340838198 0
-		 3.5009831207642934 2.2321897214986119 -0.93109283907096763 1;
-	setAttr ".wm[10]" -type "matrix" 0.38873958498497607 -0.3693195214302849 -0.84408804407846805 0
-		 0.15449126765796273 0.9293024755646061 -0.33545395679128664 0 0.90830280374066008 -2.7755575615628914e-17 0.41831329971309272 0
-		 5.4151629397431646 1.8748879048246798 -2.9382492925294752 1;
-	setAttr ".wm[11]" -type "matrix" 0.99999839983492667 -0.00013618831662627406 0.0017837545595036216 0
-		 0.00013618809996544427 0.99999999072637114 2.4292653298604973e-07 0 -0.0017837545760454993 0 0.99999840910854076 0
-		 0.46848812268202877 1.9207371824760728 -0.31837983736114517 1;
-	setAttr ".wm[12]" -type "matrix" 0.99999993546247168 -2.7350406742146099e-05 0.00035822759204170746 0
-		 2.7350408497044199e-05 0.99999999962597763 0 0 -0.0003582275919077223 9.797670977253197e-09 0.99999993583649405 0
-		 0.34333136445127976 1.9140278841119811 -0.31868805732180411 1;
-	setAttr ".wm[13]" -type "matrix" 0.025137083676262328 -0.40092741093298689 -0.91576489241880432 0
-		 0.011001023680239167 0.91610982483683245 -0.40077645429268294 0 0.99962348136797952 -8.3266726846886716e-17 0.027438941265300221 0
-		 5.6863818108640221 1.3638552213067503 -4.037145529401009 1;
-	setAttr ".wm[14]" -type "matrix" 0.28784226390842926 -0.42879245778034836 -0.85631995145433715 0
-		 0.13662184892496665 0.90340302642325043 -0.40644488217424435 0 0.94788253571019743 8.3266726846886716e-17 0.31861999073442693 0
-		 5.6054504891052348 1.642762317504374 -3.4259280254289259 1;
-	setAttr ".wm[15]" -type "matrix" 0.99930684650822932 -0.0026787366833575408 0.037130188412657923 0
-		 0.0026768654179544545 0.99999641217824387 0.00010011080858191827 0 -0.03713032336665547 -6.4889910140854343e-07 0.99931043179097578 0
-		 0.70409840259324941 1.9295577230521674 -0.17202085180937776 1;
-	setAttr ".wm[16]" -type "matrix" 0.99959926283149447 0.0030738198995531874 -0.028140102664311658 0
-		 -0.0030726026212457638 0.99999527580445358 8.6498016178573629e-05 0 0.028140235604287373 1.3552527156068805e-20 0.99960398515618931 0
-		 1.2718925029892085 1.9265288187538827 -0.11221011291619348 1;
-	setAttr ".wm[17]" -type "matrix" 0.28784226390842904 -0.42879245778034869 -0.85631995145433715 0
-		 0.13662184892496659 0.90340302642325021 -0.40644488217424474 0 0.94788253571019754 1.4742853714588762e-16 0.31861999073442671 0
-		 5.7199426027432621 1.6427623175043737 -3.3874427967089131 1;
-	setAttr ".wm[18]" -type "matrix" 0.38873958498497607 -0.36931952143028485 -0.84408804407846805 0
-		 0.15449126765796276 0.9293024755646061 -0.33545395679128659 0 0.90830280374066008 -8.1904894852124588e-17 0.41831329971309272 0
-		 5.5731476747227902 1.87488790482468 -2.865490389307487 1;
-	setAttr ".wm[19]" -type "matrix" 0.55998446004375313 -0.22986430586996892 -0.7959772643715548 0
-		 0.13226206166642374 0.9732226882306626 -0.18800092062761226 0 0.81787783412515447 1.0772039208068369e-16 0.57539190856906097 0
-		 5.2829540801969568 2.0495183497814158 -2.3644865700594906 1;
-	setAttr ".wm[20]" -type "matrix" 0.97461805693655157 0.11914173940028475 -0.18953862146247502 0
-		 -0.11695070042757569 0.99287725622690881 0.022743960447222322 0 0.19089834143522622 -1.3877787807814454e-17 0.98160981211338738 0
-		 1.9482143394724152 1.962547201157119 -0.23575218109719187 1;
-	setAttr ".wm[21]" -type "matrix" 0.91060882773021001 0.20587811169307207 -0.35833750290125588 0
-		 -0.19157848874846539 0.97857764287035243 0.075388855430754256 0 0.36618198413994474 9.2694265885051718e-18 0.9305432577217102 0
-		 2.7993660894593031 2.1251475935514121 -0.48908622179387723 1;
-	setAttr ".wm[22]" -type "matrix" 0.89043900620462513 0.038275409168330721 -0.4534902085848343 0
-		 -0.034106909888821105 0.99926722804913248 0.017370251720656583 0 0.45382275717195525 5.2060116423576938e-18 0.89109197340838198 0
-		 3.5670831177468778 2.2321897214986119 -0.80130389432842186 1;
-	setAttr ".wm[23]" -type "matrix" 0.65841313094595288 -0.10861080308664688 -0.74477905613062256 0
-		 0.071936329113051284 0.9940843492646253 -0.081372422237912745 0 0.74921112748789731 4.3436099146007814e-17 0.662331251299766 0
-		 4.8043721285609609 2.1601561378256262 -1.8568411604622932 1;
-	setAttr ".wm[24]" -type "matrix" 0.02513708367626245 -0.40092741093298417 -0.91576489241880554 0
-		 0.011001023680239204 0.91610982483683367 -0.40077645429268022 0 0.99962348136797952 -1.488094429295852e-16 0.027438941265300349 0
-		 5.827564838981302 1.363855221306751 -4.0332701574350907 1;
-	setAttr ".wm[25]" -type "matrix" 0.99853062317913044 0.054175668922531603 0.0012615348958164164 0
-		 -0.054175625673735094 0.99853142008491458 -6.8454825888328123e-05 0 -0.0012633908169897166 9.7976637865906394e-09 0.99999920192150327 0
-		 0.34318041691601475 1.9140278852825872 -0.19921005196747701 1;
-	setAttr ".wm[26]" -type "matrix" 0.74803442239915363 -0.049477825289127919 -0.66181300056029668 0
-		 0.037056502437239333 0.99877522236219829 -0.032785222623315249 0 0.66262456831382543 -2.225459801739747e-17 0.74895172171970903 0
-		 4.2560698467246194 2.2187619928976212 -1.3015650166493347 1;
-	setAttr -s 27 ".xm";
-	setAttr ".xm[0]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[1]" -type "matrix" "xform" 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[2]" -type "matrix" "xform" 1 1 1 0 0 0 0 1.9482143394724152 1.9625472011571192
-		 -0.3553432128421391 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[3]" -type "matrix" "xform" 1 1 1 -0.043746885583129773 0.72323458861645729
-		 -0.066047574106631479 0 4.1795908193619491 2.2187619928976217 -1.3898331632819709 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[4]" -type "matrix" "xform" 1 1 1 0.080839403144621735 0.36648653035259721
-		 0.22235017499947779 0 2.7546497223467901 2.1251475935514126 -0.60271964923867027 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[5]" -type "matrix" "xform" 1 1 1 0 0 0 0 0.70409840259324952 1.9295577230521677
-		 -0.31011143609610997 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[6]" -type "matrix" "xform" 1 1 1 -0.12224499283356938 0.84020368416342173
-		 -0.1634861602266863 0 4.7143384631032497 2.1601561378256262 -1.936434359380276 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[7]" -type "matrix" "xform" 1 1 1 -0.31580073136735826 0.92062031185932802
-		 -0.38951096586190243 0 5.1416584100058742 2.0495183497814171 -2.4638906398992804 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[8]" -type "matrix" "xform" 1 1 1 0 0 0 0 1.2718925029892085 1.9265288187538827
-		 -0.28307797414240093 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[9]" -type "matrix" "xform" 1 1 1 0.019490751338591353 0.47067748841589607
-		 0.042958429700569803 0 3.5009831207642934 2.2321897214986119 -0.93109283907096763 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[10]" -type "matrix" "xform" 1 1 1 -0.67591080415288862 1.0048621222936369
-		 -0.75978562649782999 0 5.4151629397431646 1.8748879048246798 -2.9382492925294752 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[11]" -type "matrix" "xform" 1 1 1 2.4292691945640625e-07 -0.0017837555054241705
-		 -0.00013618853370843311 0 0.46848812268202877 1.9207371824760728 -0.31837983736114517 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[12]" -type "matrix" "xform" 1 1 1 9.7976709809177428e-09 -0.00035822759970342041
-		 -2.7350408500454082e-05 0 0.34333136445127976 1.9140278841119811 -0.31868805732180411 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[13]" -type "matrix" "xform" 1 1 1 -1.5024385455858902 1.1574078762824183
-		 -1.5081809434051852 0 5.6863818108640221 1.3638552213067503 -4.037145529401009 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[14]" -type "matrix" "xform" 1 1 1 -0.90593788613569648 1.0281012874658044
-		 -0.97960271440219315 0 5.6054504891052348 1.642762317504374 -3.4259280254289259 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[15]" -type "matrix" "xform" 1 1 1 0.0012928436489914887 -0.13262807023255421
-		 -0.0097762191953686996 0 -1.0444668677699432e-16 -2.6578751524723175e-16 0.13809058428673221 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 -0.00029691511069550905 0.047729301694791414 0.0034932068295622011 0.99885415507329733 1
-		 1 1 yes;
-	setAttr ".xm[16]" -type "matrix" "xform" 1 1 1 8.6532284031624667e-05 0.02814381785050327
-		 0.0030750424948056106 0 0 0 0.17086786122620745 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-		 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[17]" -type "matrix" "xform" 1 1 1 -0.90593788613569648 1.0281012874658044
-		 -0.97960271440219315 0 3.7471990724343041e-16 -2.3252970957807391e-17 0.12078723821221612 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0.12827630992388248 -0.56941653729506181 0.17844796188437329 0.7921277171432185 1
-		 1 1 yes;
-	setAttr ".xm[18]" -type "matrix" "xform" 1 1 1 -0.67591080415288862 1.0048621222936369
-		 -0.75978562649782999 0 -1.7508638012016189e-15 -3.9996805837441773e-16 0.17393399462051443 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0.10139503156870816 -0.52968141152643289 0.15832817118528728 0.82709663284628876 1
-		 1 1 yes;
-	setAttr ".xm[19]" -type "matrix" "xform" 1 1 1 -0.31580073136735826 0.92062031185932802
-		 -0.38951096586190243 0 -9.5489355353822237e-16 -1.6200271526236018e-15 0.1727588941717936 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0.053314780417885989 -0.45766972797472888 0.10269464481491386 0.88156098156104268 1
-		 1 1 yes;
-	setAttr ".xm[20]" -type "matrix" "xform" 1 1 1 0.023165917283892438 0.19069222897900606
-		 0.12164101588901644 0 0 -2.2204460492503131e-16 0.11959103174494723 0 0 0 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 yes;
-	setAttr ".xm[21]" -type "matrix" "xform" 1 1 1 0.080839403144621735 0.36648653035259721
-		 0.22235017499947779 0 9.3007784259751653e-16 -4.2504728698109861e-16 0.1221151477933515 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 -0.01928682930232065 -0.18535476620418487 -0.1016818409564213 0.97720644291806025 1
-		 1 1 yes;
-	setAttr ".xm[22]" -type "matrix" "xform" 1 1 1 0.019490751338591353 0.47067748841589607
-		 0.042958429700569803 0 -1.4918503456589256e-15 4.0151305144871657e-17 0.1456515697769209 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 -0.0044666751367957022 -0.23331108441098838 -0.018612758759950367 0.97221373777350772 1
-		 1 1 yes;
-	setAttr ".xm[23]" -type "matrix" "xform" 1 1 1 -0.12224499283356938 0.84020368416342173
-		 -0.1634861602266863 0 -1.3258354295734515e-16 -2.1851573084189745e-17 0.12017128704373839 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0.022346869923781154 -0.41028647522764694 0.049582686215017983 0.91033355583411635 1
-		 1 1 yes;
-	setAttr ".xm[24]" -type "matrix" "xform" 1 1 1 -1.5024385455858902 1.1574078762824183
-		 -1.5081809434051852 0 -4.4408920985006262e-16 4.4408920985006262e-16 0.1412362061804231 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0.14281834403721641 -0.6825565544142238 0.14679239826384632 0.70154933001507336 1
-		 1 1 yes;
-	setAttr ".xm[25]" -type "matrix" "xform" 1 1 1 -6.8445097123063917e-05 -0.0012615357612283764
-		 0.054202248104978347 0 -0.00010814720739522021 -2.9578706950183325e-09 0.11947805176177147 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 -2.4494179400802472e-09 0.00017911379881025533 1.3675204907887633e-05 0.99999998386561773 1
-		 1 1 yes;
-	setAttr ".xm[26]" -type "matrix" "xform" 1 1 1 -0.043746885583129773 0.72323458861645729
-		 -0.066047574106631479 0 -0.0012080619179566997 -5.9845574036346134e-05 0.11678546288477157 0
-		 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0.0087675298295234617 -0.35418536045527627 0.023141288632859195 0.93484776387402513 1
-		 1 1 yes;
-	setAttr -s 26 ".m";
-	setAttr -s 27 ".p";
-	setAttr -s 26 ".g[1:26]" yes no no no no no no no no no no no no no 
-		no no no no no no no no no no no no;
-	setAttr ".bp" yes;
 createNode unitConversion -n "unitConversion32";
 	rename -uid "9509B91A-457F-5E9F-4E6D-EA860BCCCAA4";
 	setAttr ".i" 0;
@@ -5332,223 +3590,6 @@ createNode condition -n "down_vis_condition";
 	setAttr ".st" 2;
 	setAttr ".ct" -type "float3" 1 0 0 ;
 	setAttr ".cf" -type "float3" 0 1 1 ;
-createNode motionPath -n "curve9_7_mpath1";
-	rename -uid "AF6A95D5-4E8B-E3E6-DB49-1A9CC159EB28";
-	setAttr ".u" 0.802;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".wut" 2;
-	setAttr ".wu" -type "double3" 0 0 1 ;
-createNode motionPath -n "curve9_7_mpath5";
-	rename -uid "5D9031AB-433A-6158-852B-C0AED2AAD95A";
-	setAttr ".u" 0.025200000000000049;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-	setAttr ".wu" -type "double3" 0 0 -1 ;
-createNode motionPath -n "curve9_2_mpath";
-	rename -uid "8667F8C9-4345-09C8-ED49-FBAA59E44F60";
-	setAttr ".u" 0.32071428571428567;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-	setAttr ".wu" -type "double3" 0 0 -1 ;
-createNode motionPath -n "curve9_0_mpath";
-	rename -uid "2B445825-40EE-2CCC-140E-C083584C67DE";
-	setAttr ".u" 0.108;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-	setAttr ".wu" -type "double3" 0 0 -1 ;
-createNode motionPath -n "curve9_7_mpath3";
-	rename -uid "DFD5DA4D-443E-5FFE-BC88-F6AF815FE589";
-	setAttr ".u" 0.96900000000000008;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".wut" 2;
-	setAttr ".wu" -type "double3" 0 0 1 ;
-createNode motionPath -n "curve9_7_mpath4";
-	rename -uid "02435634-49C5-BE0C-E080-2D8647500048";
-	setAttr ".u" 0.03930000000000005;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-	setAttr ".wu" -type "double3" 0 0 -1 ;
-createNode motionPath -n "curve9_7_mpath2";
-	rename -uid "8CD8AEEA-4AE8-5D2A-C6F9-42ACECEC8754";
-	setAttr ".u" 0.87449999999999994;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".wut" 2;
-	setAttr ".wu" -type "double3" 0 0 1 ;
-createNode motionPath -n "curve9_6_mpath";
-	rename -uid "D5D56ED0-4C64-BBA9-9B3A-97A5D142BEC9";
-	setAttr ".u" 0.66114285714285703;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-	setAttr ".wu" -type "double3" 0 0 -1 ;
-createNode motionPath -n "curve9_7_mpath";
-	rename -uid "EA526B91-4B5E-931F-1658-C089C8904DC0";
-	setAttr ".u" 0.737;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-	setAttr ".wu" -type "double3" 0 0 -1 ;
-createNode motionPath -n "curve9_3_mpath";
-	rename -uid "CA837007-4327-75B3-F04D-5E92E4D1FA3B";
-	setAttr ".u" 0.40857142857142853;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-	setAttr ".wu" -type "double3" 0 0 -1 ;
-createNode motionPath -n "curve9_5_mpath";
-	rename -uid "01FDAD0E-4721-DDD8-8FAC-6D9B3A8BEE8F";
-	setAttr ".u" 0.58328571428571419;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-	setAttr ".wu" -type "double3" 0 0 -1 ;
-createNode addDoubleLinear -n "addDoubleLinear18";
-	rename -uid "A8C6B406-4DEE-5500-1080-E6926A73CEFD";
-	setAttr ".ihi" 2;
-createNode unitConversion -n "unitConversion45";
-	rename -uid "195A24C8-495E-57F9-C5AE-BCA39D6A08B2";
-	setAttr ".cf" 0.017453292519943295;
-createNode setRange -n "setRange29";
-	rename -uid "5AFF2727-477E-213F-D103-14A33BE11D4F";
-	setAttr ".on" -type "float3" 1.9630001 0.70300001 0 ;
-	setAttr ".om" -type "float3" 3.4460001 1.9630001 0 ;
-createNode addDoubleLinear -n "addDoubleLinear21";
-	rename -uid "0CA80CF9-46C8-70C8-78BE-C2BAB94E6952";
-	setAttr ".ihi" 2;
-createNode unitConversion -n "unitConversion48";
-	rename -uid "2FBB87BB-41F0-41A9-9D96-768C52450E0C";
-	setAttr ".cf" 0.017453292519943295;
-createNode setRange -n "setRange32";
-	rename -uid "FC67D5BE-42CA-82F3-C9E9-B8A628157D33";
-	setAttr ".on" -type "float3" 1.9630001 0.70300001 0 ;
-	setAttr ".om" -type "float3" 3.4460001 1.9630001 0 ;
-createNode addDoubleLinear -n "addDoubleLinear23";
-	rename -uid "5B66009F-4856-E020-20EE-74BF4DFEB22F";
-	setAttr ".ihi" 2;
-createNode unitConversion -n "unitConversion37";
-	rename -uid "995D624B-4304-ACAB-B218-A0B4238B3246";
-	setAttr ".cf" 0.017453292519943295;
-createNode setRange -n "setRange21";
-	rename -uid "4B5DD835-40F6-DA00-7DB3-EEB040695C66";
-	setAttr ".on" -type "float3" 1.9630001 0.70300001 0 ;
-	setAttr ".om" -type "float3" 3.4460001 1.9630001 0 ;
-createNode addDoubleLinear -n "addDoubleLinear11";
-	rename -uid "6CEB62BE-400A-094B-9DB3-20AA0BA590C2";
-	setAttr ".ihi" 2;
-createNode unitConversion -n "unitConversion38";
-	rename -uid "5255A8A3-4A09-5D8E-9B28-AFB15FDFAAF3";
-	setAttr ".cf" 0.017453292519943295;
-createNode setRange -n "setRange22";
-	rename -uid "5CC1619F-429A-F0B2-EF1A-02B052DCED96";
-	setAttr ".on" -type "float3" 1.9630001 0.70300001 0 ;
-	setAttr ".om" -type "float3" 3.4460001 1.9630001 0 ;
-createNode addDoubleLinear -n "addDoubleLinear20";
-	rename -uid "39742BCD-46EA-6C5C-2C81-6FBD869E1A47";
-	setAttr ".ihi" 2;
-createNode unitConversion -n "unitConversion47";
-	rename -uid "274684A8-4CBA-518E-B279-0AB2474F5A74";
-	setAttr ".cf" 0.017453292519943295;
-createNode setRange -n "setRange31";
-	rename -uid "2FC2D16E-4CD7-294D-96BA-0A91B9F90665";
-	setAttr ".on" -type "float3" 1.9630001 0.70300001 0 ;
-	setAttr ".om" -type "float3" 3.4460001 1.9630001 0 ;
-createNode addDoubleLinear -n "addDoubleLinear22";
-	rename -uid "0000BFE3-4E55-6049-4DC2-869B51416FCF";
-	setAttr ".ihi" 2;
-createNode unitConversion -n "unitConversion49";
-	rename -uid "CCC7AAD9-4621-E492-527F-C7AE94E574F0";
-	setAttr ".cf" 0.017453292519943295;
-createNode setRange -n "setRange33";
-	rename -uid "A68A5F63-4A7A-2D83-EB4E-1DA5C4E2816A";
-	setAttr ".on" -type "float3" 1.9630001 0.70300001 0 ;
-	setAttr ".om" -type "float3" 3.4460001 1.9630001 0 ;
-createNode addDoubleLinear -n "addDoubleLinear16";
-	rename -uid "5EE07AF5-4E66-ACE5-A389-EFA74EFBFC9D";
-	setAttr ".ihi" 2;
-createNode unitConversion -n "unitConversion43";
-	rename -uid "2C72A067-4582-6074-32C4-D5872DF0224A";
-	setAttr ".cf" 0.017453292519943295;
-createNode setRange -n "setRange27";
-	rename -uid "B4C53078-40C0-0DE4-10DC-2C945566E59E";
-	setAttr ".on" -type "float3" 1.9630001 0.70300001 0 ;
-	setAttr ".om" -type "float3" 3.4460001 1.9630001 0 ;
-createNode addDoubleLinear -n "addDoubleLinear17";
-	rename -uid "7A6A99DC-4304-C2EB-0305-2DB8996CDFB2";
-	setAttr ".ihi" 2;
-createNode unitConversion -n "unitConversion44";
-	rename -uid "D10B3975-49DB-6467-A883-FFA50045B0E6";
-	setAttr ".cf" 0.017453292519943295;
-createNode setRange -n "setRange28";
-	rename -uid "9669DCA9-4575-F1B9-0016-968178EDE6B6";
-	setAttr ".on" -type "float3" 1.9630001 0.70300001 0 ;
-	setAttr ".om" -type "float3" 3.4460001 1.9630001 0 ;
-createNode addDoubleLinear -n "addDoubleLinear13";
-	rename -uid "39201833-49C8-523E-91D2-B3A74A199C58";
-	setAttr ".ihi" 2;
-createNode unitConversion -n "unitConversion40";
-	rename -uid "BCCD7ADD-4188-A49D-A29C-7794561D0C4A";
-	setAttr ".cf" 0.017453292519943295;
-createNode setRange -n "setRange24";
-	rename -uid "777619A1-4353-947C-181C-82815016671D";
-	setAttr ".on" -type "float3" 1.9630001 0.70300001 0 ;
-	setAttr ".om" -type "float3" 3.4460001 1.9630001 0 ;
-createNode addDoubleLinear -n "addDoubleLinear15";
-	rename -uid "4F22D847-48E8-4AF6-BE11-06A37600728D";
-	setAttr ".ihi" 2;
-createNode unitConversion -n "unitConversion42";
-	rename -uid "46706369-49AC-C522-DF82-C49BE1A9A778";
-	setAttr ".cf" 0.017453292519943295;
-createNode setRange -n "setRange26";
-	rename -uid "70174AAC-421C-B91D-C31D-B6B21368FD28";
-	setAttr ".on" -type "float3" 1.9630001 0.70300001 0 ;
-	setAttr ".om" -type "float3" 3.4460001 1.9630001 0 ;
-createNode blendMatrix -n "blendMatrix7";
-	rename -uid "F2FC7A88-4F0E-FC5E-B888-1785C9AD0BB8";
-	setAttr ".env" 0.29083665328256164;
-createNode blendMatrix -n "blendMatrix8";
-	rename -uid "24104E96-48B5-119A-C467-D8B2B0F1DDFA";
-	setAttr ".env" 0.59760956204982396;
-createNode blendMatrix -n "blendMatrix9";
-	rename -uid "F69438D9-471A-11FB-66E8-3C9A6D1CC4E7";
-	setAttr ".env" 0.29083665328256164;
-createNode blendMatrix -n "blendMatrix10";
-	rename -uid "D4BD77DD-481D-0FFB-3CEC-BAB2707917DF";
-	setAttr ".env" 0.59760956204982396;
-createNode addDoubleLinear -n "addDoubleLinear19";
-	rename -uid "6E320A2C-4B58-B230-E6A8-67B19F854D08";
-	setAttr ".ihi" 2;
-createNode setRange -n "setRange30";
-	rename -uid "6CD02E1E-4EFA-2FE3-5655-0C97C5F707E1";
-	setAttr ".on" -type "float3" 1.9630001 0.70300001 0 ;
-	setAttr ".om" -type "float3" 3.4460001 1.9630001 0 ;
-createNode unitConversion -n "unitConversion39";
-	rename -uid "833A0E69-41B5-99E2-D306-8CADD389E185";
-	setAttr ".cf" 0.017453292519943295;
-createNode addDoubleLinear -n "addDoubleLinear12";
-	rename -uid "9DAB91F7-4877-989B-5092-778B3572F952";
-	setAttr ".ihi" 2;
-createNode setRange -n "setRange23";
-	rename -uid "C8D0A510-40F6-0A9D-9C3B-EF92A2D1B671";
-	setAttr ".on" -type "float3" 1.9630001 0.70300001 0 ;
-	setAttr ".om" -type "float3" 3.4460001 1.9630001 0 ;
-createNode unitConversion -n "unitConversion50";
-	rename -uid "4E747634-4F5F-8361-AF9A-3DAE7DB7131B";
-	setAttr ".cf" 0.017453292519943295;
 createNode multDoubleLinear -n "multDoubleLinear6";
 	rename -uid "F788C240-4C1E-7E5D-8A8C-60902955F3EE";
 createNode plusMinusAverage -n "plusMinusAverage26";
@@ -5582,9 +3623,6 @@ createNode multDoubleLinear -n "multDoubleLinear19";
 	rename -uid "ABA087D0-4678-A179-EACB-84A644CDAA4F";
 createNode multDoubleLinear -n "multDoubleLinear22";
 	rename -uid "4E2D699A-4489-9F22-3C53-5195FADD5963";
-createNode clamp -n "clamp14";
-	rename -uid "CA8BF3B5-4709-FF01-1D70-43944DF7B7D3";
-	setAttr ".mx" -type "float3" 10 0 0 ;
 createNode network -n "hyperNode_snapshotData";
 	rename -uid "FF5C2188-4658-2EA1-1859-EEB1A6D60606";
 	addAttr -ci true -sn "hyperNodeSnapshotJSON" -ln "hyperNodeSnapshotJSON" -dt "string";
@@ -6231,285 +4269,13 @@ createNode network -n "hyperNode15";
 	setAttr ".ihi" 0;
 	setAttr ".hyperNodeGroupJSON" -type "string" "{\"version\": 1, \"members\": {\"blendColors26\": [-151.99619698251263, -123.62462581948148], \"blendColors27\": [-157.3769991422305, 149.36686347748264], \"plusMinusAverage48\": [309.37319612474266, -25.742237658001613]}, \"boundary_order\": [\"blendColors26.blender|in\", \"blendColors26.color1|in\", \"blendColors27.blender|in\", \"blendColors27.color1|in\", \"plusMinusAverage48.output3D|out\"], \"boundary_hidden\": []}";
 	setAttr ".blendColors26_color1" -type "float3" 0 0 2.6367797e-16 ;
-createNode blendColors -n "blendColors28";
-	rename -uid "90D8A4ED-4C4E-B9E6-0CED-00AA800603F5";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode blendColors -n "blendColors29";
-	rename -uid "A87BA6F3-47FC-1AAE-4758-BFA9C8B78020";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode plusMinusAverage -n "plusMinusAverage49";
-	rename -uid "2592F015-4621-B841-269C-5DB4BCDA3519";
-	setAttr -s 2 ".i3";
-	setAttr -s 2 ".i3";
 createNode network -n "hyperNode16";
 	rename -uid "0E4A03BD-4413-78DE-217C-9E930F03C9E9";
 	addAttr -ci true -sn "hyperNodeGroupJSON" -ln "hyperNodeGroupJSON" -dt "string";
-	addAttr -ci true -sn "blendColors28_blender" -ln "blendColors28_blender" -at "float";
-	addAttr -ci true -sn "blendColors28_color1" -ln "blendColors28_color1" -at "float3" 
-		-nc 3;
-	addAttr -ci true -sn "blendColors28_color1R" -ln "blendColors28_color1R" -at "float" 
-		-p "blendColors28_color1";
-	addAttr -ci true -sn "blendColors28_color1G" -ln "blendColors28_color1G" -at "float" 
-		-p "blendColors28_color1";
-	addAttr -ci true -sn "blendColors28_color1B" -ln "blendColors28_color1B" -at "float" 
-		-p "blendColors28_color1";
-	addAttr -ci true -sn "blendColors29_blender" -ln "blendColors29_blender" -at "float";
-	addAttr -ci true -sn "blendColors29_color1" -ln "blendColors29_color1" -at "float3" 
-		-nc 3;
-	addAttr -ci true -sn "blendColors29_color1R" -ln "blendColors29_color1R" -at "float" 
-		-p "blendColors29_color1";
-	addAttr -ci true -sn "blendColors29_color1G" -ln "blendColors29_color1G" -at "float" 
-		-p "blendColors29_color1";
-	addAttr -ci true -sn "blendColors29_color1B" -ln "blendColors29_color1B" -at "float" 
-		-p "blendColors29_color1";
 	setAttr ".ihi" 0;
-	setAttr ".hyperNodeGroupJSON" -type "string" "{\"version\": 1, \"members\": {\"blendColors28\": [-151.99619698251263, -123.62462581948148], \"blendColors29\": [-157.3769991422305, 149.36686347748264], \"plusMinusAverage49\": [309.37319612474266, -25.742237658001613]}, \"pending_links\": [{\"plug\": \"plusMinusAverage49.output3D\", \"is_source\": true}], \"boundary_order\": [\"blendColors28.blender|in\", \"blendColors28.color1|in\", \"blendColors29.blender|in\", \"blendColors29.color1|in\", \"plusMinusAverage49.output3D|out\"], \"boundary_hidden\": []}";
-	setAttr ".blendColors28_color1" -type "float3" 0 0 -3.9497485e-16 ;
-createNode motionPath -n "curve9_7_mpath6";
-	rename -uid "8D710F56-4FC2-801E-BD64-C3A171F45621";
-	setAttr ".u" 0.025200000000000049;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-	setAttr ".wu" -type "double3" 0 0 -1 ;
+	setAttr ".hyperNodeGroupJSON" -type "string" "{\"version\": 1, \"members\": {\"blendColors28\": [-151.99619698251263, -123.62462581948148], \"blendColors29\": [-157.3769991422305, 149.36686347748264], \"plusMinusAverage49\": [309.37319612474266, -25.742237658001613]}, \"boundary_order\": [\"blendColors28.blender|in\", \"blendColors28.color1|in\", \"blendColors29.blender|in\", \"blendColors29.color1|in\", \"plusMinusAverage49.output3D|out\"], \"boundary_hidden\": []}";
 createNode multiplyDivide -n "size_multiplyDivide1";
 	rename -uid "B1BFABE3-4CFF-24CA-F7E0-DD905084B899";
-createNode unitConversion -n "unitConversion73";
-	rename -uid "634C68AC-4F59-486E-4B86-538FC6EF961F";
-	setAttr ".cf" 0.017453292519943295;
-createNode addDoubleLinear -n "addDoubleLinear35";
-	rename -uid "31D63273-4C2D-1E61-7206-16910E03FAED";
-	setAttr ".ihi" 2;
-createNode setRange -n "setRange34";
-	rename -uid "027BA995-451C-8036-1F33-44849D1E1B9A";
-	setAttr ".on" -type "float3" 1.9630001 0.70300001 0 ;
-	setAttr ".om" -type "float3" 3.4460001 1.9630001 0 ;
-createNode motionPath -n "curve9_7_mpath7";
-	rename -uid "B329AF4C-4AE6-F7CE-2AD9-48B5E61E7938";
-	setAttr ".u" 0.03930000000000005;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-	setAttr ".wu" -type "double3" 0 0 -1 ;
-createNode unitConversion -n "unitConversion74";
-	rename -uid "38BF5F74-4A46-02C3-B58B-9C97E8BE7BAF";
-	setAttr ".cf" 0.017453292519943295;
-createNode addDoubleLinear -n "addDoubleLinear36";
-	rename -uid "E30BFD45-42F8-D227-A627-7A807A73CFE7";
-	setAttr ".ihi" 2;
-createNode setRange -n "setRange35";
-	rename -uid "0A9C6E42-4160-735F-9F9A-6486382A4094";
-	setAttr ".on" -type "float3" 1.9630001 0.70300001 0 ;
-	setAttr ".om" -type "float3" 3.4460001 1.9630001 0 ;
-createNode motionPath -n "curve9_0_mpath1";
-	rename -uid "6380DBE6-46C9-296D-9188-AD91DA39830D";
-	setAttr ".u" 0.108;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-	setAttr ".wu" -type "double3" 0 0 -1 ;
-createNode unitConversion -n "unitConversion75";
-	rename -uid "B52014D1-4D0C-613A-CDE3-CBB0DF4CB1A8";
-	setAttr ".cf" 0.017453292519943295;
-createNode addDoubleLinear -n "addDoubleLinear37";
-	rename -uid "43B4A9DC-42FB-D09E-D4D3-92B97AD6A9F2";
-	setAttr ".ihi" 2;
-createNode setRange -n "setRange36";
-	rename -uid "4A18BE31-4A78-0A17-27E7-79A346F657E3";
-	setAttr ".on" -type "float3" 1.9630001 0.70300001 0 ;
-	setAttr ".om" -type "float3" 3.4460001 1.9630001 0 ;
-createNode motionPath -n "curve9_1_mpath1";
-	rename -uid "2CA0A7B1-4EBD-78D3-2B56-40A3128F0200";
-	setAttr ".u" 0.23985714285714285;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-	setAttr ".wu" -type "double3" 0 0 -1 ;
-createNode unitConversion -n "unitConversion76";
-	rename -uid "AFBD876A-4DC1-D2F6-CE89-EC87F0A4F769";
-	setAttr ".cf" 0.017453292519943295;
-createNode addDoubleLinear -n "addDoubleLinear38";
-	rename -uid "DBC4054B-49CB-CB84-D431-79BD234FAB31";
-	setAttr ".ihi" 2;
-createNode setRange -n "setRange37";
-	rename -uid "40B82B19-4477-7917-98F3-F5801BFB24BD";
-	setAttr ".on" -type "float3" 1.9630001 0.70300001 0 ;
-	setAttr ".om" -type "float3" 3.4460001 1.9630001 0 ;
-createNode motionPath -n "curve9_2_mpath1";
-	rename -uid "520EB97A-4977-E51A-6ADD-3BBABEFE9B3A";
-	setAttr ".u" 0.32071428571428567;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-	setAttr ".wu" -type "double3" 0 0 -1 ;
-createNode blendMatrix -n "blendMatrix23";
-	rename -uid "F4A74DC9-4219-B48C-A922-D7866CFCEA08";
-	setAttr ".env" 0.29083665328256164;
-createNode unitConversion -n "unitConversion77";
-	rename -uid "78B58FB5-4930-1A68-C032-7EA68C4BC185";
-	setAttr ".cf" 0.017453292519943295;
-createNode addDoubleLinear -n "addDoubleLinear39";
-	rename -uid "5168C589-4E7B-68C9-26C0-BA8670409601";
-	setAttr ".ihi" 2;
-createNode setRange -n "setRange38";
-	rename -uid "C620DA7B-4227-88DB-638F-BDB567FD6CE8";
-	setAttr ".on" -type "float3" 1.9630001 0.70300001 0 ;
-	setAttr ".om" -type "float3" 3.4460001 1.9630001 0 ;
-createNode motionPath -n "curve9_3_mpath1";
-	rename -uid "26150B0D-45B1-B7A0-44C2-8781E6B4A26A";
-	setAttr ".u" 0.40857142857142853;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-	setAttr ".wu" -type "double3" 0 0 -1 ;
-createNode blendMatrix -n "blendMatrix24";
-	rename -uid "9C88715E-4F3E-6FB7-1126-DDB9BEB70EAD";
-	setAttr ".env" 0.59760956204982396;
-createNode unitConversion -n "unitConversion78";
-	rename -uid "407B32F4-49D0-0807-7D77-A6B052D5B1F4";
-	setAttr ".cf" 0.017453292519943295;
-createNode addDoubleLinear -n "addDoubleLinear40";
-	rename -uid "01D75557-4148-859E-2827-0585D36F78E3";
-	setAttr ".ihi" 2;
-createNode setRange -n "setRange39";
-	rename -uid "E403857D-4140-1C6F-7A5A-68A5B46354F4";
-	setAttr ".on" -type "float3" 1.9630001 0.70300001 0 ;
-	setAttr ".om" -type "float3" 3.4460001 1.9630001 0 ;
-createNode motionPath -n "curve9_4_mpath1";
-	rename -uid "EE2359BE-4541-E736-A6C4-8F89B31579DB";
-	setAttr ".u" 0.49542857142857138;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-	setAttr ".wu" -type "double3" 0 0 -1 ;
-createNode unitConversion -n "unitConversion79";
-	rename -uid "C8B45BD3-4FD9-587D-5AA2-169A271E9863";
-	setAttr ".cf" 0.017453292519943295;
-createNode addDoubleLinear -n "addDoubleLinear41";
-	rename -uid "58503B27-4147-7D4C-775C-48A3DFF14A24";
-	setAttr ".ihi" 2;
-createNode setRange -n "setRange40";
-	rename -uid "C0AB032B-499E-2EB0-47FA-639B81A5ECDD";
-	setAttr ".on" -type "float3" 1.9630001 0.70300001 0 ;
-	setAttr ".om" -type "float3" 3.4460001 1.9630001 0 ;
-createNode motionPath -n "curve9_5_mpath1";
-	rename -uid "0AF37735-41E2-31DD-B887-1F883EC3D8EE";
-	setAttr ".u" 0.58328571428571419;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-	setAttr ".wu" -type "double3" 0 0 -1 ;
-createNode blendMatrix -n "blendMatrix25";
-	rename -uid "6DF34D41-4761-326C-3D2A-15BF076F3C22";
-	setAttr ".env" 0.29083665328256164;
-createNode unitConversion -n "unitConversion80";
-	rename -uid "BFFD6F3B-4A4A-1170-C2FD-D08C423D084C";
-	setAttr ".cf" 0.017453292519943295;
-createNode addDoubleLinear -n "addDoubleLinear42";
-	rename -uid "148A4748-4356-9C71-DCFD-48A0E2167DDD";
-	setAttr ".ihi" 2;
-createNode setRange -n "setRange41";
-	rename -uid "FE875CBE-49EB-BE2A-F448-BA9F75AE8E8F";
-	setAttr ".on" -type "float3" 1.9630001 0.70300001 0 ;
-	setAttr ".om" -type "float3" 3.4460001 1.9630001 0 ;
-createNode motionPath -n "curve9_6_mpath1";
-	rename -uid "10978A48-40D4-DDB4-D27A-DBA5CF00F5DF";
-	setAttr ".u" 0.66114285714285703;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-	setAttr ".wu" -type "double3" 0 0 -1 ;
-createNode blendMatrix -n "blendMatrix26";
-	rename -uid "94F61A75-479F-970A-D5FA-27B7D25C0949";
-	setAttr ".env" 0.59760956204982396;
-createNode unitConversion -n "unitConversion81";
-	rename -uid "8CB75CD5-4A48-5D57-FB20-43BA767C394A";
-	setAttr ".cf" 0.017453292519943295;
-createNode addDoubleLinear -n "addDoubleLinear43";
-	rename -uid "71BEF14D-4BF4-AD18-5F07-29BA656D0BB0";
-	setAttr ".ihi" 2;
-createNode setRange -n "setRange42";
-	rename -uid "19D2BE1E-4DEE-0416-C8CD-8CA276AFFD03";
-	setAttr ".on" -type "float3" 1.9630001 0.70300001 0 ;
-	setAttr ".om" -type "float3" 3.4460001 1.9630001 0 ;
-createNode motionPath -n "curve9_7_mpath8";
-	rename -uid "DF068C09-4453-6F87-E323-2C93DC08C17E";
-	setAttr ".u" 0.737;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-	setAttr ".wu" -type "double3" 0 0 -1 ;
-createNode unitConversion -n "unitConversion82";
-	rename -uid "90DD29B4-4200-5E94-2AF4-208A05941866";
-	setAttr ".cf" 0.017453292519943295;
-createNode addDoubleLinear -n "addDoubleLinear44";
-	rename -uid "6FD8B9B6-48DE-7A5F-A8EA-A49E557C287C";
-	setAttr ".ihi" 2;
-createNode setRange -n "setRange43";
-	rename -uid "686A1706-4805-368C-88A5-0D97A64C8F29";
-	setAttr ".on" -type "float3" 1.9630001 0.70300001 0 ;
-	setAttr ".om" -type "float3" 3.4460001 1.9630001 0 ;
-createNode motionPath -n "curve9_7_mpath9";
-	rename -uid "5C1AC697-47C7-CAA6-F9C7-F2B19949B9F2";
-	setAttr ".u" 0.802;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".wut" 2;
-	setAttr ".wu" -type "double3" 0 0 1 ;
-createNode unitConversion -n "unitConversion83";
-	rename -uid "1F27A8C4-4C68-7CB6-9829-2D93B07215A5";
-	setAttr ".cf" 0.017453292519943295;
-createNode addDoubleLinear -n "addDoubleLinear45";
-	rename -uid "7FA1C0AE-42DF-9304-3305-39A163E759B9";
-	setAttr ".ihi" 2;
-createNode setRange -n "setRange44";
-	rename -uid "A0CA3ADD-4114-69F6-99B2-89923F5118CF";
-	setAttr ".on" -type "float3" 1.9630001 0.70300001 0 ;
-	setAttr ".om" -type "float3" 3.4460001 1.9630001 0 ;
-createNode motionPath -n "curve9_7_mpath10";
-	rename -uid "5F2B72FB-4593-0FBC-8324-B29C318FAAC9";
-	setAttr ".u" 0.87449999999999994;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".wut" 2;
-	setAttr ".wu" -type "double3" 0 0 1 ;
-createNode unitConversion -n "unitConversion84";
-	rename -uid "2CFB0A07-4919-E620-9B95-E88FAECC298E";
-	setAttr ".cf" 0.017453292519943295;
-createNode addDoubleLinear -n "addDoubleLinear46";
-	rename -uid "FFDC1DF1-4AD5-0AF6-E18E-C0A60E214F01";
-	setAttr ".ihi" 2;
-createNode setRange -n "setRange45";
-	rename -uid "208A2B46-4FF0-0185-9AFA-CBB1D8AD4E0A";
-	setAttr ".on" -type "float3" 1.9630001 0.70300001 0 ;
-	setAttr ".om" -type "float3" 3.4460001 1.9630001 0 ;
-createNode motionPath -n "curve9_7_mpath11";
-	rename -uid "387A77A7-4B5F-3206-BB2D-07A59BA997C5";
-	setAttr ".u" 0.96900000000000008;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".wut" 2;
-	setAttr ".wu" -type "double3" 0 0 1 ;
-createNode unitConversion -n "unitConversion85";
-	rename -uid "7A6A2F0E-45DB-C522-8856-7B83D89202D8";
-	setAttr ".cf" 0.017453292519943295;
-createNode addDoubleLinear -n "addDoubleLinear47";
-	rename -uid "F8741CBE-4B60-88E0-D5B4-4A9741FB5858";
-	setAttr ".ihi" 2;
-createNode setRange -n "setRange46";
-	rename -uid "6E5047D1-4F60-966B-A275-8EB4D304E2BE";
-	setAttr ".on" -type "float3" 1.9630001 0.70300001 0 ;
-	setAttr ".om" -type "float3" 3.4460001 1.9630001 0 ;
 createNode plusMinusAverage -n "plusMinusAverage50";
 	rename -uid "39378ECD-46C4-A96B-A206-579B7AC3AA21";
 	setAttr ".op" 3;
@@ -6526,24 +4292,6 @@ createNode plusMinusAverage -n "plusMinusAverage52";
 createNode multiplyDivide -n "multiplyDivide41";
 	rename -uid "869DC424-4E62-08EA-982E-E98D85F77D39";
 	setAttr ".i2" -type "float3" -1 1 1 ;
-createNode unitConversion -n "unitConversion41";
-	rename -uid "98A1D7D4-467E-2A53-DF0D-FB92DF670677";
-	setAttr ".cf" 0.017453292519943295;
-createNode addDoubleLinear -n "addDoubleLinear14";
-	rename -uid "BF10DE11-4306-CDC9-9433-FDA6E781F0A9";
-	setAttr ".ihi" 2;
-createNode setRange -n "setRange25";
-	rename -uid "04246CF1-4BA6-8637-0B29-46A96DDD58F0";
-	setAttr ".on" -type "float3" 1.9630001 0.70300001 0 ;
-	setAttr ".om" -type "float3" 3.4460001 1.9630001 0 ;
-createNode motionPath -n "curve9_4_mpath";
-	rename -uid "63502A61-4539-A158-CE7C-8E98431C7258";
-	setAttr ".u" 0.49542857142857138;
-	setAttr ".f" yes;
-	setAttr ".fa" 0;
-	setAttr ".ua" 1;
-	setAttr ".wut" 2;
-	setAttr ".wu" -type "double3" 0 0 -1 ;
 createNode network -n "l_local_hyperNode";
 	rename -uid "1A57F9F8-4171-ABEB-EBB1-B5BDB0C19E73";
 	addAttr -ci true -sn "hyperNodeGroupJSON" -ln "hyperNodeGroupJSON" -dt "string";
@@ -7086,53 +4834,549 @@ createNode objectSet -n "skinJointsSet";
 createNode multMatrix -n "multMatrix68";
 	rename -uid "C70498D3-40B3-03BA-9E34-ADA4AC72CE0C";
 	setAttr -s 2 ".i";
+createNode multMatrix -n "multMatrix69";
+	rename -uid "34C995EA-408B-AA4C-6832-DFAE50D9C6DB";
+	setAttr -s 2 ".i";
+createNode decomposeMatrix -n "decomposeMatrix1";
+	rename -uid "6628195E-418D-02C1-2745-6DBED91F1B7D";
+createNode setRange -n "setRange16";
+	rename -uid "1B3899D5-4124-B1FE-DA26-FB94AA47DCAC";
+	setAttr ".m" -type "float3" 1 1 1 ;
+createNode plusMinusAverage -n "plusMinusAverage59";
+	rename -uid "C3845223-4506-27C4-9C05-DFA26BB0F7D1";
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode setRange -n "setRange17";
+	rename -uid "6DFB983F-4905-F7ED-8CF0-C0AEB23D1B1B";
+	setAttr ".n" -type "float3" 1 1 1 ;
+createNode setRange -n "setRange18";
+	rename -uid "8F0ACC2F-4F56-B30F-0140-D7A3948A80B1";
+	setAttr ".m" -type "float3" 1 1 1 ;
+createNode plusMinusAverage -n "plusMinusAverage60";
+	rename -uid "18953D40-45B7-B7B0-230C-D59B6AF83904";
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode setRange -n "setRange19";
+	rename -uid "BCFEAF44-4AF5-F15E-9055-EAA301330EF9";
+	setAttr ".n" -type "float3" 1 1 1 ;
 createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
-	rename -uid "91B36E65-4E48-4484-3A75-79BC93538C50";
+	rename -uid "7EECCBB9-4567-596C-66C6-6C92ED3BE6F0";
 	setAttr -s 3 ".tgi";
 	setAttr ".tgi[0].tn" -type "string" "Untitled_1";
-	setAttr ".tgi[0].vl" -type "double2" -6653.5715899297211 -654.76199405060731 ;
-	setAttr ".tgi[0].vh" -type "double2" 7060.7144308941752 3059.5238032558636 ;
-	setAttr ".tgi[0].ni[0].x" -108.57142639160156;
-	setAttr ".tgi[0].ni[0].y" 1097.142822265625;
-	setAttr ".tgi[0].ni[0].nvs" 18304;
+	setAttr ".tgi[0].vl" -type "double2" -6652.9763518581358 -655.35723212219318 ;
+	setAttr ".tgi[0].vh" -type "double2" 7061.3096689657596 3058.9285651842783 ;
 	setAttr ".tgi[1].tn" -type "string" "Untitled_2";
-	setAttr ".tgi[1].vl" -type "double2" -7854.8073801856899 -3785.7141352835506 ;
-	setAttr ".tgi[1].vh" -type "double2" -1727.3350961970352 -2126.1903917032896 ;
-	setAttr -s 7 ".tgi[1].ni";
-	setAttr ".tgi[1].ni[0].x" -5740.50146484375;
-	setAttr ".tgi[1].ni[0].y" -2830.6240234375;
+	setAttr ".tgi[1].vl" -type "double2" -7856.4099442245451 -3786.904611426693 ;
+	setAttr ".tgi[1].vh" -type "double2" -1724.5420560149523 -2126.190391703261 ;
+	setAttr -s 6 ".tgi[1].ni";
+	setAttr ".tgi[1].ni[0].x" -4516.869140625;
+	setAttr ".tgi[1].ni[0].y" -2611.53515625;
 	setAttr ".tgi[1].ni[0].nvs" 18305;
-	setAttr ".tgi[1].ni[1].x" -4869.453125;
-	setAttr ".tgi[1].ni[1].y" -2501.47412109375;
+	setAttr ".tgi[1].ni[1].x" -4860.162109375;
+	setAttr ".tgi[1].ni[1].y" -2901.93603515625;
 	setAttr ".tgi[1].ni[1].nvs" 18305;
-	setAttr ".tgi[1].ni[2].x" -4885.71435546875;
-	setAttr ".tgi[1].ni[2].y" -3392.857177734375;
-	setAttr ".tgi[1].ni[2].nvs" 18304;
-	setAttr ".tgi[1].ni[3].x" -5491.64111328125;
-	setAttr ".tgi[1].ni[3].y" -2499.787109375;
-	setAttr ".tgi[1].ni[3].nvs" 18304;
-	setAttr ".tgi[1].ni[4].x" -5195.109375;
-	setAttr ".tgi[1].ni[4].y" -2605.524658203125;
-	setAttr ".tgi[1].ni[4].nvs" 18305;
-	setAttr ".tgi[1].ni[5].x" -4860.162109375;
-	setAttr ".tgi[1].ni[5].y" -2901.93603515625;
-	setAttr ".tgi[1].ni[5].nvs" 18305;
-	setAttr ".tgi[1].ni[6].x" -4516.869140625;
-	setAttr ".tgi[1].ni[6].y" -2611.53515625;
-	setAttr ".tgi[1].ni[6].nvs" 18305;
+	setAttr ".tgi[1].ni[2].x" -5740.50146484375;
+	setAttr ".tgi[1].ni[2].y" -2830.6240234375;
+	setAttr ".tgi[1].ni[2].nvs" 18305;
+	setAttr ".tgi[1].ni[3].x" -5195.109375;
+	setAttr ".tgi[1].ni[3].y" -2605.524658203125;
+	setAttr ".tgi[1].ni[3].nvs" 18305;
+	setAttr ".tgi[1].ni[4].x" -4885.71435546875;
+	setAttr ".tgi[1].ni[4].y" -3392.857177734375;
+	setAttr ".tgi[1].ni[4].nvs" 18304;
+	setAttr ".tgi[1].ni[5].x" -5491.64111328125;
+	setAttr ".tgi[1].ni[5].y" -2499.787109375;
+	setAttr ".tgi[1].ni[5].nvs" 18304;
 	setAttr ".tgi[2].tn" -type "string" "Untitled_3";
-	setAttr ".tgi[2].vl" -type "double2" -8220.8983368701047 -392.81428048809062 ;
-	setAttr ".tgi[2].vh" -type "double2" -7263.7555065743791 1140.7991218733637 ;
-	setAttr -s 3 ".tgi[2].ni";
-	setAttr ".tgi[2].ni[0].x" -7514.53759765625;
-	setAttr ".tgi[2].ni[0].y" 387.81512451171875;
-	setAttr ".tgi[2].ni[0].nvs" 18305;
-	setAttr ".tgi[2].ni[1].x" -7849.748046875;
-	setAttr ".tgi[2].ni[1].y" 497.3109130859375;
-	setAttr ".tgi[2].ni[1].nvs" 18305;
-	setAttr ".tgi[2].ni[2].x" -7837.14306640625;
-	setAttr ".tgi[2].ni[2].y" 635.71429443359375;
+	setAttr ".tgi[2].vl" -type "double2" -25769.882802208587 -804.70142028168152 ;
+	setAttr ".tgi[2].vh" -type "double2" -24425.562100055187 1349.2803895777986 ;
+	setAttr -s 162 ".tgi[2].ni";
+	setAttr ".tgi[2].ni[0].x" -24422.857421875;
+	setAttr ".tgi[2].ni[0].y" 328.57144165039062;
+	setAttr ".tgi[2].ni[0].nvs" 18304;
+	setAttr ".tgi[2].ni[1].x" -24115.71484375;
+	setAttr ".tgi[2].ni[1].y" 388.57144165039062;
+	setAttr ".tgi[2].ni[1].nvs" 18304;
+	setAttr ".tgi[2].ni[2].x" -24115.71484375;
+	setAttr ".tgi[2].ni[2].y" 84.285713195800781;
 	setAttr ".tgi[2].ni[2].nvs" 18304;
+	setAttr ".tgi[2].ni[3].x" -24115.71484375;
+	setAttr ".tgi[2].ni[3].y" -17.142856597900391;
+	setAttr ".tgi[2].ni[3].nvs" 18304;
+	setAttr ".tgi[2].ni[4].x" -24422.857421875;
+	setAttr ".tgi[2].ni[4].y" -724.28570556640625;
+	setAttr ".tgi[2].ni[4].nvs" 18304;
+	setAttr ".tgi[2].ni[5].x" -24422.857421875;
+	setAttr ".tgi[2].ni[5].y" -305.71429443359375;
+	setAttr ".tgi[2].ni[5].nvs" 18304;
+	setAttr ".tgi[2].ni[6].x" -24730;
+	setAttr ".tgi[2].ni[6].y" 1132.857177734375;
+	setAttr ".tgi[2].ni[6].nvs" 18304;
+	setAttr ".tgi[2].ni[7].x" -25651.427734375;
+	setAttr ".tgi[2].ni[7].y" 1732.857177734375;
+	setAttr ".tgi[2].ni[7].nvs" 18304;
+	setAttr ".tgi[2].ni[8].x" -25344.28515625;
+	setAttr ".tgi[2].ni[8].y" 1571.4285888671875;
+	setAttr ".tgi[2].ni[8].nvs" 18304;
+	setAttr ".tgi[2].ni[9].x" -24115.71484375;
+	setAttr ".tgi[2].ni[9].y" 3618.571533203125;
+	setAttr ".tgi[2].ni[9].nvs" 18304;
+	setAttr ".tgi[2].ni[10].x" -24422.857421875;
+	setAttr ".tgi[2].ni[10].y" 112.85713958740234;
+	setAttr ".tgi[2].ni[10].nvs" 18304;
+	setAttr ".tgi[2].ni[11].x" -24115.71484375;
+	setAttr ".tgi[2].ni[11].y" 3415.71435546875;
+	setAttr ".tgi[2].ni[11].nvs" 18304;
+	setAttr ".tgi[2].ni[12].x" -24115.71484375;
+	setAttr ".tgi[2].ni[12].y" 3284.28564453125;
+	setAttr ".tgi[2].ni[12].nvs" 18304;
+	setAttr ".tgi[2].ni[13].x" -24730;
+	setAttr ".tgi[2].ni[13].y" 3465.71435546875;
+	setAttr ".tgi[2].ni[13].nvs" 18304;
+	setAttr ".tgi[2].ni[14].x" -24115.71484375;
+	setAttr ".tgi[2].ni[14].y" 3182.857177734375;
+	setAttr ".tgi[2].ni[14].nvs" 18304;
+	setAttr ".tgi[2].ni[15].x" -24422.857421875;
+	setAttr ".tgi[2].ni[15].y" 658.5714111328125;
+	setAttr ".tgi[2].ni[15].nvs" 18304;
+	setAttr ".tgi[2].ni[16].x" -25037.142578125;
+	setAttr ".tgi[2].ni[16].y" 2450;
+	setAttr ".tgi[2].ni[16].nvs" 18304;
+	setAttr ".tgi[2].ni[17].x" -24730;
+	setAttr ".tgi[2].ni[17].y" 2248.571533203125;
+	setAttr ".tgi[2].ni[17].nvs" 18304;
+	setAttr ".tgi[2].ni[18].x" -25037.142578125;
+	setAttr ".tgi[2].ni[18].y" 2247.142822265625;
+	setAttr ".tgi[2].ni[18].nvs" 18304;
+	setAttr ".tgi[2].ni[19].x" -24422.857421875;
+	setAttr ".tgi[2].ni[19].y" -825.71429443359375;
+	setAttr ".tgi[2].ni[19].nvs" 18304;
+	setAttr ".tgi[2].ni[20].x" -24422.857421875;
+	setAttr ".tgi[2].ni[20].y" 1091.4285888671875;
+	setAttr ".tgi[2].ni[20].nvs" 18304;
+	setAttr ".tgi[2].ni[21].x" -24115.71484375;
+	setAttr ".tgi[2].ni[21].y" 3081.428466796875;
+	setAttr ".tgi[2].ni[21].nvs" 18304;
+	setAttr ".tgi[2].ni[22].x" -24730;
+	setAttr ".tgi[2].ni[22].y" 1335.7142333984375;
+	setAttr ".tgi[2].ni[22].nvs" 18304;
+	setAttr ".tgi[2].ni[23].x" -24115.71484375;
+	setAttr ".tgi[2].ni[23].y" 2980;
+	setAttr ".tgi[2].ni[23].nvs" 18304;
+	setAttr ".tgi[2].ni[24].x" -24115.71484375;
+	setAttr ".tgi[2].ni[24].y" 2807.142822265625;
+	setAttr ".tgi[2].ni[24].nvs" 18304;
+	setAttr ".tgi[2].ni[25].x" -24115.71484375;
+	setAttr ".tgi[2].ni[25].y" 2705.71435546875;
+	setAttr ".tgi[2].ni[25].nvs" 18304;
+	setAttr ".tgi[2].ni[26].x" -24422.857421875;
+	setAttr ".tgi[2].ni[26].y" -1557.142822265625;
+	setAttr ".tgi[2].ni[26].nvs" 18304;
+	setAttr ".tgi[2].ni[27].x" -24422.857421875;
+	setAttr ".tgi[2].ni[27].y" 1380;
+	setAttr ".tgi[2].ni[27].nvs" 18304;
+	setAttr ".tgi[2].ni[28].x" -25344.28515625;
+	setAttr ".tgi[2].ni[28].y" 2382.857177734375;
+	setAttr ".tgi[2].ni[28].nvs" 18304;
+	setAttr ".tgi[2].ni[29].x" -24730;
+	setAttr ".tgi[2].ni[29].y" -1657.142822265625;
+	setAttr ".tgi[2].ni[29].nvs" 18304;
+	setAttr ".tgi[2].ni[30].x" -24115.71484375;
+	setAttr ".tgi[2].ni[30].y" 2604.28564453125;
+	setAttr ".tgi[2].ni[30].nvs" 18304;
+	setAttr ".tgi[2].ni[31].x" -24730;
+	setAttr ".tgi[2].ni[31].y" -224.28572082519531;
+	setAttr ".tgi[2].ni[31].nvs" 18304;
+	setAttr ".tgi[2].ni[32].x" -24730;
+	setAttr ".tgi[2].ni[32].y" 727.14288330078125;
+	setAttr ".tgi[2].ni[32].nvs" 18304;
+	setAttr ".tgi[2].ni[33].x" -24115.71484375;
+	setAttr ".tgi[2].ni[33].y" 2370;
+	setAttr ".tgi[2].ni[33].nvs" 18304;
+	setAttr ".tgi[2].ni[34].x" -24115.71484375;
+	setAttr ".tgi[2].ni[34].y" 2268.571533203125;
+	setAttr ".tgi[2].ni[34].nvs" 18304;
+	setAttr ".tgi[2].ni[35].x" -24115.71484375;
+	setAttr ".tgi[2].ni[35].y" 2167.142822265625;
+	setAttr ".tgi[2].ni[35].nvs" 18304;
+	setAttr ".tgi[2].ni[36].x" -24730;
+	setAttr ".tgi[2].ni[36].y" -1555.7142333984375;
+	setAttr ".tgi[2].ni[36].nvs" 18304;
+	setAttr ".tgi[2].ni[37].x" -24115.71484375;
+	setAttr ".tgi[2].ni[37].y" 2065.71435546875;
+	setAttr ".tgi[2].ni[37].nvs" 18304;
+	setAttr ".tgi[2].ni[38].x" -25037.142578125;
+	setAttr ".tgi[2].ni[38].y" 285.71429443359375;
+	setAttr ".tgi[2].ni[38].nvs" 18304;
+	setAttr ".tgi[2].ni[39].x" -24115.71484375;
+	setAttr ".tgi[2].ni[39].y" 1964.2857666015625;
+	setAttr ".tgi[2].ni[39].nvs" 18304;
+	setAttr ".tgi[2].ni[40].x" -24730;
+	setAttr ".tgi[2].ni[40].y" 1944.2857666015625;
+	setAttr ".tgi[2].ni[40].nvs" 18304;
+	setAttr ".tgi[2].ni[41].x" -24115.71484375;
+	setAttr ".tgi[2].ni[41].y" 1862.857177734375;
+	setAttr ".tgi[2].ni[41].nvs" 18304;
+	setAttr ".tgi[2].ni[42].x" -24730;
+	setAttr ".tgi[2].ni[42].y" -1194.2857666015625;
+	setAttr ".tgi[2].ni[42].nvs" 18304;
+	setAttr ".tgi[2].ni[43].x" -24115.71484375;
+	setAttr ".tgi[2].ni[43].y" 1761.4285888671875;
+	setAttr ".tgi[2].ni[43].nvs" 18304;
+	setAttr ".tgi[2].ni[44].x" -24730;
+	setAttr ".tgi[2].ni[44].y" 397.14285278320312;
+	setAttr ".tgi[2].ni[44].nvs" 18304;
+	setAttr ".tgi[2].ni[45].x" -24115.71484375;
+	setAttr ".tgi[2].ni[45].y" 1660;
+	setAttr ".tgi[2].ni[45].nvs" 18304;
+	setAttr ".tgi[2].ni[46].x" -24730;
+	setAttr ".tgi[2].ni[46].y" 2755.71435546875;
+	setAttr ".tgi[2].ni[46].nvs" 18304;
+	setAttr ".tgi[2].ni[47].x" -24115.71484375;
+	setAttr ".tgi[2].ni[47].y" 1558.5714111328125;
+	setAttr ".tgi[2].ni[47].nvs" 18304;
+	setAttr ".tgi[2].ni[48].x" -25037.142578125;
+	setAttr ".tgi[2].ni[48].y" 2145.71435546875;
+	setAttr ".tgi[2].ni[48].nvs" 18304;
+	setAttr ".tgi[2].ni[49].x" -24115.71484375;
+	setAttr ".tgi[2].ni[49].y" 1200;
+	setAttr ".tgi[2].ni[49].nvs" 18304;
+	setAttr ".tgi[2].ni[50].x" -24422.857421875;
+	setAttr ".tgi[2].ni[50].y" -2062.857177734375;
+	setAttr ".tgi[2].ni[50].nvs" 18304;
+	setAttr ".tgi[2].ni[51].x" -24422.857421875;
+	setAttr ".tgi[2].ni[51].y" 3618.571533203125;
+	setAttr ".tgi[2].ni[51].nvs" 18304;
+	setAttr ".tgi[2].ni[52].x" -24422.857421875;
+	setAttr ".tgi[2].ni[52].y" -927.14288330078125;
+	setAttr ".tgi[2].ni[52].nvs" 18304;
+	setAttr ".tgi[2].ni[53].x" -24115.71484375;
+	setAttr ".tgi[2].ni[53].y" 1098.5714111328125;
+	setAttr ".tgi[2].ni[53].nvs" 18304;
+	setAttr ".tgi[2].ni[54].x" -25037.142578125;
+	setAttr ".tgi[2].ni[54].y" 1415.7142333984375;
+	setAttr ".tgi[2].ni[54].nvs" 18304;
+	setAttr ".tgi[2].ni[55].x" -24730;
+	setAttr ".tgi[2].ni[55].y" -585.71429443359375;
+	setAttr ".tgi[2].ni[55].nvs" 18304;
+	setAttr ".tgi[2].ni[56].x" -24115.71484375;
+	setAttr ".tgi[2].ni[56].y" 997.14288330078125;
+	setAttr ".tgi[2].ni[56].nvs" 18304;
+	setAttr ".tgi[2].ni[57].x" -24422.857421875;
+	setAttr ".tgi[2].ni[57].y" 2995.71435546875;
+	setAttr ".tgi[2].ni[57].nvs" 18304;
+	setAttr ".tgi[2].ni[58].x" -24115.71484375;
+	setAttr ".tgi[2].ni[58].y" 895.71429443359375;
+	setAttr ".tgi[2].ni[58].nvs" 18304;
+	setAttr ".tgi[2].ni[59].x" -24730;
+	setAttr ".tgi[2].ni[59].y" 80;
+	setAttr ".tgi[2].ni[59].nvs" 18304;
+	setAttr ".tgi[2].ni[60].x" -24730;
+	setAttr ".tgi[2].ni[60].y" 828.5714111328125;
+	setAttr ".tgi[2].ni[60].nvs" 18304;
+	setAttr ".tgi[2].ni[61].x" -24115.71484375;
+	setAttr ".tgi[2].ni[61].y" 794.28570556640625;
+	setAttr ".tgi[2].ni[61].nvs" 18304;
+	setAttr ".tgi[2].ni[62].x" -24938.572265625;
+	setAttr ".tgi[2].ni[62].y" -3312.857177734375;
+	setAttr ".tgi[2].ni[62].nvs" 18304;
+	setAttr ".tgi[2].ni[63].x" -24730;
+	setAttr ".tgi[2].ni[63].y" 1437.142822265625;
+	setAttr ".tgi[2].ni[63].nvs" 18304;
+	setAttr ".tgi[2].ni[64].x" -24115.71484375;
+	setAttr ".tgi[2].ni[64].y" 692.85711669921875;
+	setAttr ".tgi[2].ni[64].nvs" 18304;
+	setAttr ".tgi[2].ni[65].x" -24422.857421875;
+	setAttr ".tgi[2].ni[65].y" 1998.5714111328125;
+	setAttr ".tgi[2].ni[65].nvs" 18304;
+	setAttr ".tgi[2].ni[66].x" -24730;
+	setAttr ".tgi[2].ni[66].y" 2857.142822265625;
+	setAttr ".tgi[2].ni[66].nvs" 18304;
+	setAttr ".tgi[2].ni[67].x" -25344.28515625;
+	setAttr ".tgi[2].ni[67].y" 2484.28564453125;
+	setAttr ".tgi[2].ni[67].nvs" 18304;
+	setAttr ".tgi[2].ni[68].x" -24730;
+	setAttr ".tgi[2].ni[68].y" 1031.4285888671875;
+	setAttr ".tgi[2].ni[68].nvs" 18304;
+	setAttr ".tgi[2].ni[69].x" -24115.71484375;
+	setAttr ".tgi[2].ni[69].y" 591.4285888671875;
+	setAttr ".tgi[2].ni[69].nvs" 18304;
+	setAttr ".tgi[2].ni[70].x" -26265.71484375;
+	setAttr ".tgi[2].ni[70].y" 2337.142822265625;
+	setAttr ".tgi[2].ni[70].nvs" 18305;
+	setAttr ".tgi[2].ni[71].x" -24730;
+	setAttr ".tgi[2].ni[71].y" -1397.142822265625;
+	setAttr ".tgi[2].ni[71].nvs" 18304;
+	setAttr ".tgi[2].ni[72].x" -25037.142578125;
+	setAttr ".tgi[2].ni[72].y" 1998.5714111328125;
+	setAttr ".tgi[2].ni[72].nvs" 18304;
+	setAttr ".tgi[2].ni[73].x" -24730;
+	setAttr ".tgi[2].ni[73].y" -122.85713958740234;
+	setAttr ".tgi[2].ni[73].nvs" 18304;
+	setAttr ".tgi[2].ni[74].x" -24730;
+	setAttr ".tgi[2].ni[74].y" 2552.857177734375;
+	setAttr ".tgi[2].ni[74].nvs" 18304;
+	setAttr ".tgi[2].ni[75].x" -24730;
+	setAttr ".tgi[2].ni[75].y" 3364.28564453125;
+	setAttr ".tgi[2].ni[75].nvs" 18304;
+	setAttr ".tgi[2].ni[76].x" -24730;
+	setAttr ".tgi[2].ni[76].y" -890;
+	setAttr ".tgi[2].ni[76].nvs" 18304;
+	setAttr ".tgi[2].ni[77].x" -24422.857421875;
+	setAttr ".tgi[2].ni[77].y" 3415.71435546875;
+	setAttr ".tgi[2].ni[77].nvs" 18304;
+	setAttr ".tgi[2].ni[78].x" -24115.71484375;
+	setAttr ".tgi[2].ni[78].y" 490;
+	setAttr ".tgi[2].ni[78].nvs" 18304;
+	setAttr ".tgi[2].ni[79].x" -24730;
+	setAttr ".tgi[2].ni[79].y" 1741.4285888671875;
+	setAttr ".tgi[2].ni[79].nvs" 18304;
+	setAttr ".tgi[2].ni[80].x" -24730;
+	setAttr ".tgi[2].ni[80].y" 3161.428466796875;
+	setAttr ".tgi[2].ni[80].nvs" 18304;
+	setAttr ".tgi[2].ni[81].x" -24730;
+	setAttr ".tgi[2].ni[81].y" 1842.857177734375;
+	setAttr ".tgi[2].ni[81].nvs" 18304;
+	setAttr ".tgi[2].ni[82].x" -24115.71484375;
+	setAttr ".tgi[2].ni[82].y" 287.14285278320312;
+	setAttr ".tgi[2].ni[82].nvs" 18304;
+	setAttr ".tgi[2].ni[83].x" -24422.857421875;
+	setAttr ".tgi[2].ni[83].y" 3264.28564453125;
+	setAttr ".tgi[2].ni[83].nvs" 18304;
+	setAttr ".tgi[2].ni[84].x" -25037.142578125;
+	setAttr ".tgi[2].ni[84].y" 2348.571533203125;
+	setAttr ".tgi[2].ni[84].nvs" 18304;
+	setAttr ".tgi[2].ni[85].x" -24422.857421875;
+	setAttr ".tgi[2].ni[85].y" 1655.7142333984375;
+	setAttr ".tgi[2].ni[85].nvs" 18304;
+	setAttr ".tgi[2].ni[86].x" -24115.71484375;
+	setAttr ".tgi[2].ni[86].y" 185.71427917480469;
+	setAttr ".tgi[2].ni[86].nvs" 18304;
+	setAttr ".tgi[2].ni[87].x" -24422.857421875;
+	setAttr ".tgi[2].ni[87].y" 3097.142822265625;
+	setAttr ".tgi[2].ni[87].nvs" 18304;
+	setAttr ".tgi[2].ni[88].x" -25651.427734375;
+	setAttr ".tgi[2].ni[88].y" 1948.5714111328125;
+	setAttr ".tgi[2].ni[88].nvs" 18304;
+	setAttr ".tgi[2].ni[89].x" -24730;
+	setAttr ".tgi[2].ni[89].y" -1092.857177734375;
+	setAttr ".tgi[2].ni[89].nvs" 18304;
+	setAttr ".tgi[2].ni[90].x" -24115.71484375;
+	setAttr ".tgi[2].ni[90].y" -118.57142639160156;
+	setAttr ".tgi[2].ni[90].nvs" 18304;
+	setAttr ".tgi[2].ni[91].x" -24730;
+	setAttr ".tgi[2].ni[91].y" 2350;
+	setAttr ".tgi[2].ni[91].nvs" 18304;
+	setAttr ".tgi[2].ni[92].x" -24730;
+	setAttr ".tgi[2].ni[92].y" 1640;
+	setAttr ".tgi[2].ni[92].nvs" 18304;
+	setAttr ".tgi[2].ni[93].x" -24115.71484375;
+	setAttr ".tgi[2].ni[93].y" -220;
+	setAttr ".tgi[2].ni[93].nvs" 18304;
+	setAttr ".tgi[2].ni[94].x" -24115.71484375;
+	setAttr ".tgi[2].ni[94].y" -321.42855834960938;
+	setAttr ".tgi[2].ni[94].nvs" 18304;
+	setAttr ".tgi[2].ni[95].x" -24730;
+	setAttr ".tgi[2].ni[95].y" -788.5714111328125;
+	setAttr ".tgi[2].ni[95].nvs" 18304;
+	setAttr ".tgi[2].ni[96].x" -24422.857421875;
+	setAttr ".tgi[2].ni[96].y" 1757.142822265625;
+	setAttr ".tgi[2].ni[96].nvs" 18304;
+	setAttr ".tgi[2].ni[97].x" -24730;
+	setAttr ".tgi[2].ni[97].y" -325.71429443359375;
+	setAttr ".tgi[2].ni[97].nvs" 18304;
+	setAttr ".tgi[2].ni[98].x" -25651.427734375;
+	setAttr ".tgi[2].ni[98].y" 2494.28564453125;
+	setAttr ".tgi[2].ni[98].nvs" 18304;
+	setAttr ".tgi[2].ni[99].x" -25037.142578125;
+	setAttr ".tgi[2].ni[99].y" 501.42855834960938;
+	setAttr ".tgi[2].ni[99].nvs" 18304;
+	setAttr ".tgi[2].ni[100].x" -24115.71484375;
+	setAttr ".tgi[2].ni[100].y" -524.28570556640625;
+	setAttr ".tgi[2].ni[100].nvs" 18304;
+	setAttr ".tgi[2].ni[101].x" -24422.857421875;
+	setAttr ".tgi[2].ni[101].y" 947.14288330078125;
+	setAttr ".tgi[2].ni[101].nvs" 18304;
+	setAttr ".tgi[2].ni[102].x" -24422.857421875;
+	setAttr ".tgi[2].ni[102].y" -1455.7142333984375;
+	setAttr ".tgi[2].ni[102].nvs" 18304;
+	setAttr ".tgi[2].ni[103].x" -24115.71484375;
+	setAttr ".tgi[2].ni[103].y" -625.71429443359375;
+	setAttr ".tgi[2].ni[103].nvs" 18304;
+	setAttr ".tgi[2].ni[104].x" -24422.857421875;
+	setAttr ".tgi[2].ni[104].y" 2764.28564453125;
+	setAttr ".tgi[2].ni[104].nvs" 18304;
+	setAttr ".tgi[2].ni[105].x" -24115.71484375;
+	setAttr ".tgi[2].ni[105].y" -727.14288330078125;
+	setAttr ".tgi[2].ni[105].nvs" 18304;
+	setAttr ".tgi[2].ni[106].x" -24115.71484375;
+	setAttr ".tgi[2].ni[106].y" -828.5714111328125;
+	setAttr ".tgi[2].ni[106].nvs" 18304;
+	setAttr ".tgi[2].ni[107].x" -24422.857421875;
+	setAttr ".tgi[2].ni[107].y" 761.4285888671875;
+	setAttr ".tgi[2].ni[107].nvs" 18304;
+	setAttr ".tgi[2].ni[108].x" -24730;
+	setAttr ".tgi[2].ni[108].y" -21.428571701049805;
+	setAttr ".tgi[2].ni[108].nvs" 18304;
+	setAttr ".tgi[2].ni[109].x" -24115.71484375;
+	setAttr ".tgi[2].ni[109].y" -930;
+	setAttr ".tgi[2].ni[109].nvs" 18304;
+	setAttr ".tgi[2].ni[110].x" -24115.71484375;
+	setAttr ".tgi[2].ni[110].y" -1031.4285888671875;
+	setAttr ".tgi[2].ni[110].nvs" 18304;
+	setAttr ".tgi[2].ni[111].x" -24730;
+	setAttr ".tgi[2].ni[111].y" 930;
+	setAttr ".tgi[2].ni[111].nvs" 18304;
+	setAttr ".tgi[2].ni[112].x" -24730;
+	setAttr ".tgi[2].ni[112].y" 3567.142822265625;
+	setAttr ".tgi[2].ni[112].nvs" 18304;
+	setAttr ".tgi[2].ni[113].x" -24115.71484375;
+	setAttr ".tgi[2].ni[113].y" -1132.857177734375;
+	setAttr ".tgi[2].ni[113].nvs" 18304;
+	setAttr ".tgi[2].ni[114].x" -24115.71484375;
+	setAttr ".tgi[2].ni[114].y" -1234.2857666015625;
+	setAttr ".tgi[2].ni[114].nvs" 18304;
+	setAttr ".tgi[2].ni[115].x" -24730;
+	setAttr ".tgi[2].ni[115].y" 1538.5714111328125;
+	setAttr ".tgi[2].ni[115].nvs" 18304;
+	setAttr ".tgi[2].ni[116].x" -24115.71484375;
+	setAttr ".tgi[2].ni[116].y" -1335.7142333984375;
+	setAttr ".tgi[2].ni[116].nvs" 18304;
+	setAttr ".tgi[2].ni[117].x" -24115.71484375;
+	setAttr ".tgi[2].ni[117].y" -1437.142822265625;
+	setAttr ".tgi[2].ni[117].nvs" 18304;
+	setAttr ".tgi[2].ni[118].x" -24730;
+	setAttr ".tgi[2].ni[118].y" 3668.571533203125;
+	setAttr ".tgi[2].ni[118].nvs" 18304;
+	setAttr ".tgi[2].ni[119].x" -24115.71484375;
+	setAttr ".tgi[2].ni[119].y" -1538.5714111328125;
+	setAttr ".tgi[2].ni[119].nvs" 18304;
+	setAttr ".tgi[2].ni[120].x" -24730;
+	setAttr ".tgi[2].ni[120].y" -1295.7142333984375;
+	setAttr ".tgi[2].ni[120].nvs" 18304;
+	setAttr ".tgi[2].ni[121].x" -25037.142578125;
+	setAttr ".tgi[2].ni[121].y" 2551.428466796875;
+	setAttr ".tgi[2].ni[121].nvs" 18304;
+	setAttr ".tgi[2].ni[122].x" -24422.857421875;
+	setAttr ".tgi[2].ni[122].y" 2121.428466796875;
+	setAttr ".tgi[2].ni[122].nvs" 18304;
+	setAttr ".tgi[2].ni[123].x" -24115.71484375;
+	setAttr ".tgi[2].ni[123].y" -1640;
+	setAttr ".tgi[2].ni[123].nvs" 18304;
+	setAttr ".tgi[2].ni[124].x" -25958.572265625;
+	setAttr ".tgi[2].ni[124].y" 2251.428466796875;
+	setAttr ".tgi[2].ni[124].nvs" 18304;
+	setAttr ".tgi[2].ni[125].x" -24422.857421875;
+	setAttr ".tgi[2].ni[125].y" -565.71429443359375;
+	setAttr ".tgi[2].ni[125].nvs" 18304;
+	setAttr ".tgi[2].ni[126].x" -24730;
+	setAttr ".tgi[2].ni[126].y" 2958.571533203125;
+	setAttr ".tgi[2].ni[126].nvs" 18304;
+	setAttr ".tgi[2].ni[127].x" -24115.71484375;
+	setAttr ".tgi[2].ni[127].y" -1741.4285888671875;
+	setAttr ".tgi[2].ni[127].nvs" 18304;
+	setAttr ".tgi[2].ni[128].x" -24730;
+	setAttr ".tgi[2].ni[128].y" 181.42857360839844;
+	setAttr ".tgi[2].ni[128].nvs" 18304;
+	setAttr ".tgi[2].ni[129].x" -24422.857421875;
+	setAttr ".tgi[2].ni[129].y" -1085.7142333984375;
+	setAttr ".tgi[2].ni[129].nvs" 18304;
+	setAttr ".tgi[2].ni[130].x" -24115.71484375;
+	setAttr ".tgi[2].ni[130].y" -1842.857177734375;
+	setAttr ".tgi[2].ni[130].nvs" 18304;
+	setAttr ".tgi[2].ni[131].x" -24422.857421875;
+	setAttr ".tgi[2].ni[131].y" 1235.7142333984375;
+	setAttr ".tgi[2].ni[131].nvs" 18304;
+	setAttr ".tgi[2].ni[132].x" -25344.28515625;
+	setAttr ".tgi[2].ni[132].y" 2281.428466796875;
+	setAttr ".tgi[2].ni[132].nvs" 18304;
+	setAttr ".tgi[2].ni[133].x" -24115.71484375;
+	setAttr ".tgi[2].ni[133].y" -1944.2857666015625;
+	setAttr ".tgi[2].ni[133].nvs" 18304;
+	setAttr ".tgi[2].ni[134].x" -24730;
+	setAttr ".tgi[2].ni[134].y" 2654.28564453125;
+	setAttr ".tgi[2].ni[134].nvs" 18304;
+	setAttr ".tgi[2].ni[135].x" -24730;
+	setAttr ".tgi[2].ni[135].y" -687.14288330078125;
+	setAttr ".tgi[2].ni[135].nvs" 18304;
+	setAttr ".tgi[2].ni[136].x" -24115.71484375;
+	setAttr ".tgi[2].ni[136].y" -2045.7142333984375;
+	setAttr ".tgi[2].ni[136].nvs" 18304;
+	setAttr ".tgi[2].ni[137].x" -25037.142578125;
+	setAttr ".tgi[2].ni[137].y" 1314.2857666015625;
+	setAttr ".tgi[2].ni[137].nvs" 18304;
+	setAttr ".tgi[2].ni[138].x" -24730;
+	setAttr ".tgi[2].ni[138].y" -991.4285888671875;
+	setAttr ".tgi[2].ni[138].nvs" 18304;
+	setAttr ".tgi[2].ni[139].x" -24115.71484375;
+	setAttr ".tgi[2].ni[139].y" -2147.142822265625;
+	setAttr ".tgi[2].ni[139].nvs" 18304;
+	setAttr ".tgi[2].ni[140].x" -24730;
+	setAttr ".tgi[2].ni[140].y" 3262.857177734375;
+	setAttr ".tgi[2].ni[140].nvs" 18304;
+	setAttr ".tgi[2].ni[141].x" -24422.857421875;
+	setAttr ".tgi[2].ni[141].y" 2222.857177734375;
+	setAttr ".tgi[2].ni[141].nvs" 18304;
+	setAttr ".tgi[2].ni[142].x" -24730;
+	setAttr ".tgi[2].ni[142].y" 2147.142822265625;
+	setAttr ".tgi[2].ni[142].nvs" 18304;
+	setAttr ".tgi[2].ni[143].x" -24730;
+	setAttr ".tgi[2].ni[143].y" 2451.428466796875;
+	setAttr ".tgi[2].ni[143].nvs" 18304;
+	setAttr ".tgi[2].ni[144].x" -24422.857421875;
+	setAttr ".tgi[2].ni[144].y" -1658.5714111328125;
+	setAttr ".tgi[2].ni[144].nvs" 18304;
+	setAttr ".tgi[2].ni[145].x" -25651.427734375;
+	setAttr ".tgi[2].ni[145].y" 2392.857177734375;
+	setAttr ".tgi[2].ni[145].nvs" 18304;
+	setAttr ".tgi[2].ni[146].x" -24115.71484375;
+	setAttr ".tgi[2].ni[146].y" -2248.571533203125;
+	setAttr ".tgi[2].ni[146].nvs" 18304;
+	setAttr ".tgi[2].ni[147].x" -24115.71484375;
+	setAttr ".tgi[2].ni[147].y" -2350;
+	setAttr ".tgi[2].ni[147].nvs" 18304;
+	setAttr ".tgi[2].ni[148].x" -24730;
+	setAttr ".tgi[2].ni[148].y" 3060;
+	setAttr ".tgi[2].ni[148].nvs" 18304;
+	setAttr ".tgi[2].ni[149].x" -24422.857421875;
+	setAttr ".tgi[2].ni[149].y" 2604.28564453125;
+	setAttr ".tgi[2].ni[149].nvs" 18304;
+	setAttr ".tgi[2].ni[150].x" -24115.71484375;
+	setAttr ".tgi[2].ni[150].y" -2451.428466796875;
+	setAttr ".tgi[2].ni[150].nvs" 18304;
+	setAttr ".tgi[2].ni[151].x" -25344.28515625;
+	setAttr ".tgi[2].ni[151].y" 987.14288330078125;
+	setAttr ".tgi[2].ni[151].nvs" 18304;
+	setAttr ".tgi[2].ni[152].x" -24115.71484375;
+	setAttr ".tgi[2].ni[152].y" -2552.857177734375;
+	setAttr ".tgi[2].ni[152].nvs" 18304;
+	setAttr ".tgi[2].ni[153].x" -24115.71484375;
+	setAttr ".tgi[2].ni[153].y" -2654.28564453125;
+	setAttr ".tgi[2].ni[153].nvs" 18304;
+	setAttr ".tgi[2].ni[154].x" -24115.71484375;
+	setAttr ".tgi[2].ni[154].y" -2755.71435546875;
+	setAttr ".tgi[2].ni[154].nvs" 18304;
+	setAttr ".tgi[2].ni[155].x" -24115.71484375;
+	setAttr ".tgi[2].ni[155].y" -2857.142822265625;
+	setAttr ".tgi[2].ni[155].nvs" 18304;
+	setAttr ".tgi[2].ni[156].x" -24422.857421875;
+	setAttr ".tgi[2].ni[156].y" -407.14285278320312;
+	setAttr ".tgi[2].ni[156].nvs" 18304;
+	setAttr ".tgi[2].ni[157].x" -24730;
+	setAttr ".tgi[2].ni[157].y" 2045.7142333984375;
+	setAttr ".tgi[2].ni[157].nvs" 18304;
+	setAttr ".tgi[2].ni[158].x" -24115.71484375;
+	setAttr ".tgi[2].ni[158].y" -2958.571533203125;
+	setAttr ".tgi[2].ni[158].nvs" 18304;
+	setAttr ".tgi[2].ni[159].x" -24730;
+	setAttr ".tgi[2].ni[159].y" -484.28570556640625;
+	setAttr ".tgi[2].ni[159].nvs" 18304;
+	setAttr ".tgi[2].ni[160].x" -24115.71484375;
+	setAttr ".tgi[2].ni[160].y" -3060;
+	setAttr ".tgi[2].ni[160].nvs" 18304;
+	setAttr ".tgi[2].ni[161].x" -24730;
+	setAttr ".tgi[2].ni[161].y" 1234.2857666015625;
+	setAttr ".tgi[2].ni[161].nvs" 18304;
 select -ne :time1;
 	setAttr -av -k on ".cch";
 	setAttr -k on ".fzn";
@@ -7243,7 +5487,7 @@ select -ne :defaultRenderUtilityList1;
 	setAttr -cb on ".ihi";
 	setAttr -av -k on ".nds";
 	setAttr -cb on ".bnm";
-	setAttr -s 104 ".u";
+	setAttr -s 105 ".u";
 select -ne :defaultRenderingList1;
 	setAttr -av -k on ".cch";
 	setAttr -k on ".ihi";
@@ -7614,114 +5858,6 @@ connectAttr "r_curve_loc_09Shape.wp" "r_curveShape.cp[8]";
 connectAttr "r_curve_loc_10Shape.wp" "r_curveShape.cp[9]";
 connectAttr "r_curve_loc_11Shape.wp" "r_curveShape.cp[10]";
 connectAttr "r_curve_loc_12Shape.wp" "r_curveShape.cp[11]";
-connectAttr "curve9_7_mpath5.ac" "l_loc_01.t";
-connectAttr "unitConversion48.o" "l_wide_joint_01.rx";
-connectAttr "curve9_7_mpath5.r" "l_narrow_joint_01.r";
-connectAttr "l_wide_joint_01.s" "l_narrow_joint_01.is";
-connectAttr "curve9_7_mpath4.ac" "l_loc_02.t";
-connectAttr "unitConversion47.o" "l_wide_joint_02.rx";
-connectAttr "curve9_7_mpath4.r" "l_narrow_joint_02.r";
-connectAttr "l_wide_joint_02.s" "l_narrow_joint_02.is";
-connectAttr "curve9_0_mpath.ac" "l_loc_03.t";
-connectAttr "curve9_0_mpath.msg" "l_wide_joint_03.sml";
-connectAttr "curve9_0_mpath.ro" "l_wide_joint_03.ro";
-connectAttr "unitConversion38.o" "l_wide_joint_03.rx";
-connectAttr "curve9_0_mpath.r" "l_narrow_joint_03.r";
-connectAttr "l_wide_joint_03.s" "l_narrow_joint_03.is";
-connectAttr "curve9_1_mpath.ac" "l_loc_04.t";
-connectAttr "unitConversion39.o" "l_wide_joint_04.rx";
-connectAttr "curve9_1_mpath.r" "l_narrow_joint_04.r";
-connectAttr "l_wide_joint_04.s" "l_narrow_joint_04.is";
-connectAttr "curve9_2_mpath.ac" "l_loc_05.t";
-connectAttr "unitConversion37.o" "l_wide_joint_05.rx";
-connectAttr "l_wide_joint_05.s" "l_narrow_joint_05.is";
-connectAttr "curve9_2_mpath.r" "l_narrow_joint_05.r";
-connectAttr "curve9_3_mpath.ac" "l_loc_06.t";
-connectAttr "unitConversion40.o" "l_wide_joint_06.rx";
-connectAttr "curve9_3_mpath.r" "l_narrow_joint_06.r";
-connectAttr "l_wide_joint_06.s" "l_narrow_joint_06.is";
-connectAttr "curve9_4_mpath.ac" "l_loc_07.t";
-connectAttr "unitConversion41.o" "l_wide_joint_07.rx";
-connectAttr "curve9_4_mpath.r" "l_narrow_joint_07.r";
-connectAttr "l_wide_joint_07.s" "l_narrow_joint_07.is";
-connectAttr "curve9_5_mpath.ac" "l_loc_08.t";
-connectAttr "unitConversion42.o" "l_wide_joint_08.rx";
-connectAttr "curve9_5_mpath.r" "l_narrow_joint_08.r";
-connectAttr "l_wide_joint_08.s" "l_narrow_joint_08.is";
-connectAttr "curve9_6_mpath.ac" "l_loc_09.t";
-connectAttr "unitConversion43.o" "l_wide_joint_09.rx";
-connectAttr "curve9_6_mpath.r" "l_narrow_joint_09.r";
-connectAttr "l_wide_joint_09.s" "l_narrow_joint_09.is";
-connectAttr "curve9_7_mpath.ac" "l_loc_10.t";
-connectAttr "unitConversion44.o" "l_wide_joint_10.rx";
-connectAttr "curve9_7_mpath.r" "l_narrow_joint_10.r";
-connectAttr "l_wide_joint_10.s" "l_narrow_joint_10.is";
-connectAttr "curve9_7_mpath1.ac" "l_loc_11.t";
-connectAttr "unitConversion45.o" "l_wide_joint_11.rx";
-connectAttr "curve9_7_mpath1.r" "l_narrow_joint_11.r";
-connectAttr "l_wide_joint_11.s" "l_narrow_joint_11.is";
-connectAttr "curve9_7_mpath2.ac" "l_loc_12.t";
-connectAttr "unitConversion49.o" "l_wide_joint_12.rx";
-connectAttr "curve9_7_mpath2.r" "l_narrow_joint_12.r";
-connectAttr "l_wide_joint_12.s" "l_narrow_joint_12.is";
-connectAttr "curve9_7_mpath3.ac" "l_loc_13.t";
-connectAttr "unitConversion50.o" "l_wide_joint_13.rx";
-connectAttr "curve9_7_mpath3.r" "l_narrow_joint_13.r";
-connectAttr "l_wide_joint_13.s" "l_narrow_joint_13.is";
-connectAttr "curve9_7_mpath6.ac" "r_loc_01.t";
-connectAttr "unitConversion73.o" "r_wide_joint_01.rx";
-connectAttr "curve9_7_mpath6.r" "r_narrow_joint_01.r";
-connectAttr "r_wide_joint_01.s" "r_narrow_joint_01.is";
-connectAttr "curve9_7_mpath7.ac" "r_loc_02.t";
-connectAttr "unitConversion74.o" "r_wide_joint_02.rx";
-connectAttr "curve9_7_mpath7.r" "r_narrow_joint_02.r";
-connectAttr "r_wide_joint_02.s" "r_narrow_joint_02.is";
-connectAttr "curve9_0_mpath1.ac" "r_loc_03.t";
-connectAttr "curve9_0_mpath1.msg" "r_wide_joint_03.sml";
-connectAttr "curve9_0_mpath1.ro" "r_wide_joint_03.ro";
-connectAttr "unitConversion75.o" "r_wide_joint_03.rx";
-connectAttr "curve9_0_mpath1.r" "r_narrow_joint_03.r";
-connectAttr "r_wide_joint_03.s" "r_narrow_joint_03.is";
-connectAttr "curve9_1_mpath1.ac" "r_loc_04.t";
-connectAttr "unitConversion76.o" "r_wide_joint_04.rx";
-connectAttr "curve9_1_mpath1.r" "r_narrow_joint_04.r";
-connectAttr "r_wide_joint_04.s" "r_narrow_joint_04.is";
-connectAttr "curve9_2_mpath1.ac" "r_loc_05.t";
-connectAttr "unitConversion77.o" "r_wide_joint_05.rx";
-connectAttr "r_wide_joint_05.s" "r_narrow_joint_05.is";
-connectAttr "curve9_2_mpath1.r" "r_narrow_joint_05.r";
-connectAttr "curve9_3_mpath1.ac" "r_loc_06.t";
-connectAttr "unitConversion78.o" "r_wide_joint_06.rx";
-connectAttr "curve9_3_mpath1.r" "r_narrow_joint_06.r";
-connectAttr "r_wide_joint_06.s" "r_narrow_joint_06.is";
-connectAttr "curve9_4_mpath1.ac" "r_loc_07.t";
-connectAttr "unitConversion79.o" "r_wide_joint_07.rx";
-connectAttr "curve9_4_mpath1.r" "r_narrow_joint_07.r";
-connectAttr "r_wide_joint_07.s" "r_narrow_joint_07.is";
-connectAttr "curve9_5_mpath1.ac" "r_loc_08.t";
-connectAttr "unitConversion80.o" "r_wide_joint_08.rx";
-connectAttr "curve9_5_mpath1.r" "r_narrow_joint_08.r";
-connectAttr "r_wide_joint_08.s" "r_narrow_joint_08.is";
-connectAttr "curve9_6_mpath1.ac" "r_loc_09.t";
-connectAttr "unitConversion81.o" "r_wide_joint_09.rx";
-connectAttr "curve9_6_mpath1.r" "r_narrow_joint_09.r";
-connectAttr "r_wide_joint_09.s" "r_narrow_joint_09.is";
-connectAttr "curve9_7_mpath8.ac" "r_loc_10.t";
-connectAttr "unitConversion82.o" "r_wide_joint_10.rx";
-connectAttr "curve9_7_mpath8.r" "r_narrow_joint_10.r";
-connectAttr "r_wide_joint_10.s" "r_narrow_joint_10.is";
-connectAttr "curve9_7_mpath9.ac" "r_loc_11.t";
-connectAttr "unitConversion83.o" "r_wide_joint_11.rx";
-connectAttr "curve9_7_mpath9.r" "r_narrow_joint_11.r";
-connectAttr "r_wide_joint_11.s" "r_narrow_joint_11.is";
-connectAttr "curve9_7_mpath10.ac" "r_loc_12.t";
-connectAttr "unitConversion84.o" "r_wide_joint_12.rx";
-connectAttr "curve9_7_mpath10.r" "r_narrow_joint_12.r";
-connectAttr "r_wide_joint_12.s" "r_narrow_joint_12.is";
-connectAttr "curve9_7_mpath11.ac" "r_loc_13.t";
-connectAttr "unitConversion85.o" "r_wide_joint_13.rx";
-connectAttr "curve9_7_mpath11.r" "r_narrow_joint_13.r";
-connectAttr "r_wide_joint_13.s" "r_narrow_joint_13.is";
 connectAttr "root_connector.wm" "controls.opm";
 connectAttr "multMatrix58.o" "l_brow_group.opm";
 connectAttr "l_brow.limits" "l_brow.mtye";
@@ -7791,43 +5927,72 @@ connectAttr "up_vis_condition.ocr" "l_brow_out_top.v";
 connectAttr "down_vis_condition.ocr" "l_brow_out_bot.v";
 connectAttr "multMatrix68.o" "l_brow_last.opm";
 connectAttr "multMatrix51.o" "r_brow_group.opm";
+connectAttr "l_brow.upLimit" "r_brow.xtyl";
+connectAttr "l_brow.downLimit" "r_brow.mtyl";
+connectAttr "l_browShape.ws" "r_browShape.cr";
 connectAttr "in_mainPoser.m" "r_brow_in_group.opm";
 connectAttr "multMatrix54.o" "r_brow_in_group_1.opm";
+connectAttr "l_brow_in_1Shape.ws" "r_brow_in_1Shape.cr";
 connectAttr "unitConversion59.o" "r_brow_local_2_rotateOffset.rz";
 connectAttr "multDoubleLinear81.o" "r_curve9_2_loc_moveOffset.tx";
 connectAttr "plusMinusAverage57.o1" "r_curve9_2_loc_moveOffset.ty";
 connectAttr "multMatrix60.o" "r_brow_local_2_group.opm";
 connectAttr "plusMinusAverage44.o3" "r_brow_local_2_group_1.t";
+connectAttr "l_brow_local_2Shape.ws" "r_brow_local_2Shape.cr";
 connectAttr "remapValue2.ov" "r_brow_local_1_moveOffset.tx";
 connectAttr "multDoubleLinear68.o" "r_brow_local_1_moveOffset.ty";
 connectAttr "multMatrix59.o" "r_brow_local_1_group.opm";
 connectAttr "plusMinusAverage37.o3" "r_brow_local_1_group_1.t";
+connectAttr "l_brow_local_1Shape.ws" "r_brow_local_1Shape.cr";
 connectAttr "multMatrix56.o" "r_brow_mid_group.opm";
 connectAttr "multMatrix53.o" "r_brow_mid_group_1.opm";
+connectAttr "l_brow_midShape.ws" "r_brow_midShape.cr";
 connectAttr "plusMinusAverage55.o1" "r_curve9_3_loc_moveOffset.ty";
 connectAttr "multMatrix61.o" "r_brow_local_3_group.opm";
 connectAttr "plusMinusAverage45.o3" "r_brow_local_3_group_1.t";
+connectAttr "l_brow_local_3Shape.ws" "r_brow_local_3Shape.cr";
 connectAttr "plusMinusAverage58.o1" "r_brow_local_4_moveOffset.ty";
 connectAttr "plusMinusAverage46.o3" "r_brow_local_4_group.t";
 connectAttr "multMatrix62.o" "r_brow_local_4_group.opm";
+connectAttr "l_brow_local_4Shape.ws" "r_brow_local_4Shape.cr";
 connectAttr "out_mainPoser.m" "r_brow_out_group.opm";
 connectAttr "multMatrix52.o" "r_brow_out_group_1.opm";
+connectAttr "l_brow_out_1Shape.ws" "r_brow_out_1Shape.cr";
 connectAttr "unitConversion86.o" "r_brow_local_out_rotateOffset.rz";
 connectAttr "plusMinusAverage56.o1" "r_curve9_5_loc_moveOffset.ty";
 connectAttr "multMatrix63.o" "r_brow_local_5_group.opm";
 connectAttr "plusMinusAverage47.o3" "r_brow_local_5_group_1.t";
+connectAttr "l_brow_local_5Shape.ws" "r_brow_local_5Shape.cr";
 connectAttr "multDoubleLinear77.o" "r_curve9_6_loc_moveOffset.ty";
 connectAttr "multMatrix64.o" "r_brow_local_6_group.opm";
 connectAttr "plusMinusAverage48.o3" "r_brow_local_6_group_1.t";
+connectAttr "l_brow_local_6Shape.ws" "r_brow_local_6Shape.cr";
 connectAttr "clamp18.opr" "r_brow_local_7_rotateOffset.tx";
 connectAttr "r_brow_out.rz" "r_brow_local_7_rotateOffset.rz";
 connectAttr "multMatrix65.o" "r_brow_local_7_group.opm";
+connectAttr "l_brow_local_7Shape.ws" "r_brow_local_7Shape.cr";
 connectAttr "multMatrix68.o" "r_brow_last.opm";
 connectAttr "multMatrix55.o" "brow_center_group.opm";
 connectAttr "multiplyDivide42.o" "brow_center_group_1.t";
 connectAttr "multMatrix66.o" "l_curve_loc_12.opm";
 connectAttr "multMatrix67.o" "r_curve_loc_12.opm";
 connectAttr "root_connector.wm" "root_outJoint.opm";
+connectAttr "root_outJoint.s" "center_outJoint.is";
+connectAttr "decomposeMatrix1.ot" "center_outJoint.t";
+connectAttr "decomposeMatrix1.or" "center_outJoint.r";
+connectAttr "decomposeMatrix1.os" "center_outJoint.s";
+connectAttr "setRange16.ox" "bs_weights.l_brow_1_up";
+connectAttr "setRange16.oy" "bs_weights.l_brow_2_up";
+connectAttr "setRange16.oz" "bs_weights.l_brow_3_up";
+connectAttr "setRange18.ox" "bs_weights.r_brow_1_up";
+connectAttr "setRange18.oy" "bs_weights.r_brow_2_up";
+connectAttr "setRange18.oz" "bs_weights.r_brow_3_up";
+connectAttr "setRange17.ox" "bs_weights.l_brow_1_down";
+connectAttr "setRange17.oy" "bs_weights.l_brow_2_down";
+connectAttr "setRange17.oz" "bs_weights.l_brow_3_down";
+connectAttr "setRange19.ox" "bs_weights.r_brow_1_down";
+connectAttr "setRange19.oy" "bs_weights.r_brow_2_down";
+connectAttr "setRange19.oz" "bs_weights.r_brow_3_down";
 relationship "link" ":lightLinker1" ":initialShadingGroup.message" ":defaultLightSet.message";
 relationship "link" ":lightLinker1" ":initialParticleSE.message" ":defaultLightSet.message";
 relationship "link" ":lightLinker1" "green_rsSG.message" ":defaultLightSet.message";
@@ -8042,8 +6207,6 @@ connectAttr "char_basic.msg" "materialInfo48.m";
 connectAttr "pasted__lambert1SG.msg" "pasted__materialInfo47.sg";
 connectAttr ":lambert1.msg" "pasted__materialInfo47.m";
 connectAttr ":lambert1.oc" "pasted__lambert1SG.ss";
-connectAttr "l_curveShape.ws" "curve9_1_mpath.gp";
-connectAttr "l_brow_in.wm" "curve9_1_mpath.wum";
 connectAttr "addDoubleLinear9.o" "plusMinusAverage24.i1[0]";
 connectAttr "addDoubleLinear10.o" "plusMinusAverage24.i1[1]";
 connectAttr "multDoubleLinear42.o" "multDoubleLinear1.i1";
@@ -8058,481 +6221,9 @@ connectAttr "l_brow_mid.rz" "unitConversion20.i";
 connectAttr "l_brow_out.rz" "unitConversion22.i";
 connectAttr "l_brow_mid.rz" "unitConversion24.i";
 connectAttr "l_brow_out.rz" "unitConversion26.i";
-connectAttr "curve9_gr.msg" "bindPose1.m[1]";
-connectAttr "l_wide_joint_05.msg" "bindPose1.m[2]";
-connectAttr "l_wide_joint_08.msg" "bindPose1.m[3]";
-connectAttr "l_wide_joint_06.msg" "bindPose1.m[4]";
-connectAttr "l_wide_joint_03.msg" "bindPose1.m[5]";
-connectAttr "l_wide_joint_09.msg" "bindPose1.m[6]";
-connectAttr "l_wide_joint_10.msg" "bindPose1.m[7]";
-connectAttr "l_wide_joint_04.msg" "bindPose1.m[8]";
-connectAttr "l_wide_joint_07.msg" "bindPose1.m[9]";
-connectAttr "l_wide_joint_11.msg" "bindPose1.m[10]";
-connectAttr "l_wide_joint_02.msg" "bindPose1.m[11]";
-connectAttr "l_wide_joint_01.msg" "bindPose1.m[12]";
-connectAttr "l_wide_joint_13.msg" "bindPose1.m[13]";
-connectAttr "l_wide_joint_12.msg" "bindPose1.m[14]";
-connectAttr "mod.msg" "bindPose1.m[15]";
-connectAttr "output.msg" "bindPose1.m[16]";
-connectAttr "system.msg" "bindPose1.m[17]";
-connectAttr "l_joints.msg" "bindPose1.m[18]";
-connectAttr "l_loc_05.msg" "bindPose1.m[19]";
-connectAttr "l_loc_08.msg" "bindPose1.m[20]";
-connectAttr "l_loc_06.msg" "bindPose1.m[21]";
-connectAttr "l_loc_03.msg" "bindPose1.m[22]";
-connectAttr "l_loc_09.msg" "bindPose1.m[23]";
-connectAttr "l_loc_10.msg" "bindPose1.m[24]";
-connectAttr "l_loc_04.msg" "bindPose1.m[25]";
-connectAttr "l_loc_07.msg" "bindPose1.m[26]";
-connectAttr "l_loc_11.msg" "bindPose1.m[27]";
-connectAttr "l_loc_02.msg" "bindPose1.m[28]";
-connectAttr "l_loc_01.msg" "bindPose1.m[29]";
-connectAttr "l_loc_13.msg" "bindPose1.m[30]";
-connectAttr "l_loc_12.msg" "bindPose1.m[31]";
-connectAttr "l_narrow_joint_03.msg" "bindPose1.m[32]";
-connectAttr "l_narrow_joint_04.msg" "bindPose1.m[33]";
-connectAttr "l_narrow_joint_12.msg" "bindPose1.m[34]";
-connectAttr "l_narrow_joint_11.msg" "bindPose1.m[35]";
-connectAttr "l_narrow_joint_10.msg" "bindPose1.m[36]";
-connectAttr "l_narrow_joint_05.msg" "bindPose1.m[37]";
-connectAttr "l_narrow_joint_06.msg" "bindPose1.m[38]";
-connectAttr "l_narrow_joint_07.msg" "bindPose1.m[39]";
-connectAttr "l_narrow_joint_09.msg" "bindPose1.m[40]";
-connectAttr "l_narrow_joint_01.msg" "bindPose1.m[41]";
-connectAttr "l_narrow_joint_08.msg" "bindPose1.m[42]";
-connectAttr "l_narrow_joint_13.msg" "bindPose1.m[43]";
-connectAttr "r_joints.msg" "bindPose1.m[44]";
-connectAttr "r_loc_07.msg" "bindPose1.m[45]";
-connectAttr "r_wide_joint_07.msg" "bindPose1.m[46]";
-connectAttr "r_loc_03.msg" "bindPose1.m[47]";
-connectAttr "r_wide_joint_03.msg" "bindPose1.m[48]";
-connectAttr "r_loc_10.msg" "bindPose1.m[49]";
-connectAttr "r_wide_joint_10.msg" "bindPose1.m[50]";
-connectAttr "r_loc_02.msg" "bindPose1.m[51]";
-connectAttr "r_wide_joint_02.msg" "bindPose1.m[52]";
-connectAttr "r_loc_06.msg" "bindPose1.m[53]";
-connectAttr "r_wide_joint_06.msg" "bindPose1.m[54]";
-connectAttr "r_loc_01.msg" "bindPose1.m[55]";
-connectAttr "r_wide_joint_01.msg" "bindPose1.m[56]";
-connectAttr "r_loc_11.msg" "bindPose1.m[57]";
-connectAttr "r_wide_joint_11.msg" "bindPose1.m[58]";
-connectAttr "r_loc_13.msg" "bindPose1.m[59]";
-connectAttr "r_wide_joint_13.msg" "bindPose1.m[60]";
-connectAttr "r_loc_12.msg" "bindPose1.m[61]";
-connectAttr "r_wide_joint_12.msg" "bindPose1.m[62]";
-connectAttr "r_loc_09.msg" "bindPose1.m[63]";
-connectAttr "r_wide_joint_09.msg" "bindPose1.m[64]";
-connectAttr "r_loc_08.msg" "bindPose1.m[65]";
-connectAttr "r_wide_joint_08.msg" "bindPose1.m[66]";
-connectAttr "r_loc_04.msg" "bindPose1.m[67]";
-connectAttr "r_wide_joint_04.msg" "bindPose1.m[68]";
-connectAttr "r_loc_05.msg" "bindPose1.m[69]";
-connectAttr "r_wide_joint_05.msg" "bindPose1.m[70]";
-connectAttr "r_narrow_joint_01.msg" "bindPose1.m[71]";
-connectAttr "r_narrow_joint_02.msg" "bindPose1.m[72]";
-connectAttr "r_narrow_joint_03.msg" "bindPose1.m[73]";
-connectAttr "r_narrow_joint_04.msg" "bindPose1.m[74]";
-connectAttr "r_narrow_joint_05.msg" "bindPose1.m[75]";
-connectAttr "r_narrow_joint_06.msg" "bindPose1.m[76]";
-connectAttr "r_narrow_joint_07.msg" "bindPose1.m[77]";
-connectAttr "r_narrow_joint_08.msg" "bindPose1.m[78]";
-connectAttr "r_narrow_joint_09.msg" "bindPose1.m[79]";
-connectAttr "r_narrow_joint_10.msg" "bindPose1.m[80]";
-connectAttr "r_narrow_joint_11.msg" "bindPose1.m[81]";
-connectAttr "r_narrow_joint_12.msg" "bindPose1.m[82]";
-connectAttr "r_narrow_joint_13.msg" "bindPose1.m[83]";
-connectAttr "bindPose1.m[16]" "bindPose1.p[0]";
-connectAttr "bindPose1.w" "bindPose1.p[1]";
-connectAttr "bindPose1.m[19]" "bindPose1.p[2]";
-connectAttr "bindPose1.m[20]" "bindPose1.p[3]";
-connectAttr "bindPose1.m[21]" "bindPose1.p[4]";
-connectAttr "bindPose1.m[22]" "bindPose1.p[5]";
-connectAttr "bindPose1.m[23]" "bindPose1.p[6]";
-connectAttr "bindPose1.m[24]" "bindPose1.p[7]";
-connectAttr "bindPose1.m[25]" "bindPose1.p[8]";
-connectAttr "bindPose1.m[26]" "bindPose1.p[9]";
-connectAttr "bindPose1.m[27]" "bindPose1.p[10]";
-connectAttr "bindPose1.m[28]" "bindPose1.p[11]";
-connectAttr "bindPose1.m[29]" "bindPose1.p[12]";
-connectAttr "bindPose1.m[30]" "bindPose1.p[13]";
-connectAttr "bindPose1.m[31]" "bindPose1.p[14]";
-connectAttr "bindPose1.w" "bindPose1.p[15]";
-connectAttr "mod.msg" "bindPose1.p[16]";
-connectAttr "bindPose1.m[15]" "bindPose1.p[17]";
-connectAttr "system.msg" "bindPose1.p[18]";
-connectAttr "l_joints.msg" "bindPose1.p[19]";
-connectAttr "bindPose1.m[18]" "bindPose1.p[20]";
-connectAttr "bindPose1.m[18]" "bindPose1.p[21]";
-connectAttr "bindPose1.m[18]" "bindPose1.p[22]";
-connectAttr "bindPose1.m[18]" "bindPose1.p[23]";
-connectAttr "bindPose1.m[18]" "bindPose1.p[24]";
-connectAttr "bindPose1.m[18]" "bindPose1.p[25]";
-connectAttr "bindPose1.m[18]" "bindPose1.p[26]";
-connectAttr "bindPose1.m[18]" "bindPose1.p[27]";
-connectAttr "bindPose1.m[18]" "bindPose1.p[28]";
-connectAttr "bindPose1.m[18]" "bindPose1.p[29]";
-connectAttr "bindPose1.m[18]" "bindPose1.p[30]";
-connectAttr "bindPose1.m[18]" "bindPose1.p[31]";
-connectAttr "bindPose1.m[5]" "bindPose1.p[32]";
-connectAttr "bindPose1.m[8]" "bindPose1.p[33]";
-connectAttr "bindPose1.m[14]" "bindPose1.p[34]";
-connectAttr "bindPose1.m[10]" "bindPose1.p[35]";
-connectAttr "bindPose1.m[7]" "bindPose1.p[36]";
-connectAttr "bindPose1.m[2]" "bindPose1.p[37]";
-connectAttr "bindPose1.m[4]" "bindPose1.p[38]";
-connectAttr "bindPose1.m[9]" "bindPose1.p[39]";
-connectAttr "bindPose1.m[6]" "bindPose1.p[40]";
-connectAttr "bindPose1.m[12]" "bindPose1.p[41]";
-connectAttr "bindPose1.m[3]" "bindPose1.p[42]";
-connectAttr "bindPose1.m[13]" "bindPose1.p[43]";
-connectAttr "bindPose1.m[17]" "bindPose1.p[44]";
-connectAttr "r_joints.msg" "bindPose1.p[45]";
-connectAttr "r_loc_07.msg" "bindPose1.p[46]";
-connectAttr "bindPose1.m[44]" "bindPose1.p[47]";
-connectAttr "r_loc_03.msg" "bindPose1.p[48]";
-connectAttr "bindPose1.m[44]" "bindPose1.p[49]";
-connectAttr "r_loc_10.msg" "bindPose1.p[50]";
-connectAttr "bindPose1.m[44]" "bindPose1.p[51]";
-connectAttr "r_loc_02.msg" "bindPose1.p[52]";
-connectAttr "bindPose1.m[44]" "bindPose1.p[53]";
-connectAttr "r_loc_06.msg" "bindPose1.p[54]";
-connectAttr "bindPose1.m[44]" "bindPose1.p[55]";
-connectAttr "r_loc_01.msg" "bindPose1.p[56]";
-connectAttr "bindPose1.m[44]" "bindPose1.p[57]";
-connectAttr "r_loc_11.msg" "bindPose1.p[58]";
-connectAttr "bindPose1.m[44]" "bindPose1.p[59]";
-connectAttr "r_loc_13.msg" "bindPose1.p[60]";
-connectAttr "bindPose1.m[44]" "bindPose1.p[61]";
-connectAttr "r_loc_12.msg" "bindPose1.p[62]";
-connectAttr "bindPose1.m[44]" "bindPose1.p[63]";
-connectAttr "r_loc_09.msg" "bindPose1.p[64]";
-connectAttr "bindPose1.m[44]" "bindPose1.p[65]";
-connectAttr "r_loc_08.msg" "bindPose1.p[66]";
-connectAttr "bindPose1.m[44]" "bindPose1.p[67]";
-connectAttr "r_loc_04.msg" "bindPose1.p[68]";
-connectAttr "bindPose1.m[44]" "bindPose1.p[69]";
-connectAttr "r_loc_05.msg" "bindPose1.p[70]";
-connectAttr "bindPose1.m[56]" "bindPose1.p[71]";
-connectAttr "bindPose1.m[52]" "bindPose1.p[72]";
-connectAttr "bindPose1.m[48]" "bindPose1.p[73]";
-connectAttr "bindPose1.m[68]" "bindPose1.p[74]";
-connectAttr "bindPose1.m[70]" "bindPose1.p[75]";
-connectAttr "bindPose1.m[54]" "bindPose1.p[76]";
-connectAttr "bindPose1.m[46]" "bindPose1.p[77]";
-connectAttr "bindPose1.m[66]" "bindPose1.p[78]";
-connectAttr "bindPose1.m[64]" "bindPose1.p[79]";
-connectAttr "bindPose1.m[50]" "bindPose1.p[80]";
-connectAttr "bindPose1.m[58]" "bindPose1.p[81]";
-connectAttr "bindPose1.m[62]" "bindPose1.p[82]";
-connectAttr "bindPose1.m[60]" "bindPose1.p[83]";
-connectAttr "l_wide_joint_05.bps" "bindPose1.wm[2]";
-connectAttr "l_wide_joint_08.bps" "bindPose1.wm[3]";
-connectAttr "l_wide_joint_06.bps" "bindPose1.wm[4]";
-connectAttr "l_wide_joint_03.bps" "bindPose1.wm[5]";
-connectAttr "l_wide_joint_09.bps" "bindPose1.wm[6]";
-connectAttr "l_wide_joint_10.bps" "bindPose1.wm[7]";
-connectAttr "l_wide_joint_04.bps" "bindPose1.wm[8]";
-connectAttr "l_wide_joint_07.bps" "bindPose1.wm[9]";
-connectAttr "l_wide_joint_11.bps" "bindPose1.wm[10]";
-connectAttr "l_wide_joint_02.bps" "bindPose1.wm[11]";
-connectAttr "l_wide_joint_01.bps" "bindPose1.wm[12]";
-connectAttr "l_wide_joint_13.bps" "bindPose1.wm[13]";
-connectAttr "l_wide_joint_12.bps" "bindPose1.wm[14]";
-connectAttr "l_narrow_joint_03.bps" "bindPose1.wm[32]";
-connectAttr "l_narrow_joint_04.bps" "bindPose1.wm[33]";
-connectAttr "l_narrow_joint_12.bps" "bindPose1.wm[34]";
-connectAttr "l_narrow_joint_11.bps" "bindPose1.wm[35]";
-connectAttr "l_narrow_joint_10.bps" "bindPose1.wm[36]";
-connectAttr "l_narrow_joint_05.bps" "bindPose1.wm[37]";
-connectAttr "l_narrow_joint_06.bps" "bindPose1.wm[38]";
-connectAttr "l_narrow_joint_07.bps" "bindPose1.wm[39]";
-connectAttr "l_narrow_joint_09.bps" "bindPose1.wm[40]";
-connectAttr "l_narrow_joint_01.bps" "bindPose1.wm[41]";
-connectAttr "l_narrow_joint_08.bps" "bindPose1.wm[42]";
-connectAttr "l_narrow_joint_13.bps" "bindPose1.wm[43]";
-connectAttr "r_wide_joint_07.bps" "bindPose1.wm[46]";
-connectAttr "r_wide_joint_03.bps" "bindPose1.wm[48]";
-connectAttr "r_wide_joint_10.bps" "bindPose1.wm[50]";
-connectAttr "r_wide_joint_02.bps" "bindPose1.wm[52]";
-connectAttr "r_wide_joint_06.bps" "bindPose1.wm[54]";
-connectAttr "r_wide_joint_01.bps" "bindPose1.wm[56]";
-connectAttr "r_wide_joint_11.bps" "bindPose1.wm[58]";
-connectAttr "r_wide_joint_13.bps" "bindPose1.wm[60]";
-connectAttr "r_wide_joint_12.bps" "bindPose1.wm[62]";
-connectAttr "r_wide_joint_09.bps" "bindPose1.wm[64]";
-connectAttr "r_wide_joint_08.bps" "bindPose1.wm[66]";
-connectAttr "r_wide_joint_04.bps" "bindPose1.wm[68]";
-connectAttr "r_wide_joint_05.bps" "bindPose1.wm[70]";
-connectAttr "r_narrow_joint_01.bps" "bindPose1.wm[71]";
-connectAttr "r_narrow_joint_02.bps" "bindPose1.wm[72]";
-connectAttr "r_narrow_joint_03.bps" "bindPose1.wm[73]";
-connectAttr "r_narrow_joint_04.bps" "bindPose1.wm[74]";
-connectAttr "r_narrow_joint_05.bps" "bindPose1.wm[75]";
-connectAttr "r_narrow_joint_06.bps" "bindPose1.wm[76]";
-connectAttr "r_narrow_joint_07.bps" "bindPose1.wm[77]";
-connectAttr "r_narrow_joint_08.bps" "bindPose1.wm[78]";
-connectAttr "r_narrow_joint_09.bps" "bindPose1.wm[79]";
-connectAttr "r_narrow_joint_10.bps" "bindPose1.wm[80]";
-connectAttr "r_narrow_joint_11.bps" "bindPose1.wm[81]";
-connectAttr "r_narrow_joint_12.bps" "bindPose1.wm[82]";
-connectAttr "r_narrow_joint_13.bps" "bindPose1.wm[83]";
 connectAttr "pasted__lambert1SG1.msg" "pasted__materialInfo48.sg";
 connectAttr ":lambert1.msg" "pasted__materialInfo48.m";
 connectAttr ":lambert1.oc" "pasted__lambert1SG1.ss";
-connectAttr "curve9_gr.msg" "bindPose2.m[1]";
-connectAttr "l_wide_joint_05.msg" "bindPose2.m[2]";
-connectAttr "l_wide_joint_08.msg" "bindPose2.m[3]";
-connectAttr "l_wide_joint_06.msg" "bindPose2.m[4]";
-connectAttr "l_wide_joint_03.msg" "bindPose2.m[5]";
-connectAttr "l_wide_joint_09.msg" "bindPose2.m[6]";
-connectAttr "l_wide_joint_10.msg" "bindPose2.m[7]";
-connectAttr "l_wide_joint_04.msg" "bindPose2.m[8]";
-connectAttr "l_wide_joint_07.msg" "bindPose2.m[9]";
-connectAttr "l_wide_joint_11.msg" "bindPose2.m[10]";
-connectAttr "l_wide_joint_02.msg" "bindPose2.m[11]";
-connectAttr "l_wide_joint_01.msg" "bindPose2.m[12]";
-connectAttr "l_wide_joint_13.msg" "bindPose2.m[13]";
-connectAttr "l_wide_joint_12.msg" "bindPose2.m[14]";
-connectAttr "l_narrow_joint_03.msg" "bindPose2.m[15]";
-connectAttr "l_narrow_joint_04.msg" "bindPose2.m[16]";
-connectAttr "l_narrow_joint_12.msg" "bindPose2.m[17]";
-connectAttr "l_narrow_joint_11.msg" "bindPose2.m[18]";
-connectAttr "l_narrow_joint_10.msg" "bindPose2.m[19]";
-connectAttr "l_narrow_joint_05.msg" "bindPose2.m[20]";
-connectAttr "l_narrow_joint_06.msg" "bindPose2.m[21]";
-connectAttr "l_narrow_joint_07.msg" "bindPose2.m[22]";
-connectAttr "l_narrow_joint_08.msg" "bindPose2.m[23]";
-connectAttr "l_narrow_joint_09.msg" "bindPose2.m[24]";
-connectAttr "l_narrow_joint_13.msg" "bindPose2.m[25]";
-connectAttr "l_narrow_joint_01.msg" "bindPose2.m[27]";
-connectAttr "r_wide_joint_07.msg" "bindPose2.m[28]";
-connectAttr "r_wide_joint_03.msg" "bindPose2.m[29]";
-connectAttr "r_wide_joint_10.msg" "bindPose2.m[30]";
-connectAttr "r_wide_joint_02.msg" "bindPose2.m[31]";
-connectAttr "r_wide_joint_06.msg" "bindPose2.m[32]";
-connectAttr "r_wide_joint_01.msg" "bindPose2.m[33]";
-connectAttr "r_wide_joint_11.msg" "bindPose2.m[34]";
-connectAttr "r_wide_joint_13.msg" "bindPose2.m[35]";
-connectAttr "r_wide_joint_12.msg" "bindPose2.m[36]";
-connectAttr "r_wide_joint_09.msg" "bindPose2.m[37]";
-connectAttr "r_wide_joint_08.msg" "bindPose2.m[38]";
-connectAttr "r_wide_joint_04.msg" "bindPose2.m[39]";
-connectAttr "r_wide_joint_05.msg" "bindPose2.m[40]";
-connectAttr "r_narrow_joint_01.msg" "bindPose2.m[41]";
-connectAttr "r_narrow_joint_02.msg" "bindPose2.m[42]";
-connectAttr "r_narrow_joint_03.msg" "bindPose2.m[43]";
-connectAttr "r_narrow_joint_04.msg" "bindPose2.m[44]";
-connectAttr "r_narrow_joint_05.msg" "bindPose2.m[45]";
-connectAttr "r_narrow_joint_06.msg" "bindPose2.m[46]";
-connectAttr "r_narrow_joint_07.msg" "bindPose2.m[47]";
-connectAttr "r_narrow_joint_08.msg" "bindPose2.m[48]";
-connectAttr "r_narrow_joint_09.msg" "bindPose2.m[49]";
-connectAttr "r_narrow_joint_10.msg" "bindPose2.m[50]";
-connectAttr "r_narrow_joint_11.msg" "bindPose2.m[51]";
-connectAttr "r_narrow_joint_12.msg" "bindPose2.m[52]";
-connectAttr "r_narrow_joint_13.msg" "bindPose2.m[53]";
-connectAttr "center_joint.msg" "bindPose2.m[54]";
-connectAttr "bindPose2.w" "bindPose2.p[0]";
-connectAttr "bindPose2.w" "bindPose2.p[1]";
-connectAttr "bindPose2.m[1]" "bindPose2.p[2]";
-connectAttr "bindPose2.m[1]" "bindPose2.p[3]";
-connectAttr "bindPose2.m[1]" "bindPose2.p[4]";
-connectAttr "bindPose2.m[1]" "bindPose2.p[5]";
-connectAttr "bindPose2.m[1]" "bindPose2.p[6]";
-connectAttr "bindPose2.m[1]" "bindPose2.p[7]";
-connectAttr "bindPose2.m[1]" "bindPose2.p[8]";
-connectAttr "bindPose2.m[1]" "bindPose2.p[9]";
-connectAttr "bindPose2.m[1]" "bindPose2.p[10]";
-connectAttr "bindPose2.m[1]" "bindPose2.p[11]";
-connectAttr "bindPose2.m[1]" "bindPose2.p[12]";
-connectAttr "bindPose2.m[1]" "bindPose2.p[13]";
-connectAttr "bindPose2.m[1]" "bindPose2.p[14]";
-connectAttr "bindPose2.m[5]" "bindPose2.p[15]";
-connectAttr "bindPose2.m[8]" "bindPose2.p[16]";
-connectAttr "bindPose2.m[14]" "bindPose2.p[17]";
-connectAttr "bindPose2.m[10]" "bindPose2.p[18]";
-connectAttr "bindPose2.m[7]" "bindPose2.p[19]";
-connectAttr "bindPose2.m[2]" "bindPose2.p[20]";
-connectAttr "bindPose2.m[4]" "bindPose2.p[21]";
-connectAttr "bindPose2.m[9]" "bindPose2.p[22]";
-connectAttr "bindPose2.m[3]" "bindPose2.p[23]";
-connectAttr "bindPose2.m[6]" "bindPose2.p[24]";
-connectAttr "bindPose2.m[13]" "bindPose2.p[25]";
-connectAttr "bindPose2.m[11]" "bindPose2.p[26]";
-connectAttr "bindPose2.m[12]" "bindPose2.p[27]";
-connectAttr "r_loc_07.msg" "bindPose2.p[28]";
-connectAttr "r_loc_03.msg" "bindPose2.p[29]";
-connectAttr "r_loc_10.msg" "bindPose2.p[30]";
-connectAttr "r_loc_02.msg" "bindPose2.p[31]";
-connectAttr "r_loc_06.msg" "bindPose2.p[32]";
-connectAttr "r_loc_01.msg" "bindPose2.p[33]";
-connectAttr "r_loc_11.msg" "bindPose2.p[34]";
-connectAttr "r_loc_13.msg" "bindPose2.p[35]";
-connectAttr "r_loc_12.msg" "bindPose2.p[36]";
-connectAttr "r_loc_09.msg" "bindPose2.p[37]";
-connectAttr "r_loc_08.msg" "bindPose2.p[38]";
-connectAttr "r_loc_04.msg" "bindPose2.p[39]";
-connectAttr "r_loc_05.msg" "bindPose2.p[40]";
-connectAttr "bindPose2.m[33]" "bindPose2.p[41]";
-connectAttr "bindPose2.m[31]" "bindPose2.p[42]";
-connectAttr "bindPose2.m[29]" "bindPose2.p[43]";
-connectAttr "bindPose2.m[39]" "bindPose2.p[44]";
-connectAttr "bindPose2.m[40]" "bindPose2.p[45]";
-connectAttr "bindPose2.m[32]" "bindPose2.p[46]";
-connectAttr "bindPose2.m[28]" "bindPose2.p[47]";
-connectAttr "bindPose2.m[38]" "bindPose2.p[48]";
-connectAttr "bindPose2.m[37]" "bindPose2.p[49]";
-connectAttr "bindPose2.m[30]" "bindPose2.p[50]";
-connectAttr "bindPose2.m[34]" "bindPose2.p[51]";
-connectAttr "bindPose2.m[36]" "bindPose2.p[52]";
-connectAttr "bindPose2.m[35]" "bindPose2.p[53]";
-connectAttr "brow_center.msg" "bindPose2.p[54]";
-connectAttr "l_narrow_joint_03.bps" "bindPose2.wm[15]";
-connectAttr "l_narrow_joint_04.bps" "bindPose2.wm[16]";
-connectAttr "l_narrow_joint_12.bps" "bindPose2.wm[17]";
-connectAttr "l_narrow_joint_11.bps" "bindPose2.wm[18]";
-connectAttr "l_narrow_joint_10.bps" "bindPose2.wm[19]";
-connectAttr "l_narrow_joint_05.bps" "bindPose2.wm[20]";
-connectAttr "l_narrow_joint_06.bps" "bindPose2.wm[21]";
-connectAttr "l_narrow_joint_07.bps" "bindPose2.wm[22]";
-connectAttr "l_narrow_joint_08.bps" "bindPose2.wm[23]";
-connectAttr "l_narrow_joint_09.bps" "bindPose2.wm[24]";
-connectAttr "l_narrow_joint_13.bps" "bindPose2.wm[25]";
-connectAttr "l_narrow_joint_01.bps" "bindPose2.wm[27]";
-connectAttr "r_wide_joint_07.bps" "bindPose2.wm[28]";
-connectAttr "r_wide_joint_03.bps" "bindPose2.wm[29]";
-connectAttr "r_wide_joint_10.bps" "bindPose2.wm[30]";
-connectAttr "r_wide_joint_02.bps" "bindPose2.wm[31]";
-connectAttr "r_wide_joint_06.bps" "bindPose2.wm[32]";
-connectAttr "r_wide_joint_01.bps" "bindPose2.wm[33]";
-connectAttr "r_wide_joint_11.bps" "bindPose2.wm[34]";
-connectAttr "r_wide_joint_13.bps" "bindPose2.wm[35]";
-connectAttr "r_wide_joint_12.bps" "bindPose2.wm[36]";
-connectAttr "r_wide_joint_09.bps" "bindPose2.wm[37]";
-connectAttr "r_wide_joint_08.bps" "bindPose2.wm[38]";
-connectAttr "r_wide_joint_04.bps" "bindPose2.wm[39]";
-connectAttr "r_wide_joint_05.bps" "bindPose2.wm[40]";
-connectAttr "r_narrow_joint_01.bps" "bindPose2.wm[41]";
-connectAttr "r_narrow_joint_02.bps" "bindPose2.wm[42]";
-connectAttr "r_narrow_joint_03.bps" "bindPose2.wm[43]";
-connectAttr "r_narrow_joint_04.bps" "bindPose2.wm[44]";
-connectAttr "r_narrow_joint_05.bps" "bindPose2.wm[45]";
-connectAttr "r_narrow_joint_06.bps" "bindPose2.wm[46]";
-connectAttr "r_narrow_joint_07.bps" "bindPose2.wm[47]";
-connectAttr "r_narrow_joint_08.bps" "bindPose2.wm[48]";
-connectAttr "r_narrow_joint_09.bps" "bindPose2.wm[49]";
-connectAttr "r_narrow_joint_10.bps" "bindPose2.wm[50]";
-connectAttr "r_narrow_joint_11.bps" "bindPose2.wm[51]";
-connectAttr "r_narrow_joint_12.bps" "bindPose2.wm[52]";
-connectAttr "r_narrow_joint_13.bps" "bindPose2.wm[53]";
-connectAttr "center_joint.bps" "bindPose2.wm[54]";
-connectAttr "curve9_gr.msg" "bindPose3.m[1]";
-connectAttr "l_wide_joint_05.msg" "bindPose3.m[2]";
-connectAttr "l_wide_joint_08.msg" "bindPose3.m[3]";
-connectAttr "l_wide_joint_06.msg" "bindPose3.m[4]";
-connectAttr "l_wide_joint_03.msg" "bindPose3.m[5]";
-connectAttr "l_wide_joint_09.msg" "bindPose3.m[6]";
-connectAttr "l_wide_joint_10.msg" "bindPose3.m[7]";
-connectAttr "l_wide_joint_04.msg" "bindPose3.m[8]";
-connectAttr "l_wide_joint_07.msg" "bindPose3.m[9]";
-connectAttr "l_wide_joint_11.msg" "bindPose3.m[10]";
-connectAttr "l_wide_joint_02.msg" "bindPose3.m[11]";
-connectAttr "l_wide_joint_01.msg" "bindPose3.m[12]";
-connectAttr "l_wide_joint_13.msg" "bindPose3.m[13]";
-connectAttr "l_wide_joint_12.msg" "bindPose3.m[14]";
-connectAttr "l_narrow_joint_03.msg" "bindPose3.m[15]";
-connectAttr "l_narrow_joint_04.msg" "bindPose3.m[16]";
-connectAttr "l_narrow_joint_12.msg" "bindPose3.m[17]";
-connectAttr "l_narrow_joint_11.msg" "bindPose3.m[18]";
-connectAttr "l_narrow_joint_10.msg" "bindPose3.m[19]";
-connectAttr "l_narrow_joint_05.msg" "bindPose3.m[20]";
-connectAttr "l_narrow_joint_06.msg" "bindPose3.m[21]";
-connectAttr "l_narrow_joint_07.msg" "bindPose3.m[22]";
-connectAttr "l_narrow_joint_08.msg" "bindPose3.m[23]";
-connectAttr "l_narrow_joint_09.msg" "bindPose3.m[24]";
-connectAttr "l_narrow_joint_13.msg" "bindPose3.m[25]";
-connectAttr "l_narrow_joint_01.msg" "bindPose3.m[27]";
-connectAttr "bindPose3.w" "bindPose3.p[0]";
-connectAttr "bindPose3.w" "bindPose3.p[1]";
-connectAttr "bindPose3.m[1]" "bindPose3.p[2]";
-connectAttr "bindPose3.m[1]" "bindPose3.p[3]";
-connectAttr "bindPose3.m[1]" "bindPose3.p[4]";
-connectAttr "bindPose3.m[1]" "bindPose3.p[5]";
-connectAttr "bindPose3.m[1]" "bindPose3.p[6]";
-connectAttr "bindPose3.m[1]" "bindPose3.p[7]";
-connectAttr "bindPose3.m[1]" "bindPose3.p[8]";
-connectAttr "bindPose3.m[1]" "bindPose3.p[9]";
-connectAttr "bindPose3.m[1]" "bindPose3.p[10]";
-connectAttr "bindPose3.m[1]" "bindPose3.p[11]";
-connectAttr "bindPose3.m[1]" "bindPose3.p[12]";
-connectAttr "bindPose3.m[1]" "bindPose3.p[13]";
-connectAttr "bindPose3.m[1]" "bindPose3.p[14]";
-connectAttr "bindPose3.m[5]" "bindPose3.p[15]";
-connectAttr "bindPose3.m[8]" "bindPose3.p[16]";
-connectAttr "bindPose3.m[14]" "bindPose3.p[17]";
-connectAttr "bindPose3.m[10]" "bindPose3.p[18]";
-connectAttr "bindPose3.m[7]" "bindPose3.p[19]";
-connectAttr "bindPose3.m[2]" "bindPose3.p[20]";
-connectAttr "bindPose3.m[4]" "bindPose3.p[21]";
-connectAttr "bindPose3.m[9]" "bindPose3.p[22]";
-connectAttr "bindPose3.m[3]" "bindPose3.p[23]";
-connectAttr "bindPose3.m[6]" "bindPose3.p[24]";
-connectAttr "bindPose3.m[13]" "bindPose3.p[25]";
-connectAttr "bindPose3.m[11]" "bindPose3.p[26]";
-connectAttr "bindPose3.m[12]" "bindPose3.p[27]";
-connectAttr "curve9_gr.msg" "bindPose4.m[1]";
-connectAttr "l_wide_joint_05.msg" "bindPose4.m[2]";
-connectAttr "l_wide_joint_08.msg" "bindPose4.m[3]";
-connectAttr "l_wide_joint_06.msg" "bindPose4.m[4]";
-connectAttr "l_wide_joint_03.msg" "bindPose4.m[5]";
-connectAttr "l_wide_joint_09.msg" "bindPose4.m[6]";
-connectAttr "l_wide_joint_10.msg" "bindPose4.m[7]";
-connectAttr "l_wide_joint_04.msg" "bindPose4.m[8]";
-connectAttr "l_wide_joint_07.msg" "bindPose4.m[9]";
-connectAttr "l_wide_joint_11.msg" "bindPose4.m[10]";
-connectAttr "l_wide_joint_02.msg" "bindPose4.m[11]";
-connectAttr "l_wide_joint_01.msg" "bindPose4.m[12]";
-connectAttr "l_wide_joint_13.msg" "bindPose4.m[13]";
-connectAttr "l_wide_joint_12.msg" "bindPose4.m[14]";
-connectAttr "l_narrow_joint_03.msg" "bindPose4.m[15]";
-connectAttr "l_narrow_joint_04.msg" "bindPose4.m[16]";
-connectAttr "l_narrow_joint_12.msg" "bindPose4.m[17]";
-connectAttr "l_narrow_joint_11.msg" "bindPose4.m[18]";
-connectAttr "l_narrow_joint_10.msg" "bindPose4.m[19]";
-connectAttr "l_narrow_joint_05.msg" "bindPose4.m[20]";
-connectAttr "l_narrow_joint_06.msg" "bindPose4.m[21]";
-connectAttr "l_narrow_joint_07.msg" "bindPose4.m[22]";
-connectAttr "l_narrow_joint_09.msg" "bindPose4.m[23]";
-connectAttr "l_narrow_joint_13.msg" "bindPose4.m[24]";
-connectAttr "l_narrow_joint_01.msg" "bindPose4.m[25]";
-connectAttr "l_narrow_joint_08.msg" "bindPose4.m[26]";
-connectAttr "bindPose4.w" "bindPose4.p[0]";
-connectAttr "bindPose4.w" "bindPose4.p[1]";
-connectAttr "bindPose4.m[1]" "bindPose4.p[2]";
-connectAttr "bindPose4.m[1]" "bindPose4.p[3]";
-connectAttr "bindPose4.m[1]" "bindPose4.p[4]";
-connectAttr "bindPose4.m[1]" "bindPose4.p[5]";
-connectAttr "bindPose4.m[1]" "bindPose4.p[6]";
-connectAttr "bindPose4.m[1]" "bindPose4.p[7]";
-connectAttr "bindPose4.m[1]" "bindPose4.p[8]";
-connectAttr "bindPose4.m[1]" "bindPose4.p[9]";
-connectAttr "bindPose4.m[1]" "bindPose4.p[10]";
-connectAttr "bindPose4.m[1]" "bindPose4.p[11]";
-connectAttr "bindPose4.m[1]" "bindPose4.p[12]";
-connectAttr "bindPose4.m[1]" "bindPose4.p[13]";
-connectAttr "bindPose4.m[1]" "bindPose4.p[14]";
-connectAttr "bindPose4.m[5]" "bindPose4.p[15]";
-connectAttr "bindPose4.m[8]" "bindPose4.p[16]";
-connectAttr "bindPose4.m[14]" "bindPose4.p[17]";
-connectAttr "bindPose4.m[10]" "bindPose4.p[18]";
-connectAttr "bindPose4.m[7]" "bindPose4.p[19]";
-connectAttr "bindPose4.m[2]" "bindPose4.p[20]";
-connectAttr "bindPose4.m[4]" "bindPose4.p[21]";
-connectAttr "bindPose4.m[9]" "bindPose4.p[22]";
-connectAttr "bindPose4.m[6]" "bindPose4.p[23]";
-connectAttr "bindPose4.m[13]" "bindPose4.p[24]";
-connectAttr "bindPose4.m[12]" "bindPose4.p[25]";
-connectAttr "bindPose4.m[3]" "bindPose4.p[26]";
 connectAttr "l_brow_mid.ty" "addDoubleLinear9.i1";
 connectAttr "l_brow.ty" "addDoubleLinear9.i2";
 connectAttr "l_brow_out.ty" "addDoubleLinear10.i1";
@@ -8562,120 +6253,6 @@ connectAttr "blendMatrix4.omat" "multMatrix50.i[1]";
 connectAttr "layerManager.dli[2]" "geometry.id";
 connectAttr "l_brow.limitPositions" "up_vis_condition.ft";
 connectAttr "l_brow.limitPositions" "down_vis_condition.ft";
-connectAttr "l_curveShape.ws" "curve9_7_mpath1.gp";
-connectAttr "l_brow_out.wm" "curve9_7_mpath1.wum";
-connectAttr "l_curveShape.ws" "curve9_7_mpath5.gp";
-connectAttr "l_brow_in.wm" "curve9_7_mpath5.wum";
-connectAttr "l_curveShape.ws" "curve9_2_mpath.gp";
-connectAttr "blendMatrix7.omat" "curve9_2_mpath.wum";
-connectAttr "l_curveShape.ws" "curve9_0_mpath.gp";
-connectAttr "l_brow_in.wm" "curve9_0_mpath.wum";
-connectAttr "l_curveShape.ws" "curve9_7_mpath3.gp";
-connectAttr "l_brow_out.wm" "curve9_7_mpath3.wum";
-connectAttr "l_curveShape.ws" "curve9_7_mpath4.gp";
-connectAttr "l_brow_in.wm" "curve9_7_mpath4.wum";
-connectAttr "l_curveShape.ws" "curve9_7_mpath2.gp";
-connectAttr "l_brow_out.wm" "curve9_7_mpath2.wum";
-connectAttr "l_curveShape.ws" "curve9_6_mpath.gp";
-connectAttr "blendMatrix10.omat" "curve9_6_mpath.wum";
-connectAttr "l_curveShape.ws" "curve9_7_mpath.gp";
-connectAttr "l_brow_out.wm" "curve9_7_mpath.wum";
-connectAttr "l_curveShape.ws" "curve9_3_mpath.gp";
-connectAttr "blendMatrix8.omat" "curve9_3_mpath.wum";
-connectAttr "l_curveShape.ws" "curve9_5_mpath.gp";
-connectAttr "blendMatrix9.omat" "curve9_5_mpath.wum";
-connectAttr "setRange29.ox" "addDoubleLinear18.i1";
-connectAttr "setRange29.oy" "addDoubleLinear18.i2";
-connectAttr "addDoubleLinear18.o" "unitConversion45.i";
-connectAttr "curve9_7_mpath1.yc" "setRange29.vx";
-connectAttr "curve9_7_mpath1.yc" "setRange29.vy";
-connectAttr "l_brow.upRotateJoints" "setRange29.mx";
-connectAttr "l_brow.downRotateJoints" "setRange29.ny";
-connectAttr "setRange32.ox" "addDoubleLinear21.i1";
-connectAttr "setRange32.oy" "addDoubleLinear21.i2";
-connectAttr "addDoubleLinear21.o" "unitConversion48.i";
-connectAttr "curve9_7_mpath5.yc" "setRange32.vx";
-connectAttr "curve9_7_mpath5.yc" "setRange32.vy";
-connectAttr "l_brow.upRotateJoints" "setRange32.mx";
-connectAttr "l_brow.downRotateJoints" "setRange32.ny";
-connectAttr "setRange21.ox" "addDoubleLinear23.i1";
-connectAttr "setRange21.oy" "addDoubleLinear23.i2";
-connectAttr "addDoubleLinear23.o" "unitConversion37.i";
-connectAttr "curve9_2_mpath.yc" "setRange21.vx";
-connectAttr "curve9_2_mpath.yc" "setRange21.vy";
-connectAttr "l_brow.upRotateJoints" "setRange21.mx";
-connectAttr "l_brow.downRotateJoints" "setRange21.ny";
-connectAttr "setRange22.ox" "addDoubleLinear11.i1";
-connectAttr "setRange22.oy" "addDoubleLinear11.i2";
-connectAttr "addDoubleLinear11.o" "unitConversion38.i";
-connectAttr "curve9_0_mpath.yc" "setRange22.vx";
-connectAttr "curve9_0_mpath.yc" "setRange22.vy";
-connectAttr "l_brow.upRotateJoints" "setRange22.mx";
-connectAttr "l_brow.downRotateJoints" "setRange22.ny";
-connectAttr "setRange31.ox" "addDoubleLinear20.i1";
-connectAttr "setRange31.oy" "addDoubleLinear20.i2";
-connectAttr "addDoubleLinear20.o" "unitConversion47.i";
-connectAttr "curve9_7_mpath4.yc" "setRange31.vx";
-connectAttr "curve9_7_mpath4.yc" "setRange31.vy";
-connectAttr "l_brow.upRotateJoints" "setRange31.mx";
-connectAttr "l_brow.downRotateJoints" "setRange31.ny";
-connectAttr "setRange33.ox" "addDoubleLinear22.i1";
-connectAttr "setRange33.oy" "addDoubleLinear22.i2";
-connectAttr "addDoubleLinear22.o" "unitConversion49.i";
-connectAttr "curve9_7_mpath2.yc" "setRange33.vx";
-connectAttr "curve9_7_mpath2.yc" "setRange33.vy";
-connectAttr "l_brow.upRotateJoints" "setRange33.mx";
-connectAttr "l_brow.downRotateJoints" "setRange33.ny";
-connectAttr "setRange27.ox" "addDoubleLinear16.i1";
-connectAttr "setRange27.oy" "addDoubleLinear16.i2";
-connectAttr "addDoubleLinear16.o" "unitConversion43.i";
-connectAttr "curve9_6_mpath.yc" "setRange27.vx";
-connectAttr "curve9_6_mpath.yc" "setRange27.vy";
-connectAttr "l_brow.upRotateJoints" "setRange27.mx";
-connectAttr "l_brow.downRotateJoints" "setRange27.ny";
-connectAttr "setRange28.ox" "addDoubleLinear17.i1";
-connectAttr "setRange28.oy" "addDoubleLinear17.i2";
-connectAttr "addDoubleLinear17.o" "unitConversion44.i";
-connectAttr "curve9_7_mpath.yc" "setRange28.vx";
-connectAttr "curve9_7_mpath.yc" "setRange28.vy";
-connectAttr "l_brow.upRotateJoints" "setRange28.mx";
-connectAttr "l_brow.downRotateJoints" "setRange28.ny";
-connectAttr "setRange24.ox" "addDoubleLinear13.i1";
-connectAttr "setRange24.oy" "addDoubleLinear13.i2";
-connectAttr "addDoubleLinear13.o" "unitConversion40.i";
-connectAttr "curve9_3_mpath.yc" "setRange24.vx";
-connectAttr "curve9_3_mpath.yc" "setRange24.vy";
-connectAttr "l_brow.upRotateJoints" "setRange24.mx";
-connectAttr "l_brow.downRotateJoints" "setRange24.ny";
-connectAttr "setRange26.ox" "addDoubleLinear15.i1";
-connectAttr "setRange26.oy" "addDoubleLinear15.i2";
-connectAttr "addDoubleLinear15.o" "unitConversion42.i";
-connectAttr "curve9_5_mpath.yc" "setRange26.vx";
-connectAttr "curve9_5_mpath.yc" "setRange26.vy";
-connectAttr "l_brow.upRotateJoints" "setRange26.mx";
-connectAttr "l_brow.downRotateJoints" "setRange26.ny";
-connectAttr "l_brow_in.wm" "blendMatrix7.imat";
-connectAttr "l_brow_mid.wm" "blendMatrix7.tgt[0].tmat";
-connectAttr "l_brow_in.wm" "blendMatrix8.imat";
-connectAttr "l_brow_mid.wm" "blendMatrix8.tgt[0].tmat";
-connectAttr "l_brow_mid.wm" "blendMatrix9.imat";
-connectAttr "l_brow_out.wm" "blendMatrix9.tgt[0].tmat";
-connectAttr "l_brow_mid.wm" "blendMatrix10.imat";
-connectAttr "l_brow_out.wm" "blendMatrix10.tgt[0].tmat";
-connectAttr "setRange30.ox" "addDoubleLinear19.i1";
-connectAttr "setRange30.oy" "addDoubleLinear19.i2";
-connectAttr "curve9_7_mpath3.yc" "setRange30.vx";
-connectAttr "curve9_7_mpath3.yc" "setRange30.vy";
-connectAttr "l_brow.upRotateJoints" "setRange30.mx";
-connectAttr "l_brow.downRotateJoints" "setRange30.ny";
-connectAttr "addDoubleLinear12.o" "unitConversion39.i";
-connectAttr "setRange23.ox" "addDoubleLinear12.i1";
-connectAttr "setRange23.oy" "addDoubleLinear12.i2";
-connectAttr "curve9_1_mpath.yc" "setRange23.vx";
-connectAttr "curve9_1_mpath.yc" "setRange23.vy";
-connectAttr "l_brow.upRotateJoints" "setRange23.mx";
-connectAttr "l_brow.downRotateJoints" "setRange23.ny";
-connectAttr "addDoubleLinear19.o" "unitConversion50.i";
 connectAttr "up_vis_condition.ocg" "multDoubleLinear6.i1";
 connectAttr "down_vis_condition.ocg" "multDoubleLinear6.i2";
 connectAttr "multDoubleLinear4.o" "plusMinusAverage26.i1[0]";
@@ -8701,7 +6278,6 @@ connectAttr "unitConversion26.o" "multDoubleLinear19.i1";
 connectAttr "l_brow_out.rotateToMove2" "multDoubleLinear19.i2";
 connectAttr "unitConversion26.o" "multDoubleLinear22.i1";
 connectAttr "l_brow_out.rotateToLength" "multDoubleLinear22.i2";
-connectAttr "multDoubleLinear22.o" "clamp14.ipr";
 connectAttr "multMatrix58.o" "multMatrix51.i[0]";
 connectAttr "composeMatrix4.omat" "multMatrix51.i[1]";
 connectAttr "r_brow_in.rz" "unitConversion59.i";
@@ -8793,137 +6369,6 @@ connectAttr "up_down_setRange1.ox" "blendColors27.b";
 connectAttr "l_brow_local_6_bot.t" "blendColors27.c1";
 connectAttr "blendColors26.op" "plusMinusAverage48.i3[0]";
 connectAttr "blendColors27.op" "plusMinusAverage48.i3[1]";
-connectAttr "up_down_setRange1.oy" "blendColors28.b";
-connectAttr "l_brow_local_7_top.t" "blendColors28.c1";
-connectAttr "up_down_setRange1.ox" "blendColors29.b";
-connectAttr "l_brow_local_7_bot.t" "blendColors29.c1";
-connectAttr "blendColors28.op" "plusMinusAverage49.i3[0]";
-connectAttr "blendColors29.op" "plusMinusAverage49.i3[1]";
-connectAttr "r_curveShape.ws" "curve9_7_mpath6.gp";
-connectAttr "r_brow_in.wm" "curve9_7_mpath6.wum";
-connectAttr "addDoubleLinear35.o" "unitConversion73.i";
-connectAttr "setRange34.ox" "addDoubleLinear35.i1";
-connectAttr "setRange34.oy" "addDoubleLinear35.i2";
-connectAttr "curve9_7_mpath6.yc" "setRange34.vx";
-connectAttr "curve9_7_mpath6.yc" "setRange34.vy";
-connectAttr "l_brow.upRotateJoints" "setRange34.mx";
-connectAttr "l_brow.downRotateJoints" "setRange34.ny";
-connectAttr "r_curveShape.ws" "curve9_7_mpath7.gp";
-connectAttr "r_brow_in.wm" "curve9_7_mpath7.wum";
-connectAttr "addDoubleLinear36.o" "unitConversion74.i";
-connectAttr "setRange35.ox" "addDoubleLinear36.i1";
-connectAttr "setRange35.oy" "addDoubleLinear36.i2";
-connectAttr "curve9_7_mpath7.yc" "setRange35.vx";
-connectAttr "curve9_7_mpath7.yc" "setRange35.vy";
-connectAttr "l_brow.upRotateJoints" "setRange35.mx";
-connectAttr "l_brow.downRotateJoints" "setRange35.ny";
-connectAttr "r_curveShape.ws" "curve9_0_mpath1.gp";
-connectAttr "r_brow_in.wm" "curve9_0_mpath1.wum";
-connectAttr "addDoubleLinear37.o" "unitConversion75.i";
-connectAttr "setRange36.ox" "addDoubleLinear37.i1";
-connectAttr "setRange36.oy" "addDoubleLinear37.i2";
-connectAttr "curve9_0_mpath1.yc" "setRange36.vx";
-connectAttr "curve9_0_mpath1.yc" "setRange36.vy";
-connectAttr "l_brow.upRotateJoints" "setRange36.mx";
-connectAttr "l_brow.downRotateJoints" "setRange36.ny";
-connectAttr "r_curveShape.ws" "curve9_1_mpath1.gp";
-connectAttr "r_brow_in.wm" "curve9_1_mpath1.wum";
-connectAttr "addDoubleLinear38.o" "unitConversion76.i";
-connectAttr "setRange37.ox" "addDoubleLinear38.i1";
-connectAttr "setRange37.oy" "addDoubleLinear38.i2";
-connectAttr "curve9_1_mpath1.yc" "setRange37.vx";
-connectAttr "curve9_1_mpath1.yc" "setRange37.vy";
-connectAttr "l_brow.upRotateJoints" "setRange37.mx";
-connectAttr "l_brow.downRotateJoints" "setRange37.ny";
-connectAttr "r_curveShape.ws" "curve9_2_mpath1.gp";
-connectAttr "blendMatrix23.omat" "curve9_2_mpath1.wum";
-connectAttr "r_brow_in.wm" "blendMatrix23.imat";
-connectAttr "r_brow_mid.wm" "blendMatrix23.tgt[0].tmat";
-connectAttr "addDoubleLinear39.o" "unitConversion77.i";
-connectAttr "setRange38.ox" "addDoubleLinear39.i1";
-connectAttr "setRange38.oy" "addDoubleLinear39.i2";
-connectAttr "curve9_2_mpath1.yc" "setRange38.vx";
-connectAttr "curve9_2_mpath1.yc" "setRange38.vy";
-connectAttr "l_brow.upRotateJoints" "setRange38.mx";
-connectAttr "l_brow.downRotateJoints" "setRange38.ny";
-connectAttr "r_curveShape.ws" "curve9_3_mpath1.gp";
-connectAttr "blendMatrix24.omat" "curve9_3_mpath1.wum";
-connectAttr "r_brow_in.wm" "blendMatrix24.imat";
-connectAttr "r_brow_mid.wm" "blendMatrix24.tgt[0].tmat";
-connectAttr "addDoubleLinear40.o" "unitConversion78.i";
-connectAttr "setRange39.ox" "addDoubleLinear40.i1";
-connectAttr "setRange39.oy" "addDoubleLinear40.i2";
-connectAttr "curve9_3_mpath1.yc" "setRange39.vx";
-connectAttr "curve9_3_mpath1.yc" "setRange39.vy";
-connectAttr "l_brow.upRotateJoints" "setRange39.mx";
-connectAttr "l_brow.downRotateJoints" "setRange39.ny";
-connectAttr "r_curveShape.ws" "curve9_4_mpath1.gp";
-connectAttr "r_brow_mid.wm" "curve9_4_mpath1.wum";
-connectAttr "addDoubleLinear41.o" "unitConversion79.i";
-connectAttr "setRange40.ox" "addDoubleLinear41.i1";
-connectAttr "setRange40.oy" "addDoubleLinear41.i2";
-connectAttr "curve9_4_mpath1.yc" "setRange40.vx";
-connectAttr "curve9_4_mpath1.yc" "setRange40.vy";
-connectAttr "l_brow.upRotateJoints" "setRange40.mx";
-connectAttr "l_brow.downRotateJoints" "setRange40.ny";
-connectAttr "r_curveShape.ws" "curve9_5_mpath1.gp";
-connectAttr "blendMatrix25.omat" "curve9_5_mpath1.wum";
-connectAttr "r_brow_mid.wm" "blendMatrix25.imat";
-connectAttr "r_brow_out.wm" "blendMatrix25.tgt[0].tmat";
-connectAttr "addDoubleLinear42.o" "unitConversion80.i";
-connectAttr "setRange41.ox" "addDoubleLinear42.i1";
-connectAttr "setRange41.oy" "addDoubleLinear42.i2";
-connectAttr "curve9_5_mpath1.yc" "setRange41.vx";
-connectAttr "curve9_5_mpath1.yc" "setRange41.vy";
-connectAttr "l_brow.upRotateJoints" "setRange41.mx";
-connectAttr "l_brow.downRotateJoints" "setRange41.ny";
-connectAttr "r_curveShape.ws" "curve9_6_mpath1.gp";
-connectAttr "blendMatrix26.omat" "curve9_6_mpath1.wum";
-connectAttr "r_brow_mid.wm" "blendMatrix26.imat";
-connectAttr "r_brow_out.wm" "blendMatrix26.tgt[0].tmat";
-connectAttr "addDoubleLinear43.o" "unitConversion81.i";
-connectAttr "setRange42.ox" "addDoubleLinear43.i1";
-connectAttr "setRange42.oy" "addDoubleLinear43.i2";
-connectAttr "curve9_6_mpath1.yc" "setRange42.vx";
-connectAttr "curve9_6_mpath1.yc" "setRange42.vy";
-connectAttr "l_brow.upRotateJoints" "setRange42.mx";
-connectAttr "l_brow.downRotateJoints" "setRange42.ny";
-connectAttr "r_curveShape.ws" "curve9_7_mpath8.gp";
-connectAttr "r_brow_out.wm" "curve9_7_mpath8.wum";
-connectAttr "addDoubleLinear44.o" "unitConversion82.i";
-connectAttr "setRange43.ox" "addDoubleLinear44.i1";
-connectAttr "setRange43.oy" "addDoubleLinear44.i2";
-connectAttr "curve9_7_mpath8.yc" "setRange43.vx";
-connectAttr "curve9_7_mpath8.yc" "setRange43.vy";
-connectAttr "l_brow.upRotateJoints" "setRange43.mx";
-connectAttr "l_brow.downRotateJoints" "setRange43.ny";
-connectAttr "r_curveShape.ws" "curve9_7_mpath9.gp";
-connectAttr "r_brow_out.wm" "curve9_7_mpath9.wum";
-connectAttr "addDoubleLinear45.o" "unitConversion83.i";
-connectAttr "setRange44.ox" "addDoubleLinear45.i1";
-connectAttr "setRange44.oy" "addDoubleLinear45.i2";
-connectAttr "curve9_7_mpath9.yc" "setRange44.vx";
-connectAttr "curve9_7_mpath9.yc" "setRange44.vy";
-connectAttr "l_brow.upRotateJoints" "setRange44.mx";
-connectAttr "l_brow.downRotateJoints" "setRange44.ny";
-connectAttr "r_curveShape.ws" "curve9_7_mpath10.gp";
-connectAttr "r_brow_out.wm" "curve9_7_mpath10.wum";
-connectAttr "addDoubleLinear46.o" "unitConversion84.i";
-connectAttr "setRange45.ox" "addDoubleLinear46.i1";
-connectAttr "setRange45.oy" "addDoubleLinear46.i2";
-connectAttr "curve9_7_mpath10.yc" "setRange45.vx";
-connectAttr "curve9_7_mpath10.yc" "setRange45.vy";
-connectAttr "l_brow.upRotateJoints" "setRange45.mx";
-connectAttr "l_brow.downRotateJoints" "setRange45.ny";
-connectAttr "r_curveShape.ws" "curve9_7_mpath11.gp";
-connectAttr "r_brow_out.wm" "curve9_7_mpath11.wum";
-connectAttr "addDoubleLinear47.o" "unitConversion85.i";
-connectAttr "setRange46.ox" "addDoubleLinear47.i1";
-connectAttr "setRange46.oy" "addDoubleLinear47.i2";
-connectAttr "curve9_7_mpath11.yc" "setRange46.vx";
-connectAttr "curve9_7_mpath11.yc" "setRange46.vy";
-connectAttr "l_brow.upRotateJoints" "setRange46.mx";
-connectAttr "l_brow.downRotateJoints" "setRange46.ny";
 connectAttr "plusMinusAverage51.o3" "plusMinusAverage50.i3[0]";
 connectAttr "multiplyDivide41.o" "plusMinusAverage50.i3[1]";
 connectAttr "l_brow.t" "plusMinusAverage51.i3[0]";
@@ -8931,15 +6376,6 @@ connectAttr "l_brow_in.t" "plusMinusAverage51.i3[1]";
 connectAttr "r_brow_in.t" "plusMinusAverage52.i3[0]";
 connectAttr "r_brow.t" "plusMinusAverage52.i3[1]";
 connectAttr "plusMinusAverage52.o3" "multiplyDivide41.i1";
-connectAttr "addDoubleLinear14.o" "unitConversion41.i";
-connectAttr "setRange25.ox" "addDoubleLinear14.i1";
-connectAttr "setRange25.oy" "addDoubleLinear14.i2";
-connectAttr "curve9_4_mpath.yc" "setRange25.vx";
-connectAttr "curve9_4_mpath.yc" "setRange25.vy";
-connectAttr "l_brow.upRotateJoints" "setRange25.mx";
-connectAttr "l_brow.downRotateJoints" "setRange25.ny";
-connectAttr "l_curveShape.ws" "curve9_4_mpath.gp";
-connectAttr "l_brow_mid.wm" "curve9_4_mpath.wum";
 connectAttr "in_cluster4GroupId.msg" "in_cluster4Set.gn" -na;
 connectAttr "in_mainPoserShape.iog.og[1]" "in_cluster4Set.dsm" -na;
 connectAttr "in_mainPoser_clusterHandleCluster.msg" "in_cluster4Set.ub[0]";
@@ -9237,21 +6673,323 @@ connectAttr "multDoubleLinear22.o" "remapValue3.i";
 connectAttr "root_outJoint.iog" "skinJointsSet.dsm" -na;
 connectAttr "local_8_poser.wm" "multMatrix68.i[0]";
 connectAttr "full_mainPoser.wim" "multMatrix68.i[1]";
-connectAttr "l_wide_joint_13.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn";
-connectAttr "l_brow_out.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn";
-connectAttr "clamp14.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn";
-connectAttr "skinJointsSet.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn";
-connectAttr "unitConversion26.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn"
+connectAttr "center_joint.wm" "multMatrix69.i[0]";
+connectAttr "root_outJoint.wim" "multMatrix69.i[1]";
+connectAttr "multMatrix69.o" "decomposeMatrix1.imat";
+connectAttr "plusMinusAverage59.o3x" "setRange16.vx";
+connectAttr "plusMinusAverage59.o3y" "setRange16.vy";
+connectAttr "plusMinusAverage59.o3z" "setRange16.vz";
+connectAttr "l_brow.upLimit" "setRange16.omx";
+connectAttr "l_brow.upLimit" "setRange16.omy";
+connectAttr "l_brow.upLimit" "setRange16.omz";
+connectAttr "l_brow.ty" "plusMinusAverage59.i3[0].i3x";
+connectAttr "l_brow.ty" "plusMinusAverage59.i3[0].i3y";
+connectAttr "l_brow.ty" "plusMinusAverage59.i3[0].i3z";
+connectAttr "l_brow_in.ty" "plusMinusAverage59.i3[1].i3x";
+connectAttr "l_brow_mid.ty" "plusMinusAverage59.i3[1].i3y";
+connectAttr "l_brow_out.ty" "plusMinusAverage59.i3[1].i3z";
+connectAttr "plusMinusAverage59.o3x" "setRange17.vx";
+connectAttr "plusMinusAverage59.o3y" "setRange17.vy";
+connectAttr "plusMinusAverage59.o3z" "setRange17.vz";
+connectAttr "l_brow.downLimit" "setRange17.onx";
+connectAttr "l_brow.downLimit" "setRange17.ony";
+connectAttr "l_brow.downLimit" "setRange17.onz";
+connectAttr "plusMinusAverage60.o3x" "setRange18.vx";
+connectAttr "plusMinusAverage60.o3y" "setRange18.vy";
+connectAttr "plusMinusAverage60.o3z" "setRange18.vz";
+connectAttr "l_brow.upLimit" "setRange18.omx";
+connectAttr "l_brow.upLimit" "setRange18.omy";
+connectAttr "l_brow.upLimit" "setRange18.omz";
+connectAttr "r_brow.ty" "plusMinusAverage60.i3[0].i3x";
+connectAttr "r_brow.ty" "plusMinusAverage60.i3[0].i3y";
+connectAttr "r_brow.ty" "plusMinusAverage60.i3[0].i3z";
+connectAttr "r_brow_in.ty" "plusMinusAverage60.i3[1].i3x";
+connectAttr "r_brow_mid.ty" "plusMinusAverage60.i3[1].i3y";
+connectAttr "r_brow_out.ty" "plusMinusAverage60.i3[1].i3z";
+connectAttr "plusMinusAverage60.o3x" "setRange19.vx";
+connectAttr "plusMinusAverage60.o3y" "setRange19.vy";
+connectAttr "plusMinusAverage60.o3z" "setRange19.vz";
+connectAttr "l_brow.downLimit" "setRange19.onx";
+connectAttr "l_brow.downLimit" "setRange19.ony";
+connectAttr "l_brow.downLimit" "setRange19.onz";
+connectAttr "l_brow_local_7_rotateOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn"
 		;
-connectAttr "multDoubleLinear22.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn"
+connectAttr "remapValue3.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn";
+connectAttr "l_brow_out.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn";
+connectAttr "multDoubleLinear22.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn"
 		;
-connectAttr "remapValue3.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn";
-connectAttr "l_brow_local_7_rotateOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[6].dn"
+connectAttr "skinJointsSet.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn";
+connectAttr "unitConversion26.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn"
 		;
-connectAttr "root_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn";
-connectAttr "root_connector.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn";
-connectAttr "root_connectorShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn"
+connectAttr "plusMinusAverage60.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn"
 		;
+connectAttr "setRange17.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn";
+connectAttr "setRange18.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn";
+connectAttr "setRange19.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn";
+connectAttr "plusMinusAverage59.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[4].dn"
+		;
+connectAttr "plusMinusAverage48.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[5].dn"
+		;
+connectAttr "blendColors1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[6].dn";
+connectAttr "addDoubleLinear48.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[7].dn"
+		;
+connectAttr "plusMinusAverage53.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[8].dn"
+		;
+connectAttr "r_brow_mid_group_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[9].dn"
+		;
+connectAttr "multDoubleLinear6.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[10].dn"
+		;
+connectAttr "l_brow_local_5_group_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[11].dn"
+		;
+connectAttr "l_curve9_2_loc_moveOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[12].dn"
+		;
+connectAttr "blendColors12.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[13].dn";
+connectAttr "l_brow_out_bot.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[14].dn";
+connectAttr "multMatrix49.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[15].dn";
+connectAttr "plusMinusAverage51.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[16].dn"
+		;
+connectAttr "blendMatrix13.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[17].dn";
+connectAttr "multDoubleLinear3.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[18].dn"
+		;
+connectAttr "plusMinusAverage57.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[19].dn"
+		;
+connectAttr "plusMinusAverage43.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[20].dn"
+		;
+connectAttr "r_brow_local_4_moveOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[21].dn"
+		;
+connectAttr "blendColors17.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[22].dn";
+connectAttr "l_brow_local_6_group_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[23].dn"
+		;
+connectAttr "l_brow_local_6Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[24].dn"
+		;
+connectAttr "r_brow_local_2_group_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[25].dn"
+		;
+connectAttr "multMatrix50.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[26].dn";
+connectAttr "plusMinusAverage29.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[27].dn"
+		;
+connectAttr "addDoubleLinear8.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[28].dn"
+		;
+connectAttr "blendColors22.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[29].dn";
+connectAttr "l_brow_local_2_group_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[30].dn"
+		;
+connectAttr "blendColors25.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[31].dn";
+connectAttr "blendMatrix2.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[32].dn";
+connectAttr "l_brow_local_2_bot.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[33].dn"
+		;
+connectAttr "l_brow_local_5Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[34].dn"
+		;
+connectAttr "brow_center_group_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[35].dn"
+		;
+connectAttr "blendColors23.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[36].dn";
+connectAttr "l_brow_in_1Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[37].dn"
+		;
+connectAttr "multDoubleLinear64.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[38].dn"
+		;
+connectAttr "r_brow_in_group_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[39].dn"
+		;
+connectAttr "blendMatrix11.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[40].dn";
+connectAttr "l_curve9_5_loc_moveOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[41].dn"
+		;
+connectAttr "blendMatrix4.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[42].dn";
+connectAttr "l_brow_local_5_top.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[43].dn"
+		;
+connectAttr "down_vis_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[44].dn"
+		;
+connectAttr "r_brow_out_group_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[45].dn"
+		;
+connectAttr "blendColors19.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[46].dn";
+connectAttr "r_brow_local_3_group_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[47].dn"
+		;
+connectAttr "plusMinusAverage25.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[48].dn"
+		;
+connectAttr "l_brow_local_3Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[49].dn"
+		;
+connectAttr "plusMinusAverage46.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[50].dn"
+		;
+connectAttr "multMatrix53.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[51].dn";
+connectAttr "plusMinusAverage56.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[52].dn"
+		;
+connectAttr "l_brow_local_4_moveOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[53].dn"
+		;
+connectAttr "up_down_setRange.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[54].dn"
+		;
+connectAttr "multDoubleLinear84.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[55].dn"
+		;
+connectAttr "l_brow_local_4_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[56].dn"
+		;
+connectAttr "plusMinusAverage42.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[57].dn"
+		;
+connectAttr "l_brow_local_7_group_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[58].dn"
+		;
+connectAttr "blendColors27.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[59].dn";
+connectAttr "blendMatrix6.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[60].dn";
+connectAttr "l_brow_local_1_group_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[61].dn"
+		;
+connectAttr "l_browShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[62].dn";
+connectAttr "blendColors10.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[63].dn";
+connectAttr "l_brow_local_2Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[64].dn"
+		;
+connectAttr "plusMinusAverage27.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[65].dn"
+		;
+connectAttr "blendColors18.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[66].dn";
+connectAttr "plusMinusAverage52.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[67].dn"
+		;
+connectAttr "blendColors2.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[68].dn";
+connectAttr "l_curve9_3_loc_moveOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[69].dn"
+		;
+connectAttr "l_brow.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[70].dn";
+connectAttr "blendColors9.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[71].dn";
+connectAttr "multDoubleLinear42.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[72].dn"
+		;
+connectAttr "blendColors24.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[73].dn";
+connectAttr "blendColors7.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[74].dn";
+connectAttr "blendColors13.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[75].dn";
+connectAttr "blendColors4.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[76].dn";
+connectAttr "plusMinusAverage41.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[77].dn"
+		;
+connectAttr "l_brow_mid_group_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[78].dn"
+		;
+connectAttr "blendColors21.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[79].dn";
+connectAttr "multDoubleLinear72.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[80].dn"
+		;
+connectAttr "blendColors20.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[81].dn";
+connectAttr "l_brow_local_2_top.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[82].dn"
+		;
+connectAttr "plusMinusAverage28.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[83].dn"
+		;
+connectAttr "multiplyDivide41.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[84].dn"
+		;
+connectAttr "plusMinusAverage45.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[85].dn"
+		;
+connectAttr "l_brow_mid_bot.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[86].dn";
+connectAttr "plusMinusAverage58.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[87].dn"
+		;
+connectAttr "addDoubleLinear49.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[88].dn"
+		;
+connectAttr "blendMatrix3.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[89].dn";
+connectAttr "l_brow_local_3_bot.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[90].dn"
+		;
+connectAttr "blendMatrix14.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[91].dn";
+connectAttr "multDoubleLinear1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[92].dn"
+		;
+connectAttr "l_brow_local_6_bot.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[93].dn"
+		;
+connectAttr "l_brow_midShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[94].dn"
+		;
+connectAttr "blendMatrix1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[95].dn";
+connectAttr "multMatrix52.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[96].dn";
+connectAttr "up_vis_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[97].dn"
+		;
+connectAttr "addDoubleLinear10.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[98].dn"
+		;
+connectAttr "plusMinusAverage54.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[99].dn"
+		;
+connectAttr "l_brow_local_4_top.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[100].dn"
+		;
+connectAttr "plusMinusAverage30.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[101].dn"
+		;
+connectAttr "plusMinusAverage37.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[102].dn"
+		;
+connectAttr "r_brow_local_6_group_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[103].dn"
+		;
+connectAttr "plusMinusAverage44.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[104].dn"
+		;
+connectAttr "r_curve9_3_loc_moveOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[105].dn"
+		;
+connectAttr "l_brow_in_top.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[106].dn";
+connectAttr "plusMinusAverage26.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[107].dn"
+		;
+connectAttr "multDoubleLinear65.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[108].dn"
+		;
+connectAttr "r_brow_local_5_group_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[109].dn"
+		;
+connectAttr "l_brow_local_3_top.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[110].dn"
+		;
+connectAttr "multDoubleLinear4.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[111].dn"
+		;
+connectAttr "blendMatrix12.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[112].dn";
+connectAttr "r_curve9_2_loc_moveOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[113].dn"
+		;
+connectAttr "l_brow_local_7Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[114].dn"
+		;
+connectAttr "blendColors11.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[115].dn";
+connectAttr "r_curve9_5_loc_moveOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[116].dn"
+		;
+connectAttr "l_brow_local_7_top.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[117].dn"
+		;
+connectAttr "blendMatrix16.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[118].dn";
+connectAttr "l_brow_out_group_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[119].dn"
+		;
+connectAttr "blendColors8.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[120].dn";
+connectAttr "multDoubleLinear83.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[121].dn"
+		;
+connectAttr "multMatrix54.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[122].dn";
+connectAttr "l_brow_local_4_bot.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[123].dn"
+		;
+connectAttr "r_brow.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[124].dn";
+connectAttr "plusMinusAverage47.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[125].dn"
+		;
+connectAttr "blendColors15.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[126].dn";
+connectAttr "l_brow_local_7_bot.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[127].dn"
+		;
+connectAttr "blendColors26.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[128].dn";
+connectAttr "multMatrix48.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[129].dn";
+connectAttr "l_brow_in_bot.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[130].dn";
+connectAttr "plusMinusAverage40.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[131].dn"
+		;
+connectAttr "plusMinusAverage24.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[132].dn"
+		;
+connectAttr "r_brow_local_1_group_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[133].dn"
+		;
+connectAttr "blendColors6.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[134].dn";
+connectAttr "blendMatrix5.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[135].dn";
+connectAttr "l_brow_in_group_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[136].dn"
+		;
+connectAttr "up_down_setRange1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[137].dn"
+		;
+connectAttr "blendColors3.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[138].dn";
+connectAttr "l_brow_local_4Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[139].dn"
+		;
+connectAttr "multDoubleLinear2.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[140].dn"
+		;
+connectAttr "multiplyDivide42.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[141].dn"
+		;
+connectAttr "multDoubleLinear63.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[142].dn"
+		;
+connectAttr "plusMinusAverage50.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[143].dn"
+		;
+connectAttr "plusMinusAverage39.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[144].dn"
+		;
+connectAttr "addDoubleLinear9.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[145].dn"
+		;
+connectAttr "l_brow_local_3_group_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[146].dn"
+		;
+connectAttr "l_brow_mid_top.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[147].dn"
+		;
+connectAttr "blendColors14.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[148].dn";
+connectAttr "plusMinusAverage38.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[149].dn"
+		;
+connectAttr "l_brow_local_5_bot.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[150].dn"
+		;
+connectAttr "addDoubleLinear51.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[151].dn"
+		;
+connectAttr "l_brow_out_top.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[152].dn"
+		;
+connectAttr "setRange16.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[153].dn";
+connectAttr "r_brow_local_4_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[154].dn"
+		;
+connectAttr "l_brow_out_1Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[155].dn"
+		;
+connectAttr "plusMinusAverage55.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[156].dn"
+		;
+connectAttr "blendMatrix15.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[157].dn";
+connectAttr "l_brow_local_6_top.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[158].dn"
+		;
+connectAttr "multDoubleLinear67.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[159].dn"
+		;
+connectAttr "l_brow_local_1Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[160].dn"
+		;
+connectAttr "blendColors16.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[161].dn";
 connectAttr "black_rsSG.pa" ":renderPartition.st" -na;
 connectAttr "green_rsSG.pa" ":renderPartition.st" -na;
 connectAttr "blue_rsSG.pa" ":renderPartition.st" -na;
@@ -9384,7 +7122,8 @@ connectAttr "full_mainPoser_size_multiplyDivide.msg" ":defaultRenderUtilityList1
 connectAttr "remapValue1.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "remapValue2.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "remapValue3.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix69.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "defaultRenderLayer.msg" ":defaultRenderingList1.r" -na;
 connectAttr "defaultRenderLayer1.msg" ":defaultRenderingList1.r" -na;
 dataStructure -fmt "raw" -as "name=NodeProfileStruct:string=NodeProfileTag:int32=NodeProfileTagColor";
-// End of brows3.ma
+// End of browsCurved.ma

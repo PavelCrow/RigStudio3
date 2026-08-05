@@ -18,7 +18,7 @@ else:
 fileName = __name__.split('.')[0]
 rootPath = os.path.abspath(imp.find_module(fileName)[1])#.split(fileName)[0]
 
-class Brows3(module.Module) :
+class BrowsCurved(module.Module) :
 	def __init__(self, name):
 		super(self.__class__, self).__init__()
 
@@ -49,7 +49,7 @@ class Brows3(module.Module) :
 
 	def updateOptionsPage(self, widget):
 
-		pixmap = QtGui.QPixmap(rootPath+'/modules/brows3/helpImage.png')
+		pixmap = QtGui.QPixmap(rootPath+'/modules/browsCurved/helpImage.png')
 		widget.image_label.setPixmap(pixmap)
 	
 		data = self.getOptions()
@@ -88,6 +88,11 @@ class Brows3(module.Module) :
 		root_out_joint = f"{self.name}_root_outJoint"
 		if not cmds.objExists(root_out_joint):
 			cmds.warning(f"Cannot find {root_out_joint}")
+			return
+
+		root_connector = f"{self.name}_root_connector"
+		if not cmds.objExists(root_connector):
+			cmds.warning(f"Cannot find {root_connector}")
 			return
 
 		def create_joints_on_curve_from_selection(side):
@@ -176,7 +181,11 @@ class Brows3(module.Module) :
 
 				cmds.setAttr(f"{mp}.fractionMode", 0)
 				cmds.setAttr(f"{mp}.follow", 1)
+				# up от root_connector, а не от контролов брови: он вращается вместе с ригом,
+				# но не крутится от анимации бровей, поэтому фрейм не вырождается.
+				# Твист от контролов добавляем ниже через frontTwist, от их rotateX
 				cmds.setAttr(f"{mp}.worldUpType", 2)          # Object Rotation Up
+				cmds.connectAttr(f"{root_connector}.worldMatrix[0]", f"{mp}.worldUpMatrix", force=True)
 
 				# allCoordinates — мировые координаты, переводим их в пространство родителя (root_out_joint)
 				pmm = cmds.createNode("pointMatrixMult", name=f"pmm_{loc}")
@@ -191,7 +200,7 @@ class Brows3(module.Module) :
 				main_joints.append(jnt1)
 
 				# ============================================================
-				#  BLEND MATRIX — два ближайших контрола
+				#  TWIST — взвешенный rotateX двух ближайших контролов
 				# ============================================================
 				distances = []
 				for ctrl in up_controls:
@@ -219,17 +228,27 @@ class Brows3(module.Module) :
 				weight1 = w1 / total
 				weight2 = w2 / total
 
-				# Создаём blendMatrix
-				bm = cmds.createNode("blendMatrix", name=f"bm_up_{jnt1}")
+				# Твист = rotateX ближайших контролов, смешанный по тем же весам.
+				# Локальный угол, а не мировой up-вектор - вырождаться нечему
+				tw1 = cmds.createNode("multDoubleLinear", name=f"twist1_{jnt1}")
+				cmds.connectAttr(f"{ctrl1}.rotateX", f"{tw1}.input1", force=True)
+				cmds.setAttr(f"{tw1}.input2", weight1)
 
-				cmds.connectAttr(f"{ctrl1}.worldMatrix[0]", f"{bm}.target[0].targetMatrix", force=True)
-				cmds.setAttr(f"{bm}.target[0].weight", weight1)
+				tw2 = cmds.createNode("multDoubleLinear", name=f"twist2_{jnt1}")
+				cmds.connectAttr(f"{ctrl2}.rotateX", f"{tw2}.input1", force=True)
+				cmds.setAttr(f"{tw2}.input2", weight2)
 
-				cmds.connectAttr(f"{ctrl2}.worldMatrix[0]", f"{bm}.target[1].targetMatrix", force=True)
-				cmds.setAttr(f"{bm}.target[1].weight", weight2)
+				twist = cmds.createNode("addDoubleLinear", name=f"twist_{jnt1}")
+				cmds.connectAttr(f"{tw1}.output", f"{twist}.input1", force=True)
+				cmds.connectAttr(f"{tw2}.output", f"{twist}.input2", force=True)
 
-				# Подключаем бленд в motionPath
-				cmds.connectAttr(f"{bm}.outputMatrix", f"{mp}.worldUpMatrix", force=True)
+				# правая сторона зеркальна - твист тоже инвертируем (тот же rotYSign)
+				twistSigned = cmds.createNode("multDoubleLinear", name=f"twistSigned_{jnt1}")
+				cmds.connectAttr(f"{twist}.output", f"{twistSigned}.input1", force=True)
+				cmds.setAttr(f"{twistSigned}.input2", rotYSign)
+
+				# frontTwist - поворот вокруг касательной, уже входит в mp.rotate
+				cmds.connectAttr(f"{twistSigned}.output", f"{mp}.frontTwist", force=True)
 				# ============================================================
 
 				# --- Атрибут pos, управляющий положением джоинта на кривой ---
@@ -293,34 +312,136 @@ class Brows3(module.Module) :
 
 				cmds.select(clear=True)
 
-				# --- Второй джоинт: тоже ребёнок локатора (сосед jnt1) ---
+				# --- Второй джоинт: ребёнок jnt1 ---
 				jnt2 = cmds.joint(name=f"{side}_{self.name}_curveJnt_{i:02d}_end")
-				cmds.parent(jnt2, loc)
+				cmds.parent(jnt2, jnt1)
 				cmds.setAttr(f"{jnt2}.jointOrient", 0, 0, 0)
-				cmds.setAttr(f"{jnt2}.translate", 0, 0.05, 0)
+				cmds.setAttr(f"{jnt2}.translate", 0.05, 0, 0)
 
 				# --- Матрица офсета по Y (тот же rotYOffsetSigned, что и у jnt1) ---
 				offsetMat = cmds.createNode("composeMatrix", name=f"rotYOffsetMat_{jnt2}")
 				cmds.connectAttr(f"{rotYOffsetSigned}.output", f"{offsetMat}.inputRotateY", force=True)
 
-				# --- rotate = офсет + mp.rotate, погашенный вращением всей цепочки родителей (root_connector) ---
-				# --- считаем одной матричной цепочкой и разлагаем один раз, без разбивки по каналам ---
+				# --- Вращение родителя БЕЗ scale: parentInverseMatrix несёт ещё и scale (у зеркальной
+				# --- стороны отрицательный), из-за него цепочка перестаёт быть чистым поворотом,
+				# --- decomposeMatrix даёт неточный Эйлер и флипает около 180 ---
+				parentRot = cmds.createNode("pickMatrix", name=f"jnt2ParentRot_{jnt2}")
+				cmds.connectAttr(f"{jnt1}.worldMatrix[0]", f"{parentRot}.inputMatrix", force=True)
+				cmds.setAttr(f"{parentRot}.useTranslate", 0)
+				cmds.setAttr(f"{parentRot}.useScale", 0)
+				cmds.setAttr(f"{parentRot}.useShear", 0)
+				parentRotInv = cmds.createNode("inverseMatrix", name=f"jnt2ParentRotInv_{jnt2}")
+				cmds.connectAttr(f"{parentRot}.outputMatrix", f"{parentRotInv}.inputMatrix", force=True)
+
+				# --- rotate = офсет + mp.rotate, погашенный вращением родителя (root_connector) ---
+				# --- вся цепочка - чистые повороты, разлагаем один раз ---
 				mpRotMat = cmds.createNode("composeMatrix", name=f"mpRotMat_{jnt2}")
 				cmds.connectAttr(f"{mp}.rotate", f"{mpRotMat}.inputRotate", force=True)
 				mm2 = cmds.createNode("multMatrix", name=f"jnt2RotMat_{jnt2}")
 				cmds.connectAttr(f"{offsetMat}.outputMatrix", f"{mm2}.matrixIn[0]", force=True)
 				cmds.connectAttr(f"{mpRotMat}.outputMatrix", f"{mm2}.matrixIn[1]", force=True)
-				cmds.connectAttr(f"{jnt2}.parentInverseMatrix[0]", f"{mm2}.matrixIn[2]", force=True)
+				cmds.connectAttr(f"{parentRotInv}.outputMatrix", f"{mm2}.matrixIn[2]", force=True)
 				dm2 = cmds.createNode("decomposeMatrix", name=f"jnt2RotDM_{jnt2}")
 				cmds.connectAttr(f"{mm2}.matrixSum", f"{dm2}.inputMatrix", force=True)
 				cmds.connectAttr(f"{dm2}.outputRotate", f"{jnt2}.rotate", force=True)
 				end_joints.append(jnt2)
 
 			cmds.select(main_joints)
-			print(f"Готово! Создано {len(main_joints)} точек. Up-вектор блендится между двумя ближайшими контролами.")
+			# print(f"Готово! Создано {len(main_joints)} точек. Up-вектор блендится между двумя ближайшими контролами.")
 			return main_joints, end_joints
 
 
 		# Запуск
 		create_joints_on_curve_from_selection("l")
 		create_joints_on_curve_from_selection("r")
+
+		self.addSkinJoints()
+
+	def addSkinJoints(self, m_name=None):
+		if not m_name:
+			m_name = self.name
+
+		root_out_joint = f"{m_name}_root_outJoint"
+		if not cmds.objExists(root_out_joint):
+			cmds.warning(f"Cannot find {root_out_joint}")
+			return
+		
+		try:
+			jointsSize = cmds.getAttr(self.main.rig.root+".jointsSize")
+		except Exception:
+			jointsSize = 1
+
+		root_skin_joint = f"{m_name}_root_skinJoint"
+		if cmds.objExists(root_skin_joint):
+			cmds.delete(root_skin_joint)
+
+		# --- Корень: подхватываем root_out_joint по матрице, чтобы не зависеть от того,
+		# --- под кем root_skin_joint окажется после connect()/disconnect() (skeleton или self.parent) ---
+		cmds.select(clear=True)
+		cmds.joint(name=root_skin_joint)
+		cmds.parent(root_skin_joint, 'skeleton')
+		cmds.setAttr(f"{root_skin_joint}.jointOrient", 0, 0, 0)
+		cmds.setAttr(f"{root_skin_joint}.segmentScaleCompensate", 0)
+		cmds.setAttr(f"{root_skin_joint}.radius", cmds.getAttr(root_out_joint+".radius")*jointsSize)
+		utils.connectByMatrix(root_skin_joint, [root_out_joint, root_skin_joint],
+							   ['worldMatrix[0]', 'parentInverseMatrix[0]'], module_name=m_name)
+		utils.addToModuleSet(root_skin_joint, m_name)
+		if not cmds.objExists('skinJointsSet'):
+			cmds.sets(n='skinJointsSet')
+		cmds.sets(root_skin_joint, e=1, forceElement='skinJointsSet')
+
+		cmds.setAttr(f"{root_skin_joint}.drawStyle", 2)
+
+		# --- Центральная кость на переносице: прямой ребёнок root_out_joint, поэтому,
+		# --- как и с jnt2, хватает дешёвого connectTrandform без матриц ---
+		center_out_joint = f"{m_name}_center_outJoint"
+		if cmds.objExists(center_out_joint):
+			center_skin_joint = center_out_joint.replace("outJoint", "skinJoint")
+			cmds.select(clear=True)
+			cmds.joint(name=center_skin_joint)
+			cmds.parent(center_skin_joint, root_skin_joint)
+			cmds.setAttr(f"{center_skin_joint}.jointOrient", *cmds.getAttr(center_out_joint+".jointOrient")[0])
+			cmds.setAttr(f"{center_skin_joint}.segmentScaleCompensate", 0)
+			cmds.setAttr(f"{center_skin_joint}.radius", cmds.getAttr(center_out_joint+".radius")*jointsSize)
+			utils.connectTrandform(center_out_joint, center_skin_joint)
+			utils.addToModuleSet(center_skin_joint, m_name)
+			cmds.sets(center_skin_joint, e=1, forceElement='skinJointsSet')
+
+		for side in ("l", "r"):
+			joints = cmds.ls(f"{side}_{m_name}_curveJnt_*", type="joint") or []
+			main_joints = sorted(j for j in joints if not j.endswith("_end"))
+
+			for jnt1 in main_joints:
+				# --- jnt1 сидит внутри локатора (не прямой ребёнок root_out_joint), поэтому
+				# --- гонять его локальный transform бессмысленно - дороже, но верно: по матрице ---
+				skin_jnt1 = f"{jnt1}_skinJoint"
+				cmds.select(clear=True)
+				cmds.joint(name=skin_jnt1)
+				cmds.parent(skin_jnt1, root_skin_joint)
+				cmds.setAttr(f"{skin_jnt1}.jointOrient", 0, 0, 0)
+				cmds.setAttr(f"{skin_jnt1}.segmentScaleCompensate", 0)
+				cmds.setAttr(f"{skin_jnt1}.radius", cmds.getAttr(jnt1+".radius")*jointsSize)
+				utils.connectByMatrix(skin_jnt1, [jnt1, skin_jnt1],
+									   ['worldMatrix[0]', 'parentInverseMatrix[0]'], module_name=m_name)
+				utils.addToModuleSet(skin_jnt1, m_name)
+				cmds.sets(skin_jnt1, e=1, forceElement='skinJointsSet')
+
+				# --- pos переезжает на скин-джоинт: им и управляют, джоинт модуля просто следует ---
+				cmds.addAttr(skin_jnt1, longName="pos", attributeType="double",
+							 min=0, max=1, defaultValue=cmds.getAttr(jnt1+".pos"), keyable=True)
+				cmds.connectAttr(f"{skin_jnt1}.pos", f"{jnt1}.pos", force=True)
+
+				# --- jnt2 - прямой ребёнок jnt1 и в исходной иерархии, и здесь: раз skin_jnt1
+				# --- по матрице точно совпадает с jnt1, для jnt2 хватает дешёвого connectAttr ---
+				jnt2 = f"{jnt1}_end"
+				if cmds.objExists(jnt2):
+					skin_jnt2 = f"{jnt2}_skinJoint"
+					cmds.select(clear=True)
+					cmds.joint(name=skin_jnt2)
+					cmds.parent(skin_jnt2, skin_jnt1)
+					cmds.setAttr(f"{skin_jnt2}.jointOrient", *cmds.getAttr(jnt2+".jointOrient")[0])
+					cmds.setAttr(f"{skin_jnt2}.segmentScaleCompensate", 0)
+					cmds.setAttr(f"{skin_jnt2}.radius", cmds.getAttr(jnt2+".radius")*jointsSize/2)
+					utils.connectTrandform(jnt2, skin_jnt2)
+					utils.addToModuleSet(skin_jnt2, m_name)
+					cmds.sets(skin_jnt2, e=1, forceElement='skinJointsSet')
