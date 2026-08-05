@@ -1,18 +1,18 @@
 //Maya ASCII 2022 scene
-//Name: browsSurf2.ma
-//Last modified: Mon, Aug 03, 2026 06:46:04 AM
+//Name: brows3.ma
+//Last modified: Wed, Aug 05, 2026 06:44:05 AM
 //Codeset: 1251
 requires maya "2022";
 requires -nodeType "sweepMeshCreator" -dataType "sweepMeshData" -dataType "sweepProfileData"
 		 "sweep" "1.0";
 requires "stereoCamera" "10.0";
 requires -nodeType "ngst2SkinLayerData" -dataType "ngst2SkinLayerDataStorage" "ngSkinTools2" "2.4.0";
-requires "BluePencil" "1.0";
-requires "Mayatomr" "2013.0 - 3.10.1.11 ";
-requires "chevelureMaya" "0.0.104 made in Khimki";
 requires "pk_blendMatrixNode.py" "1.0";
+requires "BluePencil" "1.0";
 requires "madHairsMaya.py" "Unknown";
+requires "Mayatomr" "2013.0 - 3.10.1.11 ";
 requires "ngSkinTools" "1.0.960";
+requires "chevelureMaya" "0.0.104 made in Khimki";
 requires "pk_softIk.py" "1.0";
 currentUnit -l centimeter -a degree -t pal;
 fileInfo "application" "maya";
@@ -20,7 +20,7 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202110272215-ad32f8f1e6";
 fileInfo "osv" "Windows 10 Pro v2009 (Build: 26200)";
-fileInfo "UUID" "EF997F42-490C-DD77-CF3E-E087AE88AD99";
+fileInfo "UUID" "1A8572C7-4BAB-CF17-198A-B2AC39153834";
 createNode transform -n "mod";
 	rename -uid "A8281E66-4053-4FC7-AA21-27BF6ABE5693";
 	addAttr -ci true -sn "version" -ln "version" -dt "string";
@@ -28,7 +28,6 @@ createNode transform -n "mod";
 	setAttr -l on ".version" -type "string" "1.0";
 createNode transform -n "posers" -p "mod";
 	rename -uid "5398EABE-47D0-16C1-DA73-F0819DD934A9";
-	setAttr ".v" no;
 	setAttr ".t" -type "double3" 0 14.11026115562764 6.6996021718382446 ;
 createNode transform -n "mainPoser" -p "posers";
 	rename -uid "51616D80-472B-390A-B2E9-3AB55B869EED";
@@ -688,7 +687,7 @@ createNode transform -n "local_7_poser" -p "full_mainPoser";
 	setAttr ".ovc" 12;
 	setAttr -k on ".t" -type "double3" 2.1723726118980453 -0.40783987673871636 -0.83292724280841401 ;
 	setAttr -k on ".t";
-	setAttr ".r" -type "double3" 4.6355586508201769 33.93279485191092 -6.4019181283793936 ;
+	setAttr ".r" -type "double3" 0.8959341931917103 35.565792945904661 -13.591866780695449 ;
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
@@ -731,7 +730,9 @@ createNode transform -n "local_8_poser" -p "full_mainPoser";
 	setAttr ".ovc" 12;
 	setAttr -k on ".t" -type "double3" 2.8481724164576381 -1.0613209193289741 -1.685575367550987 ;
 	setAttr -k on ".t";
-	setAttr ".r" -type "double3" 0 -24.883437669714137 0 ;
+	setAttr -k off ".rx";
+	setAttr -k off ".ry";
+	setAttr -k off ".rz";
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
@@ -766,6 +767,24 @@ createNode transform -n "local_8_initLoc" -p "local_8_poserOrient";
 createNode locator -n "local_8_initLocShape" -p "local_8_initLoc";
 	rename -uid "928D08C8-48FF-3705-9814-7BA248086CF3";
 	setAttr -k off ".v";
+createNode orientConstraint -n "local_8_poser_orientConstraint1" -p "local_8_poser";
+	rename -uid "D80C614B-4880-A7A4-BF63-3B84A7BD8088";
+	addAttr -dcb 0 -ci true -k true -sn "w0" -ln "local_7_poserW0" -dv 1 -min 0 -at "double";
+	setAttr -k on ".nds";
+	setAttr -k off ".v";
+	setAttr -k off ".tx";
+	setAttr -k off ".ty";
+	setAttr -k off ".tz";
+	setAttr -k off ".rx";
+	setAttr -k off ".ry";
+	setAttr -k off ".rz";
+	setAttr -k off ".sx";
+	setAttr -k off ".sy";
+	setAttr -k off ".sz";
+	setAttr ".erp" yes;
+	setAttr ".lr" -type "double3" 0.8959341931917103 35.565792945904661 -13.591866780695447 ;
+	setAttr ".rsrr" -type "double3" 5.2227035537901498 28.398362138685979 -14.136969875597696 ;
+	setAttr -k on ".w0";
 createNode transform -n "center_poser_group" -p "posers";
 	rename -uid "5CE4D464-44AC-AF68-F262-30809EACC221";
 	setAttr ".t" -type "double3" 0.046722914327709475 3.941971540721589 0 ;
@@ -915,8 +934,8 @@ createNode nurbsCurve -n "l_curveShape" -p "l_curve";
 		3.2002664508399108 18.162841056875799 7.0141754281404225
 		3.8971245307105824 18.147439041420384 6.4356131974421436
 		4.3349056047339278 17.967180677708335 5.9219045042791345
-		4.5307810201520189 17.746847806421737 5.5325276337381952
-		4.5650105726494576 17.741251138202038 5.4829613532048995
+		4.5319295494895346 17.749515832713325 5.5327024882940821
+		4.5637367386229029 17.737951138985615 5.4825590769256864
 		4.8711760210111033 17.0908647540905 4.4637330730635609
 		;
 createNode transform -n "r_curve" -p "system";
@@ -940,13 +959,12 @@ createNode nurbsCurve -n "r_curveShape" -p "r_curve";
 		-3.2002664508399108 18.162841056875799 7.0141754281404225
 		-3.8971245307105824 18.147439041420384 6.4356131974421436
 		-4.3349056047339278 17.967180677708335 5.9219045042791345
-		-4.5177928379811778 17.748971425957595 5.5513352381071304
-		-4.5743740802309096 17.739720167403931 5.4694024776223866
+		-4.5197949139406814 17.753903980904767 5.5518122349885974
+		-4.572372004271406 17.73478761245676 5.4689254807409196
 		-4.8711760210111033 17.0908647540905 4.4637330730635609
 		;
 createNode transform -n "l_joints" -p "system";
 	rename -uid "6F30F53F-4F50-5033-B8B1-888400FF42DB";
-	setAttr ".v" no;
 createNode transform -n "l_loc_01" -p "l_joints";
 	rename -uid "BFD72058-4968-0CE8-A092-6AA01423E70D";
 createNode locator -n "l_loc_Shape1" -p "l_loc_01";
@@ -1324,7 +1342,6 @@ createNode joint -n "l_narrow_joint_13" -p "l_wide_joint_13";
 	setAttr ".radi" 0.5;
 createNode transform -n "r_joints" -p "system";
 	rename -uid "2BDAE2B0-4494-23E2-4415-7EAEE698DE45";
-	setAttr ".v" no;
 createNode transform -n "r_loc_01" -p "r_joints";
 	rename -uid "A9B0524F-440F-D1B9-ADA0-6DA32599ACA5";
 createNode locator -n "r_loc_Shape1" -p "r_loc_01";
@@ -1758,26 +1775,19 @@ createNode transform -n "l_brow_in_group_1" -p "l_brow_in_group";
 	setAttr ".sp" -type "double3" -2.2204460492503131e-16 0 0 ;
 createNode transform -n "l_brow_in" -p "l_brow_in_group_1";
 	rename -uid "FE11A664-45E0-3F35-AB68-4B8F7590F99C";
-	addAttr -ci true -sn "rotateToMoveCornerX" -ln "rotateToMoveCornerX" -min 0 -max 
-		1 -at "double";
-	addAttr -ci true -sn "rotateToMoveCornerY" -ln "rotateToMoveCornerY" -min 0 -max 
-		1 -at "double";
+	addAttr -ci true -sn "rotateToLength" -ln "rotateToLength" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "rotateToMove1" -ln "rotateToMove1" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "rotateToMove2" -ln "rotateToMove2" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "rotateToMove3" -ln "rotateToMove3" -min 0 -max 1 -at "double";
+	addAttr -ci true -sn "rotateToMove4" -ln "rotateToMove4" -min 0 -max 1 -at "double";
 	setAttr -l on -k off ".v";
-	setAttr -s 2 ".iog";
-	setAttr ".r" -type "double3" 0 0 0 ;
-	setAttr -av ".rz";
-	setAttr -av ".rx";
-	setAttr -av ".ry";
 	setAttr ".rp" -type "double3" 0 -4.4408920985006262e-16 0 ;
 	setAttr ".sp" -type "double3" 0 -4.4408920985006262e-16 0 ;
-	setAttr ".rotateToMoveCornerX" 0.35384615390346602;
-	setAttr ".rotateToMoveCornerY" 1;
-	setAttr ".rotateToMove1" 0.53030303033125215;
-	setAttr ".rotateToMove2" 0.1616161617666784;
-	setAttr ".rotateToMove3" 0.076142132424082853;
+	setAttr ".rotateToLength" 0.35384615390346602;
+	setAttr ".rotateToMove1" 1;
+	setAttr ".rotateToMove2" 0.53030303033125215;
+	setAttr ".rotateToMove3" 0.1616161617666784;
+	setAttr ".rotateToMove4" 0.076142132424082853;
 createNode nurbsCurve -n "l_brow_in_1Shape" -p "l_brow_in";
 	rename -uid "A2174BD3-4D15-D7D1-B512-589573F0B6B8";
 	setAttr -k off ".v";
@@ -2461,19 +2471,17 @@ createNode transform -n "l_brow_out_group_1" -p "l_brow_out_group";
 	setAttr ".sp" -type "double3" 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 ;
 createNode transform -n "l_brow_out" -p "l_brow_out_group_1";
 	rename -uid "B5A8F586-46A4-911B-EB2C-C39D5F5544B0";
-	addAttr -ci true -sn "rotateToMoveCornerX" -ln "rotateToMoveCornerX" -min 0 -max 
-		1 -at "double";
+	addAttr -ci true -sn "rotateToLength" -ln "rotateToLength" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "rotateToMove1" -ln "rotateToMove1" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "rotateToMove2" -ln "rotateToMove2" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "rotateToMove3" -ln "rotateToMove3" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "RotateToMove4" -ln "RotateToMove4" -min 0 -max 1 -at "double";
+	addAttr -ci true -sn "rotateToMove4" -ln "rotateToMove4" -min 0 -max 1 -at "double";
 	setAttr -l on -k off ".v";
+	setAttr -s 2 ".iog";
 	setAttr ".rp" -type "double3" 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 ;
 	setAttr ".sp" -type "double3" 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 ;
-	setAttr ".rotateToMoveCornerX" 0.4090909090062434;
-	setAttr ".rotateToMove1" 0.69696969668747799;
-	setAttr ".rotateToMove2" 0.2222222224291828;
-	setAttr ".rotateToMove3" 0.085858585472886606;
+	setAttr ".rotateToLength" 0.49230769275186154;
+	setAttr ".rotateToMove1" 0.67692307695173304;
 createNode nurbsCurve -n "l_brow_out_1Shape" -p "l_brow_out";
 	rename -uid "3ED7DBEC-4E76-9703-9F5F-8F90345CC94C";
 	setAttr -k off ".v";
@@ -2926,23 +2934,11 @@ createNode nurbsCurve -n "l_brow_out_botShape" -p "l_brow_out_bot";
 		;
 createNode transform -n "l_brow_last" -p "l_brow";
 	rename -uid "30B03FD1-4024-18E4-E718-258634CE233A";
-	addAttr -ci true -sn "rotateToMoveCornerX" -ln "rotateToMoveCornerX" -min 0 -max 
-		1 -at "double";
-	addAttr -ci true -sn "rotateToMove1" -ln "rotateToMove1" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "rotateToMove2" -ln "rotateToMove2" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "rotateToMove3" -ln "rotateToMove3" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "RotateToMove4" -ln "RotateToMove4" -min 0 -max 1 -at "double";
 	setAttr -l on -k off ".v";
-	setAttr ".t" -type "double3" 2.8115587634886703 -1.0613214919009195 -1.7314309217227573 ;
-	setAttr ".r" -type "double3" -9.0915460003517783 52.030234254230756 -17.005601834186166 ;
 	setAttr ".rp" -type "double3" 0.0083187522378920225 -4.4408920985006271e-16 0.058087172128885568 ;
 	setAttr ".rpt" -type "double3" 0.02829506273834876 0 -0.012231422678987577 ;
 	setAttr ".sp" -type "double3" 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 ;
 	setAttr ".spt" -type "double3" -3.4694469519536119e-18 0 -3.4694469519536123e-17 ;
-	setAttr ".rotateToMoveCornerX" 0.4090909090062434;
-	setAttr ".rotateToMove1" 0.69696969668747799;
-	setAttr ".rotateToMove2" 0.2222222224291828;
-	setAttr ".rotateToMove3" 0.085858585472886606;
 createNode nurbsCurve -n "l_brow_last_1Shape" -p "l_brow_last";
 	rename -uid "0E0A28D8-4DD4-3896-854C-9A809FB5747C";
 	setAttr -k off ".v";
@@ -3016,24 +3012,9 @@ createNode transform -n "r_brow_in_group_1" -p "r_brow_in_group";
 	setAttr ".sp" -type "double3" -2.2204460492503131e-16 0 0 ;
 createNode transform -n "r_brow_in" -p "r_brow_in_group_1";
 	rename -uid "9696246C-4FB6-BDDD-04C2-DC87BDB07999";
-	addAttr -ci true -sn "rotateToMoveCornerX" -ln "rotateToMoveCornerX" -min 0 -max 
-		1 -at "double";
-	addAttr -ci true -sn "rotateToMoveCornerY" -ln "rotateToMoveCornerY" -min 0 -max 
-		1 -at "double";
-	addAttr -ci true -sn "rotateToMove1" -ln "rotateToMove1" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "rotateToMove2" -ln "rotateToMove2" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "rotateToMove3" -ln "rotateToMove3" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "rotateToRotate" -ln "rotateToRotate" -min 0 -max 1 -at "double";
 	setAttr -l on -k off ".v";
-	setAttr -s 2 ".iog";
 	setAttr ".rp" -type "double3" 0 -4.4408920985006262e-16 0 ;
 	setAttr ".sp" -type "double3" 0 -4.4408920985006262e-16 0 ;
-	setAttr ".rotateToMoveCornerX" 0.43654822360081269;
-	setAttr ".rotateToMoveCornerY" 1;
-	setAttr ".rotateToMove1" 0.6446700508606994;
-	setAttr ".rotateToMove2" 0.08121827446151203;
-	setAttr ".rotateToMove3" 0.076142132424082853;
-	setAttr ".rotateToRotate" 1;
 createNode nurbsCurve -n "r_brow_in_1Shape" -p "r_brow_in";
 	rename -uid "C71DEF90-4829-497F-2036-7C925B29462C";
 	setAttr -k off ".v";
@@ -3193,14 +3174,10 @@ createNode transform -n "r_brow_mid_group_1" -p "r_brow_mid_group";
 	setAttr ".s" -type "double3" 0.99999999999999978 0.99999999999999989 0.99999999999999978 ;
 createNode transform -n "r_brow_mid" -p "r_brow_mid_group_1";
 	rename -uid "5F71C9F3-41CF-EE19-5AF7-D793EB32CC74";
-	addAttr -ci true -sn "rotateToMove1" -ln "rotateToMove1" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "rotateToMove2" -ln "rotateToMove2" -min 0 -max 1 -at "double";
 	setAttr -l on -k off ".v";
 	setAttr ".rp" -type "double3" 4.4408920985006281e-16 0 0 ;
 	setAttr ".sp" -type "double3" 4.4408920985006271e-16 0 0 ;
 	setAttr ".spt" -type "double3" 9.8607613152626519e-32 0 0 ;
-	setAttr ".rotateToMove1" 0.37948717992657272;
-	setAttr ".rotateToMove2" 0.70256410297483973;
 createNode nurbsCurve -n "r_brow_midShape" -p "r_brow_mid";
 	rename -uid "72FEA752-44F2-1F6A-48FF-4684870BD1D9";
 	setAttr -k off ".v";
@@ -3329,20 +3306,9 @@ createNode transform -n "r_brow_out_group_1" -p "r_brow_out_group";
 	setAttr ".sp" -type "double3" 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 ;
 createNode transform -n "r_brow_out" -p "r_brow_out_group_1";
 	rename -uid "FE1BB641-4F49-1DA3-ADC6-2DA9C56A0091";
-	addAttr -ci true -sn "rotateToMoveCornerX" -ln "rotateToMoveCornerX" -min 0 -max 
-		1 -at "double";
-	addAttr -ci true -sn "rotateToMoveCornerY" -ln "rotateToMoveCornerY" -min 0 -max 
-		1 -at "double";
-	addAttr -ci true -sn "rotateToMove2" -ln "rotateToMove2" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "rotateToMove3" -ln "rotateToMove3" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "RotateToMove4" -ln "RotateToMove4" -min 0 -max 1 -at "double";
 	setAttr -l on -k off ".v";
 	setAttr ".rp" -type "double3" 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 ;
 	setAttr ".sp" -type "double3" 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 ;
-	setAttr ".rotateToMoveCornerX" 0.34010152302701308;
-	setAttr ".rotateToMoveCornerY" 0.69191919209793062;
-	setAttr ".rotateToMove2" 0.095959595583304011;
-	setAttr ".rotateToMove3" 0.015151514699964811;
 createNode nurbsCurve -n "r_brow_out_1Shape" -p "r_brow_out";
 	rename -uid "C55DFC88-4787-8747-DCF2-27B3CD4C988A";
 	setAttr -k off ".v";
@@ -3531,6 +3497,34 @@ createNode locator -n "r_curve_loc_11Shape" -p "r_curve_loc_11";
 	rename -uid "DBAB314A-405C-664C-253E-328BB962D2AF";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
+createNode transform -n "r_brow_last" -p "r_brow";
+	rename -uid "743C9CD7-4C8C-C52F-825D-AD8A11AC1785";
+	setAttr -l on -k off ".v";
+	setAttr ".rp" -type "double3" 0.0083187522378920277 -4.4408920985006271e-16 -0.058087172128885603 ;
+	setAttr ".rpt" -type "double3" -0.065185966986014449 -0.0059440557057102413 0.044892124069687206 ;
+	setAttr ".sp" -type "double3" 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 ;
+	setAttr ".spt" -type "double3" 1.7347234759768079e-18 0 -0.11617434425777121 ;
+createNode nurbsCurve -n "r_brow_last_1Shape" -p "r_brow_last";
+	rename -uid "8145EBF2-4BC9-9268-44A3-90AB67F5F4FC";
+	setAttr -k off ".v";
+	setAttr ".ove" yes;
+	setAttr ".ovc" 18;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		0.27005833312067951 0.26173958088278665 0.30408721245735482
+		0.0083187522378923556 0.37015566509428743 0.30408721245735482
+		-0.25342082864489412 0.2617395808827867 0.30408721245735476
+		-0.3618369128563948 3.4878972196155583e-16 0.30408721245735471
+		-0.25342082864489435 -0.26173958088278626 0.30408721245735471
+		0.008318752237892281 -0.37015566509428693 0.30408721245735476
+		0.27005833312067884 -0.26173958088278637 0.30408721245735482
+		0.37847441733217974 4.3422447273662952e-17 0.30408721245735482
+		0.27005833312067951 0.26173958088278665 0.30408721245735482
+		0.0083187522378923556 0.37015566509428743 0.30408721245735482
+		-0.25342082864489412 0.2617395808827867 0.30408721245735476
+		;
 createNode transform -n "brow_center_group" -p "controls";
 	rename -uid "ADBBDD83-4352-6C11-E36F-13A5D1E72BBA";
 createNode transform -n "brow_center_group_1" -p "brow_center_group";
@@ -3603,26 +3597,25 @@ createNode transform -n "output" -p "mod";
 	rename -uid "D65FD662-43FE-8FD0-2F2F-2A8EE067FB7F";
 createNode transform -n "outJoints" -p "output";
 	rename -uid "AB9FBA0E-4206-D046-3C9E-CF87ED2B65EB";
-	setAttr ".v" no;
 createNode joint -n "root_outJoint" -p "outJoints";
 	rename -uid "B7185932-4DEB-5BCF-441D-1983F84E6457";
+	setAttr -s 2 ".iog";
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".radi" 0.5;
 createNode transform -n "curve9_gr" -p "output";
 	rename -uid "37F78733-4234-0A17-A792-A88BA071DD14";
 createNode transform -s -n "persp";
 	rename -uid "6DD988D0-4F67-01C8-21B5-089512DF5F58";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 4.3555719427517108 19.865676714874347 21.028237233440596 ;
-	setAttr ".r" -type "double3" -5.9999999999971321 16.000000000000071 -2.0679557755334224e-16 ;
+	setAttr ".t" -type "double3" 1.8849804687080156 20.195519266092475 19.324835698885924 ;
+	setAttr ".r" -type "double3" -7.8000000000003835 4.8000000000001339 -2.4935535882964322e-16 ;
 	setAttr ".rp" -type "double3" 0 0 2.2204460492503131e-16 ;
 	setAttr ".rpt" -type "double3" 7.8318074438749568e-15 2.2130181764198789e-14 -1.4375173266478273e-15 ;
 createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "C0598692-4A65-CD2F-2E76-769943D8CE56";
 	setAttr -k off ".v" no;
 	setAttr ".fl" 34.999999999999979;
-	setAttr ".coi" 15.543642133224616;
+	setAttr ".coi" 14.498282739585843;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -3675,495 +3668,19 @@ createNode camera -s -n "sideShape" -p "side";
 	setAttr ".man" -type "string" "side_mask";
 	setAttr ".hc" -type "string" "viewSet -s %camera";
 	setAttr ".o" yes;
-createNode transform -n "pPlane1";
-	rename -uid "DF2B6F03-4EE4-D418-5469-5BA1FB3BD620";
-	setAttr ".v" no;
-createNode mesh -n "pPlaneShape1" -p "pPlane1";
-	rename -uid "32718CC2-409C-1C87-B5FF-BBAD9508E148";
-	setAttr -k off ".v";
-	setAttr ".vir" yes;
-	setAttr ".vif" yes;
-	setAttr -s 5 ".gtag";
-	setAttr ".gtag[0].gtagnm" -type "string" "back";
-	setAttr ".gtag[0].gtagcmp" -type "componentList" 1 "e[68:75]";
-	setAttr ".gtag[1].gtagnm" -type "string" "front";
-	setAttr ".gtag[1].gtagcmp" -type "componentList" 8 "e[0]" "e[2]" "e[4]" "e[6]" "e[8]" "e[10]" "e[12]" "e[14]";
-	setAttr ".gtag[2].gtagnm" -type "string" "left";
-	setAttr ".gtag[2].gtagcmp" -type "componentList" 4 "e[1]" "e[18]" "e[35]" "e[52]";
-	setAttr ".gtag[3].gtagnm" -type "string" "right";
-	setAttr ".gtag[3].gtagcmp" -type "componentList" 4 "e[16]" "e[33]" "e[50]" "e[67]";
-	setAttr ".gtag[4].gtagnm" -type "string" "rim";
-	setAttr ".gtag[4].gtagcmp" -type "componentList" 14 "e[0:2]" "e[4]" "e[6]" "e[8]" "e[10]" "e[12]" "e[14]" "e[16]" "e[18]" "e[33]" "e[35]" "e[50]" "e[52]" "e[67:75]";
-	setAttr ".pv" -type "double2" 1 0.125 ;
-	setAttr ".uvst[0].uvsn" -type "string" "map1";
-	setAttr -s 75 ".uvst[0].uvsp[0:74]" -type "float2" 0.125 0 0.25 0 0.375
-		 0 0.5 0 0.625 0 0.75 0 0.875 0 1 0 0.125 0.25 0.25 0.25 0.375 0.25 0.5 0.25 0.625
-		 0.25 0.75 0.25 0.875 0.25 1 0.25 0.125 0.5 0.25 0.5 0.375 0.5 0.5 0.5 0.625 0.5 0.75
-		 0.5 0.875 0.5 1 0.5 0.125 0.75 0.25 0.75 0.375 0.75 0.5 0.75 0.625 0.75 0.75 0.75
-		 0.875 0.75 1 0.75 0.125 1 0.25 1 0.375 1 0.5 1 0.625 1 0.75 1 0.875 1 1 1 0.43911847
-		 1 0.43911847 0.75 0.43911847 0.5 0.43911847 0.25 0.43911847 0 0.19181421 1 0.19181421
-		 0.75 0.19181421 0.5 0.19181421 0.25 0.19181421 0 0.31281942 1 0.31281942 0.75 0.31281942
-		 0.5 0.31281942 0.25 0.31281942 0 0.56132233 1 0.56132233 0.75 0.56132233 0.5 0.56132233
-		 0.25 0.56132233 0 0.68811965 1 0.68811965 0.75 0.68811965 0.5 0.68811965 0.25 0.68811965
-		 0 0.81500643 1 0.81500643 0.75 0.81500643 0.5 0.81500643 0.25 0.81500643 0 0.93731177
-		 1 0.93731177 0.75 0.93731177 0.5 0.93731177 0.25 0.93731177 0;
-	setAttr ".cuvs" -type "string" "map1";
-	setAttr ".dcc" -type "string" "Ambient+Diffuse";
-	setAttr ".covm[0]"  0 1 1;
-	setAttr ".cdvm[0]"  0 1 1;
-	setAttr -s 70 ".pt";
-	setAttr ".pt[1]" -type "float3" 0 0.014053166 0 ;
-	setAttr ".pt[2]" -type "float3" 0 0.074304529 0 ;
-	setAttr ".pt[3]" -type "float3" 0.0064658774 0.20439026 0.010517173 ;
-	setAttr ".pt[4]" -type "float3" 0.03099598 0.33770552 0.04766079 ;
-	setAttr ".pt[5]" -type "float3" 0.0062313061 0.083200157 0.12155959 ;
-	setAttr ".pt[6]" -type "float3" -0.037877649 -0.23737356 0.18890971 ;
-	setAttr ".pt[7]" -type "float3" -0.073095039 -0.46452588 0.23541339 ;
-	setAttr ".pt[9]" -type "float3" 0 0.020631639 0 ;
-	setAttr ".pt[10]" -type "float3" 0 0.090595566 0 ;
-	setAttr ".pt[11]" -type "float3" 0.009032812 0.22955686 -5.6926219e-06 ;
-	setAttr ".pt[12]" -type "float3" 0.043039992 0.34202769 -0.02484444 ;
-	setAttr ".pt[13]" -type "float3" 0.024595115 0.062774412 0.004124606 ;
-	setAttr ".pt[14]" -type "float3" -0.019093031 -0.26628065 0.068020724 ;
-	setAttr ".pt[15]" -type "float3" -0.054523282 -0.49740621 0.11568338 ;
-	setAttr ".pt[17]" -type "float3" 0 0.02435917 0 ;
-	setAttr ".pt[18]" -type "float3" 0 0.098885193 0 ;
-	setAttr ".pt[19]" -type "float3" 0.009978083 0.23312645 -0.010106517 ;
-	setAttr ".pt[20]" -type "float3" 0.051039636 0.32353455 -0.08894904 ;
-	setAttr ".pt[21]" -type "float3" 0.041124497 0.036722202 -0.10748076 ;
-	setAttr ".pt[22]" -type "float3" 8.4151048e-05 -0.28627232 -0.05233524 ;
-	setAttr ".pt[23]" -type "float3" -0.033882517 -0.51036853 -0.0074589713 ;
-	setAttr ".pt[25]" -type "float3" 0 0.024128901 0 ;
-	setAttr ".pt[26]" -type "float3" 0 0.097669408 0 ;
-	setAttr ".pt[27]" -type "float3" 0.0087924385 0.21615262 -0.014958427 ;
-	setAttr ".pt[28]" -type "float3" 0.053153001 0.28585306 -0.13136603 ;
-	setAttr ".pt[29]" -type "float3" 0.052646499 0.014430083 -0.1945233 ;
-	setAttr ".pt[30]" -type "float3" 0.017695459 -0.2840451 -0.15632127 ;
-	setAttr ".pt[31]" -type "float3" -0.012206194 -0.48311207 -0.119099 ;
-	setAttr ".pt[33]" -type "float3" 0 0.020008197 0 ;
-	setAttr ".pt[34]" -type "float3" 0 0.087148964 0 ;
-	setAttr ".pt[35]" -type "float3" 0.0058460059 0.18322052 -0.012862715 ;
-	setAttr ".pt[36]" -type "float3" 0.049040332 0.23485824 -0.14523004 ;
-	setAttr ".pt[37]" -type "float3" 0.057128284 -0.0013014458 -0.24156363 ;
-	setAttr ".pt[38]" -type "float3" 0.030379295 -0.25418779 -0.22266352 ;
-	setAttr ".pt[39]" -type "float3" 0.0063995444 -0.41261899 -0.19478804 ;
-	setAttr ".pt[40]" -type "float3" 0 0.13451332 0 ;
-	setAttr ".pt[41]" -type "float3" 0 0.14986527 0 ;
-	setAttr ".pt[42]" -type "float3" 0.00023909249 0.15418744 -0.00016732127 ;
-	setAttr ".pt[43]" -type "float3" 0.00019769542 0.14469835 7.1031602e-05 ;
-	setAttr ".pt[44]" -type "float3" 9.0166453e-05 0.12350576 0.00018344689 ;
-	setAttr ".pt[45]" -type "float3" 0 0.0051868903 0 ;
-	setAttr ".pt[46]" -type "float3" 0 0.0071610012 0 ;
-	setAttr ".pt[47]" -type "float3" 0 0.0071610012 0 ;
-	setAttr ".pt[48]" -type "float3" 0 0.005387113 0 ;
-	setAttr ".pt[49]" -type "float3" 0 0.0025058314 0 ;
-	setAttr ".pt[50]" -type "float3" 0 0.050138768 0 ;
-	setAttr ".pt[51]" -type "float3" 0 0.057403058 0 ;
-	setAttr ".pt[52]" -type "float3" 0 0.058036059 0 ;
-	setAttr ".pt[53]" -type "float3" 0 0.051910777 0 ;
-	setAttr ".pt[54]" -type "float3" 0 0.040355463 0 ;
-	setAttr ".pt[55]" -type "float3" 0.0260101 0.23879391 -0.066025533 ;
-	setAttr ".pt[56]" -type "float3" 0.030861534 0.28730699 -0.06346374 ;
-	setAttr ".pt[57]" -type "float3" 0.031457059 0.31829849 -0.043212615 ;
-	setAttr ".pt[58]" -type "float3" 0.027667126 0.32584205 -0.0094292751 ;
-	setAttr ".pt[59]" -type "float3" 0.02061474 0.30719075 0.028568381 ;
-	setAttr ".pt[60]" -type "float3" 0.060629055 0.14695489 -0.21057367 ;
-	setAttr ".pt[61]" -type "float3" 0.061382104 0.18556471 -0.18096134 ;
-	setAttr ".pt[62]" -type "float3" 0.054562189 0.21921381 -0.11388982 ;
-	setAttr ".pt[63]" -type "float3" 0.041955829 0.24338371 -0.021996194 ;
-	setAttr ".pt[64]" -type "float3" 0.025916805 0.25308985 0.078746907 ;
-	setAttr ".pt[65]" -type "float3" 0.04483426 -0.14087108 -0.23897815 ;
-	setAttr ".pt[66]" -type "float3" 0.035648976 -0.14785333 -0.17893639 ;
-	setAttr ".pt[67]" -type "float3" 0.020385709 -0.13682662 -0.079704374 ;
-	setAttr ".pt[68]" -type "float3" 0.0021142941 -0.11266413 0.039035305 ;
-	setAttr ".pt[69]" -type "float3" -0.016807513 -0.086604968 0.1607834 ;
-	setAttr ".pt[70]" -type "float3" 0.018158978 -0.33791339 -0.20750138 ;
-	setAttr ".pt[71]" -type "float3" 0.0025458038 -0.38794452 -0.13638389 ;
-	setAttr ".pt[72]" -type "float3" -0.017089438 -0.40291142 -0.028564585 ;
-	setAttr ".pt[73]" -type "float3" -0.036998898 -0.38630196 0.093202814 ;
-	setAttr ".pt[74]" -type "float3" -0.055664882 -0.35516652 0.21344116 ;
-	setAttr -s 75 ".vt[0:74]"  0 17.13588333 7.25521469 0.83613563 17.099191666 7.35568523
-		 1.75941372 17.082601547 7.419065 2.91508222 17.098484039 7.2023654 3.93555069 17.098974228 6.47132587
-		 4.53215504 17.070449829 5.49499512 4.82358599 17.019731522 4.63584566 5.074279308 16.95340729 3.94750404
-		 0 17.56525421 7.2048049 0.85747099 17.52867889 7.3044467 1.77969921 17.5129509 7.36603975
-		 2.92950177 17.52872849 7.14445639 3.9410727 17.52887535 6.41318274 4.53289938 17.50017548 5.44163275
-		 4.82352066 17.44952774 4.58290386 5.074243546 17.38320351 3.89418888 0 17.994627 7.15424824
-		 0.87882447 17.95816422 7.25300407 1.79966879 17.9432354 7.31297445 2.94319081 17.95885086 7.086911678
-		 3.94612098 17.95865822 6.35608244 4.5334239 17.93000793 5.38684082 4.82345581 17.87932396 4.5299387
-		 5.074210644 17.81300163 3.84084511 0 18.42399979 7.10371113 0.90017551 18.38765144 7.20158386
-		 1.81963587 18.37351036 7.25984812 2.95672655 18.38894653 7.029396534 3.95110893 18.38842392 6.29909134
-		 4.53417158 18.35973358 5.33342457 4.82341623 18.30912018 4.4766717 5.074196339 18.24279594 3.7872839
-		 0 18.85336876 7.053020954 0.92152625 18.81713867 7.15016603 1.83928287 18.80372238 7.20665216
-		 2.97024179 18.81903458 6.971838 3.9560914 18.81819153 6.24209213 4.53505278 18.78945923 5.27840567
-		 4.82348347 18.73891449 4.42212868 5.074230671 18.67259216 3.73313165 2.43710876 18.81157684 7.12751198
-		 2.42060709 18.38142967 7.18294525 2.40393901 17.95124626 7.23832321 2.38719082 17.52104378 7.29368591
-		 2.36991405 17.090747833 7.34921646 0.56590235 18.83400345 7.10494661 0.54285157 18.40456963 7.15602541
-		 0.51980698 17.97513771 7.20703459 0.49676013 17.54570389 7.25806475 0.47372836 17.11627197 7.308918
-		 1.38274968 18.81039619 7.18445444 1.3622551 18.38054466 7.23676586 1.3415997 17.95066071 7.2890439
-		 1.32094157 17.52077484 7.34130144 1.30013382 17.090854645 7.39343786 3.49518585 18.81862068 6.65514708
-		 3.48585629 18.38868904 6.71243143 3.47651386 17.95875549 6.76968908 3.4670639 17.52879906 6.82701588
-		 3.45700932 17.098722458 6.88503981 4.29565048 18.80368233 5.7790761 4.29273844 18.37393761 5.8350749
-		 4.2898922 17.94419098 5.8902607 4.28712797 17.51438332 5.9461956 4.28401852 17.084569931 6.0019240379
-		 4.68505144 18.76317406 4.83309793 4.68459368 18.33341217 4.88786888 4.6842556 17.90365028 4.94120836
-		 4.68403721 17.47383499 4.99504948 4.68371439 17.044073105 5.048192978 4.94847965 18.70585251 4.078668118
-		 4.94842863 18.2760582 4.13301611 4.94845486 17.84626198 4.18642998 4.94850445 17.41646767 4.23958397
-		 4.94855499 16.98666954 4.29271126;
-	setAttr -s 130 ".ed[0:129]"  0 49 0 0 8 0 1 54 0 1 9 1 2 44 0 2 10 1 3 59 0
-		 3 11 1 4 64 0 4 12 1 5 69 0 5 13 1 6 74 0 6 14 1 7 15 0 8 48 1 8 16 0 9 53 1 9 17 1
-		 10 43 1 10 18 1 11 58 1 11 19 1 12 63 1 12 20 1 13 68 1 13 21 1 14 73 1 14 22 1 15 23 0
-		 16 47 1 16 24 0 17 52 1 17 25 1 18 42 1 18 26 1 19 57 1 19 27 1 20 62 1 20 28 1 21 67 1
-		 21 29 1 22 72 1 22 30 1 23 31 0 24 46 1 24 32 0 25 51 1 25 33 1 26 41 1 26 34 1 27 56 1
-		 27 35 1 28 61 1 28 36 1 29 66 1 29 37 1 30 71 1 30 38 1 31 39 0 32 45 0 33 50 0 34 40 0
-		 35 55 0 36 60 0 37 65 0 38 70 0 40 35 0 41 27 1 40 41 1 42 19 1 41 42 1 43 11 1 42 43 1
-		 44 3 0 43 44 1 45 33 0 46 25 1 45 46 1 47 17 1 46 47 1 48 9 1 47 48 1 49 1 0 48 49 1
-		 50 34 0 51 26 1 50 51 1 52 18 1 51 52 1 53 10 1 52 53 1 54 2 0 53 54 1 55 36 0 56 28 1
-		 55 56 1 57 20 1 56 57 1 58 12 1 57 58 1 59 4 0 58 59 1 60 37 0 61 29 1 60 61 1 62 21 1
-		 61 62 1 63 13 1 62 63 1 64 5 0 63 64 1 65 38 0 66 30 1 65 66 1 67 22 1 66 67 1 68 14 1
-		 67 68 1 69 6 0 68 69 1 70 39 0 71 31 1 70 71 1 72 23 1 71 72 1 73 15 1 72 73 1 74 7 0
-		 73 74 1;
-	setAttr -s 56 -ch 224 ".fc[0:55]" -type "polyFaces" 
-		f 4 83 3 -82 84
-		mu 0 4 49 1 9 48
-		f 4 92 5 -91 93
-		mu 0 4 54 2 10 53
-		f 4 74 7 -73 75
-		mu 0 4 44 3 11 43
-		f 4 101 9 -100 102
-		mu 0 4 59 4 12 58
-		f 4 110 11 -109 111
-		mu 0 4 64 5 13 63
-		f 4 119 13 -118 120
-		mu 0 4 69 6 14 68
-		f 4 128 14 -127 129
-		mu 0 4 74 7 15 73
-		f 4 81 18 -80 82
-		mu 0 4 48 9 17 47
-		f 4 90 20 -89 91
-		mu 0 4 53 10 18 52
-		f 4 72 22 -71 73
-		mu 0 4 43 11 19 42
-		f 4 99 24 -98 100
-		mu 0 4 58 12 20 57
-		f 4 108 26 -107 109
-		mu 0 4 63 13 21 62
-		f 4 117 28 -116 118
-		mu 0 4 68 14 22 67
-		f 4 126 29 -125 127
-		mu 0 4 73 15 23 72
-		f 4 79 33 -78 80
-		mu 0 4 47 17 25 46
-		f 4 88 35 -87 89
-		mu 0 4 52 18 26 51
-		f 4 70 37 -69 71
-		mu 0 4 42 19 27 41
-		f 4 97 39 -96 98
-		mu 0 4 57 20 28 56
-		f 4 106 41 -105 107
-		mu 0 4 62 21 29 61
-		f 4 115 43 -114 116
-		mu 0 4 67 22 30 66
-		f 4 124 44 -123 125
-		mu 0 4 72 23 31 71
-		f 4 77 48 -77 78
-		mu 0 4 46 25 33 45
-		f 4 86 50 -86 87
-		mu 0 4 51 26 34 50
-		f 4 68 52 -68 69
-		mu 0 4 41 27 35 40
-		f 4 95 54 -95 96
-		mu 0 4 56 28 36 55
-		f 4 104 56 -104 105
-		mu 0 4 61 29 37 60
-		f 4 113 58 -113 114
-		mu 0 4 66 30 38 65
-		f 4 122 59 -122 123
-		mu 0 4 71 31 39 70
-		f 4 49 -70 -63 -51
-		mu 0 4 26 41 40 34
-		f 4 34 -72 -50 -36
-		mu 0 4 18 42 41 26
-		f 4 19 -74 -35 -21
-		mu 0 4 10 43 42 18
-		f 4 4 -76 -20 -6
-		mu 0 4 2 44 43 10
-		f 4 45 -79 -61 -47
-		mu 0 4 24 46 45 32
-		f 4 30 -81 -46 -32
-		mu 0 4 16 47 46 24
-		f 4 15 -83 -31 -17
-		mu 0 4 8 48 47 16
-		f 4 0 -85 -16 -2
-		mu 0 4 0 49 48 8
-		f 4 47 -88 -62 -49
-		mu 0 4 25 51 50 33
-		f 4 32 -90 -48 -34
-		mu 0 4 17 52 51 25
-		f 4 17 -92 -33 -19
-		mu 0 4 9 53 52 17
-		f 4 2 -94 -18 -4
-		mu 0 4 1 54 53 9
-		f 4 51 -97 -64 -53
-		mu 0 4 27 56 55 35
-		f 4 36 -99 -52 -38
-		mu 0 4 19 57 56 27
-		f 4 21 -101 -37 -23
-		mu 0 4 11 58 57 19
-		f 4 6 -103 -22 -8
-		mu 0 4 3 59 58 11
-		f 4 53 -106 -65 -55
-		mu 0 4 28 61 60 36
-		f 4 38 -108 -54 -40
-		mu 0 4 20 62 61 28
-		f 4 23 -110 -39 -25
-		mu 0 4 12 63 62 20
-		f 4 8 -112 -24 -10
-		mu 0 4 4 64 63 12
-		f 4 55 -115 -66 -57
-		mu 0 4 29 66 65 37
-		f 4 40 -117 -56 -42
-		mu 0 4 21 67 66 29
-		f 4 25 -119 -41 -27
-		mu 0 4 13 68 67 21
-		f 4 10 -121 -26 -12
-		mu 0 4 5 69 68 13
-		f 4 57 -124 -67 -59
-		mu 0 4 30 71 70 38
-		f 4 42 -126 -58 -44
-		mu 0 4 22 72 71 30
-		f 4 27 -128 -43 -29
-		mu 0 4 14 73 72 22
-		f 4 12 -130 -28 -14
-		mu 0 4 6 74 73 14;
-	setAttr ".cd" -type "dataPolyComponent" Index_Data Edge 0 ;
-	setAttr ".cvd" -type "dataPolyComponent" Index_Data Vertex 0 ;
-	setAttr ".pd[0]" -type "dataPolyComponent" Index_Data UV 0 ;
-	setAttr ".hfd" -type "dataPolyComponent" Index_Data Face 0 ;
-createNode transform -n "curveJoints_grp1";
-	rename -uid "7147900E-4219-75CD-2628-7A8FDFD31594";
-	setAttr ".v" no;
-createNode transform -n "curveLoc_00" -p "curveJoints_grp1";
-	rename -uid "F8FEAE25-4275-D8EE-38A7-9491341D1E4E";
-createNode locator -n "curveLoc_00Shape" -p "curveLoc_00";
-	rename -uid "B93D980D-4B89-92AF-B409-1794D4873A1C";
-	setAttr -k off ".v";
-createNode joint -n "curveJnt_00" -p "curveLoc_00";
-	rename -uid "806EA4D4-4133-7AC7-DFAA-719F1354D55E";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-createNode joint -n "curveJnt_00_end" -p "curveJnt_00";
-	rename -uid "919BB587-46B5-B8A8-38D3-1DA2CD7D469B";
-	setAttr ".t" -type "double3" 0.1 0 0 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-createNode transform -n "curveLoc_01" -p "curveJoints_grp1";
-	rename -uid "B8C8DFE2-41E9-BB7C-98AD-23A0904833E6";
-createNode locator -n "curveLoc_01Shape" -p "curveLoc_01";
-	rename -uid "757EA049-4873-C3B8-2763-CBA8268F2528";
-	setAttr -k off ".v";
-createNode joint -n "curveJnt_01" -p "curveLoc_01";
-	rename -uid "C10C6C0F-4610-1C18-832E-B2BDA5EAB45A";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-createNode joint -n "curveJnt_01_end" -p "curveJnt_01";
-	rename -uid "0D2004D2-4494-2FF5-0E36-FD828EFE0B52";
-	setAttr ".t" -type "double3" 0.1 0 0 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-createNode transform -n "curveLoc_02" -p "curveJoints_grp1";
-	rename -uid "FCFF4A3E-4003-AC94-F2F5-908E1066B0AD";
-createNode locator -n "curveLoc_02Shape" -p "curveLoc_02";
-	rename -uid "594DAE92-4A18-90B0-16B5-73B69C21F661";
-	setAttr -k off ".v";
-createNode joint -n "curveJnt_02" -p "curveLoc_02";
-	rename -uid "F16F9D58-4133-C675-E201-E5BF76B62641";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-createNode joint -n "curveJnt_02_end" -p "curveJnt_02";
-	rename -uid "DEC958B4-4D96-BDB4-8F54-C1B99534627B";
-	setAttr ".t" -type "double3" 0.1 0 0 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-createNode transform -n "curveLoc_03" -p "curveJoints_grp1";
-	rename -uid "8EE51E7F-49FD-B002-03BA-43B1513F3065";
-createNode locator -n "curveLoc_03Shape" -p "curveLoc_03";
-	rename -uid "EF2E72B0-42F4-4A98-1D77-DDA717819BF7";
-	setAttr -k off ".v";
-createNode joint -n "curveJnt_03" -p "curveLoc_03";
-	rename -uid "AD58F816-4791-C274-8E16-69AE75102AD2";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-createNode joint -n "curveJnt_03_end" -p "curveJnt_03";
-	rename -uid "BF041B4A-41B3-E121-8560-31B885242EB6";
-	setAttr ".t" -type "double3" 0.1 0 0 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-createNode transform -n "curveLoc_04" -p "curveJoints_grp1";
-	rename -uid "9A6E757F-4061-87E4-10E2-CF8962357414";
-createNode locator -n "curveLoc_04Shape" -p "curveLoc_04";
-	rename -uid "50256FB0-4144-D372-5606-EF9D37F6ADD8";
-	setAttr -k off ".v";
-createNode joint -n "curveJnt_04" -p "curveLoc_04";
-	rename -uid "C53F3151-476C-3E75-1554-97B3E084F4B2";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-createNode joint -n "curveJnt_04_end" -p "curveJnt_04";
-	rename -uid "2FE34236-46F0-9153-5DC6-2C87DCAA00CC";
-	setAttr ".t" -type "double3" 0.1 0 0 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-createNode transform -n "curveLoc_05" -p "curveJoints_grp1";
-	rename -uid "96A4F097-4DB4-468B-ABD5-F1B8C543446C";
-createNode locator -n "curveLoc_05Shape" -p "curveLoc_05";
-	rename -uid "BEDB0C11-4218-57EF-C77B-F983B78EA5B0";
-	setAttr -k off ".v";
-createNode joint -n "curveJnt_05" -p "curveLoc_05";
-	rename -uid "966B5A0F-44D0-0C44-EA26-C48B99052B8B";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-createNode joint -n "curveJnt_05_end" -p "curveJnt_05";
-	rename -uid "408BC2AD-4D4D-FA10-ECA2-AFBEC8A0BF23";
-	setAttr ".t" -type "double3" 0.1 0 0 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-createNode transform -n "curveLoc_06" -p "curveJoints_grp1";
-	rename -uid "13F7FBD6-494E-B3CC-5AE5-CA970C5AFEA6";
-createNode locator -n "curveLoc_06Shape" -p "curveLoc_06";
-	rename -uid "0A558E10-4D6D-A6BC-A957-2291E675DA9A";
-	setAttr -k off ".v";
-createNode joint -n "curveJnt_06" -p "curveLoc_06";
-	rename -uid "EBDB2622-455F-71D9-0B85-C180641638D8";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-createNode joint -n "curveJnt_06_end" -p "curveJnt_06";
-	rename -uid "E1BEB028-4E69-23D6-F091-ACBC79309C65";
-	setAttr ".t" -type "double3" 0.1 0 0 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-createNode transform -n "curveLoc_07" -p "curveJoints_grp1";
-	rename -uid "403B4C40-477E-DA0A-F2C5-AB8AC3E37E98";
-createNode locator -n "curveLoc_07Shape" -p "curveLoc_07";
-	rename -uid "C8D38716-4284-CC62-247D-319F0477E1E1";
-	setAttr -k off ".v";
-createNode joint -n "curveJnt_07" -p "curveLoc_07";
-	rename -uid "9F4BBA28-46D7-2B15-EF33-AC9BD6555642";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-createNode joint -n "curveJnt_07_end" -p "curveJnt_07";
-	rename -uid "71D09FB7-4B35-44AA-A8B1-808F5999F144";
-	setAttr ".t" -type "double3" 0.1 0 0 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-createNode transform -n "curveLoc_08" -p "curveJoints_grp1";
-	rename -uid "193ECCF6-421F-5CC7-DCC9-679F32BB348D";
-createNode locator -n "curveLoc_08Shape" -p "curveLoc_08";
-	rename -uid "D2DCA795-4EEF-8369-2F84-80ABEF2A8862";
-	setAttr -k off ".v";
-createNode joint -n "curveJnt_08" -p "curveLoc_08";
-	rename -uid "95B06CF6-49A2-57B3-6B92-1D91D2AEBD93";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-createNode joint -n "curveJnt_08_end" -p "curveJnt_08";
-	rename -uid "404E571F-42FE-96AC-9317-F8944D3F2A79";
-	setAttr ".t" -type "double3" 0.1 0 0 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-createNode transform -n "curveLoc_09" -p "curveJoints_grp1";
-	rename -uid "ECB5A145-4EC6-DC72-E5DD-DFB2F782E6F8";
-createNode locator -n "curveLoc_09Shape" -p "curveLoc_09";
-	rename -uid "44EC3413-4B93-BAB1-7751-AA8F36BFD8DB";
-	setAttr -k off ".v";
-createNode joint -n "curveJnt_09" -p "curveLoc_09";
-	rename -uid "C748FA14-4A9F-B1A4-FC3B-41AC94BBC4AF";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-createNode joint -n "curveJnt_09_end" -p "curveJnt_09";
-	rename -uid "21B4B05E-4538-D300-8F79-20AA6B483DEC";
-	setAttr ".t" -type "double3" 0.1 0 0 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-createNode transform -n "curveLoc_10" -p "curveJoints_grp1";
-	rename -uid "E2F0CF89-4477-E442-FE02-7798AD497A5D";
-createNode locator -n "curveLoc_10Shape" -p "curveLoc_10";
-	rename -uid "12792061-443D-91F6-460B-7E95B4A58BFC";
-	setAttr -k off ".v";
-createNode joint -n "curveJnt_10" -p "curveLoc_10";
-	rename -uid "41CAD27C-40DF-D981-06D5-CE9D10E017FC";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-createNode joint -n "curveJnt_10_end" -p "curveJnt_10";
-	rename -uid "081F86E3-4E53-11C2-7C8F-368AC0B160D6";
-	setAttr ".t" -type "double3" 0.1 0 0 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-createNode transform -n "curveLoc_11" -p "curveJoints_grp1";
-	rename -uid "876B3012-40DC-DA41-F802-2A900F274314";
-createNode locator -n "curveLoc_11Shape" -p "curveLoc_11";
-	rename -uid "125583A6-4042-76C1-0333-5AB92A79FEFE";
-	setAttr -k off ".v";
-createNode joint -n "curveJnt_11" -p "curveLoc_11";
-	rename -uid "994B6554-4B5D-34A8-10BA-FF85396525AE";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-createNode joint -n "curveJnt_11_end" -p "curveJnt_11";
-	rename -uid "AA559171-4DCA-28B0-159C-9AAEB92346D4";
-	setAttr ".t" -type "double3" 0.1 0 0 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-createNode transform -n "curveLoc_12" -p "curveJoints_grp1";
-	rename -uid "571B76D6-4B0B-2D30-2D0A-099B1F5905A4";
-createNode locator -n "curveLoc_12Shape" -p "curveLoc_12";
-	rename -uid "B9393A98-48C9-EF2D-605B-54A4A11C40B3";
-	setAttr -k off ".v";
-createNode joint -n "curveJnt_12" -p "curveLoc_12";
-	rename -uid "91F26C71-4FD5-53B0-071A-64939A0EDD9B";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-createNode joint -n "curveJnt_12_end" -p "curveJnt_12";
-	rename -uid "D9A74AD1-41AB-9519-61F3-A1A188037531";
-	setAttr ".t" -type "double3" 0.1 0 0 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
-createNode transform -n "curveLoc_13" -p "curveJoints_grp1";
-	rename -uid "BFA3EF0E-4BA5-42CE-EEB1-9C85F3AD723A";
-createNode locator -n "curveLoc_13Shape" -p "curveLoc_13";
-	rename -uid "44A5A64A-4070-B4DF-7C75-ED813C90FF13";
-	setAttr -k off ".v";
-createNode joint -n "curveJnt_13" -p "curveLoc_13";
-	rename -uid "14987949-4472-B60B-8100-9EBE081C6660";
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-createNode joint -n "curveJnt_13_end" -p "curveJnt_13";
-	rename -uid "E6B50E3A-4377-96B3-DD43-DD9EE1CCF7D5";
-	setAttr ".t" -type "double3" 0.1 0 0 ;
-	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
-	setAttr ".mxrl" -type "double3" 360 360 360 ;
-	setAttr ".dla" yes;
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "EA4018F5-42A1-F493-D37C-1B9A962E2CFE";
+	rename -uid "0D791FF5-4FC3-1A47-FDBD-D785076CA228";
 	setAttr -s 24 ".lnk";
 	setAttr -s 24 ".slnk";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "08979957-4FC1-8A28-276D-2D838F09EAA7";
+	rename -uid "FB51481B-4F54-8088-4301-FC8D2547EACF";
 	setAttr ".cdl" 1;
 	setAttr -s 3 ".dli[1:2]"  3 1;
 	setAttr -s 2 ".dli";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "47598A7F-4076-9A26-4738-16A1F08E3130";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "1BEC31C7-4C89-3CA6-B3B1-8C97A84ED8AA";
+	rename -uid "46A9C10F-44DD-CE98-3C80-67A7C5E7819F";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "50669F66-46C9-894E-CDC6-858734AB76F8";
 	setAttr ".g" yes;
@@ -4195,6 +3712,7 @@ createNode objectSet -n "moduleControlSet";
 createNode objectSet -n "sets";
 	rename -uid "A46F51A1-4817-F3B2-E213-B1A26CD977FD";
 	setAttr ".ihi" 0;
+	setAttr -s 2 ".dnsm";
 createNode groupId -n "cluster4GroupId";
 	rename -uid "9F50CFF8-4C26-1AC4-AB3B-709E643A9AA8";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -4251,10 +3769,10 @@ createNode shadingEngine -n "black_rsSG";
 createNode materialInfo -n "materialInfo1";
 	rename -uid "8DB900E0-43C7-80AF-0ADC-A7AE8603C4D0";
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "55EA0BF6-4A61-9592-4F96-71900772865B";
+	rename -uid "3AF7E9D3-49BC-0F57-EBEE-ABB9B0EC7B57";
 	setAttr ".bsdt[0].bscd" -type "Int32Array" 1 0 ;
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "5FE77D07-4BE1-6E10-8486-8A9104C888E8";
+	rename -uid "9D2F2120-48A0-7F14-A49E-2788BC89AFAB";
 createNode multiplyDivide -n "size_multiplyDivide";
 	rename -uid "FC884255-462D-CC24-783E-69B68427DF01";
 createNode makeNurbSphere -n "mid_makeNurbSphere";
@@ -4715,7 +4233,7 @@ createNode network -n "hyperNode_sessionData";
 	addAttr -ci true -sn "hyperNodeSessionJSON" -ln "hyperNodeSessionJSON" -dt "string";
 	setAttr ".ihi" 0;
 	setAttr ".hyperNodeSessionJSON" -type "string" (
-		"{\"tabs\": [{\"name\": \"Up Offset\", \"nodes\": {}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -2005.442454498131, \"cy\": -79.79214009939513, \"scale\": 0.1879884407325692}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Limits Positions\", \"nodes\": {\"up_vis_condition\": {\"x\": -2166.6568703927096, \"y\": 874.1147865853516, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"colorIfFalse\", \"outColor\"]}, \"down_vis_condition\": {\"x\": -2189.562862399022, \"y\": 2630.4536162250015, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"colorIfTrue\", \"outColor\"]}, \"multDoubleLinear6\": {\"x\": -490.84109558006315, \"y\": 2777.707056746256, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_1_group_1\": {\"x\": 739.580257279335, \"y\": 731.973061854147, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow\": {\"x\": -2494.931235842602, \"y\": 363.32108307228737, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_brow\": {\"x\": -910.3714456407814, \"y\": 845.1024105177219, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_in_group_1\": {\"x\": 283.43579711559767, \"y\": 345.7943039171994, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group_1\": {\"x\": 259.76156139464166, \"y\": 86.3084541293361, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_group_1\": {\"x\": 287.6704399282422, \"y\": -179.49899178341397, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode3\": {\"x\": -395.65400887599316, \"y\": -118.86328269234969, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_in_group_1\": {\"x\": 766.0758577850279, \"y\": 396.4457630312555, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_mid_group_1\": {\"x\": 720.0655778401981, \"y\": 116.70134708316337, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_out_group_1\": {\"x\": 717.3590907846199, \"y\": -148.15739005924854, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode4\": {\"x\": -409.360285531814, \"y\": 571.1603330517914, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3_top\": {\"x\": -654.3660599517458, \"y\": 1755.0770391535198, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_top\": {\"x\": -654.3660599517458, \"y\": 1911.0770391535189, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_top\": {\"x\": -654.3660599517458, \"y\": 2067.0770391535193, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_top\": {\"x\": -654.3660599517458, \"y\": 2223.0770391535193, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_top\": {\"x\": -654.3660599517458, \"y\": 2379.0770391535193, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3_bot\": {\"x\": -1001.0039742674024, \"y\": 2974.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_bot\": {\"x\": -1001.0039742674024, \"y\": 3130.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_bot\": {\"x\": -1001.0039742674024, \"y\": 3286.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_bot\": {\"x\": -1001.0039742674024, \"y\": 3442.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_bot\": {\"x\": -1001.0039742674024, \"y\": 3598.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_bot\": {\"x\": -1589.5823838428544, \"y\": 884.8684080840438, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_bot\": {\"x\": -1589.5823838428544, \"y\": 572.8684080840438, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_bot\": {\"x\": -1589.5823838428544, \"y\": 728.8684080840438, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_top\": {\"x\": -1605.7733050593943, \"y\": 1377.240307037215, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_top\": {\"x\": -1590.7236369844452, \"y\": 1039.419853873925, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_top\": {\"x\": -1605.7733050593943, \"y\": 1221.240307037215, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_midShape\": {\"x\": -103.11179961164635, \"y\": 2814.3503646322097, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_1Shape\": {\"x\": -103.11179961164635, \"y\": 2970.3503646322097, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3Shape\": {\"x\": 386.8111748537466, \"y\": 2894.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4Shape\": {\"x\": 386.8111748537466, \"y\": 3050.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5Shape\": {\"x\": 386.8111748537466, \"y\": 3206.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6Shape\": {\"x\": 386.8111748537466, \"y\": 3362.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7Shape\": {\"x\": 386.8111748537466, \"y\": 3518.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_bot\": {\"x\": -1144.4963303125119, \"y\": 181.2747320270655, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_top\": {\"x\": -1227.1018650322728, \"y\": -43.72759313175617, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1Shape\": {\"x\": 421.1196816708501, \"y\": 2444.873929804466, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_group_1\": {\"x\": 329.0846799346817, \"y\": 752.1165622477623, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_bot\": {\"x\": -1002.0342895341465, \"y\": 2673.075343360965, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_top\": {\"x\": -664.1307711498106, \"y\": 1522.354308311582, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2Shape\": {\"x\": 386.8111748537466, \"y\": 2738.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_1Shape\": {\"x\": -117.4179670236613, \"y\": 2685.2506906095537, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -42.17636107359866, \"cy\": 435.82239776051955, \"scale\": 0.9246885934977689}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Local Controls\", \"nodes\": {\"l_curve9_5_loc_moveOffset\": {\"x\": 1429.234514928237, \"y\": 1076.0109511657433, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_local_4_moveOffset\": {\"x\": 1438.0651915864876, \"y\": 775.1131621721725, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_local_7_rotateOffset\": {\"x\": 1490.8491645270976, \"y\": 1586.4956355805161, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_curve9_3_loc_moveOffset\": {\"x\": 1437.8507537297994, \"y\": 527.0551049994947, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow\": {\"x\": -1739.378953487646, \"y\": 137.3582187643736, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"minTransLimitEnable\", \"rotate\", \"translate\"]}, \"r_brow_local_2_rotateOffset\": {\"x\": -630.2311870407996, \"y\": -27.432186803719844, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\"]}, \"r_brow_in\": {\"x\": -1745.427055503622, \"y\": 2620.3880802635827, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"unitConversion59\": {\"x\": -1073.5190718009053, \"y\": 47.324359257401454, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow\": {\"x\": -1755.6593343750458, \"y\": 2230.357333894182, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_mid\": {\"x\": -1734.2663701107542, \"y\": 1219.6641350509706, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"r_brow_mid\": {\"x\": -1739.571056147512, \"y\": 3102.653994878301, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_brow_out\": {\"x\": -1703.852813382678, \"y\": 1724.1765822733835, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"r_brow_out\": {\"x\": -1689.0018459518478, \"y\": 3482.208085942973, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"r_brow_local_1_moveOffset\": {\"x\": 1512.0907572016654, \"y\": 2012.81123502651, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_curve9_5_loc_moveOffset\": {\"x\": 1575.1589401218994, \"y\": 3415.2578859666005, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_brow_local_4_moveOffset\": {\"x\": 1582.4262086829349, \"y\": 3061.10587777533, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_brow_local_7_rotateOffset\": {\"x\": 1612.845253694074, \"y\": 4063.193504678843, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"r_curve9_2_loc_moveOffset\": {\"x\": 1512.3589515567824, \"y\": 2359.05979166998, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_curve9_3_loc_moveOffset\": {\"x\": 1530.2836675818512, \"y\": 2747.1840200994898, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_local_hyperNode\": {\"x\": 42.97125716579603, \"y\": 944.5979658912006, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve9_6_loc_moveOffset\": {\"x\": 1463.228035201765, \"y\": 1326.0289661584961, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_curve9_6_loc_moveOffset\": {\"x\": 1615.8431315318644, \"y\": 3705.435167356371, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"multDoubleLinear64\": {\"x\": -1068.6977208355947, \"y\": 2520.352348138507, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear65\": {\"x\": -1154.6373648747235, \"y\": 1781.7116627119099, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion87\": {\"x\": 96.74710315806637, \"y\": 2857.84695731484, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage53\": {\"x\": -1634.8174828385586, \"y\": 2873.256285418064, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage54\": {\"x\": -1674.2236025194027, \"y\": 1271.3956969659007, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear48\": {\"x\": -2210.671506792376, \"y\": 1543.3947047202132, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear49\": {\"x\": -2204.605530791863, \"y\": 3127.3698456958937, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear51\": {\"x\": -2209.4543891902604, \"y\": 1051.499838778564, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage55\": {\"x\": 2146.665023713691, \"y\": 2060.8664082288738, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage56\": {\"x\": 2137.2786732568547, \"y\": 2827.8250078369756, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear67\": {\"x\": -1154.5220580907555, \"y\": 974.1480101703723, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear68\": {\"x\": -347.6046702713435, \"y\": 840.1849306401605, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion88\": {\"x\": -739.0547055381572, \"y\": 1876.1115624071695, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear69\": {\"x\": -340.99820939120093, \"y\": 2267.4886512127628, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear70\": {\"x\": -333.4583766983511, \"y\": 3133.7851497348393, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear71\": {\"x\": -345.46269299507514, \"y\": 1441.8105479141154, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear72\": {\"x\": -1095.4422251795627, \"y\": 3500.562451047821, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion89\": {\"x\": 1091.8351278447349, \"y\": 3598.947957734646, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear73\": {\"x\": 523.1000818415463, \"y\": 2068.060133928398, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear74\": {\"x\": 504.2234756067777, \"y\": 2439.549293539281, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear75\": {\"x\": 463.61805057808067, \"y\": 1059.4013230499572, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear76\": {\"x\": 499.7023756826069, \"y\": 3220.191390408489, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage57\": {\"x\": 2168.1646481338757, \"y\": 1304.5420009948698, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage58\": {\"x\": 2157.2043070261316, \"y\": 3290.892832057253, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion90\": {\"x\": 121.09644437527312, \"y\": 1497.3228031671965, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear77\": {\"x\": 1509.105586196707, \"y\": 3630.570979338425, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear78\": {\"x\": 1486.458364803993, \"y\": 3453.3487528397686, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear79\": {\"x\": 1463.4574725058524, \"y\": 3172.4957521466804, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear80\": {\"x\": -374.70815937325335, \"y\": 570.1341476433568, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion91\": {\"x\": -728.5490280277414, \"y\": 418.67143694170363, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear81\": {\"x\": 715.2708653488725, \"y\": 698.823690017412, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear82\": {\"x\": 1531.486627428786, \"y\": 3851.3919704469167, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"clamp17\": {\"x\": 2105.663484370616, \"y\": 416.54169872238117, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"clamp18\": {\"x\": 2161.4979543218997, \"y\": 3905.5231972876236, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear83\": {\"x\": -1302.8513656189955, \"y\": 3820.6566058213607, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear84\": {\"x\": 583.2736396327249, \"y\": 2683.0426249992083, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_moveOffset\": {\"x\": 1429.2074050921362, \"y\": -75.16161677367381, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve9_2_loc_moveOffset\": {\"x\": 1444.2380514399285, \"y\": 223.76090673751605, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion57\": {\"x\": -1066.7750606323048, \"y\": -321.34825129275345, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_rotateOffset\": {\"x\": -649.9376013229803, \"y\": -386.8824012562231, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in\": {\"x\": -1736.6328496490178, \"y\": 741.9721598559564, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": 4, \"notes\": [], \"view\": {\"cx\": 236.2538058165527, \"cy\": 1364.3206419864284, \"scale\": 1.10897684418019}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 3\", \"nodes\": {\"l_brow_local_3_group_1\": {\"x\": -3344.5706504287286, \"y\": -1642.2152273153836, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\"]}, \"l_brow_local_3_top\": {\"x\": -4567.663228225373, \"y\": -1722.5031462899315, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3_bot\": {\"x\": -4578.1329164802255, \"y\": -1504.0234655443223, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode5\": {\"x\": -3976.108229299178, \"y\": -2172.563785668608, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode6\": {\"x\": -3950.744887280922, \"y\": -1624.225493864628, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode7\": {\"x\": -3978.729746881162, \"y\": -992.9426861364456, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_group\": {\"x\": -3417.618423470978, \"y\": -951.0464661833422, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_top\": {\"x\": -4625.970940172138, \"y\": -1080.108694358415, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_bot\": {\"x\": -4606.512767600461, \"y\": -820.0074710999415, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_group_1\": {\"x\": -3356.559534173694, \"y\": -366.92476215960886, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_top\": {\"x\": -4597.580373641829, \"y\": -495.35398556092275, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_bot\": {\"x\": -4600.1535657163995, \"y\": -216.6984966731013, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode8\": {\"x\": -3953.254386550529, \"y\": -382.83070681020575, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_group_1\": {\"x\": -3435.472031710467, \"y\": 353.12024554882015, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_top\": {\"x\": -4585.88064544554, \"y\": 230.15744155559213, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_bot\": {\"x\": -4594.22370635609, \"y\": 514.3371955449311, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode9\": {\"x\": -4002.6345704509367, \"y\": 289.37623854573746, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_group_1\": {\"x\": -3425.089002895046, \"y\": 990.5103701763926, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_top\": {\"x\": -4570.363727888548, \"y\": 846.9186374794167, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_bot\": {\"x\": -4568.846807722995, \"y\": 1124.2722507237618, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode10\": {\"x\": -3989.834838511675, \"y\": 955.8149536465123, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"up_down_setRange1\": {\"x\": -5188.476101808852, \"y\": 900.3821552628244, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"outValue\"]}, \"up_down_setRange\": {\"x\": -5141.426450141917, \"y\": -589.9464601692215, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"outValue\"]}, \"r_brow_local_2_group_1\": {\"x\": -3074.8262851081518, \"y\": -1867.4320223921638, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_3_group_1\": {\"x\": -3111.033373024211, \"y\": -1332.2474422307703, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_4_group\": {\"x\": -3081.4907290456563, \"y\": -749.6439762226261, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_5_group_1\": {\"x\": -3020.742717199687, \"y\": -147.5961385009074, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_6_group_1\": {\"x\": -3109.323705977312, \"y\": 544.2763114254969, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_7_group_1\": {\"x\": -3120.3151978185024, \"y\": 1172.3391939210214, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode11\": {\"x\": -3937.402227923659, \"y\": -1894.1032199528868, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode12\": {\"x\": -3942.908644602938, \"y\": -1366.5001791220457, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode13\": {\"x\": -3933.7035802657083, \"y\": -663.1624291049643, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode14\": {\"x\": -3947.6700099592035, \"y\": -134.8843861553629, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode15\": {\"x\": -3991.632098340228, \"y\": 530.3303777702599, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode16\": {\"x\": -3989.834838511675, \"y\": 1194.6194371877982, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_bot\": {\"x\": -4614.325026808659, \"y\": -1989.2501833151512, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_top\": {\"x\": -4586.892796880182, \"y\": -2303.9678436193226, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_group_1\": {\"x\": -3357.690204260645, \"y\": -2188.1175765262287, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -3758.6157150817453, \"cy\": -1526.3369721636004, \"scale\": 1.1445703221901302}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 5\", \"nodes\": {\"l_curve_loc_01Shape\": {\"x\": -2576.473661788548, \"y\": -1810.4533830982177, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_06Shape\": {\"x\": -2334.6666666666665, \"y\": -862.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_07Shape\": {\"x\": -2334.6666666666665, \"y\": -706.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_08Shape\": {\"x\": -2334.6666666666665, \"y\": -550.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_09Shape\": {\"x\": -2334.6666666666665, \"y\": -394.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_12Shape\": {\"x\": -2315.6971112205542, \"y\": 80.73461968851441, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_02Shape\": {\"x\": -2334.6666666666665, \"y\": -1486.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_03Shape\": {\"x\": -2334.6666666666665, \"y\": -1330.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_04Shape\": {\"x\": -2334.6666666666665, \"y\": -1174.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_05Shape\": {\"x\": -2334.6666666666665, \"y\": -1018.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -868.256457164962, \"cy\": -603.4812207225775, \"scale\": 0.5816253894027233}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 6\", \"nodes\": {\"l_brow_mid\": {\"x\": -3279.592385711044, \"y\": -1072.245475887653, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out\": {\"x\": -3247.0048378997517, \"y\": -823.4864292284245, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_brow\": {\"x\": -3250.49355694966, \"y\": -1783.2273491605335, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve9_2_loc_moveOffset\": {\"x\": -2271.602612211118, \"y\": -1237.0570565523803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in\": {\"x\": -3264.6497042659466, \"y\": -1395.870794556709, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": 3173.511420936059, \"cy\": -3224.904318441096, \"scale\": 0.7004858987853599}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Local Init Position\", \"nodes\": {\"mid_mainPoser\": {\"x\": 625.828107567229, \"y\": -4912.367590250758, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_1_poser\": {\"x\": 579.7643754469279, \"y\": -6262.364361997303, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix59\": {\"x\": 989.588693214276, \"y\": -6136.408366914609, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"in_mainPoser\": {\"x\": 588.3372870076138, \"y\": -5962.082067359466, \"width\": 234.232137161958, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_2_poser\": {\"x\": 588.8320062734404, \"y\": -5571.016450258607, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix60\": {\"x\": 971.2593109796278, \"y\": -5664.323815999474, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"l_brow_local_3_group\": {\"x\": 1432.8748761575484, \"y\": -5129.637786698762, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix61\": {\"x\": 1026.1959632938767, \"y\": -5118.857981827443, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"local_3_poser\": {\"x\": 608.9129175822877, \"y\": -5187.5282218056145, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_group\": {\"x\": 1463.1026844756236, \"y\": -4665.251729790567, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix62\": {\"x\": 1069.5645342645628, \"y\": -4706.352271896964, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"local_4_poser\": {\"x\": 660.9428469328705, \"y\": -4541.054760418152, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_group\": {\"x\": 1470.041463436909, \"y\": -4185.1888229419255, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix63\": {\"x\": 1048.6515178954537, \"y\": -4300.4848431038845, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"local_5_poser\": {\"x\": 609.4934442260718, \"y\": -4193.083156041814, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"out_mainPoser\": {\"x\": 618.6887330257752, \"y\": -3932.0979650688732, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_group\": {\"x\": 1475.6833335828833, \"y\": -3771.695047283213, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix64\": {\"x\": 1057.3812551267677, \"y\": -3876.3705993576737, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"local_6_poser\": {\"x\": 610.2680003878909, \"y\": -3646.2465057977015, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_group\": {\"x\": 1533.5370167418955, \"y\": -3432.4817894643797, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_7_poser\": {\"x\": 610.2680003878905, \"y\": -3372.0536245138273, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix65\": {\"x\": 1112.9396793264182, \"y\": -3456.9931828831504, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"r_brow_local_1_group\": {\"x\": 1436.7922418548765, \"y\": -6067.299722022102, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_2_group\": {\"x\": 1427.2225061262827, \"y\": -5499.585963715228, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_3_group\": {\"x\": 1435.1530883894227, \"y\": -5234.675028054771, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_4_group\": {\"x\": 1480.9566359675355, \"y\": -4795.691368274052, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_5_group\": {\"x\": 1467.166004600157, \"y\": -4342.065250827147, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_6_group\": {\"x\": 1471.8277749792733, \"y\": -3913.390089461798, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_7_group\": {\"x\": 1540.7357761897167, \"y\": -3537.6601460195916, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_group\": {\"x\": 1437.2505827883774, \"y\": -6195.780626198113, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_group\": {\"x\": 1435.7979697024327, \"y\": -5795.5369041821, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": 5, \"notes\": [], \"view\": {\"cx\": 1463.7510151860515, \"cy\": -3847.2425096862326, \"scale\": 1.3786497697106637}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 8\", \"nodes\": {}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": 206.1391986857607, \"cy\": 1984.5950304844805, \"scale\": 0.24740563815688726}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Limits Positions\", \"nodes\": {\"blendMatrix1\": {\"x\": -141.56959874763538, \"y\": 1767.0604867519587, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix2\": {\"x\": -78.48314362272141, \"y\": 1021.4804171910872, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix3\": {\"x\": -187.4227873745779, \"y\": 320.36825012212046, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix4\": {\"x\": -182.88215131229754, \"y\": 628.2237784730197, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix5\": {\"x\": -148.96999598746487, \"y\": 2077.2131935227562, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix6\": {\"x\": -64.12782651424254, \"y\": 1299.295158080291, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"multMatrix48\": {\"x\": 390.5017926751634, \"y\": 1938.1304703556586, \"width\": 58, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"multMatrix49\": {\"x\": 441.7429996902672, \"y\": 1193.5241228774244, \"width\": 58, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"multMatrix50\": {\"x\": 422.8450079591119, \"y\": 513.327898111087, \"width\": 58, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"l_brow_in_group_1\": {\"x\": 729.4716456990075, \"y\": 425.9544872116985, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_bot\": {\"x\": -651.0868360892679, \"y\": 714.8530803061245, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group_1\": {\"x\": 751.2939526130042, \"y\": 1115.7180774517633, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group\": {\"x\": 626.4062081722725, \"y\": -851.3106580164614, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_mid_bot\": {\"x\": -615.9755427150907, \"y\": 1365.8780424840943, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_group_1\": {\"x\": 772.6345377753617, \"y\": 1741.942711307439, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_brow_out_bot\": {\"x\": -603.0514818382629, \"y\": 2182.4095646903797, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_top\": {\"x\": -653.8637953447529, \"y\": 338.10545203479035, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_top\": {\"x\": -618.2454104053027, \"y\": 1085.5475589866642, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_top\": {\"x\": -609.5024522886177, \"y\": 1808.790155325404, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldInverseMatrix\"]}}, \"basket_entry_id\": 2, \"notes\": [], \"view\": {\"cx\": 440.47009919667215, \"cy\": 1944.7656426519736, \"scale\": 0.38822158487459013}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Joints\", \"nodes\": {\"curve9_1_mpath\": {\"x\": -2169.273776889795, \"y\": 935.1550532592105, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath5\": {\"x\": -2158.3661041477494, \"y\": 367.2995127969548, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath\": {\"x\": -2271.0498077863385, \"y\": 1914.214404827273, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath2\": {\"x\": -2307.535554711515, \"y\": 2182.958447924242, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_2_mpath\": {\"x\": -2178.8752892385255, \"y\": 1128.096300134952, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_4_mpath\": {\"x\": -2190.3971040570023, \"y\": 1394.9200407621765, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_6_mpath\": {\"x\": -2236.484363330909, \"y\": 1750.0776949977226, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_0_mpath\": {\"x\": -2169.273776889795, \"y\": 776.7792508388984, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath4\": {\"x\": -2184.97353139744, \"y\": 582.216098122861, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath1\": {\"x\": -2299.85434483253, \"y\": 2061.068392429108, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath3\": {\"x\": -2336.3400917577064, \"y\": 2352.8560651630323, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_5_mpath\": {\"x\": -2215.361036163701, \"y\": 1589.7815901076647, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out\": {\"x\": -2982.1556813391408, \"y\": 1519.738927074029, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear18\": {\"x\": -1308.2211547058437, \"y\": 2113.0007797673234, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear17\": {\"x\": -1308.2211547058437, \"y\": 1957.0007797673234, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear21\": {\"x\": -1306.7330806409618, \"y\": 459.4998904923532, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear11\": {\"x\": -1308.2211547058432, \"y\": 783.4044830114067, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear13\": {\"x\": -1315.661525030252, \"y\": 1310.9274456066732, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear19\": {\"x\": -1308.2211547058437, \"y\": 2425.0007797673234, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear20\": {\"x\": -1312.6853769004883, \"y\": 627.4044830114067, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear22\": {\"x\": -1308.2211547058437, \"y\": 2269.0007797673234, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear15\": {\"x\": -1308.2211547058437, \"y\": 1645.0007797673234, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear14\": {\"x\": -1308.2211547058437, \"y\": 1489.0007797673234, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_3_mpath\": {\"x\": -2228.815480223774, \"y\": 1269.0660371775443, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear23\": {\"x\": -1311.197302835607, \"y\": 1105.8210014655788, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear16\": {\"x\": -1308.2211547058437, \"y\": 1801.0007797673234, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear12\": {\"x\": -1315.6615250302516, \"y\": 928.987964557235, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange29\": {\"x\": -1774.4566750629067, \"y\": 2029.1072901700882, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange31\": {\"x\": -1774.4566750629067, \"y\": 625.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange30\": {\"x\": -1774.4566750629067, \"y\": 2341.107290170088, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange21\": {\"x\": -1774.4566750629067, \"y\": 1093.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange23\": {\"x\": -1774.4566750629067, \"y\": 937.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange22\": {\"x\": -1774.4566750629067, \"y\": 781.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange33\": {\"x\": -1774.4566750629067, \"y\": 2185.107290170088, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange28\": {\"x\": -1774.4566750629067, \"y\": 1873.1072901700882, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange24\": {\"x\": -1774.4566750629067, \"y\": 1249.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange32\": {\"x\": -1774.4566750629067, \"y\": 469.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange25\": {\"x\": -1774.4566750629067, \"y\": 1405.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange26\": {\"x\": -1774.4566750629067, \"y\": 1561.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange27\": {\"x\": -1774.4566750629067, \"y\": 1717.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": 3, \"notes\": [], \"view\": {\"cx\": -2545.5885709387608, \"cy\": 1619.2810788080906, \"scale\": 0.7114268270509011}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 10\", \"nodes\": {\"l_curve9_2_loc_moveOffset\": {\"x\": -11033.37847872738, \"y\": -9578.183107478122, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_local_hyperNode\": {\"x\": -11612.463845090679, \"y\": -9608.734480271776, \"width\": 321.78550356552114, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow\": {\"x\": -12149.582141494906, \"y\": -9721.848820268959, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in\": {\"x\": -12192.151790648146, \"y\": -9585.121586038378, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_mid\": {\"x\": -12185.28535117666, \"y\": -9346.724312380562, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out\": {\"x\": -12185.28535117666, \"y\": -9190.724312380562, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -11501.123690105516, \"cy\": -9403.641798932566, \"scale\": 0.9706877606754594}, \"group_path\": [], \"group_history\": [\"l_local_hyperNode\"]}], \"active_tab\": 10, \"basket\": [{\"name\": \"Limits Positions\", \"nodes\": {\"main\": {\"x\": -1825.5607163550967, \"y\": 950.7685322270993, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"setRange18\": {\"x\": -1319.763812799787, \"y\": 1011.2544182582883, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"oldMax\", \"outValue\", \"value\"]}, \"blendMatrix1\": {\"x\": -141.56959874763538, \"y\": 1767.0604867519587, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix2\": {\"x\": -78.48314362272141, \"y\": 1021.4804171910872, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix3\": {\"x\": -187.4227873745779, \"y\": 320.36825012212046, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix4\": {\"x\": -182.88215131229754, \"y\": 628.2237784730197, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix5\": {\"x\": -148.96999598746487, \"y\": 2077.2131935227562, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix6\": {\"x\": -64.12782651424254, \"y\": 1299.295158080291, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"multMatrix48\": {\"x\": 390.5017926751634, \"y\": 1938.1304703556586, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"multMatrix49\": {\"x\": 441.7429996902672, \"y\": 1193.5241228774244, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"multMatrix50\": {\"x\": 422.8450079591119, \"y\": 513.327898111087, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"condition1\": {\"x\": -1331.6973432035552, \"y\": 1331.140654551796, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"outColor\"]}, \"condition2\": {\"x\": -1317.6003841987715, \"y\": 1735.922080887228, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"colorIfTrue\", \"outColor\"]}, \"l_brow_in_group_1\": {\"x\": 729.4716456990075, \"y\": 425.9544872116985, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_bot\": {\"x\": -651.0868360892679, \"y\": 714.8530803061245, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group_1\": {\"x\": 751.2939526130042, \"y\": 1115.7180774517633, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group\": {\"x\": 626.4062081722725, \"y\": -851.3106580164614, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_mid_bot\": {\"x\": -615.9755427150907, \"y\": 1365.8780424840943, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_group_1\": {\"x\": 772.6345377753617, \"y\": 1741.942711307439, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_brow_out_bot\": {\"x\": -603.0514818382629, \"y\": 2182.4095646903797, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_top\": {\"x\": -653.8637953447529, \"y\": 338.10545203479035, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_top\": {\"x\": -618.2454104053027, \"y\": 1085.5475589866642, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_top\": {\"x\": -609.5024522886177, \"y\": 1808.790155325404, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldInverseMatrix\"]}}, \"view\": {\"cx\": -1470.0649377902198, \"cy\": 1245.3230445873469, \"scale\": 1.027845750998805}, \"group_path\": [], \"group_history\": [], \"id\": 2}, {\"name\": \"Joints\", \"nodes\": {\"wide_joint_01\": {\"x\": -924.4861322306755, \"y\": 419.1768768918133, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_02\": {\"x\": -958.2211547058437, \"y\": 698.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_03\": {\"x\": -958.2211547058437, \"y\": 854.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_04\": {\"x\": -958.2211547058437, \"y\": 1010.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_05\": {\"x\": -958.2211547058437, \"y\": 1166.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_06\": {\"x\": -922.5073771486836, \"y\": 1320.5473806915552, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_07\": {\"x\": -958.2211547058437, \"y\": 1478.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_08\": {\"x\": -958.2211547058437, \"y\": 1634.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_09\": {\"x\": -958.2211547058437, \"y\": 1790.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_10\": {\"x\": -958.2211547058437, \"y\": 1946.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_11\": {\"x\": -958.2211547058437, \"y\": 2102.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_12\": {\"x\": -958.2211547058437, \"y\": 2258.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_13\": {\"x\": -958.2211547058437, \"y\": 2414.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_1_mpath\": {\"x\": -2169.273776889795, \"y\": 935.1550532592105, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath5\": {\"x\": -2158.3661041477494, \"y\": 367.2995127969548, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath\": {\"x\": -2271.0498077863385, \"y\": 1914.214404827273, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath2\": {\"x\": -2307.535554711515, \"y\": 2182.958447924242, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_2_mpath\": {\"x\": -2178.8752892385255, \"y\": 1128.096300134952, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_4_mpath\": {\"x\": -2190.3971040570023, \"y\": 1394.9200407621765, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_6_mpath\": {\"x\": -2236.484363330909, \"y\": 1750.0776949977226, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_0_mpath\": {\"x\": -2169.273776889795, \"y\": 776.7792508388984, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath4\": {\"x\": -2184.97353139744, \"y\": 582.216098122861, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath1\": {\"x\": -2299.85434483253, \"y\": 2061.068392429108, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath3\": {\"x\": -2336.3400917577064, \"y\": 2352.8560651630323, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_5_mpath\": {\"x\": -2215.361036163701, \"y\": 1589.7815901076647, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curveShape\": {\"x\": -2982.1556813391408, \"y\": 1363.738927074029, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out\": {\"x\": -2982.1556813391408, \"y\": 1519.738927074029, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear18\": {\"x\": -1308.2211547058437, \"y\": 2113.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear17\": {\"x\": -1308.2211547058437, \"y\": 1957.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear21\": {\"x\": -1306.7330806409618, \"y\": 459.4998904923532, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear11\": {\"x\": -1308.2211547058432, \"y\": 783.4044830114067, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear13\": {\"x\": -1315.661525030252, \"y\": 1310.9274456066732, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear19\": {\"x\": -1308.2211547058437, \"y\": 2425.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear20\": {\"x\": -1312.6853769004883, \"y\": 627.4044830114067, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear22\": {\"x\": -1308.2211547058437, \"y\": 2269.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear15\": {\"x\": -1308.2211547058437, \"y\": 1645.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear14\": {\"x\": -1308.2211547058437, \"y\": 1489.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_3_mpath\": {\"x\": -2228.815480223774, \"y\": 1269.0660371775443, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear23\": {\"x\": -1311.197302835607, \"y\": 1105.8210014655788, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear16\": {\"x\": -1308.2211547058437, \"y\": 1801.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear12\": {\"x\": -1315.6615250302516, \"y\": 928.987964557235, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange29\": {\"x\": -1774.4566750629067, \"y\": 2029.1072901700882, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange31\": {\"x\": -1774.4566750629067, \"y\": 625.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange30\": {\"x\": -1774.4566750629067, \"y\": 2341.107290170088, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange21\": {\"x\": -1774.4566750629067, \"y\": 1093.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange23\": {\"x\": -1774.4566750629067, \"y\": 937.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange22\": {\"x\": -1774.4566750629067, \"y\": 781.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange33\": {\"x\": -1774.4566750629067, \"y\": 2185.107290170088, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange28\": {\"x\": -1774.4566750629067, \"y\": 1873.1072901700882, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange24\": {\"x\": -1774.4566750629067, \"y\": 1249.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange32\": {\"x\": -1774.4566750629067, \"y\": 469.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange25\": {\"x\": -1774.4566750629067, \"y\": 1405.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange26\": {\"x\": -1774.4566750629067, \"y\": 1561.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange27\": {\"x\": -1774.4566750629067, \"y\": 1717.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": 3, \"notes\": [], \"view\": {\"cx\": -1501.2085001450007, \"cy\": 985.3437814622149, \"scale\": 0.7114268270509011}, \"group_path\": [], \"group_history\": [], \"id\": 3}, {\"id\": 4, \"basket_entry_id\": 4, \"name\": \"Local Controls\", \"nodes\": {}, \"notes\": [], \"view\": {}, \"group_path\": [], \"group_history\": []}, {\"id\": 5, \"basket_entry_id\": 5, \"name\": \"Local Init Position\", \"nodes\": {}, \"notes\": [], \"view\": {}, \"group_path\": [], \"group_history\": []}]}");
+		"{\"tabs\": [{\"name\": \"Up Offset\", \"nodes\": {}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -1994.8035024848782, \"cy\": -69.15318808614245, \"scale\": 0.1879884407325692}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Limits Positions\", \"nodes\": {\"up_vis_condition\": {\"x\": -2166.6568703927096, \"y\": 874.1147865853516, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"colorIfFalse\", \"outColor\"]}, \"down_vis_condition\": {\"x\": -2189.562862399022, \"y\": 2630.4536162250015, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"colorIfTrue\", \"outColor\"]}, \"multDoubleLinear6\": {\"x\": -490.84109558006315, \"y\": 2777.707056746256, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_1_group_1\": {\"x\": 739.580257279335, \"y\": 731.973061854147, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow\": {\"x\": -2494.931235842602, \"y\": 363.32108307228737, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_brow\": {\"x\": -910.3714456407814, \"y\": 845.1024105177219, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_in_group_1\": {\"x\": 283.43579711559767, \"y\": 345.7943039171994, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group_1\": {\"x\": 259.76156139464166, \"y\": 86.3084541293361, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_group_1\": {\"x\": 287.6704399282422, \"y\": -179.49899178341397, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode3\": {\"x\": -395.65400887599316, \"y\": -118.86328269234969, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_in_group_1\": {\"x\": 766.0758577850279, \"y\": 396.4457630312555, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_mid_group_1\": {\"x\": 720.0655778401981, \"y\": 116.70134708316337, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_out_group_1\": {\"x\": 717.3590907846199, \"y\": -148.15739005924854, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode4\": {\"x\": -409.360285531814, \"y\": 571.1603330517914, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3_top\": {\"x\": -654.3660599517458, \"y\": 1755.0770391535198, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_top\": {\"x\": -654.3660599517458, \"y\": 1911.0770391535189, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_top\": {\"x\": -654.3660599517458, \"y\": 2067.0770391535193, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_top\": {\"x\": -654.3660599517458, \"y\": 2223.0770391535193, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_top\": {\"x\": -654.3660599517458, \"y\": 2379.0770391535193, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3_bot\": {\"x\": -1001.0039742674024, \"y\": 2974.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_bot\": {\"x\": -1001.0039742674024, \"y\": 3130.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_bot\": {\"x\": -1001.0039742674024, \"y\": 3286.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_bot\": {\"x\": -1001.0039742674024, \"y\": 3442.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_bot\": {\"x\": -1001.0039742674024, \"y\": 3598.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_bot\": {\"x\": -1589.5823838428544, \"y\": 884.8684080840438, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_bot\": {\"x\": -1589.5823838428544, \"y\": 572.8684080840438, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_bot\": {\"x\": -1589.5823838428544, \"y\": 728.8684080840438, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_top\": {\"x\": -1605.7733050593943, \"y\": 1377.240307037215, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_top\": {\"x\": -1590.7236369844452, \"y\": 1039.419853873925, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_top\": {\"x\": -1605.7733050593943, \"y\": 1221.240307037215, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_midShape\": {\"x\": -103.11179961164635, \"y\": 2814.3503646322097, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_1Shape\": {\"x\": -103.11179961164635, \"y\": 2970.3503646322097, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3Shape\": {\"x\": 386.8111748537466, \"y\": 2894.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4Shape\": {\"x\": 386.8111748537466, \"y\": 3050.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5Shape\": {\"x\": 386.8111748537466, \"y\": 3206.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6Shape\": {\"x\": 386.8111748537466, \"y\": 3362.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7Shape\": {\"x\": 386.8111748537466, \"y\": 3518.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_bot\": {\"x\": -1144.4963303125119, \"y\": 181.2747320270655, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_top\": {\"x\": -1227.1018650322728, \"y\": -43.72759313175617, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1Shape\": {\"x\": 421.1196816708501, \"y\": 2444.873929804466, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_group_1\": {\"x\": 329.0846799346817, \"y\": 752.1165622477623, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_bot\": {\"x\": -1002.0342895341465, \"y\": 2673.075343360965, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_top\": {\"x\": -664.1307711498106, \"y\": 1522.354308311582, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2Shape\": {\"x\": 386.8111748537466, \"y\": 2738.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_1Shape\": {\"x\": -117.4179670236613, \"y\": 2685.2506906095537, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -40.013470762132066, \"cy\": 437.98528807198613, \"scale\": 0.9246885934977689}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Local Controls\", \"nodes\": {\"l_curve9_5_loc_moveOffset\": {\"x\": 1429.234514928237, \"y\": 1076.0109511657433, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_local_4_moveOffset\": {\"x\": 1438.0651915864876, \"y\": 775.1131621721725, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_local_7_rotateOffset\": {\"x\": 1490.8491645270976, \"y\": 1586.4956355805161, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_curve9_3_loc_moveOffset\": {\"x\": 1437.8507537297994, \"y\": 527.0551049994947, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow\": {\"x\": -1739.378953487646, \"y\": 137.3582187643736, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"minTransLimitEnable\", \"rotate\", \"translate\"]}, \"r_brow_local_2_rotateOffset\": {\"x\": -630.2311870407996, \"y\": -27.432186803719844, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\"]}, \"r_brow_in\": {\"x\": -1745.427055503622, \"y\": 2620.3880802635827, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"unitConversion59\": {\"x\": -1073.5190718009053, \"y\": 47.324359257401454, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow\": {\"x\": -1755.6593343750458, \"y\": 2230.357333894182, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_mid\": {\"x\": -1734.2663701107542, \"y\": 1219.6641350509706, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"r_brow_mid\": {\"x\": -1739.571056147512, \"y\": 3102.653994878301, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_brow_out\": {\"x\": -1703.852813382678, \"y\": 1724.1765822733835, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"r_brow_out\": {\"x\": -1689.0018459518478, \"y\": 3482.208085942973, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"r_brow_local_1_moveOffset\": {\"x\": 1512.0907572016654, \"y\": 2012.81123502651, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_curve9_5_loc_moveOffset\": {\"x\": 1575.1589401218994, \"y\": 3415.2578859666005, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_brow_local_4_moveOffset\": {\"x\": 1582.4262086829349, \"y\": 3061.10587777533, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_brow_local_7_rotateOffset\": {\"x\": 1612.845253694074, \"y\": 4063.193504678843, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"r_curve9_2_loc_moveOffset\": {\"x\": 1512.3589515567824, \"y\": 2359.05979166998, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_curve9_3_loc_moveOffset\": {\"x\": 1530.2836675818512, \"y\": 2747.1840200994898, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_local_hyperNode\": {\"x\": 42.97125716579603, \"y\": 944.5979658912006, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve9_6_loc_moveOffset\": {\"x\": 1463.228035201765, \"y\": 1326.0289661584961, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_curve9_6_loc_moveOffset\": {\"x\": 1615.8431315318644, \"y\": 3705.435167356371, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"multDoubleLinear64\": {\"x\": -1068.6977208355947, \"y\": 2520.352348138507, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear65\": {\"x\": -1154.6373648747235, \"y\": 1781.7116627119099, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion87\": {\"x\": 96.74710315806637, \"y\": 2857.84695731484, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage53\": {\"x\": -1634.8174828385586, \"y\": 2873.256285418064, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage54\": {\"x\": -1674.2236025194027, \"y\": 1271.3956969659007, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear48\": {\"x\": -2210.671506792376, \"y\": 1543.3947047202132, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear49\": {\"x\": -2204.605530791863, \"y\": 3127.3698456958937, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear51\": {\"x\": -2209.4543891902604, \"y\": 1051.499838778564, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage55\": {\"x\": 2146.665023713691, \"y\": 2060.8664082288738, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage56\": {\"x\": 2137.2786732568547, \"y\": 2827.8250078369756, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear67\": {\"x\": -1154.5220580907555, \"y\": 974.1480101703723, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear68\": {\"x\": -347.6046702713435, \"y\": 840.1849306401605, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion88\": {\"x\": -739.0547055381572, \"y\": 1876.1115624071695, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear69\": {\"x\": -340.99820939120093, \"y\": 2267.4886512127628, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear70\": {\"x\": -333.4583766983511, \"y\": 3133.7851497348393, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear71\": {\"x\": -345.46269299507514, \"y\": 1441.8105479141154, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear72\": {\"x\": -1095.4422251795627, \"y\": 3500.562451047821, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion89\": {\"x\": 1091.8351278447349, \"y\": 3598.947957734646, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear73\": {\"x\": 523.1000818415463, \"y\": 2068.060133928398, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear74\": {\"x\": 504.2234756067777, \"y\": 2439.549293539281, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear75\": {\"x\": 463.61805057808067, \"y\": 1059.4013230499572, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear76\": {\"x\": 499.7023756826069, \"y\": 3220.191390408489, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage57\": {\"x\": 2168.1646481338757, \"y\": 1304.5420009948698, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage58\": {\"x\": 2157.2043070261316, \"y\": 3290.892832057253, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion90\": {\"x\": 121.09644437527312, \"y\": 1497.3228031671965, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear77\": {\"x\": 1509.105586196707, \"y\": 3630.570979338425, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear78\": {\"x\": 1486.458364803993, \"y\": 3453.3487528397686, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear79\": {\"x\": 1463.4574725058524, \"y\": 3172.4957521466804, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear80\": {\"x\": -374.70815937325335, \"y\": 570.1341476433568, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion91\": {\"x\": -728.5490280277414, \"y\": 418.67143694170363, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear81\": {\"x\": 715.2708653488725, \"y\": 698.823690017412, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear82\": {\"x\": 1531.486627428786, \"y\": 3851.3919704469167, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"clamp18\": {\"x\": 2161.4979543218997, \"y\": 3905.5231972876236, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear83\": {\"x\": -1302.8513656189955, \"y\": 3820.6566058213607, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear84\": {\"x\": 583.2736396327249, \"y\": 2683.0426249992083, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_moveOffset\": {\"x\": 1429.2074050921362, \"y\": -75.16161677367381, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve9_2_loc_moveOffset\": {\"x\": 1444.2380514399285, \"y\": 223.76090673751605, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion57\": {\"x\": -1066.7750606323048, \"y\": -321.34825129275345, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_rotateOffset\": {\"x\": -649.9376013229803, \"y\": -386.8824012562231, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in\": {\"x\": -1736.6328496490178, \"y\": 741.9721598559564, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": 4, \"notes\": [], \"view\": {\"cx\": 238.05726998309126, \"cy\": 1366.124106152967, \"scale\": 1.10897684418019}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 3\", \"nodes\": {\"l_brow_local_3_group_1\": {\"x\": -3344.5706504287286, \"y\": -1642.2152273153836, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\"]}, \"l_brow_local_3_top\": {\"x\": -4567.663228225373, \"y\": -1722.5031462899315, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3_bot\": {\"x\": -4578.1329164802255, \"y\": -1504.0234655443223, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode5\": {\"x\": -3976.108229299178, \"y\": -2172.563785668608, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode6\": {\"x\": -3950.744887280922, \"y\": -1624.225493864628, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode7\": {\"x\": -3978.729746881162, \"y\": -992.9426861364456, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_group\": {\"x\": -3417.618423470978, \"y\": -951.0464661833422, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_top\": {\"x\": -4625.970940172138, \"y\": -1080.108694358415, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_bot\": {\"x\": -4606.512767600461, \"y\": -820.0074710999415, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_group_1\": {\"x\": -3356.559534173694, \"y\": -366.92476215960886, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_top\": {\"x\": -4597.580373641829, \"y\": -495.35398556092275, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_bot\": {\"x\": -4600.1535657163995, \"y\": -216.6984966731013, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode8\": {\"x\": -3953.254386550529, \"y\": -382.83070681020575, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_group_1\": {\"x\": -3435.472031710467, \"y\": 353.12024554882015, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_top\": {\"x\": -4585.88064544554, \"y\": 230.15744155559213, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_bot\": {\"x\": -4594.22370635609, \"y\": 514.3371955449311, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode9\": {\"x\": -4002.6345704509367, \"y\": 289.37623854573746, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_group_1\": {\"x\": -3425.089002895046, \"y\": 990.5103701763926, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_top\": {\"x\": -4570.363727888548, \"y\": 846.9186374794167, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_bot\": {\"x\": -4568.846807722995, \"y\": 1124.2722507237618, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode10\": {\"x\": -3989.834838511675, \"y\": 955.8149536465123, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"up_down_setRange1\": {\"x\": -5188.476101808852, \"y\": 900.3821552628244, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"outValue\"]}, \"up_down_setRange\": {\"x\": -5141.426450141917, \"y\": -589.9464601692215, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"outValue\"]}, \"r_brow_local_2_group_1\": {\"x\": -3074.8262851081518, \"y\": -1867.4320223921638, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_3_group_1\": {\"x\": -3111.033373024211, \"y\": -1332.2474422307703, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_4_group\": {\"x\": -3081.4907290456563, \"y\": -749.6439762226261, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_5_group_1\": {\"x\": -3020.742717199687, \"y\": -147.5961385009074, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_6_group_1\": {\"x\": -3109.323705977312, \"y\": 544.2763114254969, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_7_group_1\": {\"x\": -3120.3151978185024, \"y\": 1172.3391939210214, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode11\": {\"x\": -3937.402227923659, \"y\": -1894.1032199528868, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode12\": {\"x\": -3942.908644602938, \"y\": -1366.5001791220457, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode13\": {\"x\": -3933.7035802657083, \"y\": -663.1624291049643, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode14\": {\"x\": -3947.6700099592035, \"y\": -134.8843861553629, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode15\": {\"x\": -3991.632098340228, \"y\": 530.3303777702599, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"hyperNode16\": {\"x\": -3989.834838511675, \"y\": 1194.6194371877982, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_bot\": {\"x\": -4614.325026808659, \"y\": -1989.2501833151512, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_top\": {\"x\": -4586.892796880182, \"y\": -2303.9678436193226, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_group_1\": {\"x\": -3357.690204260645, \"y\": -2188.1175765262287, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -3756.868334461066, \"cy\": -1524.589591542921, \"scale\": 1.1445703221901302}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 5\", \"nodes\": {\"l_curve_loc_01Shape\": {\"x\": -2576.473661788548, \"y\": -1810.4533830982177, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_06Shape\": {\"x\": -2334.6666666666665, \"y\": -862.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_07Shape\": {\"x\": -2334.6666666666665, \"y\": -706.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_08Shape\": {\"x\": -2334.6666666666665, \"y\": -550.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_09Shape\": {\"x\": -2334.6666666666665, \"y\": -394.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_12Shape\": {\"x\": -2315.6971112205542, \"y\": 80.73461968851441, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_02Shape\": {\"x\": -2334.6666666666665, \"y\": -1486.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_03Shape\": {\"x\": -2334.6666666666665, \"y\": -1330.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_04Shape\": {\"x\": -2334.6666666666665, \"y\": -1174.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_05Shape\": {\"x\": -2334.6666666666665, \"y\": -1018.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -864.8178177306453, \"cy\": -600.0425812882609, \"scale\": 0.5816253894027233}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 6\", \"nodes\": {\"l_brow_mid\": {\"x\": -3279.592385711044, \"y\": -1072.245475887653, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out\": {\"x\": -3247.0048378997517, \"y\": -823.4864292284245, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_brow\": {\"x\": -3250.49355694966, \"y\": -1783.2273491605335, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve9_2_loc_moveOffset\": {\"x\": -2271.602612211118, \"y\": -1237.0570565523803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in\": {\"x\": -3264.6497042659466, \"y\": -1395.870794556709, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": 3176.366581908561, \"cy\": -3222.0491574685943, \"scale\": 0.7004858987853599}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Local Init Position\", \"nodes\": {\"mid_mainPoser\": {\"x\": 625.828107567229, \"y\": -4912.367590250758, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_1_poser\": {\"x\": 579.7643754469279, \"y\": -6262.364361997303, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix59\": {\"x\": 989.588693214276, \"y\": -6136.408366914609, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"in_mainPoser\": {\"x\": 588.3372870076138, \"y\": -5962.082067359466, \"width\": 234.232137161958, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_2_poser\": {\"x\": 588.8320062734404, \"y\": -5571.016450258607, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix60\": {\"x\": 971.2593109796278, \"y\": -5664.323815999474, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"l_brow_local_3_group\": {\"x\": 1432.8748761575484, \"y\": -5129.637786698762, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix61\": {\"x\": 1026.1959632938767, \"y\": -5118.857981827443, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"local_3_poser\": {\"x\": 608.9129175822877, \"y\": -5187.5282218056145, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_group\": {\"x\": 1463.1026844756236, \"y\": -4665.251729790567, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix62\": {\"x\": 1069.5645342645628, \"y\": -4706.352271896964, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"local_4_poser\": {\"x\": 660.9428469328705, \"y\": -4541.054760418152, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_group\": {\"x\": 1470.041463436909, \"y\": -4185.1888229419255, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix63\": {\"x\": 1048.6515178954537, \"y\": -4300.4848431038845, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"local_5_poser\": {\"x\": 609.4934442260718, \"y\": -4193.083156041814, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"out_mainPoser\": {\"x\": 618.6887330257752, \"y\": -3932.0979650688732, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_group\": {\"x\": 1475.6833335828833, \"y\": -3771.695047283213, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix64\": {\"x\": 1057.3812551267677, \"y\": -3876.3705993576737, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"local_6_poser\": {\"x\": 610.2680003878909, \"y\": -3646.2465057977015, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_group\": {\"x\": 1533.5370167418955, \"y\": -3432.4817894643797, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_7_poser\": {\"x\": 610.2680003878905, \"y\": -3372.0536245138273, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix65\": {\"x\": 1112.9396793264182, \"y\": -3456.9931828831504, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"r_brow_local_1_group\": {\"x\": 1436.7922418548765, \"y\": -6067.299722022102, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_2_group\": {\"x\": 1427.2225061262827, \"y\": -5499.585963715228, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_3_group\": {\"x\": 1435.1530883894227, \"y\": -5234.675028054771, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_4_group\": {\"x\": 1480.9566359675355, \"y\": -4795.691368274052, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_5_group\": {\"x\": 1467.166004600157, \"y\": -4342.065250827147, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_6_group\": {\"x\": 1471.8277749792733, \"y\": -3913.390089461798, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_7_group\": {\"x\": 1540.7357761897167, \"y\": -3537.6601460195916, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_group\": {\"x\": 1437.2505827883774, \"y\": -6195.780626198113, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_group\": {\"x\": 1435.7979697024327, \"y\": -5795.5369041821, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": 5, \"notes\": [], \"view\": {\"cx\": 1465.2017099483767, \"cy\": -3845.7918149239076, \"scale\": 1.3786497697106637}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 8\", \"nodes\": {}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": 214.22308883030036, \"cy\": 1992.6789206290202, \"scale\": 0.24740563815688726}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Limits Positions\", \"nodes\": {\"blendMatrix1\": {\"x\": -141.56959874763538, \"y\": 1767.0604867519587, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix2\": {\"x\": -78.48314362272141, \"y\": 1021.4804171910872, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix3\": {\"x\": -187.4227873745779, \"y\": 320.36825012212046, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix4\": {\"x\": -182.88215131229754, \"y\": 628.2237784730197, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix5\": {\"x\": -148.96999598746487, \"y\": 2077.2131935227562, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix6\": {\"x\": -64.12782651424254, \"y\": 1299.295158080291, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"multMatrix48\": {\"x\": 390.5017926751634, \"y\": 1938.1304703556586, \"width\": 58, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"multMatrix49\": {\"x\": 441.7429996902672, \"y\": 1193.5241228774244, \"width\": 58, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"multMatrix50\": {\"x\": 422.8450079591119, \"y\": 513.327898111087, \"width\": 58, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"l_brow_in_group_1\": {\"x\": 729.4716456990075, \"y\": 425.9544872116985, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_bot\": {\"x\": -651.0868360892679, \"y\": 714.8530803061245, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group_1\": {\"x\": 751.2939526130042, \"y\": 1115.7180774517633, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group\": {\"x\": 626.4062081722725, \"y\": -851.3106580164614, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_mid_bot\": {\"x\": -615.9755427150907, \"y\": 1365.8780424840943, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_group_1\": {\"x\": 772.6345377753617, \"y\": 1741.942711307439, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_brow_out_bot\": {\"x\": -603.0514818382629, \"y\": 2182.4095646903797, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_top\": {\"x\": -653.8637953447529, \"y\": 338.10545203479035, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_top\": {\"x\": -618.2454104053027, \"y\": 1085.5475589866642, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_top\": {\"x\": -609.5024522886177, \"y\": 1808.790155325404, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldInverseMatrix\"]}}, \"basket_entry_id\": 2, \"notes\": [], \"view\": {\"cx\": 445.6217962632999, \"cy\": 1949.9173397186014, \"scale\": 0.38822158487459013}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Joints\", \"nodes\": {\"curve9_1_mpath\": {\"x\": -2169.273776889795, \"y\": 935.1550532592105, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath5\": {\"x\": -2158.3661041477494, \"y\": 367.2995127969548, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath\": {\"x\": -2271.0498077863385, \"y\": 1914.214404827273, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath2\": {\"x\": -2307.535554711515, \"y\": 2182.958447924242, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_2_mpath\": {\"x\": -2178.8752892385255, \"y\": 1128.096300134952, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_4_mpath\": {\"x\": -2190.3971040570023, \"y\": 1394.9200407621765, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_6_mpath\": {\"x\": -2236.484363330909, \"y\": 1750.0776949977226, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_0_mpath\": {\"x\": -2169.273776889795, \"y\": 776.7792508388984, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath4\": {\"x\": -2184.97353139744, \"y\": 582.216098122861, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath1\": {\"x\": -2299.85434483253, \"y\": 2061.068392429108, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath3\": {\"x\": -2336.3400917577064, \"y\": 2352.8560651630323, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_5_mpath\": {\"x\": -2215.361036163701, \"y\": 1589.7815901076647, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out\": {\"x\": -2982.1556813391408, \"y\": 1519.738927074029, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear18\": {\"x\": -1308.2211547058437, \"y\": 2113.0007797673234, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear17\": {\"x\": -1308.2211547058437, \"y\": 1957.0007797673234, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear21\": {\"x\": -1306.7330806409618, \"y\": 459.4998904923532, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear11\": {\"x\": -1308.2211547058432, \"y\": 783.4044830114067, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear13\": {\"x\": -1315.661525030252, \"y\": 1310.9274456066732, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear19\": {\"x\": -1308.2211547058437, \"y\": 2425.0007797673234, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear20\": {\"x\": -1312.6853769004883, \"y\": 627.4044830114067, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear22\": {\"x\": -1308.2211547058437, \"y\": 2269.0007797673234, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear15\": {\"x\": -1308.2211547058437, \"y\": 1645.0007797673234, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear14\": {\"x\": -1308.2211547058437, \"y\": 1489.0007797673234, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_3_mpath\": {\"x\": -2228.815480223774, \"y\": 1269.0660371775443, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear23\": {\"x\": -1311.197302835607, \"y\": 1105.8210014655788, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear16\": {\"x\": -1308.2211547058437, \"y\": 1801.0007797673234, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear12\": {\"x\": -1315.6615250302516, \"y\": 928.987964557235, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange29\": {\"x\": -1774.4566750629067, \"y\": 2029.1072901700882, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange31\": {\"x\": -1774.4566750629067, \"y\": 625.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange30\": {\"x\": -1774.4566750629067, \"y\": 2341.107290170088, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange21\": {\"x\": -1774.4566750629067, \"y\": 1093.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange23\": {\"x\": -1774.4566750629067, \"y\": 937.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange22\": {\"x\": -1774.4566750629067, \"y\": 781.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange33\": {\"x\": -1774.4566750629067, \"y\": 2185.107290170088, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange28\": {\"x\": -1774.4566750629067, \"y\": 1873.1072901700882, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange24\": {\"x\": -1774.4566750629067, \"y\": 1249.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange32\": {\"x\": -1774.4566750629067, \"y\": 469.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange25\": {\"x\": -1774.4566750629067, \"y\": 1405.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange26\": {\"x\": -1774.4566750629067, \"y\": 1561.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange27\": {\"x\": -1774.4566750629067, \"y\": 1717.1072901700886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": 3, \"notes\": [], \"view\": {\"cx\": -2542.77731906583, \"cy\": 1622.0923306810214, \"scale\": 0.7114268270509011}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 10\", \"nodes\": {\"l_curve9_2_loc_moveOffset\": {\"x\": -11053.9824265778, \"y\": -9586.424686618291, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_local_hyperNode\": {\"x\": -11605.252463343033, \"y\": -9631.398822907242, \"width\": 321.78550356552114, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow\": {\"x\": -12149.582141494906, \"y\": -9721.848820268959, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in\": {\"x\": -12192.151790648146, \"y\": -9585.121586038378, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_mid\": {\"x\": -12185.28535117666, \"y\": -9346.724312380562, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out\": {\"x\": -12185.28535117666, \"y\": -9190.724312380562, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_last\": {\"x\": -11568.157373544846, \"y\": -8788.040205139572, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_8_poser\": {\"x\": -12423.221209337353, \"y\": -8922.996063559833, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldMatrix\"]}, \"multMatrix68\": {\"x\": -12023.504621039168, \"y\": -8779.798625999405, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"full_mainPoser\": {\"x\": -12422.466274524324, \"y\": -8514.500138120997, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldInverseMatrix\"]}, \"r_brow_last\": {\"x\": -11567.127176152318, \"y\": -8432.622104719794, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -11601.052837180063, \"cy\": -8652.627899784686, \"scale\": 0.9706877606754594}, \"group_path\": [], \"group_history\": []}], \"active_tab\": 10, \"basket\": [{\"name\": \"Limits Positions\", \"nodes\": {\"main\": {\"x\": -1825.5607163550967, \"y\": 950.7685322270993, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"setRange18\": {\"x\": -1319.763812799787, \"y\": 1011.2544182582883, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"oldMax\", \"outValue\", \"value\"]}, \"blendMatrix1\": {\"x\": -141.56959874763538, \"y\": 1767.0604867519587, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix2\": {\"x\": -78.48314362272141, \"y\": 1021.4804171910872, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix3\": {\"x\": -187.4227873745779, \"y\": 320.36825012212046, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix4\": {\"x\": -182.88215131229754, \"y\": 628.2237784730197, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix5\": {\"x\": -148.96999598746487, \"y\": 2077.2131935227562, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix6\": {\"x\": -64.12782651424254, \"y\": 1299.295158080291, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"multMatrix48\": {\"x\": 390.5017926751634, \"y\": 1938.1304703556586, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"multMatrix49\": {\"x\": 441.7429996902672, \"y\": 1193.5241228774244, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"multMatrix50\": {\"x\": 422.8450079591119, \"y\": 513.327898111087, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"condition1\": {\"x\": -1331.6973432035552, \"y\": 1331.140654551796, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"outColor\"]}, \"condition2\": {\"x\": -1317.6003841987715, \"y\": 1735.922080887228, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"colorIfTrue\", \"outColor\"]}, \"l_brow_in_group_1\": {\"x\": 729.4716456990075, \"y\": 425.9544872116985, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_bot\": {\"x\": -651.0868360892679, \"y\": 714.8530803061245, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group_1\": {\"x\": 751.2939526130042, \"y\": 1115.7180774517633, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group\": {\"x\": 626.4062081722725, \"y\": -851.3106580164614, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_mid_bot\": {\"x\": -615.9755427150907, \"y\": 1365.8780424840943, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_group_1\": {\"x\": 772.6345377753617, \"y\": 1741.942711307439, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_brow_out_bot\": {\"x\": -603.0514818382629, \"y\": 2182.4095646903797, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_top\": {\"x\": -653.8637953447529, \"y\": 338.10545203479035, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_top\": {\"x\": -618.2454104053027, \"y\": 1085.5475589866642, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_top\": {\"x\": -609.5024522886177, \"y\": 1808.790155325404, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldInverseMatrix\"]}}, \"view\": {\"cx\": -1470.0649377902198, \"cy\": 1245.3230445873469, \"scale\": 1.027845750998805}, \"group_path\": [], \"group_history\": [], \"id\": 2}, {\"name\": \"Joints\", \"nodes\": {\"wide_joint_01\": {\"x\": -924.4861322306755, \"y\": 419.1768768918133, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_02\": {\"x\": -958.2211547058437, \"y\": 698.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_03\": {\"x\": -958.2211547058437, \"y\": 854.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_04\": {\"x\": -958.2211547058437, \"y\": 1010.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_05\": {\"x\": -958.2211547058437, \"y\": 1166.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_06\": {\"x\": -922.5073771486836, \"y\": 1320.5473806915552, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_07\": {\"x\": -958.2211547058437, \"y\": 1478.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_08\": {\"x\": -958.2211547058437, \"y\": 1634.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_09\": {\"x\": -958.2211547058437, \"y\": 1790.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_10\": {\"x\": -958.2211547058437, \"y\": 1946.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_11\": {\"x\": -958.2211547058437, \"y\": 2102.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_12\": {\"x\": -958.2211547058437, \"y\": 2258.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_13\": {\"x\": -958.2211547058437, \"y\": 2414.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_1_mpath\": {\"x\": -2169.273776889795, \"y\": 935.1550532592105, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath5\": {\"x\": -2158.3661041477494, \"y\": 367.2995127969548, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath\": {\"x\": -2271.0498077863385, \"y\": 1914.214404827273, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath2\": {\"x\": -2307.535554711515, \"y\": 2182.958447924242, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_2_mpath\": {\"x\": -2178.8752892385255, \"y\": 1128.096300134952, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_4_mpath\": {\"x\": -2190.3971040570023, \"y\": 1394.9200407621765, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_6_mpath\": {\"x\": -2236.484363330909, \"y\": 1750.0776949977226, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_0_mpath\": {\"x\": -2169.273776889795, \"y\": 776.7792508388984, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath4\": {\"x\": -2184.97353139744, \"y\": 582.216098122861, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath1\": {\"x\": -2299.85434483253, \"y\": 2061.068392429108, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath3\": {\"x\": -2336.3400917577064, \"y\": 2352.8560651630323, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_5_mpath\": {\"x\": -2215.361036163701, \"y\": 1589.7815901076647, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curveShape\": {\"x\": -2982.1556813391408, \"y\": 1363.738927074029, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out\": {\"x\": -2982.1556813391408, \"y\": 1519.738927074029, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear18\": {\"x\": -1308.2211547058437, \"y\": 2113.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear17\": {\"x\": -1308.2211547058437, \"y\": 1957.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear21\": {\"x\": -1306.7330806409618, \"y\": 459.4998904923532, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear11\": {\"x\": -1308.2211547058432, \"y\": 783.4044830114067, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear13\": {\"x\": -1315.661525030252, \"y\": 1310.9274456066732, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear19\": {\"x\": -1308.2211547058437, \"y\": 2425.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear20\": {\"x\": -1312.6853769004883, \"y\": 627.4044830114067, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear22\": {\"x\": -1308.2211547058437, \"y\": 2269.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear15\": {\"x\": -1308.2211547058437, \"y\": 1645.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear14\": {\"x\": -1308.2211547058437, \"y\": 1489.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_3_mpath\": {\"x\": -2228.815480223774, \"y\": 1269.0660371775443, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear23\": {\"x\": -1311.197302835607, \"y\": 1105.8210014655788, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear16\": {\"x\": -1308.2211547058437, \"y\": 1801.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear12\": {\"x\": -1315.6615250302516, \"y\": 928.987964557235, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange29\": {\"x\": -1774.4566750629067, \"y\": 2029.1072901700882, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange31\": {\"x\": -1774.4566750629067, \"y\": 625.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange30\": {\"x\": -1774.4566750629067, \"y\": 2341.107290170088, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange21\": {\"x\": -1774.4566750629067, \"y\": 1093.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange23\": {\"x\": -1774.4566750629067, \"y\": 937.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange22\": {\"x\": -1774.4566750629067, \"y\": 781.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange33\": {\"x\": -1774.4566750629067, \"y\": 2185.107290170088, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange28\": {\"x\": -1774.4566750629067, \"y\": 1873.1072901700882, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange24\": {\"x\": -1774.4566750629067, \"y\": 1249.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange32\": {\"x\": -1774.4566750629067, \"y\": 469.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange25\": {\"x\": -1774.4566750629067, \"y\": 1405.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange26\": {\"x\": -1774.4566750629067, \"y\": 1561.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange27\": {\"x\": -1774.4566750629067, \"y\": 1717.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": 3, \"notes\": [], \"view\": {\"cx\": -1501.2085001450007, \"cy\": 985.3437814622149, \"scale\": 0.7114268270509011}, \"group_path\": [], \"group_history\": [], \"id\": 3}, {\"id\": 4, \"basket_entry_id\": 4, \"name\": \"Local Controls\", \"nodes\": {}, \"notes\": [], \"view\": {}, \"group_path\": [], \"group_history\": []}, {\"id\": 5, \"basket_entry_id\": 5, \"name\": \"Local Init Position\", \"nodes\": {}, \"notes\": [], \"view\": {}, \"group_path\": [], \"group_history\": []}]}");
 createNode setRange -n "setRange14";
 	rename -uid "2055E302-4275-EEC3-263B-5B9F6046C041";
 	setAttr ".om" -type "float3" 1 1 1 ;
@@ -7073,9 +6591,15 @@ createNode network -n "l_local_hyperNode";
 	addAttr -ci true -sn "multDoubleLinear7_output" -ln "multDoubleLinear7_output" -at "doubleLinear";
 	addAttr -ci true -sn "plusMinusAverage28_output1D" -ln "plusMinusAverage28_output1D" 
 		-at "float";
+	addAttr -ci true -sn "multDoubleLinear21_input1" -ln "multDoubleLinear21_input1" 
+		-at "doubleLinear";
+	addAttr -ci true -sn "multDoubleLinear20_output" -ln "multDoubleLinear20_output" 
+		-at "doubleLinear";
+	addAttr -ci true -sn "multDoubleLinear22_output" -ln "multDoubleLinear22_output" 
+		-at "doubleLinear";
 	setAttr ".ihi" 0;
 	setAttr ".hyperNodeGroupJSON" -type "string" (
-		"{\"version\": 1, \"members\": {\"multDoubleLinear3\": [-1127.7997048877994, 296.63355720702], \"multDoubleLinear4\": [-1213.7393489269282, -442.00712821957677], \"unitConversion24\": [37.645119105861795, 634.1281663833531], \"plusMinusAverage24\": [-1693.9194668907633, 649.5374944865775], \"plusMinusAverage25\": [-1733.3255865716073, -952.3230939655859], \"multDoubleLinear5\": [-1741.243658842875, -121.65622664811099], \"addDoubleLinear9\": [-2269.7734908445805, -680.3240862112734], \"addDoubleLinear10\": [-2263.707514844067, 903.651054764407], \"addDoubleLinear2\": [-2197.2854821543324, -314.1554563824061], \"addDoubleLinear8\": [-2268.5563732424644, -1172.2189521529226], \"plusMinusAverage26\": [2087.563039661487, -162.85238270261289], \"plusMinusAverage27\": [2078.17668920465, 604.1062169054887], \"multDoubleLinear2\": [-1213.6240421429602, -1249.5707807611143], \"multDoubleLinear7\": [-406.70665432354804, -1383.5338602913262], \"unitConversion54\": [-578.0379654471251, -554.726699827399], \"multDoubleLinear11\": [-400.1001934434055, 43.769860281276124], \"multDoubleLinear12\": [-392.5603607505557, 910.0663588033526], \"multDoubleLinear9\": [-183.5475346546175, -994.418223817007], \"multDoubleLinear1\": [-1154.5442092317674, 1276.8436601163344], \"unitConversion26\": [1032.7331437925302, 1375.2291668031594], \"multDoubleLinear13\": [615.4652146588348, -135.4630414204894], \"multDoubleLinear14\": [445.12149155457314, 215.8305026077942], \"multDoubleLinear15\": [635.3032273239398, -1398.3214891730477], \"multDoubleLinear16\": [440.6003916304023, 996.4725994770024], \"plusMinusAverage28\": [1920.261741447561, -310.39293022403353], \"plusMinusAverage29\": [2098.1023229739276, 1067.1740411257665], \"unitConversion56\": [274.6941432470296, -602.7485002323192], \"multDoubleLinear17\": [1450.0036021445023, 1406.8521884069385], \"multDoubleLinear18\": [1427.3563807517883, 1229.629961908282], \"multDoubleLinear19\": [1404.3554884536477, 948.7769612151938], \"multDoubleLinear20\": [-212.7930010327957, -1866.0946240877656], \"unitConversion58\": [-566.6338696872838, -2017.5573347894192], \"multDoubleLinear21\": [886.9560420947321, -1758.899122205592], \"multDoubleLinear22\": [1472.3846433765814, 1627.67317951543], \"clamp13\": [2046.5615003184118, -1807.1770922091055], \"clamp14\": [2102.3959702696948, 1681.8044063561367], \"multDoubleLinear42\": [-1361.9533496712002, 1596.937814889874], \"multDoubleLinear63\": [524.1716555805203, 459.3238340677217]}, \"inner_state\": {\"multDoubleLinear3\": {\"x\": -12.389084700842997, \"y\": -1925.7251523303837, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear4\": {\"x\": -98.32872873997167, \"y\": -2664.3658377569805, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion24\": {\"x\": 1153.0557392928183, \"y\": -1588.2305431540506, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage24\": {\"x\": -578.5088467038067, \"y\": -1572.8212150508261, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"input1D\"]}, \"plusMinusAverage25\": {\"x\": -617.9149663846509, \"y\": -3174.6818035029896, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"input1D\"]}, \"multDoubleLinear5\": {\"x\": -625.8330386559184, \"y\": -2344.0149361855147, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear9\": {\"x\": -1154.362870657624, \"y\": -2902.682795748677, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear10\": {\"x\": -1148.296894657111, \"y\": -1318.7076547729966, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear2\": {\"x\": -1081.8748619673756, \"y\": -2536.51416591981, \"width\": 58, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear8\": {\"x\": -1153.145753055508, \"y\": -3394.5776616903263, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage26\": {\"x\": 3202.9736598484433, \"y\": -2385.2110922400166, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage27\": {\"x\": 3193.5873093916066, \"y\": -1618.252492631915, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": false, \"expanded_attrs\": [\"input1D\"]}, \"multDoubleLinear2\": {\"x\": -98.21342195600378, \"y\": -3471.929490298518, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear7\": {\"x\": 708.7039658634085, \"y\": -3605.89256982873, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion54\": {\"x\": 537.3726547398314, \"y\": -2777.0854093648027, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear11\": {\"x\": 715.310426743551, \"y\": -2178.5888492561276, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear12\": {\"x\": 722.8502594364008, \"y\": -1312.292350734051, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear9\": {\"x\": 931.863085532339, \"y\": -3216.7769333544106, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear1\": {\"x\": -39.13358904481089, \"y\": -945.5150494210694, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion26\": {\"x\": 2148.1437639794867, \"y\": -847.1295427342443, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear13\": {\"x\": 1730.8758348457914, \"y\": -2357.821750957893, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear14\": {\"x\": 1560.5321117415297, \"y\": -2006.5282069296095, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear15\": {\"x\": 1750.7138475108964, \"y\": -3620.6801987104514, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear16\": {\"x\": 1556.0110118173588, \"y\": -1225.8861100604013, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage28\": {\"x\": 3035.6723616345175, \"y\": -2532.751639761437, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"input1D\"]}, \"plusMinusAverage29\": {\"x\": 3213.512943160884, \"y\": -1155.1846684116372, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion56\": {\"x\": 1390.1047634339861, \"y\": -2825.107209769723, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear17\": {\"x\": 2565.414222331459, \"y\": -815.5065211304652, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear18\": {\"x\": 2542.767000938745, \"y\": -992.7287476291217, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear19\": {\"x\": 2519.766108640604, \"y\": -1273.58174832221, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear20\": {\"x\": 902.6176191541608, \"y\": -4088.4533336251693, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion58\": {\"x\": 548.7767504996727, \"y\": -4239.916044326823, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear21\": {\"x\": 2002.3666622816886, \"y\": -3981.2578317429957, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear22\": {\"x\": 2587.795263563538, \"y\": -594.6855300219736, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"clamp13\": {\"x\": 3161.9721205053684, \"y\": -4029.535801746509, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"clamp14\": {\"x\": 3217.8065904566515, \"y\": -540.554303181267, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear42\": {\"x\": -246.54272948424375, \"y\": -625.4208946475295, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear63\": {\"x\": 1639.5822757674769, \"y\": -1763.034875469682, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"view_state\": {\"cx\": 918.6321328521433, \"cy\": -2623.108341437992, \"scale\": 0.4593786619348773}, \"input_pos\": [-2050.495906828525, -2289.3827319771945], \"output_pos\": [4332.861805743459, -2306.9596823649154], \"boundary_order\": [\"\\u0000fan:addDoubleLinear10.input2|addDoubleLinear9.input2|in\", \"\\u0000fan:addDoubleLinear10.input2|addDoubleLinear8.input2|addDoubleLinear9.input2|in\", \"addDoubleLinear8.input1|in\", \"addDoubleLinear9.input1|in\", \"addDoubleLinear10.input1|in\", \"\\u0000fan:unitConversion54.input|unitConversion58.input|in\", \"\\u0000fan:unitConversion24.input|unitConversion56.input|in\", \"unitConversion26.input|in\", \"multDoubleLinear20.input1|in\", \"multDoubleLinear7.input2|in\", \"multDoubleLinear9.input2|in\", \"multDoubleLinear11.input2|in\", \"multDoubleLinear12.input2|in\", \"multDoubleLinear22.input2|in\", \"multDoubleLinear17.input2|in\", \"multDoubleLinear18.input2|in\", \"multDoubleLinear19.input2|in\", \"\\u0000fan:multDoubleLinear14.input2|multDoubleLinear15.input2|in\", \"l_brow_in.rotateZ|in\", \"l_brow_mid.rotateZ|in\", \"l_brow_mid.rotateToMove|in\", \"addDoubleLinear48.output|in\", \"clamp13.outputR|out\", \"multDoubleLinear7.output|out\", \"multDoubleLinear21.output|out\", \"plusMinusAverage28.output1D|out\", \"plusMinusAverage26.output1D|out\", \"plusMinusAverage29.output1D|out\", \"plusMinusAverage27.output1D|out\", \"multDoubleLinear17.output|out\", \"clamp14.outputR|out\", \"addDoubleLinear24.output|out\", \"\\u0000fan:multDoubleLinear13.input2|multDoubleLinear16.input2|in\", \"plusMinusAverage24.output1D|out\", \"multDoubleLinear1.input1|in\", \"multDoubleLinear14.input2|in\", \"unitConversion54.input|in\"], \"boundary_label_mode\": \"simple\", \"boundary_labels\": {\"addDoubleLinear9.input1|in\": \"mid translate Y\", \"addDoubleLinear10.input1|in\": \"out translate Y\", \"clamp14.outputR|out\": \"local 7 tx\", \"multDoubleLinear17.input2|in\": \"out rotate to move 1\", \"multDoubleLinear18.input2|in\": \"out rotate to move 2\", \"multDoubleLinear19.input2|in\": \"out rotate to move 3\", \"multDoubleLinear22.input2|in\": \"out rotate to move corner\", \"plusMinusAverage26.output1D|out\": \"local 3 ty\", \"plusMinusAverage27.output1D|out\": \"local 5 ty\", \"plusMinusAverage29.output1D|out\": \"local 4 ty\", \"unitConversion26.input|in\": \"out rotate\", \"\\u0000fan:unitConversion24.input|unitConversion56.input|in\": \"mid rotate\", \"multDoubleLinear17.output|out\": \"local 6 ty\", \"\\u0000fan:multDoubleLinear14.input2|multDoubleLinear15.input2|in\": \"input28\", \"\\u0000fan:addDoubleLinear10.input2|addDoubleLinear8.input2|addDoubleLinear9.input2|in\": \"input2\", \"addDoubleLinear8.input1|in\": \"In translate Y\", \"\\u0000fan:unitConversion54.input|unitConversion58.input|in\": \"input\", \"multDoubleLinear20.input1|in\": \"input12\", \"multDoubleLinear7.input2|in\": \"input23\", \"multDoubleLinear9.input2|in\": \"input24\", \"multDoubleLinear11.input2|in\": \"input25\", \"multDoubleLinear12.input2|in\": \"input26\", \"clamp13.outputR|out\": \"outputR\", \"multDoubleLinear7.output|out\": \"output\", \"multDoubleLinear21.output|out\": \"Local 2 tx\", \"plusMinusAverage28.output1D|out\": \"Local 2 ty\"}, \"boundary_hidden\": []}");
+		"{\"version\": 1, \"members\": {\"multDoubleLinear3\": [-1127.7997048877994, 296.63355720702], \"multDoubleLinear4\": [-1213.7393489269282, -442.00712821957677], \"unitConversion24\": [37.645119105861795, 634.1281663833531], \"plusMinusAverage24\": [-1693.9194668907633, 649.5374944865775], \"plusMinusAverage25\": [-1733.3255865716073, -952.3230939655859], \"multDoubleLinear5\": [-1741.243658842875, -121.65622664811099], \"addDoubleLinear9\": [-2269.7734908445805, -680.3240862112734], \"addDoubleLinear10\": [-2263.707514844067, 903.651054764407], \"addDoubleLinear2\": [-2197.2854821543324, -314.1554563824061], \"addDoubleLinear8\": [-2268.5563732424644, -1172.2189521529226], \"plusMinusAverage26\": [2087.563039661487, -162.85238270261289], \"plusMinusAverage27\": [2078.17668920465, 604.1062169054887], \"multDoubleLinear2\": [-1213.6240421429602, -1249.5707807611143], \"multDoubleLinear7\": [-406.70665432354804, -1383.5338602913262], \"unitConversion54\": [-578.0379654471251, -554.726699827399], \"multDoubleLinear11\": [-400.1001934434055, 43.769860281276124], \"multDoubleLinear12\": [-392.5603607505557, 910.0663588033526], \"multDoubleLinear9\": [-183.5475346546175, -994.418223817007], \"multDoubleLinear1\": [-1154.5442092317674, 1276.8436601163344], \"unitConversion26\": [1032.7331437925302, 1375.2291668031594], \"multDoubleLinear13\": [615.4652146588348, -135.4630414204894], \"multDoubleLinear14\": [445.12149155457314, 215.8305026077942], \"multDoubleLinear15\": [635.3032273239398, -1398.3214891730477], \"multDoubleLinear16\": [440.6003916304023, 996.4725994770024], \"plusMinusAverage28\": [1920.261741447561, -310.39293022403353], \"plusMinusAverage29\": [2098.1023229739276, 1067.1740411257665], \"unitConversion56\": [274.6941432470296, -602.7485002323192], \"multDoubleLinear17\": [1450.0036021445023, 1406.8521884069385], \"multDoubleLinear18\": [1427.3563807517883, 1229.629961908282], \"multDoubleLinear19\": [1404.3554884536477, 948.7769612151938], \"multDoubleLinear20\": [-212.7930010327957, -1866.0946240877656], \"unitConversion58\": [-566.6338696872838, -2017.5573347894192], \"multDoubleLinear21\": [886.9560420947321, -1758.899122205592], \"multDoubleLinear22\": [1472.3846433765814, 1627.67317951543], \"clamp13\": [2046.5615003184118, -1807.1770922091055], \"clamp14\": [2102.3959702696948, 1681.8044063561367], \"multDoubleLinear42\": [-1361.9533496712002, 1596.937814889874], \"multDoubleLinear63\": [524.1716555805203, 459.3238340677217]}, \"inner_state\": {\"multDoubleLinear3\": {\"x\": -12.389084700842997, \"y\": -1925.7251523303837, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear4\": {\"x\": -98.32872873997167, \"y\": -2664.3658377569805, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion24\": {\"x\": 1153.0557392928183, \"y\": -1588.2305431540506, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage24\": {\"x\": -578.5088467038067, \"y\": -1572.8212150508261, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"input1D\"]}, \"plusMinusAverage25\": {\"x\": -617.9149663846509, \"y\": -3174.6818035029896, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"input1D\"]}, \"multDoubleLinear5\": {\"x\": -625.8330386559184, \"y\": -2344.0149361855147, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear9\": {\"x\": -1154.362870657624, \"y\": -2902.682795748677, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear10\": {\"x\": -1148.296894657111, \"y\": -1318.7076547729966, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear2\": {\"x\": -1081.8748619673756, \"y\": -2536.51416591981, \"width\": 58, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear8\": {\"x\": -1153.145753055508, \"y\": -3394.5776616903263, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage26\": {\"x\": 3202.9736598484433, \"y\": -2385.2110922400166, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage27\": {\"x\": 3193.5873093916066, \"y\": -1618.252492631915, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": false, \"expanded_attrs\": [\"input1D\"]}, \"multDoubleLinear2\": {\"x\": -98.21342195600378, \"y\": -3471.929490298518, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear7\": {\"x\": 708.7039658634085, \"y\": -3605.89256982873, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion54\": {\"x\": 537.3726547398314, \"y\": -2777.0854093648027, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear11\": {\"x\": 715.310426743551, \"y\": -2178.5888492561276, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear12\": {\"x\": 722.8502594364008, \"y\": -1312.292350734051, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear9\": {\"x\": 931.863085532339, \"y\": -3216.7769333544106, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear1\": {\"x\": -39.13358904481089, \"y\": -945.5150494210694, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion26\": {\"x\": 2148.1437639794867, \"y\": -847.1295427342443, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear13\": {\"x\": 1730.8758348457914, \"y\": -2357.821750957893, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear14\": {\"x\": 1560.5321117415297, \"y\": -2006.5282069296095, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear15\": {\"x\": 1750.7138475108964, \"y\": -3620.6801987104514, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear16\": {\"x\": 1556.0110118173588, \"y\": -1225.8861100604013, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage28\": {\"x\": 3035.6723616345175, \"y\": -2532.751639761437, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"input1D\"]}, \"plusMinusAverage29\": {\"x\": 3213.512943160884, \"y\": -1155.1846684116372, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion56\": {\"x\": 1390.1047634339861, \"y\": -2825.107209769723, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear17\": {\"x\": 2565.414222331459, \"y\": -815.5065211304652, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear18\": {\"x\": 2542.767000938745, \"y\": -992.7287476291217, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear19\": {\"x\": 2519.766108640604, \"y\": -1273.58174832221, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear20\": {\"x\": 902.6176191541608, \"y\": -4088.4533336251693, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion58\": {\"x\": 548.7767504996727, \"y\": -4239.916044326823, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear21\": {\"x\": 2002.3666622816886, \"y\": -3981.2578317429957, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear22\": {\"x\": 2587.795263563538, \"y\": -594.6855300219736, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"clamp13\": {\"x\": 3161.9721205053684, \"y\": -4029.535801746509, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"clamp14\": {\"x\": 3217.8065904566515, \"y\": -540.554303181267, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear42\": {\"x\": -246.54272948424375, \"y\": -625.4208946475295, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear63\": {\"x\": 1639.5822757674769, \"y\": -1763.034875469682, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"view_state\": {\"cx\": 918.6321328521433, \"cy\": -2623.108341437992, \"scale\": 0.4593786619348773}, \"input_pos\": [-2050.495906828525, -2289.3827319771945], \"output_pos\": [4332.861805743459, -2306.9596823649154], \"boundary_order\": [\"\\u0000fan:addDoubleLinear10.input2|addDoubleLinear9.input2|in\", \"\\u0000fan:addDoubleLinear10.input2|addDoubleLinear8.input2|addDoubleLinear9.input2|in\", \"addDoubleLinear8.input1|in\", \"addDoubleLinear9.input1|in\", \"addDoubleLinear10.input1|in\", \"\\u0000fan:unitConversion54.input|unitConversion58.input|in\", \"\\u0000fan:unitConversion24.input|unitConversion56.input|in\", \"unitConversion26.input|in\", \"multDoubleLinear20.input1|in\", \"multDoubleLinear7.input2|in\", \"multDoubleLinear9.input2|in\", \"multDoubleLinear11.input2|in\", \"multDoubleLinear12.input2|in\", \"multDoubleLinear22.input2|in\", \"multDoubleLinear17.input2|in\", \"multDoubleLinear18.input2|in\", \"multDoubleLinear19.input2|in\", \"\\u0000fan:multDoubleLinear14.input2|multDoubleLinear15.input2|in\", \"l_brow_in.rotateZ|in\", \"l_brow_mid.rotateZ|in\", \"l_brow_mid.rotateToMove|in\", \"addDoubleLinear48.output|in\", \"clamp13.outputR|out\", \"multDoubleLinear7.output|out\", \"multDoubleLinear21.output|out\", \"plusMinusAverage28.output1D|out\", \"plusMinusAverage26.output1D|out\", \"plusMinusAverage29.output1D|out\", \"plusMinusAverage27.output1D|out\", \"multDoubleLinear17.output|out\", \"clamp14.outputR|out\", \"addDoubleLinear24.output|out\", \"\\u0000fan:multDoubleLinear13.input2|multDoubleLinear16.input2|in\", \"plusMinusAverage24.output1D|out\", \"multDoubleLinear1.input1|in\", \"multDoubleLinear14.input2|in\", \"unitConversion54.input|in\", \"multDoubleLinear20.output|out\", \"multDoubleLinear21.input1|in\", \"multDoubleLinear22.output|out\"], \"boundary_label_mode\": \"simple\", \"boundary_labels\": {\"addDoubleLinear9.input1|in\": \"mid translate Y\", \"addDoubleLinear10.input1|in\": \"out translate Y\", \"multDoubleLinear17.input2|in\": \"out rotate to move 1\", \"multDoubleLinear18.input2|in\": \"out rotate to move 2\", \"multDoubleLinear19.input2|in\": \"out rotate to move 3\", \"multDoubleLinear22.input2|in\": \"out rotate to move corner\", \"plusMinusAverage26.output1D|out\": \"local 3 ty\", \"plusMinusAverage27.output1D|out\": \"local 5 ty\", \"plusMinusAverage29.output1D|out\": \"local 4 ty\", \"unitConversion26.input|in\": \"out rotate\", \"\\u0000fan:unitConversion24.input|unitConversion56.input|in\": \"mid rotate\", \"multDoubleLinear17.output|out\": \"local 6 ty\", \"\\u0000fan:multDoubleLinear14.input2|multDoubleLinear15.input2|in\": \"input28\", \"\\u0000fan:addDoubleLinear10.input2|addDoubleLinear8.input2|addDoubleLinear9.input2|in\": \"input2\", \"addDoubleLinear8.input1|in\": \"In translate Y\", \"\\u0000fan:unitConversion54.input|unitConversion58.input|in\": \"input\", \"multDoubleLinear20.input1|in\": \"input12\", \"multDoubleLinear7.input2|in\": \"input23\", \"multDoubleLinear9.input2|in\": \"input24\", \"multDoubleLinear11.input2|in\": \"input25\", \"multDoubleLinear12.input2|in\": \"input26\", \"multDoubleLinear7.output|out\": \"output\", \"multDoubleLinear21.output|out\": \"Local 2 tx\", \"plusMinusAverage28.output1D|out\": \"Local 2 ty\", \"multDoubleLinear20.output|out\": \"output2\", \"multDoubleLinear21.input1|in\": \"input1\", \"multDoubleLinear22.output|out\": \"output3\"}, \"boundary_hidden\": []}");
 	setAttr ".multDoubleLinear14_input2" 0.70256410297483973;
 	setAttr ".multDoubleLinear17_input2" 0.65482233493555775;
 	setAttr ".multDoubleLinear18_input2" 0.22335025337217423;
@@ -7091,6 +6615,7 @@ createNode network -n "l_local_hyperNode";
 	setAttr ".multDoubleLinear21_output" 0.00378069132072022;
 	setAttr ".multDoubleLinear7_output" -0.017320841622195444;
 	setAttr ".plusMinusAverage28_output1D" -0.0091852946206927299;
+	setAttr ".multDoubleLinear21_input1" -0.00010591678437776864;
 createNode groupId -n "in_cluster4GroupId";
 	rename -uid "5F5236E1-42BD-74F0-9F7E-BFB7E66A662C";
 	setAttr ".ihi" 0;
@@ -7304,7 +6829,7 @@ createNode objectSet -n "r_local_moduleControlSet";
 createNode objectSet -n "l_main_moduleControlSet";
 	rename -uid "EB2B6425-48A2-F7ED-92AC-51850660C52A";
 	setAttr ".ihi" 0;
-	setAttr -s 4 ".dsm";
+	setAttr -s 5 ".dsm";
 	setAttr ".an" -type "string" "gControlSet";
 createNode objectSet -n "r_main_moduleControlSet";
 	rename -uid "161F23E2-4E77-E9B9-9539-0B8D7DB37BE4";
@@ -7330,21 +6855,6 @@ createNode multMatrix -n "multMatrix60";
 createNode multDoubleLinear -n "multDoubleLinear42";
 	rename -uid "14E9D170-416D-9EE6-59CA-01A334983125";
 	setAttr ".i2" -1;
-createNode animCurveTA -n "l_brow_out_rotateX";
-	rename -uid "7E2D8F8B-47A7-F71B-21A3-1DB4093B7798";
-	setAttr ".tan" 9;
-	setAttr ".wgt" no;
-	setAttr ".ktv[0]"  1 0;
-createNode animCurveTA -n "l_brow_out_rotateY";
-	rename -uid "C2F37B93-49B6-60AE-711C-B98D091E1980";
-	setAttr ".tan" 9;
-	setAttr ".wgt" no;
-	setAttr ".ktv[0]"  1 0;
-createNode animCurveTA -n "l_brow_out_rotateZ";
-	rename -uid "2C0EEBF9-48C2-FFE5-7105-E499550CF835";
-	setAttr ".tan" 9;
-	setAttr ".wgt" no;
-	setAttr -s 3 ".ktv[0:2]"  1 0 34 34.536721361139818 55 0;
 createNode unitConversion -n "unitConversion86";
 	rename -uid "2FF18AC9-4D52-593A-330B-709996707090";
 	setAttr ".cf" -1;
@@ -7535,161 +7045,6 @@ createNode blendColors -n "blendColors1";
 createNode blendColors -n "blendColors2";
 	rename -uid "7591854E-4A99-D152-6AC4-1CA1E3618BBB";
 	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode motionPath -n "mp_curveLoc_00";
-	rename -uid "48B6886E-4873-3F49-0ED9-F7B1539D3CA3";
-	setAttr ".u" 0.00073652550578704086;
-	setAttr ".f" yes;
-	setAttr ".wut" 2;
-createNode blendMatrix -n "bm_up_curveLoc_00";
-	rename -uid "966F121E-4BBA-3A90-3E80-B9AA3D4A6AF7";
-	setAttr -s 2 ".tgt";
-	setAttr ".tgt[0].wgt" 0.98528831217046275;
-	setAttr ".tgt[1].wgt" 0.014711687829537298;
-createNode motionPath -n "mp_curveLoc_01";
-	rename -uid "33EAC6EC-4C7B-497C-76E0-54B69BC6C4BF";
-	setAttr ".u" 0.021982420790466476;
-	setAttr ".f" yes;
-	setAttr ".wut" 2;
-createNode blendMatrix -n "bm_up_curveLoc_01";
-	rename -uid "4CA4B5BD-4F2D-372B-666B-2BBA7E723BB9";
-	setAttr -s 2 ".tgt";
-	setAttr ".tgt[0].wgt" 0.63825503887889568;
-	setAttr ".tgt[1].wgt" 0.36174496112110427;
-createNode motionPath -n "mp_curveLoc_02";
-	rename -uid "C14C256A-4963-6606-9A75-37910117DC6C";
-	setAttr ".u" 0.046291084597823551;
-	setAttr ".f" yes;
-	setAttr ".wut" 2;
-createNode blendMatrix -n "bm_up_curveLoc_02";
-	rename -uid "5BAC6D1E-4EC5-56BF-3EFC-8C8CDC7043BF";
-	setAttr -s 2 ".tgt";
-	setAttr ".tgt[0].wgt" 0.60255051885033517;
-	setAttr ".tgt[1].wgt" 0.39744948114966477;
-createNode motionPath -n "mp_curveLoc_03";
-	rename -uid "E0B011C8-47DD-22BD-236E-43A5E6B21959";
-	setAttr ".u" 0.23959676655924467;
-	setAttr ".f" yes;
-	setAttr ".wut" 2;
-createNode blendMatrix -n "bm_up_curveLoc_03";
-	rename -uid "467761AF-4ADA-51DB-26F3-FF9B1DED521B";
-	setAttr -s 2 ".tgt";
-	setAttr ".tgt[0].wgt" 0.90100562242465276;
-	setAttr ".tgt[1].wgt" 0.098994377575347264;
-createNode motionPath -n "mp_curveLoc_04";
-	rename -uid "ED03A876-44E0-14BC-71C7-FB8FDFB14A8F";
-	setAttr ".u" 0.33683400872433861;
-	setAttr ".f" yes;
-	setAttr ".wut" 2;
-createNode blendMatrix -n "bm_up_curveLoc_04";
-	rename -uid "AE4ABDBA-47AA-FB89-7C53-76B6FD3919C9";
-	setAttr -s 2 ".tgt";
-	setAttr ".tgt[0].wgt" 0.75378816252510106;
-	setAttr ".tgt[1].wgt" 0.24621183747489889;
-createNode motionPath -n "mp_curveLoc_05";
-	rename -uid "AF092F79-4480-CBCB-0A14-BFA01481B05C";
-	setAttr ".u" 0.43102748000846519;
-	setAttr ".f" yes;
-	setAttr ".wut" 2;
-createNode blendMatrix -n "bm_up_curveLoc_05";
-	rename -uid "441C91C4-4D2D-17A8-8BF6-13A13CC80478";
-	setAttr -s 2 ".tgt";
-	setAttr ".tgt[0].wgt" 0.67465396697652125;
-	setAttr ".tgt[1].wgt" 0.32534603302347864;
-createNode motionPath -n "mp_curveLoc_06";
-	rename -uid "4E1F9C84-4C6E-6AC8-0676-A485A4B1B507";
-	setAttr ".u" 0.51638933552584465;
-	setAttr ".f" yes;
-	setAttr ".wut" 2;
-createNode blendMatrix -n "bm_up_curveLoc_06";
-	rename -uid "24BD6598-4805-7CB5-AD42-FFBD4D02E1DE";
-	setAttr -s 2 ".tgt";
-	setAttr ".tgt[0].wgt" 0.91834456336296988;
-	setAttr ".tgt[1].wgt" 0.081655436637030038;
-createNode motionPath -n "mp_curveLoc_07";
-	rename -uid "362A473D-46A4-B534-D6FF-0D8BA4E11D29";
-	setAttr ".u" 0.60641704904982441;
-	setAttr ".f" yes;
-	setAttr ".wut" 2;
-createNode blendMatrix -n "bm_up_curveLoc_07";
-	rename -uid "BB647318-4A22-E6AB-B5DD-28B38931473F";
-	setAttr -s 2 ".tgt";
-	setAttr ".tgt[0].wgt" 0.51771949630107317;
-	setAttr ".tgt[1].wgt" 0.48228050369892689;
-createNode motionPath -n "mp_curveLoc_08";
-	rename -uid "4F09672E-48F0-2683-DD21-4BA63E0DC3D5";
-	setAttr ".u" 0.69494094989022548;
-	setAttr ".f" yes;
-	setAttr ".wut" 2;
-createNode blendMatrix -n "bm_up_curveLoc_08";
-	rename -uid "3B3F23EC-49D5-C08A-D841-5CB09164EF17";
-	setAttr -s 2 ".tgt";
-	setAttr ".tgt[0].wgt" 0.8882484517891982;
-	setAttr ".tgt[1].wgt" 0.11175154821080178;
-createNode motionPath -n "mp_curveLoc_09";
-	rename -uid "562400FF-44CC-5817-4393-74B4D224172D";
-	setAttr ".u" 0.79343212211213354;
-	setAttr ".f" yes;
-	setAttr ".wut" 2;
-createNode blendMatrix -n "bm_up_curveLoc_09";
-	rename -uid "69DD3085-4694-63DD-43E0-1283BD89F886";
-	setAttr -s 2 ".tgt";
-	setAttr ".tgt[0].wgt" 0.80581493332333276;
-	setAttr ".tgt[1].wgt" 0.19418506667666724;
-createNode motionPath -n "mp_curveLoc_10";
-	rename -uid "C925C7C2-455D-55AD-1321-1D8390501F84";
-	setAttr ".u" 0.93598085116151408;
-	setAttr ".f" yes;
-	setAttr ".wut" 2;
-createNode blendMatrix -n "bm_up_curveLoc_10";
-	rename -uid "D73CCD7F-4977-B81C-83CC-278B90E25A8B";
-	setAttr -s 2 ".tgt";
-	setAttr ".tgt[0].wgt" 0.55223962016848971;
-	setAttr ".tgt[1].wgt" 0.44776037983151035;
-createNode motionPath -n "mp_curveLoc_11";
-	rename -uid "003C8A68-4E79-63A0-E5E2-24A925177076";
-	setAttr ".u" 0.97276098182024895;
-	setAttr ".f" yes;
-	setAttr ".wut" 2;
-createNode blendMatrix -n "bm_up_curveLoc_11";
-	rename -uid "4589B1D9-4339-BCB5-0E24-58AE86944248";
-	setAttr -s 2 ".tgt";
-	setAttr ".tgt[0].wgt" 0.66280465570912528;
-	setAttr ".tgt[1].wgt" 0.33719534429087472;
-createNode motionPath -n "mp_curveLoc_12";
-	rename -uid "3D8B655D-43CC-4150-6598-B1B63B48F085";
-	setAttr ".u" 0.99084354265984631;
-	setAttr ".f" yes;
-	setAttr ".wut" 2;
-createNode blendMatrix -n "bm_up_curveLoc_12";
-	rename -uid "A47C1B17-4AD9-25EB-094F-68A10526D621";
-	setAttr -s 2 ".tgt";
-	setAttr ".tgt[0].wgt" 0.86072881986981919;
-	setAttr ".tgt[1].wgt" 0.13927118013018092;
-createNode motionPath -n "mp_curveLoc_13";
-	rename -uid "136FA247-406C-2F94-80F1-8F8BDE8AB4B1";
-	setAttr ".u" 1;
-	setAttr ".f" yes;
-	setAttr ".wut" 2;
-createNode blendMatrix -n "bm_up_curveLoc_13";
-	rename -uid "056E117F-4AD8-64CB-3416-ADBDC22FF487";
-	setAttr -s 2 ".tgt";
-	setAttr ".tgt[0].wgt" 0.9733628340546866;
-	setAttr ".tgt[1].wgt" 0.026637165945313533;
-createNode animCurveTA -n "l_brow_in_rotateX";
-	rename -uid "5A8E7BC8-49FA-7EA3-2DAF-929FC4E7735F";
-	setAttr ".tan" 9;
-	setAttr ".wgt" no;
-	setAttr ".ktv[0]"  1 0;
-createNode animCurveTA -n "l_brow_in_rotateY";
-	rename -uid "2B8528CF-42D5-173C-0FFF-99BDD1B58428";
-	setAttr ".tan" 9;
-	setAttr ".wgt" no;
-	setAttr ".ktv[0]"  1 0;
-createNode animCurveTA -n "l_brow_in_rotateZ";
-	rename -uid "31E99E42-4606-187B-AE7F-F6B996C0D9D6";
-	setAttr ".tan" 9;
-	setAttr ".wgt" no;
-	setAttr -s 3 ".ktv[0:2]"  1 0 27 -37.379978845042849 82 37.010549416617323;
 createNode remapValue -n "remapValue1";
 	rename -uid "E4201E31-4160-031C-389F-92B219A74F71";
 	setAttr ".imn" -1;
@@ -7714,86 +7069,70 @@ createNode remapValue -n "remapValue2";
 	setAttr ".cl[1].clp" 1;
 	setAttr ".cl[1].clc" -type "float3" 1 1 1 ;
 	setAttr ".cl[1].cli" 1;
+createNode remapValue -n "remapValue3";
+	rename -uid "B14D9A45-48B1-700F-40F2-B3BDD38C47BE";
+	setAttr ".imn" -1;
+	setAttr -s 3 ".vl[0:2]"  0 1 3 1 1 1 0.49671772 0 3;
+	setAttr -s 2 ".cl";
+	setAttr ".cl[0].clp" 0;
+	setAttr ".cl[0].clc" -type "float3" 0 0 0 ;
+	setAttr ".cl[0].cli" 1;
+	setAttr ".cl[1].clp" 1;
+	setAttr ".cl[1].clc" -type "float3" 1 1 1 ;
+	setAttr ".cl[1].cli" 1;
+createNode objectSet -n "skinJointsSet";
+	rename -uid "2EAF73D2-4150-ADEA-CB79-24B8399E98E5";
+	setAttr ".ihi" 0;
+createNode multMatrix -n "multMatrix68";
+	rename -uid "C70498D3-40B3-03BA-9E34-ADA4AC72CE0C";
+	setAttr -s 2 ".i";
 createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
-	rename -uid "D5506289-4CDE-0344-9923-7DBAE05F8CD4";
+	rename -uid "91B36E65-4E48-4484-3A75-79BC93538C50";
 	setAttr -s 3 ".tgi";
 	setAttr ".tgi[0].tn" -type "string" "Untitled_1";
-	setAttr ".tgi[0].vl" -type "double2" -6869.047780713393 -10126.8565704093 ;
-	setAttr ".tgi[0].vh" -type "double2" 7273.8096782612465 12533.99932303119 ;
+	setAttr ".tgi[0].vl" -type "double2" -6653.5715899297211 -654.76199405060731 ;
+	setAttr ".tgi[0].vh" -type "double2" 7060.7144308941752 3059.5238032558636 ;
 	setAttr ".tgi[0].ni[0].x" -108.57142639160156;
 	setAttr ".tgi[0].ni[0].y" 1097.142822265625;
 	setAttr ".tgi[0].ni[0].nvs" 18304;
 	setAttr ".tgi[1].tn" -type "string" "Untitled_2";
-	setAttr ".tgi[1].vl" -type "double2" -6063.8827147098036 -3881.8161348073554 ;
-	setAttr ".tgi[1].vh" -type "double2" -4413.5049144724208 -1237.4443302127781 ;
+	setAttr ".tgi[1].vl" -type "double2" -7854.8073801856899 -3785.7141352835506 ;
+	setAttr ".tgi[1].vh" -type "double2" -1727.3350961970352 -2126.1903917032896 ;
 	setAttr -s 7 ".tgi[1].ni";
-	setAttr ".tgi[1].ni[0].x" -5950;
-	setAttr ".tgi[1].ni[0].y" -2497.142822265625;
-	setAttr ".tgi[1].ni[0].nvs" 18304;
-	setAttr ".tgi[1].ni[1].x" -5642.85693359375;
-	setAttr ".tgi[1].ni[1].y" -2598.571533203125;
-	setAttr ".tgi[1].ni[1].nvs" 18304;
-	setAttr ".tgi[1].ni[2].x" -5642.85693359375;
-	setAttr ".tgi[1].ni[2].y" -2497.142822265625;
+	setAttr ".tgi[1].ni[0].x" -5740.50146484375;
+	setAttr ".tgi[1].ni[0].y" -2830.6240234375;
+	setAttr ".tgi[1].ni[0].nvs" 18305;
+	setAttr ".tgi[1].ni[1].x" -4869.453125;
+	setAttr ".tgi[1].ni[1].y" -2501.47412109375;
+	setAttr ".tgi[1].ni[1].nvs" 18305;
+	setAttr ".tgi[1].ni[2].x" -4885.71435546875;
+	setAttr ".tgi[1].ni[2].y" -3392.857177734375;
 	setAttr ".tgi[1].ni[2].nvs" 18304;
-	setAttr ".tgi[1].ni[3].x" -4721.4287109375;
-	setAttr ".tgi[1].ni[3].y" -2361.428466796875;
-	setAttr ".tgi[1].ni[3].nvs" 18305;
-	setAttr ".tgi[1].ni[4].x" -4721.4287109375;
-	setAttr ".tgi[1].ni[4].y" -2584.28564453125;
+	setAttr ".tgi[1].ni[3].x" -5491.64111328125;
+	setAttr ".tgi[1].ni[3].y" -2499.787109375;
+	setAttr ".tgi[1].ni[3].nvs" 18304;
+	setAttr ".tgi[1].ni[4].x" -5195.109375;
+	setAttr ".tgi[1].ni[4].y" -2605.524658203125;
 	setAttr ".tgi[1].ni[4].nvs" 18305;
-	setAttr ".tgi[1].ni[5].x" -5028.5712890625;
-	setAttr ".tgi[1].ni[5].y" -2608.571533203125;
-	setAttr ".tgi[1].ni[5].nvs" 18304;
-	setAttr ".tgi[1].ni[6].x" -5335.71435546875;
-	setAttr ".tgi[1].ni[6].y" -2547.142822265625;
-	setAttr ".tgi[1].ni[6].nvs" 18304;
+	setAttr ".tgi[1].ni[5].x" -4860.162109375;
+	setAttr ".tgi[1].ni[5].y" -2901.93603515625;
+	setAttr ".tgi[1].ni[5].nvs" 18305;
+	setAttr ".tgi[1].ni[6].x" -4516.869140625;
+	setAttr ".tgi[1].ni[6].y" -2611.53515625;
+	setAttr ".tgi[1].ni[6].nvs" 18305;
 	setAttr ".tgi[2].tn" -type "string" "Untitled_3";
-	setAttr ".tgi[2].vl" -type "double2" -9493.1080550167844 -2991.6044138399075 ;
-	setAttr ".tgi[2].vh" -type "double2" -6086.4521995198475 2466.8213423338507 ;
-	setAttr -s 14 ".tgi[2].ni";
-	setAttr ".tgi[2].ni[0].x" -8295.7138671875;
-	setAttr ".tgi[2].ni[0].y" 664.28570556640625;
+	setAttr ".tgi[2].vl" -type "double2" -8220.8983368701047 -392.81428048809062 ;
+	setAttr ".tgi[2].vh" -type "double2" -7263.7555065743791 1140.7991218733637 ;
+	setAttr -s 3 ".tgi[2].ni";
+	setAttr ".tgi[2].ni[0].x" -7514.53759765625;
+	setAttr ".tgi[2].ni[0].y" 387.81512451171875;
 	setAttr ".tgi[2].ni[0].nvs" 18305;
-	setAttr ".tgi[2].ni[1].x" -9032.9287109375;
-	setAttr ".tgi[2].ni[1].y" 538.1396484375;
-	setAttr ".tgi[2].ni[1].nvs" 19201;
-	setAttr ".tgi[2].ni[2].x" -8602.857421875;
-	setAttr ".tgi[2].ni[2].y" 702.85711669921875;
-	setAttr ".tgi[2].ni[2].nvs" 18305;
-	setAttr ".tgi[2].ni[3].x" -7374.28564453125;
-	setAttr ".tgi[2].ni[3].y" 831.4285888671875;
-	setAttr ".tgi[2].ni[3].nvs" 18305;
-	setAttr ".tgi[2].ni[4].x" -7681.4287109375;
-	setAttr ".tgi[2].ni[4].y" 797.14288330078125;
-	setAttr ".tgi[2].ni[4].nvs" 18305;
-	setAttr ".tgi[2].ni[5].x" -7374.28564453125;
-	setAttr ".tgi[2].ni[5].y" 608.5714111328125;
-	setAttr ".tgi[2].ni[5].nvs" 18305;
-	setAttr ".tgi[2].ni[6].x" -7987.47021484375;
-	setAttr ".tgi[2].ni[6].y" 708.5714111328125;
-	setAttr ".tgi[2].ni[6].nvs" 18305;
-	setAttr ".tgi[2].ni[7].x" -9030.359375;
-	setAttr ".tgi[2].ni[7].y" -125.37718963623047;
-	setAttr ".tgi[2].ni[7].nvs" 18305;
-	setAttr ".tgi[2].ni[8].x" -8037.96044921875;
-	setAttr ".tgi[2].ni[8].y" 305.2467041015625;
-	setAttr ".tgi[2].ni[8].nvs" 18305;
-	setAttr ".tgi[2].ni[9].x" -8598.0068359375;
-	setAttr ".tgi[2].ni[9].y" 3.2658901214599609;
-	setAttr ".tgi[2].ni[9].nvs" 18305;
-	setAttr ".tgi[2].ni[10].x" -7388.16796875;
-	setAttr ".tgi[2].ni[10].y" 232.65328979492188;
-	setAttr ".tgi[2].ni[10].nvs" 18304;
-	setAttr ".tgi[2].ni[11].x" -7393.5927734375;
-	setAttr ".tgi[2].ni[11].y" -112.13970184326172;
-	setAttr ".tgi[2].ni[11].nvs" 18304;
-	setAttr ".tgi[2].ni[12].x" -7663.8115234375;
-	setAttr ".tgi[2].ni[12].y" 357.94561767578125;
-	setAttr ".tgi[2].ni[12].nvs" 18305;
-	setAttr ".tgi[2].ni[13].x" -8309.2451171875;
-	setAttr ".tgi[2].ni[13].y" 167.37040710449219;
-	setAttr ".tgi[2].ni[13].nvs" 18305;
+	setAttr ".tgi[2].ni[1].x" -7849.748046875;
+	setAttr ".tgi[2].ni[1].y" 497.3109130859375;
+	setAttr ".tgi[2].ni[1].nvs" 18305;
+	setAttr ".tgi[2].ni[2].x" -7837.14306640625;
+	setAttr ".tgi[2].ni[2].y" 635.71429443359375;
+	setAttr ".tgi[2].ni[2].nvs" 18304;
 select -ne :time1;
 	setAttr -av -k on ".cch";
 	setAttr -k on ".fzn";
@@ -7904,7 +7243,7 @@ select -ne :defaultRenderUtilityList1;
 	setAttr -cb on ".ihi";
 	setAttr -av -k on ".nds";
 	setAttr -cb on ".bnm";
-	setAttr -s 103 ".u";
+	setAttr -s 104 ".u";
 select -ne :defaultRenderingList1;
 	setAttr -av -k on ".cch";
 	setAttr -k on ".ihi";
@@ -8219,7 +7558,17 @@ connectAttr "out_mainPoser_size_multiplyDivide.ox" "out_mainPoser_clusterHandle.
 connectAttr "local_5_makeNurbSphere.os" "local_5_poserNurbsShape.cr";
 connectAttr "local_6_makeNurbSphere.os" "local_6_poserNurbsShape.cr";
 connectAttr "local_7_makeNurbSphere.os" "local_7_poserNurbsShape.cr";
+connectAttr "local_8_poser_orientConstraint1.crx" "local_8_poser.rx" -l on;
+connectAttr "local_8_poser_orientConstraint1.cry" "local_8_poser.ry" -l on;
+connectAttr "local_8_poser_orientConstraint1.crz" "local_8_poser.rz" -l on;
 connectAttr "local_8_makeNurbSphere.os" "local_8_poserNurbsShape.cr";
+connectAttr "local_8_poser.ro" "local_8_poser_orientConstraint1.cro";
+connectAttr "local_8_poser.pim" "local_8_poser_orientConstraint1.cpim";
+connectAttr "local_7_poser.r" "local_8_poser_orientConstraint1.tg[0].tr";
+connectAttr "local_7_poser.ro" "local_8_poser_orientConstraint1.tg[0].tro";
+connectAttr "local_7_poser.pm" "local_8_poser_orientConstraint1.tg[0].tpm";
+connectAttr "local_8_poser_orientConstraint1.w0" "local_8_poser_orientConstraint1.tg[0].tw"
+		;
 connectAttr "center_poser_group_scaleConstraint1.csx" "center_poser_group.sx";
 connectAttr "center_poser_group_scaleConstraint1.csy" "center_poser_group.sy";
 connectAttr "center_poser_group_scaleConstraint1.csz" "center_poser_group.sz";
@@ -8381,9 +7730,6 @@ connectAttr "l_brow.upLimit" "l_brow.xtyl";
 connectAttr "l_brow.downLimit" "l_brow.mtyl";
 connectAttr "in_mainPoser.m" "l_brow_in_group.opm";
 connectAttr "multMatrix50.o" "l_brow_in_group_1.opm";
-connectAttr "l_brow_in_rotateZ.o" "l_brow_in.rz";
-connectAttr "l_brow_in_rotateX.o" "l_brow_in.rx";
-connectAttr "l_brow_in_rotateY.o" "l_brow_in.ry";
 connectAttr "multDoubleLinear6.o" "l_brow_in_1Shape.v";
 connectAttr "unitConversion57.o" "l_brow_local_2_rotateOffset.rz";
 connectAttr "plusMinusAverage28.o1" "l_curve9_2_loc_moveOffset.ty";
@@ -8420,9 +7766,6 @@ connectAttr "up_vis_condition.ocr" "l_brow_mid_top.v";
 connectAttr "down_vis_condition.ocr" "l_brow_mid_bot.v";
 connectAttr "out_mainPoser.m" "l_brow_out_group.opm";
 connectAttr "multMatrix48.o" "l_brow_out_group_1.opm";
-connectAttr "l_brow_out_rotateX.o" "l_brow_out.rx";
-connectAttr "l_brow_out_rotateY.o" "l_brow_out.ry";
-connectAttr "l_brow_out_rotateZ.o" "l_brow_out.rz";
 connectAttr "multDoubleLinear6.o" "l_brow_out_1Shape.v";
 connectAttr "unitConversion22.o" "l_brow_local_out_rotateOffset.rz";
 connectAttr "plusMinusAverage27.o1" "l_curve9_5_loc_moveOffset.ty";
@@ -8438,7 +7781,7 @@ connectAttr "multDoubleLinear6.o" "l_brow_local_6Shape.v";
 connectAttr "up_vis_condition.ocr" "l_brow_local_6_top.v";
 connectAttr "down_vis_condition.ocr" "l_brow_local_6_bot.v";
 connectAttr "l_brow_out.rz" "l_brow_local_7_rotateOffset.rz";
-connectAttr "clamp14.opr" "l_brow_local_7_rotateOffset.tx";
+connectAttr "remapValue3.ov" "l_brow_local_7_rotateOffset.tx";
 connectAttr "multMatrix65.o" "l_brow_local_7_group.opm";
 connectAttr "plusMinusAverage43.o3" "l_brow_local_7_group_1.t";
 connectAttr "multDoubleLinear6.o" "l_brow_local_7Shape.v";
@@ -8446,6 +7789,7 @@ connectAttr "up_vis_condition.ocr" "l_brow_local_7_top.v";
 connectAttr "down_vis_condition.ocr" "l_brow_local_7_bot.v";
 connectAttr "up_vis_condition.ocr" "l_brow_out_top.v";
 connectAttr "down_vis_condition.ocr" "l_brow_out_bot.v";
+connectAttr "multMatrix68.o" "l_brow_last.opm";
 connectAttr "multMatrix51.o" "r_brow_group.opm";
 connectAttr "in_mainPoser.m" "r_brow_in_group.opm";
 connectAttr "multMatrix54.o" "r_brow_in_group_1.opm";
@@ -8478,52 +7822,12 @@ connectAttr "plusMinusAverage48.o3" "r_brow_local_6_group_1.t";
 connectAttr "clamp18.opr" "r_brow_local_7_rotateOffset.tx";
 connectAttr "r_brow_out.rz" "r_brow_local_7_rotateOffset.rz";
 connectAttr "multMatrix65.o" "r_brow_local_7_group.opm";
+connectAttr "multMatrix68.o" "r_brow_last.opm";
 connectAttr "multMatrix55.o" "brow_center_group.opm";
 connectAttr "multiplyDivide42.o" "brow_center_group_1.t";
 connectAttr "multMatrix66.o" "l_curve_loc_12.opm";
 connectAttr "multMatrix67.o" "r_curve_loc_12.opm";
-connectAttr "mp_curveLoc_00.ac" "curveLoc_00.t";
-connectAttr "curveJnt_00.s" "curveJnt_00_end.is";
-connectAttr "mp_curveLoc_00.r" "curveJnt_00_end.r";
-connectAttr "mp_curveLoc_01.ac" "curveLoc_01.t";
-connectAttr "curveJnt_01.s" "curveJnt_01_end.is";
-connectAttr "mp_curveLoc_01.r" "curveJnt_01_end.r";
-connectAttr "mp_curveLoc_02.ac" "curveLoc_02.t";
-connectAttr "curveJnt_02.s" "curveJnt_02_end.is";
-connectAttr "mp_curveLoc_02.r" "curveJnt_02_end.r";
-connectAttr "mp_curveLoc_03.ac" "curveLoc_03.t";
-connectAttr "curveJnt_03.s" "curveJnt_03_end.is";
-connectAttr "mp_curveLoc_03.r" "curveJnt_03_end.r";
-connectAttr "mp_curveLoc_04.ac" "curveLoc_04.t";
-connectAttr "curveJnt_04.s" "curveJnt_04_end.is";
-connectAttr "mp_curveLoc_04.r" "curveJnt_04_end.r";
-connectAttr "mp_curveLoc_05.ac" "curveLoc_05.t";
-connectAttr "curveJnt_05.s" "curveJnt_05_end.is";
-connectAttr "mp_curveLoc_05.r" "curveJnt_05_end.r";
-connectAttr "mp_curveLoc_06.ac" "curveLoc_06.t";
-connectAttr "curveJnt_06.s" "curveJnt_06_end.is";
-connectAttr "mp_curveLoc_06.r" "curveJnt_06_end.r";
-connectAttr "mp_curveLoc_07.ac" "curveLoc_07.t";
-connectAttr "curveJnt_07.s" "curveJnt_07_end.is";
-connectAttr "mp_curveLoc_07.r" "curveJnt_07_end.r";
-connectAttr "mp_curveLoc_08.ac" "curveLoc_08.t";
-connectAttr "curveJnt_08.s" "curveJnt_08_end.is";
-connectAttr "mp_curveLoc_08.r" "curveJnt_08_end.r";
-connectAttr "mp_curveLoc_09.ac" "curveLoc_09.t";
-connectAttr "curveJnt_09.s" "curveJnt_09_end.is";
-connectAttr "mp_curveLoc_09.r" "curveJnt_09_end.r";
-connectAttr "mp_curveLoc_10.ac" "curveLoc_10.t";
-connectAttr "curveJnt_10.s" "curveJnt_10_end.is";
-connectAttr "mp_curveLoc_10.r" "curveJnt_10_end.r";
-connectAttr "mp_curveLoc_11.ac" "curveLoc_11.t";
-connectAttr "curveJnt_11.s" "curveJnt_11_end.is";
-connectAttr "mp_curveLoc_11.r" "curveJnt_11_end.r";
-connectAttr "mp_curveLoc_12.ac" "curveLoc_12.t";
-connectAttr "curveJnt_12.s" "curveJnt_12_end.is";
-connectAttr "mp_curveLoc_12.r" "curveJnt_12_end.r";
-connectAttr "mp_curveLoc_13.ac" "curveLoc_13.t";
-connectAttr "curveJnt_13.s" "curveJnt_13_end.is";
-connectAttr "mp_curveLoc_13.r" "curveJnt_13_end.r";
+connectAttr "root_connector.wm" "root_outJoint.opm";
 relationship "link" ":lightLinker1" ":initialShadingGroup.message" ":defaultLightSet.message";
 relationship "link" ":lightLinker1" ":initialParticleSE.message" ":defaultLightSet.message";
 relationship "link" ":lightLinker1" "green_rsSG.message" ":defaultLightSet.message";
@@ -8581,6 +7885,7 @@ connectAttr "l_moduleControlSet.msg" "moduleControlSet.dnsm" -na;
 connectAttr "r_moduleControlSet.msg" "moduleControlSet.dnsm" -na;
 connectAttr "brow_center.iog" "moduleControlSet.dsm" -na;
 connectAttr "moduleControlSet.msg" "sets.dnsm" -na;
+connectAttr "skinJointsSet.msg" "sets.dnsm" -na;
 connectAttr "cluster4GroupId.msg" "cluster4Set.gn" -na;
 connectAttr "mainPoserShape.iog.og[1]" "cluster4Set.dsm" -na;
 connectAttr "mainPoser_clusterHandleCluster1.msg" "cluster4Set.ub[0]";
@@ -9395,7 +8700,7 @@ connectAttr "l_brow_out.rotateToMove3" "multDoubleLinear18.i2";
 connectAttr "unitConversion26.o" "multDoubleLinear19.i1";
 connectAttr "l_brow_out.rotateToMove2" "multDoubleLinear19.i2";
 connectAttr "unitConversion26.o" "multDoubleLinear22.i1";
-connectAttr "l_brow_out.rotateToMoveCornerX" "multDoubleLinear22.i2";
+connectAttr "l_brow_out.rotateToLength" "multDoubleLinear22.i2";
 connectAttr "multDoubleLinear22.o" "clamp14.ipr";
 connectAttr "multMatrix58.o" "multMatrix51.i[0]";
 connectAttr "composeMatrix4.omat" "multMatrix51.i[1]";
@@ -9797,6 +9102,7 @@ connectAttr "l_brow_in.iog" "l_main_moduleControlSet.dsm" -na;
 connectAttr "l_brow_mid.iog" "l_main_moduleControlSet.dsm" -na;
 connectAttr "l_brow_out.iog" "l_main_moduleControlSet.dsm" -na;
 connectAttr "l_brow_last.iog" "l_main_moduleControlSet.dsm" -na;
+connectAttr "r_brow_last.iog" "l_main_moduleControlSet.dsm" -na;
 connectAttr "r_brow_in.iog" "r_main_moduleControlSet.dsm" -na;
 connectAttr "r_brow_mid.iog" "r_main_moduleControlSet.dsm" -na;
 connectAttr "r_brow_out.iog" "r_main_moduleControlSet.dsm" -na;
@@ -9843,14 +9149,14 @@ connectAttr "multDoubleLinear70.o" "plusMinusAverage56.i1[2]";
 connectAttr "multDoubleLinear79.o" "plusMinusAverage56.i1[3]";
 connectAttr "plusMinusAverage54.o1" "multDoubleLinear67.i1";
 connectAttr "unitConversion88.o" "multDoubleLinear68.i1";
-connectAttr "l_brow_in.rotateToMoveCornerY" "multDoubleLinear68.i2";
+connectAttr "l_brow_in.rotateToMove1" "multDoubleLinear68.i2";
 connectAttr "r_brow_in.rz" "unitConversion88.i";
 connectAttr "unitConversion88.o" "multDoubleLinear69.i1";
-connectAttr "l_brow_in.rotateToMove2" "multDoubleLinear69.i2";
+connectAttr "l_brow_in.rotateToMove3" "multDoubleLinear69.i2";
 connectAttr "unitConversion88.o" "multDoubleLinear70.i1";
-connectAttr "l_brow_in.rotateToMove3" "multDoubleLinear70.i2";
+connectAttr "l_brow_in.rotateToMove4" "multDoubleLinear70.i2";
 connectAttr "unitConversion88.o" "multDoubleLinear71.i1";
-connectAttr "l_brow_in.rotateToMove1" "multDoubleLinear71.i2";
+connectAttr "l_brow_in.rotateToMove2" "multDoubleLinear71.i2";
 connectAttr "multDoubleLinear83.o" "multDoubleLinear72.i1";
 connectAttr "r_brow_out.rz" "unitConversion89.i";
 connectAttr "unitConversion90.o" "multDoubleLinear73.i1";
@@ -9872,12 +9178,12 @@ connectAttr "unitConversion89.o" "multDoubleLinear78.i1";
 connectAttr "l_brow_out.rotateToMove3" "multDoubleLinear78.i2";
 connectAttr "unitConversion89.o" "multDoubleLinear79.i1";
 connectAttr "l_brow_out.rotateToMove2" "multDoubleLinear79.i2";
-connectAttr "l_brow_in.rotateToMoveCornerX" "multDoubleLinear80.i1";
+connectAttr "l_brow_in.rotateToLength" "multDoubleLinear80.i1";
 connectAttr "unitConversion91.o" "multDoubleLinear80.i2";
 connectAttr "r_brow_in.rz" "unitConversion91.i";
 connectAttr "remapValue2.ov" "multDoubleLinear81.i1";
 connectAttr "unitConversion89.o" "multDoubleLinear82.i1";
-connectAttr "l_brow_out.rotateToMoveCornerX" "multDoubleLinear82.i2";
+connectAttr "l_brow_out.rotateToLength" "multDoubleLinear82.i2";
 connectAttr "multDoubleLinear82.o" "clamp18.ipr";
 connectAttr "plusMinusAverage53.o1" "multDoubleLinear83.i1";
 connectAttr "multDoubleLinear64.o" "multDoubleLinear84.i1";
@@ -9893,12 +9199,12 @@ connectAttr "l_brow_in.ty" "addDoubleLinear8.i1";
 connectAttr "l_brow.ty" "addDoubleLinear8.i2";
 connectAttr "l_brow_in.rz" "unitConversion54.i";
 connectAttr "unitConversion54.o" "multDoubleLinear12.i1";
-connectAttr "l_brow_in.rotateToMove3" "multDoubleLinear12.i2";
+connectAttr "l_brow_in.rotateToMove4" "multDoubleLinear12.i2";
 connectAttr "unitConversion54.o" "multDoubleLinear11.i1";
-connectAttr "l_brow_in.rotateToMove2" "multDoubleLinear11.i2";
+connectAttr "l_brow_in.rotateToMove3" "multDoubleLinear11.i2";
 connectAttr "l_brow_in.rz" "unitConversion57.i";
 connectAttr "remapValue1.ov" "multDoubleLinear21.i1";
-connectAttr "l_brow_in.rotateToMoveCornerX" "multDoubleLinear20.i1";
+connectAttr "l_brow_in.rotateToLength" "multDoubleLinear20.i1";
 connectAttr "unitConversion58.o" "multDoubleLinear20.i2";
 connectAttr "l_brow_in.rz" "unitConversion58.i";
 connectAttr "multDoubleLinear2.o" "plusMinusAverage28.i1[0]";
@@ -9908,7 +9214,7 @@ connectAttr "plusMinusAverage25.o1" "multDoubleLinear2.i1";
 connectAttr "addDoubleLinear2.o" "multDoubleLinear2.i2";
 connectAttr "addDoubleLinear2.o" "multDoubleLinear5.i1";
 connectAttr "unitConversion54.o" "multDoubleLinear9.i1";
-connectAttr "l_brow_in.rotateToMove1" "multDoubleLinear9.i2";
+connectAttr "l_brow_in.rotateToMove2" "multDoubleLinear9.i2";
 connectAttr "unitConversion56.o" "multDoubleLinear15.i1";
 connectAttr "l_brow_mid.rotateToMove" "multDoubleLinear15.i2";
 connectAttr "blendColors6.op" "plusMinusAverage38.i3[0]";
@@ -9918,107 +9224,33 @@ connectAttr "l_brow_local_2_top.t" "blendColors6.c1";
 connectAttr "up_down_setRange.ox" "blendColors7.b";
 connectAttr "l_brow_local_2_bot.t" "blendColors7.c1";
 connectAttr "unitConversion54.o" "multDoubleLinear7.i1";
-connectAttr "l_brow_in.rotateToMoveCornerY" "multDoubleLinear7.i2";
+connectAttr "l_brow_in.rotateToMove1" "multDoubleLinear7.i2";
 connectAttr "blendColors1.op" "plusMinusAverage30.i3[0]";
 connectAttr "blendColors2.op" "plusMinusAverage30.i3[1]";
 connectAttr "up_down_setRange.oy" "blendColors1.b";
 connectAttr "l_brow_local_1_top.t" "blendColors1.c1";
 connectAttr "up_down_setRange.ox" "blendColors2.b";
 connectAttr "l_brow_local_1_bot.t" "blendColors2.c1";
-connectAttr "l_curveShape.ws" "mp_curveLoc_00.gp";
-connectAttr "bm_up_curveLoc_00.omat" "mp_curveLoc_00.wum";
-connectAttr "brow_center.wm" "bm_up_curveLoc_00.tgt[0].tmat";
-connectAttr "l_brow_in.wm" "bm_up_curveLoc_00.tgt[1].tmat";
-connectAttr "l_curveShape.ws" "mp_curveLoc_01.gp";
-connectAttr "bm_up_curveLoc_01.omat" "mp_curveLoc_01.wum";
-connectAttr "brow_center.wm" "bm_up_curveLoc_01.tgt[0].tmat";
-connectAttr "l_brow_in.wm" "bm_up_curveLoc_01.tgt[1].tmat";
-connectAttr "l_curveShape.ws" "mp_curveLoc_02.gp";
-connectAttr "bm_up_curveLoc_02.omat" "mp_curveLoc_02.wum";
-connectAttr "l_brow_in.wm" "bm_up_curveLoc_02.tgt[0].tmat";
-connectAttr "brow_center.wm" "bm_up_curveLoc_02.tgt[1].tmat";
-connectAttr "l_curveShape.ws" "mp_curveLoc_03.gp";
-connectAttr "bm_up_curveLoc_03.omat" "mp_curveLoc_03.wum";
-connectAttr "l_brow_in.wm" "bm_up_curveLoc_03.tgt[0].tmat";
-connectAttr "brow_center.wm" "bm_up_curveLoc_03.tgt[1].tmat";
-connectAttr "l_curveShape.ws" "mp_curveLoc_04.gp";
-connectAttr "bm_up_curveLoc_04.omat" "mp_curveLoc_04.wum";
-connectAttr "l_brow_in.wm" "bm_up_curveLoc_04.tgt[0].tmat";
-connectAttr "l_brow_mid.wm" "bm_up_curveLoc_04.tgt[1].tmat";
-connectAttr "l_curveShape.ws" "mp_curveLoc_05.gp";
-connectAttr "bm_up_curveLoc_05.omat" "mp_curveLoc_05.wum";
-connectAttr "l_brow_mid.wm" "bm_up_curveLoc_05.tgt[0].tmat";
-connectAttr "l_brow_in.wm" "bm_up_curveLoc_05.tgt[1].tmat";
-connectAttr "l_curveShape.ws" "mp_curveLoc_06.gp";
-connectAttr "bm_up_curveLoc_06.omat" "mp_curveLoc_06.wum";
-connectAttr "l_brow_mid.wm" "bm_up_curveLoc_06.tgt[0].tmat";
-connectAttr "l_brow_out.wm" "bm_up_curveLoc_06.tgt[1].tmat";
-connectAttr "l_curveShape.ws" "mp_curveLoc_07.gp";
-connectAttr "bm_up_curveLoc_07.omat" "mp_curveLoc_07.wum";
-connectAttr "l_brow_mid.wm" "bm_up_curveLoc_07.tgt[0].tmat";
-connectAttr "l_brow_out.wm" "bm_up_curveLoc_07.tgt[1].tmat";
-connectAttr "l_curveShape.ws" "mp_curveLoc_08.gp";
-connectAttr "bm_up_curveLoc_08.omat" "mp_curveLoc_08.wum";
-connectAttr "l_brow_out.wm" "bm_up_curveLoc_08.tgt[0].tmat";
-connectAttr "l_brow_mid.wm" "bm_up_curveLoc_08.tgt[1].tmat";
-connectAttr "l_curveShape.ws" "mp_curveLoc_09.gp";
-connectAttr "bm_up_curveLoc_09.omat" "mp_curveLoc_09.wum";
-connectAttr "l_brow_out.wm" "bm_up_curveLoc_09.tgt[0].tmat";
-connectAttr "l_brow_last.wm" "bm_up_curveLoc_09.tgt[1].tmat";
-connectAttr "l_curveShape.ws" "mp_curveLoc_10.gp";
-connectAttr "bm_up_curveLoc_10.omat" "mp_curveLoc_10.wum";
-connectAttr "l_brow_out.wm" "bm_up_curveLoc_10.tgt[0].tmat";
-connectAttr "l_brow_last.wm" "bm_up_curveLoc_10.tgt[1].tmat";
-connectAttr "l_curveShape.ws" "mp_curveLoc_11.gp";
-connectAttr "bm_up_curveLoc_11.omat" "mp_curveLoc_11.wum";
-connectAttr "l_brow_last.wm" "bm_up_curveLoc_11.tgt[0].tmat";
-connectAttr "l_brow_out.wm" "bm_up_curveLoc_11.tgt[1].tmat";
-connectAttr "l_curveShape.ws" "mp_curveLoc_12.gp";
-connectAttr "bm_up_curveLoc_12.omat" "mp_curveLoc_12.wum";
-connectAttr "l_brow_last.wm" "bm_up_curveLoc_12.tgt[0].tmat";
-connectAttr "l_brow_out.wm" "bm_up_curveLoc_12.tgt[1].tmat";
-connectAttr "l_curveShape.ws" "mp_curveLoc_13.gp";
-connectAttr "bm_up_curveLoc_13.omat" "mp_curveLoc_13.wum";
-connectAttr "l_brow_last.wm" "bm_up_curveLoc_13.tgt[0].tmat";
-connectAttr "l_brow_out.wm" "bm_up_curveLoc_13.tgt[1].tmat";
 connectAttr "multDoubleLinear20.o" "remapValue1.i";
 connectAttr "multDoubleLinear80.o" "remapValue2.i";
+connectAttr "multDoubleLinear22.o" "remapValue3.i";
+connectAttr "root_outJoint.iog" "skinJointsSet.dsm" -na;
+connectAttr "local_8_poser.wm" "multMatrix68.i[0]";
+connectAttr "full_mainPoser.wim" "multMatrix68.i[1]";
 connectAttr "l_wide_joint_13.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn";
-connectAttr "r_brow_in.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn";
-connectAttr "l_brow_in.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn";
-connectAttr "unitConversion91.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn"
+connectAttr "l_brow_out.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn";
+connectAttr "clamp14.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn";
+connectAttr "skinJointsSet.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn";
+connectAttr "unitConversion26.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn"
 		;
-connectAttr "r_brow_local_1_moveOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn"
+connectAttr "multDoubleLinear22.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn"
 		;
-connectAttr "r_curve9_2_loc_moveOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn"
+connectAttr "remapValue3.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn";
+connectAttr "l_brow_local_7_rotateOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[6].dn"
 		;
-connectAttr "multDoubleLinear81.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn"
-		;
-connectAttr "multDoubleLinear80.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[6].dn"
-		;
-connectAttr "multDoubleLinear20.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn"
-		;
-connectAttr "l_brow_in.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn";
-connectAttr "unitConversion58.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn"
-		;
-connectAttr "l_curve9_2_loc_moveOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn"
-		;
-connectAttr "multDoubleLinear21.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[4].dn"
-		;
-connectAttr "l_brow_local_1_moveOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[5].dn"
-		;
-connectAttr "remapValue1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[6].dn";
-connectAttr "r_brow_in.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[7].dn";
-connectAttr "remapValue2.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[8].dn";
-connectAttr "unitConversion91.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[9].dn"
-		;
-connectAttr "r_curve9_2_loc_moveOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[10].dn"
-		;
-connectAttr "r_brow_local_1_moveOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[11].dn"
-		;
-connectAttr "multDoubleLinear81.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[12].dn"
-		;
-connectAttr "multDoubleLinear80.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[13].dn"
+connectAttr "root_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn";
+connectAttr "root_connector.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn";
+connectAttr "root_connectorShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn"
 		;
 connectAttr "black_rsSG.pa" ":renderPartition.st" -na;
 connectAttr "green_rsSG.pa" ":renderPartition.st" -na;
@@ -10151,8 +9383,8 @@ connectAttr "full_mainPoser_size_multiplyDivide.msg" ":defaultRenderUtilityList1
 		 -na;
 connectAttr "remapValue1.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "remapValue2.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "remapValue3.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "defaultRenderLayer.msg" ":defaultRenderingList1.r" -na;
 connectAttr "defaultRenderLayer1.msg" ":defaultRenderingList1.r" -na;
-connectAttr "pPlaneShape1.iog" ":initialShadingGroup.dsm" -na;
 dataStructure -fmt "raw" -as "name=NodeProfileStruct:string=NodeProfileTag:int32=NodeProfileTagColor";
-// End of browsSurf2.ma
+// End of brows3.ma
