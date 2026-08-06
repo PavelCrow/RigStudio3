@@ -43,9 +43,10 @@ if str(scripts_folder) not in sys.path:
 
 def reload_modules():
     """Перезагрузка модулей"""
-    modules = ['ui', 'utils', 'rig', 'module', 'tools', 'parents', 'twist', 
-               'inbetweens', 'driver', 'template', 'attributes', 'sets', 
-               'controller', 'additionalControl', 'posers', 'moduleBuilder']
+    modules = ['ui', 'utils', 'rig', 'module', 'tools', 'parents', 'twist',
+               'inbetweens', 'driver', 'template', 'attributes', 'sets',
+               'controller', 'additionalControl', 'posers', 'moduleBuilder',
+               'rigTools']
     for mod_name in modules:
         try:
             mod = __import__(f'rigStudio3.{mod_name}', fromlist=[''])
@@ -54,6 +55,17 @@ def reload_modules():
         except Exception as e:
             pass
             # print(f"✗ {mod_name}: {e}")
+
+    # rigTools is a package - `import rigStudio3.rigTools` above only re-runs
+    # its __init__.py, which re-imports each submodule from cache. Reload the
+    # submodules explicitly so edits to them are picked up too.
+    rigTools_submodules = ['addSleeve']
+    for mod_name in rigTools_submodules:
+        try:
+            mod = __import__(f'rigStudio3.rigTools.{mod_name}', fromlist=[''])
+            importlib.reload(mod)
+        except Exception as e:
+            pass
 
 def run():
     reload_modules()

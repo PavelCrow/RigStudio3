@@ -47,7 +47,7 @@ else:
 
 from functools import partial
 
-from rigStudio3 import utils, parents, twist, inbetweens, rig, tools, template, sets
+from rigStudio3 import utils, parents, twist, inbetweens, rig, tools, template, sets, rigTools
 from rigStudio3.ui.action import ActionClass as Action
 from rigStudio3.ui.groupLabel import GroupLabel
 from rigStudio3.animTools import setMirrorAttrs
@@ -353,6 +353,10 @@ class MainWindow:
             #                self.win.verticalLayout_10, self.win)
             # g.off = False
             # g.mousePressEvent(1)
+
+            g = GroupLabel(self.win.rigTools_label, self.win.rigTools_groupFrame, self.win.verticalLayout_99, self.win)
+            g.off = False
+            g.mousePressEvent(1)
 
             g = GroupLabel(self.win.smf_label, self.win.smf_groupFrame, self.win.verticalLayout_97, self.win)
             g.off = False
@@ -803,6 +807,8 @@ class MainWindow:
 
         # self.win.connectByMultMatrix_btn.clicked.connect(tools.connectByMultMatrix)
         # self.win.connectByBlendMatrix_btn.clicked.connect(tools.connectByBlendMatrix)
+
+        self.win.addSleeve_btn.clicked.connect(rigTools.addSleeve.run)
 
         self.win.buildMocapSkeleton_btn.clicked.connect(tools.buildMocapSkeleton)
         self.win.displayAffected_btn.clicked.connect(tools.displayAffected)

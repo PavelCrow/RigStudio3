@@ -793,3 +793,7 @@ switchIkFk.py update
 
 ---Version 3.25.0
 new BrowsCurved module
+
+
+---Version 3.25.1
+new add sleeve feature
