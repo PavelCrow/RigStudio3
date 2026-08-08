@@ -797,3 +797,13 @@ new BrowsCurved module
 
 ---Version 3.25.1
 new add sleeve feature
+
+---Version 3.25.2
+Sleeve: fixed reaction on wrong side of the bend (bend vector sign)
+Sleeve: fixed wild rotation on compound/large bends (bend math rewritten to use quaternions instead of per-axis Euler scaling)
+Sleeve: fixed uneven ring joint spacing (ringAngle was silently stored in radians)
+Sleeve: fixed wrong reaction when parent/driver are in unrelated hierarchies with mismatched axes (world mode)
+Sleeve: renamed attributes - radius/spread/ringAngle/ringRadius/strength are now falloff/moveFactor/posAngle/initPos/moveMult
+Sleeve: added manual offset control (circle, additive on top of the automatic reaction)
+Sleeve: added falloff shaping with an on/off toggle (how many ring joints react, one to all)
+Sleeve: added mirror (l_/r_) - builds both sides and connects all tunable attributes left to right
