@@ -807,3 +807,14 @@ Sleeve: renamed attributes - radius/spread/ringAngle/ringRadius/strength are now
 Sleeve: added manual offset control (circle, additive on top of the automatic reaction)
 Sleeve: added falloff shaping with an on/off toggle (how many ring joints react, one to all)
 Sleeve: added mirror (l_/r_) - builds both sides and connects all tunable attributes left to right
+
+---Version 3.25.3
+Sleeve: added direction controls (optional) - 4 triangles inside the main control splitting the ring into 4 smoothly blended regions
+Sleeve: direction control move offsets the nearby ring joints on every axis, fading to zero at the neighbouring triangles
+Sleeve: direction control rotateX/rotateY tilt their patch of the ring - joints under the triangle stay put, the ones either side move opposite ways on a sine curve (rotateZ stays a rotation)
+Sleeve: direction controls carry their own moveOffset/slideOffset, additive on top of the group and per joint values
+Sleeve: everything is built at unit size now - scale <name>_grp to resize the whole sleeve at once, carried over on rebuild
+Sleeve: world mode measures the bend against an editable <name>_parentLoc locator, so parents with negative scale can be hand-corrected
+Sleeve: renamed attributes - moveMult is moveFactor, slide is slideOffset, the triangles use moveOffset
+Sleeve: triangle pivots sit at their own centre and their scale is locked
+Sleeve: mirror no longer connects the triangles or the parent locator - they are per side hand-tuning
