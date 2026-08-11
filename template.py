@@ -289,22 +289,23 @@ class Template(object):
 
 
 		# delete rig
+		rigName = self.main.rig.name
 		try:
 			self.main.rig.delete()
-		except:
-			pass
+		except Exception as e:
+			# состояние всё равно сбрасываем, иначе create() решит, что риг есть
+			self.main.rig.exists = False
+			self.main.rig.modules = {}
+			self.main.curModule = None
+			cmds.warning("Old rig is not deleted completely: " + str(e))
 
 		# create rig
-		rigName = self.main.rig.name
 		if "root" in data:
 			self.main.rig.root = data["root"]
-			
-		for o in ['rig', 'geo', 'main']:
-			if cmds.objExists(o):
-				cmds.warning(o + " is already exists")
-				return
 
-		self.main.rig.create(self.main.win.singleHierarhy_radioButton.isChecked())
+		if not self.main.rig.create(self.main.win.singleHierarhy_radioButton.isChecked()):
+			return
+
 		self.main.rig.rename(rigName)
 
 		# create modules

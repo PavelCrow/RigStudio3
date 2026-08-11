@@ -31,42 +31,57 @@ class Rig:
         self.exists = cmds.objExists('rig') and cmds.objExists('geo')
         
         if self.exists:
-            self.root = cmds.listRelatives("rig", p=1)[0]
-            if cmds.objExists(self.root + ".singleHierarhy"):
-                self.singleHierarhy = cmds.getAttr(self.root + ".singleHierarhy")
-            else:
-                self.singleHierarhy = True
-            self.jointsSize = cmds.getAttr(self.root + ".jointsSize")
-            self.posersSize = cmds.getAttr(self.root + ".posersSize")
-            self.jointsAxises = cmds.getAttr(self.root + ".jointsAxises")
-            try:
-                self.posersVis = cmds.getAttr(self.root + ".posersVis")
-                self.controlsVis = cmds.getAttr(self.root + ".controlsVis")
-                self.jointsVis = cmds.getAttr(self.root + ".jointsVis")
-                self.jointsTemplate = cmds.getAttr(self.root + ".jointsTemplate")                
-            except:
-                pass
+            root = cmds.listRelatives("rig", p=1)
+            if not root:
+                cmds.warning("Group 'rig' has no parent group, rig is not loaded")
+                self.exists = False
+                return
+            self.root = root[0]
+
+            # У ригов, собранных старыми версиями, части атрибутов на
+            # корневой ноде нет. Читаем со значением по умолчанию: сцена не
+            # трогается, окно просто открывается.
+            self.singleHierarhy = self.getRootAttr("singleHierarhy", True)
+            self.jointsSize = self.getRootAttr("jointsSize", 1)
+            self.posersSize = self.getRootAttr("posersSize", 1)
+            self.jointsAxises = self.getRootAttr("jointsAxises", False)
+            self.posersVis = self.getRootAttr("posersVis", True)
+            self.controlsVis = self.getRootAttr("controlsVis", True)
+            self.jointsVis = self.getRootAttr("jointsVis", True)
+            self.jointsTemplate = self.getRootAttr("jointsTemplate", False)
 
             self.geoVis = cmds.getAttr('geo.v')
             self.geoTemplate = cmds.getAttr('geo.overrideEnabled') and cmds.getAttr('geo.overrideDisplayType') == 1
             self.geoReference = cmds.getAttr('geo.overrideEnabled') and cmds.getAttr('geo.overrideDisplayType') == 2
 
             # get rig name
-            self.name = cmds.getAttr(self.root + ".name")
-            
+            # без атрибута именем рига остаётся имя корневой ноды - сам
+            # атрибут появится при первом переименовании
+            self.name = self.getRootAttr("name", self.root)
+
             # load modules
             self.load_modules()
 
+    def getRootAttr(self, attr, default): #
+        """Атрибут корневой ноды или значение по умолчанию, если его нет."""
+        if not cmds.attributeQuery(attr, n=self.root, exists=True):
+            return default
+        return cmds.getAttr(self.root + "." + attr)
+
     def create(self, singleHierarhy=True): #
+        # состояние в памяти может устареть (например, после создания новой
+        # сцены), поэтому проверяем сцену, а не только флаг
+        self.exists = cmds.objExists('rig') and cmds.objExists('geo')
+
         if self.exists:
             cmds.warning("Rig is already exists")
-            return
-        
-        for o in ['rig', 'geo', 'main']:
+            return False
+
+        for o in ['rig', 'geo', self.root]:
             if cmds.objExists(o):
                 cmds.warning(o + " is already exists")
-                return
-        
+                return False
+
         # create main group
         root = cmds.group(empty=True, n=self.root)
 
@@ -115,26 +130,33 @@ class Rig:
         utils.create_default_sets()
 
         self.exists = True
-        
+
         self.main.rigPage_update()
 
+        return True
+
     def delete(self): #
-        # delete twists
-        tw_mods = cmds.listRelatives("twists") or []
-        for tw_mod in tw_mods:
-            tw_name = tw_mod.split("_mod")[0]
-            cmds.delete(tw_name+"_curveInfo")
-        cmds.delete("twists")
+        # рига может не быть в сцене (например, после создания новой сцены) -
+        # тогда только сбрасываем состояние, чтобы оно не осталось устаревшим
+        if cmds.objExists("rig"):
+            # delete twists
+            if cmds.objExists("twists"):
+                tw_mods = cmds.listRelatives("twists") or []
+                for tw_mod in tw_mods:
+                    tw_name = tw_mod.split("_mod")[0]
+                    if cmds.objExists(tw_name+"_curveInfo"):
+                        cmds.delete(tw_name+"_curveInfo")
+                cmds.delete("twists")
 
-        # delete modules
-        for m_name in self.modules:
-            m = self.modules[m_name]
-            m.delete()
+            # delete modules
+            for m_name in self.modules:
+                m = self.modules[m_name]
+                m.delete()
 
-        # delete rig
-        root = cmds.listRelatives("rig", p=1)[0]
-        cmds.delete(root)
-        
+            # delete rig
+            root = cmds.listRelatives("rig", p=1)
+            cmds.delete(root[0] if root else "rig")
+
         # delete all sets
         for set in cmds.ls(type="objectSet"):
             if set not in ['defaultLightSet', 'defaultObjectSet', 'initialParticleSE', 'initialShadingGroup']:

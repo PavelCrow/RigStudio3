@@ -818,3 +818,9 @@ Sleeve: world mode measures the bend against an editable <name>_parentLoc locato
 Sleeve: renamed attributes - moveMult is moveFactor, slide is slideOffset, the triangles use moveOffset
 Sleeve: triangle pivots sit at their own centre and their scale is locked
 Sleeve: mirror no longer connects the triangles or the parent locator - they are per side hand-tuning
+
+---Version 3.25.4
+Fixed rig template loading after a new scene was created ("No object matches name: character") - the rig state in memory is now re-synced with the scene
+rig.delete() no longer fails on a missing twists group, missing curveInfo nodes or a rig without a parent group, and always resets the rig state
+rig.create() returns success, so template loading stops instead of renaming a root node that was never created
+rig.create() checks the actual root node name instead of a hardcoded 'main'
