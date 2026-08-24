@@ -231,7 +231,22 @@ class BatWing(module.Module) :
     def connect(self, target, opposite=False, makeSeamless=False):
         super(self.__class__, self).connect(target, opposite=opposite, makeSeamless=makeSeamless)
 
+        # the wing scales with the root joint of the parent module - scaling
+        # the joint it is connected to must not scale the wing
+        if self.parent:
+            utils.scaleFromRoot(self.name, self.parent)
+
         if opposite:
+            # these connections are module internal, disconnect() does not
+            # break them - on reconnect they are already there, so make only
+            # the missing ones
             for o in cmds.ls(f"{self.name}_*_closed"):
-                cmds.connectAttr("l"+o[1:]+".t", o+".t") 
-                cmds.connectAttr("l"+o[1:]+".r", o+".r")
+                for attr in [".t", ".r"]:
+                    src, dst = "l"+o[1:]+attr, o+attr
+                    if not cmds.isConnected(src, dst):
+                        cmds.connectAttr(src, dst, f=True)
+
+    def disconnect(self):
+        super(self.__class__, self).disconnect()
+
+        utils.removeScaleFromRoot(self.name)

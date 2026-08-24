@@ -827,3 +827,7 @@ rig.create() checks the actual root node name instead of a hardcoded 'main'
 
 ---Version 3.25.5
 fixed creating transform groups in joints chain in spine module.
+batWing: fixed error on reconnecting the module to another poser (the mirrored l -> r connections were recreated on top of the existing ones)
+batWing: the wing scales with the root joint of the parent module only - scaling the joint the wing is connected to no longer scales it
+utils: implemented scaleFromRoot() - inserts a scale correction matrix into the connector matrix chain, keeping the target as an input so getParent() still finds it
+docs: added docs/bifrost_to_plugin.md - working spec for replacing the Bifrost graphs of the modules with a plugin node

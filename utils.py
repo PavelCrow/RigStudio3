@@ -817,8 +817,77 @@ def addToModuleSet(node, module_name):
 # def addBindSkinJoint(checkBox):
 # 	rigTools.addSecondBindSkinJoint.run(checkBox.isChecked())
 
-def scaleFromRoot():
-	pass
+def removeScaleFromRoot(module_name): #
+	"""Removes the scale correction nodes made by scaleFromRoot()."""
+	for n in scaleFromRootNodes(module_name):
+		if cmds.objExists(n):
+			cmds.delete(n)
+
+def scaleFromRootNodes(module_name): #
+	prefix = module_name + "_root_connector_scaleFix"
+	return [prefix+"_targetDecMat", prefix+"_rootDecMat", prefix+"_multiplyDivide", prefix+"_compMat"]
+
+def scaleFromRoot(module_name, target): #
+	"""Makes the module scale with the root joint of the parent module.
+
+	A pure scale matrix (root scale / target scale) is inserted right before
+	the target matrix in the connector offsetParentMatrix chain, so position
+	and rotation still come from the target, while the scale of the joint the
+	module is connected to no longer affects it. The target itself stays an
+	input of the multMatrix, so getParent() keeps finding the parent.
+	"""
+	removeScaleFromRoot(module_name)
+
+	mMat = module_name + "_root_connector_multMat"
+	root = getModuleName(target) + "_root_outJoint"
+
+	if root == target or not cmds.objExists(mMat) or not cmds.objExists(root):
+		return
+
+	def isTargetPlug(plug):
+		node, attr = plug.split(".", 1)
+		return node == target and attr.startswith("worldMatrix")
+
+	# inputs of the multMatrix in index order
+	conns = cmds.listConnections(mMat+".matrixIn", c=1, p=1, s=1, d=0) or []
+	inputs = []
+	for i in range(0, len(conns), 2):
+		index = int(conns[i].split("[")[-1].split("]")[0])
+		inputs.append((index, conns[i+1]))
+	inputs.sort()
+
+	if not [p for i, p in inputs if isTargetPlug(p)]:
+		cmds.warning("Cannot find "+target+" in "+mMat+", scale is not corrected")
+		return
+
+	# scale correction matrix
+	targetDec, rootDec, div, compMat = scaleFromRootNodes(module_name)
+	cmds.createNode('decomposeMatrix', n=targetDec)
+	cmds.createNode('decomposeMatrix', n=rootDec)
+	cmds.createNode('multiplyDivide', n=div)
+	cmds.createNode('composeMatrix', n=compMat)
+
+	cmds.connectAttr(target+".worldMatrix[0]", targetDec+".inputMatrix")
+	cmds.connectAttr(root+".worldMatrix[0]", rootDec+".inputMatrix")
+	cmds.setAttr(div+".operation", 2)
+	cmds.connectAttr(rootDec+".outputScale", div+".input1")
+	cmds.connectAttr(targetDec+".outputScale", div+".input2")
+	cmds.connectAttr(div+".output", compMat+".inputScale")
+
+	for n in [targetDec, rootDec, div, compMat]:
+		addToModuleSet(n, module_name)
+
+	# insert it before the target matrix, the rest of the inputs shift right
+	newInputs = []
+	for index, plug in inputs:
+		if isTargetPlug(plug):
+			newInputs.append(compMat+".outputMatrix")
+		newInputs.append(plug)
+
+	for index, plug in inputs:
+		cmds.disconnectAttr(plug, mMat+".matrixIn[%s]" %(str(index)))
+	for i in range(len(newInputs)):
+		cmds.connectAttr(newInputs[i], mMat+".matrixIn[%s]" %(str(i)))
 
 def formatName(string): #
 	newName = ""
