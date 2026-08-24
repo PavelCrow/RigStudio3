@@ -1,6 +1,8 @@
 {
   "permissions": {
     "allow": [
+      "Bash(\"*)",
+      "Bash(\"C:/Program Files/Autodesk/Maya2026/bin/mayapy.exe *)",
       "PowerShell(git add inbetweens.py)",
       "PowerShell(git push)",
       "PowerShell(Test-NetConnection github.com -Port 443)",

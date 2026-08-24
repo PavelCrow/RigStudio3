@@ -824,3 +824,6 @@ Fixed rig template loading after a new scene was created ("No object matches nam
 rig.delete() no longer fails on a missing twists group, missing curveInfo nodes or a rig without a parent group, and always resets the rig state
 rig.create() returns success, so template loading stops instead of renaming a root node that was never created
 rig.create() checks the actual root node name instead of a hardcoded 'main'
+
+---Version 3.25.5
+fixed creating transform groups in joints chain in spine module.

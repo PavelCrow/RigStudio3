@@ -65,6 +65,7 @@ class Spine(module.Module) :
 
 		cmds.parent(name+'_end_outJoint', name+'_root_outJoint')
 		cmds.parent(name+'_end_skinJoint', name+'_root_skinJoint')
+		utils.removeTransformParentJoint(name+'_end_outJoint')
 		utils.removeTransformParentJoint(name+'_end_skinJoint')
 
 		cmds.delete(name+'_local_1_skinJoint')
@@ -87,6 +88,7 @@ class Spine(module.Module) :
 			else: pj = f"{name}_local_{i}_outJoint"
 			cmds.parent(oj, pj)
 			utils.resetJointOrient(oj)
+			utils.removeTransformParentJoint(oj)
 			l = cmds.spaceLocator(n=f"{name}_local_{i+1}_initLoc")[0]
 			cmds.parent(l, name+'_joints_initLocs')
 			cmds.setAttr(j+".segmentScaleCompensate", 0)
@@ -122,6 +124,7 @@ class Spine(module.Module) :
 		cmds.setAttr(name+'_end_outJoint.drawStyle', 0)
 		cmds.parent(name+'_end_skinJoint', j)
 		utils.removeTransformParentJoint(name+'_end_skinJoint')
+		utils.removeTransformParentJoint(name+'_end_outJoint')
 		utils.resetJointOrient(name+'_end_skinJoint')
 	
 	def delete(self):

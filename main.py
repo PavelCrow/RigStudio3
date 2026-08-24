@@ -809,6 +809,7 @@ class MainWindow:
         # self.win.connectByBlendMatrix_btn.clicked.connect(tools.connectByBlendMatrix)
 
         self.win.addSleeve_btn.clicked.connect(rigTools.addSleeve.run)
+        self.win.rigBaker_btn.clicked.connect(self.runRigBaker)
 
         self.win.buildMocapSkeleton_btn.clicked.connect(tools.buildMocapSkeleton)
         self.win.displayAffected_btn.clicked.connect(tools.displayAffected)
@@ -829,6 +830,11 @@ class MainWindow:
         self.win.duplicateChildControl_btn.clicked.connect(self.addChildControl)
 
 
+    def runRigBaker(self):
+        # импорт по нажатию: инструмент нужен редко, незачем тянуть его
+        # в память при каждом старте Rig Studio
+        from rigStudio3.rigTools import pk_rigBaker
+        pk_rigBaker.run()
 
 
 

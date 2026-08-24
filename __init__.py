@@ -59,11 +59,16 @@ def reload_modules():
     # rigTools is a package - `import rigStudio3.rigTools` above only re-runs
     # its __init__.py, which re-imports each submodule from cache. Reload the
     # submodules explicitly so edits to them are picked up too.
-    rigTools_submodules = ['addSleeve']
+    rigTools_submodules = ['addSleeve', 'pk_rigBaker']
     for mod_name in rigTools_submodules:
+        full_name = f'rigStudio3.rigTools.{mod_name}'
+        # перезагружаем только то, что уже загружено: pk_rigBaker
+        # импортируется по нажатию кнопки, и тянуть его в память заранее
+        # незачем
+        if full_name not in sys.modules:
+            continue
         try:
-            mod = __import__(f'rigStudio3.rigTools.{mod_name}', fromlist=[''])
-            importlib.reload(mod)
+            importlib.reload(sys.modules[full_name])
         except Exception as e:
             pass
 
