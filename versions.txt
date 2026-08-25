@@ -831,3 +831,14 @@ batWing: fixed error on reconnecting the module to another poser (the mirrored l
 batWing: the wing scales with the root joint of the parent module only - scaling the joint the wing is connected to no longer scales it
 utils: implemented scaleFromRoot() - inserts a scale correction matrix into the connector matrix chain, keeping the target as an input so getParent() still finds it
 docs: added docs/bifrost_to_plugin.md - working spec for replacing the Bifrost graphs of the modules with a plugin node
+
+---Version 3.25.6
+metahuman: new package for fitting a rig onto a referenced MetaHuman skeleton - a table of poser -> bone rules, saved as a reusable map, applied to the posers and then used to drive the skeleton
+metahuman: placePosers() snaps every poser of the centre and the left side onto its bone; the right side is carried by the rig's own mirroring and is never forced
+metahuman: a locked or driven channel no longer skips a poser - the free ones are still written, which puts it as close as the module allows (finger posers keep their plane, foot posers their line)
+metahuman: placement order is the rigger's, not the hierarchy's - the ends of a chain go before its middle, since the elbow and the knee are judged against a hand and a foot already standing in place
+metahuman: bindSkeleton() constrains the main body bones to the rig joints, finding each driver by measuring rather than by name; twists, correctives and the whole face are left to the plugin that drives them
+metahuman: detach() takes the constraints back off, bindStatus() reports what is driving each bone right now
+metahuman: the skeleton namespace is read from the scene on every run, so one map fits every character built on the same template
+metahuman: the map carries a fingerprint of the rules it was built from, so a map left over from an older table says so instead of placing posers by it
+main: MetaHuman buttons - set the skeleton root once, then place posers / connect / disconnect; they stay locked until the root is set

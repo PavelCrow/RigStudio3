@@ -796,7 +796,6 @@ class MainWindow:
         self.win.addMirrorLoc_btn.clicked.connect(tools.addMirrorLoc)
         self.win.addMirrorAxisAttr_btn.clicked.connect(tools.addMirrorAxisAttr)
         self.win.createControlGroup_btn.clicked.connect(tools.addControlGroup)
-        self.win.locsToCurve_btn.clicked.connect(tools.locsToCurve)
         
         self.win.ikFkSwitch_btn.clicked.connect(tools.ikFkSwitch)
         self.win.symmetry_btn.clicked.connect(tools.symmetry)
@@ -812,6 +811,16 @@ class MainWindow:
         self.win.rigBaker_btn.clicked.connect(self.runRigBaker)
 
         self.win.buildMocapSkeleton_btn.clicked.connect(tools.buildMocapSkeleton)
+
+        # MetaHuman - через методы, а не напрямую: clicked шлёт в слот
+        # булев checked, и он попал бы первым аргументом в placePosers()
+        self.win.mhRoot_btn.clicked.connect(self.mhSetRoot)
+        self.win.mhRoot_lineEdit.textChanged.connect(self.mhUpdateButtons)
+        self.win.mhPlacePosers_btn.clicked.connect(self.mhPlacePosers)
+        self.win.mhConnect_btn.clicked.connect(self.mhConnect)
+        self.win.mhDisconnect_btn.clicked.connect(self.mhDisconnect)
+        self.mhUpdateButtons()
+
         self.win.displayAffected_btn.clicked.connect(tools.displayAffected)
         self.win.copySkin_btn.clicked.connect(tools.copySkin)
         self.win.reskin_btn.clicked.connect(tools.reskin)
@@ -835,6 +844,43 @@ class MainWindow:
         # в память при каждом старте Rig Studio
         from rigStudio3.rigTools import pk_rigBaker
         pk_rigBaker.run()
+
+    # MetaHuman: подгонка рига под зареференсенный скелет и обратная
+    # связь с ним. Импорт по нажатию, как у rigBaker.
+    #
+    # Корень скелета задаётся один раз в поле и оттуда передаётся во все
+    # операции. Без него они опрашивают выделение, а во время подгонки
+    # выделен обычно позер - тогда неймспейс определялся бы вслепую по
+    # сцене и ругался на каждом запуске.
+    def mhRoot(self):
+        return self.win.mhRoot_lineEdit.text().strip()
+
+    def mhSetRoot(self):
+        sel = cmds.ls(sl=True, long=True)
+        if not sel:
+            cmds.warning("Select the MetaHuman skeleton root")
+            return
+
+        self.win.mhRoot_lineEdit.setText(sel[0].split("|")[-1])
+
+    def mhUpdateButtons(self):
+        # ничего не делать без корня надёжнее, чем угадывать его
+        state = bool(self.mhRoot())
+        self.win.mhPlacePosers_btn.setEnabled(state)
+        self.win.mhConnect_btn.setEnabled(state)
+        self.win.mhDisconnect_btn.setEnabled(state)
+
+    def mhPlacePosers(self):
+        from rigStudio3 import metahuman
+        metahuman.placePosers(skeletonRoot=self.mhRoot())
+
+    def mhConnect(self):
+        from rigStudio3 import metahuman
+        metahuman.bindSkeleton(skeletonRoot=self.mhRoot())
+
+    def mhDisconnect(self):
+        from rigStudio3 import metahuman
+        metahuman.detach()
 
 
 
