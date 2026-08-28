@@ -24,40 +24,6 @@ from rigStudio3.metahuman import bones, scene
 MAPS_DIR = os.path.join(os.path.dirname(__file__), "maps")
 
 
-def _limbRole(moduleName):  #
-    """An arm or a leg? Read off the module graph, not the name.
-
-    What hangs off the limb settles it: a foot module makes it a leg, a
-    fingers module makes it an arm. Names are only the fallback, since
-    nothing stops a limb from being called 'l_front'.
-    """
-    childTypes = [scene.moduleType(c) for c in scene.moduleChildren(moduleName)]
-
-    if any(t in ("foot", "footSimple", "birdFoot") for t in childTypes):
-        return "leg"
-    if any(t in ("fingers", "fingersIK") for t in childTypes):
-        return "arm"
-
-    parentType = scene.moduleType(scene.moduleParent(moduleName))
-    if parentType == "point":
-        return "arm"
-
-    lowered = moduleName.lower()
-    if "arm" in lowered or "hand" in lowered:
-        return "arm"
-    if "leg" in lowered or "foot" in lowered:
-        return "leg"
-
-    return "leg"
-
-
-def _slotKey(moduleName, mType):  #
-    if mType in ("limb", "limbCurved"):
-        return "limb@" + _limbRole(moduleName)
-
-    return mType
-
-
 def _fit(pairs):  #
     """Uniform scale and offset taking rig space onto skeleton space.
 
@@ -137,7 +103,7 @@ def build(skeletonRoot=None):  #
         mType = scene.moduleType(module)
         side = utils.getObjectSide(module)
         leaf = scene.poserLeaf(name, module)
-        table = bones.POSER_SLOTS.get(_slotKey(module, mType))
+        table = bones.POSER_SLOTS.get(scene.slotKey(module, mType))
 
         if table is None:
             # a module type nobody has written rules for - the only case
@@ -154,7 +120,7 @@ def build(skeletonRoot=None):  #
 
         e = bones.entry(table[leaf], side)
         e["how"] = "rule"
-        e["order"] = bones.rank(_slotKey(module, mType), leaf)
+        e["order"] = bones.rank(scene.slotKey(module, mType), leaf)
 
         if e.get("extend"):
             # the table names them by leaf; only here is the module

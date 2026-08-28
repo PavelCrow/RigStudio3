@@ -18,9 +18,12 @@
 #               guessing at names. Nothing to maintain, but it has to
 #               run after the fitting, not before.
 #
-# Only the main body bones are bound. The twist and corrective bones are
-# left free for the plugin that drives them; bindSkeleton(twists=True)
-# takes the twists back if that ever changes.
+# Only the main body bones are bound. The twist bones, the correctives
+# and the face are left free for the plugin that drives them.
+#
+# Between the two steps sits slideJoints(): the spine joints ride a
+# parameter along their chain, and it is solved for so they end up on
+# the bones rather than merely near them.
 #
 # The run, from a fresh scene with the skeleton imported and the rig
 # built from a template:
@@ -54,7 +57,7 @@
 # metahuman` finds the stale attribute still sitting on the rigStudio3
 # package object and never looks at sys.modules at all.
 
-from rigStudio3.metahuman import bones, scene, guess, place, bind
+from rigStudio3.metahuman import bones, scene, guess, place, slide, bind
 
 dumpScene = scene.dumpScene
 
@@ -65,6 +68,8 @@ saveMap = guess.save
 
 placePosers = place.run
 placePoser = place.one
+
+slideJoints = slide.run
 
 bindSkeleton = bind.run
 bindPlan = bind.plan

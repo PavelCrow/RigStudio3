@@ -377,3 +377,44 @@ def resolveNamespace(data, skeletonRoot=None):  #
                      % (sample, len(found), ", ".join(found)))
 
     return found[0]
+
+
+def limbRole(moduleName):  #
+    """An arm or a leg? Read off the module graph, not the name.
+
+    What hangs off the limb settles it: a foot module makes it a leg, a
+    fingers module makes it an arm. Names are only the fallback, since
+    nothing stops a limb from being called 'l_front'.
+    """
+    childTypes = [moduleType(c) for c in moduleChildren(moduleName)]
+
+    if any(t in ("foot", "footSimple", "birdFoot") for t in childTypes):
+        return "leg"
+    if any(t in ("fingers", "fingersIK") for t in childTypes):
+        return "arm"
+
+    if moduleType(moduleParent(moduleName)) == "point":
+        return "arm"
+
+    lowered = moduleName.lower()
+    if "arm" in lowered or "hand" in lowered:
+        return "arm"
+    if "leg" in lowered or "foot" in lowered:
+        return "leg"
+
+    return "leg"
+
+
+def slotKey(moduleName, mType=None):  #
+    """The key the rule tables are written against.
+
+    Limbs are split into 'limb@arm' and 'limb@leg', because an arm and a
+    leg share a module type but land on completely different bones.
+    """
+    if mType is None:
+        mType = moduleType(moduleName)
+
+    if mType in ("limb", "limbCurved"):
+        return "limb@" + limbRole(moduleName)
+
+    return mType

@@ -322,3 +322,98 @@ def fingerprint():  #
                          sort_keys=True)
 
     return hashlib.md5(payload.encode("utf-8")).hexdigest()[:12]
+
+
+# Rig joints that carry a parameter sliding them along their own chain,
+# and the bone each should end up on. The spine is the case: its joints
+# ride a surface, each pinned at its own U ('pos'), and the rig spaces
+# them evenly while MetaHuman does not - so every spine bone ends up
+# driven by a joint slightly off it, which the skinning shows.
+#
+# Keyed like POSER_SLOTS - module type, then the part of the joint name
+# between the module and '_outJoint'. slide.py solves each parameter
+# numerically, so nothing here needs to know how the module builds it.
+#
+# 'attr' defaults to 'pos'.
+JOINT_SLIDES = {
+    "spine": {
+        "local_1": {"bone": "spine_01"},
+        "local_2": {"bone": "spine_02"},
+        "local_3": {"bone": "spine_03"},
+        "local_4": {"bone": "spine_04"},
+    },
+    # The twist joints carry 'pos' on their skinJoint, not an outJoint,
+    # and it drives both where the joint sits on the curve and how much
+    # of the twist it takes - so sliding one moves both together.
+    #
+    # Watch the numbering: MetaHuman counts the upper arm and the thigh
+    # away from the body, but the forearm and the shin back from the
+    # wrist and the ankle. Measured along the segment, lowerarm_twist_02
+    # is the one near the elbow and _01 the one near the wrist, so those
+    # two pair the other way round. Pairing by number instead of by
+    # position would put every forearm twist on the wrong joint.
+    "limb@arm": {
+        "root_twist_0": {"bone": "upperarm_twist_01", "joint": "skinJoint"},
+        "root_twist_1": {"bone": "upperarm_twist_02", "joint": "skinJoint"},
+        "middle_twist_0": {"bone": "lowerarm_twist_02", "joint": "skinJoint"},
+        "middle_twist_1": {"bone": "lowerarm_twist_01", "joint": "skinJoint"},
+    },
+    "limb@leg": {
+        "root_twist_0": {"bone": "thigh_twist_01", "joint": "skinJoint"},
+        "root_twist_1": {"bone": "thigh_twist_02", "joint": "skinJoint"},
+        "middle_twist_0": {"bone": "calf_twist_02", "joint": "skinJoint"},
+        "middle_twist_1": {"bone": "calf_twist_01", "joint": "skinJoint"},
+    },
+}
+
+
+# Bones whose rotation is better derived than copied.
+#
+# A parentConstraint hands the bone its driver's rotation, offset and
+# all. The rig's spine joints ride a surface and MetaHuman's do not, so
+# their axes differ, and the difference gets frozen into the offset and
+# shows up in the skinning as the spine bends. The spine is bound by a
+# point plus an aim instead: the position from the same driver, the
+# direction from the next joint along the rig's own chain, so the bone
+# follows the chain rather than one joint's private orientation.
+#
+#   aim          what to look at. A leaf name is resolved inside the
+#                module that owns the driver - 'local_2' on a driver of
+#                spine_local_1_skinJoint becomes spine_local_2_outJoint
+#                - so nothing here depends on the module being called
+#                'spine'. A name that already ends in a joint suffix is
+#                used as it stands.
+#   aimVector    the bone's own axis that ends up pointing at it
+#   upVector     the bone's axis lined up with the up direction
+#   worldUp      the up direction, read in the driver's own space -
+#                aimConstraint's worldUpType 2, "objectrotation". The up
+#                object is always the joint doing the point, so it is
+#                not listed here.
+AIM_BINDS = {
+    # pelvis stays on a plain parentConstraint: it is the root of the
+    # chain and takes the rig's own orientation, not a direction
+    "spine_01": {"aim": "local_2"},
+    "spine_02": {"aim": "local_3"},
+    "spine_03": {"aim": "local_4"},
+    # past local_5, which no bone is driven by, to the end of the chain:
+    # a longer aim vector and a joint that actually carries the chest
+    "spine_04": {"aim": "end"},
+}
+
+AIM_DEFAULTS = {
+    "aimVector": [1.0, 0.0, 0.0],
+    "upVector": [0.0, 1.0, 0.0],
+    "worldUp": [0.0, 1.0, 0.0],
+}
+
+
+def aimBind(bone):  #
+    """The aim settings for a bone, or None if it binds the plain way."""
+    entry = AIM_BINDS.get(bone)
+    if not entry:
+        return None
+
+    out = dict(AIM_DEFAULTS)
+    out.update(entry)
+
+    return out

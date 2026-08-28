@@ -852,6 +852,28 @@ class MainWindow:
     # операции. Без него они опрашивают выделение, а во время подгонки
     # выделен обычно позер - тогда неймспейс определялся бы вслепую по
     # сцене и ругался на каждом запуске.
+    def mhModule(self):
+        # При включённом Debug пакет перечитывается с диска, как это
+        # делает getModuleInstance() для модулей: иначе правки в
+        # metahuman/*.py до кнопок не доходят - Python отдаёт пакет из
+        # кеша. Чистки sys.modules при этом мало, потому что
+        # `from rigStudio3 import metahuman` берёт атрибут с самого
+        # пакета rigStudio3 и до sys.modules не добирается.
+        if utils.isDebug():
+            import importlib
+            import rigStudio3
+            for m in [k for k in sys.modules
+                      if k.startswith("rigStudio3.metahuman")]:
+                del sys.modules[m]
+            if hasattr(rigStudio3, "metahuman"):
+                delattr(rigStudio3, "metahuman")
+
+            return importlib.import_module("rigStudio3.metahuman")
+
+        from rigStudio3 import metahuman
+
+        return metahuman
+
     def mhRoot(self):
         return self.win.mhRoot_lineEdit.text().strip()
 
@@ -871,16 +893,25 @@ class MainWindow:
         self.win.mhDisconnect_btn.setEnabled(state)
 
     def mhPlacePosers(self):
-        from rigStudio3 import metahuman
-        metahuman.placePosers(skeletonRoot=self.mhRoot())
+        # расстановка и доводка — один шаг подгонки: позеры задают, где
+        # цепь начинается и кончается, слайд разносит джойнты спины по
+        # костям внутри неё
+        metahuman = self.mhModule()
+        root = self.mhRoot()
+        metahuman.placePosers(skeletonRoot=root)
+        metahuman.slideJoints(skeletonRoot=root)
 
     def mhConnect(self):
-        from rigStudio3 import metahuman
+        # снять своё перед тем, как вязать заново: иначе повторное
+        # нажатие ничего не меняет - кости уже кем-то ведутся, и
+        # bindSkeleton их не трогает. detach() убирает только то, что
+        # создавала эта же кнопка, по своему сету
+        metahuman = self.mhModule()
+        metahuman.detach()
         metahuman.bindSkeleton(skeletonRoot=self.mhRoot())
 
     def mhDisconnect(self):
-        from rigStudio3 import metahuman
-        metahuman.detach()
+        self.mhModule().detach()
 
 
 

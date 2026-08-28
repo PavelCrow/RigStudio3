@@ -26,10 +26,18 @@
 #                neck joint, neck_02 takes it, and neck_01 stays free.
 #   sides        a left bone only ever looks at left or centre joints.
 #
+# Not every bone is held the same way:
+#
+#   most         a parentConstraint, position and rotation together.
+#   the spine    a point plus an aim, because the rig's spine joints
+#                ride a surface and their axes are not the bones' -
+#                see bones.AIM_BINDS.
+#
 # Scope is the main body. The twist bones, the hundreds of correctives
-# and the whole face are left alone, because a plugin drives those. The
-# twist rule is still written out, behind twists=True, because "the
-# plugin does it" is a decision that may not hold forever.
+# and the whole face are left alone: a plugin drives those. The rig's
+# own twist joints are kept out of the running for drivers too, so a
+# twist joint cannot take a main bone by happening to sit nearer than
+# the joint that belongs to it.
 #
 # Everything created is collected in a set, so detach() can find and
 # remove it without guessing.
@@ -67,35 +75,29 @@ def _side(name):  #
     return "c"
 
 
-def _candidates(twists):  #
+def _candidates():  #
     """{rig joint: world position} for the joints that may drive a bone.
 
-    The inbetween joints are never drivers - they are the rig's own
-    corrective machinery, and MetaHuman has its own. The twist joints
-    join in only when the twist bones do.
+    The inbetween and twist joints are never drivers - they are the
+    rig's own machinery, and MetaHuman's equivalents are driven by a
+    plugin rather than from here.
     """
     out = {}
     for j in scene.rigJoints():
         name = scene.short(j)
-        if "_ibtw_" in name:
-            continue
-        if not twists and "_twist_" in name:
+        if "_ibtw_" in name or "_twist_" in name:
             continue
         out[name] = cmds.xform(j, q=True, ws=True, t=True)
 
     return out
 
 
-def _targets(joints, twists):  #
+def _targets(joints):  #
     """{bone: world position} for the bones the rig is meant to drive."""
     out = {}
     for j in joints:
         bone = scene.boneName(j)
-        role = bones.role(bone)
-
-        if role == "main" and bone not in bones.NO_POSER:
-            out[bone] = cmds.xform(j, q=True, ws=True, t=True)
-        elif role == "twist" and twists:
+        if bones.role(bone) == "main" and bone not in bones.NO_POSER:
             out[bone] = cmds.xform(j, q=True, ws=True, t=True)
 
     return out
@@ -142,6 +144,49 @@ def _match(targets, candidates, limit):  #
     return out
 
 
+# Each constraint type is queried by its own command; there is no
+# generic one that answers targetList.
+_QUERIES = {
+    "parentConstraint": cmds.parentConstraint,
+    "pointConstraint": cmds.pointConstraint,
+    "orientConstraint": cmds.orientConstraint,
+    "aimConstraint": cmds.aimConstraint,
+    "scaleConstraint": cmds.scaleConstraint,
+}
+
+
+def _moduleOfJoint(jointName, moduleNames):  #
+    """Which module a rig joint came from - the longest name that fits.
+
+    Joint names start with their module name, but modules can share a
+    prefix ('l_arm' and 'l_armTwist'), so the longest match wins.
+    """
+    best = ""
+    for m in moduleNames:
+        if jointName.startswith(m + "_") and len(m) > len(best):
+            best = m
+
+    return best
+
+
+def _aimTarget(entry, driver, moduleNames):  #
+    """The joint an aim-bound bone looks at.
+
+    A leaf name is resolved inside the module that owns the driver, so
+    the table says 'local_2' and not 'spine_local_2_outJoint' and keeps
+    working whatever the module is called.
+    """
+    aim = entry["aim"]
+    if aim.endswith("_outJoint") or aim.endswith("_skinJoint"):
+        return aim
+
+    module = _moduleOfJoint(driver, moduleNames)
+    if not module:
+        return ""
+
+    return "%s_%s_outJoint" % (module, aim)
+
+
 def _isConstrained(node):  #
     """Already driven by a constraint?
 
@@ -157,7 +202,7 @@ def _isConstrained(node):  #
     return False
 
 
-def plan(skeletonRoot=None, twists=False):  #
+def plan(skeletonRoot=None):  #
     """Work out which rig joint drives which bone. Touches nothing.
 
     Returns {bone: (driver, distance)} and the list of bones that found
@@ -169,8 +214,8 @@ def plan(skeletonRoot=None, twists=False):  #
         cmds.warning("metahuman: no skeleton found - select the MetaHuman")
         return {}, []
 
-    targets = _targets(joints, twists)
-    candidates = _candidates(twists)
+    targets = _targets(joints)
+    candidates = _candidates()
     if not candidates:
         cmds.warning("metahuman: the rig has no skin joints - build it first")
         return {}, []
@@ -198,20 +243,19 @@ def report(matched, missed):  #
     print("--- %s bones driven ---\n" % len(matched))
 
 
-def run(skeletonRoot=None, dryRun=False, twists=False, scaleToo=False,
+def run(skeletonRoot=None, dryRun=False, scaleToo=False,
         name="metahuman"):  #
-    """Constrain the main body bones of the MetaHuman skeleton to the rig.
+    """Constrain the MetaHuman skeleton to the rig.
 
         from rigStudio3 import metahuman
         metahuman.bindSkeleton(dryRun=True)   # read the plan first
         metahuman.bindSkeleton()
 
-    Run this after the posers are placed and the rig is built: the
-    drivers are found from where things are standing at the time, and
-    the offsets are measured from there too.
+    Run this after the posers are placed and slid: the drivers are found
+    from where things are standing at the time, and the offsets are
+    measured from there too.
 
-    The twist and corrective bones are left free - a plugin drives
-    those. twists=True takes the twists back.
+    The correctives and the face are left free - a plugin drives those.
     """
     data = guess.load(name) if isinstance(name, str) else name
     namespace = scene.resolveNamespace(data or {}, skeletonRoot)
@@ -219,7 +263,7 @@ def run(skeletonRoot=None, dryRun=False, twists=False, scaleToo=False,
         print("metahuman: nothing constrained")
         return {}
 
-    matched, missed = plan(skeletonRoot, twists)
+    matched, missed = plan(skeletonRoot)
     if not matched:
         return {}
 
@@ -230,7 +274,8 @@ def run(skeletonRoot=None, dryRun=False, twists=False, scaleToo=False,
     if not cmds.objExists(BIND_SET):
         cmds.sets(empty=True, n=BIND_SET)
 
-    made, already, failed = [], [], []
+    made, already, failed, aimed = [], [], [], []
+    moduleNames = list(scene.modules())
 
     cmds.undoInfo(openChunk=True, chunkName="metahuman: bind skeleton")
     try:
@@ -246,8 +291,32 @@ def run(skeletonRoot=None, dryRun=False, twists=False, scaleToo=False,
                 continue
 
             try:
-                con = cmds.parentConstraint(driver, target, mo=True)[0]
-                cmds.sets(con, add=BIND_SET)
+                aim = bones.aimBind(bone)
+                aimAt = _aimTarget(aim, driver, moduleNames) if aim else ""
+                if aim and not (aimAt and cmds.objExists(aimAt)):
+                    failed.append("%s (no aim target %s)"
+                                  % (bone, aimAt or aim["aim"]))
+                    continue
+
+                if aim:
+                    # position from the driver, direction from further
+                    # along the rig - see bones.AIM_BINDS for why
+                    for con in (
+                            cmds.pointConstraint(driver, target, mo=True)[0],
+                            cmds.aimConstraint(
+                                aimAt, target, mo=True,
+                                aimVector=aim["aimVector"],
+                                upVector=aim["upVector"],
+                                worldUpType="objectrotation",
+                                worldUpVector=aim["worldUp"],
+                                worldUpObject=driver)[0]):
+                        cmds.sets(con, add=BIND_SET)
+                    aimed.append("%s: point %s, aim %s"
+                                 % (bone, driver, aimAt))
+                else:
+                    con = cmds.parentConstraint(driver, target, mo=True)[0]
+                    cmds.sets(con, add=BIND_SET)
+
                 if scaleToo:
                     sCon = cmds.scaleConstraint(driver, target, mo=True)[0]
                     cmds.sets(sCon, add=BIND_SET)
@@ -259,13 +328,24 @@ def run(skeletonRoot=None, dryRun=False, twists=False, scaleToo=False,
 
     print("metahuman: constrained %s bones, %s already had a constraint"
           % (len(made), len(already)))
+    if already:
+        # Silence here reads as success, and the bones keep whatever
+        # they were bound with last time - which is exactly wrong after
+        # the rules have changed.
+        cmds.warning("metahuman: %s bones were left as they were because "
+                     "something already drives them - detach() first to "
+                     "rebind them" % len(already))
+    if aimed:
+        print("point plus aim, not parent (%s):" % len(aimed))
+        for line in aimed:
+            print("    " + line)
     if failed:
         print("failed (%s):" % len(failed))
         for line in failed:
             print("    " + line)
 
     return {"constrained": made, "already": already, "failed": failed,
-            "missed": missed}
+            "missed": missed, "aimed": aimed}
 
 
 def status(skeletonRoot=None):  #
@@ -288,13 +368,21 @@ def status(skeletonRoot=None):  #
         if bones.role(bone) != "main" or bone in bones.NO_POSER:
             continue
 
-        driver = ""
+        # A bone may carry more than one constraint now - the aim-bound
+        # ones are held by a point and an aim together - so all of them
+        # are read, and each is named by the kind of hold it has.
+        held = []
         for child in cmds.listRelatives(j, children=True, fullPath=True) or []:
-            if not cmds.objectType(child).endswith("Constraint"):
+            kind = cmds.objectType(child)
+            query = _QUERIES.get(kind)
+            if not query:
                 continue
-            targets = cmds.parentConstraint(child, q=True, targetList=True) or []
-            driver = targets[0] if targets else scene.short(child)
-            break
+
+            targets = query(child, q=True, targetList=True) or []
+            held.append("%s %s" % (kind.replace("Constraint", ""),
+                                   targets[0] if targets else "?"))
+
+        driver = ", ".join(held)
 
         out[bone] = driver
         if not driver:
