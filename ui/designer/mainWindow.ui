@@ -8307,7 +8307,7 @@
                    <widget class="QLabel" name="channels_label_2">
                     <property name="text">
                      <string>1. Create reference metahuman skeleton.
-2. Create rig from template (humanFull).
+2. Create rig from template (metahuman).
 3. Set metahunam root joint.
 4. Push PlacePosers and then Connect buttons.</string>
                     </property>
