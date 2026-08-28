@@ -1363,7 +1363,7 @@ def getInitLocFromJoint(joint_name):
 
 def get_version():
 	# get version
-	with open(modulePath + '/versions.txt') as f:
+	with open(modulePath + '/versions.txt', encoding='utf-8') as f:
 		lines = f.readlines()
 
 	versions = []

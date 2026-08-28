@@ -83,7 +83,7 @@ def run(clearPy=False):
 				shutil.rmtree(os.path.join(mod_folder, f))
 
 	# Получение версии из versions.txt
-	with open(rs_folder+'/versions.txt') as f:
+	with open(rs_folder+'/versions.txt', encoding='utf-8') as f:
 		lines = f.readlines()
 	versions = []
 	for l in lines:

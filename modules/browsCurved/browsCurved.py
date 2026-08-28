@@ -174,7 +174,7 @@ class BrowsCurved(module.Module) :
 				loc = cmds.spaceLocator(name=f"{side}_{self.name}_curveLoc_{i:02d}")[0]
 				cmds.parent(loc, root_out_joint)
 				cmds.hide(loc+"Shape")
-
+				
 				# --- Motion Path ---
 				mp = cmds.createNode("motionPath", name=f"mp_{loc}")
 				cmds.connectAttr(f"{curve}.worldSpace[0]", f"{mp}.geometryPath", force=True)

@@ -8308,7 +8308,7 @@
                     <property name="text">
                      <string>1. Create reference metahuman skeleton.
 2. Create rig from template (humanFull).
-3. Select metahunam root joint.
+3. Set metahunam root joint.
 4. Push PlacePosers and then Connect buttons.</string>
                     </property>
                     <property name="alignment">

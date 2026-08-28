@@ -1,0 +1,771 @@
+{
+    "modulesData": [
+        {
+            "name": "l_f_footFingers",
+            "type": "fingers",
+            "parent": null,
+            "symmetrical": false,
+            "opposite": false,
+            "seamless": false,
+            "parents": [],
+            "posersAttrsData": {
+                "MODNAME_thumbFingerA_poser": {
+                    "translateX": 0.0,
+                    "translateY": 0.0,
+                    "translateZ": 0.0,
+                    "size": 0.3
+                },
+                "MODNAME_thumbFingerB_poser": {
+                    "translateX": 0.3064603125481952,
+                    "translateY": 0.0,
+                    "translateZ": 1.7222551509932238e-16,
+                    "size": 0.3
+                },
+                "MODNAME_thumbFingerC_poser": {
+                    "translateX": 0.6,
+                    "translateY": 0.0,
+                    "translateZ": 0.0,
+                    "size": 0.3
+                },
+                "MODNAME_thumbFingerD_poser": {
+                    "translateX": 0.9,
+                    "translateY": 0.0,
+                    "translateZ": 0.0,
+                    "size": 0.3
+                },
+                "MODNAME_thumbFinger_mainPoser": {
+                    "translateX": -0.7437085801549354,
+                    "translateY": 0.5498679458492404,
+                    "translateZ": 0.5597440962500713,
+                    "rotateX": -0.5135606113027749,
+                    "rotateY": -0.6592450804055889,
+                    "rotateZ": -31.984428994445068,
+                    "scaleX": 1.0,
+                    "size": 0.5
+                },
+                "MODNAME_pinkyFingerRoot_poser": {
+                    "translateX": 0.0,
+                    "translateY": 0.0,
+                    "translateZ": 0.0,
+                    "size": 0.3
+                },
+                "MODNAME_ringFingerRoot_poser": {
+                    "translateX": 0.0,
+                    "translateY": 0.0,
+                    "translateZ": 0.0,
+                    "size": 0.3
+                },
+                "MODNAME_middleFingerRoot_poser": {
+                    "translateX": 0.0,
+                    "translateY": 0.0,
+                    "translateZ": 0.0,
+                    "size": 0.3
+                },
+                "MODNAME_indexFingerRoot_poser": {
+                    "translateX": 0.0,
+                    "translateY": 0.0,
+                    "translateZ": 0.0,
+                    "size": 0.3
+                },
+                "MODNAME_indexFingerA_poser": {
+                    "translateX": 0.0,
+                    "translateY": 0.0,
+                    "translateZ": 0.0,
+                    "size": 0.3
+                },
+                "MODNAME_indexFingerB_poser": {
+                    "translateX": 0.3,
+                    "translateY": 0.0,
+                    "translateZ": 0.0,
+                    "size": 0.3
+                },
+                "MODNAME_indexFingerC_poser": {
+                    "translateX": 0.6,
+                    "translateY": 0.0,
+                    "translateZ": 0.0,
+                    "size": 0.3
+                },
+                "MODNAME_indexFingerD_poser": {
+                    "translateX": 0.9,
+                    "translateY": 0.0,
+                    "translateZ": 0.0,
+                    "size": 0.3
+                },
+                "MODNAME_indexFinger_mainPoser": {
+                    "translateX": 0.7495173031800109,
+                    "translateY": 0.0,
+                    "translateZ": 0.324927594176556,
+                    "rotateX": 0.0,
+                    "rotateY": 0.0,
+                    "rotateZ": 0.0,
+                    "scaleX": 1.0,
+                    "size": 0.5
+                },
+                "MODNAME_middleFingerA_poser": {
+                    "translateX": 0.0,
+                    "translateY": 0.0,
+                    "translateZ": 0.0,
+                    "size": 0.3
+                },
+                "MODNAME_middleFingerB_poser": {
+                    "translateX": 0.3,
+                    "translateY": 0.0,
+                    "translateZ": 0.0,
+                    "size": 0.3
+                },
+                "MODNAME_middleFingerC_poser": {
+                    "translateX": 0.6,
+                    "translateY": 0.0,
+                    "translateZ": 0.0,
+                    "size": 0.3
+                },
+                "MODNAME_middleFingerD_poser": {
+                    "translateX": 0.9,
+                    "translateY": 0.0,
+                    "translateZ": 0.0,
+                    "size": 0.3
+                },
+                "MODNAME_middleFinger_mainPoser": {
+                    "translateX": 0.7463470132132487,
+                    "translateY": 0.0,
+                    "translateZ": 0.13489770064463968,
+                    "rotateX": 0.0,
+                    "rotateY": 0.0,
+                    "rotateZ": 0.0,
+                    "scaleX": 1.0,
+                    "size": 0.5
+                },
+                "MODNAME_ringFingerA_poser": {
+                    "translateX": 0.0,
+                    "translateY": 0.0,
+                    "translateZ": 0.0,
+                    "size": 0.3
+                },
+                "MODNAME_ringFingerB_poser": {
+                    "translateX": 0.3,
+                    "translateY": 0.0,
+                    "translateZ": 0.0,
+                    "size": 0.3
+                },
+                "MODNAME_ringFingerC_poser": {
+                    "translateX": 0.6,
+                    "translateY": 0.0,
+                    "translateZ": 0.0,
+                    "size": 0.3
+                },
+                "MODNAME_ringFingerD_poser": {
+                    "translateX": 0.9,
+                    "translateY": 0.0,
+                    "translateZ": 0.0,
+                    "size": 0.3
+                },
+                "MODNAME_ringFinger_mainPoser": {
+                    "translateX": 0.7438096035359113,
+                    "translateY": 0.0,
+                    "translateZ": -0.07237066412781845,
+                    "rotateX": 0.0,
+                    "rotateY": 0.0,
+                    "rotateZ": 0.0,
+                    "scaleX": 1.0,
+                    "size": 0.5
+                },
+                "MODNAME_pinkyFingerA_poser": {
+                    "translateX": 0.0,
+                    "translateY": 0.0,
+                    "translateZ": 0.0,
+                    "size": 0.3
+                },
+                "MODNAME_pinkyFingerB_poser": {
+                    "translateX": 0.3,
+                    "translateY": 0.0,
+                    "translateZ": 0.0,
+                    "size": 0.3
+                },
+                "MODNAME_pinkyFingerC_poser": {
+                    "translateX": 0.6,
+                    "translateY": 0.0,
+                    "translateZ": 0.0,
+                    "size": 0.3
+                },
+                "MODNAME_pinkyFingerD_poser": {
+                    "translateX": 0.9,
+                    "translateY": 0.0,
+                    "translateZ": 0.0,
+                    "size": 0.3
+                },
+                "MODNAME_pinkyFinger_mainPoser": {
+                    "translateX": 0.7441693368767478,
+                    "translateY": 0.0,
+                    "translateZ": -0.279336810925888,
+                    "rotateX": 0.0,
+                    "rotateY": 0.0,
+                    "rotateZ": 0.0,
+                    "scaleX": 1.0,
+                    "size": 0.5
+                },
+                "MODNAME_root_poser": {
+                    "translateX": 0.0,
+                    "translateY": 0.0,
+                    "translateZ": 0.0,
+                    "size": 0.3
+                },
+                "MODNAME_mainPoser": {
+                    "translateX": 5.827208701977181,
+                    "translateY": 0.8424807819254384,
+                    "translateZ": 18.017495454682113,
+                    "rotateX": 0.0,
+                    "rotateY": 268.53041485936717,
+                    "rotateZ": 0.0,
+                    "scaleX": 2.0000000000000004,
+                    "size": 1.0,
+                    "globalSize": 0.1,
+                    "lineSize": 0.1
+                }
+            },
+            "posersShapeData": {},
+            "optionsData": {
+                "thumb": true,
+                "index": true,
+                "middle": true,
+                "ring": true,
+                "pinky": true,
+                "thumbParent": null,
+                "thumbParentModule": null
+            },
+            "controlsAttrData": {
+                "clench.rotateX": 0.0,
+                "clench.rotateY": 0.0,
+                "clench.rotateZ": 0.0,
+                "fingers.thumb": 0.0,
+                "fingers.index": 0.0,
+                "fingers.middle": 0.0,
+                "fingers.ring": 0.0,
+                "fingers.pinky": 0.0,
+                "fingers.spread": 0.0,
+                "thumbFinger_1_closed.translateX": 0.0,
+                "thumbFinger_1_closed.translateY": 0.0,
+                "thumbFinger_1_closed.translateZ": 0.0,
+                "thumbFinger_1_closed.rotateX": 0.0,
+                "thumbFinger_1_closed.rotateY": 0.0,
+                "thumbFinger_1_closed.rotateZ": -90.0,
+                "thumbFinger_1_closed.scaleX": 1.0,
+                "thumbFinger_1_closed.scaleY": 1.0,
+                "thumbFinger_1_closed.scaleZ": 1.0,
+                "thumbFinger_1.translateX": 0.0,
+                "thumbFinger_1.translateY": 1.3877787807814457e-17,
+                "thumbFinger_1.translateZ": 1.3877787807814457e-17,
+                "thumbFinger_1.rotateX": 0.0,
+                "thumbFinger_1.rotateY": 0.0,
+                "thumbFinger_1.rotateZ": 0.0,
+                "thumbFinger_1.scaleX": 1.0,
+                "thumbFinger_1.scaleY": 1.0000000000000002,
+                "thumbFinger_1.scaleZ": 1.0,
+                "thumbFinger_3_closed.translateX": 0.0,
+                "thumbFinger_3_closed.translateY": 0.0,
+                "thumbFinger_3_closed.translateZ": 0.0,
+                "thumbFinger_3_closed.rotateX": 0.0,
+                "thumbFinger_3_closed.rotateY": 0.0,
+                "thumbFinger_3_closed.rotateZ": -90.0,
+                "thumbFinger_3_closed.scaleX": 1.0,
+                "thumbFinger_3_closed.scaleY": 1.0,
+                "thumbFinger_3_closed.scaleZ": 1.0,
+                "thumbFinger_2_closed.translateX": 0.0,
+                "thumbFinger_2_closed.translateY": 0.0,
+                "thumbFinger_2_closed.translateZ": 0.0,
+                "thumbFinger_2_closed.rotateX": 0.0,
+                "thumbFinger_2_closed.rotateY": 0.0,
+                "thumbFinger_2_closed.rotateZ": -90.0,
+                "thumbFinger_2_closed.scaleX": 1.0,
+                "thumbFinger_2_closed.scaleY": 1.0,
+                "thumbFinger_2_closed.scaleZ": 1.0,
+                "thumbFinger_2.translateX": 0.0,
+                "thumbFinger_2.translateY": 0.0,
+                "thumbFinger_2.translateZ": 0.0,
+                "thumbFinger_2.rotateX": 0.0,
+                "thumbFinger_2.rotateY": 0.0,
+                "thumbFinger_2.rotateZ": 0.0,
+                "thumbFinger_2.scaleX": 1.0,
+                "thumbFinger_2.scaleY": 1.0,
+                "thumbFinger_2.scaleZ": 1.0,
+                "thumbFinger_3.translateX": 0.0,
+                "thumbFinger_3.translateY": 0.0,
+                "thumbFinger_3.translateZ": 0.0,
+                "thumbFinger_3.rotateX": 0.0,
+                "thumbFinger_3.rotateY": 0.0,
+                "thumbFinger_3.rotateZ": 0.0,
+                "thumbFinger_3.scaleX": 1.0,
+                "thumbFinger_3.scaleY": 1.0,
+                "thumbFinger_3.scaleZ": 1.0,
+                "indexFingerRoot.translateX": 0.0,
+                "indexFingerRoot.translateY": 0.0,
+                "indexFingerRoot.translateZ": 0.0,
+                "indexFingerRoot.rotateX": 0.0,
+                "indexFingerRoot.rotateY": 0.0,
+                "indexFingerRoot.rotateZ": 0.0,
+                "indexFinger_1_closed.translateX": 0.0,
+                "indexFinger_1_closed.translateY": 0.0,
+                "indexFinger_1_closed.translateZ": 0.0,
+                "indexFinger_1_closed.rotateX": 0.0,
+                "indexFinger_1_closed.rotateY": 0.0,
+                "indexFinger_1_closed.rotateZ": -90.0,
+                "indexFinger_1_closed.scaleX": 1.0,
+                "indexFinger_1_closed.scaleY": 1.0,
+                "indexFinger_1_closed.scaleZ": 1.0,
+                "indexFinger_1.translateX": 0.0,
+                "indexFinger_1.translateY": 0.0,
+                "indexFinger_1.translateZ": 0.0,
+                "indexFinger_1.rotateX": 0.0,
+                "indexFinger_1.rotateY": 0.0,
+                "indexFinger_1.rotateZ": 0.0,
+                "indexFinger_1.scaleX": 1.0,
+                "indexFinger_1.scaleY": 1.0,
+                "indexFinger_1.scaleZ": 1.0,
+                "indexFinger_2_closed.translateX": -0.0069305512450451925,
+                "indexFinger_2_closed.translateY": 0.0025906990299384477,
+                "indexFinger_2_closed.translateZ": -0.026162730603233993,
+                "indexFinger_2_closed.rotateX": 1.775478624921764,
+                "indexFinger_2_closed.rotateY": -1.6904411940783894,
+                "indexFinger_2_closed.rotateZ": -83.8574079443596,
+                "indexFinger_2_closed.scaleX": 1.0,
+                "indexFinger_2_closed.scaleY": 1.0,
+                "indexFinger_2_closed.scaleZ": 1.0,
+                "indexFinger_2.translateX": 0.0,
+                "indexFinger_2.translateY": 0.0,
+                "indexFinger_2.translateZ": 0.0,
+                "indexFinger_2.rotateX": 0.0,
+                "indexFinger_2.rotateY": 0.0,
+                "indexFinger_2.rotateZ": 0.0,
+                "indexFinger_2.scaleX": 1.0,
+                "indexFinger_2.scaleY": 1.0,
+                "indexFinger_2.scaleZ": 1.0,
+                "indexFinger_3_closed.translateX": -5.551115123125783e-17,
+                "indexFinger_3_closed.translateY": 5.551115123125783e-17,
+                "indexFinger_3_closed.translateZ": -5.551115123125783e-17,
+                "indexFinger_3_closed.rotateX": 0.0,
+                "indexFinger_3_closed.rotateY": 0.0,
+                "indexFinger_3_closed.rotateZ": -90.0,
+                "indexFinger_3_closed.scaleX": 1.0,
+                "indexFinger_3_closed.scaleY": 1.0,
+                "indexFinger_3_closed.scaleZ": 1.0,
+                "indexFinger_3.translateX": 0.0,
+                "indexFinger_3.translateY": 0.0,
+                "indexFinger_3.translateZ": 0.0,
+                "indexFinger_3.rotateX": 0.0,
+                "indexFinger_3.rotateY": 0.0,
+                "indexFinger_3.rotateZ": 0.0,
+                "indexFinger_3.scaleX": 1.0,
+                "indexFinger_3.scaleY": 1.0,
+                "indexFinger_3.scaleZ": 1.0,
+                "middleFinger_1_closed.translateX": 0.0,
+                "middleFinger_1_closed.translateY": 0.0,
+                "middleFinger_1_closed.translateZ": 0.0,
+                "middleFinger_1_closed.rotateX": 0.0,
+                "middleFinger_1_closed.rotateY": 0.0,
+                "middleFinger_1_closed.rotateZ": -90.0,
+                "middleFinger_1_closed.scaleX": 1.0,
+                "middleFinger_1_closed.scaleY": 1.0,
+                "middleFinger_1_closed.scaleZ": 1.0,
+                "middleFingerRoot.translateX": 0.0,
+                "middleFingerRoot.translateY": 0.0,
+                "middleFingerRoot.translateZ": 0.0,
+                "middleFingerRoot.rotateX": 0.0,
+                "middleFingerRoot.rotateY": 0.0,
+                "middleFingerRoot.rotateZ": 0.0,
+                "middleFinger_1.translateX": 0.0,
+                "middleFinger_1.translateY": 0.0,
+                "middleFinger_1.translateZ": 0.0,
+                "middleFinger_1.rotateX": 0.0,
+                "middleFinger_1.rotateY": 0.0,
+                "middleFinger_1.rotateZ": 0.0,
+                "middleFinger_1.scaleX": 1.0,
+                "middleFinger_1.scaleY": 1.0,
+                "middleFinger_1.scaleZ": 1.0,
+                "middleFinger_2_closed.translateX": 0.0,
+                "middleFinger_2_closed.translateY": 0.0,
+                "middleFinger_2_closed.translateZ": 0.0,
+                "middleFinger_2_closed.rotateX": 0.0,
+                "middleFinger_2_closed.rotateY": 0.0,
+                "middleFinger_2_closed.rotateZ": -90.0,
+                "middleFinger_2_closed.scaleX": 1.0,
+                "middleFinger_2_closed.scaleY": 1.0,
+                "middleFinger_2_closed.scaleZ": 1.0,
+                "middleFinger_2.translateX": 0.0,
+                "middleFinger_2.translateY": 0.0,
+                "middleFinger_2.translateZ": 0.0,
+                "middleFinger_2.rotateX": 0.0,
+                "middleFinger_2.rotateY": 0.0,
+                "middleFinger_2.rotateZ": 0.0,
+                "middleFinger_2.scaleX": 1.0,
+                "middleFinger_2.scaleY": 1.0,
+                "middleFinger_2.scaleZ": 1.0,
+                "middleFinger_3_closed.translateX": 0.0,
+                "middleFinger_3_closed.translateY": 0.0,
+                "middleFinger_3_closed.translateZ": 0.0,
+                "middleFinger_3_closed.rotateX": 0.0,
+                "middleFinger_3_closed.rotateY": 0.0,
+                "middleFinger_3_closed.rotateZ": -90.0,
+                "middleFinger_3_closed.scaleX": 1.0,
+                "middleFinger_3_closed.scaleY": 1.0,
+                "middleFinger_3_closed.scaleZ": 1.0,
+                "middleFinger_3.translateX": 0.0,
+                "middleFinger_3.translateY": 0.0,
+                "middleFinger_3.translateZ": 0.0,
+                "middleFinger_3.rotateX": 0.0,
+                "middleFinger_3.rotateY": 0.0,
+                "middleFinger_3.rotateZ": 0.0,
+                "middleFinger_3.scaleX": 1.0,
+                "middleFinger_3.scaleY": 1.0,
+                "middleFinger_3.scaleZ": 1.0,
+                "ringFingerRoot.translateX": 0.0,
+                "ringFingerRoot.translateY": 0.0,
+                "ringFingerRoot.translateZ": 0.0,
+                "ringFingerRoot.rotateX": 0.0,
+                "ringFingerRoot.rotateY": 0.0,
+                "ringFingerRoot.rotateZ": 0.0,
+                "ringFinger_1_closed.translateX": 0.0,
+                "ringFinger_1_closed.translateY": 0.0,
+                "ringFinger_1_closed.translateZ": 0.0,
+                "ringFinger_1_closed.rotateX": 0.0,
+                "ringFinger_1_closed.rotateY": 0.0,
+                "ringFinger_1_closed.rotateZ": -90.0,
+                "ringFinger_1_closed.scaleX": 1.0,
+                "ringFinger_1_closed.scaleY": 1.0,
+                "ringFinger_1_closed.scaleZ": 1.0,
+                "ringFinger_1.translateX": 0.0,
+                "ringFinger_1.translateY": 0.0,
+                "ringFinger_1.translateZ": 0.0,
+                "ringFinger_1.rotateX": 0.0,
+                "ringFinger_1.rotateY": 0.0,
+                "ringFinger_1.rotateZ": 0.0,
+                "ringFinger_1.scaleX": 1.0,
+                "ringFinger_1.scaleY": 1.0,
+                "ringFinger_1.scaleZ": 1.0,
+                "ringFinger_2_closed.translateX": 4.879258019840904e-08,
+                "ringFinger_2_closed.translateY": 0.0,
+                "ringFinger_2_closed.translateZ": 8.425630193542588e-10,
+                "ringFinger_2_closed.rotateX": 0.0,
+                "ringFinger_2_closed.rotateY": 0.0,
+                "ringFinger_2_closed.rotateZ": -90.0,
+                "ringFinger_2_closed.scaleX": 1.0,
+                "ringFinger_2_closed.scaleY": 1.0,
+                "ringFinger_2_closed.scaleZ": 1.0,
+                "ringFinger_2.translateX": 0.0,
+                "ringFinger_2.translateY": 0.0,
+                "ringFinger_2.translateZ": 0.0,
+                "ringFinger_2.rotateX": 0.0,
+                "ringFinger_2.rotateY": 0.0,
+                "ringFinger_2.rotateZ": 0.0,
+                "ringFinger_2.scaleX": 1.0,
+                "ringFinger_2.scaleY": 1.0,
+                "ringFinger_2.scaleZ": 1.0,
+                "ringFinger_3_closed.translateX": 1.1088643336876203e-09,
+                "ringFinger_3_closed.translateY": 0.0,
+                "ringFinger_3_closed.translateZ": 8.425630193542588e-10,
+                "ringFinger_3_closed.rotateX": 0.0,
+                "ringFinger_3_closed.rotateY": 0.0,
+                "ringFinger_3_closed.rotateZ": -90.0,
+                "ringFinger_3_closed.scaleX": 1.0,
+                "ringFinger_3_closed.scaleY": 1.0,
+                "ringFinger_3_closed.scaleZ": 1.0,
+                "ringFinger_3.translateX": 0.0,
+                "ringFinger_3.translateY": 0.0,
+                "ringFinger_3.translateZ": 0.0,
+                "ringFinger_3.rotateX": 0.0,
+                "ringFinger_3.rotateY": 0.0,
+                "ringFinger_3.rotateZ": 0.0,
+                "ringFinger_3.scaleX": 1.0,
+                "ringFinger_3.scaleY": 1.0,
+                "ringFinger_3.scaleZ": 1.0,
+                "pinkyFinger_1_closed.translateX": 0.0,
+                "pinkyFinger_1_closed.translateY": 0.0,
+                "pinkyFinger_1_closed.translateZ": 0.0,
+                "pinkyFinger_1_closed.rotateX": 0.0,
+                "pinkyFinger_1_closed.rotateY": 0.0,
+                "pinkyFinger_1_closed.rotateZ": -90.0,
+                "pinkyFinger_1_closed.scaleX": 1.0,
+                "pinkyFinger_1_closed.scaleY": 1.0,
+                "pinkyFinger_1_closed.scaleZ": 1.0,
+                "pinkyFingerRoot.translateX": 0.0,
+                "pinkyFingerRoot.translateY": 0.0,
+                "pinkyFingerRoot.translateZ": 0.0,
+                "pinkyFingerRoot.rotateX": 0.0,
+                "pinkyFingerRoot.rotateY": 0.0,
+                "pinkyFingerRoot.rotateZ": 0.0,
+                "pinkyFinger_2_closed.translateX": -3.012168181548702e-08,
+                "pinkyFinger_2_closed.translateY": 0.0,
+                "pinkyFinger_2_closed.translateZ": 8.138885676522989e-10,
+                "pinkyFinger_2_closed.rotateX": 0.0,
+                "pinkyFinger_2_closed.rotateY": 0.0,
+                "pinkyFinger_2_closed.rotateZ": -90.0,
+                "pinkyFinger_2_closed.scaleX": 1.0,
+                "pinkyFinger_2_closed.scaleY": 1.0,
+                "pinkyFinger_2_closed.scaleZ": 1.0,
+                "pinkyFinger_1.translateX": 0.0,
+                "pinkyFinger_1.translateY": 0.0,
+                "pinkyFinger_1.translateZ": 0.0,
+                "pinkyFinger_1.rotateX": 0.0,
+                "pinkyFinger_1.rotateY": 0.0,
+                "pinkyFinger_1.rotateZ": 0.0,
+                "pinkyFinger_1.scaleX": 1.0,
+                "pinkyFinger_1.scaleY": 1.0,
+                "pinkyFinger_1.scaleZ": 1.0,
+                "pinkyFinger_3_closed.translateX": 0.0,
+                "pinkyFinger_3_closed.translateY": 0.0,
+                "pinkyFinger_3_closed.translateZ": 0.0,
+                "pinkyFinger_3_closed.rotateX": 0.0,
+                "pinkyFinger_3_closed.rotateY": 0.0,
+                "pinkyFinger_3_closed.rotateZ": -90.0,
+                "pinkyFinger_3_closed.scaleX": 1.0,
+                "pinkyFinger_3_closed.scaleY": 1.0,
+                "pinkyFinger_3_closed.scaleZ": 1.0,
+                "pinkyFinger_2.translateX": 0.0,
+                "pinkyFinger_2.translateY": 0.0,
+                "pinkyFinger_2.translateZ": 0.0,
+                "pinkyFinger_2.rotateX": 0.0,
+                "pinkyFinger_2.rotateY": 0.0,
+                "pinkyFinger_2.rotateZ": 0.0,
+                "pinkyFinger_2.scaleX": 1.0,
+                "pinkyFinger_2.scaleY": 1.0,
+                "pinkyFinger_2.scaleZ": 1.0,
+                "pinkyFinger_3.translateX": 0.0,
+                "pinkyFinger_3.translateY": 0.0,
+                "pinkyFinger_3.translateZ": 0.0,
+                "pinkyFinger_3.rotateX": 0.0,
+                "pinkyFinger_3.rotateY": 0.0,
+                "pinkyFinger_3.rotateZ": 0.0,
+                "pinkyFinger_3.scaleX": 1.0,
+                "pinkyFinger_3.scaleY": 1.0,
+                "pinkyFinger_3.scaleZ": 1.0
+            },
+            "controlsNamesData": {
+                "clench": "MODNAME_clench",
+                "fingers": "MODNAME_fingers",
+                "thumbFinger_1_closed": "MODNAME_thumbFinger_1_closed",
+                "thumbFinger_1": "MODNAME_thumbFinger_1",
+                "thumbFinger_3_closed": "MODNAME_thumbFinger_3_closed",
+                "thumbFinger_2_closed": "MODNAME_thumbFinger_2_closed",
+                "thumbFinger_2": "MODNAME_thumbFinger_2",
+                "thumbFinger_3": "MODNAME_thumbFinger_3",
+                "indexFingerRoot": "MODNAME_indexFingerRoot",
+                "indexFinger_1_closed": "MODNAME_indexFinger_1_closed",
+                "indexFinger_1": "MODNAME_indexFinger_1",
+                "indexFinger_2_closed": "MODNAME_indexFinger_2_closed",
+                "indexFinger_2": "MODNAME_indexFinger_2",
+                "indexFinger_3_closed": "MODNAME_indexFinger_3_closed",
+                "indexFinger_3": "MODNAME_indexFinger_3",
+                "middleFinger_1_closed": "MODNAME_middleFinger_1_closed",
+                "middleFingerRoot": "MODNAME_middleFingerRoot",
+                "middleFinger_1": "MODNAME_middleFinger_1",
+                "middleFinger_2_closed": "MODNAME_middleFinger_2_closed",
+                "middleFinger_2": "MODNAME_middleFinger_2",
+                "middleFinger_3_closed": "MODNAME_middleFinger_3_closed",
+                "middleFinger_3": "MODNAME_middleFinger_3",
+                "ringFingerRoot": "MODNAME_ringFingerRoot",
+                "ringFinger_1_closed": "MODNAME_ringFinger_1_closed",
+                "ringFinger_1": "MODNAME_ringFinger_1",
+                "ringFinger_2_closed": "MODNAME_ringFinger_2_closed",
+                "ringFinger_2": "MODNAME_ringFinger_2",
+                "ringFinger_3_closed": "MODNAME_ringFinger_3_closed",
+                "ringFinger_3": "MODNAME_ringFinger_3",
+                "pinkyFinger_1_closed": "MODNAME_pinkyFinger_1_closed",
+                "pinkyFingerRoot": "MODNAME_pinkyFingerRoot",
+                "pinkyFinger_2_closed": "MODNAME_pinkyFinger_2_closed",
+                "pinkyFinger_1": "MODNAME_pinkyFinger_1",
+                "pinkyFinger_3_closed": "MODNAME_pinkyFinger_3_closed",
+                "pinkyFinger_2": "MODNAME_pinkyFinger_2",
+                "pinkyFinger_3": "MODNAME_pinkyFinger_3"
+            },
+            "controlsVisData": {
+                "clench": false,
+                "fingers": true,
+                "thumbFinger_1_closed": false,
+                "thumbFinger_1": true,
+                "thumbFinger_3_closed": false,
+                "thumbFinger_2_closed": false,
+                "thumbFinger_2": true,
+                "thumbFinger_3": true,
+                "indexFingerRoot": false,
+                "indexFinger_1_closed": false,
+                "indexFinger_1": true,
+                "indexFinger_2_closed": false,
+                "indexFinger_2": true,
+                "indexFinger_3_closed": false,
+                "indexFinger_3": true,
+                "middleFinger_1_closed": false,
+                "middleFingerRoot": false,
+                "middleFinger_1": true,
+                "middleFinger_2_closed": false,
+                "middleFinger_2": true,
+                "middleFinger_3_closed": false,
+                "middleFinger_3": true,
+                "ringFingerRoot": false,
+                "ringFinger_1_closed": false,
+                "ringFinger_1": true,
+                "ringFinger_2_closed": false,
+                "ringFinger_2": true,
+                "ringFinger_3_closed": false,
+                "ringFinger_3": true,
+                "pinkyFinger_1_closed": false,
+                "pinkyFingerRoot": false,
+                "pinkyFinger_2_closed": false,
+                "pinkyFinger_1": true,
+                "pinkyFinger_3_closed": false,
+                "pinkyFinger_2": true,
+                "pinkyFinger_3": true
+            },
+            "controlsColorData": {
+                "clench": 29,
+                "fingers": 10,
+                "thumbFinger_1_closed": 14,
+                "thumbFinger_1": 29,
+                "thumbFinger_3_closed": 14,
+                "thumbFinger_2_closed": 14,
+                "thumbFinger_2": 29,
+                "thumbFinger_3": 29,
+                "indexFingerRoot": 29,
+                "indexFinger_1_closed": 14,
+                "indexFinger_1": 29,
+                "indexFinger_2_closed": 14,
+                "indexFinger_2": 29,
+                "indexFinger_3_closed": 14,
+                "indexFinger_3": 29,
+                "middleFinger_1_closed": 14,
+                "middleFingerRoot": 29,
+                "middleFinger_1": 29,
+                "middleFinger_2_closed": 14,
+                "middleFinger_2": 29,
+                "middleFinger_3_closed": 14,
+                "middleFinger_3": 29,
+                "ringFingerRoot": 29,
+                "ringFinger_1_closed": 14,
+                "ringFinger_1": 29,
+                "ringFinger_2_closed": 14,
+                "ringFinger_2": 29,
+                "ringFinger_3_closed": 14,
+                "ringFinger_3": 29,
+                "pinkyFinger_1_closed": 14,
+                "pinkyFingerRoot": 29,
+                "pinkyFinger_2_closed": 14,
+                "pinkyFinger_1": 29,
+                "pinkyFinger_3_closed": 14,
+                "pinkyFinger_2": 29,
+                "pinkyFinger_3": 29
+            },
+            "controlsShapeData": {
+                "clench": [
+                    "cmds.curve(name = \"l_f_footFingers_clench\", d= 1,p= [[-0.07999862812831791, 0.08040857180317469, 0.08026041277884187], [-0.07999862812831791, 0.08040857180317469, -0.0805567308275075], [0.2558378579848188, 0.08040857180317469, -0.14381101822253445], [0.2558378579848188, 0.08040857180317469, 0.08026041277884187], [-0.07999862812831791, 0.08040857180317469, 0.08026041277884187], [0.2558378579848188, 0.08040857180317469, 0.08026041277884187], [0.2558378579848188, -0.08040857180317469, 0.08026041277884187], [-0.07999862812831791, -0.08040857180317469, 0.08026041277884187], [-0.07999862812831791, 0.08040857180317469, 0.08026041277884187], [-0.07999862812831791, -0.08040857180317469, 0.08026041277884187], [-0.07999862812831791, -0.08040857180317469, -0.0805567308275075], [-0.07999862812831791, 0.08040857180317469, -0.0805567308275075], [-0.07999862812831791, -0.08040857180317469, -0.0805567308275075], [0.2558378579848188, -0.08040857180317469, -0.14381101822253445], [0.2558378579848188, 0.08040857180317469, -0.14381101822253445], [0.2558378579848188, -0.08040857180317469, -0.14381101822253445], [0.2558378579848188, -0.08040857180317469, 0.08026041277884187]])"
+                ],
+                "fingers": [
+                    "cmds.curve(name = \"l_f_footFingers_fingers\", d= 3,p= [[1.0105660964453813, -0.3705442219754306, 0.6234194400173427], [1.122574694025496, -0.37054422197543047, 0.6234194400173427], [1.3465918891857238, -0.37054422197543035, 0.507578344797014], [1.485778329845945, -0.37054422197543035, 0.08808063005540465], [1.3465918891857243, -0.3705442219754304, -0.3314170846862057], [1.1225746940254964, -0.3705442219754306, -0.4482231148013932], [1.0105660964453818, -0.3705442219754306, -0.4482231148013933]], k = [0.0, 0.0, 0.0, 1.0, 2.0, 3.0, 4.0, 4.0, 4.0])"
+                ],
+                "thumbFinger_1_closed": [
+                    "cmds.curve(name = \"l_f_footFingers_thumbFinger_1_closed\", per = True, d= 3,p= [[4.019422594133969e-18, 0.09242094768249395, -0.09242094768249406], [6.363519643325338e-18, 0.13070295765995757, 2.87894324563895e-17], [4.0194225941339754e-18, 0.09242094768249397, 0.09242094768249397], [-1.6397282935425918e-18, 5.3340701647916606e-17, 0.13070295765995757], [-7.298879181219169e-18, -0.09242094768249397, 0.092420947682494], [-9.642976230410548e-18, -0.13070295765995757, 5.326113976514951e-17], [-7.29887918121918e-18, -0.092420947682494, -0.09242094768249395], [-1.6397282935426091e-18, -5.4734559078045844e-17, -0.13070295765995757], [4.019422594133969e-18, 0.09242094768249395, -0.09242094768249406], [6.363519643325338e-18, 0.13070295765995757, 2.87894324563895e-17], [4.0194225941339754e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "thumbFinger_1": [
+                    "cmds.curve(name = \"l_f_footFingers_thumbFinger_1\", per = True, d= 3,p= [[4.019422594133969e-18, 0.09242094768249395, -0.09242094768249406], [6.363519643325338e-18, 0.13070295765995757, 2.87894324563895e-17], [4.0194225941339754e-18, 0.09242094768249397, 0.09242094768249397], [-1.6397282935425918e-18, 5.3340701647916606e-17, 0.13070295765995757], [-7.298879181219169e-18, -0.09242094768249397, 0.092420947682494], [-9.642976230410548e-18, -0.13070295765995757, 5.326113976514951e-17], [-7.29887918121918e-18, -0.092420947682494, -0.09242094768249395], [-1.6397282935426091e-18, -5.4734559078045844e-17, -0.13070295765995757], [4.019422594133969e-18, 0.09242094768249395, -0.09242094768249406], [6.363519643325338e-18, 0.13070295765995757, 2.87894324563895e-17], [4.0194225941339754e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "thumbFinger_3_closed": [
+                    "cmds.curve(name = \"l_f_footFingers_thumbFinger_3_closed\", per = True, d= 3,p= [[4.019422594133969e-18, 0.09242094768249395, -0.09242094768249406], [6.363519643325338e-18, 0.13070295765995757, 2.87894324563895e-17], [4.0194225941339754e-18, 0.09242094768249397, 0.09242094768249397], [-1.6397282935425918e-18, 5.3340701647916606e-17, 0.13070295765995757], [-7.298879181219169e-18, -0.09242094768249397, 0.092420947682494], [-9.642976230410548e-18, -0.13070295765995757, 5.326113976514951e-17], [-7.29887918121918e-18, -0.092420947682494, -0.09242094768249395], [-1.6397282935426091e-18, -5.4734559078045844e-17, -0.13070295765995757], [4.019422594133969e-18, 0.09242094768249395, -0.09242094768249406], [6.363519643325338e-18, 0.13070295765995757, 2.87894324563895e-17], [4.0194225941339754e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "thumbFinger_2_closed": [
+                    "cmds.curve(name = \"l_f_footFingers_thumbFinger_2_closed\", per = True, d= 3,p= [[4.019422594133969e-18, 0.09242094768249395, -0.09242094768249406], [6.363519643325338e-18, 0.13070295765995757, 2.87894324563895e-17], [4.0194225941339754e-18, 0.09242094768249397, 0.09242094768249397], [-1.6397282935425918e-18, 5.3340701647916606e-17, 0.13070295765995757], [-7.298879181219169e-18, -0.09242094768249397, 0.092420947682494], [-9.642976230410548e-18, -0.13070295765995757, 5.326113976514951e-17], [-7.29887918121918e-18, -0.092420947682494, -0.09242094768249395], [-1.6397282935426091e-18, -5.4734559078045844e-17, -0.13070295765995757], [4.019422594133969e-18, 0.09242094768249395, -0.09242094768249406], [6.363519643325338e-18, 0.13070295765995757, 2.87894324563895e-17], [4.0194225941339754e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "thumbFinger_2": [
+                    "cmds.curve(name = \"l_f_footFingers_thumbFinger_2\", per = True, d= 3,p= [[2.227845709320802e-16, 0.09242094768249395, -0.09242094768249405], [2.251286679812712e-16, 0.13070295765995757, -4.211942950163022e-17], [2.227845709320802e-16, 0.09242094768249397, 0.092420947682494], [2.1712542004440358e-16, 6.961817920874717e-17, 0.13070295765995757], [2.114662691567269e-16, -0.09242094768249397, 0.09242094768249402], [2.0912217210753572e-16, -0.13070295765995757, -1.764772219287008e-17], [2.1146626915672687e-16, -0.092420947682494, -0.09242094768249395], [2.1712542004440358e-16, -3.845708151721504e-17, -0.13070295765995757], [2.227845709320802e-16, 0.09242094768249395, -0.09242094768249405], [2.251286679812712e-16, 0.13070295765995757, -4.211942950163022e-17], [2.227845709320802e-16, 0.09242094768249397, 0.092420947682494]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "thumbFinger_3": [
+                    "cmds.curve(name = \"l_f_footFingers_thumbFinger_3\", per = True, d= 3,p= [[-2.1638545403735467e-16, 0.09242094768249395, -0.09242094768249412], [-2.1404135698816335e-16, 0.13070295765995757, 2.5537797597078838e-18], [-2.1638545403735467e-16, 0.09242094768249397, 0.09242094768249395], [-2.2204460492503126e-16, 3.9462913840101977e-17, 0.13070295765995757], [-2.277037558127079e-16, -0.09242094768249397, 0.092420947682494], [-2.3004785286189906e-16, -0.13070295765995757, 2.7025487068467848e-17], [-2.277037558127079e-16, -0.092420947682494, -0.092420947682494], [-2.2204460492503136e-16, -6.861234688586033e-17, -0.13070295765995757], [-2.1638545403735467e-16, 0.09242094768249395, -0.09242094768249412], [-2.1404135698816335e-16, 0.13070295765995757, 2.5537797597078838e-18], [-2.1638545403735467e-16, 0.09242094768249397, 0.09242094768249395]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "indexFingerRoot": [
+                    "cmds.curve(name = \"l_f_footFingers_indexFingerRoot\", per = True, d= 3,p= [[0.07819195791533826, 0.1583795390341383, -0.023634498225209896], [-1.7361687283331498e-16, 0.1583795390341383, -0.03342422792997476], [-0.07819195791533856, 0.1583795390341383, -0.023634498225209896], [-0.11058012735237834, 0.1583795390341383, -2.5341824900502355e-17], [-0.07819195791533856, 0.1583795390341383, 0.023634498225209848], [-1.9432095297948168e-16, 0.1583795390341383, 0.03342422792997471], [0.07819195791533824, 0.1583795390341383, 0.023634498225209848], [0.11058012735237803, 0.1583795390341383, 2.2958981684278014e-18], [0.07819195791533826, 0.1583795390341383, -0.023634498225209896], [-1.7361687283331498e-16, 0.1583795390341383, -0.03342422792997476], [-0.07819195791533856, 0.1583795390341383, -0.023634498225209896]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "indexFinger_1_closed": [
+                    "cmds.curve(name = \"l_f_footFingers_indexFinger_1_closed\", per = True, d= 3,p= [[5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397], [2.3087082090219562e-33, 3.78231855465594e-17, 0.13070295765995757], [-5.659150887676577e-18, -0.09242094768249397, 0.092420947682494], [-8.003247936867954e-18, -0.13070295765995757, 3.938335195733503e-17], [-5.6591508876765786e-18, -0.092420947682494, -0.09242094768249395], [-4.3089928967313074e-33, -7.025207517940297e-17, -0.13070295765995757], [5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "indexFinger_1": [
+                    "cmds.curve(name = \"l_f_footFingers_indexFinger_1\", per = True, d= 3,p= [[5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397], [2.3087082090219562e-33, 3.78231855465594e-17, 0.13070295765995757], [-5.659150887676577e-18, -0.09242094768249397, 0.092420947682494], [-8.003247936867954e-18, -0.13070295765995757, 3.938335195733503e-17], [-5.6591508876765786e-18, -0.092420947682494, -0.09242094768249395], [-4.3089928967313074e-33, -7.025207517940297e-17, -0.13070295765995757], [5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "indexFinger_2_closed": [
+                    "cmds.curve(name = \"l_f_footFingers_indexFinger_2_closed\", per = True, d= 3,p= [[5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397], [2.3087082090219562e-33, 3.78231855465594e-17, 0.13070295765995757], [-5.659150887676577e-18, -0.09242094768249397, 0.092420947682494], [-8.003247936867954e-18, -0.13070295765995757, 3.938335195733503e-17], [-5.6591508876765786e-18, -0.092420947682494, -0.09242094768249395], [-4.3089928967313074e-33, -7.025207517940297e-17, -0.13070295765995757], [5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "indexFinger_2": [
+                    "cmds.curve(name = \"l_f_footFingers_indexFinger_2\", per = True, d= 3,p= [[5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397], [2.3087082090219562e-33, 3.78231855465594e-17, 0.13070295765995757], [-5.659150887676577e-18, -0.09242094768249397, 0.092420947682494], [-8.003247936867954e-18, -0.13070295765995757, 3.938335195733503e-17], [-5.6591508876765786e-18, -0.092420947682494, -0.09242094768249395], [-4.3089928967313074e-33, -7.025207517940297e-17, -0.13070295765995757], [5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "indexFinger_3_closed": [
+                    "cmds.curve(name = \"l_f_footFingers_indexFinger_3_closed\", per = True, d= 3,p= [[5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397], [2.3087082090219562e-33, 3.78231855465594e-17, 0.13070295765995757], [-5.659150887676577e-18, -0.09242094768249397, 0.092420947682494], [-8.003247936867954e-18, -0.13070295765995757, 3.938335195733503e-17], [-5.6591508876765786e-18, -0.092420947682494, -0.09242094768249395], [-4.3089928967313074e-33, -7.025207517940297e-17, -0.13070295765995757], [5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "indexFinger_3": [
+                    "cmds.curve(name = \"l_f_footFingers_indexFinger_3\", per = True, d= 3,p= [[5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397], [2.3087082090219562e-33, 3.78231855465594e-17, 0.13070295765995757], [-5.659150887676577e-18, -0.09242094768249397, 0.092420947682494], [-8.003247936867954e-18, -0.13070295765995757, 3.938335195733503e-17], [-5.6591508876765786e-18, -0.092420947682494, -0.09242094768249395], [-4.3089928967313074e-33, -7.025207517940297e-17, -0.13070295765995757], [5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "middleFinger_1_closed": [
+                    "cmds.curve(name = \"l_f_footFingers_middleFinger_1_closed\", per = True, d= 3,p= [[5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397], [2.3087082090219562e-33, 3.78231855465594e-17, 0.13070295765995757], [-5.659150887676577e-18, -0.09242094768249397, 0.092420947682494], [-8.003247936867954e-18, -0.13070295765995757, 3.938335195733503e-17], [-5.6591508876765786e-18, -0.092420947682494, -0.09242094768249395], [-4.3089928967313074e-33, -7.025207517940297e-17, -0.13070295765995757], [5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "middleFingerRoot": [
+                    "cmds.curve(name = \"l_f_footFingers_middleFingerRoot\", per = True, d= 3,p= [[0.07819195791533826, 0.1583795390341383, -0.023634498225209896], [-1.7361687283331498e-16, 0.1583795390341383, -0.03342422792997476], [-0.07819195791533856, 0.1583795390341383, -0.023634498225209896], [-0.11058012735237834, 0.1583795390341383, -2.5341824900502355e-17], [-0.07819195791533856, 0.1583795390341383, 0.023634498225209848], [-1.9432095297948168e-16, 0.1583795390341383, 0.03342422792997471], [0.07819195791533824, 0.1583795390341383, 0.023634498225209848], [0.11058012735237803, 0.1583795390341383, 2.2958981684278014e-18], [0.07819195791533826, 0.1583795390341383, -0.023634498225209896], [-1.7361687283331498e-16, 0.1583795390341383, -0.03342422792997476], [-0.07819195791533856, 0.1583795390341383, -0.023634498225209896]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "middleFinger_1": [
+                    "cmds.curve(name = \"l_f_footFingers_middleFinger_1\", per = True, d= 3,p= [[5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397], [2.3087082090219562e-33, 3.78231855465594e-17, 0.13070295765995757], [-5.659150887676577e-18, -0.09242094768249397, 0.092420947682494], [-8.003247936867954e-18, -0.13070295765995757, 3.938335195733503e-17], [-5.6591508876765786e-18, -0.092420947682494, -0.09242094768249395], [-4.3089928967313074e-33, -7.025207517940297e-17, -0.13070295765995757], [5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "middleFinger_2_closed": [
+                    "cmds.curve(name = \"l_f_footFingers_middleFinger_2_closed\", per = True, d= 3,p= [[5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397], [2.3087082090219562e-33, 3.78231855465594e-17, 0.13070295765995757], [-5.659150887676577e-18, -0.09242094768249397, 0.092420947682494], [-8.003247936867954e-18, -0.13070295765995757, 3.938335195733503e-17], [-5.6591508876765786e-18, -0.092420947682494, -0.09242094768249395], [-4.3089928967313074e-33, -7.025207517940297e-17, -0.13070295765995757], [5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "middleFinger_2": [
+                    "cmds.curve(name = \"l_f_footFingers_middleFinger_2\", per = True, d= 3,p= [[5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397], [2.3087082090219562e-33, 3.78231855465594e-17, 0.13070295765995757], [-5.659150887676577e-18, -0.09242094768249397, 0.092420947682494], [-8.003247936867954e-18, -0.13070295765995757, 3.938335195733503e-17], [-5.6591508876765786e-18, -0.092420947682494, -0.09242094768249395], [-4.3089928967313074e-33, -7.025207517940297e-17, -0.13070295765995757], [5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "middleFinger_3_closed": [
+                    "cmds.curve(name = \"l_f_footFingers_middleFinger_3_closed\", per = True, d= 3,p= [[5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397], [2.3087082090219562e-33, 3.78231855465594e-17, 0.13070295765995757], [-5.659150887676577e-18, -0.09242094768249397, 0.092420947682494], [-8.003247936867954e-18, -0.13070295765995757, 3.938335195733503e-17], [-5.6591508876765786e-18, -0.092420947682494, -0.09242094768249395], [-4.3089928967313074e-33, -7.025207517940297e-17, -0.13070295765995757], [5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "middleFinger_3": [
+                    "cmds.curve(name = \"l_f_footFingers_middleFinger_3\", per = True, d= 3,p= [[5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397], [2.3087082090219562e-33, 3.78231855465594e-17, 0.13070295765995757], [-5.659150887676577e-18, -0.09242094768249397, 0.092420947682494], [-8.003247936867954e-18, -0.13070295765995757, 3.938335195733503e-17], [-5.6591508876765786e-18, -0.092420947682494, -0.09242094768249395], [-4.3089928967313074e-33, -7.025207517940297e-17, -0.13070295765995757], [5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "ringFingerRoot": [
+                    "cmds.curve(name = \"l_f_footFingers_ringFingerRoot\", per = True, d= 3,p= [[0.07819195791533826, 0.1583795390341383, -0.023634498225209896], [-1.7361687283331498e-16, 0.1583795390341383, -0.03342422792997476], [-0.07819195791533856, 0.1583795390341383, -0.023634498225209896], [-0.11058012735237834, 0.1583795390341383, -2.5341824900502355e-17], [-0.07819195791533856, 0.1583795390341383, 0.023634498225209848], [-1.9432095297948168e-16, 0.1583795390341383, 0.03342422792997471], [0.07819195791533824, 0.1583795390341383, 0.023634498225209848], [0.11058012735237803, 0.1583795390341383, 2.2958981684278014e-18], [0.07819195791533826, 0.1583795390341383, -0.023634498225209896], [-1.7361687283331498e-16, 0.1583795390341383, -0.03342422792997476], [-0.07819195791533856, 0.1583795390341383, -0.023634498225209896]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "ringFinger_1_closed": [
+                    "cmds.curve(name = \"l_f_footFingers_ringFinger_1_closed\", per = True, d= 3,p= [[5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397], [2.3087082090219562e-33, 3.78231855465594e-17, 0.13070295765995757], [-5.659150887676577e-18, -0.09242094768249397, 0.092420947682494], [-8.003247936867954e-18, -0.13070295765995757, 3.938335195733503e-17], [-5.6591508876765786e-18, -0.092420947682494, -0.09242094768249395], [-4.3089928967313074e-33, -7.025207517940297e-17, -0.13070295765995757], [5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "ringFinger_1": [
+                    "cmds.curve(name = \"l_f_footFingers_ringFinger_1\", per = True, d= 3,p= [[5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397], [2.3087082090219562e-33, 3.78231855465594e-17, 0.13070295765995757], [-5.659150887676577e-18, -0.09242094768249397, 0.092420947682494], [-8.003247936867954e-18, -0.13070295765995757, 3.938335195733503e-17], [-5.6591508876765786e-18, -0.092420947682494, -0.09242094768249395], [-4.3089928967313074e-33, -7.025207517940297e-17, -0.13070295765995757], [5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "ringFinger_2_closed": [
+                    "cmds.curve(name = \"l_f_footFingers_ringFinger_2_closed\", per = True, d= 3,p= [[5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397], [2.3087082090219562e-33, 3.78231855465594e-17, 0.13070295765995757], [-5.659150887676577e-18, -0.09242094768249397, 0.092420947682494], [-8.003247936867954e-18, -0.13070295765995757, 3.938335195733503e-17], [-5.6591508876765786e-18, -0.092420947682494, -0.09242094768249395], [-4.3089928967313074e-33, -7.025207517940297e-17, -0.13070295765995757], [5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "ringFinger_2": [
+                    "cmds.curve(name = \"l_f_footFingers_ringFinger_2\", per = True, d= 3,p= [[5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397], [2.3087082090219562e-33, 3.78231855465594e-17, 0.13070295765995757], [-5.659150887676577e-18, -0.09242094768249397, 0.092420947682494], [-8.003247936867954e-18, -0.13070295765995757, 3.938335195733503e-17], [-5.6591508876765786e-18, -0.092420947682494, -0.09242094768249395], [-4.3089928967313074e-33, -7.025207517940297e-17, -0.13070295765995757], [5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "ringFinger_3_closed": [
+                    "cmds.curve(name = \"l_f_footFingers_ringFinger_3_closed\", per = True, d= 3,p= [[5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397], [2.3087082090219562e-33, 3.78231855465594e-17, 0.13070295765995757], [-5.659150887676577e-18, -0.09242094768249397, 0.092420947682494], [-8.003247936867954e-18, -0.13070295765995757, 3.938335195733503e-17], [-5.6591508876765786e-18, -0.092420947682494, -0.09242094768249395], [-4.3089928967313074e-33, -7.025207517940297e-17, -0.13070295765995757], [5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "ringFinger_3": [
+                    "cmds.curve(name = \"l_f_footFingers_ringFinger_3\", per = True, d= 3,p= [[5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397], [2.3087082090219562e-33, 3.78231855465594e-17, 0.13070295765995757], [-5.659150887676577e-18, -0.09242094768249397, 0.092420947682494], [-8.003247936867954e-18, -0.13070295765995757, 3.938335195733503e-17], [-5.6591508876765786e-18, -0.092420947682494, -0.09242094768249395], [-4.3089928967313074e-33, -7.025207517940297e-17, -0.13070295765995757], [5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "pinkyFinger_1_closed": [
+                    "cmds.curve(name = \"l_f_footFingers_pinkyFinger_1_closed\", per = True, d= 3,p= [[5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397], [2.3087082090219562e-33, 3.78231855465594e-17, 0.13070295765995757], [-5.659150887676577e-18, -0.09242094768249397, 0.092420947682494], [-8.003247936867954e-18, -0.13070295765995757, 3.938335195733503e-17], [-5.6591508876765786e-18, -0.092420947682494, -0.09242094768249395], [-4.3089928967313074e-33, -7.025207517940297e-17, -0.13070295765995757], [5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "pinkyFingerRoot": [
+                    "cmds.curve(name = \"l_f_footFingers_pinkyFingerRoot\", per = True, d= 3,p= [[0.07819195791533826, 0.1583795390341383, -0.023634498225209896], [-1.7361687283331498e-16, 0.1583795390341383, -0.03342422792997476], [-0.07819195791533856, 0.1583795390341383, -0.023634498225209896], [-0.11058012735237834, 0.1583795390341383, -2.5341824900502355e-17], [-0.07819195791533856, 0.1583795390341383, 0.023634498225209848], [-1.9432095297948168e-16, 0.1583795390341383, 0.03342422792997471], [0.07819195791533824, 0.1583795390341383, 0.023634498225209848], [0.11058012735237803, 0.1583795390341383, 2.2958981684278014e-18], [0.07819195791533826, 0.1583795390341383, -0.023634498225209896], [-1.7361687283331498e-16, 0.1583795390341383, -0.03342422792997476], [-0.07819195791533856, 0.1583795390341383, -0.023634498225209896]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "pinkyFinger_2_closed": [
+                    "cmds.curve(name = \"l_f_footFingers_pinkyFinger_2_closed\", per = True, d= 3,p= [[5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397], [2.3087082090219562e-33, 3.78231855465594e-17, 0.13070295765995757], [-5.659150887676577e-18, -0.09242094768249397, 0.092420947682494], [-8.003247936867954e-18, -0.13070295765995757, 3.938335195733503e-17], [-5.6591508876765786e-18, -0.092420947682494, -0.09242094768249395], [-4.3089928967313074e-33, -7.025207517940297e-17, -0.13070295765995757], [5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "pinkyFinger_1": [
+                    "cmds.curve(name = \"l_f_footFingers_pinkyFinger_1\", per = True, d= 3,p= [[5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397], [2.3087082090219562e-33, 3.78231855465594e-17, 0.13070295765995757], [-5.659150887676577e-18, -0.09242094768249397, 0.092420947682494], [-8.003247936867954e-18, -0.13070295765995757, 3.938335195733503e-17], [-5.6591508876765786e-18, -0.092420947682494, -0.09242094768249395], [-4.3089928967313074e-33, -7.025207517940297e-17, -0.13070295765995757], [5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "pinkyFinger_3_closed": [
+                    "cmds.curve(name = \"l_f_footFingers_pinkyFinger_3_closed\", per = True, d= 3,p= [[5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397], [2.3087082090219562e-33, 3.78231855465594e-17, 0.13070295765995757], [-5.659150887676577e-18, -0.09242094768249397, 0.092420947682494], [-8.003247936867954e-18, -0.13070295765995757, 3.938335195733503e-17], [-5.6591508876765786e-18, -0.092420947682494, -0.09242094768249395], [-4.3089928967313074e-33, -7.025207517940297e-17, -0.13070295765995757], [5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "pinkyFinger_2": [
+                    "cmds.curve(name = \"l_f_footFingers_pinkyFinger_2\", per = True, d= 3,p= [[5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397], [2.3087082090219562e-33, 3.78231855465594e-17, 0.13070295765995757], [-5.659150887676577e-18, -0.09242094768249397, 0.092420947682494], [-8.003247936867954e-18, -0.13070295765995757, 3.938335195733503e-17], [-5.6591508876765786e-18, -0.092420947682494, -0.09242094768249395], [-4.3089928967313074e-33, -7.025207517940297e-17, -0.13070295765995757], [5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ],
+                "pinkyFinger_3": [
+                    "cmds.curve(name = \"l_f_footFingers_pinkyFinger_3\", per = True, d= 3,p= [[5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397], [2.3087082090219562e-33, 3.78231855465594e-17, 0.13070295765995757], [-5.659150887676577e-18, -0.09242094768249397, 0.092420947682494], [-8.003247936867954e-18, -0.13070295765995757, 3.938335195733503e-17], [-5.6591508876765786e-18, -0.092420947682494, -0.09242094768249395], [-4.3089928967313074e-33, -7.025207517940297e-17, -0.13070295765995757], [5.659150887676575e-18, 0.09242094768249395, -0.09242094768249406], [8.003247936867946e-18, 0.13070295765995757, 1.4911644648575e-17], [5.6591508876765786e-18, 0.09242094768249397, 0.09242094768249397]], k = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])"
+                ]
+            },
+            "additionalControlsData": []
+        }
+    ],
+    "ibtwsData": [],
+    "twistsData": [],
+    "type": "compound_module",
+    "name": "f_footFingers"
+}

@@ -167,6 +167,7 @@ class Module(object):
             # correct scale joint
             mult = cmds.createNode('multiplyDivide', n=j+"_jointInvScale_multiplyDivide")
             utils.addModuleNameAttr(mult, m_name)
+            utils.addToModuleSet(mult, m_name)
             cmds.connectAttr(root_dec+".outputScale", mult+".input2")
             cmds.connectAttr(m_name+"_root_skinJoint_decMat.outputScale", mult+".input1")
             cmds.setAttr(mult+".operation", 2)
@@ -178,7 +179,8 @@ class Module(object):
             if cmds.objExists(m_name+"_mirror_condition"):
                 mult2 = utils.createNode('multDoubleLinear', n=j+"_jointInvReverseScale_multDoubleLinear")
                 utils.addModuleNameAttr(mult2, m_name)
-                cmds.connectAttr(j+"_jointInvScale_multiplyDivide.outputZ", mult2+".input1", f=1)
+                utils.addToModuleSet(mult2, m_name)
+                cmds.connectAttr(mult+".outputZ", mult2+".input1", f=1)
                 cmds.connectAttr(m_name+"_mirror_condition.outColorR", mult2+".input2", f=1)
                 cmds.connectAttr(mult2+".output", j+".scaleZ", f=1)
 
@@ -368,7 +370,8 @@ class Module(object):
             cmds.delete(self.name + "_connectionLine_group")
 
         # update attrs
-        self.parent = ""
+        # None, the same as getParent() returns for an unparented module
+        self.parent = None
 
         # reroot skin joints
         jointsRoot = self.name+'_root_skinJoint'

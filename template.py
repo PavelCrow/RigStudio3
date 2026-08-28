@@ -316,11 +316,13 @@ class Template(object):
 	def get_cur_module_chain_data(self):
 		def haveParent(parent_name, module_name):
 			m = self.main.rig.modules[module_name]
-			p_moduleName = None
-			while m.parent != None:
+			while m.parent:
 				p_moduleName = utils.getModuleName(m.parent)
 				if p_moduleName == parent_name:
 					return True
+				if p_moduleName not in self.main.rig.modules:
+					# the parent module is deleted or its joint is missing
+					return False
 				m = self.main.rig.modules[p_moduleName]
 			return False
 
@@ -435,6 +437,27 @@ class Template(object):
 							if old_parent_module_name in modulesRename:
 								mData["parent"] = modulesRename[old_parent_module_name] + mData["parent"][len(old_parent_module_name):] 
 		
+		# rename cross module references kept in the options (fingers thumb parent).
+		# the owner module name is saved next to the joint name, so there is nothing
+		# to guess here - "l_arm" and "l_arm_end" both joined by "_" with their nodes
+		# would be impossible to tell apart from the joint name alone
+		if modulesRename:
+			for mData in data['modulesData']:
+				options = mData['optionsData']
+				old_module_name = options.get('thumbParentModule')
+				joint = options.get('thumbParent')
+
+				if not old_module_name or old_module_name not in modulesRename:
+					continue
+
+				if not joint or not joint.startswith(old_module_name+"_"):
+					cmds.warning("template - %s does not belong to the %s module, the thumb parent is skipped"
+								%(joint, old_module_name))
+					continue
+
+				options['thumbParentModule'] = modulesRename[old_module_name]
+				options['thumbParent'] = modulesRename[old_module_name] + joint[len(old_module_name):]
+
 		# rename oss
 		for mData in data['modulesData']:
 			name = mData["name"]
@@ -555,6 +578,7 @@ class Template(object):
 			for twData in modulesData:
 
 				target = twData['target']
+				tw_name = twData['name']
 				m_name = utils.getModuleName(target)
 				m = utils.getModuleInstance(m_name)
 
@@ -572,6 +596,13 @@ class Template(object):
 
 				if endOrientTarget != endTarget:
 					self.main.twistClass.attach("end", endOrientTarget)
+
+				# attach() reparents the offset locators, so the saved local values
+				# are put on last, when the parent is final
+				self.main.twistClass.applyOffsets(tw_name, twData)
+				opp_tw_name = utils.getOpposite(tw_name)
+				if opp_tw_name != tw_name and cmds.objExists(opp_tw_name+"_mod"):
+					self.main.twistClass.applyOffsets(opp_tw_name, twData)
 
 				cmds.progressBar(progressControl, edit=True, step=1)
 			cmds.progressBar(progressControl2, edit=True, step=1)

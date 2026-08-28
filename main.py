@@ -2406,8 +2406,8 @@ class MainWindow:
                 return
 
         # set names
-        if side != "l":
-            self.renameModule("l_" + module.name, module.name)
+        if l_new_name != module.name:
+            self.renameModule(l_new_name, module.name)
 
         mirrored_modules.append(module.name)
 
@@ -3706,7 +3706,7 @@ class MainWindow:
         # self.licWin.activate_btn.clicked.connect(activate)
         
         # get version
-        with open(self.rootPath + '/versions.txt') as f:
+        with open(self.rootPath + '/versions.txt', encoding='utf-8') as f:
             lines = f.readlines()
 
         versions = []

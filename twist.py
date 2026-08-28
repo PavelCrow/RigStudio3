@@ -370,24 +370,9 @@ class Twist(object):
         # hide root joint
         cmds.setAttr(t_name+'_skinJoint.drawStyle', 2)
 
-        # offsets
-        if utils.objectIsOpposite(root_loc): 
+        # mirror flag. the saved offsets are applied later, after twistOverride()
+        if utils.objectIsOpposite(root_loc):
             cmds.setAttr(t_name+'_mod.mirror', True)
-            if data:
-                if 'rootOffsetR' in data:
-                    off = data['rootOffsetR']
-                    cmds.xform(rootUpLoc, worldSpace=True, rotation=off)
-                if 'endOffsetR' in data:
-                    off = data['endOffsetR']
-                    cmds.xform(end_loc, worldSpace=True, rotation=off)
-        else:
-            if data:
-                if 'rootOffset' in data:
-                    off = data['rootOffset']
-                    cmds.xform(rootUpLoc, worldSpace=True, rotation=off)
-                if 'endOffset' in data:
-                    off = data['endOffset']
-                    cmds.xform(end_loc, worldSpace=True, rotation=off)
 
         # create twist on mirrored joint    
         if mirror:
@@ -451,6 +436,10 @@ class Twist(object):
         # module override
         mod = utils.getModuleInstance(moduleName)
         mod.twistOverride(t_name, data)
+
+        # offsets. after the module override, so the values saved in the template
+        # win over the default orientation the override sets
+        self.applyOffsets(t_name, data)
 
         if data and "controlsShapeData" in data:
             # set controls shapes
@@ -868,6 +857,10 @@ class Twist(object):
         except: pass
         twData['rootOffset'] = cmds.xform(twName + "_rootUpLoc", query=True, worldSpace=True, rotation=True)
         twData['endOffset'] = cmds.xform(twName + "_end_connectorLoc", query=True, worldSpace=True, rotation=True)
+        twData['rootScale'] = list(cmds.getAttr(twName + "_rootUpLoc.scale")[0])
+        twData['endScale'] = list(cmds.getAttr(twName + "_end_connectorLoc.scale")[0])
+        twData['rootRotate'] = list(cmds.getAttr(twName + "_rootUpLoc.rotate")[0])
+        twData['endRotate'] = list(cmds.getAttr(twName + "_end_connectorLoc.rotate")[0])
 
         opp = utils.getOpposite(twName)
         if cmds.objExists(opp+"_mod") and opp!=twName:
@@ -875,8 +868,12 @@ class Twist(object):
                 cmds.warning("Missed "+ opp + "_rootUpLoc")
                 return
             twData['rootOffsetR'] = cmds.xform(opp + "_rootUpLoc", query=True, worldSpace=True, rotation=True)
+            twData['rootScaleR'] = list(cmds.getAttr(opp + "_rootUpLoc.scale")[0])
+            twData['rootRotateR'] = list(cmds.getAttr(opp + "_rootUpLoc.rotate")[0])
             if cmds.objExists(opp + "_end_connectorLoc"):
                 twData['endOffsetR'] = cmds.xform(opp + "_end_connectorLoc", query=True, worldSpace=True, rotation=True)
+                twData['endScaleR'] = list(cmds.getAttr(opp + "_end_connectorLoc.scale")[0])
+                twData['endRotateR'] = list(cmds.getAttr(opp + "_end_connectorLoc.rotate")[0])
             else:
                 print ("Missed ", opp + "_end_connectorLoc")
 
@@ -985,6 +982,40 @@ class Twist(object):
             cmds.connectAttr(j+".twistMultiplier", tw_j+".twistMultiplier")
 
             cmds.sets(j, e=1, forceElement=moduleName+"_skinJointsSet")
+
+    def applyOffsets(self, t_name, data):
+        """Restore the saved rotation and scale of the twist offset locators.
+
+        The saved values are local, not world. Through a mirrored (negative
+        determinant) parent a world rotation does not round trip - the reflection
+        does not fit into euler angles and Maya lands 180 degrees off. Templates
+        saved before this keep only the world rotation, it is used as a fallback.
+
+        Call it when the locators are already under their final parent.
+        """
+        if not data:
+            return
+
+        if utils.objectIsOpposite(t_name + "_root_connectorLoc"):
+            side = "R"
+        else:
+            side = ""
+
+        for loc, key in ((t_name + "_rootUpLoc", "root"), (t_name + "_end_connectorLoc", "end")):
+            if not cmds.objExists(loc):
+                continue
+
+            scale = data.get(key + "Scale" + side)
+            if scale:
+                cmds.setAttr(loc + ".scale", *scale)
+
+            rotate = data.get(key + "Rotate" + side)
+            if rotate:
+                cmds.setAttr(loc + ".rotate", *rotate)
+            else:
+                offset = data.get(key + "Offset" + side)
+                if offset:
+                    cmds.xform(loc, worldSpace=True, rotation=offset)
 
     def getTwistsData(self, moduleNames=[]):
 

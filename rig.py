@@ -86,7 +86,7 @@ class Rig:
         root = cmds.group(empty=True, n=self.root)
 
         path = os.path.join(modulePath,'versions.txt')
-        with open(path, mode='r') as f:
+        with open(path, mode='r', encoding='utf-8') as f:
             lines = f.readlines()
         
         versions = []
@@ -157,11 +157,15 @@ class Rig:
             root = cmds.listRelatives("rig", p=1)
             cmds.delete(root[0] if root else "rig")
 
-        # delete all sets
-        for set in cmds.ls(type="objectSet"):
-            if set not in ['defaultLightSet', 'defaultObjectSet', 'initialParticleSE', 'initialShadingGroup']:
-                if cmds.objExists(set): 
-                    cmds.delete(set)
+        # delete all sets.
+        # exactType, not type: the -type flag also picks derived node types, and
+        # shadingEngine (as well as displayLayer and animLayer) is derived from
+        # objectSet - deleting those would take the materials and the layers of
+        # the whole scene with the rig
+        for s in cmds.ls(exactType="objectSet"):
+            if s not in ['defaultLightSet', 'defaultObjectSet', 'initialParticleSE', 'initialShadingGroup']:
+                if cmds.objExists(s):
+                    cmds.delete(s)
         
         self.exists = False
         self.modules = {}
