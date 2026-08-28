@@ -727,6 +727,8 @@ class Twist(object):
             updateFrame = True
             count, ok = QtWidgets.QInputDialog().getInt(self.win, 'Change joints count', 'Enter joints count:',
                                             value=self.curTwist['jointsCount'], minValue=1, maxValue=100)
+            if not ok:
+                return
         
         def generateJoints(twName, count, moduleName=None):
             # get values
@@ -817,9 +819,12 @@ class Twist(object):
 
             generateJoints(twName_opp, count, moduleName_opp)
             for i in range(count):
+                # force: addSkinJoints() has already connected skinJoint.pos to
+                # twJoint.pos, so the destination is taken - without force
+                # connectAttr raises and the rest of the method never runs
                 if utils.getObjectSide(twName) == "l":
-                    cmds.connectAttr(twName+'_twist_%s_twJoint.pos' %i, twName_opp+'_twist_%s_twJoint.pos' %i)
-                    cmds.connectAttr(twName+'_twist_%s_twJoint.twistMultiplier' %i, twName_opp+'_twist_%s_twJoint.twistMultiplier' %i)
+                    cmds.connectAttr(twName+'_twist_%s_twJoint.pos' %i, twName_opp+'_twist_%s_twJoint.pos' %i, f=1)
+                    cmds.connectAttr(twName+'_twist_%s_twJoint.twistMultiplier' %i, twName_opp+'_twist_%s_twJoint.twistMultiplier' %i, f=1)
                 else:
                     cmds.connectAttr(twName_opp+'_twist_%s_twJoint.pos' %i, twName+'_twist_%s_twJoint.pos' %i, f=1)
                     cmds.connectAttr(twName_opp+'_twist_%s_twJoint.twistMultiplier' %i, twName+'_twist_%s_twJoint.twistMultiplier' %i, f=1)
