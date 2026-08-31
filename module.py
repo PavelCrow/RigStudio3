@@ -206,6 +206,61 @@ class Module(object):
 
         cmds.delete(joints_grp)
 
+    def getModuleJoints(self): #
+        """Out joints of the module and the skin joints made from them."""
+        out_grp = self.name + "_outJoints"
+        if not cmds.objExists(out_grp):
+            return []
+
+        joints = cmds.listRelatives(out_grp, allDescendents=1, type="joint") or []
+
+        suffix = "outJoint"
+        for j in list(joints):
+            if j.endswith("_" + suffix):
+                sj = j[:-len(suffix)] + "skinJoint"
+                if cmds.objExists(sj):
+                    joints.append(sj)
+
+        return joints
+
+    def getJointsSize(self): #
+        if cmds.objExists(self.root + ".jointsSize"):
+            return cmds.getAttr(self.root + ".jointsSize") or 1.0
+        return 1.0
+
+    def setJointsSize(self, value, radiusData=None, baseValue=None): #
+        """Scale the radius of every joint of the module.
+
+        value is absolute - 1 is the size the module was built with, so calling
+        this twice with the same number changes nothing. radiusData is the
+        {joint: radius} snapshot taken when a slider drag starts, together with
+        baseValue - the size at that moment; without them the current state is
+        taken, which is what a one-off call needs.
+        """
+        value = max(value, 0.01)
+
+        if baseValue is None:
+            baseValue = self.getJointsSize()
+        if not baseValue:
+            baseValue = 1.0
+
+        if radiusData is None:
+            radiusData = {}
+            for j in self.getModuleJoints():
+                radiusData[j] = cmds.getAttr(j + ".radius")
+
+        k = value / baseValue
+        for j in radiusData:
+            if not cmds.objExists(j + ".radius"):
+                continue
+            if cmds.getAttr(j + ".radius", lock=True):
+                continue
+            if cmds.listConnections(j + ".radius", source=1, destination=0):
+                continue
+            cmds.setAttr(j + ".radius", max(radiusData[j] * k, 0.01))
+
+        utils.setUserAttr(self.root, "jointsSize", value, type="float", lock=0)
+
     def getJoints(self):
         outJoints = cmds.listRelatives(self.name + '_outJoints', allDescendents=1) or []
         joints = []
@@ -574,6 +629,7 @@ class Module(object):
         data['posersAttrsData'] = getPosersAttrData()
         data['posersShapeData'] = getPosersShapesData()
         data['optionsData'] = self.getOptions()
+        data['jointsSize'] = self.getJointsSize()
         controlsData = getControlsShapeData()
         data['controlsAttrData'] = controlsData[0]	
         data['controlsNamesData'] = controlsData[1]	
@@ -722,6 +778,11 @@ class Module(object):
 
         # set options
         if load == "options" or load == "all":
+            # applied for the mirrored module too - it is a display property,
+            # both sides should look the same
+            if data.get('jointsSize', 1) != 1:
+                self.setJointsSize(data['jointsSize'])
+
             if not sym:
                 if data["seamless"] and not self.isSeamless(): 
                     self.makeSeamless(True)

@@ -189,6 +189,7 @@ class MainWindow:
         self.posersSizeData = {}
         self.jointsSizeData = {}
         self.jointsSizeGlobal = 0
+        self.moduleJointsSizeData = []
         self.posersSizeGlobal = 0
         self.rig = rig.Rig(self)
         self.twistClass = twist.Twist(self.win, self)
@@ -706,6 +707,9 @@ class MainWindow:
         self.win.jointsSize_slider.sliderPressed.connect(self.jointsSize_startUpdate)
         self.win.jointsSize_slider.sliderReleased.connect(self.jointsSize_resetUi)
         self.win.jointsSize_lineEdit.editingFinished.connect(partial(self.jointsSize_startUpdate, manual=True))
+        self.win.moduleJointsSize_slider.valueChanged.connect(self.moduleJointsSize_update)
+        self.win.moduleJointsSize_slider.sliderPressed.connect(self.moduleJointsSize_startUpdate)
+        self.win.moduleJointsSize_lineEdit.editingFinished.connect(self.moduleJointsSize_manual)
         self.win.jointsDisplayScale_slider.valueChanged.connect(self.jointsDisplayScale_update)
         self.win.jointsDisplayScale_lineEdit.editingFinished.connect(partial(self.jointsDisplayScale_update, manual=True))
         self.win.savePose_btn.clicked.connect(utils.savePos)
@@ -1791,6 +1795,62 @@ class MainWindow:
         self.win.jointsSize_slider.setValue(100)
         self.win.jointsSize_lineEdit.setText("1.0")
 
+    def moduleJointsSize_setUi(self, value): #
+        self.win.moduleJointsSize_lineEdit.setText(str(round(value, 3)))
+        self.win.moduleJointsSize_slider.blockSignals(True)
+        self.win.moduleJointsSize_slider.setValue(int(round(value * 100)))
+        self.win.moduleJointsSize_slider.blockSignals(False)
+
+    def moduleJointsSize_startUpdate(self): #
+        """Snapshot the radii of the module (and of its mirror) when a drag starts.
+
+        During the drag only setAttr is called, so the slider stays smooth and
+        the values do not drift from being multiplied over and over.
+        """
+        self.moduleJointsSizeData = []
+
+        m = self.curModule
+        if not m or not m.name:
+            return
+
+        modules = [m]
+        opp = self.rig.getMirroredModule(m)
+        if opp:
+            modules.append(opp)
+
+        for mod in modules:
+            radiusData = {}
+            for j in mod.getModuleJoints():
+                radiusData[j] = cmds.getAttr(j + ".radius")
+            self.moduleJointsSizeData.append((mod, radiusData, mod.getJointsSize()))
+
+    def moduleJointsSize_apply(self, value): #
+        if not self.moduleJointsSizeData:
+            self.moduleJointsSize_startUpdate()
+
+        for mod, radiusData, baseValue in self.moduleJointsSizeData:
+            mod.setJointsSize(value, radiusData=radiusData, baseValue=baseValue)
+
+    def moduleJointsSize_update(self, value=0): #
+        v = self.win.moduleJointsSize_slider.value() * 0.01
+        self.win.moduleJointsSize_lineEdit.setText(str(round(v, 3)))
+        self.moduleJointsSize_apply(v)
+
+    def moduleJointsSize_manual(self): #
+        m = self.curModule
+        if not m or not m.name:
+            return
+
+        try:
+            v = float(self.win.moduleJointsSize_lineEdit.text())
+        except ValueError:
+            self.moduleJointsSize_setUi(m.getJointsSize())
+            return
+
+        self.moduleJointsSize_startUpdate()
+        self.moduleJointsSize_setUi(v)
+        self.moduleJointsSize_apply(v)
+
     def jointsDisplayScale_update(self, value=0, update=True, manual=0):
         # print("update", value, update, manual_v)
         if manual:
@@ -1949,6 +2009,9 @@ class MainWindow:
         else:
             self.win.moduleType_lineEdit.setText(m.type)
         self.win.moduleName_lineEdit.setText(m.name)
+        # the snapshot belongs to the module it was taken on
+        self.moduleJointsSizeData = []
+        self.moduleJointsSize_setUi(m.getJointsSize())
         self.win.parent_lineEdit.setText(m.parent)
         
         # Info
