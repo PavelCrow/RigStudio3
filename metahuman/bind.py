@@ -109,14 +109,48 @@ def _height(positions):  #
     return (max(ys) - min(ys)) if ys else 0.0
 
 
-def _match(targets, candidates, limit):  #
+def _namedDriver(bone):  #
+    """The joint bones.DRIVER_BINDS names for this bone, if it names one.
+
+    The module is found by its type and side rather than by name, so the
+    table stays independent of what the modules are called.
+    """
+    side = bones.side(bone)
+    slot = bone[:-2] if side in ("l", "r") else bone
+
+    entry = bones.DRIVER_BINDS.get(slot)
+    if not entry:
+        return ""
+
+    wantType, leaf = entry
+    for module, mType in scene.modules().items():
+        if scene.slotKey(module, mType) != wantType:
+            continue
+        if utils.getObjectSide(module) != side:
+            continue
+
+        joint = "%s_%s_skinJoint" % (module, leaf)
+        if cmds.objExists(joint):
+            return joint
+
+    return ""
+
+
+def _match(targets, candidates, limit, fixed=None):  #
     """Pair each bone with a rig joint: nearest first, one joint each.
 
     Working from the closest pair outwards rather than bone by bone is
     what makes it safe. A bone with no joint of its own would otherwise
     take whatever was nearest and drag a neighbour's driver away with
     it; here the neighbour has already claimed it.
+
+    fixed holds the pairs that were named rather than measured. They are
+    settled before anything is measured, so a named driver cannot be
+    taken by a bone that merely happens to sit nearer to it.
     """
+    out = dict(fixed or {})
+    claimed = {joint for joint, _ in out.values()}
+
     pairs = []
     for bone, bPos in targets.items():
         bSide = _side(bone)
@@ -133,13 +167,11 @@ def _match(targets, candidates, limit):  #
 
     pairs.sort()
 
-    out = {}
-    used = set()
     for d, bone, joint in pairs:
-        if bone in out or joint in used:
+        if bone in out or joint in claimed:
             continue
         out[bone] = (joint, d)
-        used.add(joint)
+        claimed.add(joint)
 
     return out
 
@@ -220,8 +252,16 @@ def plan(skeletonRoot=None):  #
         cmds.warning("metahuman: the rig has no skin joints - build it first")
         return {}, []
 
+    # Settled first, so a named driver is never taken by a bone that
+    # merely sits a little nearer to it.
+    fixed = {}
+    for bone in targets:
+        joint = _namedDriver(bone)
+        if joint and joint in candidates:
+            fixed[bone] = (joint, _distance(targets[bone], candidates[joint]))
+
     limit = _height(list(targets.values())) * LIMIT
-    matched = _match(targets, candidates, limit)
+    matched = _match(targets, candidates, limit, fixed)
     missed = sorted(b for b in targets if b not in matched)
 
     return matched, missed
@@ -417,3 +457,37 @@ def detach():  #
     print("metahuman: detached %s constraints" % len(nodes))
 
     return len(nodes)
+
+
+def boundSkeletonRoot():  #
+    """The root of the MetaHuman skeleton this rig actually drives.
+
+    With a mocap in the scene there are two identical skeletons and no
+    way to tell them apart by name. The constraints know, though: they
+    are the only thing that says which one this rig is holding. So the
+    answer is read back out of them rather than asked for.
+    """
+    if not cmds.objExists(BIND_SET):
+        return ""
+
+    driven = []
+    for node in utils.getSetObjects(BIND_SET):
+        if not cmds.objExists(node):
+            continue
+        parent = cmds.listRelatives(node, parent=True, fullPath=True)
+        if parent and cmds.objectType(parent[0]) == "joint":
+            driven.append(parent[0])
+
+    if not driven:
+        return ""
+
+    # any constrained bone will do - climb from it to the top of its chain
+    top = sorted(driven, key=lambda n: n.count("|"))[0]
+    while True:
+        above = cmds.listRelatives(top, parent=True, type="joint",
+                                   fullPath=True)
+        if not above:
+            break
+        top = above[0]
+
+    return top

@@ -209,6 +209,21 @@ def rigJoints():  #
     return [j for _, j in sorted(found)]
 
 
+def controls():  #
+    """Every animation control of the rig, parents first.
+
+    Read from 'controlSet', the same place rig.getControls() reads, so
+    what counts as a control is the rig's own answer and not a guess at
+    a naming convention.
+    """
+    found = []
+    for c in utils.getSetObjects("controlSet"):
+        for path in cmds.ls(c, long=True) or []:
+            found.append((path.count("|"), path))
+
+    return [c for _, c in sorted(found)]
+
+
 def dumpScene(path=None, skeletonRoot=None):  #
     """Write posers and skeleton out to JSON, for authoring maps offline.
 
@@ -242,6 +257,17 @@ def dumpScene(path=None, skeletonRoot=None):  #
             "jointOrient": list(cmds.getAttr(j + ".jointOrient")[0]),
         })
 
+    # The controls, which is what a mocap has to be retargeted onto.
+    controlData = []
+    for c in controls():
+        parent = cmds.listRelatives(c, parent=True, fullPath=True)
+        controlData.append({
+            "name": short(c),
+            "module": moduleOf(c),
+            "parent": short(parent[0]) if parent else "",
+            "worldPos": cmds.xform(c, q=True, ws=True, t=True),
+        })
+
     # The rig's own joints, which is what the binding step has to pick
     # its drivers from - the same job the poser map does for placement,
     # in the other direction.
@@ -264,6 +290,7 @@ def dumpScene(path=None, skeletonRoot=None):  #
         "posers": poserData,
         "joints": jointData,
         "rigJoints": rigData,
+        "controls": controlData,
     }
 
     if not path:
@@ -272,8 +299,10 @@ def dumpScene(path=None, skeletonRoot=None):  #
     with open(path, "w") as f:
         json.dump(data, f, indent=2)
 
-    print("metahuman: dumped %s posers, %s bones and %s rig joints -> %s"
-          % (len(poserData), len(jointData), len(rigData), path))
+    print("metahuman: dumped %s posers, %s bones, %s rig joints and "
+          "%s controls -> %s"
+          % (len(poserData), len(jointData), len(rigData),
+             len(controlData), path))
 
     if not poserData:
         cmds.warning("metahuman: no posers in the scene - build the rig from "

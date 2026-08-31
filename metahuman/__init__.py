@@ -75,3 +75,35 @@ bindSkeleton = bind.run
 bindPlan = bind.plan
 bindStatus = bind.status
 detach = bind.detach
+
+# The mocap side lives on its own, in animTools/mocapTransfer.py: it is
+# self-contained so it can be handed to an animator as a single file.
+# Named here rather than copied, so there is one of it.
+#
+# Imported when asked for and not with the package: the rest of this
+# works under mayapy with no Qt in sight, and that is worth keeping.
+def _mocap():  #
+    from rigStudio3.animTools import mocapTransfer
+
+    return mocapTransfer
+
+
+def loadMocap(*args, **kwargs):  #
+    return _mocap().load(*args, **kwargs)
+
+
+def bakeMocap(*args, **kwargs):  #
+    return _mocap().bake(*args, **kwargs)
+
+
+def transferMocap(*args, **kwargs):  #
+    return _mocap().transfer(*args, **kwargs)
+
+
+def unloadMocap(*args, **kwargs):  #
+    return _mocap().detach(*args, **kwargs)
+
+
+def mocapWindow():  #
+    return _mocap().window()
+

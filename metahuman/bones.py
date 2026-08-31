@@ -417,3 +417,26 @@ def aimBind(bone):  #
     out.update(entry)
 
     return out
+
+
+# The control-to-bone table for a mocap used to live here. It moved
+# to animTools/mocapTransfer.py, which is self-contained so it can
+# be handed to an animator on its own - and keeping a second copy
+# here would only let the two drift apart.
+
+# Bones whose driver is named outright instead of being measured.
+#
+# Measuring is right almost everywhere, but the wrist is crowded: the
+# arm's own end joint and the fingers module's root joint both sit on
+# hand_l, within a hair of each other, and which one the nearest-first
+# pass hands out can differ between the two sides. The fingers root is
+# the one that belongs there - the hand skins to it - so it is said
+# rather than hoped for.
+#
+# Keyed by the unsided bone slot, valued by (module type, joint leaf).
+# The side comes from the bone, and the module name from whichever
+# module of that type sits on that side, so nothing here depends on
+# what the modules are called.
+DRIVER_BINDS = {
+    "hand": ("fingers", "root"),
+}
