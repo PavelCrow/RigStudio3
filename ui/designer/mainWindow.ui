@@ -10258,9 +10258,16 @@ p, li { white-space: pre-wrap; }
     <addaction name="separator"/>
     <addaction name="actionDriven_Groups"/>
    </widget>
+   <widget class="QMenu" name="menuAnimation_Tools">
+    <property name="title">
+     <string>Animation Tools</string>
+    </property>
+    <addaction name="actionMetahuman_Mocap"/>
+   </widget>
    <addaction name="menuRig"/>
    <addaction name="menuDisplay"/>
    <addaction name="menuTools"/>
+   <addaction name="menuAnimation_Tools"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -10584,6 +10591,11 @@ p, li { white-space: pre-wrap; }
   <action name="actionAdd_Attribute">
    <property name="text">
     <string>Add Attribute..</string>
+   </property>
+  </action>
+  <action name="actionMetahuman_Mocap">
+   <property name="text">
+    <string>Metahuman Mocap..</string>
    </property>
   </action>
  </widget>

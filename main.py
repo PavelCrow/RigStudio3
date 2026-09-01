@@ -722,6 +722,7 @@ class MainWindow:
         self.win.actionLicense.triggered.connect(self.action_license)
         self.win.actionSets.triggered.connect(self.action_sets)
         self.win.actionHumanIk.triggered.connect(self.action_humanIk)
+        self.win.actionMetahuman_Mocap.triggered.connect(self.mhMocapWindow)
         self.win.action_moduleBuilder.triggered.connect(self.action_moduleBuilder)
         self.win.actionPosers.triggered.connect(self.rig.toggleVis_posers)
         self.win.actionControls.triggered.connect(self.rig.toggleVis_controls)
@@ -916,6 +917,20 @@ class MainWindow:
 
     def mhDisconnect(self):
         self.mhModule().detach()
+
+    def mhMocapWindow(self):
+        # Перенос мокапа живёт отдельным самодостаточным файлом в
+        # animTools - его отдают аниматорам как есть, - поэтому здесь
+        # он берётся напрямую, а не через пакет metahuman. Импорт по
+        # нажатию, как у остальных инструментов меню.
+        if utils.isDebug():
+            import importlib
+            for m in [k for k in sys.modules if k.endswith("mocapTransfer")]:
+                del sys.modules[m]
+
+        from rigStudio3.animTools import mocapTransfer
+
+        mocapTransfer.window()
 
 
 
