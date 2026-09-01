@@ -104,22 +104,30 @@ def createPoser(name=""):
 	return name+"_poser"
 
 def connectPosers(src=None, tgt=None, name_m=""):
-	# if not src:
-	# 	sel = cmds.ls(sl=1)
-	# 	if len(sel) != 2:
-	# 		cmds.warning("Select source and target nodes")
-	# 		return
-			
-	# 	src, tgt = sel	
+	# called from a module build with an explicit pair, or from the
+	# moduleBuilder button with whatever is selected
+	sel = cmds.ls(sl=1)
 
-	posers = cmds.ls(sl=1)
+	if src and tgt:
+		posers = [src, tgt]
+	else:
+		posers = sel
 
 	if not posers:
 		return
-	
-	if not cmds.objExists(name_m+"lines_group"):
-		cmds.group(empty=True, n=name_m+"lines_group")
-		cmds.parent(name_m+"lines_group", name_m+"posers")
+
+	lines_group = name_m + "lines_group"
+	if not cmds.objExists(lines_group):
+		cmds.group(empty=True, n=lines_group)
+		cmds.parent(lines_group, name_m+"posers", relative=True)
+
+	# the curve points are driven by the world positions of the posers, so the
+	# group must not put the transform of its parent on top of that. done on
+	# every call, not only on creation, so groups made by older versions are
+	# corrected too - the local values are reset because cmds.parent had
+	# compensated them against the parent
+	utils.resetAttrs(lines_group)
+	cmds.setAttr(lines_group + ".inheritsTransform", 0)
 
 	for p in posers:
 		if p.split("_")[-1] != "poser":
@@ -137,35 +145,81 @@ def connectPosers(src=None, tgt=None, name_m=""):
 		pos.append(l_pos)
 		
 	c = cmds.curve(d=1, p=pos)
-	c = cmds.rename(c, "posers_curve_#")
+	c = cmds.rename(c, name_m+"posers_curve_#")
 	for i,l in enumerate(locs):
 		cmds.connectAttr(f"{l}.worldPosition[0]", f"{c}.controlPoints[{i}]")
 
-	sel = cmds.ls(type="sweepMeshCreator")
-	if sel: 
-		smc = sel[0]
-	else:
-		cmds.sweepMeshFromCurve()
-		smc = cmds.ls(sl=1)[0]
-		
-	size = cmds.getAttr(f"{smc}.inCurveArray", size=True)
+	# one sweep node per module. looking it up by type took whatever
+	# sweepMeshCreator happened to be first in the scene, so the lines of every
+	# module ended up in the node of the module built first
+	smcName = name_m + "lines_sweepMeshCreator"
 	cS = cmds.listRelatives(c)[0]
-	cmds.connectAttr(f"{cS}.worldSpace", f"{smc}.inCurveArray[{size}]")
+
+	if cmds.objExists(smcName):
+		smc = smcName
+		size = cmds.getAttr(f"{smc}.inCurveArray", size=True)
+		cmds.connectAttr(f"{cS}.worldSpace", f"{smc}.inCurveArray[{size}]")
+	else:
+		before = cmds.ls(type="sweepMeshCreator")
+		cmds.select(c)
+		cmds.sweepMeshFromCurve()
+		# the new node is found by comparing the lists, not by the selection -
+		# the command leaves the sweep mesh selected, not the node itself
+		created = [n for n in cmds.ls(type="sweepMeshCreator") if n not in before]
+		if not created:
+			cmds.warning("posers|connectPosers - cannot create the sweep node")
+			return
+
+		smc = cmds.rename(created[0], smcName)
+
+		if name_m:
+			utils.addToModuleSet(smc, name_m[:-1])
+
+			# thickness of the lines of the module: lineSize * globalSize, the
+			# same globalSize that scales the poser spheres, so the lines follow
+			# them. made here explicitly - it used to work only because every
+			# module shared one sweep node and that node happened to be
+			# connected by hand
+			lineSize = name_m + "mainPoser.lineSize"
+			globalSize = name_m + "mainPoser.globalSize"
+
+			if not cmds.objExists(lineSize):
+				cmds.warning("posers|connectPosers - cannot find " + lineSize)
+			elif not cmds.objExists(globalSize):
+				cmds.warning("posers|connectPosers - cannot find " + globalSize)
+				cmds.connectAttr(lineSize, f"{smc}.scaleProfileX", f=1)
+			else:
+				mult = utils.createNode("multDoubleLinear", n=name_m + "lines_size_multDoubleLinear")
+				utils.addToModuleSet(mult, name_m[:-1])
+				cmds.connectAttr(lineSize, f"{mult}.input1")
+				cmds.connectAttr(globalSize, f"{mult}.input2")
+				cmds.connectAttr(f"{mult}.output", f"{smc}.scaleProfileX", f=1)
+
+		# the command has already put the curve into inCurveArray[0] and made
+		# its own mesh for it. the mesh is dropped, the one built below is used
+		size = 0
+		for ms in cmds.listConnections(f"{smc}.outMeshArray[0]", source=False, destination=True, shapes=True) or []:
+			cmds.disconnectAttr(f"{smc}.outMeshArray[0]", f"{ms}.inMesh")
+			tr = cmds.listRelatives(ms, parent=1) or []
+			cmds.delete(tr[0] if tr else ms)
 
 	mesh, poly = cmds.polyCube(n=c+"_sweepMesh")
 	meshS = cmds.listRelatives(mesh)[0]
 	cmds.DeleteHistory()
 	cmds.connectAttr(f"{smc}.outMeshArray[{size}]", f"{meshS}.inMesh")
 
-	shading_groups = cmds.listConnections(mesh, type='shadingEngine')
-	connections = cmds.listConnections(f"{meshS}.instObjGroups[0]", source=False, destination=True, plugs=True)
-	cmds.disconnectAttr(f"{meshS}.instObjGroups[0]", connections[0])
+	connections = cmds.listConnections(f"{meshS}.instObjGroups[0]", source=False, destination=True, plugs=True) or []
+	if connections:
+		cmds.disconnectAttr(f"{meshS}.instObjGroups[0]", connections[0])
 	cmds.setAttr(f"{meshS}.overrideEnabled", 1)
 	cmds.setAttr(f"{meshS}.overrideDisplayType", 2)
-	cmds.parent(c, mesh, "lines_group")
+	cmds.parent(c, mesh, lines_group)
 	cmds.hide(c)
 
-	cmds.select(posers)
+	if src and tgt:
+		utils.restoreSelection(sel)
+	else:
+		cmds.select(posers)
 
 
 	# # import

@@ -192,7 +192,7 @@ class ChainIk(module.Module) :
 		cmds.parent(self.root, 'modules')
 		
 		# lines attr
-		cmds.setAttr(self.name+"_mainPoser.lineSize", 1.5)
+		cmds.setAttr(self.name+"_mainPoser.lineSize", 0.2)
 		for i in range(controlsCount):
 			if i == 0:
 				poser = self.name+'_root_poser'
