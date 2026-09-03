@@ -82,6 +82,7 @@ class Spine(module.Module) :
 			cmds.parent(j, name+"_surf_joints")
 			utils.resetAttrs(j)
 			utils.resetJointOrient(j)
+			utils.removeTransformParentJoint(j)
 			oj = cmds.joint(n=name+'_local_%s_outJoint' %(i+1))
 			utils.addModuleNameAttr(oj, name)
 			if i == 0: pj = f"{name}_root_outJoint"

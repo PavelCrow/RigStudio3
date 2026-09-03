@@ -124,10 +124,10 @@ POSER_SLOTS = {
     },
     "spine": {
         "main": "pelvis",
-        "local_1": "spine_02",
-        "local_2": "spine_03",
-        "local_3": "spine_04",
-        "end": "spine_05",
+        "local_1": "spine_01",
+        "local_2": "spine_02",
+        "local_3": "spine_03",
+        "end": "spine_04",
         "neck": "neck_01",
         "root": "",
     },
@@ -340,7 +340,6 @@ JOINT_SLIDES = {
         "local_1": {"bone": "spine_01"},
         "local_2": {"bone": "spine_02"},
         "local_3": {"bone": "spine_03"},
-        "local_4": {"bone": "spine_04"},
     },
     # The twist joints carry 'pos' on their skinJoint, not an outJoint,
     # and it drives both where the joint sits on the curve and how much
@@ -389,16 +388,14 @@ JOINT_SLIDES = {
 #                aimConstraint's worldUpType 2, "objectrotation". The up
 #                object is always the joint doing the point, so it is
 #                not listed here.
-AIM_BINDS = {
-    # pelvis stays on a plain parentConstraint: it is the root of the
-    # chain and takes the rig's own orientation, not a direction
-    "spine_01": {"aim": "local_2"},
-    "spine_02": {"aim": "local_3"},
-    "spine_03": {"aim": "local_4"},
-    # past local_5, which no bone is driven by, to the end of the chain:
-    # a longer aim vector and a joint that actually carries the chest
-    "spine_04": {"aim": "end"},
-}
+# Empty now. The spine used to be here: its joints ride a surface and
+# their axes were not the bones', so a point plus an aim reproduced the
+# chain better than a parentConstraint could. That stopped being true
+# once each spine bone was paired with the joint one lower down - the
+# joint it now has carries its own axes, and a plain parentConstraint
+# says the same thing more simply. The mechanism is kept because the
+# next awkward chain may want it.
+AIM_BINDS = {}
 
 AIM_DEFAULTS = {
     "aimVector": [1.0, 0.0, 0.0],
@@ -437,6 +434,19 @@ def aimBind(bone):  #
 # The side comes from the bone, and the module name from whichever
 # module of that type sits on that side, so nothing here depends on
 # what the modules are called.
+# A value is either (module type, joint leaf), which becomes
+# <module>_<leaf>_skinJoint on the bone's own side, or a plain node name
+# taken as it stands - the chest control is not a skin joint and carries
+# no module prefix, so nothing here could build its name for it.
 DRIVER_BINDS = {
     "hand": ("fingers", "root"),
+
+    # The spine is named rather than measured now that its module has
+    # fewer joints than MetaHuman has bones: nearest-first would leave
+    # one bone to take a neighbour's joint, and which one differs
+    # between rigs.
+    "spine_01": ("spine", "local_1"),
+    "spine_02": ("spine", "local_2"),
+    "spine_03": ("spine", "local_3"),
+    "spine_04": "chest",
 }

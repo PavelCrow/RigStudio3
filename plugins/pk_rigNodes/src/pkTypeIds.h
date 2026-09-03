@@ -5,4 +5,5 @@
 // Keep every node of this plugin listed here so the ids stay unique.
 namespace pk {
     const MTypeId kWingNodeId(0x00073001);
+    const MTypeId kIbtwNodeId(0x00073002);
 }

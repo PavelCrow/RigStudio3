@@ -30,6 +30,7 @@ class Inbetweens(object):
 	def connect(self): #
 		self.win.ibtw_addWorld_btn.clicked.connect(partial(self.add, local=False))
 		self.win.ibtw_addLocal_btn.clicked.connect(partial(self.add, local=True))
+		self.win.ibtw_addLocalMll_btn.clicked.connect(self.addMllFromSelection)
 		self.win.ibtw_remove_btn.clicked.connect(self.remove)
 		self.win.ibtw_childs_listWidget.itemSelectionChanged.connect(self.selectItem)
 		self.win.ibtw_childs_listWidget.itemDoubleClicked.connect(self.doubleClckItem)		
@@ -38,7 +39,8 @@ class Inbetweens(object):
 		self.win.ib_addZJoint_btn.clicked.connect(partial(self.addJoint, "z"))
 
 	def doubleClckItem(self): #
-		cmds.select(self.curIb['name']+"_ibtw_root" )
+		name = self.curIb['name']
+		cmds.select(name+"_ibtw_solver" if self.isMll(name) else name+"_ibtw_root")
 
 	def selectItem(self): #
 		# get current twist
@@ -55,11 +57,14 @@ class Inbetweens(object):
 
 	def updateList(self): #
 		# update twists data
-		ibs = cmds.ls("*_ibtw_root")
 		ib_names = []
-		for root in ibs:
-			name = root.split("_ibtw_")[0]
-			ib_names.append(name)
+		for root in cmds.ls("*_ibtw_root") or []:
+			ib_names.append(root.split("_ibtw_")[0])
+		# the plugin variant has no root transform, it is found by its solver
+		for solver in cmds.ls("*_ibtw_solver") or []:
+			name = solver.split("_ibtw_")[0]
+			if name not in ib_names:
+				ib_names.append(name)
 
 		ib_names = sorted(ib_names)
 		
@@ -76,7 +81,7 @@ class Inbetweens(object):
 			self.win.ibs_options_frame.setEnabled(False)
 			self.win.parentJoint_lineEdit.setText("")		
 		else:
-			if not cmds.objExists(self.curIbName+"_ibtw_root"):
+			if not cmds.objExists(self.curIbName+"_ibtw_root") and not self.isMll(self.curIbName):
 				return
 			
 			is_symmetrical = utils.isSymmetrical(self.curIbName+"_ibtw_root")
@@ -86,7 +91,7 @@ class Inbetweens(object):
 			self.win.parentJoint_lineEdit.setText(self.curIb['parent_j'])	
 			self.win.childJoint_lineEdit.setText(self.curIb['child_j'])	
 			
-			if self.isLocal(self.curIbName):
+			if self.isLocal(self.curIbName) or self.isMll(self.curIbName):
 				self.win.local_rbtn.setChecked(True)
 				self.win.world_rbtn.setChecked(False)
 			else:
@@ -94,7 +99,9 @@ class Inbetweens(object):
 				self.win.local_rbtn.setChecked(False)
 		
 		# set check state for offsetLocs button
-		self.win.ib_selectOffsetLocator_btn.setChecked(cmds.getAttr(self.curIbName+"_ibtw_parent_offsetLocShape.v"))
+		offset_locs = self.getOffsetLocators(self.curIbName)
+		if offset_locs:
+			self.win.ib_selectOffsetLocator_btn.setChecked(cmds.getAttr(offset_locs[0]+".v"))
 
 		if self.curIbName.split('_')[0] == 'r':
 			self.win.ibs_options_frame.setEnabled(False)
@@ -106,6 +113,9 @@ class Inbetweens(object):
 		except: pass
 
 	def add(self, data={}, local=False, newModuleName=None): #
+		if data and data.get("mode") == "mll":
+			return self.addMll(data=data)
+
 		if not data:
 			sel = cmds.ls(sl=1) 
 			if not sel:
@@ -206,12 +216,17 @@ class Inbetweens(object):
 
 			cmds.hide(parent_offset_loc, child_offset_loc)
 		
-		# remove init joints (for world ibtw)
-		if cmds.objExists(name+"_ibtw_outJoint_y_1_offsetRotate"):
-			cmds.delete(name+"_ibtw_outJoint_y_1_offsetRotate")
-			cmds.delete(name+"_ibtw_outJoint_y_2_offsetRotate")
-			cmds.delete(name+"_ibtw_outJoint_z_1_offsetRotate")
-			cmds.delete(name+"_ibtw_outJoint_z_2_offsetRotate")
+		# remove the placeholder joints of the template - the real ones are built
+		# by addJoint(). in _psd.ma they sit inside *_offsetRotate groups, in
+		# _psdLocal.ma they are bare children of the root, and they also carry
+		# the old attribute names (slideMin/slideMax) and the old naming
+		for j_side in ("y", "z"):
+			for j_id in (1, 2):
+				base = "%s_ibtw_outJoint_%s_%s" %(name, j_side, j_id)
+				for o in (base+"_offsetRotate", base):
+					if cmds.objExists(o):
+						cmds.delete(o)
+						break
 
 		# opposite
 		if utils.isSymmetrical(child_j) and utils.getObjectSide(child_j) == "l":
@@ -394,41 +409,66 @@ class Inbetweens(object):
 		self.updateList()
 			
 	def isLocal(self, name): #
-		return not cmds.objExists(name+"_ibtw_joints_group")
+		return not self.isMll(name) and not cmds.objExists(name+"_ibtw_joints_group")
+
+	def isMll(self, name): #
+		"""The variant built on the pk_ibtw node of pk_correctives.mll."""
+		return cmds.objExists(name+"_ibtw_solver")
 		
-	def selectOffsetLocator(self): #
-		name = self.win.ibtw_childs_listWidget.currentItem().text()
-		offset_locs = [name+"_ibtw_parent_offsetLocShape", name+"_ibtw_child_offsetLocShape"]
+	def getOffsetLocators(self, name): #
+		"""Shapes of the offset locators of the inbetween - they differ per mode."""
+		if not name or not cmds.objExists(name+"_ibtw_root"):
+			return []
 
 		if self.isLocal(name):
-			v = not cmds.getAttr(name+"_ibtw_offsetLoc.v")
+			locs = [name+"_ibtw_offsetLocShape"]
 		else:
-			v = not cmds.getAttr(name+"_ibtw_parent_offsetLocShape.v")
+			locs = [name+"_ibtw_parent_offsetLocShape", name+"_ibtw_child_offsetLocShape"]
+
+		return [l for l in locs if cmds.objExists(l)]
+
+	def selectOffsetLocator(self): #
+		if not self.win.ibtw_childs_listWidget.currentItem():
+			return
+
+		name = self.win.ibtw_childs_listWidget.currentItem().text()
+		offset_locs = self.getOffsetLocators(name)
+		if not offset_locs:
+			return
+
+		v = not cmds.getAttr(offset_locs[0]+".v")
 
 		cmds.select(offset_locs)
-		
+
 		for l in offset_locs:
-			if cmds.objExists(l):
-				cmds.setAttr(l+".v", v)
-			if cmds.objExists(utils.getOpposite(l)):
-				cmds.setAttr(utils.getOpposite(l)+".v", v)
-				cmds.select(utils.getOpposite(l), add=1)
+			cmds.setAttr(l+".v", v)
+			opp = utils.getOpposite(l)
+			if cmds.objExists(opp):
+				cmds.setAttr(opp+".v", v)
+				cmds.select(opp, add=1)
 
 	def getData(self, name): #
+		if self.isMll(name):
+			return self.getDataMll(name)
+
 		root = name+"_ibtw_root"
 
 		if not cmds.objExists(root):
 			return None
 
-		if not cmds.objExists(name+"_ibtw_child_offsetLoc"):
-			print("Missed offsetLoc", name+"_ibtw_child_offsetLoc")
-			return None
-		
-		if utils.isSymmetrical(root) and utils.getObjectSide(root) == "r":
-			if not cmds.objExists(name+"_ibtw_child_offsetLoc_mirrorGroup"):
-				return
-			
 		local = self.isLocal(name)
+
+		# the offset locators and the mirror groups belong to the world scheme,
+		# the local one has neither - these checks used to run for both and made
+		# getData return None for every local inbetween
+		if not local:
+			if not cmds.objExists(name+"_ibtw_child_offsetLoc"):
+				print("Missed offsetLoc", name+"_ibtw_child_offsetLoc")
+				return None
+
+			if utils.isSymmetrical(root) and utils.getObjectSide(root) == "r":
+				if not cmds.objExists(name+"_ibtw_child_offsetLoc_mirrorGroup"):
+					return
 
 		data = {}
 		data["name"] = name
@@ -490,8 +530,12 @@ class Inbetweens(object):
 				jData["posMax"] = cmds.getAttr(j+".posMax")
 				jData["offsetMin"] = cmds.getAttr(j+".offsetMin")
 				jData["offsetMax"] = cmds.getAttr(j+".offsetMax")
-				if not local:
+				# saved for both modes now: every joint is built by addJoint(),
+				# which always adds the attribute
+				if cmds.objExists(j+".reverse"):
 					jData["reverse"] = cmds.getAttr(j+".reverse")
+				else:
+					jData["reverse"] = False
 				jointsData.append(jData)
 
 		data["jointsData"] = jointsData
@@ -510,6 +554,9 @@ class Inbetweens(object):
 		# print(13, side, name)
 		if not name:
 			name = self.curIbName
+
+		if self.isMll(name):
+			return self.addJointMll(side, name, data)
 		j_name = utils.incrementNameIfExistsWithSuffix(f"{name}_ibtw_{side}_1_outJoint")
 		local = self.isLocal(name)
 
@@ -535,7 +582,7 @@ class Inbetweens(object):
 			j.posMax.set(data['posMax'])
 			j.offsetMin.set(data['offsetMin'])
 			j.offsetMax.set(data['offsetMax'])
-			j.reverse.set(data['reverse'])
+			j.reverse.set(data.get('reverse', False))
 
 		set = name + '_ibtwNodesSet'
 		uc = pm.PyNode(name+"_ibtw_%s_unitConversion" %side)
@@ -612,7 +659,11 @@ class Inbetweens(object):
 		root_s_j = name+"_ibtw_root_skinJoint"
 		if not cmds.objExists(root_s_j):
 			data = self.getData(name)
-			par_s_j = data["parent_j"].replace("outJoint", "skinJoint").replace("twJoint", "skinJoint")
+
+			# in the world scheme the root hangs under the parent joint, in the
+			# local one under the child - the skin side follows the same joint
+			src_j = data["child_j"] if local else data["parent_j"]
+			par_s_j = src_j.replace("outJoint", "skinJoint").replace("twJoint", "skinJoint")
 
 			root_s_j = cmds.joint(n=root_s_j)
 			cmds.setAttr(root_s_j+".segmentScaleCompensate", 0)
@@ -621,8 +672,14 @@ class Inbetweens(object):
 			utils.removeTransformParentJoint(root_s_j)
 			utils.resetAttrs(root_s_j, jointOrient=True)
 
-			mod_name = utils.getModuleName(data["parent_j"])
-			utils.connectByMatrix(root_s_j, [name+"_ibtw_joints_group", root_s_j], ["worldMatrix[0]", "parentInverseMatrix[0]"], module_name=mod_name)
+			if local:
+				# both sit under the same joint, so the local channels are copied
+				# straight across - no matrix multiply, no decompose
+				cmds.connectAttr(name+"_ibtw_root.t", root_s_j+".t")
+				cmds.connectAttr(name+"_ibtw_root.r", root_s_j+".r")
+			else:
+				mod_name = utils.getModuleName(src_j)
+				utils.connectByMatrix(root_s_j, [name+"_ibtw_joints_group", root_s_j], ["worldMatrix[0]", "parentInverseMatrix[0]"], module_name=mod_name)
 
 		# add skinJoint
 		s_j = pm.duplicate(j, n=j.replace("outJoint", "skinJoint"))[0]
@@ -700,18 +757,278 @@ class Inbetweens(object):
 		opp_name = utils.getOpposite(name)
 		cmds.select(name+"_ibtw_outJoint_%s_1" %side, opp_name+"_ibtw_outJoint_%s_1" %side)
 
+	# ---------------------------------------------------------------- pk_correctives
+
+	def loadCorrectivesPlugin(self): #
+		"""Load pk_correctives.mll built for the running Maya version."""
+		if "pk_correctives" in (cmds.pluginInfo(q=1, listPlugins=1) or []):
+			return True
+
+		mayaVersion = cmds.about(v=True).split(" ")[0]
+		path = os.path.join(rootPath, "plugins", "plug-ins", mayaVersion, "pk_correctives.mll")
+
+		if not os.path.isfile(path):
+			cmds.warning("pk_correctives.mll is not built for Maya %s - %s" %(mayaVersion, path))
+			return False
+
+		cmds.loadPlugin(path)
+		return "pk_correctives" in (cmds.pluginInfo(q=1, listPlugins=1) or [])
+
+	def jointSuffix(self, joint): #
+		"""Suffix of the driver joint - the correctives get the same one."""
+		for suffix in ("skinJoint", "outJoint", "twJoint"):
+			if joint.endswith("_" + suffix):
+				return suffix
+		return ""
+
+	def mllJointName(self, name, side, n, suffix): #
+		j = "%s_ibtw_%s_%s" %(name, side, n)
+		return j + "_" + suffix if suffix else j
+
+	def getMllDriver(self, name): #
+		drivers = cmds.listConnections(name+"_ibtw_solver.driverRotate", source=1, destination=0) or []
+		return drivers[0] if drivers else ""
+
+	def addMllFromSelection(self): #
+		self.addMll()
+
+	def addMll(self, data=None, mirrored=False): #
+		"""Inbetween on the pk_ibtw node: the correctives go straight into the
+		selected joint, one solver node, no groups and no template scene."""
+		if not self.loadCorrectivesPlugin():
+			return
+
+		if data:
+			driver_j = data["child_j"]
+		else:
+			sel = cmds.ls(sl=1) or []
+			if len(sel) != 1:
+				cmds.warning(" Select one joint")
+				return
+			driver_j = sel[0]
+
+		if not cmds.objExists(driver_j):
+			cmds.warning(" Cannot find the joint " + str(driver_j))
+			return
+		if cmds.objectType(driver_j) != "joint":
+			cmds.warning(" Selected object is not a joint")
+			return
+
+		suffix = self.jointSuffix(driver_j)
+		name = driver_j[:-len(suffix)-1] if suffix else driver_j
+
+		if cmds.objExists(name+"_ibtw_solver") or cmds.objExists(name+"_ibtw_root"):
+			QtWidgets.QMessageBox.information(self.win, "Warning", "Inbetween in this joint already exists.")
+			return
+
+		nodes_set = name + "_ibtwNodesSet"
+		if not cmds.objExists(nodes_set):
+			# empty: without it the set takes the current selection, that is the
+			# driver joint, and remove() would delete it together with the correctives
+			cmds.sets(n=nodes_set, empty=True)
+		utils.addToModuleSet(nodes_set, utils.getModuleName(driver_j))
+
+		solver = cmds.createNode("pk_ibtw", n=name+"_ibtw_solver")
+		cmds.sets(solver, e=1, forceElement=nodes_set)
+		cmds.connectAttr(driver_j+".rotate", solver+".driverRotate")
+		cmds.connectAttr(driver_j+".rotateOrder", solver+".driverRotateOrder")
+
+		if data:
+			cmds.setAttr(solver+".scale", data.get("scale", 1.0))
+			offset = data.get("offset", [(0.0, 0.0, 0.0)])[0]
+			cmds.setAttr(solver+".offsetRotate", offset[0], offset[1], offset[2], type="double3")
+
+			for j_data in data["jointsData"]:
+				self.addJointMll(j_data["side"], name, j_data, mirrored=mirrored)
+		else:
+			# the driver is the full bend now, positive towards its own axis,
+			# so 60 here is what -30 used to be on the halved euler channel
+			defaults = (("y", 60, 1, 5), ("y", -60, -1, -5),
+						("z", 60, 1, 5), ("z", -60, -1, -5))
+			for side, angleMax, posMin, posMax in defaults:
+				self.addJointMll(side, name, {"angleMin": 0, "angleMax": angleMax,
+											  "posMin": posMin, "posMax": posMax,
+											  "swingMin": 0, "swingMax": 0,
+											  "bind": 0.5, "reverse": False},
+								 mirrored=mirrored)
+
+		# opposite
+		if utils.isSymmetrical(driver_j) and utils.getObjectSide(driver_j) == "l":
+			opp_j = utils.getOpposite(driver_j)
+			opp_name = utils.getOpposite(name)
+
+			if cmds.objExists(opp_j) and not cmds.objExists(opp_name+"_ibtw_solver"):
+				if data:
+					opp_data = dict(data)
+					opp_data["child_j"] = opp_j
+					opp_data["mode"] = "mll"
+					self.addMll(data=opp_data, mirrored=True)
+				else:
+					cmds.select(opp_j)
+					self.addMll(mirrored=True)
+
+				self.connectMllMirror(name)
+
+		self.updateList()
+		self.selectListItem(name)
+		cmds.select(clear=1)
+
+	def connectMllMirror(self, name): #
+		"""Drive the right side from the left.
+
+		One connection per joint, compound to compound: the whole element of the
+		array goes across at once. The signs that have to flip are flipped by
+		the `mirror` flag inside the node - the multiplyDivide per channel the
+		other variants need is not built at all.
+		"""
+		opp_name = utils.getOpposite(name)
+		solver = name + "_ibtw_solver"
+		opp_solver = opp_name + "_ibtw_solver"
+
+		if not cmds.objExists(opp_solver):
+			return
+
+		cmds.setAttr(opp_solver+".mirror", True)
+		cmds.connectAttr(solver+".offsetRotate", opp_solver+".offsetRotate")
+		cmds.connectAttr(solver+".scale", opp_solver+".scale")
+
+		for i in cmds.getAttr(solver+".joint", multiIndices=True) or []:
+			element = "%s.joint[%s]" %(solver, i)
+			opp_element = "%s.joint[%s]" %(opp_solver, i)
+			if not cmds.listConnections(opp_element, source=1, destination=0):
+				cmds.connectAttr(element, opp_element)
+
+	def addJointMll(self, side, name=None, data=None, mirrored=False): #
+		if not name:
+			name = self.curIbName
+
+		solver = name + "_ibtw_solver"
+		if not cmds.objExists(solver):
+			cmds.warning("Missed " + solver)
+			return
+
+		driver_j = self.getMllDriver(name)
+		if not driver_j:
+			cmds.warning("Missed the driver joint of " + solver)
+			return
+
+		suffix = self.jointSuffix(driver_j)
+
+		n = 1
+		while cmds.objExists(self.mllJointName(name, side, n, suffix)):
+			n += 1
+		j_name = self.mllJointName(name, side, n, suffix)
+
+		indices = cmds.getAttr(solver+".joint", multiIndices=True) or []
+		index = max(indices) + 1 if indices else 0
+
+		cmds.select(driver_j)
+		j = cmds.joint(n=j_name)
+		cmds.setAttr(j+".segmentScaleCompensate", 0)
+		utils.resetAttrs(j, jointOrient=True)
+		cmds.sets(j, e=1, forceElement=name+"_ibtwNodesSet")
+
+		cmds.addAttr(j, ln="driverAngle", at="doubleAngle", k=1)
+
+		element = "%s.joint[%s]" %(solver, index)
+		# always set, on the mirrored side too: this is what makes the element of
+		# the array exist, and without it multiIndices stays empty and every
+		# joint of that side ends up reading out[0]
+		cmds.setAttr(element+".axis", 0 if side == "y" else 1)
+
+		# on the mirrored side the whole element of the array comes from the
+		# left solver, so the joint carries no parameters of its own
+		if not mirrored:
+			# the angles are doubleAngle, so they plug into the node without a
+			# unitConversion in between and still read as degrees in the channel box
+			cmds.addAttr(j, ln="angleMin", at="doubleAngle", k=1, dv=0)
+			cmds.addAttr(j, ln="angleMax", at="doubleAngle", k=1, dv=45)
+			cmds.addAttr(j, ln="posMin", at="double", k=1, dv=1)
+			cmds.addAttr(j, ln="posMax", at="double", k=1, dv=5)
+			# the joint swings around the origin of the driver instead of sliding
+			# along the bone, so it keeps its distance
+			cmds.addAttr(j, ln="swingMin", at="doubleAngle", k=1)
+			cmds.addAttr(j, ln="swingMax", at="doubleAngle", k=1)
+			# 0 - keeps the frame of the parent, 1 - follows the bone
+			cmds.addAttr(j, ln="bind", at="double", k=1, dv=0.5, min=0, max=1)
+			cmds.addAttr(j, ln="reverse", at="bool", k=1)
+
+			if data:
+				for attr in ("angleMin", "angleMax", "posMin", "posMax"):
+					cmds.setAttr(j+"."+attr, data[attr])
+				cmds.setAttr(j+".swingMin", data.get("swingMin", 0))
+				cmds.setAttr(j+".swingMax", data.get("swingMax", 0))
+				cmds.setAttr(j+".bind", data.get("bind", 0.5))
+				cmds.setAttr(j+".reverse", data.get("reverse", False))
+
+			for attr in ("angleMin", "angleMax", "posMin", "posMax", "swingMin", "swingMax", "bind", "reverse"):
+				cmds.connectAttr(j+"."+attr, element+"."+attr)
+
+		cmds.connectAttr("%s.out[%s].outTranslate" %(solver, index), j+".translate")
+		# the rotation is per joint now, bind is not shared
+		cmds.connectAttr("%s.out[%s].outRotate" %(solver, index), j+".rotate")
+		cmds.connectAttr("%s.out[%s].outDriverAngle" %(solver, index), j+".driverAngle")
+		cmds.setAttr(j+".driverAngle", lock=1)
+
+		return j
+
+	def getDataMll(self, name): #
+		solver = name + "_ibtw_solver"
+		if not cmds.objExists(solver):
+			return None
+
+		driver_j = self.getMllDriver(name)
+		if not driver_j:
+			cmds.warning("Missed the driver joint of " + solver)
+			return None
+
+		parents = cmds.listRelatives(driver_j, p=1) or []
+
+		data = {}
+		data["name"] = name
+		data["mode"] = "mll"
+		data["local"] = True
+		data["child_j"] = driver_j
+		data["parent_j"] = parents[0] if parents else ""
+		data["scale"] = cmds.getAttr(solver+".scale")
+		data["offset"] = cmds.getAttr(solver+".offsetRotate")
+
+		jointsData = []
+		for i in cmds.getAttr(solver+".joint", multiIndices=True) or []:
+			element = "%s.joint[%s]" %(solver, i)
+
+			jData = {}
+			# read off the solver, not off the joint: on the mirrored side the
+			# joints carry no parameters at all
+			joints = cmds.listConnections(element+".angleMin", source=1, destination=0) or []
+			jData["name"] = joints[0] if joints else ""
+			jData["side"] = "y" if cmds.getAttr(element+".axis") == 0 else "z"
+			for attr in ("angleMin", "angleMax", "posMin", "posMax", "swingMin", "swingMax", "bind", "reverse"):
+				jData[attr] = cmds.getAttr(element+"."+attr)
+			jointsData.append(jData)
+
+		data["jointsData"] = jointsData
+
+		return data
+
 	def getIbtwsData(self, moduleNames=[]):
 		ibtwsData = []
-		roots = cmds.ls("*_ibtw_root")
+		roots = (cmds.ls("*_ibtw_root") or []) + (cmds.ls("*_ibtw_solver") or [])
 
 		for root in roots:
 			if utils.getObjectSide(root) == "r" and cmds.objExists(utils.getOpposite(root)):
 				continue
-			m_name = utils.getModuleName(root)
+			if root.endswith("_ibtw_solver"):
+				# a DG node has no DAG path, the module is taken from the driver
+				drivers = cmds.listConnections(root+".driverRotate", source=1, destination=0) or []
+				m_name = utils.getModuleName(drivers[0]) if drivers else None
+			else:
+				m_name = utils.getModuleName(root)
+
 			if moduleNames and m_name not in moduleNames: # if start of the ibts name == module name
 				continue
 
-			ibtw = root.split("_ibtw_root")[0]
+			ibtw = root.split("_ibtw_")[0]
 			ibtwData = self.getData(ibtw)
 			ibtwsData.append(ibtwData)
 		

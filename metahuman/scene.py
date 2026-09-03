@@ -162,7 +162,20 @@ def findSkeletonRoot(root=None):  #
 
     sel = cmds.ls(sl=True, type="joint", long=True)
     if sel:
-        return sel[0]
+        # Climb to the top of the chain rather than taking the selected
+        # joint as the root. Selecting a bone in the middle of the
+        # skeleton is the natural thing to do, and taken literally it
+        # gives a skeleton with no legs and no pelvis - which then reads
+        # as "the rule names a bone this skeleton has not got".
+        top = sel[0]
+        while True:
+            above = cmds.listRelatives(top, parent=True, type="joint",
+                                       fullPath=True)
+            if not above:
+                break
+            top = above[0]
+
+        return top
 
     for name in SKELETON_ROOTS:
         found = [j for j in cmds.ls("*" + name, type="joint", long=True)

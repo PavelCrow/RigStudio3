@@ -824,6 +824,7 @@ class MainWindow:
         self.win.mhPlacePosers_btn.clicked.connect(self.mhPlacePosers)
         self.win.mhConnect_btn.clicked.connect(self.mhConnect)
         self.win.mhDisconnect_btn.clicked.connect(self.mhDisconnect)
+        self.win.mhTutorial_btn.clicked.connect(self.mhTutorialPage)
         self.mhUpdateButtons()
 
         self.win.displayAffected_btn.clicked.connect(tools.displayAffected)
@@ -918,6 +919,13 @@ class MainWindow:
     def mhDisconnect(self):
         self.mhModule().detach()
 
+    def mhTutorialPage(self):
+        # Свой ролик, не общий плейлист: тут показана именно расстановка
+        # позеров по костям метахьюмана.
+        import webbrowser
+        webbrowser.open('https://disk.yandex.ru/i/zh7Dp69NJ40tfg',
+                        new=0, autoraise=True)
+
     def mhMocapWindow(self):
         # Перенос мокапа живёт отдельным самодостаточным файлом в
         # animTools - его отдают аниматорам как есть, - поэтому здесь
@@ -925,8 +933,15 @@ class MainWindow:
         # нажатию, как у остальных инструментов меню.
         if utils.isDebug():
             import importlib
+            from rigStudio3 import animTools
             for m in [k for k in sys.modules if k.endswith("mocapTransfer")]:
                 del sys.modules[m]
+            # Clearing sys.modules is not enough on its own: the import
+            # below reads the name off the animTools package object,
+            # which still holds the module that was loaded first, and
+            # the edits never arrive.
+            if hasattr(animTools, "mocapTransfer"):
+                delattr(animTools, "mocapTransfer")
 
         from rigStudio3.animTools import mocapTransfer
 

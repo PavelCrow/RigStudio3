@@ -36,6 +36,7 @@
 # from Rig Studio, so it can be handed to an animator on its own.
 
 import os
+import webbrowser
 
 import maya.cmds as cmds
 import maya.OpenMayaUI as OpenMayaUI
@@ -74,9 +75,9 @@ OBJECT_NAME = "metahumanMocapWindow"
 CONTROL_BINDS = {
     "spine": {
         "pelvis": "pelvis",
-        "fk_1": "spine_02",
-        "fk_2": "spine_03",
-        "fk_3": "spine_04",
+        "fk_1": "spine_01",
+        "fk_2": "spine_02",
+        "fk_3": "spine_03",
         "neck": "neck_01",
     },
     "head": {
@@ -90,21 +91,18 @@ CONTROL_BINDS = {
         "fk_b": "lowerarm",
         "fk_end": "hand",
         "ik_end": "hand",
-        # The pole vector gets a frame of its own, built from the limb's
-        # triangle - see _poleRig. 'offset' is where the control sits
-        # inside that frame, and it is written down rather than measured
-        # because at the rest pose the limb is straight and the frame is
-        # degenerate. None means "straight out along X by however far it
-        # already stood", which is a starting point to adjust from.
+        # The pole vector is solved from the limb's triangle on every
+        # frame - see _poleRig. 'distance' is how far out from the
+        # elbow to stand; None measures it from the rest pose.
         "ik_aim": {"pole": ["upperarm", "lowerarm", "hand"],
-                   "offset": None},
+                   "distance": None},
     },
     "limb@leg": {
         "fk_a": "thigh",
         "fk_b": "calf",
         # ik_end is the ankle and the foot module's ik_foot stands in
         # the same place; driving both would put two handles on one bone
-        "ik_aim": {"pole": ["thigh", "calf", "foot"], "offset": None},
+        "ik_aim": {"pole": ["thigh", "calf", "foot"], "distance": None},
     },
     "foot": {
         # despite its name it stands at the ankle, not at the heel
@@ -391,6 +389,188 @@ def lastFrame(joints):  #
 # standing the two skeletons together
 
 
+def _chainLength(joints, names):  #
+    """Total length along a chain of bones, 0 if any of it is missing."""
+    total = 0.0
+    for a, b in zip(names, names[1:]):
+        if a not in joints or b not in joints:
+            return 0.0
+        total += _distance(cmds.xform(joints[a], q=True, ws=True, t=True),
+                           cmds.xform(joints[b], q=True, ws=True, t=True))
+
+    return total
+
+
+def scaleFactor(rig, take):  #
+    """How much bigger the rig is than the take. 1.0 if it cannot tell.
+
+    Measured on the leg - thigh to knee to ankle - because the leg is
+    what the mismatch shows up in. A shorter take puts the pelvis low
+    and the feet where its own were; our longer legs can only reach
+    between the two by bending, and the character walks on half-bent
+    knees for the whole shot. A taller take does the same in reverse
+    and lifts it onto its toes.
+
+    One number for the whole body, which is an approximation: two
+    MetaHumans differ in proportion and not only in height. It is the
+    right approximation for locomotion, where the legs decide.
+    """
+    ours, theirs = legLengths(rig, take)
+    if ours > 1e-4 and theirs > 1e-4:
+        return ours / theirs
+
+    return 1.0
+
+
+def legLengths(rig, take):  #
+    """(rig leg, take leg). Either is 0 when it could not be measured."""
+    for side in ("l", "r"):
+        chain = ["thigh_" + side, "calf_" + side, "foot_" + side]
+        ours, theirs = _chainLength(rig, chain), _chainLength(take, chain)
+        if ours > 1e-4 and theirs > 1e-4:
+            return ours, theirs
+
+    return 0.0, 0.0
+
+
+def topNode(joint):  #
+    """The transform at the very top of a joint's hierarchy."""
+    top = joint
+    while True:
+        above = cmds.listRelatives(top, parent=True, fullPath=True)
+        if not above:
+            return top
+        top = above[0]
+
+
+SCALE_GROUP = "_mocapScale"
+
+
+def _scaleGroupName(namespace):  #
+    return namespace.strip(":").replace(":", "_") + SCALE_GROUP
+
+
+def dropScaleGroups():  #
+    """Delete the groups resize() made, once they are empty."""
+    gone = 0
+    for node in cmds.ls("*" + SCALE_GROUP, type="transform", long=True) or []:
+        if cmds.listRelatives(node, children=True):
+            continue
+        cmds.delete(node)
+        gone += 1
+
+    return gone
+
+
+def scaleGroup(take):  #
+    """The group that carries the take's size and placing.
+
+    Made here rather than found in the take, and the take's own top
+    node parented under it. Two reasons.
+
+    A file that arrives with nothing but a root joint on top has
+    nowhere to put a scale: scaling a root joint does nothing to a
+    MetaHuman, because segmentScaleCompensate on every joint below
+    takes the parent's scale straight back out again - silently, the
+    command works and the skeleton does not move.
+
+    And a file that does arrive with a group has a referenced one,
+    which is a poor thing to hand somebody to drag around. This group
+    is ours, unlocked, named after the take, and it goes away with it.
+    """
+    root = take.get("root") or take.get("pelvis")
+    if not root:
+        return ""
+
+    name = _scaleGroupName(namespaceOf(root))
+    if cmds.objExists(name):
+        return name
+
+    top = topNode(root)
+    group = cmds.group(empty=True, world=True, name=name)
+    try:
+        cmds.parent(top, group)
+    except Exception as err:
+        cmds.delete(group)
+        cmds.warning("mocap: %s could not be grouped (%s)"
+                     % (short(top), err))
+        return ""
+
+    return group
+
+
+GEOMETRY_SUFFIX = "_mesh"
+
+
+def freeGeometry(namespace):  #
+    """Stop the take's geometry inheriting the scale group.
+
+    The meshes that come in with a take are skinned, so the joints
+    already carry them. Scaling the group above them adds the same
+    scale a second time, on top of what the skin is doing - the body
+    swells or shrinks around a skeleton that is the right size, which
+    looks like the skinning broke rather than like a scale.
+
+    Only what is named for it, by GEOMETRY_SUFFIX. A MetaHuman file
+    carries meshes that are not the character - the rig's own interface
+    is drawn with them - and those are nobody's business here.
+
+    Returns how many were freed.
+    """
+    freed = 0
+    shapes = []
+    for kind in ("mesh", "nurbsSurface"):
+        shapes += cmds.ls(namespace + "*", type=kind, long=True) or []
+
+    seen = set()
+    for shape in shapes:
+        if cmds.getAttr(shape + ".intermediateObject"):
+            continue
+
+        above = cmds.listRelatives(shape, parent=True, fullPath=True)
+        if not above or above[0] in seen:
+            continue
+        seen.add(above[0])
+
+        name = short(above[0]).split(":")[-1]
+        if not name.endswith(GEOMETRY_SUFFIX):
+            continue
+
+        plug = above[0] + ".inheritsTransform"
+        if cmds.getAttr(plug, lock=True):
+            continue
+        if cmds.listConnections(plug, source=True, destination=False):
+            continue
+        if not cmds.getAttr(plug):
+            continue
+
+        cmds.setAttr(plug, 0)
+        freed += 1
+
+    return freed
+
+
+def resize(take, factor):  #
+    """Scale the take. Returns "" or why it could not."""
+    group = scaleGroup(take)
+    if not group:
+        return "no root to scale"
+
+    if abs(factor - 1.0) < 1e-4:
+        return ""
+
+    for axis in "XYZ":
+        plug = "%s.scale%s" % (group, axis)
+        if cmds.getAttr(plug, lock=True):
+            return "%s is locked" % plug
+        if cmds.listConnections(plug, source=True, destination=False):
+            return "%s is driven" % plug
+
+    cmds.setAttr(group + ".scale", factor, factor, factor)
+
+    return ""
+
+
 def _matchWorld(target, source):  #
     """Stand one joint exactly where another stands, in world space.
 
@@ -485,45 +665,126 @@ def _distance(a, b):  #
     return sum((a[i] - b[i]) ** 2 for i in range(3)) ** 0.5
 
 
-def _poleRig(control, chain, offset, setName):  #
-    """A live frame for a pole vector, built from the limb's triangle.
+def _poleRig(control, chain, distance, setName):  #
+    """The pole vector's own definition, built as nodes.
 
-        base    point-constrained to the root and the end bone, so it
-                sits on the middle of the chord between them,
-        aimed   at the middle bone, so its X axis runs across the
-                triangle and out through the elbow or the knee,
-        pole    a child of base, at `offset` in its space.
+    Given the limb's three joints - root A, middle B, end C:
 
-    The offset is given, not measured. At the rest pose a leg is
-    straight: the knee lies on the chord, base lands on top of it, the
-    vector it is meant to aim along is zero, and base's rotation at that
-    one moment is arbitrary. Anything read out of that frame is
-    arbitrary with it.
+        drop B onto the line AC, giving the point on that line
+        nearest the knee or the elbow,
+        take the direction from that point out to B,
+        and stand `distance` along it from B.
+
+    Which is where a pole vector is, by definition. The first version
+    of this stood the frame at the middle of the chord AC instead. The
+    middle of the chord is the projection of B only when AB and BC are
+    the same length, and a thigh and a shin are not - so it started off
+    the mark and then wandered as the limb bent, which is exactly what
+    a pole vector must not do.
+
+    Nodes rather than a measurement, so it is solved on every frame
+    from where the take actually is.
+
+    The one place it has nothing to say is a perfectly straight limb:
+    B lies on AC, the direction out to it is a zero vector, and there
+    is no plane to speak of. Mocap does not hold a leg exactly straight
+    for long, but a frame that does will put the pole on the knee.
     """
     a, b, c = chain
 
     # the colon of a namespace is not allowed in a node name, and two
     # rigs would otherwise both want 'l_knee_ik_mocapPole'
     name = short(control).replace(":", "_") + "_mocapPole"
-    base = cmds.spaceLocator(n=name + "_base")[0]
 
-    cmds.pointConstraint(a, c, base)
-    # no up vector: only the aim axis carries meaning here, and the roll
-    # about it is settled once and then stays put
-    cmds.aimConstraint(b, base, worldUpType="none")
+    def node(kind, suffix):
+        made = cmds.createNode(kind, n="%s_%s" % (name, suffix))
+        cmds.sets(made, add=setName)
 
-    if not offset:
-        offset = [_distance(cmds.xform(control, q=True, ws=True, t=True),
-                            cmds.xform(base, q=True, ws=True, t=True)),
-                  0.0, 0.0]
+        return made
+
+    def where(joint, suffix):
+        found = node("decomposeMatrix", suffix)
+        cmds.connectAttr(joint + ".worldMatrix[0]", found + ".inputMatrix")
+
+        return found + ".outputTranslate"
+
+    def sum3(x, y, suffix, operation):
+        made = node("plusMinusAverage", suffix)
+        cmds.setAttr(made + ".operation", operation)
+        cmds.connectAttr(x, made + ".input3D[0]")
+        cmds.connectAttr(y, made + ".input3D[1]")
+
+        return made + ".output3D"
+
+    def minus(x, y, suffix):
+        return sum3(x, y, suffix, 2)
+
+    def plus(x, y, suffix):
+        return sum3(x, y, suffix, 1)
+
+    atA, atB, atC = where(a, "root"), where(b, "mid"), where(c, "end")
+
+    chord = minus(atC, atA, "chord")          # A -> C
+    toMid = minus(atB, atA, "toMid")          # A -> B
+
+    # how far along AC the projection of B falls, as a fraction of it:
+    # (AB . AC) / (AC . AC)
+    dot = node("vectorProduct", "dot")
+    cmds.setAttr(dot + ".operation", 1)
+    cmds.connectAttr(toMid, dot + ".input1")
+    cmds.connectAttr(chord, dot + ".input2")
+
+    span = node("vectorProduct", "span")
+    cmds.setAttr(span + ".operation", 1)
+    cmds.connectAttr(chord, span + ".input1")
+    cmds.connectAttr(chord, span + ".input2")
+
+    ratio = node("multiplyDivide", "ratio")
+    cmds.setAttr(ratio + ".operation", 2)
+    cmds.connectAttr(dot + ".outputX", ratio + ".input1X")
+    cmds.connectAttr(span + ".outputX", ratio + ".input2X")
+
+    along = node("multiplyDivide", "along")
+    cmds.setAttr(along + ".operation", 1)
+    cmds.connectAttr(chord, along + ".input1")
+    for axis in "XYZ":
+        cmds.connectAttr(ratio + ".outputX", along + ".input2" + axis)
+
+    nearest = plus(atA, along + ".output", "nearest")
+    out = minus(atB, nearest, "out")
+
+    unit = node("vectorProduct", "unit")
+    cmds.setAttr(unit + ".operation", 0)
+    cmds.setAttr(unit + ".normalizeOutput", 1)
+    cmds.connectAttr(out, unit + ".input1")
+
+    push = node("multiplyDivide", "push")
+    cmds.setAttr(push + ".operation", 1)
+    cmds.connectAttr(unit + ".output", push + ".input1")
+
+    place = plus(atB, push + ".output", "place")
 
     pole = cmds.spaceLocator(n=name)[0]
-    pole = cmds.parent(pole, base)[0]
-    cmds.setAttr(pole + ".translate", *offset)
+    cmds.sets(pole, add=setName)
 
-    cmds.sets(base, add=setName)
+    # How far out to stand. Measured from where the control sits at the
+    # rest pose, which the rig is put back to before any of this - so
+    # the pole keeps the distance the rig was built with.
+    if not distance:
+        distance = _distance(cmds.xform(control, q=True, ws=True, t=True),
+                             cmds.xform(b, q=True, ws=True, t=True))
 
-    return pole, offset
+    # left as an attribute rather than a number set once: it is the one
+    # thing here worth a human opinion, and it can be turned while the
+    # take plays
+    cmds.addAttr(pole, ln="poleDistance", at="double", dv=distance,
+                 keyable=True)
+    for axis in "XYZ":
+        cmds.connectAttr(pole + ".poleDistance", push + ".input2" + axis)
+
+    cmds.connectAttr(place, pole + ".translate")
+
+    return pole, distance
 
 
 def _isConstrained(node):  #
@@ -606,25 +867,49 @@ def clearAnimation(control):  #
     return len(curves)
 
 
-def _constrain(driver, control, keepOffset=True):  #
+def mayMove(leaf):  #
+    """Whether this control carries position as well as rotation.
+
+    Only two kinds do: the pelvis, which is where the character's
+    travel through the world lives, and the IK controls, which are
+    positions by definition.
+
+    Everything else rotates and stays put. An FK control that is
+    allowed to translate is dragged onto the take's bone, and since the
+    take's bones are not spaced exactly like ours, the limb it belongs
+    to is stretched or squashed to reach - the proportions go, and the
+    rig stops being the rig. Rotation carries the whole of what FK has
+    to say anyway; the length of the bone is the rig's own business.
+
+    Locks are not a safe way to tell the two apart. A control that is
+    not meant to translate is usually locked, but not always, and the
+    unlocked ones are exactly the ones this goes wrong on.
+    """
+    return leaf == "pelvis" or leaf.startswith("ik_")
+
+
+def _constrain(driver, control, keepOffset=True, move=True,
+               rotate=True):  #
     """Hang a control off a driver, by whatever it may be moved.
 
-    The rig locks what a control is not meant to do, and an FK control
-    is meant to rotate and nothing else - a parentConstraint on one
-    fails outright on its locked translate. So the constraint is chosen
-    to fit: both free is a parent, rotation alone is an orient, position
-    alone is a point, and a partly locked one takes the axes that are
-    left.
+    The constraint is chosen to fit what is free and what the control
+    is for: both is a parent, rotation alone an orient, position alone
+    a point, and a partly locked one takes the axes that are left.
+
+    move=False keeps the control's position to itself - see mayMove.
+    rotate=False the same for its rotation, which is what a pole vector
+    wants: it is a point, and the locator marking it has no orientation
+    worth copying.
 
     keepOffset=False puts the control exactly on the driver. That is
-    what a pole vector wants: its locator is meant to BE the control's
-    position, so that nudging the locator moves the control one for one.
-    With an offset baked in, the two drift apart by however wrong the
-    frame was when the constraint was made, and no amount of moving the
-    locator afterwards takes that back.
+    what a pole vector wants: the locator is not near the pole, it IS
+    the pole, solved for that frame. An offset would add whatever the
+    limb happened to be doing when the constraint was made - and at the
+    pre-roll frame the limb is straight, which is the one pose a pole
+    vector cannot be read from.
     """
-    freeT = _writable(control, "translate")
-    freeR = _writable(control, "rotate")
+    freeT = _writable(control, "translate") if move else []
+    freeR = _writable(control, "rotate") if rotate else []
 
     skipT = [a for a in "xyz" if a not in freeT]
     skipR = [a for a in "xyz" if a not in freeR]
@@ -649,23 +934,69 @@ def _constrain(driver, control, keepOffset=True):  #
     return con, "parent"
 
 
-def attach(take, rigNs="", setName=MOCAP_SET):  #
-    """Constrain every mapped control to its bone in the take."""
-    made, missing, held = [], [], []
-    cleared = 0
+def boundControls(rigNs=""):  #
+    """The controls this tool drives: (control, leaf, slot, side).
 
+    One list, so that resetting them and constraining them cannot come
+    to different answers about which controls are in play.
+    """
+    out = []
     for control in controls(rigNs):
-        name = short(control)
         module = moduleOf(control)
         if not module:
             continue
 
         table = CONTROL_BINDS.get(slotKey(module, rigNs), {})
-        slot = table.get(internalName(control) or name)
-        if not slot:
-            continue
+        leaf = internalName(control) or short(control)
+        slot = table.get(leaf)
+        if slot:
+            out.append((control, leaf, slot, sideOf(module)))
 
-        side = sideOf(module)
+    return out
+
+
+def restPose(rigNs=""):  #
+    """Put the controls this tool drives back where the rig built them.
+
+    Deleting a constraint does not put its target back - the control
+    stays exactly where the constraint last left it, and the rig keeps
+    the pose of a take that is no longer in the scene.
+
+    Which is invisible until the next attach, and then arrives as a
+    creeping offset on the knees and elbows. Their pole vectors are the
+    one thing here placed relative to where the control already stands
+    (see _poleRig), so a control left sitting on last time's pole is
+    measured from there and the pole moves out again, once per attach.
+
+    Returns how many controls had to be moved.
+    """
+    moved = 0
+    for control, _, _, _ in boundControls(rigNs):
+        clearAnimation(control)
+
+        touched = False
+        for attr in ("translate", "rotate"):
+            for axis in _writable(control, attr):
+                plug = "%s.%s%s" % (control, attr, axis.upper())
+                default = cmds.attributeQuery(attr + axis.upper(),
+                                              node=control, listDefault=True)
+                value = default[0] if default else 0.0
+                if abs(cmds.getAttr(plug) - value) > 1e-6:
+                    cmds.setAttr(plug, value)
+                    touched = True
+
+        moved += 1 if touched else 0
+
+    return moved
+
+
+def attach(take, rigNs="", setName=MOCAP_SET):  #
+    """Constrain every mapped control to its bone in the take."""
+    made, missing, held = [], [], []
+    cleared = 0
+
+    for control, leaf, slot, side in boundControls(rigNs):
+        name = short(control)
 
         chain = []
         if isinstance(slot, dict) and slot.get("pole"):
@@ -689,13 +1020,14 @@ def attach(take, rigNs="", setName=MOCAP_SET):  #
         # the other fifty-nine theirs
         try:
             if chain:
-                pole, offset = _poleRig(control, [take[b] for b in chain],
-                                        slot.get("offset"), setName)
-                con, how = _constrain(pole, control, keepOffset=False)
-                how = "pole (%s) %s" % (
-                    ", ".join("%.2f" % v for v in offset), how)
+                pole, out = _poleRig(control, [take[b] for b in chain],
+                                     slot.get("distance"), setName)
+                con, how = _constrain(pole, control, keepOffset=False,
+                                      move=True, rotate=False)
+                how = "pole %.2f %s" % (out, how)
             else:
-                con, how = _constrain(take[bone], control)
+                con, how = _constrain(take[bone], control,
+                                      move=mayMove(leaf))
         except Exception as e:
             held.append("%s (%s)" % (name, str(e).strip().splitlines()[0]))
             continue
@@ -733,7 +1065,7 @@ def _remembered(setName, attr):  #
 
 
 def load(path, namespace=None, frame=None, skeletonRoot=None, fk=True,
-         rigNs="", progress=None):  #
+         rigNs="", scale=None, progress=None):  #
     """Bring the take in and hang the controls off it.
 
     Stops here on purpose when called directly: controls hanging off a
@@ -762,8 +1094,27 @@ def load(path, namespace=None, frame=None, skeletonRoot=None, fk=True,
                      % namespace)
         return {}
 
+    # Sizing goes first, before the skeletons are stood together:
+    # posing writes the rig's own bone positions onto the take, and
+    # after that the two skeletons measure the same and there is
+    # nothing left to compare. Pass scale=1.0 to leave the take alone.
+    ourLeg, theirLeg = legLengths(rig, take)
+    if scale is None:
+        scale = scaleFactor(rig, take)
+    trouble = resize(take, scale)
+    if trouble:
+        cmds.warning("mocap: the take could not be scaled - %s" % trouble)
+        scale = 1.0
+
+    # Read again: sizing puts a group above the skeleton, and every one
+    # of these is a full DAG path, so they all gained a step and the
+    # ones taken a moment ago now name nothing.
+    take = _takeJoints(namespace)
+
+    freed = freeGeometry(namespace)
+
+    first = firstFrame(list(take.values()))
     if frame is None:
-        first = firstFrame(list(take.values()))
         frame = (first - 1) if first is not None else -1.0
     cmds.currentTime(frame)
 
@@ -780,6 +1131,11 @@ def load(path, namespace=None, frame=None, skeletonRoot=None, fk=True,
         _say(progress, 0.15, "Switching the limbs to FK")
         switched = (switchLimbs(0, ("limb@arm", "limb@leg"), rigNs)
                     if fk else [])
+
+        # before the take is posed to the rig, because it is posed to
+        # whatever the rig is doing at that moment
+        _say(progress, 0.2, "Putting the rig back to its rest pose")
+        reset = restPose(rigNs)
 
         _say(progress, 0.25, "Standing the skeletons together")
         posed, failed = poseToRig(take, rig)
@@ -802,18 +1158,30 @@ def load(path, namespace=None, frame=None, skeletonRoot=None, fk=True,
     print("\n--- mocap: loaded ---")
     print("file      : %s" % path)
     print("namespace : %s" % namespace)
+    print("size      : take scaled by %.4f (leg: rig %.2f, take %.2f)"
+          % (scale, ourLeg, theirLeg))
+    print("adjust    : %s%s"
+          % (_scaleGroupName(namespace) or "-",
+             ", %s meshes freed of it" % freed if freed else ""))
     print("pre-roll  : frame %s, %s bones posed, worst gap %.4f on %s"
           % (frame, len(posed), worst, where or "-"))
-    print("controls  : %s driven, %s old curves removed"
-          % (len(made), cleared))
+    print("controls  : %s driven, %s reset, %s old curves removed"
+          % (len(made), reset, cleared))
     _printList("no bone for it", missing)
     _printList("not driven", held)
     _printList("could not be posed", failed)
     print("---\n")
 
-    return {"namespace": namespace, "frame": frame, "posed": posed,
-            "worst": worst, "controls": made, "missing": missing,
-            "held": held}
+    # The pre-roll frame is scaffolding - it holds nothing but the
+    # pose the offsets were taken from. What there is to look at is the
+    # animation, so that is where this stops.
+    if first is not None:
+        cmds.currentTime(first)
+
+    return {"namespace": namespace, "frame": frame, "first": first,
+            "worst": worst, "scale": scale, "controls": made,
+            "group": _scaleGroupName(namespace), "posed": posed,
+            "missing": missing, "held": held}
 
 
 def drivenControls(setName=MOCAP_SET):  #
@@ -863,6 +1231,7 @@ def bake(start=None, end=None, remove=True, rigNs="", progress=None):  #
         start = first if start is None else start
         end = last if end is None else end
 
+    removed = ""
     cmds.undoInfo(openChunk=True, chunkName="mocap: bake")
     autoKey = _autoKeyOff()
     layers = _layersAside()
@@ -897,6 +1266,11 @@ def bake(start=None, end=None, remove=True, rigNs="", progress=None):  #
 
         removed = unload(takeFile, namespace) if remove else ""
     finally:
+        # both of these were switched off for the bake, and leaving
+        # them off is felt long after: no Auto Key, and every animation
+        # layer deselected, with nothing to say why
+        _layersBack(layers)
+        _autoKeyBack(autoKey)
         cmds.undoInfo(closeChunk=True)
 
     print("\n--- mocap: baked ---")
@@ -912,7 +1286,7 @@ def bake(start=None, end=None, remove=True, rigNs="", progress=None):  #
             "removed": removed}
 
 
-def unload(path=None, namespace=None):  #
+def unload(path=None, namespace=None, setName=MOCAP_SET):  #
     """Take the mocap out of the scene. Returns what went, or "".
 
     Three ways, because one is not enough. Matching the file path is the
@@ -922,13 +1296,14 @@ def unload(path=None, namespace=None):  #
     a take that was imported rather than referenced has no reference to
     remove at all, so what is left is deleting the nodes.
     """
-    path = path if path is not None else _remembered("mocapFile")
+    path = path if path is not None else _remembered(setName, "mocapFile")
     namespace = (namespace if namespace is not None
-                 else _remembered("mocapNamespace"))
+                 else _remembered(setName, "mocapNamespace"))
 
     for ref in cmds.file(q=True, reference=True) or []:
         if path and ref.replace("\\", "/").split("{")[0].lower() == path.lower():
             cmds.file(ref, removeReference=True)
+            dropScaleGroups()
             return ref
 
     if not namespace:
@@ -939,6 +1314,7 @@ def unload(path=None, namespace=None):  #
         try:
             if cmds.file(ref, q=True, namespace=True) == clean:
                 cmds.file(ref, removeReference=True)
+                dropScaleGroups()
                 return ref
         except Exception:
             continue
@@ -949,6 +1325,7 @@ def unload(path=None, namespace=None):  #
         cmds.delete(nodes)
     if cmds.namespace(exists=clean):
         cmds.namespace(removeNamespace=clean, deleteNamespaceContent=True)
+    dropScaleGroups()
 
     return "%s (%s nodes)" % (namespace, len(nodes)) if nodes else ""
 
@@ -969,15 +1346,33 @@ def detach(rigNs=""):  #
     return len(nodes)
 
 
+def attachedRig():  #
+    """The namespace of the rig a take is hanging off, None if none.
+
+    Read from the scene rather than remembered in the window: the two
+    steps are separate button presses, and between them the window can
+    be closed, the module reloaded, or the scene simply left alone
+    until tomorrow.
+    """
+    for node in cmds.ls(type="objectSet") or []:
+        if short(node).split(":")[-1] == MOCAP_SET:
+            return namespaceOf(node)
+
+    return None
+
+
 def transfer(path, namespace=None, skeletonRoot=None, rigNs="",
-             progress=None):  #
+             scale=None, progress=None):  #
     """The whole job: take in, animation on the controls, take out.
 
     rigNs names the rig when the scene holds more than one - the prefix
     every one of its nodes carries.
+
+    scale sizes the take to the rig, and is measured from the two
+    skeletons unless it is given. 1.0 leaves the take as it comes.
     """
     loaded = load(path, namespace=namespace, skeletonRoot=skeletonRoot,
-                  rigNs=rigNs, progress=progress)
+                  rigNs=rigNs, scale=scale, progress=progress)
     if not loaded:
         _say(progress, 0.0, "Nothing was transferred")
         return {}
@@ -1084,6 +1479,12 @@ def _mayaMainWindow():  #
 
 READY = "Select any control of the rig and push button"
 
+# Transferring a mocap, shown rather than described. A constant rather
+# than a line buried in the handler: this file is handed to animators
+# on its own, and whoever hands it over may well want it pointing
+# somewhere else.
+TUTORIAL_URL = "https://disk.yandex.ru/i/WrlSbtqInk8brQ"
+
 # Where the recent takes are kept. An optionVar rather than a variable
 # in this module: an animator loading takes one after another wants the
 # list to still be there tomorrow, and Maya carries optionVars across
@@ -1111,6 +1512,8 @@ def rememberFile(path):  #
         cmds.optionVar(stringValueAppend=(RECENT_VAR, f))
 
     return keep
+
+
 _window = None
 
 
@@ -1170,11 +1573,57 @@ class MocapWindow(QtWidgets.QDialog):  #
         line.addWidget(self.status)
         form.addRow(line)
 
-        self.button = QtWidgets.QPushButton("Transfer Animation")
-        self.button.setToolTip("Reference the take, hang the controls off "
-                               "it, bake, and take the mocap back out")
-        self.button.clicked.connect(self.onTransfer)
-        form.addRow(self.button)
+        # Two presses, not one. Everything worth correcting - the
+        # size, where the take stands, a pelvis that does not line up -
+        # is only visible once the controls are hanging off the take,
+        # and by the time a single button reaches the bake it is too
+        # late to correct any of it.
+        self.attachButton = QtWidgets.QPushButton("Attach Mocap")
+        self.attachButton.setToolTip(
+            "Reference the take and hang the controls off it")
+        self.attachButton.clicked.connect(self.onAttach)
+
+        self.bakeButton = QtWidgets.QPushButton("Bake Animation")
+        self.bakeButton.setToolTip(
+            "Bake the take onto the controls and take the mocap out")
+        self.bakeButton.clicked.connect(self.onBake)
+
+        self.tutorialButton = QtWidgets.QPushButton("?")
+        self.tutorialButton.setFixedWidth(28)
+        self.tutorialButton.setToolTip("Watch the tutorial")
+        self.tutorialButton.clicked.connect(self.onTutorial)
+
+        self.cancelButton = QtWidgets.QPushButton("Cancel")
+        self.cancelButton.setFixedWidth(70)
+        self.cancelButton.setToolTip(
+            "Take the controls off the take and remove it, baking nothing")
+        self.cancelButton.clicked.connect(self.onCancel)
+
+        buttons = QtWidgets.QHBoxLayout()
+        buttons.addWidget(self.attachButton)
+        buttons.addWidget(self.bakeButton)
+        buttons.addWidget(self.cancelButton)
+        buttons.addWidget(self.tutorialButton)
+        form.addRow(buttons)
+
+        self.sync()
+
+    def sync(self):  #
+        """Offer whichever of the two steps comes next."""
+        rigNs = attachedRig()
+        attached = rigNs is not None
+
+        self.attachButton.setEnabled(not attached)
+        self.bakeButton.setEnabled(attached)
+        self.cancelButton.setEnabled(attached)
+
+        if attached:
+            group = _scaleGroupName(
+                _remembered(rigNs + MOCAP_SET, "mocapNamespace") or "")
+            where = group if group and cmds.objExists(group) else "the take"
+            self.idle("Adjust %s if needed, then bake" % where)
+        else:
+            self.idle()
 
     def browse(self):  #
         # Qt's dialog rather than cmds.fileDialog2, which draws Maya's
@@ -1220,9 +1669,17 @@ class MocapWindow(QtWidgets.QDialog):  #
         self.status.repaint()
         QtWidgets.QApplication.processEvents()
 
-    def onTransfer(self):  #
-        # not called transfer(): the module function of that name is
-        # what it calls, and one hiding the other reads like recursion
+    def onTutorial(self):  #
+        webbrowser.open(TUTORIAL_URL, new=0, autoraise=True)
+
+    def _busy(self, busy):  #
+        # the tutorial is not in here: it is the one thing worth
+        # reaching for while wondering why a step did not work
+        for button in (self.attachButton, self.bakeButton,
+                       self.cancelButton):
+            button.setEnabled(not busy)
+
+    def onAttach(self):  #
         path = self.pathEdit.currentText().strip()
         if not path:
             cmds.warning("mocap: no file given")
@@ -1238,14 +1695,56 @@ class MocapWindow(QtWidgets.QDialog):  #
 
         rigNs = rigNamespace()
 
-        self.button.setEnabled(False)
+        self._busy(True)
         try:
-            transfer(path, rigNs=rigNs, progress=self.report)
+            loaded = load(path, rigNs=rigNs, progress=self.report)
         finally:
-            self.button.setEnabled(True)
+            self._busy(False)
             self._refresh(rememberFile(path))
-            # back to where it started, ready for the next rig
-            self.idle()
+            self.sync()
+
+        # left selected so it can be dragged straight away: it is the
+        # one node that moves the whole take, rig and all, because the
+        # constraints keep their offsets
+        group = (loaded or {}).get("group")
+        if group and cmds.objExists(group):
+            cmds.select(group)
+
+    def onBake(self):  #
+        rigNs = attachedRig()
+        if rigNs is None:
+            self.sync()
+            return
+
+        self._busy(True)
+        try:
+            bake(rigNs=rigNs, progress=self.report)
+        finally:
+            self._busy(False)
+            self.sync()
+
+    def onCancel(self):  #
+        rigNs = attachedRig()
+        if rigNs is None:
+            self.sync()
+            return
+
+        # the file and the namespace live on the set, so they are read
+        # before detach() takes the set away
+        setName = rigNs + MOCAP_SET
+        path = _remembered(setName, "mocapFile")
+        namespace = _remembered(setName, "mocapNamespace")
+
+        self._busy(True)
+        try:
+            detach(rigNs)
+            unload(path, namespace)
+            # so the rig is not left standing in the pose of a take
+            # that is no longer in the scene
+            restPose(rigNs)
+        finally:
+            self._busy(False)
+            self.sync()
 
 
 def window():  #

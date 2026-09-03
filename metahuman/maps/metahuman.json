@@ -2,12 +2,12 @@
   "fit": {
     "from": 63,
     "offset": [
-      0.0294,
-      0.2649,
-      -0.0371
+      0.027,
+      0.2329,
+      -0.0334
     ],
-    "scale": 0.99694,
-    "worstResidual": 4.2465
+    "scale": 0.99195,
+    "worstResidual": 12.7626
   },
   "modules": {
     "head": "head",
@@ -729,25 +729,25 @@
       "order": 41
     },
     "spine_end_poser": {
-      "bone": "spine_05",
+      "bone": "spine_04",
       "how": "rule",
       "match": "t",
       "order": 1
     },
     "spine_local_1_poser": {
-      "bone": "spine_02",
+      "bone": "spine_01",
       "how": "rule",
       "match": "t",
       "order": 2
     },
     "spine_local_2_poser": {
-      "bone": "spine_03",
+      "bone": "spine_02",
       "how": "rule",
       "match": "t",
       "order": 3
     },
     "spine_local_3_poser": {
-      "bone": "spine_04",
+      "bone": "spine_03",
       "how": "rule",
       "match": "t",
       "order": 4
@@ -765,7 +765,7 @@
       "order": 41
     }
   },
-  "rules": "9aa3b32defca",
+  "rules": "b2396d045c8d",
   "skeletonRoot": "root",
   "unmappedBones": [
     "bigtoe_01_l",
@@ -790,6 +790,6 @@
     "ringtoe_02_l",
     "ringtoe_02_r",
     "root",
-    "spine_01"
+    "spine_05"
   ]
 }

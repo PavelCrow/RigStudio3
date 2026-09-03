@@ -122,6 +122,11 @@ def _namedDriver(bone):  #
     if not entry:
         return ""
 
+    # a plain name is a node, taken as it stands: the chest control is
+    # not a skin joint and has no module prefix to build a name from
+    if not isinstance(entry, tuple):
+        return entry if cmds.objExists(entry) else ""
+
     wantType, leaf = entry
     for module, mType in scene.modules().items():
         if scene.slotKey(module, mType) != wantType:
@@ -257,8 +262,17 @@ def plan(skeletonRoot=None):  #
     fixed = {}
     for bone in targets:
         joint = _namedDriver(bone)
-        if joint and joint in candidates:
-            fixed[bone] = (joint, _distance(targets[bone], candidates[joint]))
+        if not joint:
+            continue
+
+        # a named driver need not be a skin joint - the chest control is
+        # not one - so its position is read from the scene rather than
+        # looked up among the candidates
+        where = candidates.get(joint)
+        if where is None:
+            where = cmds.xform(joint, q=True, ws=True, t=True)
+
+        fixed[bone] = (joint, _distance(targets[bone], where))
 
     limit = _height(list(targets.values())) * LIMIT
     matched = _match(targets, candidates, limit, fixed)
