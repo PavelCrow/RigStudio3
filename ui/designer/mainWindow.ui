@@ -5570,7 +5570,7 @@
                 </widget>
                </item>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_49" stretch="0,0">
+                <layout class="QHBoxLayout" name="horizontalLayout_49" stretch="0,0,0">
                  <property name="spacing">
                   <number>2</number>
                  </property>
@@ -5585,6 +5585,13 @@
                   <widget class="QPushButton" name="ib_addZJoint_btn">
                    <property name="text">
                     <string>Add Z Joint</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="ib_removeJoint_btn">
+                   <property name="text">
+                    <string>Remove Joint</string>
                    </property>
                   </widget>
                  </item>

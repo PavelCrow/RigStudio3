@@ -34,9 +34,18 @@
 //     bendY = angle * swingAxis.z
 //     bendZ = -angle * swingAxis.y
 //
-// `mirror` lets the opposite side share the whole joint array of the left one
-// through a single connection per joint: the angles, the swing and the offset
-// are negated inside instead of by a multiplyDivide per channel outside.
+// `mirrorAxis` lets the opposite side share the whole joint array of the left
+// one through a single connection per joint. It holds the sign of each local
+// axis of this joint against the mirror image of the axis of the left one - it
+// is measured from the two joints when the mirror is connected, not assumed,
+// because the right side of a rig is not always built the same way. It is (1,
+// 1, 1) on the driving side and on a rig mirrored by a negative scale, where
+// the local channels of the two sides are already equal.
+//
+// A vector of the left frame becomes D*v in this frame, D = diag(mirrorAxis),
+// so the offset of the joint is mapped that way, the measured bend is read
+// back into the left frame the same way before it drives the ramp, and the
+// rotation offset is conjugated by D.
 class PkIbtwNode : public MPxNode
 {
 public:
@@ -52,7 +61,8 @@ public:
     static MObject aOffsetRotate;       // shifts the neutral pose
     static MObject aOffsetRotateX, aOffsetRotateY, aOffsetRotateZ;
     static MObject aScale;              // scales every corrective position at once
-    static MObject aMirror;             // the joint array is shared with the other side
+    static MObject aMirrorAxis;         // per axis sign against the mirror of the left side
+    static MObject aMirrorAxisX, aMirrorAxisY, aMirrorAxisZ;
 
     static MObject aJoint;              // multi compound, one per corrective joint
     static MObject aAxis;               //   0 = Y, 1 = Z

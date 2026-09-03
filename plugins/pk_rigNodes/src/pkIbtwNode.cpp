@@ -19,7 +19,8 @@ MObject PkIbtwNode::aDriverRotateOrder;
 MObject PkIbtwNode::aOffsetRotate;
 MObject PkIbtwNode::aOffsetRotateX, PkIbtwNode::aOffsetRotateY, PkIbtwNode::aOffsetRotateZ;
 MObject PkIbtwNode::aScale;
-MObject PkIbtwNode::aMirror;
+MObject PkIbtwNode::aMirrorAxis;
+MObject PkIbtwNode::aMirrorAxisX, PkIbtwNode::aMirrorAxisY, PkIbtwNode::aMirrorAxisZ;
 MObject PkIbtwNode::aJoint;
 MObject PkIbtwNode::aAxis;
 MObject PkIbtwNode::aBind;
@@ -85,6 +86,11 @@ namespace
         return slerp(MQuaternion::identity, q, t);
     }
 
+    double sign(double v)
+    {
+        return v < 0.0 ? -1.0 : 1.0;
+    }
+
     double lerp(double a, double b, double t)
     {
         return a + (b - a) * t;
@@ -132,9 +138,12 @@ MStatus PkIbtwNode::initialize()
     nAttr.setKeyable(true);
     addAttribute(aScale);
 
-    aMirror = nAttr.create("mirror", "mir", MFnNumericData::kBoolean, false);
+    aMirrorAxisX = nAttr.create("mirrorAxisX", "mirx", MFnNumericData::kDouble, 1.0);
+    aMirrorAxisY = nAttr.create("mirrorAxisY", "miry", MFnNumericData::kDouble, 1.0);
+    aMirrorAxisZ = nAttr.create("mirrorAxisZ", "mirz", MFnNumericData::kDouble, 1.0);
+    aMirrorAxis  = nAttr.create("mirrorAxis", "mir", aMirrorAxisX, aMirrorAxisY, aMirrorAxisZ);
     nAttr.setKeyable(true);
-    addAttribute(aMirror);
+    addAttribute(aMirrorAxis);
 
     aAxis = eAttr.create("axis", "ax", 0);
     eAttr.addField("y", 0);
@@ -218,8 +227,16 @@ MStatus PkIbtwNode::initialize()
     addAttribute(aOut);
 
     // --- affects -----------------------------------------------------------
+    // every child is listed next to its parent: a compound dirtied through the
+    // parent is what a connection gives, a value typed in the channel box
+    // dirties the child alone and never reaches compute if only the parent is
+    // declared here
     const MObject inputs[] = {
-        aDriverRotate, aDriverRotateOrder, aOffsetRotate, aScale, aMirror,
+        aDriverRotate, aDriverRotateX, aDriverRotateY, aDriverRotateZ,
+        aDriverRotateOrder,
+        aOffsetRotate, aOffsetRotateX, aOffsetRotateY, aOffsetRotateZ,
+        aScale,
+        aMirrorAxis, aMirrorAxisX, aMirrorAxisY, aMirrorAxisZ,
         aJoint, aAxis, aBind, aAngleMin, aAngleMax, aPosMin, aPosMax,
         aSwingMin, aSwingMax, aReverse
     };
@@ -251,17 +268,25 @@ MStatus PkIbtwNode::compute(const MPlug& plug, MDataBlock& data)
     const short    order = data.inputValue(aDriverRotateOrder, &status).asShort();
     const double3& ofr   = data.inputValue(aOffsetRotate, &status).asDouble3();
     const double   scale = data.inputValue(aScale, &status).asDouble();
-    const bool     mirror = data.inputValue(aMirror, &status).asBool();
+    const double3& mir   = data.inputValue(aMirrorAxis, &status).asDouble3();
 
     // on the mirrored side the same parameters are read through one connection
-    // per joint, and what has to change sign changes it here
-    const double mirrorSign = mirror ? -1.0 : 1.0;
+    // per joint, and the frames of the two sides are related by these signs
+    const double sx = sign(mir[0]);
+    const double sy = sign(mir[1]);
+    const double sz = sign(mir[2]);
+    // an odd number of flips turns the map into a reflection: a rotation
+    // conjugated by it keeps its angle but its axis gains that sign
+    const double det = sx * sy * sz;
 
     const MEulerRotation::RotationOrder ro = orderFromEnum(order);
 
     const MQuaternion qDriver = MEulerRotation(dr[0], dr[1], dr[2], ro).asQuaternion();
-    const MQuaternion qOffset = MEulerRotation(ofr[0], ofr[1] * mirrorSign,
-                                               ofr[2] * mirrorSign, ro).asQuaternion();
+
+    MQuaternion qOffset = MEulerRotation(ofr[0], ofr[1], ofr[2], ro).asQuaternion();
+    // the offset comes from the left solver, so it is stated in the left frame
+    qOffset = MQuaternion(det * sx * qOffset.x, det * sy * qOffset.y,
+                          det * sz * qOffset.z, qOffset.w);
 
     // the offset moves the neutral pose: what is measured is how far the joint
     // is from the offset, not from its own zero
@@ -280,9 +305,11 @@ MStatus PkIbtwNode::compute(const MPlug& plug, MDataBlock& data)
     }
 
     // degrees from zero in the default pose, positive when the tip of the bone
-    // moves towards that axis
-    const double bendY = swAngle * swAxis.z;
-    const double bendZ = -swAngle * swAxis.y;
+    // moves towards that axis. `sy`/`sz` read them back into the frame the
+    // parameters are stated in, so the same angleMax picks out the mirrored
+    // pose however this side happens to be oriented.
+    const double bendY = swAngle * swAxis.z * sy;
+    const double bendZ = -swAngle * swAxis.y * sz;
 
     MDataHandle hBendY = data.outputValue(aOutBendY, &status);
     if (status) { hBendY.setMAngle(MAngle(bendY, MAngle::kRadians)); hBendY.setClean(); }
@@ -310,12 +337,12 @@ MStatus PkIbtwNode::compute(const MPlug& plug, MDataBlock& data)
 
         const short  axis     = hJoint.child(aAxis).asShort();
         const double bind     = hJoint.child(aBind).asDouble();
-        const double angleMin = hJoint.child(aAngleMin).asAngle().asRadians() * mirrorSign;
-        const double angleMax = hJoint.child(aAngleMax).asAngle().asRadians() * mirrorSign;
+        const double angleMin = hJoint.child(aAngleMin).asAngle().asRadians();
+        const double angleMax = hJoint.child(aAngleMax).asAngle().asRadians();
         const double posMin   = hJoint.child(aPosMin).asDouble();
         const double posMax   = hJoint.child(aPosMax).asDouble();
-        const double swingMin = hJoint.child(aSwingMin).asAngle().asRadians() * mirrorSign;
-        const double swingMax = hJoint.child(aSwingMax).asAngle().asRadians() * mirrorSign;
+        const double swingMin = hJoint.child(aSwingMin).asAngle().asRadians();
+        const double swingMax = hJoint.child(aSwingMax).asAngle().asRadians();
         const bool   reverse  = hJoint.child(aReverse).asBool();
 
         const double driver = (axis == 0) ? bendY : bendZ;
@@ -339,6 +366,12 @@ MStatus PkIbtwNode::compute(const MPlug& plug, MDataBlock& data)
         const double radial = radius * std::cos(swing);
 
         MVector p(along, (axis == 0) ? radial : 0.0, (axis == 0) ? 0.0 : radial);
+
+        // the offset is stated in the frame of the left side, this puts it in
+        // the frame of this one
+        p.x *= sx;
+        p.y *= sy;
+        p.z *= sz;
 
         // bind 0 - the joint keeps the frame of the parent, so the rotation of
         // the driver is fully taken back; bind 1 - it follows the driver.

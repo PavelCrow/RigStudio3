@@ -2,6 +2,7 @@ import maya.cmds as cmds
 import pymel.core as pm
 import maya.OpenMaya as om
 from functools import partial
+import math
 import os
 
 from .import utils
@@ -37,6 +38,7 @@ class Inbetweens(object):
 		self.win.ib_selectOffsetLocator_btn.clicked.connect(self.selectOffsetLocator)
 		self.win.ib_addYJoint_btn.clicked.connect(partial(self.addJoint, "y"))
 		self.win.ib_addZJoint_btn.clicked.connect(partial(self.addJoint, "z"))
+		self.win.ib_removeJoint_btn.clicked.connect(self.removeJoint)
 
 	def doubleClckItem(self): #
 		name = self.curIb['name']
@@ -76,7 +78,20 @@ class Inbetweens(object):
 			if n.split('_')[0] == 'r':
 				item.setForeground(QtGui.QBrush(QtGui.QColor("#6C6B6B")))		
 
+	def updateFrameVisibility(self, is_mll): #
+		"""The plugin variant has no offset locators, no world mode and nothing
+		to pick by hand - the two add buttons and the remove one are all it uses.
+		"""
+		widgets = ("label_36", "local_rbtn", "world_rbtn", "ib_switch_btn",
+				   "label_35", "label_41", "parentJoint_lineEdit", "childJoint_lineEdit",
+				   "ibtw_setParent_btn", "ibtw_setChild_btn",
+				   "ib_selectOffsetLocator_btn")
+		for w in widgets:
+			getattr(self.win, w).setVisible(not is_mll)
+
 	def updateFrame(self): #
+		self.updateFrameVisibility(bool(self.curIbName) and self.isMll(self.curIbName))
+
 		if self.curIbName == '':
 			self.win.ibs_options_frame.setEnabled(False)
 			self.win.parentJoint_lineEdit.setText("")		
@@ -396,14 +411,19 @@ class Inbetweens(object):
 			name = self.win.ibtw_childs_listWidget.currentItem().text()
 		
 		# delete all twist nodes
-		nodes = cmds.sets(name+'_ibtwNodesSet', q=1)
-		for n in nodes:
-			if cmds.objExists(n):
-				cmds.delete(n)
+		if cmds.objExists(name+'_ibtwNodesSet'):
+			nodes = cmds.sets(name+'_ibtwNodesSet', q=1) or []
+			for n in nodes:
+				if cmds.objExists(n):
+					cmds.delete(n)
 
 		opp_name = utils.getOpposite(name)
-		
-		if name != opp_name and cmds.objExists(opp_name+'_ibtw_root'):
+
+		# the plugin variant has no root transform: looking for the root alone
+		# left the whole right side in the scene, and the next build then found
+		# its solver in place and quietly skipped the mirror
+		if name != opp_name and (cmds.objExists(opp_name+'_ibtw_root')
+								 or cmds.objExists(opp_name+'_ibtw_solver')):
 			self.remove(opp_name)
 
 		self.updateList()
@@ -761,18 +781,34 @@ class Inbetweens(object):
 
 	def loadCorrectivesPlugin(self): #
 		"""Load pk_correctives.mll built for the running Maya version."""
-		if "pk_correctives" in (cmds.pluginInfo(q=1, listPlugins=1) or []):
-			return True
+		if "pk_correctives" not in (cmds.pluginInfo(q=1, listPlugins=1) or []):
+			mayaVersion = cmds.about(v=True).split(" ")[0]
+			path = os.path.join(rootPath, "plugins", "plug-ins", mayaVersion, "pk_correctives.mll")
 
-		mayaVersion = cmds.about(v=True).split(" ")[0]
-		path = os.path.join(rootPath, "plugins", "plug-ins", mayaVersion, "pk_correctives.mll")
+			if not os.path.isfile(path):
+				cmds.warning("pk_correctives.mll is not built for Maya %s - %s" %(mayaVersion, path))
+				return False
 
-		if not os.path.isfile(path):
-			cmds.warning("pk_correctives.mll is not built for Maya %s - %s" %(mayaVersion, path))
+			cmds.loadPlugin(path)
+			if "pk_correctives" not in (cmds.pluginInfo(q=1, listPlugins=1) or []):
+				return False
+
+		# the plugin says it is loaded, but that is not enough: unloading it
+		# while pk_ibtw nodes were in the scene leaves the type registered as an
+		# empty stub, and loading the plugin again does not replace it. createNode
+		# then gives a node without a single attribute instead of failing.
+		try:
+			healthy = cmds.attributeQuery("driverRotate", type="pk_ibtw", exists=True)
+		except RuntimeError:
+			# the stub is not always a queryable type either
+			healthy = False
+
+		if not healthy:
+			cmds.warning(" pk_ibtw is registered without its attributes - restart Maya. "
+						 "The plugin was unloaded while its nodes were still in the scene.")
 			return False
 
-		cmds.loadPlugin(path)
-		return "pk_correctives" in (cmds.pluginInfo(q=1, listPlugins=1) or [])
+		return True
 
 	def jointSuffix(self, joint): #
 		"""Suffix of the driver joint - the correctives get the same one."""
@@ -857,7 +893,13 @@ class Inbetweens(object):
 			opp_j = utils.getOpposite(driver_j)
 			opp_name = utils.getOpposite(name)
 
-			if cmds.objExists(opp_j) and not cmds.objExists(opp_name+"_ibtw_solver"):
+			# both skips used to be silent, and the missing right side looked
+			# like nothing had happened at all
+			if not cmds.objExists(opp_j):
+				cmds.warning(" The opposite joint %s does not exist, the right side is not built" %opp_j)
+			elif cmds.objExists(opp_name+"_ibtw_solver"):
+				cmds.warning(" %s_ibtw_solver already exists, the right side is left as it is" %opp_name)
+			else:
 				if data:
 					opp_data = dict(data)
 					opp_data["child_j"] = opp_j
@@ -867,18 +909,56 @@ class Inbetweens(object):
 					cmds.select(opp_j)
 					self.addMll(mirrored=True)
 
-				self.connectMllMirror(name)
+				if cmds.objExists(opp_name+"_ibtw_solver"):
+					self.connectMllMirror(name)
+				else:
+					cmds.warning(" The right side %s_ibtw_solver was not built" %opp_name)
 
 		self.updateList()
 		self.selectListItem(name)
-		cmds.select(clear=1)
+
+		# the solver is left selected: scale and offsetRotate are on it, so they
+		# can be dialled in right away without hunting for the node
+		cmds.select(solver)
+
+	def getMirrorAxis(self, joint, opp_joint): #
+		"""How the local frame of the opposite joint sits against the mirror.
+
+		Returns the sign of every local axis of `opp_joint` against the mirror
+		image of the same axis of `joint`, plus the dot products it read them
+		from. The right side of a rig is not always built the same way, so this
+		is measured off the two joints instead of assumed: on a side mirrored by
+		a negative scale it comes out (1, 1, 1), and where an axis was flipped
+		by hand that axis comes out -1.
+		"""
+		m = cmds.xform(joint, q=1, ws=1, matrix=1)
+		opp_m = cmds.xform(opp_joint, q=1, ws=1, matrix=1)
+
+		signs, dots = [], []
+		for i in range(3):
+			a = m[i*4:i*4+3]
+			b = opp_m[i*4:i*4+3]
+
+			a_len = math.sqrt(sum([v*v for v in a]))
+			b_len = math.sqrt(sum([v*v for v in b]))
+			if not a_len or not b_len:
+				signs.append(1.0)
+				dots.append(0.0)
+				continue
+
+			# the mirror is the YZ plane of the world, so it flips world X
+			d = (-a[0]*b[0] + a[1]*b[1] + a[2]*b[2]) / (a_len * b_len)
+			dots.append(d)
+			signs.append(-1.0 if d < 0 else 1.0)
+
+		return signs, dots
 
 	def connectMllMirror(self, name): #
 		"""Drive the right side from the left.
 
 		One connection per joint, compound to compound: the whole element of the
-		array goes across at once. The signs that have to flip are flipped by
-		the `mirror` flag inside the node - the multiplyDivide per channel the
+		array goes across at once. What has to change sign is stated once, in
+		mirrorAxis of the opposite solver - the multiplyDivide per channel the
 		other variants need is not built at all.
 		"""
 		opp_name = utils.getOpposite(name)
@@ -888,7 +968,22 @@ class Inbetweens(object):
 		if not cmds.objExists(opp_solver):
 			return
 
-		cmds.setAttr(opp_solver+".mirror", True)
+		driver_j = self.getMllDriver(name)
+		opp_driver_j = self.getMllDriver(opp_name)
+		if driver_j and opp_driver_j:
+			signs, dots = self.getMirrorAxis(driver_j, opp_driver_j)
+			cmds.setAttr(opp_solver+".mirrorAxis", signs[0], signs[1], signs[2], type="double3")
+
+			# an axis of the two sides that is neither the mirror of the other
+			# nor its opposite cannot be told apart by a sign at all
+			weak = [i for i in range(3) if abs(dots[i]) < 0.9]
+			if weak:
+				cmds.warning(" %s: axes %s of %s and %s are not mirrors of each other "
+							 "(%s), check mirrorAxis by hand"
+							 %(opp_solver, "".join(["xyz"[i] for i in weak]),
+							   driver_j, opp_driver_j,
+							   ", ".join(["%.2f" %d for d in dots])))
+
 		cmds.connectAttr(solver+".offsetRotate", opp_solver+".offsetRotate")
 		cmds.connectAttr(solver+".scale", opp_solver+".scale")
 
@@ -971,6 +1066,52 @@ class Inbetweens(object):
 		cmds.setAttr(j+".driverAngle", lock=1)
 
 		return j
+
+	def removeJoint(self, *args): #
+		"""Delete the selected corrective joints, both sides at once."""
+		sel = cmds.ls(sl=1, type="joint") or []
+		if not sel:
+			cmds.warning(" Select the corrective joints to remove")
+			return
+
+		for j in sel:
+			if cmds.objExists(j):
+				self.removeJointMll(j)
+
+		if self.curIbName:
+			self.curIb = self.getData(self.curIbName)
+
+	def removeJointMll(self, joint): #
+		"""One corrective joint with its element of the solver array.
+
+		The solver and the index come from the connection of the joint itself,
+		not from its name, and the pair is always removed from the driving side.
+		"""
+		if utils.isSymmetrical(joint) and utils.getObjectSide(joint) == "r":
+			joint = utils.getOpposite(joint)
+
+		joints = [joint]
+		opp_j = utils.getOpposite(joint)
+		if opp_j != joint and cmds.objExists(opp_j):
+			joints.append(opp_j)
+
+		for j in joints:
+			plug = cmds.connectionInfo(j+".translate", sourceFromDestination=True)
+			if not plug or ".out[" not in plug:
+				cmds.warning(" %s is not a corrective joint of a pk_ibtw solver" %j)
+				continue
+
+			solver = plug.split(".")[0]
+			index = plug.split(".out[")[1].split("]")[0]
+
+			# the joint goes first: driverAngle is locked, and deleting the node
+			# takes its connections down without touching the lock
+			cmds.delete(j)
+
+			# b=True breaks what is connected to the element as well - on the
+			# mirrored side that is the element of the left solver
+			cmds.removeMultiInstance("%s.joint[%s]" %(solver, index), b=True)
+			cmds.removeMultiInstance("%s.out[%s]" %(solver, index), b=True)
 
 	def getDataMll(self, name): #
 		solver = name + "_ibtw_solver"
