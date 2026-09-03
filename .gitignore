@@ -2,7 +2,7 @@
 # *$py.class
 # share/python-wheels/
 *.pyc
-__pycache__/ 
+__pycache__/
 .vscode/
 .idea/
 incrementalSave
