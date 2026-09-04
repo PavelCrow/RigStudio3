@@ -82,7 +82,6 @@ class Module(object):
         for o in ['_system', '_input']:
             if cmds.objExists(self.name+o):
                 cmds.hide(self.name+o)
-        cmds.hide(self.name+"_output")
 
         # hide out joints
         

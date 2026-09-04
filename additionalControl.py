@@ -213,18 +213,24 @@ class AdditionalControl(controller.Control):
 			else:
 				utils.connectByMatrix(joint, [name, group], ['matrix', 'matrix'], par_moduleName)
 			
-			mult_t = cmds.createNode('multiplyDivide', n=name+'_correctTranslateMult')
-			cmds.connectAttr(joint+"_decMat.outputTranslate", mult_t+'.input1')			
+			# Поправка на масштаб отключена: она брала scaleX с аддпозера
+			# родителя, а не с mainPoser модуля, которым пользуется весь
+			# остальной скелет (module.py, _invScale_multiplyDivide), да ещё и
+			# одной осью на все три. Из-за неё джоинт уезжал, как только
+			# масштаб главного позера модуля переставал быть дефолтным.
+			# Трансляцию теперь ведёт напрямую <контрол>_skinJoint_decMat.
+			# mult_t = cmds.createNode('multiplyDivide', n=name+'_correctTranslateMult')
+			# cmds.connectAttr(joint+"_decMat.outputTranslate", mult_t+'.input1')
 
-			dMat = cmds.createNode('decomposeMatrix', n=name+"_correctTranslateDecMat")
-			cmds.connectAttr(target+"_addPoser.worldMatrix[0]", dMat+'.inputMatrix')
-			cmds.connectAttr(dMat+".outputScaleX", mult_t+'.input2X')
-			cmds.connectAttr(dMat+".outputScaleX", mult_t+'.input2Y')
-			cmds.connectAttr(dMat+".outputScaleX", mult_t+'.input2Z')
-			
-			cmds.connectAttr(mult_t+".outputX", joint+'.tx', f=1)
-			cmds.connectAttr(mult_t+".outputY", joint+'.ty', f=1)
-			cmds.connectAttr(mult_t+".outputZ", joint+'.tz', f=1)
+			# dMat = cmds.createNode('decomposeMatrix', n=name+"_correctTranslateDecMat")
+			# cmds.connectAttr(target+"_addPoser.worldMatrix[0]", dMat+'.inputMatrix')
+			# cmds.connectAttr(dMat+".outputScaleX", mult_t+'.input2X')
+			# cmds.connectAttr(dMat+".outputScaleX", mult_t+'.input2Y')
+			# cmds.connectAttr(dMat+".outputScaleX", mult_t+'.input2Z')
+
+			# cmds.connectAttr(mult_t+".outputX", joint+'.tx', f=1)
+			# cmds.connectAttr(mult_t+".outputY", joint+'.ty', f=1)
+			# cmds.connectAttr(mult_t+".outputZ", joint+'.tz', f=1)
 
 		# connect joint by world matrixes
 		else:
