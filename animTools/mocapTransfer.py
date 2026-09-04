@@ -79,6 +79,7 @@ CONTROL_BINDS = {
         "fk_2": "spine_02",
         "fk_3": "spine_03",
         "neck": "neck_01",
+        "neck_2": "neck_02",
     },
     "head": {
         "root": "head",

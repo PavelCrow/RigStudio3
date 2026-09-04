@@ -129,6 +129,7 @@ POSER_SLOTS = {
         "local_3": "spine_03",
         "end": "spine_04",
         "neck": "neck_01",
+        "neck_2": "neck_02",
         "root": "",
     },
     "head": {
@@ -271,6 +272,7 @@ PLACE_ORDER = [
     ("spine", "local_2"),
     ("spine", "local_3"),
     ("spine", "neck"),
+    ("spine", "neck_2"),
     ("head", "main"),
 
     ("point", "main"),

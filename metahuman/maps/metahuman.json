@@ -1,13 +1,13 @@
 {
   "fit": {
-    "from": 63,
+    "from": 64,
     "offset": [
-      0.027,
-      0.2329,
-      -0.0334
+      -0.005,
+      37.813,
+      16.0647
     ],
-    "scale": 0.99195,
-    "worstResidual": 12.7626
+    "scale": 0.41873,
+    "worstResidual": 10.4188
   },
   "modules": {
     "head": "head",
@@ -24,50 +24,50 @@
     "root": "root",
     "spine": "spine"
   },
-  "namespace": "body_face_static:",
+  "namespace": "WomanMetaHumanCharacter:",
   "posers": {
     "head_mainPoser": {
       "bone": "head",
       "how": "rule",
       "match": "t",
-      "order": 6
+      "order": 7
     },
     "head_root_poser": {
       "bone": "",
       "how": "rule",
       "match": "t",
-      "order": 41
+      "order": 42
     },
     "l_arm_end_poser": {
       "bone": "",
       "how": "rule",
       "match": "t",
-      "order": 41
+      "order": 42
     },
     "l_arm_mainPoser": {
       "bone": "upperarm_l",
       "how": "rule",
       "match": "t",
-      "order": 8,
+      "order": 9,
       "worldOrient": true
     },
     "l_arm_middle_poser": {
       "bone": "lowerarm_l",
       "how": "rule",
       "match": "t",
-      "order": 10
+      "order": 11
     },
     "l_arm_root_poser": {
       "bone": "",
       "how": "rule",
       "match": "t",
-      "order": 41
+      "order": 42
     },
     "l_clav_mainPoser": {
       "bone": "clavicle_l",
       "how": "rule",
       "match": "tr",
-      "order": 7,
+      "order": 8,
       "turn": [
         90,
         0,
@@ -78,25 +78,25 @@
       "bone": "",
       "how": "rule",
       "match": "t",
-      "order": 41
+      "order": 42
     },
     "l_fingers_indexFingerA_poser": {
       "bone": "",
       "how": "rule",
       "match": "t",
-      "order": 41
+      "order": 42
     },
     "l_fingers_indexFingerB_poser": {
       "bone": "index_02_l",
       "how": "rule",
       "match": "t",
-      "order": 23
+      "order": 24
     },
     "l_fingers_indexFingerC_poser": {
       "bone": "index_03_l",
       "how": "rule",
       "match": "t",
-      "order": 24
+      "order": 25
     },
     "l_fingers_indexFingerD_poser": {
       "bone": "",
@@ -106,19 +106,19 @@
       ],
       "how": "rule",
       "match": "t",
-      "order": 25
+      "order": 26
     },
     "l_fingers_indexFingerRoot_poser": {
       "bone": "index_metacarpal_l",
       "how": "rule",
       "match": "t",
-      "order": 21
+      "order": 22
     },
     "l_fingers_indexFinger_mainPoser": {
       "bone": "index_01_l",
       "how": "rule",
       "match": "tr",
-      "order": 22,
+      "order": 23,
       "turn": [
         180,
         0,
@@ -129,7 +129,7 @@
       "bone": "hand_l",
       "how": "rule",
       "match": "tr",
-      "order": 9,
+      "order": 10,
       "turn": [
         180,
         0,
@@ -140,19 +140,19 @@
       "bone": "",
       "how": "rule",
       "match": "t",
-      "order": 41
+      "order": 42
     },
     "l_fingers_middleFingerB_poser": {
       "bone": "middle_02_l",
       "how": "rule",
       "match": "t",
-      "order": 28
+      "order": 29
     },
     "l_fingers_middleFingerC_poser": {
       "bone": "middle_03_l",
       "how": "rule",
       "match": "t",
-      "order": 29
+      "order": 30
     },
     "l_fingers_middleFingerD_poser": {
       "bone": "",
@@ -162,19 +162,19 @@
       ],
       "how": "rule",
       "match": "t",
-      "order": 30
+      "order": 31
     },
     "l_fingers_middleFingerRoot_poser": {
       "bone": "middle_metacarpal_l",
       "how": "rule",
       "match": "t",
-      "order": 26
+      "order": 27
     },
     "l_fingers_middleFinger_mainPoser": {
       "bone": "middle_01_l",
       "how": "rule",
       "match": "tr",
-      "order": 27,
+      "order": 28,
       "turn": [
         180,
         0,
@@ -185,19 +185,19 @@
       "bone": "",
       "how": "rule",
       "match": "t",
-      "order": 41
+      "order": 42
     },
     "l_fingers_pinkyFingerB_poser": {
       "bone": "pinky_02_l",
       "how": "rule",
       "match": "t",
-      "order": 38
+      "order": 39
     },
     "l_fingers_pinkyFingerC_poser": {
       "bone": "pinky_03_l",
       "how": "rule",
       "match": "t",
-      "order": 39
+      "order": 40
     },
     "l_fingers_pinkyFingerD_poser": {
       "bone": "",
@@ -207,19 +207,19 @@
       ],
       "how": "rule",
       "match": "t",
-      "order": 40
+      "order": 41
     },
     "l_fingers_pinkyFingerRoot_poser": {
       "bone": "pinky_metacarpal_l",
       "how": "rule",
       "match": "t",
-      "order": 36
+      "order": 37
     },
     "l_fingers_pinkyFinger_mainPoser": {
       "bone": "pinky_01_l",
       "how": "rule",
       "match": "tr",
-      "order": 37,
+      "order": 38,
       "turn": [
         180,
         0,
@@ -230,19 +230,19 @@
       "bone": "",
       "how": "rule",
       "match": "t",
-      "order": 41
+      "order": 42
     },
     "l_fingers_ringFingerB_poser": {
       "bone": "ring_02_l",
       "how": "rule",
       "match": "t",
-      "order": 33
+      "order": 34
     },
     "l_fingers_ringFingerC_poser": {
       "bone": "ring_03_l",
       "how": "rule",
       "match": "t",
-      "order": 34
+      "order": 35
     },
     "l_fingers_ringFingerD_poser": {
       "bone": "",
@@ -252,19 +252,19 @@
       ],
       "how": "rule",
       "match": "t",
-      "order": 35
+      "order": 36
     },
     "l_fingers_ringFingerRoot_poser": {
       "bone": "ring_metacarpal_l",
       "how": "rule",
       "match": "t",
-      "order": 31
+      "order": 32
     },
     "l_fingers_ringFinger_mainPoser": {
       "bone": "ring_01_l",
       "how": "rule",
       "match": "tr",
-      "order": 32,
+      "order": 33,
       "turn": [
         180,
         0,
@@ -275,25 +275,25 @@
       "bone": "",
       "how": "rule",
       "match": "t",
-      "order": 41
+      "order": 42
     },
     "l_fingers_thumbFingerA_poser": {
       "bone": "",
       "how": "rule",
       "match": "t",
-      "order": 41
+      "order": 42
     },
     "l_fingers_thumbFingerB_poser": {
       "bone": "thumb_02_l",
       "how": "rule",
       "match": "t",
-      "order": 18
+      "order": 19
     },
     "l_fingers_thumbFingerC_poser": {
       "bone": "thumb_03_l",
       "how": "rule",
       "match": "t",
-      "order": 19
+      "order": 20
     },
     "l_fingers_thumbFingerD_poser": {
       "bone": "",
@@ -303,13 +303,13 @@
       ],
       "how": "rule",
       "match": "t",
-      "order": 20
+      "order": 21
     },
     "l_fingers_thumbFinger_mainPoser": {
       "bone": "thumb_01_l",
       "how": "rule",
       "match": "tr",
-      "order": 17,
+      "order": 18,
       "turn": [
         180,
         0,
@@ -322,7 +322,7 @@
       "ground": true,
       "how": "rule",
       "match": "t",
-      "order": 12,
+      "order": 13,
       "turn": [
         0,
         180,
@@ -333,7 +333,7 @@
       "bone": "foot_l",
       "how": "rule",
       "match": "t",
-      "order": 14
+      "order": 15
     },
     "l_foot_toeTip_poser": {
       "bone": "",
@@ -342,37 +342,43 @@
         "Z": 1.0
       },
       "match": "t",
-      "order": 16
+      "order": 17
     },
     "l_foot_toe_poser": {
       "bone": "ball_l",
       "how": "rule",
       "match": "t",
-      "order": 15
+      "order": 16
     },
     "l_leg_end_poser": {
       "bone": "",
       "how": "rule",
       "match": "t",
-      "order": 41
+      "order": 42
     },
     "l_leg_mainPoser": {
       "bone": "thigh_l",
       "how": "rule",
       "match": "t",
-      "order": 11
+      "order": 12
     },
     "l_leg_middle_poser": {
       "bone": "calf_l",
       "how": "rule",
       "match": "t",
-      "order": 13
+      "order": 14
     },
     "l_leg_root_poser": {
       "bone": "",
       "how": "rule",
       "match": "t",
-      "order": 41
+      "order": 42
+    },
+    "neck_2_addPoser": {
+      "bone": "neck_02",
+      "how": "rule",
+      "match": "t",
+      "order": 6
     },
     "neck_addPoser": {
       "bone": "neck_01",
@@ -384,32 +390,32 @@
       "bone": "",
       "how": "rule",
       "match": "t",
-      "order": 41
+      "order": 42
     },
     "r_arm_mainPoser": {
       "bone": "upperarm_r",
       "how": "rule",
       "match": "t",
-      "order": 8,
+      "order": 9,
       "worldOrient": true
     },
     "r_arm_middle_poser": {
       "bone": "lowerarm_r",
       "how": "rule",
       "match": "t",
-      "order": 10
+      "order": 11
     },
     "r_arm_root_poser": {
       "bone": "",
       "how": "rule",
       "match": "t",
-      "order": 41
+      "order": 42
     },
     "r_clav_mainPoser": {
       "bone": "clavicle_r",
       "how": "rule",
       "match": "tr",
-      "order": 7,
+      "order": 8,
       "turn": [
         90,
         0,
@@ -420,25 +426,25 @@
       "bone": "",
       "how": "rule",
       "match": "t",
-      "order": 41
+      "order": 42
     },
     "r_fingers_indexFingerA_poser": {
       "bone": "",
       "how": "rule",
       "match": "t",
-      "order": 41
+      "order": 42
     },
     "r_fingers_indexFingerB_poser": {
       "bone": "index_02_r",
       "how": "rule",
       "match": "t",
-      "order": 23
+      "order": 24
     },
     "r_fingers_indexFingerC_poser": {
       "bone": "index_03_r",
       "how": "rule",
       "match": "t",
-      "order": 24
+      "order": 25
     },
     "r_fingers_indexFingerD_poser": {
       "bone": "",
@@ -448,19 +454,19 @@
       ],
       "how": "rule",
       "match": "t",
-      "order": 25
+      "order": 26
     },
     "r_fingers_indexFingerRoot_poser": {
       "bone": "index_metacarpal_r",
       "how": "rule",
       "match": "t",
-      "order": 21
+      "order": 22
     },
     "r_fingers_indexFinger_mainPoser": {
       "bone": "index_01_r",
       "how": "rule",
       "match": "tr",
-      "order": 22,
+      "order": 23,
       "turn": [
         180,
         0,
@@ -471,7 +477,7 @@
       "bone": "hand_r",
       "how": "rule",
       "match": "tr",
-      "order": 9,
+      "order": 10,
       "turn": [
         180,
         0,
@@ -482,19 +488,19 @@
       "bone": "",
       "how": "rule",
       "match": "t",
-      "order": 41
+      "order": 42
     },
     "r_fingers_middleFingerB_poser": {
       "bone": "middle_02_r",
       "how": "rule",
       "match": "t",
-      "order": 28
+      "order": 29
     },
     "r_fingers_middleFingerC_poser": {
       "bone": "middle_03_r",
       "how": "rule",
       "match": "t",
-      "order": 29
+      "order": 30
     },
     "r_fingers_middleFingerD_poser": {
       "bone": "",
@@ -504,19 +510,19 @@
       ],
       "how": "rule",
       "match": "t",
-      "order": 30
+      "order": 31
     },
     "r_fingers_middleFingerRoot_poser": {
       "bone": "middle_metacarpal_r",
       "how": "rule",
       "match": "t",
-      "order": 26
+      "order": 27
     },
     "r_fingers_middleFinger_mainPoser": {
       "bone": "middle_01_r",
       "how": "rule",
       "match": "tr",
-      "order": 27,
+      "order": 28,
       "turn": [
         180,
         0,
@@ -527,19 +533,19 @@
       "bone": "",
       "how": "rule",
       "match": "t",
-      "order": 41
+      "order": 42
     },
     "r_fingers_pinkyFingerB_poser": {
       "bone": "pinky_02_r",
       "how": "rule",
       "match": "t",
-      "order": 38
+      "order": 39
     },
     "r_fingers_pinkyFingerC_poser": {
       "bone": "pinky_03_r",
       "how": "rule",
       "match": "t",
-      "order": 39
+      "order": 40
     },
     "r_fingers_pinkyFingerD_poser": {
       "bone": "",
@@ -549,19 +555,19 @@
       ],
       "how": "rule",
       "match": "t",
-      "order": 40
+      "order": 41
     },
     "r_fingers_pinkyFingerRoot_poser": {
       "bone": "pinky_metacarpal_r",
       "how": "rule",
       "match": "t",
-      "order": 36
+      "order": 37
     },
     "r_fingers_pinkyFinger_mainPoser": {
       "bone": "pinky_01_r",
       "how": "rule",
       "match": "tr",
-      "order": 37,
+      "order": 38,
       "turn": [
         180,
         0,
@@ -572,19 +578,19 @@
       "bone": "",
       "how": "rule",
       "match": "t",
-      "order": 41
+      "order": 42
     },
     "r_fingers_ringFingerB_poser": {
       "bone": "ring_02_r",
       "how": "rule",
       "match": "t",
-      "order": 33
+      "order": 34
     },
     "r_fingers_ringFingerC_poser": {
       "bone": "ring_03_r",
       "how": "rule",
       "match": "t",
-      "order": 34
+      "order": 35
     },
     "r_fingers_ringFingerD_poser": {
       "bone": "",
@@ -594,19 +600,19 @@
       ],
       "how": "rule",
       "match": "t",
-      "order": 35
+      "order": 36
     },
     "r_fingers_ringFingerRoot_poser": {
       "bone": "ring_metacarpal_r",
       "how": "rule",
       "match": "t",
-      "order": 31
+      "order": 32
     },
     "r_fingers_ringFinger_mainPoser": {
       "bone": "ring_01_r",
       "how": "rule",
       "match": "tr",
-      "order": 32,
+      "order": 33,
       "turn": [
         180,
         0,
@@ -617,25 +623,25 @@
       "bone": "",
       "how": "rule",
       "match": "t",
-      "order": 41
+      "order": 42
     },
     "r_fingers_thumbFingerA_poser": {
       "bone": "",
       "how": "rule",
       "match": "t",
-      "order": 41
+      "order": 42
     },
     "r_fingers_thumbFingerB_poser": {
       "bone": "thumb_02_r",
       "how": "rule",
       "match": "t",
-      "order": 18
+      "order": 19
     },
     "r_fingers_thumbFingerC_poser": {
       "bone": "thumb_03_r",
       "how": "rule",
       "match": "t",
-      "order": 19
+      "order": 20
     },
     "r_fingers_thumbFingerD_poser": {
       "bone": "",
@@ -645,13 +651,13 @@
       ],
       "how": "rule",
       "match": "t",
-      "order": 20
+      "order": 21
     },
     "r_fingers_thumbFinger_mainPoser": {
       "bone": "thumb_01_r",
       "how": "rule",
       "match": "tr",
-      "order": 17,
+      "order": 18,
       "turn": [
         180,
         0,
@@ -664,7 +670,7 @@
       "ground": true,
       "how": "rule",
       "match": "t",
-      "order": 12,
+      "order": 13,
       "turn": [
         0,
         180,
@@ -675,7 +681,7 @@
       "bone": "foot_r",
       "how": "rule",
       "match": "t",
-      "order": 14
+      "order": 15
     },
     "r_foot_toeTip_poser": {
       "bone": "",
@@ -684,49 +690,49 @@
         "Z": 1.0
       },
       "match": "t",
-      "order": 16
+      "order": 17
     },
     "r_foot_toe_poser": {
       "bone": "ball_r",
       "how": "rule",
       "match": "t",
-      "order": 15
+      "order": 16
     },
     "r_leg_end_poser": {
       "bone": "",
       "how": "rule",
       "match": "t",
-      "order": 41
+      "order": 42
     },
     "r_leg_mainPoser": {
       "bone": "thigh_r",
       "how": "rule",
       "match": "t",
-      "order": 11
+      "order": 12
     },
     "r_leg_middle_poser": {
       "bone": "calf_r",
       "how": "rule",
       "match": "t",
-      "order": 13
+      "order": 14
     },
     "r_leg_root_poser": {
       "bone": "",
       "how": "rule",
       "match": "t",
-      "order": 41
+      "order": 42
     },
     "root_mainPoser": {
       "bone": "",
       "how": "rule",
       "match": "t",
-      "order": 41
+      "order": 42
     },
     "root_root_poser": {
       "bone": "",
       "how": "rule",
       "match": "t",
-      "order": 41
+      "order": 42
     },
     "spine_end_poser": {
       "bone": "spine_04",
@@ -762,10 +768,10 @@
       "bone": "",
       "how": "rule",
       "match": "t",
-      "order": 41
+      "order": 42
     }
   },
-  "rules": "b2396d045c8d",
+  "rules": "7ee4dae916d7",
   "skeletonRoot": "root",
   "unmappedBones": [
     "bigtoe_01_l",
@@ -784,7 +790,6 @@
     "middletoe_01_r",
     "middletoe_02_l",
     "middletoe_02_r",
-    "neck_02",
     "ringtoe_01_l",
     "ringtoe_01_r",
     "ringtoe_02_l",
