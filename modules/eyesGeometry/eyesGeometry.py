@@ -62,7 +62,7 @@ class EyesGeometry(module.Module) :
 		else:
 			p = cmds.listRelatives(self.name+"_geo_group", p=1)[0]
 			if p == self.name+"_output":
-				cmds.parent(self.name+"_geo_group", "geo")
+				cmds.parent(self.name+"_geo_group", utils.getRigGroup("geo"))
 			cmds.showHidden(self.name+"_geo_group")
 		
 		if not set:

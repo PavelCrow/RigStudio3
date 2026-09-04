@@ -549,7 +549,7 @@ class ChainIk(module.Module) :
 		# geometry
 		if generateGeo:
 			geo_gr = pm.group(empty=1, n=name+'_geo')
-			pm.parent(geo_gr, 'geo')
+			pm.parent(geo_gr, utils.getRigGroup("geo"))
 			element_src = pm.PyNode(self.MainWindow.element_lineEdit.text())
 	
 			for i in range(chainsCount):

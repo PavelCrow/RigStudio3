@@ -115,11 +115,12 @@ class MainWindow:
         with open(os.path.join(self.rootPath, "config.json"), mode='r') as f:
             self.configData = json.load(f)
 
-        for o in ["geo", "rig"]:
-            l = cmds.ls(o)
-            if len(l) > 1:
-                cmds.warning(o+" has multiple instances in scene")
-                return
+        # geo здесь больше нет: своя адресуется полным путём от корня рига,
+        # и чужая группа с таким именем окну не мешает. rig остаётся: по нему
+        # ищется корень рига, и второй такой группы в сцене быть не должно
+        if len(cmds.ls("rig")) > 1:
+            cmds.warning("rig has multiple instances in scene")
+            return
 
         widgets_path = os.path.join(self.rootPath, "ui", "designer")
 

@@ -5,17 +5,24 @@
 #include <maya/MEulerRotation.h>
 #include <maya/MFnCompoundAttribute.h>
 #include <maya/MFnEnumAttribute.h>
+#include <maya/MFnMatrixAttribute.h>
 #include <maya/MFnNumericAttribute.h>
 #include <maya/MFnUnitAttribute.h>
+#include <maya/MMatrix.h>
 #include <maya/MQuaternion.h>
+#include <maya/MTransformationMatrix.h>
 #include <maya/MVector.h>
 
 #include <algorithm>
 #include <cmath>
 
+MObject PkIbtwNode::aDriverMode;
 MObject PkIbtwNode::aDriverRotate;
 MObject PkIbtwNode::aDriverRotateX, PkIbtwNode::aDriverRotateY, PkIbtwNode::aDriverRotateZ;
 MObject PkIbtwNode::aDriverRotateOrder;
+MObject PkIbtwNode::aChildMatrix;
+MObject PkIbtwNode::aParentInverseMatrix;
+MObject PkIbtwNode::aRestMatrix;
 MObject PkIbtwNode::aOffsetRotate;
 MObject PkIbtwNode::aOffsetRotateX, PkIbtwNode::aOffsetRotateY, PkIbtwNode::aOffsetRotateZ;
 MObject PkIbtwNode::aScale;
@@ -108,8 +115,15 @@ MStatus PkIbtwNode::initialize()
     MFnUnitAttribute     uAttr;
     MFnEnumAttribute     eAttr;
     MFnCompoundAttribute cAttr;
+    MFnMatrixAttribute   mAttr;
 
     // --- inputs ------------------------------------------------------------
+    aDriverMode = eAttr.create("driverMode", "dmo", 0);
+    eAttr.addField("local", 0);
+    eAttr.addField("matrix", 1);
+    eAttr.setKeyable(true);
+    addAttribute(aDriverMode);
+
     aDriverRotateX = uAttr.create("driverRotateX", "drx", MFnUnitAttribute::kAngle, 0.0);
     aDriverRotateY = uAttr.create("driverRotateY", "dry", MFnUnitAttribute::kAngle, 0.0);
     aDriverRotateZ = uAttr.create("driverRotateZ", "drz", MFnUnitAttribute::kAngle, 0.0);
@@ -126,6 +140,18 @@ MStatus PkIbtwNode::initialize()
     eAttr.addField("zyx", 5);
     eAttr.setKeyable(true);
     addAttribute(aDriverRotateOrder);
+
+    aChildMatrix = mAttr.create("childMatrix", "chm");
+    addAttribute(aChildMatrix);
+
+    aParentInverseMatrix = mAttr.create("parentInverseMatrix", "pim");
+    addAttribute(aParentInverseMatrix);
+
+    // an input, not a constant: a locator can drive it, and moving that locator
+    // moves what the node reads as the unbent pose
+    aRestMatrix = mAttr.create("restMatrix", "rsm");
+    mAttr.setStorable(true);
+    addAttribute(aRestMatrix);
 
     aOffsetRotateX = uAttr.create("offsetRotateX", "ofrx", MFnUnitAttribute::kAngle, 0.0);
     aOffsetRotateY = uAttr.create("offsetRotateY", "ofry", MFnUnitAttribute::kAngle, 0.0);
@@ -232,8 +258,10 @@ MStatus PkIbtwNode::initialize()
     // dirties the child alone and never reaches compute if only the parent is
     // declared here
     const MObject inputs[] = {
+        aDriverMode,
         aDriverRotate, aDriverRotateX, aDriverRotateY, aDriverRotateZ,
         aDriverRotateOrder,
+        aChildMatrix, aParentInverseMatrix, aRestMatrix,
         aOffsetRotate, aOffsetRotateX, aOffsetRotateY, aOffsetRotateZ,
         aScale,
         aMirrorAxis, aMirrorAxisX, aMirrorAxisY, aMirrorAxisZ,
@@ -281,7 +309,25 @@ MStatus PkIbtwNode::compute(const MPlug& plug, MDataBlock& data)
 
     const MEulerRotation::RotationOrder ro = orderFromEnum(order);
 
-    const MQuaternion qDriver = MEulerRotation(dr[0], dr[1], dr[2], ro).asQuaternion();
+    MQuaternion qDriver;
+    if (data.inputValue(aDriverMode, &status).asShort() == 1)
+    {
+        const MMatrix child     = data.inputValue(aChildMatrix, &status).asMatrix();
+        const MMatrix parentInv = data.inputValue(aParentInverseMatrix, &status).asMatrix();
+        const MMatrix rest      = data.inputValue(aRestMatrix, &status).asMatrix();
+
+        // the child stated in the space of the parent, and then only what
+        // changed since the rest pose. In maya's row vector order that states
+        // the change in the frame the child had at rest - the frame the
+        // correctives are children of - so X is the bone axis here as well.
+        const MMatrix delta = child * parentInv * rest.inverse();
+
+        qDriver = MTransformationMatrix(delta).rotation();
+    }
+    else
+    {
+        qDriver = MEulerRotation(dr[0], dr[1], dr[2], ro).asQuaternion();
+    }
 
     MQuaternion qOffset = MEulerRotation(ofr[0], ofr[1], ofr[2], ro).asQuaternion();
     // the offset comes from the left solver, so it is stated in the left frame

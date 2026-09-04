@@ -639,6 +639,39 @@ def getOpposite(obj):
 	else:
 		return obj	
 
+def getRigGroup(name): #
+	"""Полный путь к группе рига по её короткому имени.
+
+	geo лежит под корнем рига, остальные (rig, skeleton, modules, twists) - под
+	группой rig. Группа с таким же коротким именем может лежать в сцене где
+	угодно: импортированная геометрия со своей geo, второй персонаж, что угодно.
+	На коротком имени cmds тогда падает с "More than one object matches name",
+	поэтому адресуем от рига полным путём.
+
+	Пустая строка, если рига в сцене нет.
+	"""
+	rigs = cmds.ls("rig", long=True) or []
+	if not rigs:
+		return ""
+
+	rig = rigs[0]
+	if len(rigs) > 1:
+		# несколько групп rig: своя та, что лежит под корневой нодой рига
+		for path in rigs:
+			parents = cmds.listRelatives(path, p=1, f=1) or []
+			if not parents:
+				continue
+			if cmds.objExists(parents[0]+".nodeType") \
+					and cmds.getAttr(parents[0]+".nodeType") == "rs_rig":
+				rig = path
+				break
+
+	if name == "rig":
+		return rig
+	if name == "geo":
+		return rig.rsplit("|", 1)[0] + "|geo"
+	return rig + "|" + name
+
 def getOppositeIfExists(obj):
 	new_obj = getOpposite(obj)
 	if cmds.objExists(new_obj):

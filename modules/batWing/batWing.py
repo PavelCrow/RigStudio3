@@ -18,6 +18,7 @@ class BatWing(module.Module) :
         self.widget = w
 
         w.createJoints_btn.clicked.connect(self.create_joints)
+        w.deleteJoints_btn.clicked.connect(self.delete_joints)
         w.createFingerJoints_btn.clicked.connect(self.create_fingers_joints)
 
     def create_joints(self):
@@ -62,6 +63,7 @@ class BatWing(module.Module) :
                 
                 i = int(surf[-1])
                 uvPin = f"{m_name}_surf_{i}_uvPin"
+                uvPin_opp = f"{m_name_opp}_surf_{i}_uvPin"
                 j_gr = f"{m_name}_surf_outJoint"
                 clst_node = f"{m_name}_surf_{i}_closestPointOnSurface"
                 
@@ -75,11 +77,20 @@ class BatWing(module.Module) :
                 cmds.parent(j, j_gr)
                 id = j.split("_")[-1]
                 
-                size = cmds.getAttr(f"{uvPin}.outputMatrix", size=True)
+                # индекс берётся по существующим элементам, а не по их
+                # количеству: после удаления джоинта в середине количество
+                # уменьшается, и новый элемент лёг бы поверх живого
+                indices = (cmds.getAttr(f"{uvPin}.coordinate", multiIndices=True) or []) \
+                        + (cmds.getAttr(f"{uvPin_opp}.coordinate", multiIndices=True) or [])
+                size = max(indices) + 1 if indices else 0
                 cmds.setAttr(f"{uvPin}.coordinate[{size}].coordinateU", uv_u)
                 cmds.setAttr(f"{uvPin}.coordinate[{size}].coordinateV", uv_v)
                 cmds.connectAttr(f"{uvPin}.outputMatrix[{size}]", j+".offsetParentMatrix")
                 utils.removeTransformParentJoint(j)
+                # cmds.parent сохраняет мировое положение и пишет разницу в
+                # каналы джоинта. Место ему задаёт uvPin через
+                # offsetParentMatrix, поэтому свои каналы должны быть нулевые
+                utils.resetAttrs(j, jointOrient=True)
                 cmds.setAttr(f"{j}.inheritsTransform", 0)
                 
                 # create skin joint
@@ -92,7 +103,6 @@ class BatWing(module.Module) :
                 utils.removeTransformParentJoint(sj)
                 joints.append(sj)
 
-                uvPin_opp = f"{m_name_opp}_surf_{i}_uvPin"
                 j_gr_opp = f"{m_name_opp}_surf_outJoint"
 
                 # create opp joint
@@ -104,6 +114,7 @@ class BatWing(module.Module) :
                 cmds.setAttr(f"{uvPin_opp}.coordinate[{size}].coordinateV", uv_v)
                 cmds.connectAttr(f"{uvPin_opp}.outputMatrix[{size}]", j_opp+".offsetParentMatrix")
                 utils.removeTransformParentJoint(j_opp)
+                utils.resetAttrs(j_opp, jointOrient=True)
                 cmds.setAttr(f"{j_opp}.inheritsTransform", 0)
                 
                 # create skin opp joint
@@ -120,6 +131,53 @@ class BatWing(module.Module) :
 
 
         cmds.select(joints)
+
+    def delete_joints(self, *args):
+        """Удаляет выделенные джоинты поверхности - обе стороны сразу.
+
+        Выделять можно любой из пары: и скиновый, и модульный. Кроме самих
+        джоинтов убираются их ноды матриц и координата uvPin, которая их вела.
+        """
+        sel = cmds.ls(sl=1) or []
+        if not sel:
+            cmds.warning(" Select the joints to delete")
+            return
+
+        out_joints = []
+        for obj in sel:
+            out_j = obj.replace("_skinJoint_", "_outJoint_")
+            if "_surf_" not in out_j or "_outJoint_" not in out_j:
+                cmds.warning(f" {obj} is not a surface joint of the module")
+                continue
+
+            for j in (out_j, utils.getOpposite(out_j)):
+                if j not in out_joints and cmds.objExists(j):
+                    out_joints.append(j)
+
+        for out_j in out_joints:
+            self.delete_joint(out_j)
+
+        cmds.select(clear=1)
+
+    def delete_joint(self, out_j):
+        """Один модульный джоинт поверхности со всем, что на нём висит."""
+        skin_j = out_j.replace("_outJoint_", "_skinJoint_")
+
+        # координата берётся из связи самого джоинта, а не по имени: только она
+        # и говорит, каким элементом uvPin он ведётся
+        plug = cmds.connectionInfo(out_j+".offsetParentMatrix", sourceFromDestination=True)
+        if plug and ".outputMatrix[" in plug:
+            uvPin = plug.split(".")[0]
+            index = plug.split(".outputMatrix[")[1].split("]")[0]
+            cmds.removeMultiInstance(f"{uvPin}.outputMatrix[{index}]", b=True)
+            cmds.removeMultiInstance(f"{uvPin}.coordinate[{index}]", b=True)
+        else:
+            cmds.warning(f" {out_j} is not driven by a uvPin, only the joints are deleted")
+
+        # ноды матриц скинового джоинта: имена им даёт connectByMatrix
+        for n in (skin_j+"_decMat", skin_j+"_multMat", skin_j, out_j):
+            if cmds.objExists(n):
+                cmds.delete(n)
 
     def create_fingers_joints(self, count=0):
         m_name = self.name

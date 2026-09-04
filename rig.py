@@ -10,6 +10,7 @@ class Rig:
         self.modules = {}
         self.exists = False
         self.root = "main"
+        self.geoGroup = ""
         self.main = main
         self.singleHierarhy = True
         self.jointsSize = 1
@@ -28,8 +29,13 @@ class Rig:
     def load(self): #
         # print("rig load")
 
-        self.exists = cmds.objExists('rig') and cmds.objExists('geo')
-        
+        # geo адресуется полным путём от корня рига: группа с таким же
+        # коротким именем может лежать в сцене где угодно, и cmds на коротком
+        # имени падает с "More than one object matches name"
+        self.geoGroup = utils.getRigGroup("geo")
+        self.exists = cmds.objExists('rig') and bool(self.geoGroup) \
+                      and cmds.objExists(self.geoGroup)
+
         if self.exists:
             root = cmds.listRelatives("rig", p=1)
             if not root:
@@ -50,9 +56,9 @@ class Rig:
             self.jointsVis = self.getRootAttr("jointsVis", True)
             self.jointsTemplate = self.getRootAttr("jointsTemplate", False)
 
-            self.geoVis = cmds.getAttr('geo.v')
-            self.geoTemplate = cmds.getAttr('geo.overrideEnabled') and cmds.getAttr('geo.overrideDisplayType') == 1
-            self.geoReference = cmds.getAttr('geo.overrideEnabled') and cmds.getAttr('geo.overrideDisplayType') == 2
+            self.geoVis = cmds.getAttr(self.geoGroup+'.v')
+            self.geoTemplate = cmds.getAttr(self.geoGroup+'.overrideEnabled') and cmds.getAttr(self.geoGroup+'.overrideDisplayType') == 1
+            self.geoReference = cmds.getAttr(self.geoGroup+'.overrideEnabled') and cmds.getAttr(self.geoGroup+'.overrideDisplayType') == 2
 
             # get rig name
             # без атрибута именем рига остаётся имя корневой ноды - сам
@@ -71,13 +77,16 @@ class Rig:
     def create(self, singleHierarhy=True): #
         # состояние в памяти может устареть (например, после создания новой
         # сцены), поэтому проверяем сцену, а не только флаг
-        self.exists = cmds.objExists('rig') and cmds.objExists('geo')
+        geo = utils.getRigGroup("geo")
+        self.exists = bool(geo) and cmds.objExists(geo)
 
         if self.exists:
             cmds.warning("Rig is already exists")
             return False
 
-        for o in ['rig', 'geo', self.root]:
+        # geo здесь нет: своя лежит под корнем, которого ещё нет, а
+        # чужая группа с таким именем сборке не мешает
+        for o in ['rig', self.root]:
             if cmds.objExists(o):
                 cmds.warning(o + " is already exists")
                 return False
@@ -113,6 +122,7 @@ class Rig:
         # create groups
         cmds.group(empty=True, n="geo", p=root)
         rig = cmds.group(empty=True, n="rig", p=root)
+        self.geoGroup = utils.getRigGroup("geo")
         cmds.group(empty=True, n="modules", p=rig)
         cmds.group(empty=True, n="skeleton", p=rig)
         # cmds.group(empty=True, n="addControls", p=rig)
@@ -171,6 +181,12 @@ class Rig:
         self.modules = {}
         self.main.curModule = None
 
+    def haveGeoGroup(self): #
+        """Своя группа geo найдена и жива."""
+        if not self.geoGroup or not cmds.objExists(self.geoGroup):
+            self.geoGroup = utils.getRigGroup("geo")
+        return bool(self.geoGroup) and cmds.objExists(self.geoGroup)
+
     def rename(self, newName): #
         self.name = newName
         utils.setUserAttr(self.root, "name", newName)
@@ -184,8 +200,9 @@ class Rig:
                 return v
 
         elif type == 'geoT':
-            obj = 'geo'
-            if cmds.getAttr("geo.overrideEnabled") and cmds.getAttr("geo.overrideDisplayType") == 1:
+            if not self.haveGeoGroup():
+                return False
+            if cmds.getAttr(self.geoGroup+".overrideEnabled") and cmds.getAttr(self.geoGroup+".overrideDisplayType") == 1:
                 v = True
             else:
                 v = False
@@ -196,8 +213,9 @@ class Rig:
     def isReference(self, type):
 
         if type == 'geoR':
-            obj = 'geo'
-            if cmds.getAttr("geo.overrideEnabled") and cmds.getAttr("geo.overrideDisplayType") == 2:
+            if not self.haveGeoGroup():
+                return False
+            if cmds.getAttr(self.geoGroup+".overrideEnabled") and cmds.getAttr(self.geoGroup+".overrideDisplayType") == 2:
                 v = True
             else:
                 v = False
@@ -365,10 +383,13 @@ class Rig:
         if not state:
             state = self.main.win.actionGeometry.isChecked()
 
+        if not self.haveGeoGroup():
+            return
+
         if state == 0:
-            cmds.hide('geo')
+            cmds.hide(self.geoGroup)
         else:
-            cmds.showHidden('geo')
+            cmds.showHidden(self.geoGroup)
             
     def toggleTemplate_joints(self, state=None):
         if not state:
@@ -427,22 +448,28 @@ class Rig:
         if not state:
             state = self.main.win.actionGeometry_Template.isChecked()
 
+        if not self.haveGeoGroup():
+            return
+
         if state == 0:
-            cmds.setAttr("geo.overrideDisplayType", 0)
+            cmds.setAttr(self.geoGroup+".overrideDisplayType", 0)
         else:
-            cmds.setAttr("geo.overrideEnabled", True)
-            cmds.setAttr("geo.overrideDisplayType", 1)
+            cmds.setAttr(self.geoGroup+".overrideEnabled", True)
+            cmds.setAttr(self.geoGroup+".overrideDisplayType", 1)
             self.main.win.actionGeometry_Reference.setChecked(False)
 
     def toggleReference_geo(self, state=None):
         if not state:
             state = self.main.win.actionGeometry_Reference.isChecked()
 
+        if not self.haveGeoGroup():
+            return
+
         if state == 0:
-            cmds.setAttr("geo.overrideDisplayType", 0)
+            cmds.setAttr(self.geoGroup+".overrideDisplayType", 0)
         else:
-            cmds.setAttr("geo.overrideEnabled", True)
-            cmds.setAttr("geo.overrideDisplayType", 2)
+            cmds.setAttr(self.geoGroup+".overrideEnabled", True)
+            cmds.setAttr(self.geoGroup+".overrideDisplayType", 2)
             self.main.win.actionGeometry_Template.setChecked(False)
             
     def toggleVis_jointsAxises(self, state=None):

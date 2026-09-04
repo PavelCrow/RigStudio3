@@ -25,6 +25,21 @@
 //     travels half the way the bone does, along the same circle `swing` moves
 //     it along by hand. `swing` is left as an offset on top of that.
 //
+// The driver is read one of two ways, `driverMode`:
+//
+//     local  - `driverRotate`, the rotate channel of the joint the correctives
+//              hang under. Its zero is the rest pose.
+//     matrix - `childMatrix` and `parentInverseMatrix`, so the two can sit in
+//              unrelated hierarchies and the driver can be a control, an IK
+//              joint, anything with a world matrix. What counts as the rest
+//              pose is `restMatrix` - the child stated in the space of the
+//              parent as it was when the correctives were built. It is an
+//              input, not a constant baked at build time, so a locator can
+//              drive it and the neutral pose stays adjustable afterwards.
+//
+//     Both give the same thing: the rotation stated in the frame the child had
+//     at rest, which is the frame the correctives live in.
+//
 // Driver angles: from a swing/twist decomposition of the driver rotation about
 // the bone axis X, NOT from its euler channels - those only hold for a bend in
 // one plane and stop being the bend angle once a twist is mixed in. Both are in
@@ -55,9 +70,13 @@ public:
     MStatus compute(const MPlug& plug, MDataBlock& data) override;
 
     // --- inputs ------------------------------------------------------------
+    static MObject aDriverMode;         // 0 = local rotate, 1 = matrices
     static MObject aDriverRotate;       // <- driver joint .rotate
     static MObject aDriverRotateX, aDriverRotateY, aDriverRotateZ;
     static MObject aDriverRotateOrder;  // <- driver joint .rotateOrder
+    static MObject aChildMatrix;        // <- child .worldMatrix
+    static MObject aParentInverseMatrix;// <- parent .worldInverseMatrix
+    static MObject aRestMatrix;         // the child in parent space at rest
     static MObject aOffsetRotate;       // shifts the neutral pose
     static MObject aOffsetRotateX, aOffsetRotateY, aOffsetRotateZ;
     static MObject aScale;              // scales every corrective position at once

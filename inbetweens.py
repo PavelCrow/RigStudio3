@@ -821,9 +821,29 @@ class Inbetweens(object):
 		j = "%s_ibtw_%s_%s" %(name, side, n)
 		return j + "_" + suffix if suffix else j
 
+	def isMllWorld(self, name): #
+		"""The plugin variant driven by two matrices instead of one rotate."""
+		solver = name + "_ibtw_solver"
+		return cmds.objExists(solver) and cmds.getAttr(solver+".driverMode") == 1
+
 	def getMllDriver(self, name): #
-		drivers = cmds.listConnections(name+"_ibtw_solver.driverRotate", source=1, destination=0) or []
+		"""The joint the correctives hang under - in both modes."""
+		solver = name + "_ibtw_solver"
+		if not cmds.objExists(solver):
+			return ""
+
+		attr = ".childMatrix" if self.isMllWorld(name) else ".driverRotate"
+		drivers = cmds.listConnections(solver+attr, source=1, destination=0) or []
 		return drivers[0] if drivers else ""
+
+	def getMllParent(self, name): #
+		"""The object the bend is measured against - world mode only."""
+		if not self.isMllWorld(name):
+			return ""
+
+		parents = cmds.listConnections(name+"_ibtw_solver.parentInverseMatrix",
+									   source=1, destination=0) or []
+		return parents[0] if parents else ""
 
 	def addMllFromSelection(self): #
 		self.addMll()
@@ -836,15 +856,26 @@ class Inbetweens(object):
 
 		if data:
 			driver_j = data["child_j"]
+			world = data.get("driverMode", 0) == 1
+			parent_obj = data.get("parent_j", "") if world else ""
 		else:
 			sel = cmds.ls(sl=1) or []
-			if len(sel) != 1:
-				cmds.warning(" Select one joint")
+			if len(sel) == 1:
+				driver_j, parent_obj = sel[0], ""
+			elif len(sel) == 2:
+				# the parent first, the child second - the same order the sleeve
+				# tool takes them in
+				parent_obj, driver_j = sel
+			else:
+				cmds.warning(" Select one joint, or the parent and the child for the world mode")
 				return
-			driver_j = sel[0]
+			world = bool(parent_obj)
 
 		if not cmds.objExists(driver_j):
 			cmds.warning(" Cannot find the joint " + str(driver_j))
+			return
+		if world and not cmds.objExists(parent_obj):
+			cmds.warning(" Cannot find the parent " + str(parent_obj))
 			return
 		if cmds.objectType(driver_j) != "joint":
 			cmds.warning(" Selected object is not a joint")
@@ -866,8 +897,16 @@ class Inbetweens(object):
 
 		solver = cmds.createNode("pk_ibtw", n=name+"_ibtw_solver")
 		cmds.sets(solver, e=1, forceElement=nodes_set)
-		cmds.connectAttr(driver_j+".rotate", solver+".driverRotate")
-		cmds.connectAttr(driver_j+".rotateOrder", solver+".driverRotateOrder")
+
+		if world:
+			cmds.setAttr(solver+".driverMode", 1)
+			cmds.connectAttr(driver_j+".worldMatrix[0]", solver+".childMatrix")
+			cmds.connectAttr(parent_obj+".worldInverseMatrix[0]", solver+".parentInverseMatrix")
+			self.addMllRestLoc(name, driver_j, parent_obj,
+							   data.get("rest") if data else None)
+		else:
+			cmds.connectAttr(driver_j+".rotate", solver+".driverRotate")
+			cmds.connectAttr(driver_j+".rotateOrder", solver+".driverRotateOrder")
 
 		if data:
 			cmds.setAttr(solver+".scale", data.get("scale", 1.0))
@@ -904,9 +943,17 @@ class Inbetweens(object):
 					opp_data = dict(data)
 					opp_data["child_j"] = opp_j
 					opp_data["mode"] = "mll"
+					if world:
+						# a parent without a side of its own, a chest control
+						# say, stays the parent of both sides
+						opp_data["parent_j"] = utils.getOppositeIfExists(parent_obj)
+						opp_data["rest"] = data.get("oppRest")
 					self.addMll(data=opp_data, mirrored=True)
 				else:
-					cmds.select(opp_j)
+					if world:
+						cmds.select(utils.getOppositeIfExists(parent_obj), opp_j)
+					else:
+						cmds.select(opp_j)
 					self.addMll(mirrored=True)
 
 				if cmds.objExists(opp_name+"_ibtw_solver"):
@@ -952,6 +999,31 @@ class Inbetweens(object):
 			signs.append(-1.0 if d < 0 else 1.0)
 
 		return signs, dots
+
+	def addMllRestLoc(self, name, driver_j, parent_obj, rest=None): #
+		"""The rest pose of the world mode, as a locator under the parent.
+
+		It is put exactly on the child, so its local matrix is the child stated
+		in the space of the parent - which is what the node reads as unbent.
+		Being a locator and not a baked value, it stays there to be moved
+		afterwards: the neutral pose follows it live.
+		"""
+		solver = name + "_ibtw_solver"
+		loc = cmds.spaceLocator(n=name+"_ibtw_restLoc")[0]
+		cmds.parent(loc, parent_obj)
+
+		if rest:
+			# a rest that was dialled in by hand, saved in the template
+			cmds.xform(loc, m=rest)
+		else:
+			# the world matrix of the child: under this parent that lands the
+			# locator on it whatever scale the parent carries
+			cmds.xform(loc, ws=1, m=cmds.xform(driver_j, q=1, ws=1, m=1))
+
+		cmds.sets(loc, e=1, forceElement=name+"_ibtwNodesSet")
+		cmds.connectAttr(loc+".matrix", solver+".restMatrix")
+
+		return loc
 
 	def connectMllMirror(self, name): #
 		"""Drive the right side from the left.
@@ -1123,14 +1195,27 @@ class Inbetweens(object):
 			cmds.warning("Missed the driver joint of " + solver)
 			return None
 
-		parents = cmds.listRelatives(driver_j, p=1) or []
+		world = self.isMllWorld(name)
+		if world:
+			parent_obj = self.getMllParent(name)
+		else:
+			parents = cmds.listRelatives(driver_j, p=1) or []
+			parent_obj = parents[0] if parents else ""
 
 		data = {}
 		data["name"] = name
 		data["mode"] = "mll"
 		data["local"] = True
 		data["child_j"] = driver_j
-		data["parent_j"] = parents[0] if parents else ""
+		data["parent_j"] = parent_obj
+		data["driverMode"] = 1 if world else 0
+
+		if world:
+			# both sides: only the left one gets saved, and the rest locator is
+			# deliberately not connected across, so the right one would be lost
+			for key, n in (("rest", name), ("oppRest", utils.getOpposite(name))):
+				loc = n + "_ibtw_restLoc"
+				data[key] = cmds.getAttr(loc+".matrix") if cmds.objExists(loc) else None
 		data["scale"] = cmds.getAttr(solver+".scale")
 		data["offset"] = cmds.getAttr(solver+".offsetRotate")
 
@@ -1161,8 +1246,8 @@ class Inbetweens(object):
 				continue
 			if root.endswith("_ibtw_solver"):
 				# a DG node has no DAG path, the module is taken from the driver
-				drivers = cmds.listConnections(root+".driverRotate", source=1, destination=0) or []
-				m_name = utils.getModuleName(drivers[0]) if drivers else None
+				driver_j = self.getMllDriver(root.split("_ibtw_")[0])
+				m_name = utils.getModuleName(driver_j) if driver_j else None
 			else:
 				m_name = utils.getModuleName(root)
 
