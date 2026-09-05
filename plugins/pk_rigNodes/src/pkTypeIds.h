@@ -7,4 +7,5 @@ namespace pk {
     const MTypeId kWingNodeId(0x00073001);
     const MTypeId kIbtwNodeId(0x00073002);
     const MTypeId kTwistNodeId(0x00073003);
+    const MTypeId kLimbIkNodeId(0x00073004);
 }

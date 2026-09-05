@@ -654,11 +654,27 @@ class Module(object):
                             if not cmds.objExists(p_name+'.'+attr):
                                 cmds.warning("Missed attr " + p_name+'.'+attr)
                                 continue
-                            # if not (cmds.listConnections(p_name+'.'+attr, d=False, s=True) or []) and not cmds.getAttr(p_name+'.'+attr, lock=1): # only not connections and not locked
+                            # Заблокированные атрибуты позеров тоже сохраняются -
+                            # они keyable и потому видимы, - но записать их
+                            # обычным setAttr нельзя. Замок снимается на время
+                            # записи и возвращается: без этого worldOrient на
+                            # end_poser не восстанавливается, и нога встаёт
+                            # иначе, чем стояла. Связь - другое дело: значение
+                            # приходит извне, и перебивать его нечем.
+                            plug = p_name+'.'+attr
+                            if cmds.listConnections(plug, d=False, s=True, p=True):
+                                continue
+
+                            locked = cmds.getAttr(plug, lock=True)
                             try:
-                                cmds.setAttr(p_name+'.'+attr, value)
+                                if locked:
+                                    cmds.setAttr(plug, lock=False)
+                                cmds.setAttr(plug, value)
                             except Exception as e:
-                                cmds.warning("Cannot set %s.%s = %s (%s)" % (p_name, attr, value, e))
+                                cmds.warning("Cannot set %s = %s (%s)" % (plug, value, e))
+                            finally:
+                                if locked:
+                                    cmds.setAttr(plug, lock=True)
         
         # set control names
         if load == "controlNames" or load == "all":
@@ -805,7 +821,7 @@ class Module(object):
                     parent = parents[0]
                     # check another connection
                     parentModule = utils.getModuleName(parent)
-                    if utils.getModuleInstance(parentModule).type == "limb":
+                    if utils.getModuleInstance(parentModule).type in ("limb", "limbMll"):
                         parent = parentModule + "_end_outJoint"
                         return parent
 

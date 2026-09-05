@@ -15,7 +15,7 @@ class FootSimple(module.Module) :
 		targetModuleName = utils.getModuleName(target)
 		target_mod_type = cmds.getAttr(targetModuleName+'_mod.moduleType')
 
-		if target_mod_type in ['limb', 'limbQuadrupped', 'limbQuadruppedExtra', 'limbCurved', 'limbQuadruppedExtraMiddle', 'limbQuadrupped2', "limbCurvedQuadrupped"]:
+		if target_mod_type in ['limb', 'limbMll', 'limbQuadrupped', 'limbQuadruppedExtra', 'limbCurved', 'limbQuadruppedExtraMiddle', 'limbQuadrupped2', "limbCurvedQuadrupped"]:
 			target = targetModuleName+"_end_poser"
 		
 		cmds.disconnectAttr(self.name+'_ik_connector_decMat.outputRotate', self.name+'_ik_connector.rotate')
@@ -28,7 +28,7 @@ class FootSimple(module.Module) :
 		
 		super(self.__class__, self).connect(target, opposite)
 
-		if target_mod_type in ['limb', 'limbQuadrupped', 'limbQuadruppedExtra', 'limbCurved', 'limbQuadruppedExtraMiddle', 'limbQuadrupped2', "limbCurvedQuadrupped"]:
+		if target_mod_type in ['limb', 'limbMll', 'limbQuadrupped', 'limbQuadruppedExtra', 'limbCurved', 'limbQuadruppedExtraMiddle', 'limbQuadrupped2', "limbCurvedQuadrupped"]:
 			# connect ikfk attribute
 			cmds.connectAttr(utils.getControlNameFromInternal(targetModuleName, 'control')+'.ikFk', self.root+'.ikFk')
 
@@ -95,7 +95,7 @@ class FootSimple(module.Module) :
 		if not cmds.objExists(inputNode):
 			return
 		
-		if utils.getModuleTypeFromAttr(inputNode) in ['limb', 'limbQuadrupped', 'limbQuadruppedExtra', 'limbCurved', 'limbQuadruppedExtraMiddle', 'limbQuadrupped2', "limbCurvedQuadrupped"]:
+		if utils.getModuleTypeFromAttr(inputNode) in ['limb', 'limbMll', 'limbQuadrupped', 'limbQuadruppedExtra', 'limbCurved', 'limbQuadruppedExtraMiddle', 'limbQuadrupped2', "limbCurvedQuadrupped"]:
 			cmds.disconnectAttr(utils.getControlNameFromInternal(inputModuleName, 'control')+'.ikFk', self.root+'.ikFk')
 
 			cmds.delete(utils.getInputNode(self.name+'_fk_connector', 'tx'))

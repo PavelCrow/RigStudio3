@@ -20,7 +20,7 @@ class FingersIK(module.Module) :
 		target_module = utils.getModuleInstance(targetModuleName)
 		
 		target_modType = utils.getModuleTypeFromAttr(target)
-		if target_modType == 'limb':
+		if target_modType in ('limb', 'limbMll'):
 
 			# connect ikfk attribute
 			cmds.connectAttr(utils.getControlNameFromInternal(targetModuleName, 'control')+'.ikFk', self.root+'.ikFk')
@@ -74,7 +74,7 @@ class FingersIK(module.Module) :
 		targetModuleName = utils.getModuleName(self.parent)
 		target_module = utils.getModuleInstance(targetModuleName)
 		
-		if target_module.type == 'limb':
+		if target_module.type in ('limb', 'limbMll'):
 			cmds.disconnectAttr(utils.getControlNameFromInternal(targetModuleName, 'control')+'.ikFk', self.root+'.ikFk')
 			cmds.delete(self.name+"_ik_connector_parentConstraint1")
 			cmds.delete(self.name+"_fk_connector_multMat")

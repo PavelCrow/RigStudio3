@@ -2830,10 +2830,10 @@ class MainWindow:
 
         # get children
         children = {}
-        for m_name in self.rig.modules:
-            m = self.rig.modules[m_name]
+        for child_name in self.rig.modules:
+            m = self.rig.modules[child_name]
             if self.curModule.name == utils.getModuleName(m.parent):
-                children[m_name] = [m.parent, m, m.isSeamless()]
+                children[child_name] = [m.parent, m, m.isSeamless()]
 
         # save data
         curModuleData = self.curModule.getData()
@@ -2883,9 +2883,9 @@ class MainWindow:
         # save curModule name for returning to it
         oldCurModuleName = self.curModule.name
 
-        for m_name in children:
-            if utils.getObjectSide(m_name) != 'r':
-                self.disconnectModule(m_name)
+        for child_name in children:
+            if utils.getObjectSide(child_name) != 'r':
+                self.disconnectModule(child_name)
 
         # delete module
         self.deleteModule(updateUI=False)
@@ -2912,12 +2912,12 @@ class MainWindow:
             self.makeSymmetryModule()
 
         # reconnect children
-        for m_name in children:
-            if utils.getObjectSide(m_name) != 'r':
-                self.connectModule(children[m_name][0], m_name)
+        for child_name in children:
+            if utils.getObjectSide(child_name) != 'r':
+                self.connectModule(children[child_name][0], child_name)
                 # snapping
-                if children[m_name][2]:
-                    m = children[m_name][1]
+                if children[child_name][2]:
+                    m = children[child_name][1]
                     m.makeSeamless(True)
 
         # make parents

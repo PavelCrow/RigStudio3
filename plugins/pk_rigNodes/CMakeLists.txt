@@ -1,8 +1,8 @@
 # pk_rigNodes - Maya plugin nodes for rigStudio3
 #
 # Two plugins are built from this project:
-#   pk_rigNodes.mll - pk_ibtw, the solver of the local inbetweens, and
-#                     pk_twist, the solver of the twist chains
+#   pk_rigNodes.mll - pk_ibtw (local inbetweens), pk_twist (twist chains) and
+#                     pk_limbIk (two bone IK)
 #   pk_wings.mll    - pk_wing, the replacement for the bifrost graphs
 # They are kept apart on purpose: a rig that only needs correctives and twists
 # should not have to load the wing node, which is still work in progress.
@@ -35,6 +35,7 @@ add_library(pk_rigNodes SHARED
     src/pkRigNodesMain.cpp
     src/pkIbtwNode.cpp
     src/pkTwistNode.cpp
+    src/pkLimbIkNode.cpp
 )
 
 add_library(pk_wings SHARED

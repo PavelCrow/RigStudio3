@@ -15,14 +15,14 @@ class Fingers(module.Module) :
 	def connect(self, target, opposite=False):
 		targetModuleName = utils.getModuleName(target)
 		target_modType = utils.getModuleTypeFromAttr(target)
-		if target_modType == 'limb':
+		if target_modType in ('limb', 'limbMll'):
 			target = targetModuleName+"_end_out"
 			ctrl = utils.getControlNameFromInternal(targetModuleName, 'ik_end')
 			cmds.setAttr(ctrl+'.tx', 0)
 
 		super(self.__class__, self).connect(target, opposite)
 		
-		if target_modType == 'limb':
+		if target_modType in ('limb', 'limbMll'):
 			self.makeSeamless(True)
 
 	def disconnect(self):
