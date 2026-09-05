@@ -1367,8 +1367,15 @@ def curveShapeToCommand(name): #
 def oneStepUndo(func):
 	def wrapper(*args, **kwargs):
 		cmds.undoInfo(openChunk=True)
-		func(*args, **kwargs)
-		cmds.undoInfo(closeChunk=True)
+		try:
+			# результат возвращается наружу: без этого любой метод под
+			# декоратором молча отдаёт None, и проверки вида
+			# if not self.method(): выходят там, где всё сработало
+			return func(*args, **kwargs)
+		finally:
+			# в finally: при исключении незакрытый чанк ломает отмену
+			# всему, что делается после
+			cmds.undoInfo(closeChunk=True)
 	return wrapper	
 
 def import_pyc(module_name):

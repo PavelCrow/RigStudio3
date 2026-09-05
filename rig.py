@@ -491,6 +491,12 @@ class Rig:
         if len(joints) > 0:
             for j in joints:
                 try:
+                    # у скрытых костей осей быть не должно: их место в скелете
+                    # заняла твистовая цепочка, и сами они не показываются
+                    if state and cmds.getAttr(j + '.drawStyle') == 2:
+                        cmds.setAttr(j + '.displayLocalAxis', 0)
+                        continue
+
                     cmds.setAttr(j + '.displayLocalAxis', state)
                 except:
                     pass            

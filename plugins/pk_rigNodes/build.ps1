@@ -1,5 +1,5 @@
 <#
-    Builds pk_rigNodes.mll for one Maya version.
+    Builds the plugins of rigStudio3 for one Maya version.
 
         .\build.ps1                 # Maya 2022 (default)
         .\build.ps1 -MayaVersion 2025
@@ -9,8 +9,8 @@
     .mll loads in Maya 2022 too. Pass -Toolset v142 if the VS2019 build tools
     ever get installed and a strictly official build is wanted.
 
-    The results go to plugins\plug-ins\<MayaVersion>\ - pk_rigNodes.mll (pk_wing)
-    and pk_correctives.mll (pk_ibtw).
+    The results go to plugins\plug-ins\<MayaVersion>\ - pk_rigNodes.mll
+    (pk_ibtw, pk_twist) and pk_wings.mll (pk_wing).
 #>
 param(
     [string]$MayaVersion = "2022",
@@ -44,10 +44,10 @@ if ($LASTEXITCODE -ne 0) { throw "configure failed" }
 if ($LASTEXITCODE -ne 0) {
     # LNK1104 on the .mll almost always means Maya still has the plugin loaded
     Write-Host "`nIf the linker could not write the .mll, unload it in Maya first:" -ForegroundColor Yellow
-    Write-Host '    cmds.unloadPlugin("pk_rigNodes.mll"); cmds.unloadPlugin("pk_correctives.mll")' -ForegroundColor Yellow
+    Write-Host '    cmds.unloadPlugin("pk_rigNodes.mll"); cmds.unloadPlugin("pk_wings.mll")' -ForegroundColor Yellow
     Write-Host "or build elsewhere: .uild.ps1 -OutputDir C:\some\dir" -ForegroundColor Yellow
     throw "build failed"
 }
 
-Write-Host "`nBuilt: $OutputDir\pk_rigNodes.mll"
-Write-Host "Built: $OutputDir\pk_correctives.mll"
+Write-Host "`nBuilt: $OutputDir\pk_wings.mll"
+Write-Host "Built: $OutputDir\pk_rigNodes.mll"

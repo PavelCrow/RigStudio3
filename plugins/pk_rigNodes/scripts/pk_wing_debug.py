@@ -25,7 +25,7 @@ def _mll_path():
     except Exception:
         version = "2022"
     return os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..",
-                                        "plug-ins", version, "pk_rigNodes.mll"))
+                                        "plug-ins", version, "pk_wings.mll"))
 
 VERTICAL_CURVES = 7
 LOC_GROUP_SUFFIX = "_pk_debug_locs"
@@ -54,7 +54,7 @@ def rebuild(maya_version=None):
     script = os.path.join(root, "build.ps1")
     maya_version = maya_version or cmds.about(version=True).split()[0].split(".")[0]
 
-    name = "pk_rigNodes"
+    name = "pk_wings"
     if cmds.pluginInfo(name, q=True, loaded=True):
         for node in cmds.ls(type="pk_wing") or []:
             cmds.delete(node)

@@ -5,7 +5,7 @@ import maya.OpenMaya as om
 from functools import partial
 import os, math
 
-from .import utils
+from .import utils, controller
 
 version = int(cmds.about(v=True).split(" ")[0])
 if version <= 2024:
@@ -34,6 +34,7 @@ class Twist(object):
     def connect(self):
         self.win.addTwist_btn.clicked.connect(self.twists_add)
         self.win.addTwistSimple_btn.clicked.connect(partial(self.twists_add, advanced=False) )
+        self.win.addTwistMll_btn.clicked.connect(self.twists_addMll)
         self.win.removeTwist_btn.clicked.connect(self.twists_remove)
 
         self.win.twists_listWidget.currentItemChanged.connect(self.selectItem)
@@ -51,12 +52,19 @@ class Twist(object):
         # opening a window / refreshing the list no longer reads every twist.
         self.twists = {}
 
-        if not cmds.objExists('twists'):
-            return
+        if cmds.objExists('twists'):
+            twists_gr = cmds.listRelatives('twists') or []
+            for t_gr in twists_gr:
+                self.twists[t_gr.split('_mod')[0]] = {}
 
-        twists_gr = cmds.listRelatives('twists') or []
-        for t_gr in twists_gr:
-            self.twists[t_gr.split('_mod')[0]] = {}
+        # плагинный вариант живёт прямо на кости и группы _mod не заводит,
+        # поэтому находится по своему солверу
+        for solver in cmds.ls("*_twist_solver") or []:
+            self.twists[solver.split("_twist_solver")[0]] = {}
+
+    def isMll(self, t_name): #
+        """Вариант, собранный на ноде pk_twist."""
+        return bool(t_name) and cmds.objExists(t_name+"_twist_solver")
 
     def getTwist(self, t_name):
         """Return twist data, loading and caching it on first access."""
@@ -72,6 +80,20 @@ class Twist(object):
         saving templates and reset().
         """
         data = {'name': twName}
+
+        if self.isMll(twName):
+            solver = twName + "_twist_solver"
+            data['mode'] = 'mll'
+            data['jointsCount'] = len(cmds.getAttr(solver+".joint", multiIndices=True) or [])
+            data['target'] = self.getMllRoot(twName)
+            data['endTarget'] = ''
+
+            drivers = self.getMllDrivers(twName)
+            data['drivers'] = drivers
+            data['rootOrientTarget'] = drivers.get(0, '')
+            data['endOrientTarget'] = drivers.get(1, '')
+            return data
+
         data['jointsCount'] = len(cmds.listRelatives(twName+'_joints') or [])
         try:  # old characters may lack these attrs
             data['target'] = cmds.getAttr(twName+"_mod.target")
@@ -84,7 +106,12 @@ class Twist(object):
         return data
 
     def doubleClckItem(self):
-        if self.curTwistName: cmds.select(self.curTwistName+"_mod")
+        if not self.curTwistName:
+            return
+        if self.isMll(self.curTwistName):
+            cmds.select(self.curTwistName+"_twistCtrl")
+        else:
+            cmds.select(self.curTwistName+"_mod")
 
     def selectItem(self):
         # get current twist 
@@ -129,10 +156,33 @@ class Twist(object):
 
             self.win.twistToggleOffsetLocators_btn.setChecked(False)
         else:
-            if not cmds.objExists(self.curTwistName+"_mod"):
+            is_mll = self.isMll(self.curTwistName)
+            if not cmds.objExists(self.curTwistName+"_mod") and not is_mll:
                 return
+
+            # у плагинного варианта нет ни коннекторов, ни оффсетных локаторов,
+            # ни пересчёта количества костей - эти кнопки ему не адресованы.
+            # Attach остаётся: им указывается кость, которая крутит цепочку
+            for w in ("twist_reset_btn", "changeJointsCount_btn",
+                      "twistToggleOffsetLocators_btn"):
+                getattr(self.win, w).setEnabled(not is_mll)
+            for w in ("twist_attachRoot_btn", "twist_attachEnd_btn"):
+                getattr(self.win, w).setEnabled(True)
+
             self.win.twist_frame.setEnabled(True)
             data = self.getFrameData(self.curTwistName)
+
+            if is_mll:
+                self.win.twistName_lineEdit.setText(data['name'])
+                self.win.twistsJointsCount_lineEdit.setText(str(data['jointsCount']))
+                self.win.twistRootJoint_lineEdit.setText(data['target'])
+                self.win.twistRootOrientJoint_lineEdit.setText(data['rootOrientTarget'])
+                self.win.twistEndJoint_lineEdit.setText(data['endOrientTarget'])
+                self.curTwist = data
+
+                if self.curTwistName.split('_')[0] == 'r':
+                    self.win.twist_frame.setEnabled(False)
+                return
 
             self.win.twistName_lineEdit.setText(data['name'])
             self.win.twistsJointsCount_lineEdit.setText(str(data['jointsCount']))
@@ -520,6 +570,303 @@ class Twist(object):
 
         self.updateFrame()
 
+    # ------------------------------------------------------------- pk_twist
+
+    def loadRigNodesPlugin(self): #
+        """Загружает pk_rigNodes.mll, собранный под текущую версию Maya."""
+        if "pk_rigNodes" not in (cmds.pluginInfo(q=1, listPlugins=1) or []):
+            mayaVersion = cmds.about(v=True).split(" ")[0]
+            path = os.path.join(rootPath, "plugins", "plug-ins", mayaVersion, "pk_rigNodes.mll")
+
+            if not os.path.isfile(path):
+                cmds.warning("pk_rigNodes.mll is not built for Maya %s - %s" %(mayaVersion, path))
+                return False
+
+            cmds.loadPlugin(path)
+            if "pk_rigNodes" not in (cmds.pluginInfo(q=1, listPlugins=1) or []):
+                return False
+
+        # та же ловушка, что и у pk_ibtw: выгрузка плагина при живых
+        # нодах оставляет тип пустой заглушкой, и createNode отдаёт ноду без
+        # единого атрибута вместо ошибки
+        try:
+            healthy = cmds.attributeQuery("ctrlTranslate", type="pk_twist", exists=True)
+        except RuntimeError:
+            healthy = False
+
+        if not healthy:
+            cmds.warning(" pk_twist is registered without its attributes - restart Maya. "
+                         "The plugin was unloaded while its nodes were still in the scene.")
+            return False
+
+        return True
+
+    def getMllEndJoint(self, start_j): #
+        """Дочерний джоинт, до которого тянется цепочка."""
+        childs = cmds.listRelatives(start_j, type="joint") or []
+        joints = [o for o in childs if "_volume_joint" not in o and "_twist_" not in o]
+
+        if len(joints) == 1:
+            return joints[0]
+
+        cmds.warning(" %s must have exactly one child joint, found %s"
+                     %(start_j, len(joints)))
+        return ""
+
+    @utils.oneStepUndo
+    def twists_addMll(self, *args): #
+        """Твист на ноде pk_twist.
+
+        Кости вложенной цепочкой прямо под выделенной костью, один контрол
+        посередине - он живёт в модуле, а не в скелете. Старые режимы это не
+        трогает, у них своя сборка из кривой и motionPath.
+        """
+        if not self.loadRigNodesPlugin():
+            return
+
+        sel = cmds.ls(sl=1) or []
+        if len(sel) != 1 or cmds.objectType(sel[0]) != "joint":
+            cmds.warning(" Select one joint")
+            return
+        start_j = sel[0]
+
+        if utils.getObjectSide(start_j) == "r" and cmds.objExists(utils.getOpposite(start_j)):
+            cmds.warning(" Select left side joints")
+            return
+
+        if not self.getMllEndJoint(start_j):
+            return
+
+        t_name = self.mllName(start_j)
+        if cmds.objExists(t_name+"_twist_solver") or t_name in self.twists:
+            cmds.warning(" This joint already has a twist")
+            return
+
+        count, ok = QtWidgets.QInputDialog().getInt(self.win, "Add twist",
+                                                   "Enter joints count:",
+                                                   value=5, minValue=2, maxValue=100)
+        if not ok:
+            return
+
+        if not self.buildMll(start_j, count):
+            return
+
+        # правая сторона
+        opp_j = utils.getOpposite(start_j)
+        if opp_j != start_j and cmds.objExists(opp_j):
+            opp_name = self.mllName(opp_j)
+            if cmds.objExists(opp_name+"_twist_solver"):
+                cmds.warning(" %s_twist_solver already exists, the right side is left as it is" %opp_name)
+            elif not self.getMllEndJoint(opp_j):
+                cmds.warning(" The right side is not built")
+            elif self.buildMll(opp_j, count):
+                self.connectMllMirror(t_name)
+
+        self.updateList()
+        self.selectListItemMll(t_name)
+        cmds.select(t_name+"_twistCtrl")
+
+    def mllName(self, joint): #
+        """Имя твиста по кости, на которой он строится."""
+        return joint.split("_skinJoint")[0].split("_outJoint")[0].split("_twJoint")[0]
+
+    def selectListItemMll(self, name): #
+        try:
+            item = self.win.twists_listWidget.findItems(name, QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive)[0]
+            self.win.twists_listWidget.setCurrentItem(item)
+        except: pass
+
+    def buildMll(self, start_j, count): #
+        """Одна сторона: солвер, цепочка костей и контрол посередине."""
+        end_j = self.getMllEndJoint(start_j)
+        if not end_j:
+            return ""
+
+        t_name = self.mllName(start_j)
+        solver = t_name + "_twist_solver"
+        moduleName = utils.getModuleName(start_j)
+
+        nodes_set = t_name + "_twistNodesSet"
+        if not cmds.objExists(nodes_set):
+            # empty: иначе сет забирает текущее выделение, то есть саму кость
+            cmds.sets(n=nodes_set, empty=True)
+        utils.addToModuleSet(nodes_set, moduleName)
+
+        cmds.createNode("pk_twist", n=solver)
+        cmds.sets(solver, e=1, forceElement=nodes_set)
+
+        # кость целиком: ноде этого хватает, чтобы разложить цепочку. Связь
+        # живая, поэтому растяжение кости растягивает цепочку равномерно
+        cmds.connectAttr(end_j+".translate", solver+".boneTranslate")
+
+        # кости
+        step = 1.0 / (count - 1)
+        parent = start_j
+        joints = []
+
+        for i in range(count):
+            cmds.select(parent)
+            j = cmds.joint(n="%s_twist_%s_twJoint" %(t_name, i))
+            # положение задаёт нода, от кости требуется только чистая система
+            # координат - без своего вращения и без jointOrient
+            utils.resetAttrs(j, jointOrient=True)
+            cmds.setAttr(j+".segmentScaleCompensate", 0)
+            cmds.sets(j, e=1, forceElement=nodes_set)
+
+            utils.setUserAttr(j, "pos", i * step, "float", keyable=True, lock=False, min=0, max=1)
+
+            element = "%s.joint[%s]" %(solver, i)
+            cmds.connectAttr(j+".pos", element+".position")
+            cmds.connectAttr("%s.out[%s].outTranslate" %(solver, i), j+".translate")
+            cmds.connectAttr("%s.out[%s].outRotate" %(solver, i), j+".rotate")
+
+            joints.append(j)
+            parent = j
+
+        # Цепочка занимает место исходной кости: она уходит из набора для скина,
+        # а вместо неё туда идут косточки. Кость 0 стоит там же, где исходная,
+        # так что в покое ничего не теряется, зато веса не надо делить между
+        # костью и цепочкой. При удалении твиста всё возвращается.
+        if cmds.objExists("skinJointsSet") and start_j in (cmds.sets("skinJointsSet", q=1) or []):
+            cmds.sets(joints, e=1, forceElement="skinJointsSet")
+            cmds.sets(start_j, e=1, remove="skinJointsSet")
+
+        # и сама кость убирается с глаз: в скелете её больше не видно
+        try:
+            cmds.setAttr(start_j+".drawStyle", 2)
+        except: pass
+
+        # оси у новых костей включаются, если они сейчас включены в риге
+        if self.jointsAxisesOn():
+            for j in joints:
+                try:
+                    cmds.setAttr(j+".displayLocalAxis", 1)
+                except: pass
+
+        self.buildMllControl(t_name, start_j, end_j, moduleName, nodes_set)
+
+        return t_name
+
+    def buildMllControl(self, t_name, start_j, end_j, moduleName, nodes_set): #
+        """Контрол твиста: живёт в модуле, стоит на середине кости.
+
+        Модуль и скелет мерят длину по-разному: у модуля своя иерархия, и
+        масштаб главного позера в неё входит, а скелет живёт в мировых
+        единицах - module.py поэтому и домножает трансляцию скиновых костей на
+        <модуль>_mainPoser_decomposeMatrix.outputScaleX. Здесь то же самое, в ту
+        же сторону: контрол стоит в модуле, а нода считает в скелете.
+        """
+        solver = t_name + "_twist_solver"
+        ctrl_name = t_name + "_twistCtrl"
+
+        # контролу не место в скелете: он вешается на ту же кость, но модульную
+        ctrl_parent = t_name + "_outJoint"
+        in_module = cmds.objExists(ctrl_parent)
+
+        if not in_module:
+            # модульной пары нет: контрол остаётся там же, где цепочка, и
+            # никакого пересчёта единиц не нужно
+            ctrl_parent = start_j
+
+        bone = cmds.getAttr(end_j+".t")[0]
+        length = math.sqrt(sum([v*v for v in bone]))
+
+        ctrl = controller.Control()
+        ctrl.create(ctrl_name, "circle", colorId=17, offset=True, joint=False)
+
+        # кольцо вокруг кости, а не поперёк неё
+        cmds.rotate(0, 0, 90, ctrl_name+".cv[*]", r=1, os=1)
+        if length:
+            r = length * 0.25
+            cmds.scale(r, r, r, ctrl_name+".cv[*]", r=1)
+
+        group = ctrl_name + "_group"
+        cmds.parent(group, ctrl_parent)
+        utils.resetAttrs(group)
+        cmds.sets(group, e=1, forceElement=nodes_set)
+
+        # Середина кости, а не запомненная точка: растянется кость - контрол
+        # уедет вместе с цепочкой. Вектор берётся тот же, по которому строится
+        # цепочка, то есть из скелета. С модульной дочерней кости брать нельзя:
+        # её родитель в модуле не обязан совпадать со скелетным, и тогда это
+        # совсем другой вектор - контрол уезжает вбок.
+        mid = cmds.createNode("multiplyDivide", n=ctrl_name+"_mid_multiplyDivide")
+        cmds.sets(mid, e=1, forceElement=nodes_set)
+        cmds.connectAttr(end_j+".translate", mid+".input1")
+        cmds.connectAttr(mid+".output", group+".translate")
+
+        root_dec = self.moduleScaleNode(moduleName) if in_module else ""
+
+        if root_dec:
+            # вектор скелетный, а контрол живёт в модуле: половина длины делится
+            # на масштаб модуля, чтобы попасть в его единицы
+            half = cmds.createNode("multiplyDivide", n=ctrl_name+"_midScale_multiplyDivide")
+            cmds.sets(half, e=1, forceElement=nodes_set)
+            cmds.setAttr(half+".operation", 2)
+            cmds.setAttr(half+".input1X", 0.5)
+            cmds.connectAttr(root_dec+".outputScaleX", half+".input2X")
+            for axis in "XYZ":
+                cmds.connectAttr(half+".outputX", mid+".input2"+axis)
+        else:
+            cmds.setAttr(mid+".input2", 0.5, 0.5, 0.5, type="double3")
+
+        utils.setUserAttr(ctrl_name, "type", "control")
+        cmds.sets(ctrl_name, e=1, forceElement=nodes_set)
+
+        ctrl_set = moduleName + "_twist_controlSet"
+        if not cmds.objExists(ctrl_set):
+            cmds.sets(n=ctrl_set, empty=True)
+            if cmds.objExists(moduleName+"_controlSet"):
+                cmds.sets(ctrl_set, e=1, forceElement=moduleName+"_controlSet")
+        cmds.sets(ctrl_name, e=1, forceElement=ctrl_set)
+
+        # вращение от масштаба не зависит, а трансляция - да
+        cmds.connectAttr(ctrl_name+".rotate", solver+".ctrlRotate")
+        cmds.connectAttr(ctrl_name+".rotateOrder", solver+".ctrlRotateOrder")
+
+        if root_dec:
+            scl = cmds.createNode("multiplyDivide", n=ctrl_name+"_scale_multiplyDivide")
+            cmds.sets(scl, e=1, forceElement=nodes_set)
+            cmds.connectAttr(ctrl_name+".translate", scl+".input1")
+            for axis in "XYZ":
+                cmds.connectAttr(root_dec+".outputScaleX", scl+".input2"+axis)
+            cmds.connectAttr(scl+".output", solver+".ctrlTranslate")
+        else:
+            cmds.connectAttr(ctrl_name+".translate", solver+".ctrlTranslate")
+
+        return ctrl_name
+
+    def moduleScaleNode(self, moduleName): #
+        """decomposeMatrix главного позера модуля - тот же, что у module.py."""
+        poser = moduleName + "_mainPoser"
+        if not cmds.objExists(poser):
+            return ""
+
+        dec = moduleName + "_mainPoser_decomposeMatrix"
+        if not cmds.objExists(dec):
+            dec = cmds.createNode("decomposeMatrix", n=dec)
+            cmds.connectAttr(poser+".worldMatrix[0]", dec+".inputMatrix")
+            utils.addToModuleSet(dec, moduleName)
+
+        return dec
+
+    def connectMllMirror(self, t_name): #
+        """Настройка левой стороны ведёт правую, анимация у каждой своя."""
+        opp_name = utils.getOpposite(t_name)
+        solver = t_name + "_twist_solver"
+        opp_solver = opp_name + "_twist_solver"
+
+        if not cmds.objExists(opp_solver):
+            return
+
+        cmds.connectAttr(solver+".falloff", opp_solver+".falloff", f=1)
+
+        for i in cmds.getAttr(solver+".joint", multiIndices=True) or []:
+            j = "%s_twist_%s_twJoint" %(t_name, i)
+            opp_j = "%s_twist_%s_twJoint" %(opp_name, i)
+            if cmds.objExists(j) and cmds.objExists(opp_j):
+                cmds.connectAttr(j+".pos", opp_j+".pos", f=1)
+
     @utils.oneStepUndo
     def twists_remove(self, item_name=""):
         if self.win.twists_listWidget.count() == 0:
@@ -539,6 +886,10 @@ class Twist(object):
             if ibtwData["child_j"].split("_twist")[0] == item_name or ibtwData["parent_j"].split("_twist")[0] == item_name:
                 self.main.ibtwClass.remove(ibtwData["name"])
         
+        if self.isMll(item_name):
+            self.twists_removeMll(item_name)
+            return
+
         # delete item
         item = self.win.twists_listWidget.findItems(item_name, QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive)[0]
         self.win.twists_listWidget.removeItemWidget(item)
@@ -566,6 +917,154 @@ class Twist(object):
         # show root joint
         cmds.setAttr(item_name+'_skinJoint.drawStyle', 0)
 
+    def attachMll(self, socket, target): #
+        """Соседняя кость, которая скручивает цепочку.
+
+        Обе кнопки дают один профиль: у корня цепочки скручивания нет, к концу
+        оно полное. Различаются они только тем, какую кость указывают - свою
+        (её поворот цепочка уже наследует, и он гасится) или дочернюю (её
+        поворот добавляется). Берётся только составляющая вокруг оси кости,
+        изгиб в твист не попадает.
+        """
+        name = self.curTwistName
+        solver = name + "_twist_solver"
+
+        if not cmds.objExists(solver):
+            cmds.warning(" Missed " + solver)
+            return
+        if cmds.objectType(target) != "joint":
+            cmds.warning(" Select one joint")
+            return
+
+        def attachTo(tw_name, target, socket):
+            solver = tw_name + "_twist_solver"
+            root = self.getMllRoot(tw_name)
+
+            # Что именно мерить. Скручивает не сам по себе поворот указанной
+            # кости, а поворот одной относительно другой:
+            #   родитель указан - берём поворот своей кости относительно него,
+            #                     то есть локальный rotate корня цепочки;
+            #   ребёнок указан  - берём его собственный локальный rotate, он и
+            #                     есть поворот относительно нашей кости.
+            # Локальный rotate ключицы, например, меряется от позвоночника и к
+            # руке отношения не имеет - подключать его бессмысленно.
+            if self.isAboveInChain(target, root):
+                src = root
+                parents = cmds.listRelatives(root, p=1) or []
+                if target != root and (not parents or target != parents[0]):
+                    cmds.warning(" %s is not the parent of %s - the twist is "
+                                 "measured against %s"
+                                 %(target, root, parents[0] if parents else "nothing"))
+            else:
+                src = target
+
+            # у каждой кнопки свой слот: Attach Root - кость сверху, Attach End -
+            # снизу. Оба живут одновременно и складываются
+            element = "%s.driver[%s]" %(solver, 0 if socket == "root" else 1)
+
+            cmds.connectAttr(src+".rotate", element+".driverRotate", f=1)
+            cmds.connectAttr(src+".rotateOrder", element+".driverRotateOrder", f=1)
+
+            # поза покоя запоминается: дальше в счёт идёт только изменение с
+            # этого момента, и риг в дефолте остаётся нескрученным
+            rest = cmds.getAttr(src+".rotate")[0]
+            cmds.setAttr(element+".driverRest", rest[0], rest[1], rest[2], type="double3")
+
+            # jointOrient драйвера: его канал rotate крутится вокруг собственных
+            # осей кости, а они отличаются от осей нашей ровно на него
+            orient = cmds.getAttr(src+".jointOrient")[0] \
+                     if cmds.attributeQuery("jointOrient", n=src, exists=True) else (0, 0, 0)
+            cmds.setAttr(element+".driverOrient", orient[0], orient[1], orient[2], type="double3")
+            # Профиль один для обоих случаев: у корня цепочки скручивания нет,
+            # к её концу оно полное. Кисть крутит предплечье - локоть стоит,
+            # запястье идёт целиком; плечо крутит само себя - плечо стоит,
+            # локоть идёт целиком. Разница между этими двумя только в том,
+            # наследуется ли поворот драйвера, и это отдельный флаг.
+            cmds.setAttr(element+".driverPosition", 1.0)
+
+            # Драйвер выше цепочки - значит его поворот все кости уже получили
+            # по иерархии, и гасить его надо в минус, от корня к концу.
+            cmds.setAttr(element+".driverInherited",
+                         self.isAboveInChain(target, self.getMllRoot(tw_name)))
+
+        attachTo(name, target, socket)
+
+        opp_name = utils.getOpposite(name)
+        opp_target = utils.getOpposite(target)
+
+        if opp_name != name and cmds.objExists(opp_name+"_twist_solver") and cmds.objExists(opp_target):
+            attachTo(opp_name, opp_target, socket)
+
+        self.updateFrame()
+
+    def jointsAxisesOn(self): #
+        """Включено ли сейчас отображение осей костей в риге."""
+        try:
+            return bool(cmds.getAttr(self.main.rig.root + ".jointsAxises"))
+        except:
+            return False
+
+    def isAboveInChain(self, node, joint): #
+        """Лежит ли node выше joint по иерархии - или это он сам."""
+        if not node or not joint or not cmds.objExists(joint):
+            return False
+
+        cur = joint
+        while cur:
+            if cur == node:
+                return True
+            parents = cmds.listRelatives(cur, p=1) or []
+            cur = parents[0] if parents else ""
+
+        return False
+
+    def getMllDrivers(self, twName): #
+        """Кости, скручивающие цепочку, по слотам: 0 - сверху, 1 - снизу."""
+        solver = twName + "_twist_solver"
+        drivers = {}
+
+        if not cmds.objExists(solver):
+            return drivers
+
+        for i in cmds.getAttr(solver+".driver", multiIndices=True) or []:
+            src = cmds.listConnections("%s.driver[%s].driverRotate" %(solver, i),
+                                       source=1, destination=0) or []
+            if src:
+                drivers[i] = src[0]
+
+        return drivers
+
+    def twists_removeMll(self, name): #
+        """Удаление плагинного твиста - обе стороны."""
+        # запоминается до удаления: после него ни цепочки, ни её связей уже нет
+        root = self.getMllRoot(name)
+        j0 = name + "_twist_0_twJoint"
+        wasSkin = cmds.objExists("skinJointsSet") and cmds.objExists(j0) \
+                  and j0 in (cmds.sets("skinJointsSet", q=1) or [])
+
+        for n in (cmds.sets(name+"_twistNodesSet", q=1) or []):
+            if cmds.objExists(n):
+                cmds.delete(n)
+
+        if cmds.objExists(name+"_twistNodesSet"):
+            cmds.delete(name+"_twistNodesSet")
+
+        # исходная кость возвращается в скелет - снова видима и снова в наборе
+        if root and cmds.objExists(root):
+            try:
+                cmds.setAttr(root+".drawStyle", 0)
+            except: pass
+
+            if wasSkin:
+                cmds.sets(root, e=1, forceElement="skinJointsSet")
+
+        opp_name = utils.getOpposite(name)
+        if opp_name != name and cmds.objExists(opp_name+"_twist_solver"):
+            self.twists_removeMll(opp_name)
+
+        self.curTwistName = ''
+        self.updateList()
+
     @utils.oneStepUndo
     def attach(self, socket, target=None):
         # print(2222, "Attach to", socket, target)
@@ -577,6 +1076,11 @@ class Twist(object):
             
             target = sel[0]
             
+        if self.isMll(self.curTwistName):
+            # у плагинного варианта драйвером служит сама кость, без подмены на
+            # модульную: цепочка живёт там же, где выделенная
+            return self.attachMll(socket, target)
+
         outJoint = target.replace("skinJoint", "outJoint")
     
         if target.split("_")[-1] == "skinJoint":      # target is skinJoint
@@ -834,7 +1338,48 @@ class Twist(object):
             self.updateFrame()
 
     @staticmethod
+    def getDataMll(twName): #
+        """Данные плагинного твиста - того, что нужно интерфейсу и удалению."""
+        solver = twName + "_twist_solver"
+        joints = cmds.listConnections(solver+".ctrlTranslate", source=1, destination=0) or []
+
+        twData = {}
+        twData['name'] = twName
+        twData['mode'] = 'mll'
+        twData['jointsCount'] = len(cmds.getAttr(solver+".joint", multiIndices=True) or [])
+        twData['falloff'] = cmds.getAttr(solver+".falloff")
+        twData['target'] = Twist.getMllRoot(twName)
+        twData['endTarget'] = ''
+
+        driversData = []
+        for i in cmds.getAttr(solver+".driver", multiIndices=True) or []:
+            element = "%s.driver[%s]" %(solver, i)
+            src = cmds.listConnections(element+".driverRotate", source=1, destination=0) or []
+            driversData.append({
+                'index': i,
+                'driver': src[0] if src else '',
+                'rest': cmds.getAttr(element+".driverRest")[0],
+                'position': cmds.getAttr(element+".driverPosition"),
+                'amount': cmds.getAttr(element+".driverAmount"),
+                'inherited': cmds.getAttr(element+".driverInherited"),
+            })
+        twData['driversData'] = driversData
+        return twData
+
+    @staticmethod
+    def getMllRoot(twName): #
+        """Кость, под которой висит цепочка."""
+        j = twName + "_twist_0_twJoint"
+        if not cmds.objExists(j):
+            return ""
+        parents = cmds.listRelatives(j, p=1) or []
+        return parents[0] if parents else ""
+
+    @staticmethod
     def getData(twName, module_name=""):
+        if cmds.objExists(twName+"_twist_solver"):
+            return Twist.getDataMll(twName)
+
         # get twists data
         twData = {}
         if module_name == "":

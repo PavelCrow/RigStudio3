@@ -432,7 +432,7 @@ class Inbetweens(object):
 		return not self.isMll(name) and not cmds.objExists(name+"_ibtw_joints_group")
 
 	def isMll(self, name): #
-		"""The variant built on the pk_ibtw node of pk_correctives.mll."""
+		"""The variant built on the pk_ibtw node of pk_rigNodes.mll."""
 		return cmds.objExists(name+"_ibtw_solver")
 		
 	def getOffsetLocators(self, name): #
@@ -777,20 +777,20 @@ class Inbetweens(object):
 		opp_name = utils.getOpposite(name)
 		cmds.select(name+"_ibtw_outJoint_%s_1" %side, opp_name+"_ibtw_outJoint_%s_1" %side)
 
-	# ---------------------------------------------------------------- pk_correctives
+	# ---------------------------------------------------------------- pk_ibtw
 
-	def loadCorrectivesPlugin(self): #
-		"""Load pk_correctives.mll built for the running Maya version."""
-		if "pk_correctives" not in (cmds.pluginInfo(q=1, listPlugins=1) or []):
+	def loadRigNodesPlugin(self): #
+		"""Load pk_rigNodes.mll built for the running Maya version."""
+		if "pk_rigNodes" not in (cmds.pluginInfo(q=1, listPlugins=1) or []):
 			mayaVersion = cmds.about(v=True).split(" ")[0]
-			path = os.path.join(rootPath, "plugins", "plug-ins", mayaVersion, "pk_correctives.mll")
+			path = os.path.join(rootPath, "plugins", "plug-ins", mayaVersion, "pk_rigNodes.mll")
 
 			if not os.path.isfile(path):
-				cmds.warning("pk_correctives.mll is not built for Maya %s - %s" %(mayaVersion, path))
+				cmds.warning("pk_rigNodes.mll is not built for Maya %s - %s" %(mayaVersion, path))
 				return False
 
 			cmds.loadPlugin(path)
-			if "pk_correctives" not in (cmds.pluginInfo(q=1, listPlugins=1) or []):
+			if "pk_rigNodes" not in (cmds.pluginInfo(q=1, listPlugins=1) or []):
 				return False
 
 		# the plugin says it is loaded, but that is not enough: unloading it
@@ -851,7 +851,7 @@ class Inbetweens(object):
 	def addMll(self, data=None, mirrored=False): #
 		"""Inbetween on the pk_ibtw node: the correctives go straight into the
 		selected joint, one solver node, no groups and no template scene."""
-		if not self.loadCorrectivesPlugin():
+		if not self.loadRigNodesPlugin():
 			return
 
 		if data:

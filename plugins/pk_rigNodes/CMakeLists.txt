@@ -1,10 +1,11 @@
 # pk_rigNodes - Maya plugin nodes for rigStudio3
 #
 # Two plugins are built from this project:
-#   pk_rigNodes.mll    - pk_wing, the replacement for the bifrost graphs
-#   pk_correctives.mll - pk_ibtw, the solver of the local inbetweens
-# They are kept apart on purpose: a rig that only needs correctives should not
-# have to load the wing node, which is still work in progress.
+#   pk_rigNodes.mll - pk_ibtw, the solver of the local inbetweens, and
+#                     pk_twist, the solver of the twist chains
+#   pk_wings.mll    - pk_wing, the replacement for the bifrost graphs
+# They are kept apart on purpose: a rig that only needs correctives and twists
+# should not have to load the wing node, which is still work in progress.
 #
 # Build (see build.ps1):
 #   cmake -B build/2026 -G "Visual Studio 17 2022" -T v143 -A x64 -DMAYA_VERSION=2026
@@ -31,17 +32,18 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(PK_OUTPUT_DIR "${CMAKE_SOURCE_DIR}/../plug-ins/${MAYA_VERSION}" CACHE PATH "Where to put the .mll")
 
 add_library(pk_rigNodes SHARED
-    src/pluginMain.cpp
+    src/pkRigNodesMain.cpp
+    src/pkIbtwNode.cpp
+    src/pkTwistNode.cpp
+)
+
+add_library(pk_wings SHARED
+    src/pkWingsMain.cpp
     src/pkWingNode.cpp
     src/pkMath.cpp
 )
 
-add_library(pk_correctives SHARED
-    src/pkCorrectivesMain.cpp
-    src/pkIbtwNode.cpp
-)
-
-foreach(pk_target pk_rigNodes pk_correctives)
+foreach(pk_target pk_rigNodes pk_wings)
     target_include_directories(${pk_target} PRIVATE "${MAYA_LOCATION}/include")
     target_link_directories(${pk_target} PRIVATE "${MAYA_LOCATION}/lib")
     target_link_libraries(${pk_target} PRIVATE Foundation OpenMaya OpenMayaAnim)

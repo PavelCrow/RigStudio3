@@ -1,5 +1,6 @@
 #include "pkTypeIds.h"
 #include "pkIbtwNode.h"
+#include "pkTwistNode.h"
 
 #include <maya/MFnPlugin.h>
 
@@ -17,6 +18,14 @@ PK_EXPORT MStatus initializePlugin(MObject obj)
         return status;
     }
 
+    status = plugin.registerNode("pk_twist", pk::kTwistNodeId,
+                                 PkTwistNode::creator, PkTwistNode::initialize);
+    if (!status)
+    {
+        status.perror("registerNode pk_twist");
+        return status;
+    }
+
     return MS::kSuccess;
 }
 
@@ -28,6 +37,13 @@ PK_EXPORT MStatus uninitializePlugin(MObject obj)
     if (!status)
     {
         status.perror("deregisterNode pk_ibtw");
+        return status;
+    }
+
+    status = plugin.deregisterNode(pk::kTwistNodeId);
+    if (!status)
+    {
+        status.perror("deregisterNode pk_twist");
         return status;
     }
 
