@@ -582,6 +582,13 @@ class Template(object):
 				m_name = utils.getModuleName(target)
 				m = utils.getModuleInstance(m_name)
 
+				# плагинный вариант собирается целиком сам: ни коннекторов, ни
+				# оффсетных локаторов, которые правит остальная часть ветки, у
+				# него нет
+				if twData.get('mode') == 'mll':
+					self.main.twistClass.twists_addMll(data=twData, module_name=m_name)
+					continue
+
 				endTarget = twData['endTarget'] = utils.getRealNameFromTemplated(m_name, twData['endTarget'])
 				rootOrientTarget = twData['rootOrientTarget'] = utils.getRealNameFromTemplated(m_name, twData['rootOrientTarget'])
 				endOrientTarget = twData['endOrientTarget'] = utils.getRealNameFromTemplated(m_name, twData['endOrientTarget'])
