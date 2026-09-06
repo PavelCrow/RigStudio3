@@ -46,6 +46,7 @@ MObject PkLimbIkNode::aFkRootMatrix;
 MObject PkLimbIkNode::aFkMidMatrix;
 MObject PkLimbIkNode::aFkEndMatrix;
 MObject PkLimbIkNode::aFkElbowAutoTwist;
+MObject PkLimbIkNode::aMirrored;
 MObject PkLimbIkNode::aOutRootMatrix;
 MObject PkLimbIkNode::aOutMidMatrix;
 MObject PkLimbIkNode::aOutEndMatrix;
@@ -90,8 +91,15 @@ namespace
     // the reflections cancel: the elbow comes out bending the way the other arm
     // does instead of the way it should. The stock rig never met this because a
     // parentConstraint reads its target's rotation and ignores the sign of its
-    // scale; Z is rebuilt from X and Y here for the same reason.
-    MMatrix withoutScale(const MMatrix& m)
+    // scale; one axis is rebuilt from the other two here for the same reason.
+    //
+    // Which axis, depends on where the reflection came from, and there is no
+    // universal answer - rebuilding the wrong one turns the reflection into a
+    // half turn instead of undoing it. For the bones it is Z: X is the bone
+    // itself and Y the axis it bends around, both meant. For the IK goal it is
+    // X: there the reflection is ikSymmetryBehaviour, and that one is a flip of
+    // `sx` on the mirror group of the control - along the frame's own X.
+    MMatrix withoutScale(const MMatrix& m, bool mirrored, int rebuild = 2)
     {
         MVector x(m[0][0], m[0][1], m[0][2]);
         MVector y(m[1][0], m[1][1], m[1][2]);
@@ -101,14 +109,78 @@ namespace
         if (y.length() > kEps) y.normalize();
         if (z.length() > kEps) z.normalize();
 
-        if ((x ^ y) * z < 0.0)
-            z = -z;
+        // Отражения приходят только с зеркальной стороны: общее зеркало туда и
+        // не заглядывает, а ikSymmetryBehaviour умножен на mod.mirror. На
+        // обычной стороне проверять нечего.
+        if (mirrored && (x ^ y) * z < 0.0)
+        {
+            if (rebuild == 0)
+                x = y ^ z;
+            else
+                z = x ^ y;
+        }
 
         const double r[4][4] = {
             { x.x, x.y, x.z, 0.0 },
             { y.x, y.y, y.z, 0.0 },
             { z.x, z.y, z.z, 0.0 },
             { m[3][0], m[3][1], m[3][2], 1.0 }
+        };
+
+        return MMatrix(r);
+    }
+
+    // The inverse of a matrix that is only a rotation and a place - which every
+    // frame here is. Transposing the axes and carrying the position back through
+    // them is exact and a fraction of what a general inversion costs.
+    MMatrix rigidInverse(const MMatrix& m)
+    {
+        const MVector t(m[3][0], m[3][1], m[3][2]);
+
+        const double r[4][4] = {
+            { m[0][0], m[1][0], m[2][0], 0.0 },
+            { m[0][1], m[1][1], m[2][1], 0.0 },
+            { m[0][2], m[1][2], m[2][2], 0.0 },
+            { -(t.x * m[0][0] + t.y * m[0][1] + t.z * m[0][2]),
+              -(t.x * m[1][0] + t.y * m[1][1] + t.z * m[1][2]),
+              -(t.x * m[2][0] + t.y * m[2][1] + t.z * m[2][2]), 1.0 }
+        };
+
+        return MMatrix(r);
+    }
+
+    // The same frame, turned so its X points at `target`, by the smallest turn
+    // that does it - so whatever roll the frame carried is carried on. Used for
+    // the FK chain, where the roll belongs to the controls and rebuilding the
+    // frame from scratch would throw it away.
+    MMatrix reAim(const MMatrix& m, const MVector& target, const MVector& at)
+    {
+        MVector x(m[0][0], m[0][1], m[0][2]);
+
+        if (x.length() <= kEps || target.length() <= kEps)
+            return m;
+
+        x.normalize();
+        const MVector t = target.normal();
+
+        // почти разворот на месте - минимальная дуга там не определена
+        if (x * t < -0.9999)
+            return m;
+
+        const MQuaternion q(x, t);
+
+        MVector y(m[1][0], m[1][1], m[1][2]);
+        MVector z(m[2][0], m[2][1], m[2][2]);
+
+        const MVector rx = x.rotateBy(q);
+        y = y.rotateBy(q);
+        z = z.rotateBy(q);
+
+        const double r[4][4] = {
+            { rx.x, rx.y, rx.z, 0.0 },
+            { y.x, y.y, y.z, 0.0 },
+            { z.x, z.y, z.z, 0.0 },
+            { at.x, at.y, at.z, 1.0 }
         };
 
         return MMatrix(r);
@@ -185,8 +257,15 @@ namespace
         if (t >= 1.0 - kEps)
             return b;
 
-        const MQuaternion qa = MTransformationMatrix(a).rotation();
+        MQuaternion qa = MTransformationMatrix(a).rotation();
         const MQuaternion qb = MTransformationMatrix(b).rotation();
+
+        // Кватернион и его отрицание - один и тот же поворот, но slerp между
+        // разными полушариями идёт длинной дорогой, через полоборота. На концах
+        // шкалы этого не видно: там возвращаются сами матрицы. Вылезает только
+        // на промежуточном ikFk, и тем вернее, чем дальше разошлись источники.
+        if (qa.x * qb.x + qa.y * qb.y + qa.z * qb.z + qa.w * qb.w < 0.0)
+            qa = MQuaternion(-qa.x, -qa.y, -qa.z, -qa.w);
 
         MMatrix m = slerp(qa, qb, t).asMatrix();
 
@@ -338,6 +417,10 @@ MStatus PkLimbIkNode::initialize()
     aFkEndMatrix = mAttr.create("fkEndMatrix", "fem");
     addAttribute(aFkEndMatrix);
 
+    aMirrored = nAttr.create("mirrored", "mrr", MFnNumericData::kBoolean, false);
+    nAttr.setKeyable(false);
+    addAttribute(aMirrored);
+
     aFkElbowAutoTwist = nAttr.create("fkElbowAutoTwist", "fkat",
                                      MFnNumericData::kDouble, 0.0);
     nAttr.setMin(0.0);
@@ -433,7 +516,7 @@ MStatus PkLimbIkNode::initialize()
     addAttribute(aOutReach);
 
     const MObject inputs[] = {
-        aRootMatrix, aGoalMatrix, aPoleMatrix,
+        aRootMatrix, aGoalMatrix, aPoleMatrix, aMirrored,
         aLengthA, aLengthB, aLength1, aLength2, aScale,
         aAutoStretch, aSoftIk, aSnap, aStretchVolume,
         aMidOffset, aMidOffsetX, aMidOffsetY, aMidOffsetZ,
@@ -477,7 +560,12 @@ MStatus PkLimbIkNode::compute(const MPlug& plug, MDataBlock& data)
 
     const MMatrix rootM = data.inputValue(aRootMatrix, &status).asMatrix();
     if (!status) return status;
-    const MMatrix goalM = withoutScale(data.inputValue(aGoalMatrix, &status).asMatrix());
+
+    const bool mirrored = data.inputValue(aMirrored, &status).asBool();
+    // 0 - отражение снимается по X: у цели его ставит ikSymmetryBehaviour,
+    // флипом sx на группе mirror самого контрола
+    const MMatrix goalM = withoutScale(data.inputValue(aGoalMatrix, &status).asMatrix(),
+                                       mirrored, 0);
     const MMatrix poleM = data.inputValue(aPoleMatrix, &status).asMatrix();
 
     const double lengthARaw = data.inputValue(aLengthA, &status).asDouble();
@@ -526,7 +614,12 @@ MStatus PkLimbIkNode::compute(const MPlug& plug, MDataBlock& data)
     }
     u.normalize();
 
-    const MVector z = (x ^ u).normal();
+    // Нормаль плоскости сгиба. Векторное произведение - псевдовектор: x и u
+    // зеркалятся как обычные векторы, а их произведение получает лишний минус.
+    // Оставить как есть - и на зеркальной стороне кости прокручиваются вокруг
+    // собственной оси на полоборота, причём только в IK: FK-ветка нормаль не
+    // строит, и потому при переключении ik/fk кость разворачивало.
+    const MVector z = (x ^ u).normal() * (mirrored ? -1.0 : 1.0);
 
     // --- how long the bones end up being -------------------------------------
     const double L = la0 + lb0;
@@ -579,32 +672,91 @@ MStatus PkLimbIkNode::compute(const MPlug& plug, MDataBlock& data)
 
     const MVector midBase = mid;
 
+    // --- FK-цепочка читается здесь, до контрола -------------------------------
+    // Контрол среднего сидит на локте той цепочки, которая видна на самом деле,
+    // а не на локте IK-решения. В штатном риге он висел point-констрейном на
+    // b_finalJoint, то есть на уже смешанной кости. Пока кадр строился из IK,
+    // достаточно было сдвинуть позвоночник - FK-цепочка уходила за плечом, IK
+    // оставалась на месте, и контрол уезжал за ней.
+    const bool useFk = (ikFk < 1.0 - kEps);
+
+    MMatrix fkRoot, fkMid, fkEnd;
+    MVector pA = root, pB = midBase, pE = end;
+
+    if (useFk)
+    {
+        fkRoot = withoutScale(data.inputValue(aFkRootMatrix, &status).asMatrix(), mirrored);
+        fkMid  = withoutScale(data.inputValue(aFkMidMatrix, &status).asMatrix(), mirrored);
+        fkEnd  = withoutScale(data.inputValue(aFkEndMatrix, &status).asMatrix(), mirrored);
+
+        pA = positionOf(fkRoot);
+        pB = positionOf(fkMid);
+        pE = positionOf(fkEnd);
+    }
+
+    const MVector bRoot = pA + (root - pA) * ikFk;
+    const MVector bMid  = pB + (midBase - pB) * ikFk;
+    const MVector bEnd  = pE + (end - pE) * ikFk;
+
     // --- where the middle control sits ----------------------------------------
     // Between the two bones, which is where the constraint of the module puts
     // it. That frame matters twice over: the control is placed by it, and the
     // offset it gives is stated in it. Taking the frame of the middle bone
     // instead - which is what the joint uses - is off by half the bend, and the
     // knee then travels at an angle to the drag.
-    MVector xaPre = midBase - root;
+    MVector xaPre = bMid - bRoot;
     xaPre = (xaPre.length() > kEps) ? xaPre.normal() : x;
 
-    MVector xbPre = end - midBase;
+    MVector xbPre = bEnd - bMid;
     xbPre = (xbPre.length() > kEps) ? xbPre.normal() : x;
 
     MVector xm = xaPre + xbPre;
     xm = (xm.length() > kEps) ? xm.normal() : xbPre;
 
-    const MMatrix midCtrl = data.inputValue(aMidOrient, &status).asMatrix()
-                          * frameAt(midBase, xm, z);
+    const MMatrix midOrient = data.inputValue(aMidOrient, &status).asMatrix();
+    const MMatrix midCtrl = midOrient * frameAt(bMid, xm, z);
+
+    // Куда сядет группа контрола - и в какой системе он потом окажется. Это не
+    // одно и то же: наружу уходит поворот, а Maya примет его как поворот и
+    // только, так что отражение, если оно есть в родителе, из локальной матрицы
+    // выпадет. Кадр, в котором контрол реально живёт, надо собрать обратно.
+    const MMatrix midCtrlParentInv =
+        data.inputValue(aMidCtrlParentInverseMatrix, &status).asMatrix();
+
+    MTransformationMatrix mct(midCtrl * midCtrlParentInv);
 
     // --- the knee is moved by hand, after everything else ----------------------
     // The bones do not keep their length through this: they reach from the root
     // to wherever the knee has been put, and from there to the end.
+    //
+    // Смещение приходит локальными каналами контрола, значит и толковать его
+    // надо в том кадре, который у контрола получился на самом деле, а не в том,
+    // из которого он выведен.
+    //
+    // Кадр собирается из того же кватерниона, что уходит наружу в
+    // outMidBaseRotate: Maya построит поворот группы именно из него, и
+    // отражение достанется группе от родителя. Через asRotateMatrix брать
+    // нельзя - та оставляет отражение при себе, и на родителе оно сокращается
+    // со вторым: кадр выходит правым, а группа левая, и локоть едет против Z.
     if (mo[0] != 0.0 || mo[1] != 0.0 || mo[2] != 0.0)
     {
-        const MVector v = MVector(mo[0], mo[1], mo[2])
-                        .rotateBy(MTransformationMatrix(midCtrl).rotation());
-        mid += v;
+        const MMatrix ctrlWorld =
+            mct.rotation().asMatrix() * midCtrlParentInv.inverse();
+
+        const MVector offset = MVector(mo[0], mo[1], mo[2]) * ctrlWorld;
+
+        mid += offset;
+
+        // Локоть двигается и в FK. Иначе смещение живёт только внутри
+        // IK-решения и при ikFk = 0 пропадает вместе с ним. Кости при этом
+        // доворачиваются наименьшим поворотом, а не строятся заново: крен в FK
+        // принадлежит контролам, и кадр с нуля его потерял бы.
+        if (useFk)
+        {
+            pB += offset;
+            fkRoot = reAim(fkRoot, pB - pA, pA);
+            fkMid  = reAim(fkMid, pE - pB, pB);
+        }
     }
 
     MVector xa = mid - root;
@@ -625,29 +777,15 @@ MStatus PkLimbIkNode::compute(const MPlug& plug, MDataBlock& data)
     // the frames the solver builds are its own; the rig says how the joints sit
     // around the bone, and that is measured, not assumed
     MMatrix rootOut = data.inputValue(aRootOrient, &status).asMatrix() * frameAt(root, xa, z);
-    MMatrix midOut  = data.inputValue(aMidOrient, &status).asMatrix() * frameAt(mid, xb, z);
+    MMatrix midOut  = midOrient * frameAt(mid, xb, z);
     MMatrix endOut  = data.inputValue(aEndOrient, &status).asMatrix() * endM;
 
     // Снимается до смешивания с FK: реверс-стопа ждёт чистый IK.
     const MMatrix ikEndOut = endOut;
 
     // --- and the FK chain, if it is asked for --------------------------------
-    if (ikFk < 1.0 - kEps)
+    if (useFk)
     {
-        const MMatrix fkRootRaw = data.inputValue(aFkRootMatrix, &status).asMatrix();
-
-        // Какая это сторона - видно по самому кадру, спрашивать не у кого:
-        // зеркальная собрана на отрицательном скейле и приходит левосторонней.
-        const bool mirrored = fkRootRaw.det3x3() < 0.0;
-
-        MMatrix fkRoot = withoutScale(fkRootRaw);
-        MMatrix fkMid  = withoutScale(data.inputValue(aFkMidMatrix, &status).asMatrix());
-        const MMatrix fkEnd = withoutScale(data.inputValue(aFkEndMatrix, &status).asMatrix());
-
-        const MVector pA = positionOf(fkRoot);
-        const MVector pB = positionOf(fkMid);
-        const MVector pE = positionOf(fkEnd);
-
         // The bones rolling by themselves: each aims at the next control with
         // its Z turned towards the far end of the chain, so the two share one
         // plane - which is what the solver gives them under IK. The module does
@@ -717,13 +855,10 @@ MStatus PkLimbIkNode::compute(const MPlug& plug, MDataBlock& data)
 
     // где сидеть группе среднего контрола: на локте до его собственного
     // смещения, сразу в системе её родителя
-    const MMatrix midCtrlLocal =
-        midCtrl * data.inputValue(aMidCtrlParentInverseMatrix, &status).asMatrix();
-
-    MTransformationMatrix mct(midCtrlLocal);
     const MVector mb = mct.getTranslation(MSpace::kTransform);
     MEulerRotation mbr = mct.rotation().asEulerRotation();
-    mbr.reorderIt(ro);
+    if (ro != MEulerRotation::kXYZ)
+        mbr.reorderIt(ro);
 
     MDataHandle hMidBase = data.outputValue(aOutMidBaseTranslate, &status);
     if (status) { hMidBase.set3Double(mb.x, mb.y, mb.z); hMidBase.setClean(); }
@@ -750,13 +885,16 @@ MStatus PkLimbIkNode::compute(const MPlug& plug, MDataBlock& data)
     const double pLen = pRow.length();
     const double parentScale = (pLen > kEps) ? (1.0 / pLen) : 1.0;
 
-    const MMatrix rootN = withoutScale(rootOut);
-    const MMatrix midN  = withoutScale(midOut);
-    const MMatrix endN  = withoutScale(endOut);
+    // Нормализовать эти три не нужно: каждый из них построен из ортонормированных
+    // кадров - frameAt даёт такой по построению, goalM уже выпрямлен на входе,
+    // а blendMatrix отдаёт кватернион. Девять корней за вызов ни за что.
+    const MMatrix& rootN = rootOut;
+    const MMatrix& midN  = midOut;
+    const MMatrix& endN  = endOut;
 
     const MMatrix local[3] = { rootN * parentInv,
-                               midN * rootN.inverse(),
-                               endN * midN.inverse() };
+                               midN * rigidInverse(rootN),
+                               endN * rigidInverse(midN) };
     const MObject orients[3] = { aRootJointOrient, aMidJointOrient, aEndJointOrient };
 
     MArrayDataHandle hOutT = data.outputArrayValue(aOutTranslate, &status);
@@ -773,8 +911,8 @@ MStatus PkLimbIkNode::compute(const MPlug& plug, MDataBlock& data)
         {
             // rotate * jointOrient * parent - значит поворот это локальная
             // матрица, с которой снята ориентация джоинта
-            m = m * MEulerRotation(jo[0], jo[1], jo[2],
-                                   MEulerRotation::kXYZ).asMatrix().inverse();
+            m = m * rigidInverse(MEulerRotation(jo[0], jo[1], jo[2],
+                                                MEulerRotation::kXYZ).asMatrix());
         }
 
         MTransformationMatrix tm(m);
@@ -785,7 +923,8 @@ MStatus PkLimbIkNode::compute(const MPlug& plug, MDataBlock& data)
         if (i > 0 && parentScale > kEps)
             t /= parentScale;
         MEulerRotation e = tm.rotation().asEulerRotation();
-        e.reorderIt(ro);
+        if (ro != MEulerRotation::kXYZ)
+            e.reorderIt(ro);
 
         MDataHandle hT = bT.addElement(i, &status);
         if (status) hT.set3Double(t.x, t.y, t.z);

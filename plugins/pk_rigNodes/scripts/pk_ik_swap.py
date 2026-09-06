@@ -44,13 +44,13 @@ def _names(m):
         # мерит длину от него же.
         "ikRoot":  m + "_snap_root_loc",
         "volume":  [m + "_root_volume_outJoint", m + "_middle_volume_outJoint"],
-        # Откуда нода читает FK-цепочку. Для первых двух - кости: без
-        # pairBlend их поворот равен повороту контрола. А вот вместо
-        # end_fkJoint взят сам контрол: на кости висит зеркальный флип
-        # mirror_condition.sx, и риг проводит его через канал скейла, чтобы
-        # он ушёл в fk_out_grp. Констрейн такой флип игнорировал, а нода
-        # читает матрицу целиком - и он оседал в повороте кисти.
-        "fk":      [m + "_a_fkJoint", m + "_b_fkJoint", m + "_fk_end"],
+        # Откуда нода читает FK-цепочку - кости, а не контролы. У первых
+        # двух без pairBlend поворот равен повороту контрола. А конец берётся
+        # именно с кости: контрол на зеркальной стороне левосторонний, а
+        # mirror_condition.sx на кости этот перевёрнутый X и компенсирует -
+        # кадр выходит правым, и снимать отражение не приходится вовсе.
+        # Штатный констрейн целился туда же.
+        "fk":      [m + "_a_fkJoint", m + "_b_fkJoint", m + "_end_fkJoint"],
         # Кому pairBlend вёл поворот - только им его и снимать.
         "fkTwisted": [m + "_a_fkJoint", m + "_b_fkJoint"],
         "final":   [m + "_a_finalJoint", m + "_b_finalJoint", m + "_end_finalJoint"],
@@ -141,6 +141,14 @@ def swap(m):
     for a in ("ikFk", "autoStretch", "softIk", "snap", "length1", "length2",
               "stretchVolume"):
         cmds.connectAttr(n["control"] + "." + a, node + "." + a)
+
+    # Сторона. Признак структурный: меняется при сборке рига и никогда в
+    # анимации, поэтому приходит связью, а не считается из матриц каждый раз.
+    mirror = m + "_mod.mirror"
+    if cmds.objExists(mirror):
+        cmds.connectAttr(mirror, node + ".mirrored")
+    else:
+        cmds.warning(" Missed " + mirror + " - the mirrored side will be wrong")
 
     # Автоподворот FK: его считает нода, поэтому старый механизм отключается
     # здесь же. Оставить его - и подворот сложится дважды: сначала pairBlend

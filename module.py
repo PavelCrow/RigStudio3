@@ -83,18 +83,17 @@ class Module(object):
             if cmds.objExists(self.name+o):
                 cmds.hide(self.name+o)
 
-        # hide out joints
-        
-        # if cmds.objExists(self.main.rig.root + ".singleHierarhy"):
-        #         singleHierarhy = cmds.getAttr(self.main.rig.root + ".singleHierarhy")
-        # else:
-        #     singleHierarhy = True    
-        # if singleHierarhy:    
-        #     for j in cmds.listRelatives(self.name+"_outJoints", allDescendents=1):
-        #         if cmds.objectType(j) == "joint":
-        #             try:
-        #                 cmds.setAttr(j+".drawStyle", 2)
-        #             except: pass
+        # Кости в группе output не рисуются: их место в сцене занимают скиновые,
+        # а сами они нужны только как источник. Строго после addSkinJoints - тот
+        # переносит drawStyle с выходной кости на скиновую, и обратный порядок
+        # спрятал бы весь скелет.
+        out_grp = self.name + "_output"
+        if cmds.objExists(out_grp):
+            for j in cmds.listRelatives(out_grp, allDescendents=1, type="joint") or []:
+                try:
+                    cmds.setAttr(j+".drawStyle", 2)
+                except Exception as e:
+                    cmds.warning("Cannot hide %s (%s)" % (j, e))
 
         cmds.refresh()
 

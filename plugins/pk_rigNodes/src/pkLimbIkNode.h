@@ -131,6 +131,12 @@ public:
     static MObject aFkEndMatrix;
     static MObject aFkElbowAutoTwist;  // how much the FK bones roll by themselves
 
+    // Which side this is. Set once, from the rig - the module already has the
+    // flag - rather than worked out from the matrices on every evaluation: it
+    // changes when the rig is built, never while it is animated. Everything the
+    // mirrored side needs is skipped outright when this is off.
+    static MObject aMirrored;
+
     // --- outputs -----------------------------------------------------------
     // World matrices of the three joints. Orientation follows the convention of
     // the rig: X down the bone, Z along the normal of the plane the chain bends

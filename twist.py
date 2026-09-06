@@ -1847,8 +1847,14 @@ class Twist(object):
 
         for tw_data in twistsData:
             tw_name = tw_data["name"]
+            # У плагинного твиста половины этих полей нет - ориентация цепочки
+            # задаётся не локаторами, а самой нодой, - а endTarget пустой.
+            # Драйверы сюда не идут намеренно: список уходит на удаление
+            # твистов, и хватать по нему чужие было бы разрушительно.
             for attr in ["target", "endTarget", "rootOrientTarget", "endOrientTarget"]:
-                obj = tw_data[attr]
+                obj = tw_data.get(attr)
+                if not obj:
+                    continue
                 obj_m_name = utils.getModuleName(obj)
                 if module_name == obj_m_name:
                     if tw_name not in twists:

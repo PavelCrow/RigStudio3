@@ -2536,7 +2536,7 @@ connectAttr "ik_connector.wm" "pkIk_solver.gm";
 connectAttr "ik_aim.wm" "pkIk_solver.pm";
 connectAttr "a_fkJoint.wm" "pkIk_solver.frm";
 connectAttr "b_fkJoint.wm" "pkIk_solver.fmm";
-connectAttr "fk_end.wm" "pkIk_solver.fem";
+connectAttr "end_fkJoint.wm" "pkIk_solver.fem";
 connectAttr "fk_end_group_decomposeMatrix.otx" "pkIk_solver.la";
 connectAttr "fk_b_group_decomposeMatrix.otx" "pkIk_solver.lb";
 connectAttr "control.ikFk" "pkIk_solver.ifk";
@@ -2551,6 +2551,7 @@ connectAttr "middleOffset.t" "pkIk_solver.mo";
 connectAttr "middleOffset_group.pim" "pkIk_solver.mpim";
 connectAttr "a_finalJoint.pim" "pkIk_solver.pim";
 connectAttr "fk_b.autoTwist" "pkIk_solver.fkat";
+connectAttr "mod.mirror" "pkIk_solver.mrr";
 connectAttr "middleOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn";
 connectAttr "root_poserOrient.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
 		;
