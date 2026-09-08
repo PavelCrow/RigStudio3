@@ -25,7 +25,11 @@ class Twist(object):
         self.twists = {}
         self.curTwistName = ""
         self.curTwist = {}
-        
+
+        # пока фрейм заполняется, слайдер второй цепочки не должен писать в
+        # ноду: setValue шлёт тот же valueChanged, что и рука пользователя
+        self.secondBlendUpdating = False
+
         self.connect()
 
         self.updateList()
@@ -45,6 +49,12 @@ class Twist(object):
         self.win.twist_reset_btn.clicked.connect(self.reset)
         self.win.changeJointsCount_btn.clicked.connect(self.changeJointsCount)
         self.win.twistToggleOffsetLocators_btn.clicked.connect(self.toggleOffsetLocators)
+
+        # вторая цепочка на той же кости - только у плагинного твиста
+        self.win.changeSecondJointsCount_btn.clicked.connect(self.changeSecondJointsCount)
+        self.win.removeSecondChain_btn.clicked.connect(self.removeSecondChain)
+        self.win.twistSecond_slider.setRange(0, 100)
+        self.win.twistSecond_slider.valueChanged.connect(self.secondBlendChanged)
 
     def loadTwistsData(self):
         # Populate the twist cache with names only (cheap). The expensive
@@ -85,6 +95,8 @@ class Twist(object):
             solver = twName + "_twist_solver"
             data['mode'] = 'mll'
             data['jointsCount'] = len(cmds.getAttr(solver+".joint", multiIndices=True) or [])
+            data['secondJointsCount'] = len(cmds.getAttr(solver+".secondJoint", multiIndices=True) or [])
+            data['secondDriverBlend'] = cmds.getAttr(solver+".secondDriverBlend")
             data['target'] = self.getMllRoot(twName)
             data['endTarget'] = ''
 
@@ -153,6 +165,8 @@ class Twist(object):
             self.win.twistRootOrientJoint_lineEdit.setText("")
             self.win.twistEndJoint_lineEdit.setText("")
             self.win.twistsJointsCount_lineEdit.setText("")
+            self.win.twistsSecondJointsCount_lineEdit.setText("")
+            self.setSecondBlendWidgets(0.0)
 
             self.win.twistToggleOffsetLocators_btn.setChecked(False)
         else:
@@ -169,6 +183,9 @@ class Twist(object):
                       "changeJointsCount_btn", "twist_reset_btn"):
                 getattr(self.win, w).setEnabled(True)
 
+            # вторая цепочка есть только у плагинного варианта
+            self.win.twistSecond_frame.setEnabled(is_mll)
+
             self.win.twist_frame.setEnabled(True)
             data = self.getFrameData(self.curTwistName)
 
@@ -178,6 +195,8 @@ class Twist(object):
                 self.win.twistRootJoint_lineEdit.setText(data['target'])
                 self.win.twistRootOrientJoint_lineEdit.setText(data['rootOrientTarget'])
                 self.win.twistEndJoint_lineEdit.setText(data['endOrientTarget'])
+                self.win.twistsSecondJointsCount_lineEdit.setText(str(data['secondJointsCount']))
+                self.setSecondBlendWidgets(data['secondDriverBlend'])
                 self.curTwist = data
 
                 if self.curTwistName.split('_')[0] == 'r':
@@ -800,6 +819,127 @@ class Twist(object):
         elif cmds.objExists(utils.getOpposite(name)+"_twist_solver"):
             self.connectMllMirror(utils.getOpposite(name))
 
+    def secondJointsCountMll(self, t_name): #
+        """Сколько костей во второй цепочке - 0, если её нет."""
+        solver = t_name + "_twist_solver"
+        if not cmds.objExists(solver):
+            return 0
+
+        return len(cmds.getAttr(solver+".secondJoint", multiIndices=True) or [])
+
+    def changeSecondJointsCountMll(self, count, t_name=None): #
+        """Вторая цепочка на той же кости: сборка, пересборка или снятие.
+
+        Рукав над рукой: своя цепочка на той же кости, своё количество костей,
+        но тот же контрол и та же нода - её считает второй набор элементов
+        солвера. Поэтому контрол, солвер и привязки драйверов здесь не трогаются
+        вовсе, и настройка твиста от смены количества не теряется.
+
+        count 0 снимает цепочку - это кнопка remove. Обе стороны, как и сам твист.
+        """
+        count = int(count)
+        if count == 1:
+            # цепочка раскладывается от начала кости до её конца, одной костью
+            # это не задать - и шаг 1/(count-1) обратился бы в деление на ноль
+            cmds.warning(" The chain needs at least two joints")
+            return
+
+        name = t_name or self.curTwistName
+
+        for tw in (name, utils.getOpposite(name)):
+            solver = tw + "_twist_solver"
+            if not cmds.objExists(solver):
+                continue
+
+            root = self.getMllRoot(tw)
+            if not root:
+                cmds.warning(" Missed the chain of " + solver)
+                continue
+
+            j0 = tw + "_twist_second_0_twJoint"
+            inSkin = (cmds.sets("skinJointsSet", q=1) or []) \
+                     if cmds.objExists("skinJointsSet") else []
+
+            # у новой цепочки набор для скина берётся от основной: рукав
+            # скинится так же, как и кость, на которой он живёт
+            skin = (j0 if cmds.objExists(j0) else tw+"_twist_0_twJoint") in inSkin
+
+            # цепочка вложенная, поэтому вся уходит вместе с первой костью
+            if cmds.objExists(j0):
+                cmds.delete(j0)
+
+            for i in cmds.getAttr(solver+".secondJoint", multiIndices=True) or []:
+                cmds.removeMultiInstance("%s.secondJoint[%s]" %(solver, i), b=True)
+            for i in cmds.getAttr(solver+".secondOut", multiIndices=True) or []:
+                cmds.removeMultiInstance("%s.secondOut[%s]" %(solver, i), b=True)
+
+            if count:
+                self.buildMllJoints(tw, root, count, tw+"_twistNodesSet", skin, second=True)
+
+        # pos снова связывается слева направо
+        if utils.getObjectSide(name) == "l":
+            self.connectMllMirror(name)
+        elif cmds.objExists(utils.getOpposite(name)+"_twist_solver"):
+            self.connectMllMirror(utils.getOpposite(name))
+
+    @utils.oneStepUndo
+    def changeSecondJointsCount(self, *args): #
+        """Кнопка set.. второй цепочки: сборка или пересборка."""
+        if not self.curTwistName or not self.isMll(self.curTwistName):
+            cmds.warning(" Select a twist built on the pk_twist node")
+            return
+
+        current = self.secondJointsCountMll(self.curTwistName)
+
+        count, ok = QtWidgets.QInputDialog().getInt(self.win, "Second chain",
+                                                    "Enter joints count:",
+                                                    value=current or 5, minValue=2, maxValue=100)
+        if not ok:
+            return
+
+        self.changeSecondJointsCountMll(count)
+        self.updateFrame()
+
+    @utils.oneStepUndo
+    def removeSecondChain(self, *args): #
+        """Кнопка remove: снимает вторую цепочку, обе стороны."""
+        if not self.curTwistName or not self.isMll(self.curTwistName):
+            cmds.warning(" Select a twist built on the pk_twist node")
+            return
+
+        if not self.secondJointsCountMll(self.curTwistName):
+            cmds.warning(" %s has no second chain" %self.curTwistName)
+            return
+
+        self.changeSecondJointsCountMll(0)
+        self.updateFrame()
+
+    def setSecondBlendWidgets(self, value): #
+        """Слайдер и его поле - без записи в ноду."""
+        self.secondBlendUpdating = True
+        try:
+            self.win.twistSecond_slider.setValue(int(round(value * 100)))
+            self.win.twistSecond_slider_lineEdit.setText("%.2f" %value)
+        finally:
+            self.secondBlendUpdating = False
+
+    def secondBlendChanged(self, value): #
+        """Сколько скручивания от соседних костей достаётся второй цепочке.
+
+        1 - то же самое, что получила бы косточка основной цепочки в этой точке
+        кости, 0 - цепочка просто едет с костью. Настройка, а не анимация:
+        связана слева направо, как falloff.
+        """
+        blend = value / 100.0
+        self.win.twistSecond_slider_lineEdit.setText("%.2f" %blend)
+
+        if self.secondBlendUpdating or not self.curTwistName:
+            return
+
+        solver = self.curTwistName + "_twist_solver"
+        if cmds.objExists(solver):
+            cmds.setAttr(solver+".secondDriverBlend", blend)
+
     def applyMllData(self, t_name, data, module_name=""): #
         """Настройки из темплейта на уже собранный твист.
 
@@ -815,6 +955,19 @@ class Twist(object):
             j = "%s_twist_%s_twJoint" %(t_name, i)
             if cmds.objExists(j):
                 cmds.setAttr(j+".pos", pos)
+
+        # вторая цепочка: собирается тем же путём, что и кнопкой. Ключей нет у
+        # темплейтов, записанных до неё - тогда её просто не будет
+        if int(data.get("secondJointsCount") or 0) > 1:
+            self.changeSecondJointsCountMll(data["secondJointsCount"], t_name=t_name)
+
+            for i, pos in enumerate(data.get("secondJointsPos") or []):
+                j = "%s_twist_second_%s_twJoint" %(t_name, i)
+                if cmds.objExists(j):
+                    cmds.setAttr(j+".pos", pos)
+
+            if "secondDriverBlend" in data:
+                cmds.setAttr(solver+".secondDriverBlend", data["secondDriverBlend"])
 
         for dData in data.get("driversData") or []:
             target = dData.get("driver") or ""
@@ -893,14 +1046,25 @@ class Twist(object):
 
         return t_name
 
-    def buildMllJoints(self, t_name, start_j, count, nodes_set, skin): #
+    def buildMllJoints(self, t_name, start_j, count, nodes_set, skin, second=False): #
         """Цепочка костей и их связи с солвером.
 
         Отдельно от buildMll, потому что ровно это же нужно при смене
         количества костей: солвер, контрол и привязки драйверов при этом
         остаются на месте.
+
+        second - вторая цепочка на той же кости: рукав над рукой. Считает её та
+        же нода, тем же контролом, только своим набором элементов, поэтому здесь
+        меняются лишь имена костей и атрибутов.
         """
         solver = t_name + "_twist_solver"
+
+        if second:
+            j_name, in_attr, pos_attr = "%s_twist_second_%s_twJoint", "secondJoint", "secondPosition"
+            out_attr, outT, outR = "secondOut", "secondOutTranslate", "secondOutRotate"
+        else:
+            j_name, in_attr, pos_attr = "%s_twist_%s_twJoint", "joint", "position"
+            out_attr, outT, outR = "out", "outTranslate", "outRotate"
 
         step = 1.0 / (count - 1)
         parent = start_j
@@ -908,7 +1072,7 @@ class Twist(object):
 
         for i in range(count):
             cmds.select(parent)
-            j = cmds.joint(n="%s_twist_%s_twJoint" %(t_name, i))
+            j = cmds.joint(n=j_name %(t_name, i))
             # положение задаёт нода, от кости требуется только чистая система
             # координат - без своего вращения и без jointOrient
             utils.resetAttrs(j, jointOrient=True)
@@ -917,10 +1081,10 @@ class Twist(object):
 
             utils.setUserAttr(j, "pos", i * step, "float", keyable=True, lock=False, min=0, max=1)
 
-            element = "%s.joint[%s]" %(solver, i)
-            cmds.connectAttr(j+".pos", element+".position")
-            cmds.connectAttr("%s.out[%s].outTranslate" %(solver, i), j+".translate")
-            cmds.connectAttr("%s.out[%s].outRotate" %(solver, i), j+".rotate")
+            element = "%s.%s[%s]" %(solver, in_attr, i)
+            cmds.connectAttr(j+".pos", "%s.%s" %(element, pos_attr))
+            cmds.connectAttr("%s.%s[%s].%s" %(solver, out_attr, i, outT), j+".translate")
+            cmds.connectAttr("%s.%s[%s].%s" %(solver, out_attr, i, outR), j+".rotate")
 
             joints.append(j)
             parent = j
@@ -1056,10 +1220,17 @@ class Twist(object):
                 cmds.connectAttr(source, destination, f=1)
 
         connectIfNeeded(solver+".falloff", opp_solver+".falloff")
+        connectIfNeeded(solver+".secondDriverBlend", opp_solver+".secondDriverBlend")
 
         for i in cmds.getAttr(solver+".joint", multiIndices=True) or []:
             j = "%s_twist_%s_twJoint" %(t_name, i)
             opp_j = "%s_twist_%s_twJoint" %(opp_name, i)
+            if cmds.objExists(j) and cmds.objExists(opp_j):
+                connectIfNeeded(j+".pos", opp_j+".pos")
+
+        for i in cmds.getAttr(solver+".secondJoint", multiIndices=True) or []:
+            j = "%s_twist_second_%s_twJoint" %(t_name, i)
+            opp_j = "%s_twist_second_%s_twJoint" %(opp_name, i)
             if cmds.objExists(j) and cmds.objExists(opp_j):
                 connectIfNeeded(j+".pos", opp_j+".pos")
 
@@ -1573,6 +1744,17 @@ class Twist(object):
             j = "%s_twist_%s_twJoint" %(twName, i)
             jointsPos.append(cmds.getAttr(j+".pos") if cmds.objExists(j) else 0.0)
         twData['jointsPos'] = jointsPos
+
+        # вторая цепочка: количество, расстановка и её доля от драйверов.
+        # Отсутствует у большинства твистов - тогда счётчик 0, и при загрузке
+        # ничего не собирается
+        secondPos = []
+        for i in cmds.getAttr(solver+".secondJoint", multiIndices=True) or []:
+            j = "%s_twist_second_%s_twJoint" %(twName, i)
+            secondPos.append(cmds.getAttr(j+".pos") if cmds.objExists(j) else 0.0)
+        twData['secondJointsCount'] = len(secondPos)
+        twData['secondJointsPos'] = secondPos
+        twData['secondDriverBlend'] = cmds.getAttr(solver+".secondDriverBlend")
 
         driversData = []
         for i in cmds.getAttr(solver+".driver", multiIndices=True) or []:

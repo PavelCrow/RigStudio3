@@ -110,6 +110,20 @@
 // wrist. What the control does and what the driver does are independent and
 // simply add up.
 //
+// A second chain can hang on the same bone, driven by the same control: a
+// sleeve over an arm twists with it, with its own joints and with less of what
+// the neighbouring bones do. It is the same solve with its own `secondJoint`
+// array and its own `secondOut`, and `secondDriverBlend` says how much of the
+// drivers reaches it - 1 gives a joint exactly what a joint of the first chain
+// at the same position along the bone gets, 0 leaves the chain riding the bone
+// with no answer to the neighbours at all. Both are worked out in one compute:
+// the control, its split about the bone and the drivers are the same for both
+// chains, and that is the whole reason for one node per bone rather than two.
+//
+// It is a second array and not a layer marked on the elements of the first one
+// so that a twist without it costs what it did before: the array is empty,
+// nothing is read out of it and the whole pass is skipped.
+//
 // Orientation is not given by the control at all: every joint looks along the
 // tangent of the curve the chain lies on - the smooth form of "halfway between
 // where it comes from and where it goes". It is worked out from the formula
@@ -155,6 +169,11 @@ public:
     static MObject aJoint;
     static MObject aPosition;           //   0 at the root of the bone, 1 at its child
 
+    // the second chain on the same bone - empty on a twist that has none
+    static MObject aSecondJoint;
+    static MObject aSecondPosition;     //   the same, for the second chain
+    static MObject aSecondDriverBlend;  // how much of the drivers reaches it
+
     // --- outputs -----------------------------------------------------------
     static MObject aOut;                // multi compound, indices match aJoint
     static MObject aOutTranslate;       //   -> .translate of the twist joint
@@ -162,6 +181,13 @@ public:
     static MObject aOutRotate;          //   -> .rotate of the twist joint
     static MObject aOutRotateX, aOutRotateY, aOutRotateZ;
     static MObject aOutWeight;          //   what the bell gives this joint, for reading
+
+    static MObject aSecondOut;          // the same, for the second chain
+    static MObject aSecondOutTranslate;
+    static MObject aSecondOutTranslateX, aSecondOutTranslateY, aSecondOutTranslateZ;
+    static MObject aSecondOutRotate;
+    static MObject aSecondOutRotateX, aSecondOutRotateY, aSecondOutRotateZ;
+    static MObject aSecondOutWeight;
 
 private:
     // One joint of the chain, read out of the array before anything is worked
@@ -183,6 +209,36 @@ private:
         double position;
         double inherited;
     };
+
+    // What the control gives, worked out once and handed to both chains: the
+    // bone it lies on, the split of the control rotation about it and the bell
+    // they are weighted by.
+    struct Frame
+    {
+        MVector bone;
+        MVector boneDir;
+        MVector ctrlT;
+        MVector rotAxis;     // the swing, as an axis and an angle
+        double  rotAngle;
+        double  twistAngle;  // what turns around the bone itself
+        double  falloff;
+    };
+
+    // The attributes of one chain, so that the same pass serves both. Filled in
+    // initialize() and never touched again.
+    struct Chain
+    {
+        MObject joint, position;
+        MObject out, outTranslate, outRotate, outWeight;
+    };
+
+    static Chain sFirst;
+    static Chain sSecond;
+
+    // One chain: where its joints end up and the same stated the way a nested
+    // chain wants it. `driverBlend` scales what the neighbouring bones add.
+    MStatus solveChain(MDataBlock& data, MArrayDataHandle& hJoints,
+                       const Chain& chain, const Frame& frame, double driverBlend);
 
     std::vector<Driver> mDrivers;
 

@@ -32,12 +32,24 @@ MObject PkTwistNode::aDriverAmount;
 MObject PkTwistNode::aDriverInherited;
 MObject PkTwistNode::aJoint;
 MObject PkTwistNode::aPosition;
+MObject PkTwistNode::aSecondJoint;
+MObject PkTwistNode::aSecondPosition;
+MObject PkTwistNode::aSecondDriverBlend;
 MObject PkTwistNode::aOut;
 MObject PkTwistNode::aOutTranslate;
 MObject PkTwistNode::aOutTranslateX, PkTwistNode::aOutTranslateY, PkTwistNode::aOutTranslateZ;
 MObject PkTwistNode::aOutRotate;
 MObject PkTwistNode::aOutRotateX, PkTwistNode::aOutRotateY, PkTwistNode::aOutRotateZ;
 MObject PkTwistNode::aOutWeight;
+MObject PkTwistNode::aSecondOut;
+MObject PkTwistNode::aSecondOutTranslate;
+MObject PkTwistNode::aSecondOutTranslateX, PkTwistNode::aSecondOutTranslateY, PkTwistNode::aSecondOutTranslateZ;
+MObject PkTwistNode::aSecondOutRotate;
+MObject PkTwistNode::aSecondOutRotateX, PkTwistNode::aSecondOutRotateY, PkTwistNode::aSecondOutRotateZ;
+MObject PkTwistNode::aSecondOutWeight;
+
+PkTwistNode::Chain PkTwistNode::sFirst;
+PkTwistNode::Chain PkTwistNode::sSecond;
 
 namespace
 {
@@ -229,6 +241,30 @@ MStatus PkTwistNode::initialize()
     cAttr.setArray(true);
     addAttribute(aJoint);
 
+    // the second chain: its own joints on the same bone, driven by the same
+    // control. Left empty on a twist that has none, and then nothing of it is
+    // ever read
+    aSecondPosition = nAttr.create("secondPosition", "spos", MFnNumericData::kDouble, 0.0);
+    nAttr.setMin(0.0);
+    nAttr.setMax(1.0);
+    nAttr.setKeyable(true);
+
+    aSecondJoint = cAttr.create("secondJoint", "sjnt");
+    cAttr.addChild(aSecondPosition);
+    cAttr.setArray(true);
+    addAttribute(aSecondJoint);
+
+    // How much of what the neighbouring bones do reaches the second chain: 1
+    // gives a joint exactly what a joint of the first chain at the same
+    // position along the bone gets, 0 leaves the chain riding the bone.
+    // 0 by default: a chain that has just been built answers to the control
+    // alone, and how much of the neighbours it takes is then dialled in
+    aSecondDriverBlend = nAttr.create("secondDriverBlend", "sdb", MFnNumericData::kDouble, 0.0);
+    nAttr.setMin(0.0);
+    nAttr.setMax(1.0);
+    nAttr.setKeyable(true);
+    addAttribute(aSecondDriverBlend);
+
     // --- outputs -----------------------------------------------------------
     aOutTranslateX = nAttr.create("outTranslateX", "otx", MFnNumericData::kDouble, 0.0);
     aOutTranslateY = nAttr.create("outTranslateY", "oty", MFnNumericData::kDouble, 0.0);
@@ -258,12 +294,61 @@ MStatus PkTwistNode::initialize()
     cAttr.setStorable(false);
     addAttribute(aOut);
 
+    aSecondOutTranslateX = nAttr.create("secondOutTranslateX", "sotx", MFnNumericData::kDouble, 0.0);
+    aSecondOutTranslateY = nAttr.create("secondOutTranslateY", "soty", MFnNumericData::kDouble, 0.0);
+    aSecondOutTranslateZ = nAttr.create("secondOutTranslateZ", "sotz", MFnNumericData::kDouble, 0.0);
+    aSecondOutTranslate  = nAttr.create("secondOutTranslate", "sot",
+                                        aSecondOutTranslateX, aSecondOutTranslateY, aSecondOutTranslateZ);
+    nAttr.setWritable(false);
+    nAttr.setStorable(false);
+
+    aSecondOutRotateX = uAttr.create("secondOutRotateX", "sorox", MFnUnitAttribute::kAngle, 0.0);
+    aSecondOutRotateY = uAttr.create("secondOutRotateY", "soroy", MFnUnitAttribute::kAngle, 0.0);
+    aSecondOutRotateZ = uAttr.create("secondOutRotateZ", "soroz", MFnUnitAttribute::kAngle, 0.0);
+    aSecondOutRotate  = nAttr.create("secondOutRotate", "soro",
+                                     aSecondOutRotateX, aSecondOutRotateY, aSecondOutRotateZ);
+    nAttr.setWritable(false);
+    nAttr.setStorable(false);
+
+    aSecondOutWeight = nAttr.create("secondOutWeight", "sow", MFnNumericData::kDouble, 0.0);
+    nAttr.setWritable(false);
+    nAttr.setStorable(false);
+
+    aSecondOut = cAttr.create("secondOut", "sout");
+    cAttr.addChild(aSecondOutTranslate);
+    cAttr.addChild(aSecondOutRotate);
+    cAttr.addChild(aSecondOutWeight);
+    cAttr.setArray(true);
+    cAttr.setUsesArrayDataBuilder(true);
+    cAttr.setWritable(false);
+    cAttr.setStorable(false);
+    addAttribute(aSecondOut);
+
+    // the two chains, so that one pass serves both
+    sFirst.joint      = aJoint;
+    sFirst.position   = aPosition;
+    sFirst.out        = aOut;
+    sFirst.outTranslate = aOutTranslate;
+    sFirst.outRotate  = aOutRotate;
+    sFirst.outWeight  = aOutWeight;
+
+    sSecond.joint       = aSecondJoint;
+    sSecond.position    = aSecondPosition;
+    sSecond.out         = aSecondOut;
+    sSecond.outTranslate = aSecondOutTranslate;
+    sSecond.outRotate   = aSecondOutRotate;
+    sSecond.outWeight   = aSecondOutWeight;
+
     // --- affects -----------------------------------------------------------
     // every child is listed next to its parent: a compound dirtied through the
     // parent is what a connection gives, a value typed in the channel box
     // dirties the child alone and never reaches compute if only the parent is
     // declared here
-    const MObject inputs[] = {
+    //
+    // The control and the neighbouring bones reach both chains; the joints of a
+    // chain only reach its own output. That way moving a joint of one chain
+    // leaves the other one clean and Maya never pulls it.
+    const MObject shared[] = {
         aCtrlTranslate, aCtrlTranslateX, aCtrlTranslateY, aCtrlTranslateZ,
         aCtrlRotate, aCtrlRotateX, aCtrlRotateY, aCtrlRotateZ,
         aCtrlRotateOrder,
@@ -274,14 +359,21 @@ MStatus PkTwistNode::initialize()
         aDriverRotateOrder,
         aDriverRest, aDriverRestX, aDriverRestY, aDriverRestZ,
         aDriverOrient, aDriverOrientX, aDriverOrientY, aDriverOrientZ,
-        aDriverPosition, aDriverAmount, aDriverInherited,
-        aJoint, aPosition
+        aDriverPosition, aDriverAmount, aDriverInherited
     };
-    const MObject outputs[] = { aOut };
 
-    for (const MObject& in : inputs)
-        for (const MObject& out : outputs)
-            attributeAffects(in, out);
+    for (const MObject& in : shared)
+    {
+        attributeAffects(in, aOut);
+        attributeAffects(in, aSecondOut);
+    }
+
+    attributeAffects(aJoint, aOut);
+    attributeAffects(aPosition, aOut);
+
+    attributeAffects(aSecondJoint, aSecondOut);
+    attributeAffects(aSecondPosition, aSecondOut);
+    attributeAffects(aSecondDriverBlend, aSecondOut);
 
     return MS::kSuccess;
 }
@@ -293,7 +385,12 @@ MStatus PkTwistNode::compute(const MPlug& plug, MDataBlock& data)
                          attr == aOutTranslateX || attr == aOutTranslateY ||
                          attr == aOutTranslateZ || attr == aOutRotate ||
                          attr == aOutRotateX || attr == aOutRotateY ||
-                         attr == aOutRotateZ || attr == aOutWeight);
+                         attr == aOutRotateZ || attr == aOutWeight ||
+                         attr == aSecondOut || attr == aSecondOutTranslate ||
+                         attr == aSecondOutTranslateX || attr == aSecondOutTranslateY ||
+                         attr == aSecondOutTranslateZ || attr == aSecondOutRotate ||
+                         attr == aSecondOutRotateX || attr == aSecondOutRotateY ||
+                         attr == aSecondOutRotateZ || attr == aSecondOutWeight);
     if (!wanted)
         return MS::kUnknownParameter;
 
@@ -335,6 +432,16 @@ MStatus PkTwistNode::compute(const MPlug& plug, MDataBlock& data)
         rotAngle = 2.0 * kPi - rotAngle;
         rotAxis  = -rotAxis;
     }
+
+    // all of it in one place: both chains are given the same
+    Frame frame;
+    frame.bone       = bone;
+    frame.boneDir    = boneDir;
+    frame.ctrlT      = ctrlT;
+    frame.rotAxis    = rotAxis;
+    frame.rotAngle   = rotAngle;
+    frame.twistAngle = twistAngle;
+    frame.falloff    = falloff;
 
     // --- 0. the bones that twist the chain -----------------------------------
     // worked out once: they are the same for every joint of the chain
@@ -392,7 +499,32 @@ MStatus PkTwistNode::compute(const MPlug& plug, MDataBlock& data)
     MArrayDataHandle hJoints = data.inputArrayValue(aJoint, &status);
     if (!status) return status;
 
-    MArrayDataHandle hOuts = data.outputArrayValue(aOut, &status);
+    status = solveChain(data, hJoints, sFirst, frame, 1.0);
+    if (!status) return status;
+
+    // The second chain, if there is one. Most twists have none: the array is
+    // empty, and then neither the blend nor the output of it is read at all -
+    // an ordinary twist costs what it did before.
+    MArrayDataHandle hSecond = data.inputArrayValue(aSecondJoint, &status);
+    if (status && hSecond.elementCount() > 0)
+    {
+        const double blend = data.inputValue(aSecondDriverBlend, &status).asDouble();
+        if (status)
+        {
+            status = solveChain(data, hSecond, sSecond, frame, blend);
+            if (!status) return status;
+        }
+    }
+
+    return MS::kSuccess;
+}
+
+MStatus PkTwistNode::solveChain(MDataBlock& data, MArrayDataHandle& hJoints,
+                                const Chain& chain, const Frame& frame, double driverBlend)
+{
+    MStatus status;
+
+    MArrayDataHandle hOuts = data.outputArrayValue(chain.out, &status);
     if (!status) return status;
     MArrayDataBuilder builder = hOuts.builder(&status);
     if (!status) return status;
@@ -412,14 +544,14 @@ MStatus PkTwistNode::compute(const MPlug& plug, MDataBlock& data)
         MDataHandle hJoint = hJoints.inputValue(&status);
         if (!status) continue;
 
-        const double u = std::min(std::max(hJoint.child(aPosition).asDouble(), 0.0), 1.0);
+        const double u = std::min(std::max(hJoint.child(chain.position).asDouble(), 0.0), 1.0);
 
         // nothing about the rest pose is stored: it is the bone itself, so the
         // chain spreads over whatever length the bone has right now
-        const MVector offset = bone * (u - kCtrlPosition);
+        const MVector offset = frame.bone * (u - kCtrlPosition);
 
-        const double w  = weight(u, falloff);
-        const double wp = weightSlope(u, falloff);
+        const double w  = weight(u, frame.falloff);
+        const double wp = weightSlope(u, frame.falloff);
 
         Item it;
         it.index        = hJoints.elementIndex();
@@ -427,12 +559,19 @@ MStatus PkTwistNode::compute(const MPlug& plug, MDataBlock& data)
         // what is already there is taken off: with a driver above the chain its
         // rotation is inherited by every joint before the node says anything,
         // so what is left to do is give it back towards the far end
-        it.driverRoll = 0.0;
-        for (size_t k = 0; k < drivers.size(); ++k)
-            it.driverRoll += drivers[k].angle
-                           * (driverRamp(u, drivers[k].position) - drivers[k].inherited);
+        double roll = 0.0;
+        for (size_t k = 0; k < mDrivers.size(); ++k)
+            roll += mDrivers[k].angle
+                  * (driverRamp(u, mDrivers[k].position) - mDrivers[k].inherited);
 
-        it.position = offset + (ctrlT + (rotAxis ^ offset) * rotAngle) * w;
+        // The whole answer to the neighbours is scaled at once, the taking-off
+        // of what is inherited included: at 0 the chain keeps the rotation of
+        // the bone and simply rides it, at 1 it gets exactly what a joint of
+        // the first chain at the same position along the bone gets. The first
+        // chain is given 1 and nothing changes for it.
+        it.driverRoll = roll * driverBlend;
+
+        it.position = offset + (frame.ctrlT + (frame.rotAxis ^ offset) * frame.rotAngle) * w;
 
         // Where the joint looks: the tangent of the curve the chain lies on,
         // worked out from the formula rather than from the joints around it.
@@ -448,14 +587,15 @@ MStatus PkTwistNode::compute(const MPlug& plug, MDataBlock& data)
         //   offset(u)   = bone * (u - 0.5)
         //
         // so differentiating by u gives:
-        it.tangent = bone + ctrlT * wp
-                   + (rotAxis ^ bone) * rotAngle * (w + (u - kCtrlPosition) * wp);
+        it.tangent = frame.bone + frame.ctrlT * wp
+                   + (frame.rotAxis ^ frame.bone) * frame.rotAngle
+                     * (w + (u - kCtrlPosition) * wp);
 
         items.push_back(it);
     }
 
     // the bone itself, where the chain hangs from
-    const MVector boneRoot = bone * -kCtrlPosition;
+    const MVector boneRoot = frame.bone * -kCtrlPosition;
 
     // --- 2. where every joint has to look ------------------------------------
     // What the node hands out is the deformation, not an orientation: the
@@ -476,16 +616,16 @@ MStatus PkTwistNode::compute(const MPlug& plug, MDataBlock& data)
         const MVector dir = items[i].tangent;
 
         const MQuaternion qAim = (dir.length() > kEps)
-                               ? MQuaternion(boneDir, dir.normal())
+                               ? MQuaternion(frame.boneDir, dir.normal())
                                : MQuaternion::identity;
 
         // around the bone, the same axis the twist was measured about - not
         // around X, which is a different axis entirely on a side whose bones
         // run backwards. The control and the neighbouring bone are independent
         // and add up.
-        const double roll = twistAngle * items[i].weight + items[i].driverRoll;
+        const double roll = frame.twistAngle * items[i].weight + items[i].driverRoll;
 
-        items[i].rotation = MQuaternion(roll, boneDir) * qAim;
+        items[i].rotation = MQuaternion(roll, frame.boneDir) * qAim;
     }
 
     // --- 3. the same, stated the way a nested chain wants it ------------------
@@ -503,12 +643,12 @@ MStatus PkTwistNode::compute(const MPlug& plug, MDataBlock& data)
         MDataHandle hOut = builder.addElement(it.index, &status);
         if (!status) continue;
 
-        hOut.child(aOutTranslate).set3Double(localT.x, localT.y, localT.z);
+        hOut.child(chain.outTranslate).set3Double(localT.x, localT.y, localT.z);
 
         const MEulerRotation eRot = localQ.asEulerRotation();
-        hOut.child(aOutRotate).set3Double(eRot.x, eRot.y, eRot.z);
+        hOut.child(chain.outRotate).set3Double(eRot.x, eRot.y, eRot.z);
 
-        hOut.child(aOutWeight).setDouble(it.weight);
+        hOut.child(chain.outWeight).setDouble(it.weight);
 
         prevPos = it.position;
         prevRot = it.rotation;

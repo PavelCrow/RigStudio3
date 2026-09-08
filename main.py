@@ -363,6 +363,12 @@ class MainWindow:
             # g.off = False
             # g.mousePressEvent(1)
 
+            # Second Chain group label - вторая цепочка твиста нужна редко,
+            # поэтому группа сразу свёрнута
+            g = GroupLabel(self.win.twistSecond_label, self.win.twistSecond_groupFrame,
+                           self.win.verticalLayout_73, self.win)
+            g.mousePressEvent(1)
+
             g = GroupLabel(self.win.rigTools_label, self.win.rigTools_groupFrame, self.win.verticalLayout_99, self.win)
             g.off = False
             g.mousePressEvent(1)
