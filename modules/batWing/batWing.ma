@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: batWing.ma
-//Last modified: Fri, Sep 04, 2026 10:29:08 AM
+//Last modified: Fri, Sep 11, 2026 09:21:04 AM
 //Codeset: 1251
 requires maya "2022";
 requires -nodeType "inverseMatrix" "matrixNodes" "1.0";
@@ -14,7 +14,7 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202110272215-ad32f8f1e6";
 fileInfo "osv" "Windows 10 Pro v2009 (Build: 26200)";
-fileInfo "UUID" "77DC1D27-4928-75BB-EF98-9EA2E3D0D366";
+fileInfo "UUID" "C8655E7D-4233-9263-F035-E9933DD30CCA";
 createNode transform -n "mod";
 	rename -uid "1AEC415F-424F-70DE-1522-FA98FBD9C08E";
 	addAttr -ci true -sn "mirror" -ln "mirror" -min 0 -max 1 -at "bool";
@@ -25,7 +25,6 @@ createNode transform -n "mod";
 createNode transform -n "posers" -p "mod";
 	rename -uid "79C0EA80-4576-75C3-D3EB-979B9AF5CA92";
 	addAttr -ci true -sn "size" -ln "size" -dv 1 -min 0 -at "double";
-	setAttr ".v" no;
 createNode transform -n "mainPoser" -p "posers";
 	rename -uid "A6327C76-46AB-A787-02D9-5DA9DD6D3FF8";
 	addAttr -ci true -sn "size" -ln "size" -dv 1 -min 0 -at "double";
@@ -37,7 +36,6 @@ createNode transform -n "mainPoser" -p "posers";
 	addAttr -ci true -sn "size1" -ln "size1" -dv 0.5 -min 0 -at "double";
 	addAttr -ci true -sn "size2" -ln "size2" -dv 0.5 -min 0 -at "double";
 	setAttr -l on -k off ".v";
-	setAttr -s 2 ".iog";
 	setAttr ".ovc" 12;
 	setAttr ".t" -type "double3" 5.7263777670845366 10.351165894685552 -2.4629024382541735 ;
 	setAttr -k on ".s";
@@ -3405,7 +3403,7 @@ createNode transform -n "finger_1_1_poser" -p "wridt_posers";
 	addAttr -ci true -sn "render" -ln "render" -nn "render" -min 0 -max 1 -at "bool";
 	setAttr -k off ".v";
 	setAttr ".ovc" 4;
-	setAttr -k on ".t" -type "double3" 0.60884515103107573 0.33305778418143422 1.6240863476529719 ;
+	setAttr -k on ".t" -type "double3" 1.3704674717637526 0.33305778418143422 1.6240863476529719 ;
 	setAttr -k on ".t";
 	setAttr -k on ".r";
 	setAttr -k off ".rx";
@@ -3472,7 +3470,7 @@ createNode transform -n "finger_2_1_poser" -p "wridt_posers";
 	addAttr -ci true -sn "render" -ln "render" -nn "render" -min 0 -max 1 -at "bool";
 	setAttr -k off ".v";
 	setAttr ".ovc" 4;
-	setAttr -k on ".t" -type "double3" 1.8487649462667757 0.33179442479056703 0.83658804106327256 ;
+	setAttr -k on ".t" -type "double3" 1.7493159124645703 0.33179442479056703 0.78303856132362171 ;
 	setAttr -k on ".t";
 	setAttr -k on ".r";
 	setAttr -k off ".rx";
@@ -5201,7 +5199,7 @@ createNode transform -n "control" -p "control_group";
 	setAttr ".default_edgeControls" -type "string" "True";
 	setAttr -k on ".global";
 	setAttr -k on ".close";
-	setAttr -cb on ".wingAddControls";
+	setAttr -cb on ".wingAddControls" yes;
 createNode nurbsCurve -n "controlShape" -p "control";
 	rename -uid "1042D0B9-4B41-40FB-238F-C192C336EE59";
 	setAttr -k off ".v";
@@ -6271,16 +6269,7 @@ createNode nurbsCurve -n "main_1_closedShape" -p "main_1_closed";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 14;
-	setAttr ".cc" -type "nurbsCurve" 
-		1 4 0 no 3
-		5 0 1 2 3 4
-		5
-		18.604455220621279 -4.7821541316337148e-05 1.605984800106764
-		18.715261061270418 -4.7821541316192332e-05 0.80448921941148921
-		18.74296252143273 -4.7821541316046853e-05 -0.00069988930541790774
-		18.715261061270418 -4.7821541315901359e-05 -0.80588899802233915
-		18.604455220621279 -4.7821541315756557e-05 -1.607384578717612
-		;
+	setAttr ".tw" yes;
 createNode transform -n "main_1_closed_group" -p "main_root_group";
 	rename -uid "6F764FDC-4415-E90A-105C-76B3116A0C6E";
 createNode transform -n "main_root" -p "main_1_closed_group";
@@ -6393,16 +6382,7 @@ createNode nurbsCurve -n "main_2_closedShape" -p "main_2_closed";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 14;
-	setAttr ".cc" -type "nurbsCurve" 
-		1 4 0 no 3
-		5 0 1 2 3 4
-		5
-		21.771797000765758 -4.7821541313048112e-05 1.6059848001067678
-		21.882602841414897 -4.7821541312903296e-05 0.80448921941148988
-		21.910304301577209 -4.7821541312757817e-05 -0.00069988930541746365
-		21.882602841414897 -4.7821541312612324e-05 -0.80588899802233871
-		21.771797000765758 -4.7821541312467522e-05 -1.6073845787176082
-		;
+	setAttr ".tw" yes;
 createNode transform -n "main_middle_group" -p "wrist_group";
 	rename -uid "3CB8D98D-41E4-1253-D3ED-50A45D0042A2";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -6443,16 +6423,7 @@ createNode nurbsCurve -n "main_3_closedShape" -p "main_3_closed";
 	setAttr -k off ".v";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 14;
-	setAttr ".cc" -type "nurbsCurve" 
-		1 4 0 no 3
-		5 0 1 2 3 4
-		5
-		18.363734822287 -1.5277248030650853e-09 1.0158734226569963
-		18.433792837946761 -1.5277248030643084e-09 0.5091204427180428
-		18.451307341861693 -1.5277248030635292e-09 3.2195590431346934e-05
-		18.433792837946761 -1.5277248030627496e-09 -0.50905605153718458
-		18.363734822287 -1.5277248030619741e-09 -1.0158090314761392
-		;
+	setAttr ".tw" yes;
 createNode transform -n "main_3_closedGroup" -p "main_middle_rev_group";
 	rename -uid "D46173D3-4B2E-8825-819E-D0884DCDCF45";
 createNode transform -n "main_middle" -p "main_3_closedGroup";
@@ -6712,7 +6683,7 @@ createNode transform -n "first_curve_6_3_loc" -p "feathers_7_2";
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_6_3_locShape" -p "first_curve_6_3_loc";
 	rename -uid "79453310-4495-7EDC-0855-7CA9A34A0526";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode nurbsCurve -n "feathers_7_2Shape" -p "feathers_7_2";
 	rename -uid "4A7E4D37-413E-37D2-1989-A4803E7CF19B";
 	setAttr -k off ".v";
@@ -6778,7 +6749,7 @@ createNode transform -n "first_curve_1_3_loc" -p "feathers_7_3";
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_1_3_locShape" -p "first_curve_1_3_loc";
 	rename -uid "8F357C6C-4FA7-EB4D-A2AE-008603BA645C";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode nurbsCurve -n "feathers_7_3Shape" -p "feathers_7_3";
 	rename -uid "681BA975-4E32-2BE8-8035-57BAFBF6DAE4";
 	setAttr -k off ".v";
@@ -6823,7 +6794,30 @@ createNode transform -n "first_curve_1_4_loc" -p "feathers_7_3";
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_1_4_locShape" -p "first_curve_1_4_loc";
 	rename -uid "6146EAC2-4FA6-F39E-1E40-0D8314F56FF5";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
+createNode transform -n "first_curve_1_4_loc1" -p "first_curve_1_4_loc";
+	rename -uid "EA18A54E-4228-CD23-D0BD-1EB773801175";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".v" no;
+	setAttr ".t" -type "double3" -6.6983193562032222 0.20438780651867805 -0.4529507098244494 ;
+	setAttr ".r" -type "double3" 0.10192476057803301 -3.0968958407916181 -1.8861158857734885 ;
+	setAttr ".s" -type "double3" 0.99999999999999989 0.99999999999999956 0.99999999999999967 ;
+	setAttr ".opm" -type "matrix" 0.99814163380006782 0.031628629465376146 -0.052085589879291024 0
+		 -0.031671619748315831 0.99949832841406916 -1.3488190599153521e-13 0 0.052059460018807853 0.0016496349971582636 0.99864262442924334 0
+		 6.9690332412091323 0 6.6613381477509392e-16 1;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_1_4_loc1Shape" -p "first_curve_1_4_loc1";
+	rename -uid "0A0C44AA-460F-803F-7EF9-FDA3860F5EA3";
+	setAttr -k off ".v" no;
+createNode transform -n "first_curve_1_3_loc1" -p "feathers_7_3";
+	rename -uid "D52E0975-448F-F879-BBD8-77B37972B278";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".v" no;
+	setAttr ".t" -type "double3" -1.7017637299332478e-15 -1.6423494508810421e-15 -0.11713896310836872 ;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_1_3_loc1Shape" -p "first_curve_1_3_loc1";
+	rename -uid "DC196A86-4A4B-AFCC-3600-2DBB6EB2BC57";
+	setAttr -k off ".v" no;
 createNode transform -n "feathers_7_3_closed" -p "feathers_7_3_group";
 	rename -uid "35A4D169-49FD-EE09-2CA8-B187844FAC7B";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -6862,6 +6856,15 @@ createNode transform -n "first_curve_1_2_loc_closed" -p "feathers_7_2";
 createNode locator -n "first_curve_1_2_loc_closedShape" -p "first_curve_1_2_loc_closed";
 	rename -uid "39286908-4B82-79A7-D99C-2493279101DE";
 	setAttr -k off ".v";
+createNode transform -n "first_curve_6_3_loc1" -p "feathers_7_2";
+	rename -uid "05AB0166-45E6-91BB-B22A-42A860436D19";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".v" no;
+	setAttr ".t" -type "double3" -1.7017637299332478e-15 -1.6423494508810421e-15 -0.11713896310836872 ;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_6_3_loc1Shape" -p "first_curve_6_3_loc1";
+	rename -uid "A4CDA347-4901-FC82-1659-F1A3E96F12AB";
+	setAttr -k off ".v" no;
 createNode transform -n "feathers_7_2_closed" -p "feathers_7_2_group";
 	rename -uid "B3219572-4504-63B3-4A0E-41A521E327F5";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -6913,7 +6916,7 @@ createNode transform -n "first_curve_1_1_loc" -p "feathers_7_1";
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_1_1_locShape" -p "first_curve_1_1_loc";
 	rename -uid "E8F83F58-4059-7CEC-3184-A48F4732D125";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode joint -n "feathers_7_1_joint_1" -p "feathers_7_1";
 	rename -uid "47C2C8DE-4573-0643-91E5-F5AFAE4F5038";
 	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
@@ -6943,6 +6946,15 @@ createNode transform -n "first_curve_1_1_loc_closed" -p "feathers_7_1";
 createNode locator -n "first_curve_1_1_loc_closedShape" -p "first_curve_1_1_loc_closed";
 	rename -uid "6FF00935-4DB0-C1D4-709C-5EAD3DFDCB0E";
 	setAttr -k off ".v";
+createNode transform -n "first_curve_1_1_loc1" -p "feathers_7_1";
+	rename -uid "AEADA2B1-49DF-4F05-701F-7E9F2AC51867";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".v" no;
+	setAttr ".t" -type "double3" -1.7017637299332478e-15 -1.6423494508810421e-15 -0.11713896310836872 ;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_1_1_loc1Shape" -p "first_curve_1_1_loc1";
+	rename -uid "483101CA-42B6-8508-7131-599C9D87FA4A";
+	setAttr -k off ".v" no;
 createNode transform -n "feathers_7_1_closed" -p "sec_5_1_group";
 	rename -uid "76D33BED-4610-A5FC-439A-DA867B20B384";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -7074,11 +7086,10 @@ createNode transform -n "feathers_6_2" -p "feathers_6_2_closedGroup";
 createNode transform -n "first_curve_2_2_loc" -p "feathers_6_2";
 	rename -uid "63109A99-4505-C39F-0356-0E8D404CA57F";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".v" no;
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_2_2_locShape" -p "first_curve_2_2_loc";
 	rename -uid "5DAAF657-4F38-117A-432C-D0A3D8CDB117";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode nurbsCurve -n "feathers_6_2Shape" -p "feathers_6_2";
 	rename -uid "7D8584F1-46A6-70C0-5467-5A9647F863B7";
 	setAttr -k off ".v";
@@ -7149,11 +7160,10 @@ createNode transform -n "feathers_6_3" -p "feathers_6_3_closedGroup";
 createNode transform -n "first_curve_2_3_loc" -p "feathers_6_3";
 	rename -uid "739A03CE-446D-B970-022F-59A3F12D3B04";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".v" no;
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_2_3_locShape" -p "first_curve_2_3_loc";
 	rename -uid "999824DF-40FB-E2E7-1E37-C597A38CA032";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode nurbsCurve -n "feathers_6_3Shape" -p "feathers_6_3";
 	rename -uid "3114B428-460F-FFC2-C760-C7B87E302F84";
 	setAttr -k off ".v";
@@ -7194,11 +7204,52 @@ createNode locator -n "first_curve_2_3_loc_closedShape" -p "first_curve_2_3_loc_
 createNode transform -n "first_curve_2_4_loc" -p "feathers_6_3";
 	rename -uid "2ADC3923-4FAB-DEFD-2559-DDAD0256096B";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".v" no;
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_2_4_locShape" -p "first_curve_2_4_loc";
 	rename -uid "59D7FA26-429F-D9B4-43E8-868F8875B906";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
+createNode transform -n "first_curve_2_4_loc2" -p "first_curve_2_4_loc";
+	rename -uid "646017A9-444A-8876-1319-DA8F0F307064";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".t" -type "double3" -5.4182827268467815 -0.0326598299238606 2.263212980731653 ;
+	setAttr ".r" -type "double3" 0.12504332669046753 21.407981135261984 0.33963298662082281 ;
+	setAttr ".s" -type "double3" 0.99999999999999967 0.99999999999999967 0.99999999999999978 ;
+	setAttr ".opm" -type "matrix" 0.92918480810996651 -0.0051478058353106038 0.36957961587826604 0
+		 0.0055400462762661808 0.99998465382587587 1.438710262036125e-13 0 -0.36957394424512874 0.0020474881745965907 0.92919906776065664 0
+		 5.8481406931847317 0 -3.5527136788005009e-15 1;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_2_4_loc2Shape" -p "first_curve_2_4_loc2";
+	rename -uid "C0C56CCA-424D-8B7C-BD75-D88FFF6E36FD";
+	setAttr -k off ".v" no;
+createNode transform -n "first_curve_2_4_loc3" -p "first_curve_2_4_loc";
+	rename -uid "5FFD7178-4740-EDE4-29E7-A69F206EEA99";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".t" -type "double3" -5.5026738481351662 -0.032398970070377349 2.0528712605863819 ;
+	setAttr ".r" -type "double3" 0.12393460099913234 21.407985617771619 0.33953731661591208 ;
+	setAttr ".s" -type "double3" 0.99999999999999978 0.99999999999999978 0.99999999999999989 ;
+	setAttr ".opm" -type "matrix" 0.93098860453240584 -0.0051364764789737106 0.36501210232016229 0
+		 0.0055171441186534663 0.99998478044456962 1.5304142501892939e-13 0 -0.36500654699823903 0.0020138243734105408 0.93100277398073072 0
+		 5.8724168471180391 1.7763568394002505e-15 -3.5527136788005009e-15 1;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_2_4_loc3Shape" -p "first_curve_2_4_loc3";
+	rename -uid "DF6A0BC9-487D-97ED-A59A-11A076ED16F9";
+	setAttr -k off ".v" no;
+createNode transform -n "first_curve_2_3_loc2" -p "feathers_6_3";
+	rename -uid "B99F18B5-4FC9-1B2D-44A6-76B53F6D4FB7";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".t" -type "double3" 0 0 0.091628692650959742 ;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_2_3_loc2Shape" -p "first_curve_2_3_loc2";
+	rename -uid "CE0B4875-4EB1-BA75-FE26-F09195AA5CF1";
+	setAttr -k off ".v" no;
+createNode transform -n "first_curve_2_3_loc3" -p "feathers_6_3";
+	rename -uid "67D83BDF-48FF-374F-97B7-838E0E58BDB2";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".t" -type "double3" -7.5009443101237139e-15 7.231899541021436e-16 -0.097313711458762095 ;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_2_3_loc3Shape" -p "first_curve_2_3_loc3";
+	rename -uid "CF51CCDF-47FC-4EF0-12CB-F0BA2479E1B2";
+	setAttr -k off ".v" no;
 createNode transform -n "feathers_6_3_closed" -p "feathers_6_3_group";
 	rename -uid "65881AF4-4590-6FAE-553D-9E9B77B0DBA1";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -7235,6 +7286,22 @@ createNode transform -n "first_curve_2_2_loc_closed" -p "feathers_6_2";
 createNode locator -n "first_curve_2_2_loc_closedShape" -p "first_curve_2_2_loc_closed";
 	rename -uid "AF236BC8-4BFE-BBFD-C69F-3EB29895354D";
 	setAttr -k off ".v";
+createNode transform -n "first_curve_2_2_loc2" -p "feathers_6_2";
+	rename -uid "7351DF92-45E5-723F-B03E-DC99DFEBBE5B";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".t" -type "double3" 0 0 0.091628692650959742 ;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_2_2_loc2Shape" -p "first_curve_2_2_loc2";
+	rename -uid "9BCB0904-4E5D-0456-A1D6-C4A2A270F16D";
+	setAttr -k off ".v" no;
+createNode transform -n "first_curve_2_2_loc3" -p "feathers_6_2";
+	rename -uid "93C893FF-4583-11B1-B56C-DAB5409772AB";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".t" -type "double3" -7.5009443101237139e-15 7.231899541021436e-16 -0.097313711458762095 ;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_2_2_loc3Shape" -p "first_curve_2_2_loc3";
+	rename -uid "2BEBF8BA-48AB-C5A8-4CE6-AE975F9A9D78";
+	setAttr -k off ".v" no;
 createNode transform -n "feathers_6_2_closed" -p "feathers_6_2_group";
 	rename -uid "A3AD5456-4BBF-5E12-0E7A-228AEC872D01";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -7282,11 +7349,10 @@ createNode nurbsCurve -n "feathers_6_1Shape" -p "feathers_6_1";
 createNode transform -n "first_curve_2_1_loc" -p "feathers_6_1";
 	rename -uid "A39780F8-46DB-8275-9AF9-8A92226E99D7";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".v" no;
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_2_1_locShape" -p "first_curve_2_1_loc";
 	rename -uid "AD542D28-4291-E176-1BBA-1D8DEF479595";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode transform -n "first_curve_2_1_loc_closed" -p "feathers_6_1";
 	rename -uid "E2D64B1D-41BC-2775-44E1-95B3B85B9D58";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -7295,6 +7361,22 @@ createNode transform -n "first_curve_2_1_loc_closed" -p "feathers_6_1";
 createNode locator -n "first_curve_2_1_loc_closedShape" -p "first_curve_2_1_loc_closed";
 	rename -uid "895FB1AC-4F29-A9DE-B32A-048D0B6B2524";
 	setAttr -k off ".v";
+createNode transform -n "first_curve_2_1_loc1" -p "feathers_6_1";
+	rename -uid "81126CAA-4B24-30E6-E87C-57B63F569D62";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".t" -type "double3" 0 0 0.091628692650959742 ;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_2_1_loc1Shape" -p "first_curve_2_1_loc1";
+	rename -uid "C7760E3C-4E75-93BF-EF94-DB9E0979DFE3";
+	setAttr -k off ".v" no;
+createNode transform -n "first_curve_2_1_loc2" -p "feathers_6_1";
+	rename -uid "E013C218-4093-FB2C-4822-789420700474";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".t" -type "double3" -7.5009443101237139e-15 7.231899541021436e-16 -0.097313711458762095 ;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_2_1_loc2Shape" -p "first_curve_2_1_loc2";
+	rename -uid "48E4158D-4EA7-A398-F5DE-118FC0B47ACF";
+	setAttr -k off ".v" no;
 createNode transform -n "feathers_6_1_closed" -p "sec_4_1_group_2";
 	rename -uid "DCA93EC2-4E57-D261-9C28-96B91FDB58DA";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -7397,11 +7479,10 @@ createNode nurbsCurve -n "feathers_5_1Shape" -p "feathers_5_1";
 createNode transform -n "first_curve_3_1_loc" -p "feathers_5_1";
 	rename -uid "AD489224-490F-AC07-759D-3885A8991D00";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".v" no;
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_3_1_locShape" -p "first_curve_3_1_loc";
 	rename -uid "B4481474-4246-5EBF-F393-9F8017EBE453";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode transform -n "feathers_5_2_group" -p "feathers_5_1";
 	rename -uid "6B88C736-4136-FDF8-E9CD-50811A84F91F";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -7447,11 +7528,10 @@ createNode transform -n "feathers_5_2" -p "feathers_5_2_closedGroup";
 createNode transform -n "first_curve_3_2_loc" -p "feathers_5_2";
 	rename -uid "C39F7952-4837-FFA1-3A13-BB90D5C86CEC";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".v" no;
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_3_2_locShape" -p "first_curve_3_2_loc";
 	rename -uid "0CCDDBCF-41A2-E4C1-54F7-529FC936EB13";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode nurbsCurve -n "feathers_5_2Shape" -p "feathers_5_2";
 	rename -uid "8A47001B-45AE-8078-059A-20B1E2CE7F09";
 	setAttr -k off ".v";
@@ -7522,11 +7602,10 @@ createNode transform -n "feathers_5_3" -p "feathers_5_3_closedGroup";
 createNode transform -n "first_curve_3_3_loc" -p "feathers_5_3";
 	rename -uid "15092319-4F4A-97AB-9ACE-88AA76F71061";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".v" no;
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_3_3_locShape" -p "first_curve_3_3_loc";
 	rename -uid "1FEDF096-4CFE-E772-7AB3-9690D6F108C6";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode nurbsCurve -n "feathers_5_3Shape" -p "feathers_5_3";
 	rename -uid "2DD9EEB1-43DC-D031-F303-DA86F75FBB40";
 	setAttr -k off ".v";
@@ -7566,11 +7645,51 @@ createNode locator -n "first_curve_3_3_loc_closedShape" -p "first_curve_3_3_loc_
 createNode transform -n "first_curve_3_4_loc" -p "feathers_5_3";
 	rename -uid "C39E8847-4E55-4607-C162-54AC1AA13AF4";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".v" no;
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_3_4_locShape" -p "first_curve_3_4_loc";
 	rename -uid "F7EB6FB8-41DB-C3B0-E236-FCA97AE0B6FE";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
+createNode transform -n "first_curve_3_4_loc2" -p "first_curve_3_4_loc";
+	rename -uid "25406A04-4F7E-E1D2-F4C3-1FB65DE2624F";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".t" -type "double3" -1.8755968847759512 -0.0004700756226884212 3.8543211504471548 ;
+	setAttr ".r" -type "double3" 0.012267050445465983 62.872867987328647 0.013783249507477013 ;
+	setAttr ".s" -type "double3" 0.99999999999999967 1 0.99999999999999989 ;
+	setAttr ".opm" -type "matrix" 0.45596639694888819 -5.0014356630598167e-05 0.88999699008031108 0
+		 0.00010968868546364645 0.99999999398419614 1.8346161585356896e-12 0 -0.88999698472626387 9.7622599071987975e-05 0.45596639969189284 0
+		 4.3378686210338735 1.7763568394002505e-15 0 1;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_3_4_loc2Shape" -p "first_curve_3_4_loc2";
+	rename -uid "71D464DE-4E8A-DA4E-D0BF-6AAC6DDAFC04";
+	setAttr -k off ".v" no;
+createNode transform -n "first_curve_3_4_loc3" -p "first_curve_3_4_loc";
+	rename -uid "FC17E3E4-481B-7DAF-3A61-358BA622A640";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".t" -type "double3" -1.9779223255704581 -0.00047581510675698247 3.8606899928588208 ;
+	setAttr ".r" -type "double3" 0.012267050445465983 62.872867987328647 0.013783249507477013 ;
+	setAttr ".s" -type "double3" 0.99999999999999967 1 0.99999999999999989 ;
+	setAttr ".opm" -type "matrix" 0.45596639694888819 -5.0014356630598167e-05 0.88999699008031108 0
+		 0.00010968868546364645 0.99999999398419614 1.8346161585356896e-12 0 -0.88999698472626387 9.7622599071987975e-05 0.45596639969189284 0
+		 4.3378686210338735 1.7763568394002505e-15 0 1;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_3_4_loc3Shape" -p "first_curve_3_4_loc3";
+	rename -uid "EEE10134-4AA3-0DBD-6AFB-D88AE3899389";
+	setAttr -k off ".v" no;
+createNode transform -n "first_curve_3_3_loc2" -p "feathers_5_3";
+	rename -uid "EC5F8720-43A3-C55F-B72F-0F82F9C43049";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".t" -type "double3" -7.1054273576010019e-15 -1.2013932707326757e-15 0.088165356171103382 ;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_3_3_loc2Shape" -p "first_curve_3_3_loc2";
+	rename -uid "774E03BC-48CB-F6F7-8B59-BC9DE64EC6D3";
+	setAttr -k off ".v" no;
+createNode transform -n "first_curve_3_3_loc3" -p "feathers_5_3";
+	rename -uid "0A8813C6-4429-E057-26D9-37954FCDF517";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_3_3_loc3Shape" -p "first_curve_3_3_loc3";
+	rename -uid "4444D2CA-4044-272B-4020-8485A61D9B0F";
+	setAttr -k off ".v" no;
 createNode transform -n "feathers_5_3_closed" -p "feathers_5_3_group";
 	rename -uid "1C1CBE81-4BE3-2602-EEF1-EE9DA3E4DD57";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -7607,6 +7726,21 @@ createNode transform -n "first_curve_3_2_loc_closed" -p "feathers_5_2";
 createNode locator -n "first_curve_3_2_loc_closedShape" -p "first_curve_3_2_loc_closed";
 	rename -uid "61A1595A-4793-C640-A708-029901233269";
 	setAttr -k off ".v";
+createNode transform -n "first_curve_3_2_loc2" -p "feathers_5_2";
+	rename -uid "36BE4505-4B19-65F7-3DE5-6CA4D2328645";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".t" -type "double3" -7.1054273576010019e-15 -1.2013932707326757e-15 0.088165356171103382 ;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_3_2_loc2Shape" -p "first_curve_3_2_loc2";
+	rename -uid "6547E20E-4096-A7D8-DFC5-E0B294426625";
+	setAttr -k off ".v" no;
+createNode transform -n "first_curve_3_2_loc3" -p "feathers_5_2";
+	rename -uid "45870139-4FB0-3439-B33C-50AF6B75440C";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_3_2_loc3Shape" -p "first_curve_3_2_loc3";
+	rename -uid "6C067B20-4765-9579-D961-7EA0B8C984E4";
+	setAttr -k off ".v" no;
 createNode transform -n "feathers_5_2_closed" -p "feathers_5_2_group";
 	rename -uid "4A3A9980-472C-E930-4C0D-4B937EF0EC46";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -7644,6 +7778,21 @@ createNode transform -n "first_curve_3_1_loc_closed" -p "feathers_5_1";
 createNode locator -n "first_curve_3_1_loc_closedShape" -p "first_curve_3_1_loc_closed";
 	rename -uid "D6ABCDA9-426E-EE3C-B614-C5A23907870A";
 	setAttr -k off ".v";
+createNode transform -n "first_curve_3_1_loc1" -p "feathers_5_1";
+	rename -uid "266138F8-4842-BCC8-DE16-628D49FF714D";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".t" -type "double3" -7.1054273576010019e-15 -1.2013932707326757e-15 0.088165356171103382 ;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_3_1_loc1Shape" -p "first_curve_3_1_loc1";
+	rename -uid "BF33A1E6-49A4-A977-8A36-FFA381BC77F7";
+	setAttr -k off ".v" no;
+createNode transform -n "first_curve_3_1_loc2" -p "feathers_5_1";
+	rename -uid "5FA8C5F4-4ACF-0A92-10A9-2D986AA80574";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_3_1_loc2Shape" -p "first_curve_3_1_loc2";
+	rename -uid "D5479C16-434C-EC10-F0D5-C5AC6C59AF12";
+	setAttr -k off ".v" no;
 createNode transform -n "feathers_5_1_closed" -p "sec_3_1_group_2";
 	rename -uid "20D80E64-49C3-4566-64A6-B28263436B67";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -7742,11 +7891,10 @@ createNode nurbsCurve -n "feathers_4_1Shape" -p "feathers_4_1";
 createNode transform -n "first_curve_4_1_loc" -p "feathers_4_1";
 	rename -uid "13F08094-49A2-3CEE-B1BD-5EA7A0E68855";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".v" no;
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_4_1_locShape" -p "first_curve_4_1_loc";
 	rename -uid "8ABDBC74-4E6D-D2E0-8D3E-D1B710B442E1";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode transform -n "feathers_4_2_group" -p "feathers_4_1";
 	rename -uid "6C3F3FA7-4AE4-DDB2-24FC-A48E40E1769C";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -7793,11 +7941,10 @@ createNode transform -n "feathers_4_2" -p "feathers_4_2_closedGroup";
 createNode transform -n "first_curve_4_2_loc" -p "feathers_4_2";
 	rename -uid "4DDDE4F6-4849-B078-0777-3F89DB68EFA2";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".v" no;
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_4_2_locShape" -p "first_curve_4_2_loc";
 	rename -uid "152BE662-49B2-A615-3943-7781CC3390A4";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode nurbsCurve -n "feathers_4_2Shape" -p "feathers_4_2";
 	rename -uid "0285FD69-4814-41F6-3141-288FAA1D3E30";
 	setAttr -k off ".v";
@@ -7909,11 +8056,10 @@ createNode transform -n "feathers_4_3" -p "feathers_4_3_closedGroup";
 createNode transform -n "first_curve_4_3_loc" -p "feathers_4_3";
 	rename -uid "429A2827-41C7-F60D-C1AE-C3ADE6CBEEA2";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".v" no;
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_4_3_locShape" -p "first_curve_4_3_loc";
 	rename -uid "87E325BA-4180-CBD0-7D1E-1EBAC226127E";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode nurbsCurve -n "feathers_4_3Shape" -p "feathers_4_3";
 	rename -uid "CE9E00B0-4E37-9BDB-6B6C-83ACB5BE31CC";
 	setAttr -k off ".v";
@@ -7954,11 +8100,10 @@ createNode locator -n "first_curve_4_3_loc_closedShape" -p "first_curve_4_3_loc_
 createNode transform -n "first_curve_4_4_loc" -p "feathers_4_3";
 	rename -uid "5CBDF38F-4B51-5CA2-BCDA-1CAE4B976BB7";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".v" no;
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_4_4_locShape" -p "first_curve_4_4_loc";
 	rename -uid "F10AEB70-4ADC-94AB-3780-53A744903CAA";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode transform -n "skinMiddle_1_target_1_dup_2" -p "first_curve_4_4_loc";
 	rename -uid "E54CEB6B-44F8-C7CA-CABF-C7A00BDAD033";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -7967,6 +8112,63 @@ createNode transform -n "skinMiddle_1_target_1_dup_2" -p "first_curve_4_4_loc";
 createNode locator -n "skinMiddle_1_target_1_dup_2Shape" -p "skinMiddle_1_target_1_dup_2";
 	rename -uid "A0423741-4DE5-1E2D-13C5-B98994BCBCFF";
 	setAttr -k off ".v";
+createNode transform -n "first_curve_4_4_loc2" -p "first_curve_4_4_loc";
+	rename -uid "D5A3F079-4D65-6CC4-AEB6-E092BFF606B9";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".t" -type "double3" -3.4359947477127188 -0.0080136317769281384 1.6322706126938231 ;
+	setAttr ".r" -type "double3" 0.064021668478380589 27.919340013004678 0.13673159214444797 ;
+	setAttr ".s" -type "double3" 1.0000000000000004 0.99999999999999989 1.0000000000000004 ;
+	setAttr ".opm" -type "matrix" 0.88360511541996312 -0.0018632214330901603 0.46822914092307899 0
+		 0.0021086538072330372 0.99999777678708934 6.6893539318879634e-14 0 -0.46822809995000791 0.00098733316060579772 0.88360707986663112 0
+		 3.8003544011961079 0 3.5527136788005009e-15 1;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_4_4_loc2Shape" -p "first_curve_4_4_loc2";
+	rename -uid "EB9A19A9-474D-CA91-030E-23A7F3EE5C9A";
+	setAttr -k off ".v" no;
+createNode transform -n "skinMiddle_1_target_1_dup_4" -p "first_curve_4_4_loc2";
+	rename -uid "09FF1865-468E-C6A7-F6D5-619DC2BDB9D3";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".v" no;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "skinMiddle_1_target_1_dup_2Shape4" -p "skinMiddle_1_target_1_dup_4";
+	rename -uid "20BC2C5C-4AE7-2B91-FD29-ADBAE6EDF1C6";
+	setAttr -k off ".v";
+createNode transform -n "first_curve_4_4_loc1" -p "first_curve_4_4_loc";
+	rename -uid "BD1CC19A-4419-15E5-8178-E3998C361363";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".t" -type "double3" -3.3580125893056514 -0.0080136317769187743 1.7794327204086993 ;
+	setAttr ".r" -type "double3" 0.064021668478380589 27.919340013004678 0.13673159214444797 ;
+	setAttr ".s" -type "double3" 1.0000000000000004 0.99999999999999989 1.0000000000000004 ;
+	setAttr ".opm" -type "matrix" 0.88360511541996312 -0.0018632214330901603 0.46822914092307899 0
+		 0.0021086538072330372 0.99999777678708934 6.6893539318879634e-14 0 -0.46822809995000791 0.00098733316060579772 0.88360707986663112 0
+		 3.8003544011961079 0 3.5527136788005009e-15 1;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_4_4_loc1Shape" -p "first_curve_4_4_loc1";
+	rename -uid "06227FC1-4C41-AB23-F03B-5A82CFAFD251";
+	setAttr -k off ".v" no;
+createNode transform -n "skinMiddle_1_target_1_dup_3" -p "first_curve_4_4_loc1";
+	rename -uid "F529D008-4A6D-59D1-E0ED-E5A8D081EDD7";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".v" no;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "skinMiddle_1_target_1_dup_2Shape3" -p "skinMiddle_1_target_1_dup_3";
+	rename -uid "3EF37784-463B-B86C-AF97-11A177D1DDEE";
+	setAttr -k off ".v";
+createNode transform -n "first_curve_4_3_loc1" -p "feathers_4_3";
+	rename -uid "4C6379D4-455B-C41A-369E-CB9A0E994912";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_4_3_loc1Shape" -p "first_curve_4_3_loc1";
+	rename -uid "5C1CE284-45C9-889A-0B15-42A871D8E27E";
+	setAttr -k off ".v" no;
+createNode transform -n "first_curve_4_3_loc2" -p "feathers_4_3";
+	rename -uid "752605DC-4FE0-BF56-B3F2-EA8F24926CAC";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".t" -type "double3" 1.2975731600306517e-15 2.2131141320588799e-15 -0.16654699930323147 ;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_4_3_loc2Shape" -p "first_curve_4_3_loc2";
+	rename -uid "33533D64-4A3C-8795-7D2C-0490DA133627";
+	setAttr -k off ".v" no;
 createNode transform -n "first_curve_4_2_loc_closed" -p "feathers_4_2";
 	rename -uid "A8CE9F23-458F-8400-77FF-5BA2BE442269";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -7976,6 +8178,21 @@ createNode transform -n "first_curve_4_2_loc_closed" -p "feathers_4_2";
 createNode locator -n "first_curve_4_2_loc_closedShape" -p "first_curve_4_2_loc_closed";
 	rename -uid "6AF23B5C-4D57-E4CC-7277-48AA95D65940";
 	setAttr -k off ".v";
+createNode transform -n "first_curve_4_2_loc4" -p "feathers_4_2";
+	rename -uid "76EC2321-4B2C-736A-1493-7BA166778B79";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_4_2_loc4Shape" -p "first_curve_4_2_loc4";
+	rename -uid "7A2B8DC0-41B4-397C-F700-6BAFE1CAAB27";
+	setAttr -k off ".v" no;
+createNode transform -n "first_curve_4_2_loc5" -p "feathers_4_2";
+	rename -uid "26B392F4-4163-8ED4-601A-CB97A8249EE8";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".t" -type "double3" 1.2975731600306517e-15 2.2131141320588799e-15 -0.16654699930323147 ;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_4_2_loc5Shape" -p "first_curve_4_2_loc5";
+	rename -uid "29E12BB0-4F34-6604-90D3-AB911A9AE12D";
+	setAttr -k off ".v" no;
 createNode transform -n "feathers_4_2_closed" -p "feathers_4_2_group";
 	rename -uid "2DBD11C5-4A62-676A-3298-A7804C980B3F";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -8014,6 +8231,21 @@ createNode transform -n "first_curve_4_1_loc_closed" -p "feathers_4_1";
 createNode locator -n "first_curve_4_1_loc_closedShape" -p "first_curve_4_1_loc_closed";
 	rename -uid "BD9C779A-4375-292A-1E3F-D9ADA1E5F103";
 	setAttr -k off ".v";
+createNode transform -n "first_curve_4_1_loc4" -p "feathers_4_1";
+	rename -uid "E394BF6B-4C71-A72D-8358-D8B6D1D72FFB";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_4_1_loc4Shape" -p "first_curve_4_1_loc4";
+	rename -uid "1EA1C6BD-48BB-B8A0-0B55-258BA449A8BB";
+	setAttr -k off ".v" no;
+createNode transform -n "first_curve_4_1_loc5" -p "feathers_4_1";
+	rename -uid "94FC5B58-4773-BD92-E2C2-A9B0080D3887";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".t" -type "double3" 1.2975731600306517e-15 2.2131141320588799e-15 -0.16654699930323147 ;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_4_1_loc5Shape" -p "first_curve_4_1_loc5";
+	rename -uid "4658B448-4CE7-8E75-1D25-4281FD1E347D";
+	setAttr -k off ".v" no;
 createNode transform -n "feathers_4_1_closed" -p "sec_2_1_group_2";
 	rename -uid "453D094C-41FD-5823-11FC-0C8F92CABA57";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -8220,11 +8452,10 @@ createNode transform -n "feathers_1_2" -p "feathers_1_2_closedGroup";
 createNode transform -n "first_curve_7_2_loc" -p "feathers_1_2";
 	rename -uid "5D81A14D-41EB-3A54-B5B5-EB8F983B469A";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".v" no;
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_7_2_locShape" -p "first_curve_7_2_loc";
 	rename -uid "76B8E47D-4B7D-31C3-4170-AA8370940886";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode nurbsCurve -n "feathers_1_2Shape" -p "feathers_1_2";
 	rename -uid "1D487424-4BD3-60A2-CB83-6B811555708C";
 	setAttr -k off ".v";
@@ -8326,11 +8557,10 @@ createNode transform -n "feathers_1_3" -p "feathers_1_3_closedGroup";
 createNode transform -n "first_curve_7_3_loc" -p "feathers_1_3";
 	rename -uid "6ABD2D4C-438C-8D18-8EAA-EBA4797C14A7";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".v" no;
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_7_3_locShape" -p "first_curve_7_3_loc";
 	rename -uid "4A2B739E-4AB0-2547-867A-ED968542FD90";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode nurbsCurve -n "feathers_1_3Shape" -p "feathers_1_3";
 	rename -uid "A5600055-4366-7827-7002-17A232961696";
 	setAttr -k off ".v";
@@ -8371,11 +8601,10 @@ createNode locator -n "first_curve_7_3_loc_closedShape" -p "first_curve_7_3_loc_
 createNode transform -n "first_curve_7_4_loc" -p "feathers_1_3";
 	rename -uid "F688CD6A-414F-A7D8-FBAF-2F8AFDB17FDD";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".v" no;
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_7_4_locShape" -p "first_curve_7_4_loc";
 	rename -uid "DE7E9229-4D2D-B4BF-244D-0AA7C117351A";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode transform -n "skinMiddle_1_target_2_dup_2" -p "first_curve_7_4_loc";
 	rename -uid "6AE86C1D-40E0-4A1A-DD12-719C0B59B32F";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -8384,6 +8613,35 @@ createNode transform -n "skinMiddle_1_target_2_dup_2" -p "first_curve_7_4_loc";
 createNode locator -n "skinMiddle_1_target_2_dup_2Shape" -p "skinMiddle_1_target_2_dup_2";
 	rename -uid "BD68A10C-4F88-CFB0-4B36-66A6F773CE9E";
 	setAttr -k off ".v";
+createNode transform -n "first_curve_7_4_loc3" -p "first_curve_7_4_loc";
+	rename -uid "F53E4F79-49D4-1245-7AFB-14A9BA006B4C";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".t" -type "double3" -3.3042557711832941 -0.47044066066994777 -0.18688985716007492 ;
+	setAttr ".r" -type "double3" -0.84179924043105936 -5.8942837631166993 8.1425435234672427 ;
+	setAttr ".s" -type "double3" 0.99999999999999989 0.99999999999999978 0.99999999999999978 ;
+	setAttr ".opm" -type "matrix" 0.9846851284894671 -0.14012750034521532 -0.10372791995737503 0
+		 0.14088748829627518 0.99002561362904495 2.6020852139652113e-17 0 0.1026932976062646 -0.014613966108991631 0.99460571012905252 0
+		 3.3391230574048478 0 -8.8817841970012523e-16 1;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_7_4_loc3Shape" -p "first_curve_7_4_loc3";
+	rename -uid "A9142261-432C-28D8-1691-B5AFBD89B08B";
+	setAttr -k off ".v" no;
+createNode transform -n "skinMiddle_1_target_2_dup_3" -p "first_curve_7_4_loc3";
+	rename -uid "5961675E-4C3F-B1B3-C82D-2CBC1D06E2BC";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".v" no;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "skinMiddle_1_target_2_dup_2Shape3" -p "skinMiddle_1_target_2_dup_3";
+	rename -uid "CA6E02DB-4244-5E4D-AFB2-31B433801E1C";
+	setAttr -k off ".v";
+createNode transform -n "first_curve_7_3_loc4" -p "feathers_1_3";
+	rename -uid "0FBD9CCA-4C9B-0181-8EA0-5299CAECB1A3";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".t" -type "double3" 9.4022012397942945e-16 9.6016944395316273e-16 0.15686185905538222 ;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_7_3_loc4Shape" -p "first_curve_7_3_loc4";
+	rename -uid "28113594-465C-8E45-B47F-D99C04913741";
+	setAttr -k off ".v" no;
 createNode transform -n "first_curve_7_2_loc_closed" -p "feathers_1_2";
 	rename -uid "9AA7C1A3-4636-3D0D-B032-B7890F54CAB9";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -8393,6 +8651,14 @@ createNode transform -n "first_curve_7_2_loc_closed" -p "feathers_1_2";
 createNode locator -n "first_curve_7_2_loc_closedShape" -p "first_curve_7_2_loc_closed";
 	rename -uid "1461323B-4579-8163-4FD9-88A2FCD6096D";
 	setAttr -k off ".v";
+createNode transform -n "first_curve_7_2_loc4" -p "feathers_1_2";
+	rename -uid "AE405790-417C-1019-62BC-788519843937";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".t" -type "double3" 9.4022012397942945e-16 9.6016944395316273e-16 0.15686185905538222 ;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_7_2_loc4Shape" -p "first_curve_7_2_loc4";
+	rename -uid "E7D6162A-41A1-7333-AED3-A589899BA5F2";
+	setAttr -k off ".v" no;
 createNode nurbsCurve -n "feathers_1_1Shape" -p "feathers_1_1";
 	rename -uid "95D7D5E7-4943-F2EB-B715-6DA3ADDA6BDF";
 	setAttr -k off ".v";
@@ -8411,11 +8677,10 @@ createNode nurbsCurve -n "feathers_1_1Shape" -p "feathers_1_1";
 createNode transform -n "first_curve_7_1_loc" -p "feathers_1_1";
 	rename -uid "AA36C8CD-4D9F-9F33-8418-C699EE526BCD";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
-	setAttr ".v" no;
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_7_1_locShape" -p "first_curve_7_1_loc";
 	rename -uid "3AF1BCAB-4EF1-FC2F-17BA-BE8D6BB5EEF4";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode transform -n "first_curve_7_1_loc_closed" -p "feathers_1_1";
 	rename -uid "7A9977F7-4344-7001-F7DD-24AD13851F86";
 	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
@@ -8425,6 +8690,14 @@ createNode transform -n "first_curve_7_1_loc_closed" -p "feathers_1_1";
 createNode locator -n "first_curve_7_1_loc_closedShape" -p "first_curve_7_1_loc_closed";
 	rename -uid "5D2A4641-40D5-9B6E-D7D0-41A1D51D581B";
 	setAttr -k off ".v";
+createNode transform -n "first_curve_7_1_loc7" -p "feathers_1_1";
+	rename -uid "C0183A6C-4FC0-9EEE-8C45-52933AC7C0F3";
+	addAttr -ci true -sn "moduleName" -ln "moduleName" -dt "string";
+	setAttr ".t" -type "double3" 9.4022012397942945e-16 9.6016944395316273e-16 0.15686185905538222 ;
+	setAttr -l on ".moduleName" -type "string" "l_wing";
+createNode locator -n "first_curve_7_1_loc7Shape" -p "first_curve_7_1_loc7";
+	rename -uid "0D892761-4DF3-4F96-8D4F-CD9C54656E79";
+	setAttr -k off ".v" no;
 createNode transform -n "skin_controls_group" -p "wing_controls";
 	rename -uid "DF45FCC4-42E6-175F-69C0-2A8EDE05F97A";
 createNode transform -n "skinMiddle_1_group" -p "skin_controls_group";
@@ -8786,7 +9059,7 @@ createNode transform -n "first_curve_4_2_loc3" -p "skinIbtw_5_3";
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_4_2_loc3Shape" -p "first_curve_4_2_loc3";
 	rename -uid "1301D8B3-46E5-0114-65C9-218B2DD6D248";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode aimConstraint -n "skinMiddle_2_group_aimConstraint1" -p "skinMiddle_2_group";
 	rename -uid "C87445F6-4894-3F6F-B474-AEB5C5BA677E";
 	addAttr -dcb 0 -ci true -sn "w0" -ln "skinIbtw_5_2_groupW0" -dv 1 -at "double";
@@ -8988,7 +9261,7 @@ createNode transform -n "first_curve_3_4_loc1" -p "skinIbtw_6_3";
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_3_4_loc1Shape" -p "first_curve_3_4_loc1";
 	rename -uid "7C893A01-418F-7EF9-660A-A78BA8EE2227";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode aimConstraint -n "skinMiddle_3_group_aimConstraint1" -p "skinMiddle_3_group";
 	rename -uid "E40DB0B8-4DD0-43DE-ACB9-03AE1B336E0C";
 	addAttr -dcb 0 -ci true -sn "w0" -ln "skinIbtw_6_2_groupW0" -dv 1 -at "double";
@@ -9191,7 +9464,7 @@ createNode transform -n "first_curve_2_4_loc1" -p "skinIbtw_7_3";
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_2_4_loc1Shape" -p "first_curve_2_4_loc1";
 	rename -uid "1A3A6B8F-4041-4FDD-3DC4-ED9711C98546";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode aimConstraint -n "skinMiddle_4_group_aimConstraint1" -p "skinMiddle_4_group";
 	rename -uid "6FB68A1B-4EE3-D680-8921-1C97AFCD0F06";
 	addAttr -dcb 0 -ci true -sn "w0" -ln "skinIbtw_7_2_groupW0" -dv 1 -at "double";
@@ -9839,7 +10112,7 @@ createNode transform -n "first_curve_4_2_loc1" -p "skinIbtw_5_1";
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_4_2_loc1Shape" -p "first_curve_4_2_loc1";
 	rename -uid "BE4BC26F-4912-E49B-AF92-1D9A1C776873";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode transform -n "skinIbtw_5_2_group" -p "skin_controls_group_2";
 	rename -uid "DA2ECDCF-42FE-BF31-E0B7-74B2958AD039";
 	setAttr ".s" -type "double3" 0.99999999999999989 0.99999999999999989 1 ;
@@ -9942,7 +10215,7 @@ createNode transform -n "first_curve_4_2_loc2" -p "skinIbtw_5_2";
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_4_2_loc2Shape" -p "first_curve_4_2_loc2";
 	rename -uid "32B63411-4CD9-5401-D348-BE9C1C9F9356";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode transform -n "skinIbtw_6_1_group" -p "skin_controls_group_2";
 	rename -uid "C790E968-4996-9167-F157-B4B82EDE440F";
 	setAttr ".s" -type "double3" 0.99999999999999989 0.99999999999999989 1.0000000000000002 ;
@@ -10045,7 +10318,7 @@ createNode transform -n "first_curve_3_2_loc1" -p "skinIbtw_6_1";
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_3_2_loc1Shape" -p "first_curve_3_2_loc1";
 	rename -uid "FF3BACDA-4720-B72B-BA2B-B9828CC6203B";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode transform -n "skinIbtw_6_2_group" -p "skin_controls_group_2";
 	rename -uid "EEB0DA12-4980-82BC-5776-1893E55C9E50";
 	setAttr ".s" -type "double3" 0.99999999999999989 0.99999999999999989 1.0000000000000002 ;
@@ -10148,7 +10421,7 @@ createNode transform -n "first_curve_3_3_loc1" -p "skinIbtw_6_2";
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_3_3_loc1Shape" -p "first_curve_3_3_loc1";
 	rename -uid "FFA39156-4F53-AF1D-5AD7-E6B8A21E62C4";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode transform -n "skinIbtw_2_3_group" -p "skin_controls_group_2";
 	rename -uid "C9ADE298-4B28-B3C0-6F96-55B6F03A4953";
 	setAttr ".s" -type "double3" 1.0000000000000002 0.99999999999999978 1.0000000000000002 ;
@@ -10597,7 +10870,7 @@ createNode transform -n "first_curve_4_1_loc1" -p "skin_controls_group_2";
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_4_1_loc1Shape" -p "first_curve_4_1_loc1";
 	rename -uid "72DC4CE2-441A-8C75-7244-66BF65149143";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode pointConstraint -n "first_curve_4_1_loc1_pointConstraint1" -p "first_curve_4_1_loc1";
 	rename -uid "83FA8877-4803-2728-F911-3BB589658250";
 	addAttr -dcb 0 -ci true -k true -sn "w0" -ln "first_curve_3_1_locW0" -dv 1 -min 
@@ -10627,7 +10900,7 @@ createNode transform -n "first_curve_4_1_loc2" -p "skin_controls_group_2";
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_4_1_loc2Shape" -p "first_curve_4_1_loc2";
 	rename -uid "5A1530DB-4A7C-1366-6793-94AA25D3F4D4";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode pointConstraint -n "first_curve_4_1_loc2_pointConstraint1" -p "first_curve_4_1_loc2";
 	rename -uid "6E095DE5-44EA-5CBE-865B-F287B96E7FA2";
 	addAttr -dcb 0 -ci true -k true -sn "w0" -ln "first_curve_2_1_locW0" -dv 1 -min 
@@ -10657,7 +10930,7 @@ createNode transform -n "first_curve_4_1_loc3" -p "skin_controls_group_2";
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_4_1_loc3Shape" -p "first_curve_4_1_loc3";
 	rename -uid "AC7408DC-4145-A574-E893-74B3DE6A6C03";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode pointConstraint -n "first_curve_4_1_loc3_pointConstraint1" -p "first_curve_4_1_loc3";
 	rename -uid "D703E663-4317-61FB-2F91-CE9BB415CE7D";
 	addAttr -dcb 0 -ci true -k true -sn "w0" -ln "first_curve_2_1_locW0" -dv 1 -min 
@@ -10778,7 +11051,7 @@ createNode transform -n "first_curve_2_3_loc1" -p "skinIbtw_7_2";
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_2_3_loc1Shape" -p "first_curve_2_3_loc1";
 	rename -uid "C790E1CB-4C6D-BA4C-BFE0-A79FBDEAB5EF";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode transform -n "skinIbtw_7_1_group" -p "skin_controls_group_2";
 	rename -uid "E8E77B4B-4A70-02B9-4708-B8868BE71A8D";
 createNode pointConstraint -n "skinIbtw_7_1_group_pointConstraint1" -p "skinIbtw_7_1_group";
@@ -10878,7 +11151,7 @@ createNode transform -n "first_curve_2_2_loc1" -p "skinIbtw_7_1";
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode locator -n "first_curve_2_2_loc1Shape" -p "first_curve_2_2_loc1";
 	rename -uid "AF82E9B1-4275-7EE7-8D5E-B483E40332FF";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 createNode transform -n "skinIbtw_4_1_group1" -p "skin_controls_group_2";
 	rename -uid "0981C839-421F-DF3F-ACE7-DBBA6D1B4691";
 	setAttr ".t" -type "double3" -3.5527136788005009e-15 0 8.8817841970012523e-16 ;
@@ -11563,7 +11836,6 @@ createNode nurbsSurface -n "surf_Shape4" -p "surf_4";
 	setAttr ".cps" 3;
 createNode transform -n "constant_curves" -p "system";
 	rename -uid "52040FE9-4B28-F209-930F-D4B7376418BA";
-	setAttr ".v" no;
 createNode transform -n "crv_1" -p "constant_curves";
 	rename -uid "6CC134DC-466F-4C98-6FA6-9C8DF9D2FC66";
 createNode nurbsCurve -n "crv_Shape1" -p "crv_1";
@@ -11679,10 +11951,10 @@ createNode nurbsCurve -n "crv_Shape8" -p "crv_8";
 		2 2 0 no 3
 		5 0 0 1 2 2
 		4
-		26.891395060405785 10.512753741703751 -0.98673467016395655
-		30.547325880639157 10.480447999966431 -3.9119543533922778
-		34.203256700872551 10.448142258229112 -6.8371740366206097
-		37.857671415354652 10.414359452656264 -9.7597941799898411
+		26.841670543504687 10.512753741703751 -1.0135094100337811
+		30.513864586524292 10.480448481565409 -3.9299864075574975
+		34.186058629543929 10.448143221427069 -6.8464634050812272
+		37.856727123975638 10.414360912046964 -9.7603463847280381
 		;
 createNode transform -n "crv_9" -p "constant_curves";
 	rename -uid "F1AF3F54-4C0E-939B-09CC-7AA669A3C1C7";
@@ -11694,10 +11966,10 @@ createNode nurbsCurve -n "crv_Shape9" -p "crv_9";
 		2 2 0 no 3
 		5 0 0 1 2 2
 		4
-		27.204496535693348 10.574885429128623 -0.47446562306247891
-		32.638500023490288 10.607284399198983 -2.6357860455432047
-		38.072503511287238 10.639683369269335 -4.7971064680239301
-		43.506506999084181 10.672082339339694 -6.958426890504656
+		27.105047501891146 10.574885429128623 -0.52801510280212904
+		32.572200667622148 10.607284399198981 -2.6714856987029729
+		38.039353833353161 10.639683369269333 -4.8149562946038156
+		43.506506999084174 10.672082339339694 -6.9584268905046596
 		;
 createNode transform -n "crv_10" -p "constant_curves";
 	rename -uid "6C35F3DF-40D3-9A70-5A03-43A7CA4558D1";
@@ -11709,10 +11981,10 @@ createNode nurbsCurve -n "crv_Shape10" -p "crv_10";
 		2 2 0 no 3
 		5 0 0 1 2 2
 		4
-		26.584536638075502 10.575517108824057 -0.080716469767631249
-		32.708821976552557 10.463726341526929 -0.97485348139533901
-		38.833107315029636 10.351935574229801 -1.8689904930230476
-		44.955248490323918 10.239610566845769 -2.7629723175255214
+		26.915623281540739 10.575517108824057 -0.10749120963745584
+		32.929546711239837 10.46374716245421 -0.99262800231032189
+		38.943470140938942 10.351977216084368 -1.8777647949831853
+		44.95524941672064 10.239673660563282 -2.7627441185451671
 		;
 createNode transform -n "crv_11" -p "constant_curves";
 	rename -uid "E51762A3-4BF5-0401-BC60-98A5C518C856";
@@ -11724,10 +11996,10 @@ createNode nurbsCurve -n "crv_Shape11" -p "crv_11";
 		2 2 0 no 3
 		5 0 0 1 2 2
 		4
-		25.964576740457648 10.576148788519486 0.31303268352721991
-		32.920658965845092 10.355428217690539 0.67583679091768989
-		39.876741191232554 10.134707646861591 1.0386408983081601
-		46.832823416620016 9.9139870760326421 1.4014450056986307
+		26.726199061190325 10.576148788519486 0.31303268352722124
+		33.428407179666877 10.355428217690539 0.67583679091769056
+		40.130615298143425 10.134707646861592 1.0386408983081603
+		46.832823416619995 9.9139870760326421 1.4014450056986298
 		;
 createNode transform -n "surf_1_curve_1" -p "constant_curves";
 	rename -uid "6BA73FA6-4844-A1BE-208E-D08667827EB9";
@@ -11746,7 +12018,7 @@ createNode nurbsCurve -n "surf_1_curve_Shape1" -p "surf_1_curve_1";
 		15.221016241256367 10.448555845993859 -4.8735840994697366
 		15.021218146862505 10.449580574216521 -4.8825099836641037
 		14.821420052468644 10.450605302439177 -4.8914358678584708
-		12.583816326100001 10.59286997645283 -4.5570908282878637
+		12.583816320466989 10.592869845099813 -4.557090861893526
 		10.184439295888433 10.758748208415602 -4.2295196205194561
 		7.7850622579946416 10.924626302925212 -3.901948458421781
 		5.3856852032466573 11.090504540909556 -3.5743772078314349
@@ -11803,13 +12075,13 @@ createNode transform -n "surf_1_sec_1" -p "constant_curves";
 	rename -uid "4F3B46FB-449D-CBFC-4A62-579688E29ADB";
 createNode nurbsCurve -n "surf_1_sec_Shape1" -p "surf_1_sec_1";
 	rename -uid "27689635-4A36-AD93-AFF0-44AE440F9536";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 	setAttr -s 4 ".cp";
 	setAttr ".cc" -type "nurbsCurve" 
 		2 2 0 no 3
 		5 0 0 1 2 2
 		4
-		23.858236577280351 10.337116559930751 -2.5266691753960888
+		23.858236577206142 10.337116559931074 -2.5266691754158481
 		22.747281494056452 10.403953622627069 -5.8900240867836775
 		21.636406438668136 10.458720233249336 -9.2333367309864087
 		20.596740740786839 10.513451367020116 -12.312687684469607
@@ -11818,13 +12090,13 @@ createNode transform -n "surf_1_sec_2" -p "constant_curves";
 	rename -uid "F40807E0-4A8A-7D02-6476-DC8066D2AA6C";
 createNode nurbsCurve -n "surf_1_sec_Shape2" -p "surf_1_sec_2";
 	rename -uid "6367C319-4188-3DB8-FC4B-61976181B955";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 	setAttr -s 4 ".cp";
 	setAttr ".cc" -type "nurbsCurve" 
 		2 2 0 no 3
 		5 0 0 1 2 2
 		4
-		22.031805586972133 10.349251511610973 -3.0125405353311594
+		22.031805586823666 10.349251511612342 -3.0125405353706176
 		20.982369261772199 10.467418940075433 -6.1250725936845321
 		19.93328707012035 10.568963703419509 -9.1967041413362463
 		19.001791620786889 10.672008826653038 -11.821454055775456
@@ -11833,13 +12105,13 @@ createNode transform -n "surf_1_sec_3" -p "constant_curves";
 	rename -uid "926C9EF8-4B0B-F79A-3E77-31B51C8B1E60";
 createNode nurbsCurve -n "surf_1_sec_Shape3" -p "surf_1_sec_3";
 	rename -uid "529560F6-432E-E04F-7644-81BE05C80842";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 	setAttr -s 4 ".cp";
 	setAttr ".cc" -type "nurbsCurve" 
 		2 2 0 no 3
 		5 0 0 1 2 2
 		4
-		20.206361245176542 10.369644221773878 -3.4973553762011083
+		20.206361244953936 10.369644221776506 -3.4973553762602387
 		19.218421910378254 10.530849560913463 -6.3599925991174615
 		18.231196091688062 10.679140605563321 -9.1600936714469192
 		17.375315797217251 10.832382216633276 -11.449796193350439
@@ -11848,13 +12120,13 @@ createNode transform -n "surf_1_sec_4" -p "constant_curves";
 	rename -uid "47BF5A56-422D-6436-45F8-C1BB67DCB023";
 createNode nurbsCurve -n "surf_1_sec_Shape4" -p "surf_1_sec_4";
 	rename -uid "E09FAF7A-4500-8F3D-6B8A-529125557F99";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 	setAttr -s 4 ".cp";
 	setAttr ".cc" -type "nurbsCurve" 
 		2 2 0 no 3
 		5 0 0 1 2 2
 		4
-		18.380588597164689 10.391858436522918 -3.9857003324726765
+		18.380588596868463 10.391858436526878 -3.9857003325529385
 		17.454659267099096 10.594273539744636 -6.5948880053857435
 		16.529252227988618 10.789307984922669 -9.1234863658652365
 		15.717489817457395 10.994151037786237 -11.27260635511786
@@ -11863,13 +12135,13 @@ createNode transform -n "surf_1_sec_5" -p "constant_curves";
 	rename -uid "AA7027DB-4DB0-1BA0-675B-B8A536E0927A";
 createNode nurbsCurve -n "surf_1_sec_Shape5" -p "surf_1_sec_5";
 	rename -uid "E4C2C009-4437-2D74-5CE4-77AF4C4A7279";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 	setAttr -s 4 ".cp";
 	setAttr ".cc" -type "nurbsCurve" 
 		2 2 0 no 3
 		5 0 0 1 2 2
 		4
-		16.560377251262608 10.421417169337316 -4.4897783759900047
+		16.560377250892934 10.421417169344295 -4.4897783760938772
 		15.687949865004214 10.667672437550426 -6.803921945622684
 		14.82830685650543 10.913379496284673 -9.1244529240656522
 		14.050219886626465 11.171292677071554 -11.258244496641094
@@ -11878,13 +12150,13 @@ createNode transform -n "surf_1_sec_6" -p "constant_curves";
 	rename -uid "626DCE9C-4D8D-0CCD-D086-699FEA781E0E";
 createNode nurbsCurve -n "surf_1_sec_Shape6" -p "surf_1_sec_6";
 	rename -uid "6787F6D5-4284-A873-32A0-C598E2EE5500";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 	setAttr -s 4 ".cp";
 	setAttr ".cc" -type "nurbsCurve" 
 		2 2 0 no 3
 		5 0 0 1 2 2
 		4
-		14.72363128158853 10.460515341088602 -4.8645617472424485
+		14.723631280514351 10.460515331674877 -4.8645617495836841
 		13.914452766690037 10.77473494307055 -6.924955488892758
 		13.131476590974319 11.068742934304924 -9.2103465236487381
 		12.388531102859204 11.371885377661883 -11.355365476683662
@@ -11893,13 +12165,13 @@ createNode transform -n "surf_1_sec_7" -p "constant_curves";
 	rename -uid "CFCCF895-4AA4-6AB7-8B20-E3B96F507396";
 createNode nurbsCurve -n "surf_1_sec_Shape7" -p "surf_1_sec_7";
 	rename -uid "7D013C24-4470-275A-CE92-3CAF936273D3";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 	setAttr -s 4 ".cp";
 	setAttr ".cc" -type "nurbsCurve" 
 		2 2 0 no 3
 		5 0 0 1 2 2
 		4
-		12.856470708579907 10.577001346503453 -4.6012118748134485
+		12.856470700128519 10.577001261328563 -4.6012118959955162
 		12.140786043332479 10.917814523444218 -6.9502133401635522
 		11.444477359400341 11.253451158467215 -9.3770502481427656
 		10.742304066335372 11.593959671097299 -11.574699073533763
@@ -11908,13 +12180,13 @@ createNode transform -n "surf_1_sec_8" -p "constant_curves";
 	rename -uid "6728FB7B-4C78-A4E8-8807-4EA0321F75A9";
 createNode nurbsCurve -n "surf_1_sec_Shape8" -p "surf_1_sec_8";
 	rename -uid "C66341C2-481C-43F4-5851-03A582D9C195";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 	setAttr -s 4 ".cp";
 	setAttr ".cc" -type "nurbsCurve" 
 		2 2 0 no 3
 		5 0 0 1 2 2
 		4
-		10.98920045322676 10.703206970794962 -4.3396090296484831
+		10.989200448237284 10.70320692018246 -4.3396090422611042
 		10.367646752587639 11.078560123006197 -6.9283544243015811
 		9.7602376628161061 11.447934335652491 -9.5705716449802374
 		9.1233895365493538 11.821253374230114 -11.945550902003291
@@ -11923,13 +12195,13 @@ createNode transform -n "surf_1_sec_9" -p "constant_curves";
 	rename -uid "101C604E-41B3-67D5-E672-DDB8CEC8BF92";
 createNode nurbsCurve -n "surf_1_sec_Shape9" -p "surf_1_sec_9";
 	rename -uid "2DB44429-4E41-3485-DE8C-ACA703A7F23C";
-	setAttr -k off ".v";
+	setAttr -k off ".v" no;
 	setAttr -s 4 ".cp";
 	setAttr ".cc" -type "nurbsCurve" 
 		2 2 0 no 3
 		5 0 0 1 2 2
 		4
-		9.1219257649116177 10.832203818723032 -4.0844616395653075
+		9.1219257641734668 10.832203810126465 -4.0844616417208943
 		8.5944124965288804 11.239314331737463 -6.9064943377257126
 		8.0763807264597851 11.6423733146008 -9.7640490621548928
 		7.5246635180442896 12.048550610324614 -12.400271030793032
@@ -11938,21 +12210,142 @@ createNode transform -n "surf_1_sec_10" -p "constant_curves";
 	rename -uid "5F3A46CA-4064-7B52-70BA-F9AC927F2E9F";
 createNode nurbsCurve -n "surf_1_sec_Shape10" -p "surf_1_sec_10";
 	rename -uid "38BE307F-47E9-AA84-FEA9-FCBDE1B3B3A4";
+	setAttr -k off ".v" no;
+	setAttr -s 4 ".cp";
+	setAttr ".cc" -type "nurbsCurve" 
+		2 2 0 no 3
+		5 0 0 1 2 2
+		4
+		7.2536802659958548 10.961362816010155 -3.8294023418155785
+		6.8200757711592468 11.400168485854465 -6.8846206601228834
+		6.3915779452187191 11.836921512515197 -9.9576351581735718
+		5.9411860440342945 12.275375104677114 -12.903513453121128
+		;
+createNode transform -n "crv_12" -p "constant_curves";
+	rename -uid "C06587B2-495B-D39E-C705-1A9B326C2AC8";
+createNode nurbsCurve -n "crv_Shape12" -p "crv_12";
+	rename -uid "450A5696-421F-AE30-EB26-3282418C03D8";
 	setAttr -k off ".v";
 	setAttr -s 4 ".cp";
 	setAttr ".cc" -type "nurbsCurve" 
 		2 2 0 no 3
 		5 0 0 1 2 2
 		4
-		7.2536802659818083 10.96136281661011 -3.8294023416573717
-		6.8200757711592468 11.400168485854465 -6.8846206601228834
-		6.3915779452187191 11.836921512515197 -9.9576351581735718
-		5.9411860440342945 12.275375104677114 -12.903513453121128
+		26.732530760615571 10.576148788519472 0.1960649689197618
+		33.434738879092123 10.355428217690541 0.55886907631023119
+		40.136946997568671 10.134707646861578 0.92167318370070084
+		47.085931569655976 9.9056664826952563 1.2979950349701439
+		;
+createNode transform -n "crv_13" -p "constant_curves";
+	rename -uid "A51617E7-47EF-E782-2C78-918C4285F725";
+createNode nurbsCurve -n "crv_Shape13" -p "crv_13";
+	rename -uid "76473377-4015-F311-7451-C88B142B5F75";
+	setAttr -k off ".v";
+	setAttr -s 4 ".cp";
+	setAttr ".cc" -type "nurbsCurve" 
+		2 2 0 no 3
+		5 0 0 1 2 2
+		4
+		27.138493083628521 10.574885429128626 -0.44270853576785779
+		32.605646249359523 10.607284399198985 -2.5861791316687017
+		38.072799415090536 10.639683369269347 -4.7296497275695444
+		43.483456211513307 10.671949179872536 -6.8579383475728761
+		;
+createNode transform -n "crv_14" -p "constant_curves";
+	rename -uid "0EFF8DE2-4955-1F61-CFC6-2DB6C8A6A625";
+createNode nurbsCurve -n "crv_Shape14" -p "crv_14";
+	rename -uid "E5DD75AB-4DAC-10EF-6922-83A1F1708416";
+	setAttr -k off ".v";
+	setAttr -s 4 ".cp";
+	setAttr ".cc" -type "nurbsCurve" 
+		2 2 0 no 3
+		5 0 0 1 2 2
+		4
+		27.069526819486999 10.574885429128619 -0.61861443811659411
+		32.536679985218001 10.607284399198978 -2.7620850340174381
+		38.003833150949013 10.639683369269319 -4.9055556299182808
+		43.506506999084159 10.672082339339692 -7.0557406019634215
+		;
+createNode transform -n "crv_15" -p "constant_curves";
+	rename -uid "A5646380-428C-1519-9D42-238D40A183C2";
+createNode nurbsCurve -n "crv_Shape15" -p "crv_15";
+	rename -uid "7666890F-41CC-7D68-AFA0-8A942A9276A8";
+	setAttr -k off ".v";
+	setAttr -s 4 ".cp";
+	setAttr ".cc" -type "nurbsCurve" 
+		2 2 0 no 3
+		5 0 0 1 2 2
+		4
+		26.656760486739852 10.450622054279039 -1.4588032772345321
+		28.634682812318246 10.451097710676896 -5.3194932701088424
+		30.612605137896637 10.451573367074454 -9.1801832629831495
+		32.564385775580803 10.452049025469952 -12.992908339717262
+		;
+createNode transform -n "crv_16" -p "constant_curves";
+	rename -uid "C507852B-44B4-4A5B-DFBF-99BE8F4D7A80";
+createNode nurbsCurve -n "crv_Shape16" -p "crv_16";
+	rename -uid "7DFE5CFA-4541-BECE-EBB2-8A897DFAEFF1";
+	setAttr -k off ".v";
+	setAttr -s 4 ".cp";
+	setAttr ".cc" -type "nurbsCurve" 
+		2 2 0 no 3
+		5 0 0 1 2 2
+		4
+		25.684180598629851 10.332501454942221 -2.0401955682975794
+		24.511455536137923 10.340514850110909 -5.6550738910066292
+		23.338730473645999 10.348528245279597 -9.2699522137156798
+		22.166005411154075 10.356541640448286 -12.884830536424737
+		;
+createNode transform -n "crv_17" -p "constant_curves";
+	rename -uid "E88F370C-482F-08C1-4CCB-AE894C343959";
+createNode nurbsCurve -n "crv_Shape17" -p "crv_17";
+	rename -uid "859461C0-4C5D-8FDC-D31E-7A9A3498F985";
+	setAttr -k off ".v";
+	setAttr -s 4 ".cp";
+	setAttr ".cc" -type "nurbsCurve" 
+		2 2 0 no 3
+		5 0 0 1 2 2
+		4
+		26.578293585118214 10.450622054278879 -1.4990037172654298
+		28.556215910696608 10.451097710676589 -5.3596937101397399
+		30.534138236274998 10.451573367074294 -9.220383703014047
+		32.512060561853389 10.452049023472005 -13.081073695888362
+		;
+createNode transform -n "crv_18" -p "constant_curves";
+	rename -uid "78118A93-4FD1-ABDD-BF02-1C920A477501";
+createNode nurbsCurve -n "crv_Shape18" -p "crv_18";
+	rename -uid "5696DF0B-48C1-B16E-ADC9-2699A07BFB80";
+	setAttr -k off ".v";
+	setAttr -s 4 ".cp";
+	setAttr ".cc" -type "nurbsCurve" 
+		2 2 0 no 3
+		5 0 0 1 2 2
+		4
+		25.525761563895351 10.332501458946661 -1.9888018681904667
+		24.353036501403423 10.340514854115355 -5.6036801908995164
+		23.180311438911499 10.348528249284037 -9.218558513608567
+		22.001961202427022 10.356541639131505 -12.913595107689146
+		;
+createNode transform -n "crv_19" -p "constant_curves";
+	rename -uid "A79B8F24-4836-4E34-358B-8AB600FF9BA3";
+createNode nurbsCurve -n "crv_Shape19" -p "crv_19";
+	rename -uid "9E0E00D0-43D2-A5D6-9573-CD9E7F807EBA";
+	setAttr -k off ".v";
+	setAttr -s 4 ".cp";
+	setAttr ".cc" -type "nurbsCurve" 
+		2 2 0 no 3
+		5 0 0 1 2 2
+		4
+		5.5417196699430926 11.090504538216154 -3.5904672056272586
+		5.2026277262415608 11.560945197731714 -6.8788475108966995
+		4.8635357825400254 12.031385857247276 -10.167227816166145
+		4.5219331616917904 12.501826516771686 -13.471706457995538
 		;
 createNode transform -n "generated_curves" -p "system";
 	rename -uid "C6DA7956-4AE5-A259-B770-1D8AC383F135";
 createNode transform -n "output" -p "mod";
 	rename -uid "DF649B76-48E9-A0FC-EC44-378CEDF09525";
+	setAttr ".v" no;
 createNode transform -n "outJoints" -p "output";
 	rename -uid "EEFE76F0-4460-23D9-AB11-CDB564BA325A";
 createNode joint -n "root_outJoint" -p "outJoints";
@@ -12076,7 +12469,6 @@ createNode joint -n "lower_twist_0_outJoint" -p "root_outJoint";
 	addAttr -ci true -sn "pos" -ln "pos" -min 0 -max 1 -at "double";
 	addAttr -ci true -sn "twistMultiplier" -ln "twistMultiplier" -dv 1 -min 0 -max 1 
 		-at "double";
-	setAttr -av ".t";
 	setAttr ".mnrl" -type "double3" -360 -360 -360 ;
 	setAttr ".mxrl" -type "double3" 360 360 360 ;
 	setAttr ".smd" 7;
@@ -12397,8 +12789,8 @@ createNode transform -n "upper_twist" -p "upper_twist_twistMiddle_offset";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
 	setAttr -l on ".internalName" -type "string" "twistMiddle";
-	setAttr -k on ".startInfluence";
-	setAttr -k on ".endInfluence";
+	setAttr -k on ".startInfluence" 1;
+	setAttr -k on ".endInfluence" 1;
 	setAttr -l on ".type" -type "string" "twistControl";
 	setAttr -cb on ".localControls";
 	setAttr -k on ".stretchVolume";
@@ -12827,8 +13219,8 @@ createNode transform -n "lower_twist" -p "lower_twist_twistMiddle_offset";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
 	setAttr -l on ".internalName" -type "string" "twistMiddle";
-	setAttr -k on ".startInfluence";
-	setAttr -k on ".endInfluence";
+	setAttr -k on ".startInfluence" 1;
+	setAttr -k on ".endInfluence" 1;
 	setAttr -l on ".type" -type "string" "twistControl";
 	setAttr -cb on ".localControls";
 	setAttr -k on ".stretchVolume";
@@ -13110,25 +13502,26 @@ createNode nurbsCurve -n "lower_twist_curveShape" -p "lower_twist_curve";
 createNode transform -s -n "persp";
 	rename -uid "78F7E0CF-4DFD-ED4C-2210-7E8583425325";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 37.975569303335668 45.103519903632133 69.277460274386044 ;
-	setAttr ".r" -type "double3" 334.19999999991336 735.99999999999761 8.2718231021335852e-16 ;
+	setAttr ".t" -type "double3" 11.046379207320552 32.72328618158113 47.161532741284105 ;
+	setAttr ".r" -type "double3" 338.39999999989516 706.39999999999134 -8.1807672313252551e-16 ;
 	setAttr ".rp" -type "double3" 9.2370555648813024e-14 6.0396132539608516e-14 -1.2967404927621828e-13 ;
 	setAttr ".rpt" -type "double3" 3.1130132316051067e-14 -1.565334175653936e-13 6.2587732248230867e-14 ;
 createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "BB7D5C00-4F3D-6590-9630-5C94AAA13631";
 	setAttr -k off ".v" no;
+	setAttr ".pze" yes;
 	setAttr ".fl" 34.999999999999993;
 	setAttr ".fcp" 50000;
-	setAttr ".coi" 82.259814581563631;
+	setAttr ".coi" 61.492488133640393;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
-	setAttr ".tp" -type "double3" 4.3624670035966622 11.863097469224421 -1.2253269209166302 ;
+	setAttr ".tp" -type "double3" 24.75633235568931 10.586435026606139 -9.5575106420300813 ;
 	setAttr ".hc" -type "string" "viewSet -p %camera";
 createNode transform -s -n "top";
 	rename -uid "464F93A3-4F2E-8B14-7490-E2BA29C0124E";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 17.323464361249197 74.925548588924897 -6.9744365851628149 ;
+	setAttr ".t" -type "double3" 32.288422304171149 39.916762689526415 -2.8574773874868931 ;
 	setAttr ".r" -type "double3" 270 720 0 ;
 createNode camera -s -n "topShape" -p "top";
 	rename -uid "1C16BDB1-4092-68EC-0F1E-979217A110C5";
@@ -13136,7 +13529,7 @@ createNode camera -s -n "topShape" -p "top";
 	setAttr ".rnd" no;
 	setAttr ".fcp" 50000;
 	setAttr ".coi" 1000.1;
-	setAttr ".ow" 37.077693836622991;
+	setAttr ".ow" 16.573810085873514;
 	setAttr ".imn" -type "string" "top";
 	setAttr ".den" -type "string" "top_depth";
 	setAttr ".man" -type "string" "top_mask";
@@ -13623,19 +14016,19 @@ createNode objectSet -n "main_moduleControlSet";
 	setAttr ".an" -type "string" "";
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "A2B08AF9-4ADC-B189-A703-818C93585EE0";
+	rename -uid "BB9D186D-451C-114D-30A8-459540D372EE";
 	setAttr -s 3 ".lnk";
 	setAttr -s 3 ".slnk";
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "D0F3F16C-4F0B-78FE-6939-9FB960CBAAB4";
+	rename -uid "FF0202BF-4367-5EC3-6777-F3A440C6F17D";
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "1E00AB74-417F-7A8E-AC95-028A66568AC3";
+	rename -uid "CDA29423-45CB-B0A3-3319-D6BF809D5454";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "7E130996-40B8-1684-392E-CE9346F4D97E";
+	rename -uid "38926C66-4E7B-A56F-0E16-B5BA77364A50";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "8AFDF75E-4E64-89B5-7AEA-FA98DFDFFAEA";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "A762E5F9-4480-2BAA-D4FC-26AC08F9F3FE";
+	rename -uid "C2A8ECC3-41E2-641C-5053-2C85269D99A3";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "47E500DE-4021-5B41-30E1-71A447FA7B70";
 	setAttr ".g" yes;
@@ -14078,21 +14471,21 @@ createNode blendMatrix -n "blendMatrix110";
 	setAttr ".env" 0.5;
 createNode loft -n "loft2";
 	rename -uid "1EA909BE-45B0-DA03-9C6E-FC950F42F326";
-	setAttr -s 3 ".ic";
+	setAttr -s 5 ".ic";
 	setAttr ".u" yes;
-	setAttr -s 3 ".r[0:2]" no no no;
+	setAttr -s 5 ".r[0:4]" no no no no no;
 	setAttr ".rsn" yes;
 createNode loft -n "loft3";
 	rename -uid "11CBE619-4D15-7212-60DD-41936AC28575";
-	setAttr -s 3 ".ic";
+	setAttr -s 5 ".ic";
 	setAttr ".u" yes;
-	setAttr -s 3 ".r[0:2]" no no no;
+	setAttr -s 5 ".r[0:4]" no no no no no;
 	setAttr ".rsn" yes;
 createNode loft -n "loft4";
 	rename -uid "5BC6BBC7-49FD-23C4-E3FA-61865F6CAEDB";
-	setAttr -s 3 ".ic";
+	setAttr -s 5 ".ic";
 	setAttr ".u" yes;
-	setAttr -s 3 ".r[0:2]" no no no;
+	setAttr -s 5 ".r[0:4]" no no no no no;
 	setAttr ".rsn" yes;
 createNode unitConversion -n "unitConversion445";
 	rename -uid "7795E967-4157-789F-104D-6892916B5A44";
@@ -14810,9 +15203,9 @@ createNode motionPath -n "surf_1_curve_2_1_mpath";
 	setAttr ".fm" yes;
 createNode loft -n "loft5";
 	rename -uid "1BC58B80-42C2-F644-991B-67982053D111";
-	setAttr -s 12 ".ic";
+	setAttr -s 13 ".ic";
 	setAttr ".u" yes;
-	setAttr -s 12 ".r[0:11]" no no no no no no no no no no no no;
+	setAttr -s 13 ".r[0:12]" no no no no no no no no no no no no no;
 	setAttr ".rsn" yes;
 createNode decomposeMatrix -n "decomposeMatrix134";
 	rename -uid "C7DE3BC6-45A9-2635-E1AF-F88B9EAB3961";
@@ -15022,16 +15415,19 @@ createNode network -n "hyperNode_sessionData";
 	addAttr -ci true -sn "hyperNodeSessionJSON" -ln "hyperNodeSessionJSON" -dt "string";
 	setAttr ".ihi" 0;
 	setAttr ".hyperNodeSessionJSON" -type "string" (
-		"{\"tabs\": [{\"name\": \"Tab 0\", \"nodes\": {\"condition2\": {\"x\": -650.4658399872222, \"y\": -15.764392820881, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"outColor\"]}, \"feathers_7_2_closedShape\": {\"x\": 711.5037247851087, \"y\": 2057.1299737835625, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ik_aimShape2\": {\"x\": 671.345604456913, \"y\": -2959.9125081707334, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_1_1_closedShape\": {\"x\": 262.42857142857133, \"y\": 1445.1428571428569, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"skinMiddle_3_closed_1Shape\": {\"x\": 931.0721296848262, \"y\": 1980.535188610911, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ik_aim_closedShape1\": {\"x\": 710.5037247851087, \"y\": 2645.1299737835625, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"skinMiddle_4_closed_1Shape\": {\"x\": 931.0721296848262, \"y\": 2176.535188610911, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_4_2_closedShape\": {\"x\": 262.42857142857133, \"y\": 2229.142857142857, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_5_3Shape\": {\"x\": 585.820268208987, \"y\": -2666.263001461365, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_6_1Shape\": {\"x\": 498.9504333950338, \"y\": -2422.756060547484, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_7_3_closedShape\": {\"x\": 711.5037247851087, \"y\": 2253.1299737835625, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_1_1Shape\": {\"x\": 471.8036100156734, \"y\": -2118.1322410599046, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_7_1Shape\": {\"x\": 344.2135401326797, \"y\": -1830.6840370405803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_6_3_closedShape\": {\"x\": 711.5037247851087, \"y\": 1665.1299737835625, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_1_3_closedShape\": {\"x\": 262.42857142857133, \"y\": 1837.1428571428569, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_1_2_closedShape\": {\"x\": 262.42857142857133, \"y\": 1641.1428571428569, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"clavShape\": {\"x\": 523.3825744364582, \"y\": -2365.7112054806894, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ik_end_closedShape\": {\"x\": 920.0721296848262, \"y\": 1163.035188610911, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ik_rootShape\": {\"x\": 465.02974677377404, \"y\": -2551.2366949505295, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_7_2Shape\": {\"x\": 478.5903158605135, \"y\": -1596.6784843094758, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"main_middleShape\": {\"x\": 313.007535849356, \"y\": -849.2478004127382, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_5_1Shape\": {\"x\": 391.7204810465604, \"y\": -1061.578263929091, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"skinMiddle_2_closed_1Shape\": {\"x\": 931.0721296848262, \"y\": 1784.535188610911, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_4_2Shape\": {\"x\": 384.9337752017202, \"y\": -1350.4203350875214, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"main_rootShape\": {\"x\": 319.2227635322877, \"y\": -472.6325447081771, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ik_aimShape\": {\"x\": 368.645681174104, \"y\": -1290.190977954461, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"main_1_closedShape\": {\"x\": 920.0721296848262, \"y\": 1000.5351886109111, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"main_2_closedShape\": {\"x\": 920.0721296848262, \"y\": 1196.535188610911, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_6_3Shape\": {\"x\": 446.014127805281, \"y\": -2023.9693547026448, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ik_aim_closedShape\": {\"x\": 710.5037247851087, \"y\": 2449.1299737835625, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_middleOffset_closedShape\": {\"x\": 951.0721296848262, \"y\": 804.5351886109111, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_7_1_closedShape\": {\"x\": 711.5037247851087, \"y\": 1861.1299737835625, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_6_2_closedShape\": {\"x\": 711.5037247851087, \"y\": 1469.1299737835625, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_4_1_closedShape\": {\"x\": 262.42857142857133, \"y\": 2033.1428571428569, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ik_root_closedShape\": {\"x\": 920.0721296848262, \"y\": 1359.035188610911, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_5_3_closedShape\": {\"x\": 711.5037247851087, \"y\": 1077.1299737835625, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_6_2Shape\": {\"x\": 475.8756335225775, \"y\": -2247.116178082005, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_5_2_closedShape\": {\"x\": 711.5037247851087, \"y\": 881.1299737835625, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_4_3_closedShape\": {\"x\": 711.5037247851087, \"y\": 489.1299737835625, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_5_1_closedShape\": {\"x\": 711.5037247851087, \"y\": 685.1299737835625, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_4_3Shape\": {\"x\": 488.0917040432896, \"y\": -1235.8608052256022, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ik_aimShape1\": {\"x\": 432.44071611560094, \"y\": -1121.3378013338215, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_7_3Shape\": {\"x\": 512.5238450847139, \"y\": -1419.6812606750282, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_1_3Shape\": {\"x\": 494.87840988812974, \"y\": -1708.4868058633213, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"clav_closedShape\": {\"x\": 261.42857142857133, \"y\": 1249.1428571428569, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"main_3_closedShape\": {\"x\": 920.0721296848262, \"y\": 1392.535188610911, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ik_aim_closedShape2\": {\"x\": 920.0721296848262, \"y\": 967.0351886109111, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_5_2Shape\": {\"x\": 631.9698679538994, \"y\": -2791.6812606750286, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_4_1Shape\": {\"x\": 598.0363387296991, \"y\": -1473.1239119632485, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_1_2Shape\": {\"x\": 455.51551598805713, \"y\": -1945.2070409323615, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"main_endShape\": {\"x\": 424.30951170473355, \"y\": -1184.161895078073, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"skinMiddle_1_closed_1Shape\": {\"x\": 931.0721296848262, \"y\": 1588.535188610911, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_6_1_closedShape\": {\"x\": 711.5037247851087, \"y\": 1273.1299737835625, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": 1725.238039647041, \"cy\": 537.6481464777761, \"scale\": 0.2938724908382642}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 1\", \"nodes\": {\"clavShape\": {\"x\": -4379.872874163792, \"y\": -314.16364649405466, \"width\": 250, \"attr_display_mode\": \"all\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_1_1Shape\": {\"x\": -4379.872874163792, \"y\": -118.16364649405466, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_1_2Shape\": {\"x\": -4379.872874163792, \"y\": 77.83635350594534, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_1_3Shape\": {\"x\": -4379.872874163792, \"y\": 273.8363535059454, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_4_1Shape\": {\"x\": -4379.872874163792, \"y\": 469.8363535059453, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_4_2Shape\": {\"x\": -4379.872874163792, \"y\": 665.8363535059455, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_4_3Shape\": {\"x\": -4379.872874163792, \"y\": 861.8363535059455, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_5_1Shape\": {\"x\": -4379.872874163792, \"y\": 1057.8363535059455, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_5_2Shape\": {\"x\": -4379.872874163792, \"y\": 1253.8363535059455, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_5_3Shape\": {\"x\": -4379.872874163792, \"y\": 1449.8363535059455, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_6_1Shape\": {\"x\": -4379.872874163792, \"y\": 1645.8363535059455, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_6_2Shape\": {\"x\": -4379.872874163792, \"y\": 1841.8363535059455, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_6_3Shape\": {\"x\": -4379.872874163792, \"y\": 2037.8363535059452, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_7_1Shape\": {\"x\": -4379.872874163792, \"y\": 2233.836353505945, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_7_2Shape\": {\"x\": -4379.872874163792, \"y\": 2429.836353505945, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_7_3Shape\": {\"x\": -4379.872874163792, \"y\": 2625.836353505945, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ik_aimShape\": {\"x\": -4379.872874163792, \"y\": 2821.836353505945, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ik_aimShape1\": {\"x\": -4379.872874163792, \"y\": 3017.836353505945, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ik_aimShape2\": {\"x\": -4379.872874163793, \"y\": 3215.2999375891973, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ik_rootShape\": {\"x\": -4421.56235353232, \"y\": 3614.0445273304194, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldSpace\"]}, \"main_endShape\": {\"x\": -4949.9235152337915, \"y\": 4566.881055609556, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"main_middleShape\": {\"x\": -4942.583608092686, \"y\": 4774.624907035322, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"main_rootShape\": {\"x\": -4942.583608092687, \"y\": 5004.388479884403, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"clav_closedShape\": {\"x\": -3842.7436802530997, \"y\": -295.2869016601325, \"width\": 250, \"attr_display_mode\": \"all\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_1_1_closedShape\": {\"x\": -3842.7436802530997, \"y\": -99.28690166013251, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_1_2_closedShape\": {\"x\": -3842.7436802530997, \"y\": 96.71309833986749, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_1_3_closedShape\": {\"x\": -3842.7436802530997, \"y\": 292.7130983398675, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_4_1_closedShape\": {\"x\": -3842.7436802530997, \"y\": 488.7130983398675, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_4_2_closedShape\": {\"x\": -3842.7436802530997, \"y\": 684.7130983398677, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_4_3_closedShape\": {\"x\": -3842.7436802530997, \"y\": 880.7130983398677, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_5_1_closedShape\": {\"x\": -3842.7436802530997, \"y\": 1076.7130983398677, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_5_2_closedShape\": {\"x\": -3842.7436802530997, \"y\": 1272.7130983398677, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_5_3_closedShape\": {\"x\": -3842.7436802530997, \"y\": 1468.7130983398677, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_6_1_closedShape\": {\"x\": -3842.7436802530997, \"y\": 1664.7130983398677, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_6_2_closedShape\": {\"x\": -3842.7436802530997, \"y\": 1860.7130983398674, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_6_3_closedShape\": {\"x\": -3842.7436802530997, \"y\": 2056.7130983398674, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_7_1_closedShape\": {\"x\": -3842.7436802530997, \"y\": 2252.7130983398674, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_7_2_closedShape\": {\"x\": -3842.7436802530997, \"y\": 2448.7130983398674, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"feathers_7_3_closedShape\": {\"x\": -3842.7436802530997, \"y\": 2644.7130983398674, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ik_aim_closedShape\": {\"x\": -3842.7436802530997, \"y\": 2840.7130983398674, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ik_aim_closedShape1\": {\"x\": -3842.7436802530997, \"y\": 3036.7130983398674, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ik_aim_closedShape2\": {\"x\": -3842.7436802530997, \"y\": 3232.7130983398674, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ik_end_closedShape\": {\"x\": -3815.768134779346, \"y\": 3519.449024024311, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ik_root_closedShape\": {\"x\": -3806.47775727719, \"y\": 3775.6073908549565, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_middleOffsetShape\": {\"x\": -4457.329353200771, \"y\": 4439.888983220145, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": true, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"mainPoser\": {\"x\": -4812.6067447875985, \"y\": 4203.9136566046855, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_middleOffset_closedShape\": {\"x\": -3875.5022189106926, \"y\": 4355.5616176992635, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"main_1_closedShape\": {\"x\": -3875.5022189106926, \"y\": 4551.5616176992635, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"main_2_closedShape\": {\"x\": -3875.5022189106926, \"y\": 4747.5616176992635, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"main_3_closedShape\": {\"x\": -3875.5022189106926, \"y\": 4943.5616176992635, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"skinMiddle_1_closed_1Shape\": {\"x\": -4370.053120780388, \"y\": 5095.977408043707, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"skinMiddle_2_closed_1Shape\": {\"x\": -3839.373330105996, \"y\": 5206.529871968203, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"skinMiddle_3_closed_1Shape\": {\"x\": -3377.924039848458, \"y\": 4784.045784107469, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"skinMiddle_4_closed_1Shape\": {\"x\": -3376.258934691057, \"y\": 5106.59377606999, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -3908.7255493328407, \"cy\": 4567.808077557582, \"scale\": 0.43697107367682264}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 2\", \"nodes\": {\"end_finalJoint\": {\"x\": -10907.023653544853, \"y\": -2065.3778567590307, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"end_joint_parentConstraint1\": {\"x\": -11241.423210472843, \"y\": -2324.2322998356303, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"constraintJointOrient\", \"target\"]}, \"control\": {\"x\": -13191.023653544855, \"y\": -2051.4021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_ikFk_reverse\": {\"x\": -11639.023653544855, \"y\": -1872.4021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"end_ikJoint\": {\"x\": -11543.601547309763, \"y\": -1405.8179171439165, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"end_fkJoint\": {\"x\": -11679.031560838557, \"y\": -2630.7628047912244, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"mirror_condition\": {\"x\": -12070.57078233752, \"y\": -2296.445391305824, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_snap_blend\": {\"x\": -11989.023653544855, \"y\": -1503.9021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_decomposeMatrix33\": {\"x\": -11989.023653544855, \"y\": -1265.9021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"mod\": {\"x\": -13541.023653544855, \"y\": -1809.5396111158707, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_scale_to_translate_converter\": {\"x\": -12390.023653544855, \"y\": -1503.9021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_multMatrix29\": {\"x\": -12339.023653544855, \"y\": -1286.9021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_current_toSnapPoint_length_scaled\": {\"x\": -12415.023653544855, \"y\": -2432.4021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ik_end_out\": {\"x\": -12841.023653544855, \"y\": -1286.9021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_final_length\": {\"x\": -12841.023653544855, \"y\": -1503.9021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_current_endToSnapPoint_length\": {\"x\": -12897.023653544855, \"y\": -2269.9021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_current_rootToSnapPoint_length\": {\"x\": -12887.252542244383, \"y\": -2825.459053548353, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_root_connector_decomposeMatrix\": {\"x\": -12902.023653544855, \"y\": -2548.4021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_fk_end_group_decomposeMatrix\": {\"x\": -12892.023653544855, \"y\": -2289.4021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_fk_b_group_decomposeMatrix\": {\"x\": -12837.71031964344, \"y\": -1717.2876667661067, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"end_outJoint\": {\"x\": -10533.661463638151, \"y\": -2160.5392197502797, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix247\": {\"x\": -10118.39698574202, \"y\": -1458.787666766106, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix244\": {\"x\": -10119.354949994928, \"y\": -2029.6949089530742, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_connector_parentConstraint1\": {\"x\": -10083.652007064367, \"y\": -2586.252688428331, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_root_connector_aimConstraint1\": {\"x\": -10115.626183228125, \"y\": -1789.4496546533496, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_connector\": {\"x\": -9659.023653544855, \"y\": -2405.968777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wrist_group\": {\"x\": -9643.50381251327, \"y\": -1706.375855117611, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_root_connector\": {\"x\": -9687.258653970917, \"y\": -2019.34516584297, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_root_connector_pointConstraint1\": {\"x\": -10447.570772119036, \"y\": -1470.642630823613, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_middle_target_multiplyDivide\": {\"x\": -9220.429677116676, \"y\": -2529.126612779799, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_composeMatrix\": {\"x\": -9297.023653544855, \"y\": -2951.968777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_twist_3_multDoubleLinear\": {\"x\": -9242.023653544855, \"y\": -1571.468777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_target_multiplyDivide\": {\"x\": -9237.023653544855, \"y\": -2321.968777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_connector_multMatrix\": {\"x\": -9242.023653544855, \"y\": -1733.968777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_twist_1_group_multDoubleLinear\": {\"x\": -9212.023653544855, \"y\": -2015.093777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_endUp_loc\": {\"x\": -9317.36944139848, \"y\": -2771.9085420643414, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_start_target\": {\"x\": -8770.023653544855, \"y\": -2177.593777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_middle_target\": {\"x\": -8765.023653544855, \"y\": -2789.468777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_up_multMatrix\": {\"x\": -8745.023653544855, \"y\": -3045.593777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_twistEnd_aimMatrix_1\": {\"x\": -8328.023653544855, \"y\": -2977.052111115869, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_twist_1_group\": {\"x\": -8765.023653544855, \"y\": -1960.593777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_twistMiddle_offset\": {\"x\": -8740.023653544855, \"y\": -2632.593777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_twist_3_group\": {\"x\": -8726.768219268522, \"y\": -1528.4069599781715, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_connector_decomposeMatrix\": {\"x\": -8750.975490907706, \"y\": -1722.6521056146366, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_target\": {\"x\": -8771.023653544855, \"y\": -2394.593777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -11337.660922835228, \"cy\": -1998.0736593764846, \"scale\": 0.568547608177017}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 3\", \"nodes\": {\"end_outJoint\": {\"x\": -17025.208119425988, \"y\": -880.3963721497942, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"inverseScale\"]}, \"end_finalJoint\": {\"x\": -17463.692177518587, \"y\": -687.366527828465, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"mirror_condition\": {\"x\": -18578.46405088622, \"y\": -996.177549428598, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"mod\": {\"x\": -18928.46405088622, \"y\": -1231.2764863284608, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"end_joint_parentConstraint1\": {\"x\": -17867.379831891365, \"y\": -669.3419974762678, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"constraintJointOrient\"]}, \"control\": {\"x\": -18928.46405088622, \"y\": -580.2764863284608, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_ikFk_reverse\": {\"x\": -18228.46405088622, \"y\": -32.776486328460805, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"end_ikJoint\": {\"x\": -18228.46405088622, \"y\": -417.7764863284608, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"end_fkJoint\": {\"x\": -18228.46405088622, \"y\": -1203.2248745314787, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_snap_blend\": {\"x\": -18578.46405088622, \"y\": -800.177549428598, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_decomposeMatrix33\": {\"x\": -18611.235924253848, \"y\": -285.1704998579525, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_scale_to_translate_converter\": {\"x\": -18979.46405088622, \"y\": -616.677549428598, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_multMatrix29\": {\"x\": -17890.947968766075, \"y\": -69.47454763987366, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_current_toSnapPoint_length_scaled\": {\"x\": -19004.46405088622, \"y\": -1014.2764863284608, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -18311.284244163722, \"cy\": -699.6794963989181, \"scale\": 0.6102794239329096}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 4\", \"nodes\": {\"end_ikJoint\": {\"x\": -2599.5808859520926, \"y\": -505.7759352055606, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_snap_blend\": {\"x\": -2985.6352931209076, \"y\": -600.3440861801247, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_decomposeMatrix33\": {\"x\": -2985.6352931209076, \"y\": -143.8440861801248, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_scale_to_translate_converter\": {\"x\": -3386.6352931209076, \"y\": 195.32841381987544, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"control\": {\"x\": -5061.635293120908, \"y\": -93.17158618012456, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_multMatrix29\": {\"x\": -3335.6352931209076, \"y\": -306.3440861801248, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_current_toSnapPoint_length_scaled\": {\"x\": -3411.6352931209076, \"y\": -740.3440861801248, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ik_end_out\": {\"x\": -3837.6352931209076, \"y\": 95.65591381987542, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_final_length\": {\"x\": -3837.6352931209076, \"y\": -121.34408618012458, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_current_endToSnapPoint_length\": {\"x\": -3893.6352931209076, \"y\": -577.8440861801248, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_current_rootToSnapPoint_length\": {\"x\": -3898.6352931209076, \"y\": -1290.3440861801246, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_root_connector_decomposeMatrix\": {\"x\": -3898.6352931209076, \"y\": -856.3440861801246, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_fk_end_group_decomposeMatrix\": {\"x\": -3888.6352931209076, \"y\": -597.3440861801246, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_fk_b_group_decomposeMatrix\": {\"x\": -3878.6352931209076, \"y\": 195.32841381987544, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_ikfk_blend\": {\"x\": -4309.635293120908, \"y\": 195.32841381987544, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curveEnd_locatorShape\": {\"x\": -4309.635293120908, \"y\": -1166.9690861801246, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_fk_b_group_multMatrix\": {\"x\": -4325.635293120908, \"y\": -361.9690861801246, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"snap_root_locShape\": {\"x\": -4309.635293120908, \"y\": -1362.9690861801246, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_fk_end_group_multMatrix\": {\"x\": -4335.635293120908, \"y\": -557.9690861801246, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ik_end_outShape\": {\"x\": -4309.635293120908, \"y\": -970.9690861801246, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"arm_root_connector\": {\"x\": -4309.635293120908, \"y\": -774.9690861801246, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_multDoubleLinear437\": {\"x\": -4315.635293120908, \"y\": 412.32841381987544, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"mirror_condition\": {\"x\": -4711.635293120908, \"y\": 376.88091381987545, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_stretch_blend\": {\"x\": -4711.635293120908, \"y\": 159.88091381987545, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"end_poser\": {\"x\": -4711.635293120908, \"y\": 195.32841381987544, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"start_poserOrient\": {\"x\": -4711.635293120908, \"y\": -953.1190861801246, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"mod\": {\"x\": -5061.635293120908, \"y\": 291.82841381987544, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"middle_poserOrient\": {\"x\": -4711.635293120908, \"y\": -589.1190861801246, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_multMatrix38\": {\"x\": -2285.6352931209076, \"y\": -408.1888084023469, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"end_joint_parentConstraint1\": {\"x\": -2269.6352931209076, \"y\": 486.88091381987545, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"effector\": {\"x\": -2285.6352931209076, \"y\": -441.92018957518644, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ikHandle\": {\"x\": -1903.6352931209076, \"y\": -441.92018957518644, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"end_finalJoint\": {\"x\": -1903.6352931209076, \"y\": 486.88091381987545, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_decomposeMatrix44\": {\"x\": -1903.6352931209076, \"y\": -214.55606148876666, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ikHandle_poleVectorConstraint1\": {\"x\": -1522.6352931209076, \"y\": -441.92018957518644, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ikRev_out\": {\"x\": -1553.6352931209076, \"y\": -440.05606148876666, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"end_outJoint\": {\"x\": -1553.6352931209076, \"y\": -181.05606148876666, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix247\": {\"x\": -1203.6352931209076, \"y\": -604.4201895751864, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix244\": {\"x\": -1203.6352931209076, \"y\": 298.57981042481356, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_connector_parentConstraint1\": {\"x\": -1107.6352931209076, \"y\": -408.42018957518644, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_root_connector_aimConstraint1\": {\"x\": -1117.6352931209076, \"y\": -65.42018957518644, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_connector\": {\"x\": -655.6352931209076, \"y\": -432.92018957518644, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wrist_group\": {\"x\": -661.6352931209076, \"y\": -628.9201895751864, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_root_connector\": {\"x\": -650.6352931209076, \"y\": -110.92018957518644, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -2446.996938718281, \"cy\": -239.84018681863998, \"scale\": 0.6379247866234112}, \"group_path\": [], \"group_history\": []}], \"active_tab\": 1, \"basket\": []}");
+		"{\"tabs\": [{\"name\": \"Tab 0\", \"nodes\": {\"ik_end_closed\": {\"x\": 1060.6264896027785, \"y\": -469.2951960077691, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"fk_closed_ikHandle\": {\"x\": 1450.4924670361604, \"y\": -246.55636320525895, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"condition2\": {\"x\": 657.1591337028267, \"y\": -114.72302987192566, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ik_end_closedShape\": {\"x\": 1069.2450431126997, \"y\": -104.56667291032768, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"hyper_sets\": [], \"view\": {\"cx\": 1289.927868057268, \"cy\": -47.130585398382465, \"scale\": 1.379146884142687}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 1\", \"nodes\": {\"lower_twist_twistEnd_offset\": {\"x\": -4983.289564925195, \"y\": 3164.2657310254667, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_twistEnd_aimMatrix_2\": {\"x\": -5432.836273049677, \"y\": 3740.177207184973, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_mute_twistEnd_offset_rotateX\": {\"x\": -5496.984404687901, \"y\": 3088.5655530862496, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_condition_mirror\": {\"x\": -8400.9844046879, \"y\": 3433.7862376100584, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_up_multMatrix\": {\"x\": -6363.786895836941, \"y\": 3591.3088063009345, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_target_multMatrix\": {\"x\": -6005.03200250847, \"y\": 3903.041467610797, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"lower_twist_twistEnd_aimMatrix_1\": {\"x\": -5887.340721530107, \"y\": 3359.165197207815, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_mod\": {\"x\": -8901.9844046879, \"y\": 3184.2309796735503, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_multDoubleLinear13\": {\"x\": -5958.984404687901, \"y\": 3036.5655530862496, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_multDoubleLinear14\": {\"x\": -6400.984404687901, \"y\": 2765.4226959433922, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_composeMatrix\": {\"x\": -6415.0813797212095, \"y\": 2931.7718952169157, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_quatToEuler_1\": {\"x\": -7611.984404687901, \"y\": 3431.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_endUp_loc\": {\"x\": -6781.984404687901, \"y\": 3589.786237610058, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_up\": {\"x\": -6781.984404687901, \"y\": 3433.7862376100584, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_middle_target\": {\"x\": -6375.984404687901, \"y\": 3401.961386419582, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"condition2\": {\"x\": -9373.9844046879, \"y\": 3167.7862376100584, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_connector\": {\"x\": -9356.986184080071, \"y\": 3354.8338354306275, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"mainPoser\": {\"x\": -9735.9844046879, \"y\": 3167.7862376100584, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_quatToEuler_2\": {\"x\": -7199.984404687901, \"y\": 3899.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_connector_decomposeMatrix\": {\"x\": -8465.9844046879, \"y\": 3587.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_multDoubleLinear10\": {\"x\": -7998.984404687901, \"y\": 3691.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_multDoubleLinear15\": {\"x\": -7224.984404687901, \"y\": 3431.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_middle_target_multiplyDivide\": {\"x\": -6862.984404687901, \"y\": 3901.786237610058, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_target_multiplyDivide\": {\"x\": -6847.984404687901, \"y\": 4057.786237610058, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_multDoubleLinear11\": {\"x\": -6812.984404687901, \"y\": 3789.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_multDoubleLinear12\": {\"x\": -7224.984404687901, \"y\": 4055.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_connector_parentConstraint1\": {\"x\": -9831.9844046879, \"y\": 3323.7862376100584, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_connector_multMatrix\": {\"x\": -8962.9844046879, \"y\": 3743.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_start_connector_decomposeMatrix\": {\"x\": -7701.984404687901, \"y\": 3847.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"hyper_sets\": [], \"view\": {\"cx\": -8917.56004068582, \"cy\": 3546.3256177272815, \"scale\": 0.8696324964024115}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 2\", \"nodes\": {\"end_finalJoint\": {\"x\": -10907.023653544853, \"y\": -2065.3778567590307, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"end_joint_parentConstraint1\": {\"x\": -11241.423210472843, \"y\": -2324.2322998356303, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"constraintJointOrient\", \"target\"]}, \"control\": {\"x\": -13191.023653544855, \"y\": -2051.4021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_ikFk_reverse\": {\"x\": -11639.023653544855, \"y\": -1872.4021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"end_ikJoint\": {\"x\": -11543.601547309763, \"y\": -1405.8179171439165, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"end_fkJoint\": {\"x\": -11679.031560838557, \"y\": -2630.7628047912244, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"mirror_condition\": {\"x\": -12070.57078233752, \"y\": -2296.445391305824, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_snap_blend\": {\"x\": -11989.023653544855, \"y\": -1503.9021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_decomposeMatrix33\": {\"x\": -11989.023653544855, \"y\": -1265.9021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"mod\": {\"x\": -13541.023653544855, \"y\": -1809.5396111158707, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_scale_to_translate_converter\": {\"x\": -12390.023653544855, \"y\": -1503.9021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_multMatrix29\": {\"x\": -12339.023653544855, \"y\": -1286.9021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_current_toSnapPoint_length_scaled\": {\"x\": -12505.970492050117, \"y\": -2598.014243136078, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ik_end_out\": {\"x\": -12841.023653544855, \"y\": -1286.9021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_final_length\": {\"x\": -12841.023653544855, \"y\": -1503.9021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_current_endToSnapPoint_length\": {\"x\": -13002.041433313338, \"y\": -2395.0602870043367, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_current_rootToSnapPoint_length\": {\"x\": -13002.823527960274, \"y\": -2871.4681848312357, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_root_connector_decomposeMatrix\": {\"x\": -13007.041433313338, \"y\": -2673.5602870043367, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_fk_end_group_decomposeMatrix\": {\"x\": -12997.041433313338, \"y\": -2414.5602870043367, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_fk_b_group_decomposeMatrix\": {\"x\": -12837.71031964344, \"y\": -1717.2876667661067, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"end_outJoint\": {\"x\": -10533.661463638151, \"y\": -2160.5392197502797, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix247\": {\"x\": -10118.39698574202, \"y\": -1458.787666766106, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix244\": {\"x\": -10119.354949994928, \"y\": -2029.6949089530742, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_connector_parentConstraint1\": {\"x\": -10083.652007064367, \"y\": -2586.252688428331, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_root_connector_aimConstraint1\": {\"x\": -10115.626183228125, \"y\": -1789.4496546533496, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_connector\": {\"x\": -9659.023653544855, \"y\": -2405.968777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wrist_group\": {\"x\": -9643.50381251327, \"y\": -1706.375855117611, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_root_connector\": {\"x\": -9687.258653970917, \"y\": -2019.34516584297, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_root_connector_pointConstraint1\": {\"x\": -10447.570772119036, \"y\": -1470.642630823613, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_middle_target_multiplyDivide\": {\"x\": -9220.429677116676, \"y\": -2529.126612779799, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_composeMatrix\": {\"x\": -9297.023653544855, \"y\": -2951.968777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_twist_3_multDoubleLinear\": {\"x\": -9242.023653544855, \"y\": -1571.468777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_target_multiplyDivide\": {\"x\": -9237.023653544855, \"y\": -2321.968777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_connector_multMatrix\": {\"x\": -9242.023653544855, \"y\": -1733.968777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_twist_1_group_multDoubleLinear\": {\"x\": -9212.023653544855, \"y\": -2015.093777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_endUp_loc\": {\"x\": -9317.36944139848, \"y\": -2771.9085420643414, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_start_target\": {\"x\": -8770.023653544855, \"y\": -2177.593777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_middle_target\": {\"x\": -8765.023653544855, \"y\": -2789.468777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_up_multMatrix\": {\"x\": -8745.023653544855, \"y\": -3045.593777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_twistEnd_aimMatrix_1\": {\"x\": -8328.023653544855, \"y\": -2977.052111115869, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_twist_1_group\": {\"x\": -8765.023653544855, \"y\": -1960.593777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_twistMiddle_offset\": {\"x\": -8740.023653544855, \"y\": -2632.593777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_twist_3_group\": {\"x\": -8726.768219268522, \"y\": -1528.4069599781715, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_connector_decomposeMatrix\": {\"x\": -8750.975490907706, \"y\": -1722.6521056146366, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_target\": {\"x\": -8771.023653544855, \"y\": -2394.593777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"hyper_sets\": [], \"view\": {\"cx\": -12441.010403258097, \"cy\": -2110.4257934296515, \"scale\": 0.6951203897181238}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 3\", \"nodes\": {\"surf_Shape3\": {\"x\": -18409.925274882924, \"y\": -3393.6085623785566, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"loft3\": {\"x\": -19034.39706324391, \"y\": -3810.5866348647687, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"inputCurve\"]}, \"crv_Shape8\": {\"x\": -20040.053246119027, \"y\": -3926.2061253160614, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"crv_Shape7\": {\"x\": -19630.731719748706, \"y\": 1351.0289732209703, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_2_locShape\": {\"x\": -20352.050009325543, \"y\": 1335.145036577273, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_3_locShape\": {\"x\": -20352.050009325543, \"y\": 1491.145036577273, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_1_loc2Shape\": {\"x\": -20908.162245450163, \"y\": -4056.1180813812, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_2_loc1Shape\": {\"x\": -20908.162245450163, \"y\": -3900.1180813812, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_4_loc1Shape\": {\"x\": -20908.162245450163, \"y\": -3588.1180813812, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_1_locShape\": {\"x\": -20352.050009325543, \"y\": 1179.145036577273, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_4_locShape\": {\"x\": -20352.050009325543, \"y\": 1647.145036577273, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_3_loc1Shape\": {\"x\": -20908.162245450163, \"y\": -3744.1180813812, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"surf_Shape2\": {\"x\": -18036.08720917293, \"y\": 388.1137679003172, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"loft2\": {\"x\": -18739.23944233706, \"y\": 39.12685744553179, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"inputCurve\"]}, \"crv_Shape6\": {\"x\": -19677.01050875943, \"y\": 27.831497636250827, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"crv_Shape5\": {\"x\": -19378.831482888218, \"y\": 2085.0526631387074, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_2_locShape\": {\"x\": -19961.084562512628, \"y\": 1992.950471553604, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_1_locShape\": {\"x\": -19961.084562512628, \"y\": 1836.950471553604, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_2_loc2Shape\": {\"x\": -20332.751156564536, \"y\": 124.15542310411217, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_4_locShape\": {\"x\": -19961.084562512628, \"y\": 2304.9504715536023, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_3_locShape\": {\"x\": -19961.084562512628, \"y\": 2148.950471553604, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_2_loc3Shape\": {\"x\": -20332.751156564536, \"y\": 280.1554231041122, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_2_loc1Shape\": {\"x\": -20332.751156564536, \"y\": -31.844576895887826, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_1_loc1Shape\": {\"x\": -20330.325045477606, \"y\": -142.96152178767784, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldPosition\"]}, \"surf_Shape1\": {\"x\": -17608.439681338994, \"y\": 3599.962696316475, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"loft5\": {\"x\": -18273.253145709743, \"y\": 3346.481933916247, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"inputCurve\"]}, \"surf_1_sec_Shape7\": {\"x\": -19425.452040104326, \"y\": 4496.847281402486, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"surf_1_sec_Shape8\": {\"x\": -19425.452040104326, \"y\": 4713.847281402486, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"crv_Shape1\": {\"x\": -19312.70667964634, \"y\": 6324.654160928202, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"surf_1_sec_Shape10\": {\"x\": -19369.401076623675, \"y\": 5156.100076896118, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"surf_1_sec_Shape5\": {\"x\": -19421.98884821323, \"y\": 4062.8472814024863, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"surf_1_sec_Shape3\": {\"x\": -19412.753669836995, \"y\": 3628.8472814024863, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"surf_1_sec_Shape6\": {\"x\": -19425.452040104326, \"y\": 4279.847281402486, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"surf_1_sec_Shape2\": {\"x\": -19413.908067134034, \"y\": 3411.8472814024863, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"surf_1_sec_Shape9\": {\"x\": -19459.285634025655, \"y\": 4930.847281402486, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"surf_1_sec_Shape4\": {\"x\": -19409.290477945913, \"y\": 3845.8472814024863, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"surf_1_sec_Shape1\": {\"x\": -19425.452040104326, \"y\": 3173.8472814024863, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldSpace\"]}, \"crv_Shape9\": {\"x\": -20027.352591812938, \"y\": -2411.9498337785685, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_4_locShape\": {\"x\": -20768.35099665572, \"y\": -2007.4168396334721, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_2_locShape\": {\"x\": -20768.35099665572, \"y\": -2319.416839633472, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_1_locShape\": {\"x\": -20768.35099665572, \"y\": -2475.416839633472, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_3_locShape\": {\"x\": -20768.35099665572, \"y\": -2163.416839633472, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_4_loc3Shape\": {\"x\": -20819.199639837043, \"y\": -2781.65145392979, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_2_loc3Shape\": {\"x\": -20819.199639837043, \"y\": -3093.65145392979, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_1_loc2Shape\": {\"x\": -20819.199639837043, \"y\": -3249.65145392979, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_3_loc3Shape\": {\"x\": -20819.199639837043, \"y\": -2937.65145392979, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"crv_Shape14\": {\"x\": -20046.94738390224, \"y\": -3224.825199884903, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"controlPoints\"]}, \"first_curve_3_2_loc2Shape\": {\"x\": -20895.204706738958, \"y\": -4755.736516430501, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_3_loc2Shape\": {\"x\": -20895.204706738958, \"y\": -4599.736516430501, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_1_loc1Shape\": {\"x\": -20895.204706738958, \"y\": -4911.736516430501, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_4_loc2Shape\": {\"x\": -20895.204706738958, \"y\": -4443.736516430501, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"crv_Shape15\": {\"x\": -20041.85745949004, \"y\": -4826.66548721092, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_2_loc4Shape\": {\"x\": -20349.515382292007, \"y\": -864.3944232331048, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_1_loc4Shape\": {\"x\": -20357.87679001177, \"y\": -1088.842138713294, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_4_loc1Shape\": {\"x\": -20349.515382292007, \"y\": -472.3944232331048, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_3_loc1Shape\": {\"x\": -20349.515382292007, \"y\": -668.3944232331048, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"crv_Shape17\": {\"x\": -19669.31805930762, \"y\": 735.2633916097868, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_2_loc3Shape\": {\"x\": -20372.387655497318, \"y\": 675.0959744568978, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_3_loc3Shape\": {\"x\": -20372.387655497318, \"y\": 831.0959744568978, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_1_loc2Shape\": {\"x\": -20372.387655497318, \"y\": 519.0959744568978, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_4_loc3Shape\": {\"x\": -20372.387655497318, \"y\": 987.0959744568978, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"crv_Shape16\": {\"x\": -19747.86889242141, \"y\": -931.911853136304, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"crv_Shape18\": {\"x\": -19315.721221686035, \"y\": 2849.120643673801, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_2_loc5Shape\": {\"x\": -19895.29186469164, \"y\": 2801.2786562989486, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_1_loc5Shape\": {\"x\": -19895.29186469164, \"y\": 2645.2786562989486, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_4_loc2Shape\": {\"x\": -19895.29186469164, \"y\": 3113.2786562989477, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_3_loc2Shape\": {\"x\": -19895.29186469164, \"y\": 2957.2786562989486, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_7_4_locShape\": {\"x\": -19857.819683735845, \"y\": 6635.174942998896, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_7_1_locShape\": {\"x\": -19866.297802116245, \"y\": 6167.174942998896, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_7_2_locShape\": {\"x\": -19861.453163041722, \"y\": 6323.174942998896, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_7_3_locShape\": {\"x\": -19860.242003273106, \"y\": 6479.174942998896, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_7_4_loc3Shape\": {\"x\": -20029.841980945745, \"y\": 5847.902622478544, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_7_1_loc7Shape\": {\"x\": -20040.742418863407, \"y\": 5379.902622478544, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_7_2_loc4Shape\": {\"x\": -20045.587057937915, \"y\": 5535.902622478544, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_7_3_loc4Shape\": {\"x\": -20048.009377475177, \"y\": 5691.902622478544, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"crv_Shape19\": {\"x\": -19531.349168989876, \"y\": 5561.0474290446, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"surf_Shape4\": {\"x\": -19049.080009600475, \"y\": -6561.559701304642, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"loft4\": {\"x\": -19530.594338443432, \"y\": -6753.947334467047, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"inputCurve\"]}, \"crv_Shape10\": {\"x\": -20250.221334873928, \"y\": -7021.982763393841, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"crv_Shape13\": {\"x\": -20245.68603990093, \"y\": -7583.891663477513, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"crv_Shape12\": {\"x\": -20706.130591599936, \"y\": -6500.153223585503, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"controlPoints\"]}, \"crv_Shape11\": {\"x\": -20768.693948096552, \"y\": -5736.008974674695, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"controlPoints\"]}, \"first_curve_1_4_loc1Shape\": {\"x\": -21521.694122481953, \"y\": -6207.271038740284, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_4_loc2Shape\": {\"x\": -20910.937828822636, \"y\": -7430.695232375481, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_3_loc2Shape\": {\"x\": -20910.937828822636, \"y\": -7586.695232375481, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_1_3_loc1Shape\": {\"x\": -21557.217362475407, \"y\": -6374.977592159497, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_1_4_locShape\": {\"x\": -21460.24430832148, \"y\": -5183.232116040577, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_3_loc1Shape\": {\"x\": -20910.937828822636, \"y\": -6962.695232375481, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_1_1_loc1Shape\": {\"x\": -21568.55559990791, \"y\": -6718.72465697051, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_1_3_locShape\": {\"x\": -21459.70028813589, \"y\": -5416.276070358293, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_1_loc1Shape\": {\"x\": -20910.937828822636, \"y\": -7898.695232375481, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_1_1_locShape\": {\"x\": -21473.51728150368, \"y\": -5921.088858381176, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_4_loc1Shape\": {\"x\": -20910.937828822636, \"y\": -6806.695232375481, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_6_3_loc1Shape\": {\"x\": -21557.217362475407, \"y\": -6530.977592159497, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_1_loc3Shape\": {\"x\": -20910.937828822636, \"y\": -7274.695232375481, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_6_3_locShape\": {\"x\": -21472.223275359138, \"y\": -5634.394237782636, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_2_loc1Shape\": {\"x\": -20910.937828822636, \"y\": -7118.695232375481, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_2_loc2Shape\": {\"x\": -20910.937828822636, \"y\": -7742.695232375481, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"hyper_sets\": [], \"view\": {\"cx\": -20008.14484325287, \"cy\": -2354.4938123625852, \"scale\": 0.19791939887597265}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 4\", \"nodes\": {\"crv_Shape7\": {\"x\": -14291.40812313135, \"y\": -4384.035402871763, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_2_locShape\": {\"x\": -14641.40812313135, \"y\": -4462.035402871763, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_3_locShape\": {\"x\": -14641.40812313135, \"y\": -4306.035402871763, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_1_locShape\": {\"x\": -14641.40812313135, \"y\": -4618.035402871763, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_4_locShape\": {\"x\": -14641.40812313135, \"y\": -4150.035402871763, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"hyper_sets\": [], \"view\": {\"cx\": -14015.595221496957, \"cy\": -4662.899773720935, \"scale\": 0.7064273649123344}, \"group_path\": [], \"group_history\": []}], \"active_tab\": 3, \"basket\": []}");
+createNode unitConversion -n "unitConversion447";
+	rename -uid "1B021B81-4C26-33A8-9E3B-CBB7DD8F0B3C";
+	setAttr ".cf" 0.017453292519943295;
 createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
-	rename -uid "B373F012-4C05-2545-6BA1-8B9AC1E7281C";
+	rename -uid "6570CE2E-425F-F64C-3528-DE9B6DA08B72";
 	setAttr -s 5 ".tgi";
 	setAttr ".tgi[0].tn" -type "string" "Untitled_2";
-	setAttr ".tgi[0].vl" -type "double2" 28455.355586395428 -10276.190183157845 ;
-	setAttr ".tgi[0].vh" -type "double2" 42169.641607219331 -6561.9043858513724 ;
-	setAttr -s 11 ".tgi[0].ni";
-	setAttr ".tgi[0].ni[0].x" 35557.83203125;
-	setAttr ".tgi[0].ni[0].y" -7796.84130859375;
+	setAttr ".tgi[0].vl" -type "double2" 28454.760774071256 -21770.427604816367 ;
+	setAttr ".tgi[0].vh" -type "double2" 42176.188800259275 4926.3806550910094 ;
+	setAttr -s 6 ".tgi[0].ni";
+	setAttr ".tgi[0].ni[0].x" 35193.8203125;
+	setAttr ".tgi[0].ni[0].y" -8475.171875;
 	setAttr ".tgi[0].ni[0].nvs" 18304;
 	setAttr ".tgi[0].ni[1].x" 35480.5078125;
 	setAttr ".tgi[0].ni[1].y" -8120.2236328125;
@@ -15039,184 +15435,73 @@ createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
 	setAttr ".tgi[0].ni[2].x" 34841.375;
 	setAttr ".tgi[0].ni[2].y" -7983.29052734375;
 	setAttr ".tgi[0].ni[2].nvs" 18305;
-	setAttr ".tgi[0].ni[3].x" 35448.21875;
-	setAttr ".tgi[0].ni[3].y" -8381.9951171875;
-	setAttr ".tgi[0].ni[3].nvs" 18304;
-	setAttr ".tgi[0].ni[4].x" 35164.66796875;
-	setAttr ".tgi[0].ni[4].y" -7940.50048828125;
-	setAttr ".tgi[0].ni[4].nvs" 18305;
-	setAttr ".tgi[0].ni[5].x" 35499.140625;
-	setAttr ".tgi[0].ni[5].y" -7977.07568359375;
+	setAttr ".tgi[0].ni[3].x" 35164.66796875;
+	setAttr ".tgi[0].ni[3].y" -7940.50048828125;
+	setAttr ".tgi[0].ni[3].nvs" 18305;
+	setAttr ".tgi[0].ni[4].x" 35448.21875;
+	setAttr ".tgi[0].ni[4].y" -8381.9951171875;
+	setAttr ".tgi[0].ni[4].nvs" 18304;
+	setAttr ".tgi[0].ni[5].x" 35434.171875;
+	setAttr ".tgi[0].ni[5].y" -8706.251953125;
 	setAttr ".tgi[0].ni[5].nvs" 18304;
-	setAttr ".tgi[0].ni[6].x" 35193.8203125;
-	setAttr ".tgi[0].ni[6].y" -8475.171875;
-	setAttr ".tgi[0].ni[6].nvs" 18304;
-	setAttr ".tgi[0].ni[7].x" 35434.171875;
-	setAttr ".tgi[0].ni[7].y" -8706.251953125;
-	setAttr ".tgi[0].ni[7].nvs" 18304;
-	setAttr ".tgi[0].ni[8].x" 35479.8515625;
-	setAttr ".tgi[0].ni[8].y" -7839.08154296875;
-	setAttr ".tgi[0].ni[8].nvs" 18304;
-	setAttr ".tgi[0].ni[9].x" 35465.609375;
-	setAttr ".tgi[0].ni[9].y" -7791.8720703125;
-	setAttr ".tgi[0].ni[9].nvs" 18304;
-	setAttr ".tgi[0].ni[10].x" 35035.75390625;
-	setAttr ".tgi[0].ni[10].y" -8427.9619140625;
-	setAttr ".tgi[0].ni[10].nvs" 18304;
 	setAttr ".tgi[1].tn" -type "string" "Untitled_3";
-	setAttr ".tgi[1].vl" -type "double2" 24602.379549022236 -14978.570948683104 ;
-	setAttr ".tgi[1].vh" -type "double2" 38316.665569846133 -11264.285151376633 ;
-	setAttr -s 49 ".tgi[1].ni";
+	setAttr ".tgi[1].vl" -type "double2" 24602.379974770167 -26471.650257888752 ;
+	setAttr ".tgi[1].vh" -type "double2" 38322.61752481501 222.8417771132055 ;
+	setAttr -s 17 ".tgi[1].ni";
 	setAttr ".tgi[1].ni[0].x" 31811.427734375;
-	setAttr ".tgi[1].ni[0].y" -13852.857421875;
+	setAttr ".tgi[1].ni[0].y" -14562.857421875;
 	setAttr ".tgi[1].ni[0].nvs" 18304;
 	setAttr ".tgi[1].ni[1].x" 31811.427734375;
-	setAttr ".tgi[1].ni[1].y" -13650;
+	setAttr ".tgi[1].ni[1].y" -13345.7138671875;
 	setAttr ".tgi[1].ni[1].nvs" 18304;
 	setAttr ".tgi[1].ni[2].x" 31811.427734375;
-	setAttr ".tgi[1].ni[2].y" -12331.4287109375;
+	setAttr ".tgi[1].ni[2].y" -13751.4287109375;
 	setAttr ".tgi[1].ni[2].nvs" 18304;
-	setAttr ".tgi[1].ni[3].x" 31781.8046875;
-	setAttr ".tgi[1].ni[3].y" -12801.8369140625;
+	setAttr ".tgi[1].ni[3].x" 31811.427734375;
+	setAttr ".tgi[1].ni[3].y" -14664.2861328125;
 	setAttr ".tgi[1].ni[3].nvs" 18304;
 	setAttr ".tgi[1].ni[4].x" 31811.427734375;
-	setAttr ".tgi[1].ni[4].y" -11012.857421875;
+	setAttr ".tgi[1].ni[4].y" -13244.2861328125;
 	setAttr ".tgi[1].ni[4].nvs" 18304;
-	setAttr ".tgi[1].ni[5].x" 31100.923828125;
-	setAttr ".tgi[1].ni[5].y" -12634.2861328125;
-	setAttr ".tgi[1].ni[5].nvs" 18305;
+	setAttr ".tgi[1].ni[5].x" 31811.427734375;
+	setAttr ".tgi[1].ni[5].y" -11317.142578125;
+	setAttr ".tgi[1].ni[5].nvs" 18304;
 	setAttr ".tgi[1].ni[6].x" 31811.427734375;
-	setAttr ".tgi[1].ni[6].y" -13244.2861328125;
+	setAttr ".tgi[1].ni[6].y" -10404.2861328125;
 	setAttr ".tgi[1].ni[6].nvs" 18304;
 	setAttr ".tgi[1].ni[7].x" 31811.427734375;
-	setAttr ".tgi[1].ni[7].y" -14461.4287109375;
+	setAttr ".tgi[1].ni[7].y" -11520;
 	setAttr ".tgi[1].ni[7].nvs" 18304;
 	setAttr ".tgi[1].ni[8].x" 31811.427734375;
-	setAttr ".tgi[1].ni[8].y" -13142.857421875;
+	setAttr ".tgi[1].ni[8].y" -13548.5712890625;
 	setAttr ".tgi[1].ni[8].nvs" 18304;
 	setAttr ".tgi[1].ni[9].x" 31811.427734375;
-	setAttr ".tgi[1].ni[9].y" -13447.142578125;
+	setAttr ".tgi[1].ni[9].y" -11621.4287109375;
 	setAttr ".tgi[1].ni[9].nvs" 18304;
 	setAttr ".tgi[1].ni[10].x" 31811.427734375;
-	setAttr ".tgi[1].ni[10].y" -10911.4287109375;
+	setAttr ".tgi[1].ni[10].y" -12534.2861328125;
 	setAttr ".tgi[1].ni[10].nvs" 18304;
 	setAttr ".tgi[1].ni[11].x" 31811.427734375;
-	setAttr ".tgi[1].ni[11].y" -10302.857421875;
+	setAttr ".tgi[1].ni[11].y" -14258.5712890625;
 	setAttr ".tgi[1].ni[11].nvs" 18304;
 	setAttr ".tgi[1].ni[12].x" 31811.427734375;
-	setAttr ".tgi[1].ni[12].y" -12230;
+	setAttr ".tgi[1].ni[12].y" -14461.4287109375;
 	setAttr ".tgi[1].ni[12].nvs" 18304;
 	setAttr ".tgi[1].ni[13].x" 31811.427734375;
-	setAttr ".tgi[1].ni[13].y" -11520;
+	setAttr ".tgi[1].ni[13].y" -13142.857421875;
 	setAttr ".tgi[1].ni[13].nvs" 18304;
 	setAttr ".tgi[1].ni[14].x" 31811.427734375;
-	setAttr ".tgi[1].ni[14].y" -14867.142578125;
+	setAttr ".tgi[1].ni[14].y" -14765.7138671875;
 	setAttr ".tgi[1].ni[14].nvs" 18304;
 	setAttr ".tgi[1].ni[15].x" 31811.427734375;
-	setAttr ".tgi[1].ni[15].y" -14157.142578125;
+	setAttr ".tgi[1].ni[15].y" -10708.5712890625;
 	setAttr ".tgi[1].ni[15].nvs" 18304;
-	setAttr ".tgi[1].ni[16].x" 31811.427734375;
-	setAttr ".tgi[1].ni[16].y" -11824.2861328125;
-	setAttr ".tgi[1].ni[16].nvs" 18304;
-	setAttr ".tgi[1].ni[17].x" 31811.427734375;
-	setAttr ".tgi[1].ni[17].y" -14360;
-	setAttr ".tgi[1].ni[17].nvs" 18304;
-	setAttr ".tgi[1].ni[18].x" 31811.427734375;
-	setAttr ".tgi[1].ni[18].y" -13548.5712890625;
-	setAttr ".tgi[1].ni[18].nvs" 18304;
-	setAttr ".tgi[1].ni[19].x" 31811.427734375;
-	setAttr ".tgi[1].ni[19].y" -14258.5712890625;
-	setAttr ".tgi[1].ni[19].nvs" 18304;
-	setAttr ".tgi[1].ni[20].x" 31811.427734375;
-	setAttr ".tgi[1].ni[20].y" -11621.4287109375;
-	setAttr ".tgi[1].ni[20].nvs" 18304;
-	setAttr ".tgi[1].ni[21].x" 31811.427734375;
-	setAttr ".tgi[1].ni[21].y" -14055.7138671875;
-	setAttr ".tgi[1].ni[21].nvs" 18304;
-	setAttr ".tgi[1].ni[22].x" 31811.427734375;
-	setAttr ".tgi[1].ni[22].y" -10607.142578125;
-	setAttr ".tgi[1].ni[22].nvs" 18304;
-	setAttr ".tgi[1].ni[23].x" 31811.427734375;
-	setAttr ".tgi[1].ni[23].y" -11722.857421875;
-	setAttr ".tgi[1].ni[23].nvs" 18304;
-	setAttr ".tgi[1].ni[24].x" 31811.427734375;
-	setAttr ".tgi[1].ni[24].y" -11925.7138671875;
-	setAttr ".tgi[1].ni[24].nvs" 18304;
-	setAttr ".tgi[1].ni[25].x" 31811.427734375;
-	setAttr ".tgi[1].ni[25].y" -11418.5712890625;
-	setAttr ".tgi[1].ni[25].nvs" 18304;
-	setAttr ".tgi[1].ni[26].x" 31811.427734375;
-	setAttr ".tgi[1].ni[26].y" -14664.2861328125;
-	setAttr ".tgi[1].ni[26].nvs" 18304;
-	setAttr ".tgi[1].ni[27].x" 31811.427734375;
-	setAttr ".tgi[1].ni[27].y" -10505.7138671875;
-	setAttr ".tgi[1].ni[27].nvs" 18304;
-	setAttr ".tgi[1].ni[28].x" 31811.427734375;
-	setAttr ".tgi[1].ni[28].y" -12635.7138671875;
-	setAttr ".tgi[1].ni[28].nvs" 18304;
-	setAttr ".tgi[1].ni[29].x" 31811.427734375;
-	setAttr ".tgi[1].ni[29].y" -12940;
-	setAttr ".tgi[1].ni[29].nvs" 18304;
-	setAttr ".tgi[1].ni[30].x" 31811.427734375;
-	setAttr ".tgi[1].ni[30].y" -13041.4287109375;
-	setAttr ".tgi[1].ni[30].nvs" 18304;
-	setAttr ".tgi[1].ni[31].x" 31811.427734375;
-	setAttr ".tgi[1].ni[31].y" -11215.7138671875;
-	setAttr ".tgi[1].ni[31].nvs" 18304;
-	setAttr ".tgi[1].ni[32].x" 31811.427734375;
-	setAttr ".tgi[1].ni[32].y" -10404.2861328125;
-	setAttr ".tgi[1].ni[32].nvs" 18304;
-	setAttr ".tgi[1].ni[33].x" 31811.427734375;
-	setAttr ".tgi[1].ni[33].y" -14562.857421875;
-	setAttr ".tgi[1].ni[33].nvs" 18304;
-	setAttr ".tgi[1].ni[34].x" 31811.427734375;
-	setAttr ".tgi[1].ni[34].y" -15070;
-	setAttr ".tgi[1].ni[34].nvs" 18304;
-	setAttr ".tgi[1].ni[35].x" 31811.427734375;
-	setAttr ".tgi[1].ni[35].y" -10708.5712890625;
-	setAttr ".tgi[1].ni[35].nvs" 18304;
-	setAttr ".tgi[1].ni[36].x" 31811.427734375;
-	setAttr ".tgi[1].ni[36].y" -12534.2861328125;
-	setAttr ".tgi[1].ni[36].nvs" 18304;
-	setAttr ".tgi[1].ni[37].x" 31811.427734375;
-	setAttr ".tgi[1].ni[37].y" -12737.142578125;
-	setAttr ".tgi[1].ni[37].nvs" 18304;
-	setAttr ".tgi[1].ni[38].x" 31811.427734375;
-	setAttr ".tgi[1].ni[38].y" -13954.2861328125;
-	setAttr ".tgi[1].ni[38].nvs" 18304;
-	setAttr ".tgi[1].ni[39].x" 31811.427734375;
-	setAttr ".tgi[1].ni[39].y" -13345.7138671875;
-	setAttr ".tgi[1].ni[39].nvs" 18304;
-	setAttr ".tgi[1].ni[40].x" 31811.427734375;
-	setAttr ".tgi[1].ni[40].y" -14968.5712890625;
-	setAttr ".tgi[1].ni[40].nvs" 18304;
-	setAttr ".tgi[1].ni[41].x" 31811.427734375;
-	setAttr ".tgi[1].ni[41].y" -14765.7138671875;
-	setAttr ".tgi[1].ni[41].nvs" 18304;
-	setAttr ".tgi[1].ni[42].x" 31811.427734375;
-	setAttr ".tgi[1].ni[42].y" -12432.857421875;
-	setAttr ".tgi[1].ni[42].nvs" 18304;
-	setAttr ".tgi[1].ni[43].x" 31811.427734375;
-	setAttr ".tgi[1].ni[43].y" -13751.4287109375;
-	setAttr ".tgi[1].ni[43].nvs" 18304;
-	setAttr ".tgi[1].ni[44].x" 31811.427734375;
-	setAttr ".tgi[1].ni[44].y" -11114.2861328125;
-	setAttr ".tgi[1].ni[44].nvs" 18304;
-	setAttr ".tgi[1].ni[45].x" 31811.427734375;
-	setAttr ".tgi[1].ni[45].y" -11317.142578125;
-	setAttr ".tgi[1].ni[45].nvs" 18304;
-	setAttr ".tgi[1].ni[46].x" 31811.427734375;
-	setAttr ".tgi[1].ni[46].y" -10810;
-	setAttr ".tgi[1].ni[46].nvs" 18304;
-	setAttr ".tgi[1].ni[47].x" 31811.427734375;
-	setAttr ".tgi[1].ni[47].y" -15171.4287109375;
-	setAttr ".tgi[1].ni[47].nvs" 18304;
-	setAttr ".tgi[1].ni[48].x" 31811.427734375;
-	setAttr ".tgi[1].ni[48].y" -12128.5712890625;
-	setAttr ".tgi[1].ni[48].nvs" 18304;
+	setAttr ".tgi[1].ni[16].x" 31100.923828125;
+	setAttr ".tgi[1].ni[16].y" -12634.2861328125;
+	setAttr ".tgi[1].ni[16].nvs" 18305;
 	setAttr ".tgi[2].tn" -type "string" "Untitled_4";
-	setAttr ".tgi[2].vl" -type "double2" 9434.5230088820754 -11404.16632881242 ;
-	setAttr ".tgi[2].vh" -type "double2" 23148.809029705972 -7689.8805315059471 ;
+	setAttr ".tgi[2].vl" -type "double2" 9434.5234346295347 -22897.245638018096 ;
+	setAttr ".tgi[2].vh" -type "double2" 23154.760984674376 3797.246396983865 ;
 	setAttr -s 2 ".tgi[2].ni";
 	setAttr ".tgi[2].ni[0].x" 15882.857421875;
 	setAttr ".tgi[2].ni[0].y" -9438.5712890625;
@@ -15225,14 +15510,220 @@ createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
 	setAttr ".tgi[2].ni[1].y" -9438.5712890625;
 	setAttr ".tgi[2].ni[1].nvs" 18304;
 	setAttr ".tgi[3].tn" -type "string" "Untitled_5";
-	setAttr ".tgi[3].vl" -type "double2" 28636.857836432275 -1841.6665934854052 ;
-	setAttr ".tgi[3].vh" -type "double2" 34307.187281443294 -305.95236879491966 ;
+	setAttr ".tgi[3].vl" -type "double2" 31713.093977930104 248.90279750110497 ;
+	setAttr ".tgi[3].vh" -type "double2" 32504.760613138769 1789.1923596075083 ;
+	setAttr -s 51 ".tgi[3].ni";
+	setAttr ".tgi[3].ni[0].x" 30644.28515625;
+	setAttr ".tgi[3].ni[0].y" 951.4285888671875;
+	setAttr ".tgi[3].ni[0].nvs" 18304;
+	setAttr ".tgi[3].ni[1].x" 27407.142578125;
+	setAttr ".tgi[3].ni[1].y" 345.71429443359375;
+	setAttr ".tgi[3].ni[1].nvs" 18304;
+	setAttr ".tgi[3].ni[2].x" 31568.572265625;
+	setAttr ".tgi[3].ni[2].y" 1148.5714111328125;
+	setAttr ".tgi[3].ni[2].nvs" 18304;
+	setAttr ".tgi[3].ni[3].x" 24415.71484375;
+	setAttr ".tgi[3].ni[3].y" 587.14288330078125;
+	setAttr ".tgi[3].ni[3].nvs" 18304;
+	setAttr ".tgi[3].ni[4].x" 31261.427734375;
+	setAttr ".tgi[3].ni[4].y" 1057.142822265625;
+	setAttr ".tgi[3].ni[4].nvs" 18304;
+	setAttr ".tgi[3].ni[5].x" 24415.71484375;
+	setAttr ".tgi[3].ni[5].y" 790;
+	setAttr ".tgi[3].ni[5].nvs" 18304;
+	setAttr ".tgi[3].ni[6].x" 31875.71484375;
+	setAttr ".tgi[3].ni[6].y" 1148.5714111328125;
+	setAttr ".tgi[3].ni[6].nvs" 18304;
+	setAttr ".tgi[3].ni[7].x" 30337.142578125;
+	setAttr ".tgi[3].ni[7].y" 848.5714111328125;
+	setAttr ".tgi[3].ni[7].nvs" 18304;
+	setAttr ".tgi[3].ni[8].x" 24415.71484375;
+	setAttr ".tgi[3].ni[8].y" 688.5714111328125;
+	setAttr ".tgi[3].ni[8].nvs" 18304;
+	setAttr ".tgi[3].ni[9].x" 26121.427734375;
+	setAttr ".tgi[3].ni[9].y" 232.85714721679688;
+	setAttr ".tgi[3].ni[9].nvs" 18304;
+	setAttr ".tgi[3].ni[10].x" 32307.142578125;
+	setAttr ".tgi[3].ni[10].y" 1148.5714111328125;
+	setAttr ".tgi[3].ni[10].nvs" 18305;
+	setAttr ".tgi[3].ni[11].x" 27714.28515625;
+	setAttr ".tgi[3].ni[11].y" 395.71429443359375;
+	setAttr ".tgi[3].ni[11].nvs" 18304;
+	setAttr ".tgi[3].ni[12].x" 25105.71484375;
+	setAttr ".tgi[3].ni[12].y" 474.28570556640625;
+	setAttr ".tgi[3].ni[12].nvs" 18304;
+	setAttr ".tgi[3].ni[13].x" 28942.857421875;
+	setAttr ".tgi[3].ni[13].y" 615.71429443359375;
+	setAttr ".tgi[3].ni[13].nvs" 18304;
+	setAttr ".tgi[3].ni[14].x" 29557.142578125;
+	setAttr ".tgi[3].ni[14].y" 972.85711669921875;
+	setAttr ".tgi[3].ni[14].nvs" 18304;
+	setAttr ".tgi[3].ni[15].x" 23774.28515625;
+	setAttr ".tgi[3].ni[15].y" 790;
+	setAttr ".tgi[3].ni[15].nvs" 18304;
+	setAttr ".tgi[3].ni[16].x" 29937.142578125;
+	setAttr ".tgi[3].ni[16].y" 757.14288330078125;
+	setAttr ".tgi[3].ni[16].nvs" 18304;
+	setAttr ".tgi[3].ni[17].x" 30337.142578125;
+	setAttr ".tgi[3].ni[17].y" 1108.5714111328125;
+	setAttr ".tgi[3].ni[17].nvs" 18304;
+	setAttr ".tgi[3].ni[18].x" 24081.427734375;
+	setAttr ".tgi[3].ni[18].y" 631.4285888671875;
+	setAttr ".tgi[3].ni[18].nvs" 18304;
+	setAttr ".tgi[3].ni[19].x" 24798.572265625;
+	setAttr ".tgi[3].ni[19].y" 542.85711669921875;
+	setAttr ".tgi[3].ni[19].nvs" 18304;
+	setAttr ".tgi[3].ni[20].x" 26792.857421875;
+	setAttr ".tgi[3].ni[20].y" 280;
+	setAttr ".tgi[3].ni[20].nvs" 18304;
+	setAttr ".tgi[3].ni[21].x" 23774.28515625;
+	setAttr ".tgi[3].ni[21].y" 688.5714111328125;
+	setAttr ".tgi[3].ni[21].nvs" 18304;
+	setAttr ".tgi[3].ni[22].x" 28635.71484375;
+	setAttr ".tgi[3].ni[22].y" 585.71429443359375;
+	setAttr ".tgi[3].ni[22].nvs" 18304;
+	setAttr ".tgi[3].ni[23].x" 28328.572265625;
+	setAttr ".tgi[3].ni[23].y" 542.85711669921875;
+	setAttr ".tgi[3].ni[23].nvs" 18304;
+	setAttr ".tgi[3].ni[24].x" 30644.28515625;
+	setAttr ".tgi[3].ni[24].y" 1052.857177734375;
+	setAttr ".tgi[3].ni[24].nvs" 18304;
+	setAttr ".tgi[3].ni[25].x" 24798.572265625;
+	setAttr ".tgi[3].ni[25].y" 441.42855834960938;
+	setAttr ".tgi[3].ni[25].nvs" 18304;
+	setAttr ".tgi[3].ni[26].x" 29250;
+	setAttr ".tgi[3].ni[26].y" 602.85711669921875;
+	setAttr ".tgi[3].ni[26].nvs" 18304;
+	setAttr ".tgi[3].ni[27].x" 26447.142578125;
+	setAttr ".tgi[3].ni[27].y" 271.42855834960938;
+	setAttr ".tgi[3].ni[27].nvs" 18304;
+	setAttr ".tgi[3].ni[28].x" 31568.572265625;
+	setAttr ".tgi[3].ni[28].y" 1047.142822265625;
+	setAttr ".tgi[3].ni[28].nvs" 18304;
+	setAttr ".tgi[3].ni[29].x" 25105.71484375;
+	setAttr ".tgi[3].ni[29].y" 372.85714721679688;
+	setAttr ".tgi[3].ni[29].nvs" 18304;
+	setAttr ".tgi[3].ni[30].x" 29937.142578125;
+	setAttr ".tgi[3].ni[30].y" 858.5714111328125;
+	setAttr ".tgi[3].ni[30].nvs" 18304;
+	setAttr ".tgi[3].ni[31].x" 25500;
+	setAttr ".tgi[3].ni[31].y" 551.4285888671875;
+	setAttr ".tgi[3].ni[31].nvs" 18304;
+	setAttr ".tgi[3].ni[32].x" 31875.71484375;
+	setAttr ".tgi[3].ni[32].y" 945.71429443359375;
+	setAttr ".tgi[3].ni[32].nvs" 18304;
+	setAttr ".tgi[3].ni[33].x" 31261.427734375;
+	setAttr ".tgi[3].ni[33].y" 898.5714111328125;
+	setAttr ".tgi[3].ni[33].nvs" 18304;
+	setAttr ".tgi[3].ni[34].x" 27100;
+	setAttr ".tgi[3].ni[34].y" 291.42855834960938;
+	setAttr ".tgi[3].ni[34].nvs" 18304;
+	setAttr ".tgi[3].ni[35].x" 30644.28515625;
+	setAttr ".tgi[3].ni[35].y" 1154.2857666015625;
+	setAttr ".tgi[3].ni[35].nvs" 18304;
+	setAttr ".tgi[3].ni[36].x" 31261.427734375;
+	setAttr ".tgi[3].ni[36].y" 1272.857177734375;
+	setAttr ".tgi[3].ni[36].nvs" 18304;
+	setAttr ".tgi[3].ni[37].x" 29557.142578125;
+	setAttr ".tgi[3].ni[37].y" 598.5714111328125;
+	setAttr ".tgi[3].ni[37].nvs" 18304;
+	setAttr ".tgi[3].ni[38].x" 29937.142578125;
+	setAttr ".tgi[3].ni[38].y" 1192.857177734375;
+	setAttr ".tgi[3].ni[38].nvs" 18305;
+	setAttr ".tgi[3].ni[39].x" 30644.28515625;
+	setAttr ".tgi[3].ni[39].y" 1255.7142333984375;
+	setAttr ".tgi[3].ni[39].nvs" 18304;
+	setAttr ".tgi[3].ni[40].x" 28021.427734375;
+	setAttr ".tgi[3].ni[40].y" 474.28570556640625;
+	setAttr ".tgi[3].ni[40].nvs" 18304;
+	setAttr ".tgi[3].ni[41].x" 29557.142578125;
+	setAttr ".tgi[3].ni[41].y" 871.4285888671875;
+	setAttr ".tgi[3].ni[41].nvs" 18304;
+	setAttr ".tgi[3].ni[42].x" 25105.71484375;
+	setAttr ".tgi[3].ni[42].y" 575.71429443359375;
+	setAttr ".tgi[3].ni[42].nvs" 18304;
+	setAttr ".tgi[3].ni[43].x" 25814.28515625;
+	setAttr ".tgi[3].ni[43].y" 231.42857360839844;
+	setAttr ".tgi[3].ni[43].nvs" 18304;
+	setAttr ".tgi[3].ni[44].x" 30644.28515625;
+	setAttr ".tgi[3].ni[44].y" 850;
+	setAttr ".tgi[3].ni[44].nvs" 18304;
+	setAttr ".tgi[3].ni[45].x" 30951.427734375;
+	setAttr ".tgi[3].ni[45].y" 1078.5714111328125;
+	setAttr ".tgi[3].ni[45].nvs" 18304;
+	setAttr ".tgi[3].ni[46].x" 25500;
+	setAttr ".tgi[3].ni[46].y" 450;
+	setAttr ".tgi[3].ni[46].nvs" 18304;
+	setAttr ".tgi[3].ni[47].x" 25105.71484375;
+	setAttr ".tgi[3].ni[47].y" 791.4285888671875;
+	setAttr ".tgi[3].ni[47].nvs" 18304;
+	setAttr ".tgi[3].ni[48].x" 24081.427734375;
+	setAttr ".tgi[3].ni[48].y" 745.71429443359375;
+	setAttr ".tgi[3].ni[48].nvs" 18304;
+	setAttr ".tgi[3].ni[49].x" 24798.572265625;
+	setAttr ".tgi[3].ni[49].y" 815.71429443359375;
+	setAttr ".tgi[3].ni[49].nvs" 18304;
+	setAttr ".tgi[3].ni[50].x" 23774.28515625;
+	setAttr ".tgi[3].ni[50].y" 587.14288330078125;
+	setAttr ".tgi[3].ni[50].nvs" 18304;
 	setAttr ".tgi[4].tn" -type "string" "Untitled_6";
-	setAttr ".tgi[4].vl" -type "double2" 35515.631989405789 -32968.744024954904 ;
-	setAttr ".tgi[4].vh" -type "double2" 36301.346253081392 -31435.130622593453 ;
-	setAttr ".tgi[4].ni[0].x" 35923.8671875;
-	setAttr ".tgi[4].ni[0].y" -31615.546875;
+	setAttr ".tgi[4].vl" -type "double2" 41840.474527885111 -33825.880725125877 ;
+	setAttr ".tgi[4].vh" -type "double2" 42771.426871844771 -32014.592849084966 ;
+	setAttr -s 18 ".tgi[4].ni";
+	setAttr ".tgi[4].ni[0].x" 42550;
+	setAttr ".tgi[4].ni[0].y" -33410;
 	setAttr ".tgi[4].ni[0].nvs" 18304;
+	setAttr ".tgi[4].ni[1].x" 41628.5703125;
+	setAttr ".tgi[4].ni[1].y" -32772.85546875;
+	setAttr ".tgi[4].ni[1].nvs" 18304;
+	setAttr ".tgi[4].ni[2].x" 41912.91796875;
+	setAttr ".tgi[4].ni[2].y" -32857.6640625;
+	setAttr ".tgi[4].ni[2].nvs" 18304;
+	setAttr ".tgi[4].ni[3].x" 41628.5703125;
+	setAttr ".tgi[4].ni[3].y" -32671.427734375;
+	setAttr ".tgi[4].ni[3].nvs" 18304;
+	setAttr ".tgi[4].ni[4].x" 42279.53125;
+	setAttr ".tgi[4].ni[4].y" -32617.794921875;
+	setAttr ".tgi[4].ni[4].nvs" 18305;
+	setAttr ".tgi[4].ni[5].x" 41628.5703125;
+	setAttr ".tgi[4].ni[5].y" -32164.28515625;
+	setAttr ".tgi[4].ni[5].nvs" 18304;
+	setAttr ".tgi[4].ni[6].x" 41628.5703125;
+	setAttr ".tgi[4].ni[6].y" -32265.71484375;
+	setAttr ".tgi[4].ni[6].nvs" 18304;
+	setAttr ".tgi[4].ni[7].x" 41628.5703125;
+	setAttr ".tgi[4].ni[7].y" -32975.71484375;
+	setAttr ".tgi[4].ni[7].nvs" 18304;
+	setAttr ".tgi[4].ni[8].x" 41628.5703125;
+	setAttr ".tgi[4].ni[8].y" -33280;
+	setAttr ".tgi[4].ni[8].nvs" 18304;
+	setAttr ".tgi[4].ni[9].x" 41628.5703125;
+	setAttr ".tgi[4].ni[9].y" -33178.5703125;
+	setAttr ".tgi[4].ni[9].nvs" 18304;
+	setAttr ".tgi[4].ni[10].x" 41932.7421875;
+	setAttr ".tgi[4].ni[10].y" -32721.880859375;
+	setAttr ".tgi[4].ni[10].nvs" 18304;
+	setAttr ".tgi[4].ni[11].x" 41628.5703125;
+	setAttr ".tgi[4].ni[11].y" -32367.142578125;
+	setAttr ".tgi[4].ni[11].nvs" 18304;
+	setAttr ".tgi[4].ni[12].x" 41628.5703125;
+	setAttr ".tgi[4].ni[12].y" -32874.28515625;
+	setAttr ".tgi[4].ni[12].nvs" 18304;
+	setAttr ".tgi[4].ni[13].x" 41628.5703125;
+	setAttr ".tgi[4].ni[13].y" -32468.572265625;
+	setAttr ".tgi[4].ni[13].nvs" 18304;
+	setAttr ".tgi[4].ni[14].x" 41628.5703125;
+	setAttr ".tgi[4].ni[14].y" -33077.14453125;
+	setAttr ".tgi[4].ni[14].nvs" 18304;
+	setAttr ".tgi[4].ni[15].x" 41932.7421875;
+	setAttr ".tgi[4].ni[15].y" -32587.595703125;
+	setAttr ".tgi[4].ni[15].nvs" 18304;
+	setAttr ".tgi[4].ni[16].x" 41628.5703125;
+	setAttr ".tgi[4].ni[16].y" -32570;
+	setAttr ".tgi[4].ni[16].nvs" 18304;
+	setAttr ".tgi[4].ni[17].x" 42550;
+	setAttr ".tgi[4].ni[17].y" -32722.857421875;
+	setAttr ".tgi[4].ni[17].nvs" 18304;
 select -ne :time1;
 	setAttr -av -k on ".cch";
 	setAttr -av -k on ".fzn";
@@ -16213,6 +16704,7 @@ connectAttr "reverse5.ox" "main_root_initLoc2_pointConstraint1.w1";
 connectAttr "main_root_initLoc3_pointConstraint1.ctx" "main_root_initLoc3.tx";
 connectAttr "main_root_initLoc3_pointConstraint1.cty" "main_root_initLoc3.ty";
 connectAttr "main_root_initLoc3_pointConstraint1.ctz" "main_root_initLoc3.tz";
+connectAttr "mirror_condition.ocr" "main_root_initLoc3.sz";
 connectAttr "main_root_initLoc3.pim" "main_root_initLoc3_pointConstraint1.cpim";
 connectAttr "main_root_initLoc3.rp" "main_root_initLoc3_pointConstraint1.crp";
 connectAttr "main_root_initLoc3.rpt" "main_root_initLoc3_pointConstraint1.crt";
@@ -16239,6 +16731,7 @@ connectAttr "main_root_initLoc3_pointConstraint1.w1" "main_root_initLoc3_pointCo
 connectAttr "main_root_initLoc4_pointConstraint1.ctx" "main_root_initLoc4.tx";
 connectAttr "main_root_initLoc4_pointConstraint1.cty" "main_root_initLoc4.ty";
 connectAttr "main_root_initLoc4_pointConstraint1.ctz" "main_root_initLoc4.tz";
+connectAttr "mirror_condition.ocr" "main_root_initLoc4.sz";
 connectAttr "main_root_initLoc4.pim" "main_root_initLoc4_pointConstraint1.cpim";
 connectAttr "main_root_initLoc4.rp" "main_root_initLoc4_pointConstraint1.crp";
 connectAttr "main_root_initLoc4.rpt" "main_root_initLoc4_pointConstraint1.crt";
@@ -16319,6 +16812,7 @@ connectAttr "main_root_initLoc7_pointConstraint1.w1" "main_root_initLoc7_pointCo
 connectAttr "main_root_initLoc8_pointConstraint1.ctx" "main_root_initLoc8.tx";
 connectAttr "main_root_initLoc8_pointConstraint1.cty" "main_root_initLoc8.ty";
 connectAttr "main_root_initLoc8_pointConstraint1.ctz" "main_root_initLoc8.tz";
+connectAttr "mirror_condition.ocr" "main_root_initLoc8.sz";
 connectAttr "main_root_initLoc8.pim" "main_root_initLoc8_pointConstraint1.cpim";
 connectAttr "main_root_initLoc8.rp" "main_root_initLoc8_pointConstraint1.crp";
 connectAttr "main_root_initLoc8.rpt" "main_root_initLoc8_pointConstraint1.crt";
@@ -16394,6 +16888,7 @@ connectAttr "reverse5.oy" "middle_initLoc1_pointConstraint1.w1";
 connectAttr "middle_initLoc2_pointConstraint1.ctx" "middle_initLoc2.tx";
 connectAttr "middle_initLoc2_pointConstraint1.cty" "middle_initLoc2.ty";
 connectAttr "middle_initLoc2_pointConstraint1.ctz" "middle_initLoc2.tz";
+connectAttr "mirror_condition.ocr" "middle_initLoc2.sz";
 connectAttr "middle_initLoc2.pim" "middle_initLoc2_pointConstraint1.cpim";
 connectAttr "middle_initLoc2.rp" "middle_initLoc2_pointConstraint1.crp";
 connectAttr "middle_initLoc2.rpt" "middle_initLoc2_pointConstraint1.crt";
@@ -16415,6 +16910,7 @@ connectAttr "middle_initLoc2_pointConstraint1.w1" "middle_initLoc2_pointConstrai
 connectAttr "middle_initLoc3_pointConstraint1.ctx" "middle_initLoc3.tx";
 connectAttr "middle_initLoc3_pointConstraint1.cty" "middle_initLoc3.ty";
 connectAttr "middle_initLoc3_pointConstraint1.ctz" "middle_initLoc3.tz";
+connectAttr "mirror_condition.ocr" "middle_initLoc3.sz";
 connectAttr "middle_initLoc3.pim" "middle_initLoc3_pointConstraint1.cpim";
 connectAttr "middle_initLoc3.rp" "middle_initLoc3_pointConstraint1.crp";
 connectAttr "middle_initLoc3.rpt" "middle_initLoc3_pointConstraint1.crt";
@@ -16490,6 +16986,7 @@ connectAttr "middle_initLoc6_pointConstraint1.w1" "middle_initLoc6_pointConstrai
 connectAttr "middle_initLoc7_pointConstraint1.ctx" "middle_initLoc7.tx";
 connectAttr "middle_initLoc7_pointConstraint1.cty" "middle_initLoc7.ty";
 connectAttr "middle_initLoc7_pointConstraint1.ctz" "middle_initLoc7.tz";
+connectAttr "mirror_condition.ocr" "middle_initLoc7.sz";
 connectAttr "middle_initLoc7.pim" "middle_initLoc7_pointConstraint1.cpim";
 connectAttr "middle_initLoc7.rp" "middle_initLoc7_pointConstraint1.crp";
 connectAttr "middle_initLoc7.rpt" "middle_initLoc7_pointConstraint1.crt";
@@ -17546,7 +18043,7 @@ connectAttr "l_arm_decomposeMatrix25.or" "ik_end_init.r";
 connectAttr "mirror_condition.ocr" "ik_end_mirror.sz";
 connectAttr "mirror_condition.ocr" "ik_end_mirror.sx";
 connectAttr "condition2.ocg" "ik_end_closedShape.v";
-connectAttr "ik_rootShape.ws" "ik_end_closedShape.cr";
+connectAttr "ik_endShape.ws" "ik_end_closedShape.cr";
 connectAttr "fk_root_closedJoint.msg" "fk_closed_ikHandle.hsj";
 connectAttr "effector1.hp" "fk_closed_ikHandle.hee";
 connectAttr "l_arm_ikRPsolver1.msg" "fk_closed_ikHandle.hsv";
@@ -17719,6 +18216,7 @@ connectAttr "condition2.ocg" "l_arm_middleOffset_closedShape.v";
 connectAttr "l_arm_middleOffsetShape.ws" "l_arm_middleOffset_closedShape.cr";
 connectAttr "blendColors66.op" "l_arm_middleOffset_closedGroup.t";
 connectAttr "condition2.ocr" "l_arm_middleOffset_closedGroup.v";
+connectAttr "mirror_condition.ocr" "l_arm_middleOffset_closedGroup.sz";
 connectAttr "multMatrix295.o" "skinIbtw_3_1_group.opm";
 connectAttr "control.wingAddControls" "skinIbtw_3_1_group.v";
 connectAttr "multMatrix224.o" "wing_controls.opm";
@@ -17726,6 +18224,7 @@ connectAttr "main_root_group_aimConstraint1.crx" "main_root_group.rx";
 connectAttr "main_root_group_aimConstraint1.cry" "main_root_group.ry";
 connectAttr "main_root_group_aimConstraint1.crz" "main_root_group.rz";
 connectAttr "condition2.ocg" "main_1_closedShape.v";
+connectAttr "main_rootShape.ws" "main_1_closedShape.cr";
 connectAttr "pairBlend86.otx" "main_1_closed_group.tx";
 connectAttr "pairBlend86.oty" "main_1_closed_group.ty";
 connectAttr "pairBlend86.otz" "main_1_closed_group.tz";
@@ -17749,6 +18248,7 @@ connectAttr "main_root_group_aimConstraint1.w0" "main_root_group_aimConstraint1.
 connectAttr "a_finalJoint.wm" "main_root_group_aimConstraint1.wum";
 connectAttr "multMatrix247.o" "wrist_group.opm";
 connectAttr "condition2.ocg" "main_2_closedShape.v";
+connectAttr "main_endShape.ws" "main_2_closedShape.cr";
 connectAttr "multMatrix248.o" "main_middle_group.opm";
 connectAttr "main_middle_rev_group_orientConstraint1.crx" "main_middle_rev_group.rx"
 		;
@@ -17757,6 +18257,7 @@ connectAttr "main_middle_rev_group_orientConstraint1.cry" "main_middle_rev_group
 connectAttr "main_middle_rev_group_orientConstraint1.crz" "main_middle_rev_group.rz"
 		;
 connectAttr "condition2.ocg" "main_3_closedShape.v";
+connectAttr "main_middleShape.ws" "main_3_closedShape.cr";
 connectAttr "pairBlend18.otx" "main_3_closedGroup.tx";
 connectAttr "pairBlend18.oty" "main_3_closedGroup.ty";
 connectAttr "pairBlend18.otz" "main_3_closedGroup.tz";
@@ -17907,7 +18408,7 @@ connectAttr "skinMiddle_1_group_aimConstraint1.cry" "skinMiddle_1_group.ry";
 connectAttr "skinMiddle_1_group_aimConstraint1.crz" "skinMiddle_1_group.rz";
 connectAttr "skin_6_poser.t" "group21.t";
 connectAttr "condition2.ocg" "skinMiddle_1_closed_1Shape.v";
-connectAttr "l_arm_middleOffsetShape.ws" "skinMiddle_1_closed_1Shape.cr";
+connectAttr "skinMiddle_1_1Shape.ws" "skinMiddle_1_closed_1Shape.cr";
 connectAttr "blendColors67.op" "skinMiddle_1_closedGroup.t";
 connectAttr "condition2.ocr" "skinMiddle_1_closedGroup.v";
 connectAttr "control.wingAddControls" "skinIbtw_3_4.v";
@@ -17956,7 +18457,7 @@ connectAttr "skin_9_poser.tx" "skinMiddle_2_group_1.tx";
 connectAttr "skin_9_poser.ty" "skinMiddle_2_group_1.ty";
 connectAttr "skin_9_poser.tz" "skinMiddle_2_group_1.tz";
 connectAttr "condition2.ocg" "skinMiddle_2_closed_1Shape.v";
-connectAttr "l_arm_middleOffsetShape.ws" "skinMiddle_2_closed_1Shape.cr";
+connectAttr "skinMiddle_2_1Shape2.ws" "skinMiddle_2_closed_1Shape.cr";
 connectAttr "blendColors69.op" "skinMiddle_2_closedGroup.t";
 connectAttr "condition2.ocr" "skinMiddle_2_closedGroup.v";
 connectAttr "control.wingAddControls" "skinIbtw_5_3.v";
@@ -18009,7 +18510,7 @@ connectAttr "skin_10_poser.tx" "skinMiddle_3_group_1.tx";
 connectAttr "skin_10_poser.ty" "skinMiddle_3_group_1.ty";
 connectAttr "skin_10_poser.tz" "skinMiddle_3_group_1.tz";
 connectAttr "condition2.ocg" "skinMiddle_3_closed_1Shape.v";
-connectAttr "l_arm_middleOffsetShape.ws" "skinMiddle_3_closed_1Shape.cr";
+connectAttr "skinMiddle_3_1Shape3.ws" "skinMiddle_3_closed_1Shape.cr";
 connectAttr "blendColors68.op" "skinMiddle_3_closedGroup.t";
 connectAttr "condition2.ocr" "skinMiddle_3_closedGroup.v";
 connectAttr "control.wingAddControls" "skinIbtw_6_3.v";
@@ -18062,7 +18563,7 @@ connectAttr "skin_11_poser.tx" "skinMiddle_4_group_1.tx";
 connectAttr "skin_11_poser.ty" "skinMiddle_4_group_1.ty";
 connectAttr "skin_11_poser.tz" "skinMiddle_4_group_1.tz";
 connectAttr "condition2.ocg" "skinMiddle_4_closed_1Shape.v";
-connectAttr "l_arm_middleOffsetShape.ws" "skinMiddle_4_closed_1Shape.cr";
+connectAttr "skinMiddle_4_1Shape4.ws" "skinMiddle_4_closed_1Shape.cr";
 connectAttr "blendColors70.op" "skinMiddle_4_closedGroup.t";
 connectAttr "condition2.ocr" "skinMiddle_4_closedGroup.v";
 connectAttr "control.wingAddControls" "skinIbtw_7_3.v";
@@ -18798,6 +19299,38 @@ connectAttr "surf_1_curve_1_10_mpath.ac" "surf_1_sec_Shape10.cp[0]";
 connectAttr "surf_1_curve_4_10_mpath.ac" "surf_1_sec_Shape10.cp[1]";
 connectAttr "surf_1_curve_3_10_mpath.ac" "surf_1_sec_Shape10.cp[2]";
 connectAttr "surf_1_curve_2_10_mpath.ac" "surf_1_sec_Shape10.cp[3]";
+connectAttr "first_curve_1_1_loc1Shape.wp" "crv_Shape12.cp[0]";
+connectAttr "first_curve_6_3_loc1Shape.wp" "crv_Shape12.cp[1]";
+connectAttr "first_curve_1_3_loc1Shape.wp" "crv_Shape12.cp[2]";
+connectAttr "first_curve_1_4_loc1Shape.wp" "crv_Shape12.cp[3]";
+connectAttr "first_curve_2_1_loc1Shape.wp" "crv_Shape13.cp[0]";
+connectAttr "first_curve_2_2_loc2Shape.wp" "crv_Shape13.cp[1]";
+connectAttr "first_curve_2_3_loc2Shape.wp" "crv_Shape13.cp[2]";
+connectAttr "first_curve_2_4_loc2Shape.wp" "crv_Shape13.cp[3]";
+connectAttr "first_curve_2_1_loc2Shape.wp" "crv_Shape14.cp[0]";
+connectAttr "first_curve_2_2_loc3Shape.wp" "crv_Shape14.cp[1]";
+connectAttr "first_curve_2_3_loc3Shape.wp" "crv_Shape14.cp[2]";
+connectAttr "first_curve_2_4_loc3Shape.wp" "crv_Shape14.cp[3]";
+connectAttr "first_curve_3_1_loc1Shape.wp" "crv_Shape15.cp[0]";
+connectAttr "first_curve_3_2_loc2Shape.wp" "crv_Shape15.cp[1]";
+connectAttr "first_curve_3_3_loc2Shape.wp" "crv_Shape15.cp[2]";
+connectAttr "first_curve_3_4_loc2Shape.wp" "crv_Shape15.cp[3]";
+connectAttr "first_curve_4_1_loc4Shape.wp" "crv_Shape16.cp[0]";
+connectAttr "first_curve_4_2_loc4Shape.wp" "crv_Shape16.cp[1]";
+connectAttr "first_curve_4_3_loc1Shape.wp" "crv_Shape16.cp[2]";
+connectAttr "first_curve_4_4_loc1Shape.wp" "crv_Shape16.cp[3]";
+connectAttr "first_curve_3_1_loc2Shape.wp" "crv_Shape17.cp[0]";
+connectAttr "first_curve_3_2_loc3Shape.wp" "crv_Shape17.cp[1]";
+connectAttr "first_curve_3_3_loc3Shape.wp" "crv_Shape17.cp[2]";
+connectAttr "first_curve_3_4_loc3Shape.wp" "crv_Shape17.cp[3]";
+connectAttr "first_curve_4_1_loc5Shape.wp" "crv_Shape18.cp[0]";
+connectAttr "first_curve_4_2_loc5Shape.wp" "crv_Shape18.cp[1]";
+connectAttr "first_curve_4_3_loc2Shape.wp" "crv_Shape18.cp[2]";
+connectAttr "first_curve_4_4_loc2Shape.wp" "crv_Shape18.cp[3]";
+connectAttr "first_curve_7_1_loc7Shape.wp" "crv_Shape19.cp[0]";
+connectAttr "first_curve_7_2_loc4Shape.wp" "crv_Shape19.cp[1]";
+connectAttr "first_curve_7_3_loc4Shape.wp" "crv_Shape19.cp[2]";
+connectAttr "first_curve_7_4_loc3Shape.wp" "crv_Shape19.cp[3]";
 connectAttr "joints.s" "outJoints.s";
 connectAttr "decomposeMatrix127.oty" "root_outJoint.ty";
 connectAttr "decomposeMatrix127.otz" "root_outJoint.tz";
@@ -19123,6 +19656,8 @@ connectAttr "end_outJoint.ssc" "lower_twist_end_connector_parentConstraint1.tg[0
 connectAttr "end_outJoint.is" "lower_twist_end_connector_parentConstraint1.tg[0].tis"
 		;
 connectAttr "lower_twist_end_connector_parentConstraint1.w0" "lower_twist_end_connector_parentConstraint1.tg[0].tw"
+		;
+connectAttr "unitConversion447.o" "lower_twist_end_connector_parentConstraint1.tg[0].tory"
 		;
 connectAttr "lower_twist_quatToEuler_2.ort" "lower_twist_startUp_loc.r";
 connectAttr "lower_twist_condition_mirror.ocr" "lower_twist_startUp_loc.sz";
@@ -19719,14 +20254,20 @@ connectAttr "skinMiddle_1.wm" "blendMatrix109.tgt[0].tmat";
 connectAttr "skinMiddle_1.wm" "blendMatrix110.imat";
 connectAttr "first_curve_7_4_loc.wm" "blendMatrix110.tgt[0].tmat";
 connectAttr "crv_Shape5.ws" "loft2.ic[0]";
-connectAttr "crv_Shape6.ws" "loft2.ic[1]";
-connectAttr "crv_Shape7.ws" "loft2.ic[2]";
+connectAttr "crv_Shape16.ws" "loft2.ic[1]";
+connectAttr "crv_Shape6.ws" "loft2.ic[2]";
+connectAttr "crv_Shape17.ws" "loft2.ic[3]";
+connectAttr "crv_Shape7.ws" "loft2.ic[4]";
 connectAttr "crv_Shape7.ws" "loft3.ic[0]";
-connectAttr "crv_Shape8.ws" "loft3.ic[1]";
-connectAttr "crv_Shape9.ws" "loft3.ic[2]";
+connectAttr "crv_Shape15.ws" "loft3.ic[1]";
+connectAttr "crv_Shape8.ws" "loft3.ic[2]";
+connectAttr "crv_Shape14.ws" "loft3.ic[3]";
+connectAttr "crv_Shape9.ws" "loft3.ic[4]";
 connectAttr "crv_Shape9.ws" "loft4.ic[0]";
-connectAttr "crv_Shape10.ws" "loft4.ic[1]";
-connectAttr "crv_Shape11.ws" "loft4.ic[2]";
+connectAttr "crv_Shape13.ws" "loft4.ic[1]";
+connectAttr "crv_Shape10.ws" "loft4.ic[2]";
+connectAttr "crv_Shape12.ws" "loft4.ic[3]";
+connectAttr "crv_Shape11.ws" "loft4.ic[4]";
 connectAttr "mirror_condition.ocg" "unitConversion445.i";
 connectAttr "a_finalJoint.wm" "multMatrix308.i[0]";
 connectAttr "arm_root_connector.wim" "multMatrix308.i[1]";
@@ -20165,17 +20706,18 @@ connectAttr "surf_1_curve_Shape2.ws" "surf_1_curve_2_9_mpath.gp";
 connectAttr "surf_1_curve_Shape2.ws" "surf_1_curve_2_10_mpath.gp";
 connectAttr "surf_1_curve_Shape2.ws" "surf_1_curve_2_1_mpath.gp";
 connectAttr "crv_Shape5.ws" "loft5.ic[0]";
-connectAttr "surf_1_sec_Shape1.ws" "loft5.ic[1]";
-connectAttr "surf_1_sec_Shape2.ws" "loft5.ic[2]";
-connectAttr "surf_1_sec_Shape3.ws" "loft5.ic[3]";
-connectAttr "surf_1_sec_Shape4.ws" "loft5.ic[4]";
-connectAttr "surf_1_sec_Shape5.ws" "loft5.ic[5]";
-connectAttr "surf_1_sec_Shape6.ws" "loft5.ic[6]";
-connectAttr "surf_1_sec_Shape7.ws" "loft5.ic[7]";
-connectAttr "surf_1_sec_Shape8.ws" "loft5.ic[8]";
+connectAttr "crv_Shape18.ws" "loft5.ic[1]";
+connectAttr "surf_1_sec_Shape1.ws" "loft5.ic[2]";
+connectAttr "surf_1_sec_Shape2.ws" "loft5.ic[3]";
+connectAttr "surf_1_sec_Shape3.ws" "loft5.ic[4]";
+connectAttr "surf_1_sec_Shape4.ws" "loft5.ic[5]";
+connectAttr "surf_1_sec_Shape5.ws" "loft5.ic[6]";
+connectAttr "surf_1_sec_Shape6.ws" "loft5.ic[7]";
+connectAttr "surf_1_sec_Shape7.ws" "loft5.ic[8]";
 connectAttr "surf_1_sec_Shape9.ws" "loft5.ic[9]";
 connectAttr "surf_1_sec_Shape10.ws" "loft5.ic[10]";
-connectAttr "crv_Shape1.ws" "loft5.ic[11]";
+connectAttr "crv_Shape19.ws" "loft5.ic[11]";
+connectAttr "crv_Shape1.ws" "loft5.ic[12]";
 connectAttr "multMatrix265.o" "decomposeMatrix134.imat";
 connectAttr "finger_4_1_poser.wm" "multMatrix322.i[0]";
 connectAttr "main_root_initLoc.wim" "multMatrix322.i[1]";
@@ -20342,109 +20884,170 @@ connectAttr "lower_twist_curve_3_mpath.ac" "composeMatrix44.it";
 connectAttr "lower_twist_curve_3_mpath.rx" "composeMatrix44.irx";
 connectAttr "lower_twist_curve_3_mpath.ry" "composeMatrix44.iry";
 connectAttr "lower_twist_curve_3_mpath.rz" "composeMatrix44.irz";
-connectAttr "ik_aimShape1.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn";
+connectAttr "mirror_condition.ocg" "unitConversion447.i";
+connectAttr "ik_root.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn";
 connectAttr "ik_end.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn";
 connectAttr "mainPoser.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn";
-connectAttr "ik_end_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn"
+connectAttr "condition2.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn";
+connectAttr "ik_end_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[4].dn"
 		;
-connectAttr "condition2.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[4].dn";
-connectAttr "ik_endShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn";
-connectAttr "ik_root.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[6].dn";
-connectAttr "ik_aim.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[7].dn";
-connectAttr "ik_aimShape2.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[8].dn";
-connectAttr "ik_aimShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[9].dn";
-connectAttr "ik_rootShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[10].dn";
-connectAttr "ik_endShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn";
-connectAttr "ik_aim_closedShape2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn"
+connectAttr "ik_aim.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn";
+connectAttr "l_arm_middleOffset_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn"
 		;
-connectAttr "feathers_4_3Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn"
+connectAttr "main_posers_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn"
 		;
-connectAttr "feathers_1_2Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn"
+connectAttr "ik_aim_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn"
 		;
-connectAttr "main_3_closedShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn"
+connectAttr "skinMiddle_2_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn"
 		;
-connectAttr "condition2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn";
-connectAttr "main_3_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[6].dn"
+connectAttr "main_3_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn"
 		;
-connectAttr "lower_twist_mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[7].dn";
-connectAttr "skinMiddle_1_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[8].dn"
+connectAttr "main_1_closed_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn"
 		;
-connectAttr "main_1_closedShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[9].dn"
+connectAttr "posers_sweep.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[6].dn";
+connectAttr "skinMiddle_3_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[7].dn"
 		;
-connectAttr "feathers_1_1Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[10].dn"
+connectAttr "ik_root_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[8].dn";
+connectAttr "main_end_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[9].dn"
 		;
-connectAttr "clav_closedShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[11].dn"
+connectAttr "upper_twist_mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[10].dn"
 		;
-connectAttr "feathers_6_1Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[12].dn"
+connectAttr "aim_curve.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[11].dn";
+connectAttr "lower_twist_mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[12].dn"
 		;
-connectAttr "skinMiddle_3_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[13].dn"
+connectAttr "skinMiddle_1_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[13].dn"
 		;
-connectAttr "ik_aim_closedShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[14].dn"
+connectAttr "ik_end_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[14].dn"
 		;
-connectAttr "feathers_6_3Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[15].dn"
+connectAttr "skinMiddle_4_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[15].dn"
 		;
-connectAttr "feathers_7_1Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[16].dn"
-		;
-connectAttr "main_rootShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[17].dn";
-connectAttr "ik_root_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[18].dn";
-connectAttr "aim_curve.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[19].dn";
-connectAttr "main_end_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[20].dn"
-		;
-connectAttr "ik_rootShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[21].dn";
-connectAttr "ik_end_closedShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[22].dn"
-		;
-connectAttr "feathers_4_1Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[23].dn"
-		;
-connectAttr "feathers_1_3Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[24].dn"
-		;
-connectAttr "feathers_4_2Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[25].dn"
-		;
-connectAttr "skinMiddle_2_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[26].dn"
-		;
-connectAttr "feathers_5_2Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[27].dn"
-		;
-connectAttr "ik_aimShape1.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[28].dn";
-connectAttr "ik_root_closedShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[29].dn"
-		;
-connectAttr "main_middleShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[30].dn"
-		;
-connectAttr "clavShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[31].dn";
-connectAttr "posers_sweep.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[32].dn";
-connectAttr "l_arm_middleOffset_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[33].dn"
-		;
-connectAttr "ik_aimShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[34].dn";
-connectAttr "skinMiddle_4_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[35].dn"
-		;
-connectAttr "upper_twist_mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[36].dn"
-		;
-connectAttr "feathers_7_2Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[37].dn"
-		;
-connectAttr "feathers_5_3Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[38].dn"
-		;
-connectAttr "main_posers_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[39].dn"
-		;
-connectAttr "main_2_closedShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[40].dn"
-		;
-connectAttr "ik_end_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[41].dn"
-		;
-connectAttr "ik_aim_closedShape1.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[42].dn"
-		;
-connectAttr "ik_aim_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[43].dn"
-		;
-connectAttr "feathers_5_1Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[44].dn"
-		;
-connectAttr "main_1_closed_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[45].dn"
-		;
-connectAttr "feathers_6_2Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[46].dn"
-		;
-connectAttr "feathers_7_3Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[47].dn"
-		;
-connectAttr "ik_aimShape2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[48].dn";
+connectAttr "condition2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[16].dn";
 connectAttr "mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn";
 connectAttr "mirror_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn"
 		;
-connectAttr "l_arm_middleOffsetShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[0].dn"
+connectAttr "unitConversion444.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[0].dn"
 		;
+connectAttr "l_arm_one_minus_by_softIk.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[1].dn"
+		;
+connectAttr "end_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[2].dn";
+connectAttr "l_arm_fk_end_group_decomposeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[3].dn"
+		;
+connectAttr "end_finalJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[4].dn";
+connectAttr "l_arm_fk_b_group_decomposeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[5].dn"
+		;
+connectAttr "lower_twist_end_connector_parentConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[6].dn"
+		;
+connectAttr "l_arm_snap_blend.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[7].dn"
+		;
+connectAttr "control.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[8].dn";
+connectAttr "l_arm_length_difference_minus.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[9].dn"
+		;
+connectAttr "lower_twist_end_connector.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[10].dn"
+		;
+connectAttr "l_arm_return_softIk.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[11].dn"
+		;
+connectAttr "l_arm_softIk_value.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[12].dn"
+		;
+connectAttr "l_arm_stretch_blend.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[13].dn"
+		;
+connectAttr "l_arm_current_endToSnapPoint_length.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[14].dn"
+		;
+connectAttr "end_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[15].dn";
+connectAttr "l_arm_scale_to_translate_converter.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[16].dn"
+		;
+connectAttr "mirror_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[17].dn"
+		;
+connectAttr "l_arm_fk_end_group_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[18].dn"
+		;
+connectAttr "l_arm_init_length_b.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[19].dn"
+		;
+connectAttr "l_arm_power.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[20].dn";
+connectAttr "middle_poserOrient.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[21].dn"
+		;
+connectAttr "l_arm_final_length_factor.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[22].dn"
+		;
+connectAttr "l_arm_stretch_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[23].dn"
+		;
+connectAttr "end_fkJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[24].dn";
+connectAttr "l_arm_init_length_a.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[25].dn"
+		;
+connectAttr "l_arm_ikfk_blend.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[26].dn"
+		;
+connectAttr "l_arm_length_difference_by_softIk.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[27].dn"
+		;
+connectAttr "l_arm_multMatrix29.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[28].dn"
+		;
+connectAttr "l_arm_init_length.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[29].dn"
+		;
+connectAttr "l_arm_current_toSnapPoint_length_scaled.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[30].dn"
+		;
+connectAttr "l_arm_current_length_scaled.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[31].dn"
+		;
+connectAttr "l_arm_decomposeMatrix33.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[32].dn"
+		;
+connectAttr "ik_end_out.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[33].dn";
+connectAttr "l_arm_one_minus.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[34].dn"
+		;
+connectAttr "unitConversion443.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[35].dn"
+		;
+connectAttr "middle_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[36].dn"
+		;
+connectAttr "l_arm_final_length.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[37].dn"
+		;
+connectAttr "mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[38].dn";
+connectAttr "l_arm_ikFk_reverse.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[39].dn"
+		;
+connectAttr "l_arm_softIk_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[40].dn"
+		;
+connectAttr "l_arm_current_rootToSnapPoint_length.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[41].dn"
+		;
+connectAttr "l_arm_current_length.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[42].dn"
+		;
+connectAttr "l_arm_length_difference.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[43].dn"
+		;
+connectAttr "end_ikJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[44].dn";
+connectAttr "end_joint_parentConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[45].dn"
+		;
+connectAttr "l_arm_init_lenth_minus_softIk.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[46].dn"
+		;
+connectAttr "l_arm_root_connector_decomposeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[47].dn"
+		;
+connectAttr "l_arm_fk_b_group_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[48].dn"
+		;
+connectAttr "arm_root_connector.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[49].dn"
+		;
+connectAttr "start_poserOrient.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[50].dn"
+		;
+connectAttr "surf_4.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[0].dn";
+connectAttr "first_curve_2_3_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[1].dn"
+		;
+connectAttr "crv_Shape11.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[2].dn";
+connectAttr "first_curve_2_1_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[3].dn"
+		;
+connectAttr "loft4.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[4].dn";
+connectAttr "first_curve_6_3_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[5].dn"
+		;
+connectAttr "first_curve_1_4_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[6].dn"
+		;
+connectAttr "first_curve_4_1_loc3Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[7].dn"
+		;
+connectAttr "first_curve_2_4_loc1Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[8].dn"
+		;
+connectAttr "first_curve_2_3_loc1Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[9].dn"
+		;
+connectAttr "crv_Shape10.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[10].dn";
+connectAttr "first_curve_1_1_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[11].dn"
+		;
+connectAttr "first_curve_2_4_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[12].dn"
+		;
+connectAttr "first_curve_1_3_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[13].dn"
+		;
+connectAttr "first_curve_2_2_loc1Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[14].dn"
+		;
+connectAttr "crv_Shape9.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[15].dn";
+connectAttr "first_curve_2_2_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[16].dn"
+		;
+connectAttr "surf_Shape4.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[17].dn";
 connectAttr "lambert1SG.pa" ":renderPartition.st" -na;
 connectAttr "l_wing_root_decomposeMatrix1.msg" ":defaultRenderUtilityList1.u" -na
 		;
@@ -20835,25 +21438,4 @@ connectAttr "upper_twist_defaultRenderLayer.msg" ":defaultRenderingList1.r" -na;
 connectAttr "lower_twist_defaultRenderLayer.msg" ":defaultRenderingList1.r" -na;
 connectAttr "surfShape.iog" ":initialShadingGroup.dsm" -na;
 connectAttr "l_arm_ikRPsolver1.msg" ":ikSystem.sol" -na;
-dataStructure -fmt "raw" -as "name=NodeProfileStruct:string=NodeProfileTag:int32=NodeProfileTagColor";
-applyMetadata -fmt "raw" -v "channel\nname ProfileTag\nstream\nname ProfileTagStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"upper_twist_twist_0_twJoint\" 0\nendStream\nendChannel\nchannel\nname ProfileTagColor\nstream\nname ProfileTagColorStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"\" 255\n1\n\"\" 0\n2\n\"\" 0\nendStream\nendChannel\nendAssociations\n" 
-		upper_twist_0_outJoint;
-applyMetadata -fmt "raw" -v "channel\nname ProfileTag\nstream\nname ProfileTagStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"upper_twist_twist_0_twJoint\" 0\nendStream\nendChannel\nchannel\nname ProfileTagColor\nstream\nname ProfileTagColorStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"\" 255\n1\n\"\" 0\n2\n\"\" 0\nendStream\nendChannel\nendAssociations\n" 
-		upper_twist_1_outJoint;
-applyMetadata -fmt "raw" -v "channel\nname ProfileTag\nstream\nname ProfileTagStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"upper_twist_twist_0_twJoint\" 0\nendStream\nendChannel\nchannel\nname ProfileTagColor\nstream\nname ProfileTagColorStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"\" 255\n1\n\"\" 0\n2\n\"\" 0\nendStream\nendChannel\nendAssociations\n" 
-		upper_twist_2_outJoint;
-applyMetadata -fmt "raw" -v "channel\nname ProfileTag\nstream\nname ProfileTagStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"upper_twist_twist_0_twJoint\" 0\nendStream\nendChannel\nchannel\nname ProfileTagColor\nstream\nname ProfileTagColorStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"\" 255\n1\n\"\" 0\n2\n\"\" 0\nendStream\nendChannel\nendAssociations\n" 
-		upper_twist_3_outJoint;
-applyMetadata -fmt "raw" -v "channel\nname ProfileTag\nstream\nname ProfileTagStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"upper_twist_twist_0_twJoint\" 0\nendStream\nendChannel\nchannel\nname ProfileTagColor\nstream\nname ProfileTagColorStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"\" 255\n1\n\"\" 0\n2\n\"\" 0\nendStream\nendChannel\nendAssociations\n" 
-		upper_twist_4_outJoint;
-applyMetadata -fmt "raw" -v "channel\nname ProfileTag\nstream\nname ProfileTagStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"upper_twist_twist_0_twJoint\" 0\nendStream\nendChannel\nchannel\nname ProfileTagColor\nstream\nname ProfileTagColorStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"\" 255\n1\n\"\" 0\n2\n\"\" 0\nendStream\nendChannel\nendAssociations\n" 
-		lower_twist_0_outJoint;
-applyMetadata -fmt "raw" -v "channel\nname ProfileTag\nstream\nname ProfileTagStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"upper_twist_twist_0_twJoint\" 0\nendStream\nendChannel\nchannel\nname ProfileTagColor\nstream\nname ProfileTagColorStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"\" 255\n1\n\"\" 0\n2\n\"\" 0\nendStream\nendChannel\nendAssociations\n" 
-		lower_twist_1_outJoint;
-applyMetadata -fmt "raw" -v "channel\nname ProfileTag\nstream\nname ProfileTagStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"upper_twist_twist_0_twJoint\" 0\nendStream\nendChannel\nchannel\nname ProfileTagColor\nstream\nname ProfileTagColorStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"\" 255\n1\n\"\" 0\n2\n\"\" 0\nendStream\nendChannel\nendAssociations\n" 
-		lower_twist_2_outJoint;
-applyMetadata -fmt "raw" -v "channel\nname ProfileTag\nstream\nname ProfileTagStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"upper_twist_twist_0_twJoint\" 0\nendStream\nendChannel\nchannel\nname ProfileTagColor\nstream\nname ProfileTagColorStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"\" 255\n1\n\"\" 0\n2\n\"\" 0\nendStream\nendChannel\nendAssociations\n" 
-		lower_twist_3_outJoint;
-applyMetadata -fmt "raw" -v "channel\nname ProfileTag\nstream\nname ProfileTagStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"upper_twist_twist_0_twJoint\" 0\nendStream\nendChannel\nchannel\nname ProfileTagColor\nstream\nname ProfileTagColorStream\nindexType numeric\nstructure NodeProfileStruct\n0\n\"\" 255\n1\n\"\" 0\n2\n\"\" 0\nendStream\nendChannel\nendAssociations\n" 
-		lower_twist_4_outJoint;
 // End of batWing.ma

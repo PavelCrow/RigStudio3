@@ -194,14 +194,26 @@ def resetAttrs(o, debug=False, matrix=False, jointOrient=False): #
 		cmds.setAttr(o+".jointOrient", 0,0,0)
 
 def getModuleNameFromHierarhy(controlName):
-	p = cmds.listRelatives(controlName, parent=1)[0]
-	while p.split('_')[-1] != "mod":
-		parents = cmds.listRelatives(p, parent=1) or []
-		if len(parents) == 0:
-			return None
-		p = parents[0]
+	"""Имя модуля, найденное подъёмом по иерархии до группы _mod.
 
-	return p[:-4]
+	Идём полными путями: короткое имя может совпасть с чем-то ещё в сцене, и
+	тогда listRelatives падает вместо того, чтобы вернуть родителя. Достаточно
+	одного объекта, названного world - а он совпадает с неявным корнем Майи.
+	"""
+	def parentPath(obj):
+		parents = cmds.listRelatives(obj, parent=1, fullPath=1) or []
+		return parents[0] if parents else None
+
+	p = parentPath(controlName)
+	if not p:
+		return None
+
+	while p.split('|')[-1].split('_')[-1] != "mod":
+		p = parentPath(p)
+		if not p:
+			return None
+
+	return p.split('|')[-1][:-4]
 
 _module_debug = None  # lazily read from config.json, cached per session
 

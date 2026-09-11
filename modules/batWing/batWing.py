@@ -12,6 +12,7 @@ class BatWing(module.Module) :
         self.name = name
         self.type = __name__.split('.')[-1]
         self.unic = False
+        self.widget = None
 
     def connectSignals(self, mainInstance, w): 
         self.mainInstance = mainInstance
@@ -20,6 +21,48 @@ class BatWing(module.Module) :
         w.createJoints_btn.clicked.connect(self.create_joints)
         w.deleteJoints_btn.clicked.connect(self.delete_joints)
         w.createFingerJoints_btn.clicked.connect(self.create_fingers_joints)
+        w.generateGrid_btn.clicked.connect(self.generate_grid)
+        w.aimDistance_spinBox.valueChanged.connect(self.update_aim_distance)
+
+    def updateOptionsPage(self, w):
+        self.widget = w
+        w.aimDistance_spinBox.setValue(cmds.getAttr(self.name+"_mod.aim_offset"))
+
+    def update_aim_distance(self, v=None):
+        def setValue(v):
+            cmds.setAttr(self.name+"_mod.aim_offset", v)
+            if self.symmetrical:
+                opp_mod = utils.getOpposite(self.name+"_mod")
+                cmds.setAttr(opp_mod+".aim_offset", v)
+
+        if v:
+            setValue(v)
+        else:
+            try: # fix error "C++ object already deleted"
+                if not self.widget:
+                    return
+                if not v:
+                    v = self.widget.aimDistance_spinBox.value()
+                    setValue(v)
+            except:
+                pass
+
+    def getData(self):
+        data = super(self.__class__, self).getData()
+        data['optionsData'] = self.getOptions()
+        return data
+
+    def getOptions(self):
+        optionsData = {}
+        optionsData['aimDistance'] = cmds.getAttr(self.name+"_mod.aim_offset")
+        return optionsData
+
+    def setOptions(self, optionsData):
+        # в темплейтах, сохранённых до появления этой опции, тут лежит False
+        if not isinstance(optionsData, dict):
+            return
+        if 'aimDistance' in optionsData:
+            self.update_aim_distance(optionsData['aimDistance'])
 
     def create_joints(self):
         sel = cmds.ls(sl=1, fl=1)
@@ -62,75 +105,192 @@ class BatWing(module.Module) :
                 surf = find_closest_nurbs(point_pos)
                 
                 i = int(surf[-1])
-                uvPin = f"{m_name}_surf_{i}_uvPin"
-                uvPin_opp = f"{m_name_opp}_surf_{i}_uvPin"
-                j_gr = f"{m_name}_surf_outJoint"
                 clst_node = f"{m_name}_surf_{i}_closestPointOnSurface"
                 
                 cmds.setAttr(f"{clst_node}.inPosition", point_pos[0], point_pos[1], point_pos[2])
                 uv_u = cmds.getAttr(f"{clst_node}.parameterU")
                 uv_v = cmds.getAttr(f"{clst_node}.parameterV")
 
-                # create joint
-                cmds.select(clear=1)        
-                j = cmds.joint(name=f"{m_name}_surf_{i}_outJoint_#")
-                cmds.parent(j, j_gr)
-                id = j.split("_")[-1]
-                
-                # индекс берётся по существующим элементам, а не по их
-                # количеству: после удаления джоинта в середине количество
-                # уменьшается, и новый элемент лёг бы поверх живого
-                indices = (cmds.getAttr(f"{uvPin}.coordinate", multiIndices=True) or []) \
-                        + (cmds.getAttr(f"{uvPin_opp}.coordinate", multiIndices=True) or [])
-                size = max(indices) + 1 if indices else 0
-                cmds.setAttr(f"{uvPin}.coordinate[{size}].coordinateU", uv_u)
-                cmds.setAttr(f"{uvPin}.coordinate[{size}].coordinateV", uv_v)
-                cmds.connectAttr(f"{uvPin}.outputMatrix[{size}]", j+".offsetParentMatrix")
-                utils.removeTransformParentJoint(j)
-                # cmds.parent сохраняет мировое положение и пишет разницу в
-                # каналы джоинта. Место ему задаёт uvPin через
-                # offsetParentMatrix, поэтому свои каналы должны быть нулевые
-                utils.resetAttrs(j, jointOrient=True)
-                cmds.setAttr(f"{j}.inheritsTransform", 0)
-                
-                # create skin joint
-                cmds.select(clear=1) 
-                sj = f"{m_name}_surf_{i}_skinJoint_{id}"
-                cmds.joint(name=sj)
-                cmds.parent(sj, j_gr.replace("outJoint", "skinJoint"))
-                utils.resetAttrs(sj)
-                utils.connectByMatrix(sj, [j, sj], ["worldMatrix[0]", "parentInverseMatrix"], attrs=['t', 'r'], module_name=m_name)
-                utils.removeTransformParentJoint(sj)
-                joints.append(sj)
-
-                j_gr_opp = f"{m_name_opp}_surf_outJoint"
-
-                # create opp joint
-                cmds.select(clear=1)        
-                j_opp = f"{m_name_opp}_surf_{i}_outJoint_{id}"
-                cmds.joint(name=j_opp)
-                cmds.parent(j_opp, j_gr_opp)
-                cmds.setAttr(f"{uvPin_opp}.coordinate[{size}].coordinateU", uv_u)
-                cmds.setAttr(f"{uvPin_opp}.coordinate[{size}].coordinateV", uv_v)
-                cmds.connectAttr(f"{uvPin_opp}.outputMatrix[{size}]", j_opp+".offsetParentMatrix")
-                utils.removeTransformParentJoint(j_opp)
-                utils.resetAttrs(j_opp, jointOrient=True)
-                cmds.setAttr(f"{j_opp}.inheritsTransform", 0)
-                
-                # create skin opp joint
-                cmds.select(clear=1) 
-                sj_opp = f"{m_name_opp}_surf_{i}_skinJoint_{id}"
-                cmds.joint(name=sj_opp)
-                cmds.parent(sj_opp, j_gr_opp.replace("outJoint", "skinJoint"))
-                utils.resetAttrs(sj_opp)
-                utils.removeTransformParentJoint(sj_opp)
-                
-                utils.connectByMatrix(sj_opp, [j_opp, sj_opp], ["worldMatrix[0]", "parentInverseMatrix"], attrs=['t', 'r'], module_name=m_name_opp)
-
-                joints.append(sj_opp)
+                joints += self.add_surface_joint(i, uv_u, uv_v)
 
 
         cmds.select(joints)
+
+    def add_surface_joint(self, i, uv_u, uv_v):
+        """Пара костей на поверхности i в точке (u, v) - своя и зеркальная.
+
+        Место кости задаёт uvPin через offsetParentMatrix, поэтому собственные
+        каналы обнуляются, а наследование родителя выключается: иначе положение
+        учлось бы дважды.
+
+        Возвращает созданные скиновые кости - их и выделяют после.
+        """
+        m_name = self.name
+        m_name_opp = utils.getOpposite(m_name)
+
+        uvPin = f"{m_name}_surf_{i}_uvPin"
+        uvPin_opp = f"{m_name_opp}_surf_{i}_uvPin"
+        j_gr = f"{m_name}_surf_outJoint"
+        j_gr_opp = f"{m_name_opp}_surf_outJoint"
+
+        opp = m_name_opp != m_name and cmds.objExists(uvPin_opp) and cmds.objExists(j_gr_opp)
+
+        # Пределы для атрибутов - узловая область самой поверхности: за ней
+        # uvPin места не знает, и кость улетела бы неизвестно куда
+        shape = f"{m_name}_surf_Shape{i}"
+        try:
+            u_range = cmds.getAttr(f"{shape}.minMaxRangeU")[0]
+            v_range = cmds.getAttr(f"{shape}.minMaxRangeV")[0]
+        except Exception:
+            u_range = v_range = None
+
+        def addParam(obj, name, value, rng):
+            kwargs = {"ln": name, "dv": value, "k": 1, "at": "double"}
+            if rng:
+                kwargs["min"] = rng[0]
+                kwargs["max"] = rng[1]
+            cmds.addAttr(obj, **kwargs)
+
+        joints = []
+
+        # create joint
+        cmds.select(clear=1)
+        j = cmds.joint(name=f"{m_name}_surf_{i}_outJoint_#")
+        cmds.parent(j, j_gr)
+        id = j.split("_")[-1]
+
+        # индекс берётся по существующим элементам, а не по их количеству:
+        # после удаления джоинта в середине количество уменьшается, и новый
+        # элемент лёг бы поверх живого
+        indices = list(cmds.getAttr(f"{uvPin}.coordinate", multiIndices=True) or [])
+        if opp:
+            indices += list(cmds.getAttr(f"{uvPin_opp}.coordinate", multiIndices=True) or [])
+        size = max(indices) + 1 if indices else 0
+
+        cmds.setAttr(f"{uvPin}.coordinate[{size}].coordinateU", uv_u)
+        cmds.setAttr(f"{uvPin}.coordinate[{size}].coordinateV", uv_v)
+        cmds.connectAttr(f"{uvPin}.outputMatrix[{size}]", j+".offsetParentMatrix")
+        utils.removeTransformParentJoint(j)
+        # cmds.parent сохраняет мировое положение и пишет разницу в каналы
+        # джоинта. Место ему задаёт uvPin, поэтому свои каналы должны быть нулевые
+        utils.resetAttrs(j, jointOrient=True)
+        cmds.setAttr(f"{j}.inheritsTransform", 0)
+
+        # create skin joint
+        cmds.select(clear=1)
+        sj = f"{m_name}_surf_{i}_skinJoint_{id}"
+        cmds.joint(name=sj)
+        cmds.parent(sj, j_gr.replace("outJoint", "skinJoint"))
+        utils.resetAttrs(sj)
+        utils.connectByMatrix(sj, [j, sj], ["worldMatrix[0]", "parentInverseMatrix"], attrs=['t', 'r'], module_name=m_name)
+        utils.removeTransformParentJoint(sj)
+        joints.append(sj)
+
+        # Место кости по поверхности правится здесь, на скиновой кости: её и
+        # выделяют. Отсюда параметры идут в uvPin, а тот двигает ведущую кость
+        addParam(sj, "paramU", uv_u, u_range)
+        addParam(sj, "paramV", uv_v, v_range)
+        cmds.connectAttr(f"{sj}.paramU", f"{uvPin}.coordinate[{size}].coordinateU", f=1)
+        cmds.connectAttr(f"{sj}.paramV", f"{uvPin}.coordinate[{size}].coordinateV", f=1)
+
+        if not opp:
+            return joints
+
+        # create opp joint
+        cmds.select(clear=1)
+        j_opp = f"{m_name_opp}_surf_{i}_outJoint_{id}"
+        cmds.joint(name=j_opp)
+        cmds.parent(j_opp, j_gr_opp)
+        cmds.setAttr(f"{uvPin_opp}.coordinate[{size}].coordinateU", uv_u)
+        cmds.setAttr(f"{uvPin_opp}.coordinate[{size}].coordinateV", uv_v)
+        cmds.connectAttr(f"{uvPin_opp}.outputMatrix[{size}]", j_opp+".offsetParentMatrix")
+        utils.removeTransformParentJoint(j_opp)
+        utils.resetAttrs(j_opp, jointOrient=True)
+        cmds.setAttr(f"{j_opp}.inheritsTransform", 0)
+
+        # create skin opp joint
+        cmds.select(clear=1)
+        sj_opp = f"{m_name_opp}_surf_{i}_skinJoint_{id}"
+        cmds.joint(name=sj_opp)
+        cmds.parent(sj_opp, j_gr_opp.replace("outJoint", "skinJoint"))
+        utils.resetAttrs(sj_opp)
+        utils.removeTransformParentJoint(sj_opp)
+        utils.connectByMatrix(sj_opp, [j_opp, sj_opp], ["worldMatrix[0]", "parentInverseMatrix"], attrs=['t', 'r'], module_name=m_name_opp)
+        joints.append(sj_opp)
+
+        # Ведомые: обе стороны стоят на одном параметре, как и было при setAttr
+        addParam(sj_opp, "paramU", uv_u, u_range)
+        addParam(sj_opp, "paramV", uv_v, v_range)
+        cmds.connectAttr(f"{sj}.paramU", f"{sj_opp}.paramU", f=1)
+        cmds.connectAttr(f"{sj}.paramV", f"{sj_opp}.paramV", f=1)
+        cmds.connectAttr(f"{sj_opp}.paramU", f"{uvPin_opp}.coordinate[{size}].coordinateU", f=1)
+        cmds.connectAttr(f"{sj_opp}.paramV", f"{uvPin_opp}.coordinate[{size}].coordinateV", f=1)
+
+        return joints
+
+    def generate_grid(self, *args):
+        """Кости сеткой по одной из поверхностей, count_u на count_v штук.
+
+        Параметры берутся по узловой области самой поверхности, а не по 0..1:
+        у nurbs она не обязана быть единичной, и равномерность по параметру
+        считается именно в ней.
+        """
+        m_name = self.name
+
+        surf_id = int(self.widget.gridSurface_comboBox.currentText())
+        count_u = self.widget.gridCountU_spinBox.value()
+        count_v = self.widget.gridCountV_spinBox.value()
+
+        shape = f"{m_name}_surf_Shape{surf_id}"
+        if not cmds.objExists(shape):
+            cmds.warning("Missed " + shape)
+            return
+
+        sel_list = om.MSelectionList()
+        sel_list.add(shape)
+        fn = om.MFnNurbsSurface(sel_list.getDagPath(0))
+
+        u0, u1 = fn.knotDomainInU
+        v0, v1 = fn.knotDomainInV
+
+        def params(a, b, count):
+            # одна кость садится в середину, иначе от края до края
+            if count < 2:
+                return [(a + b) * 0.5]
+
+            span = b - a
+            step = span / float(count - 1)
+            inset = span * 0.01
+
+            out = []
+            for n in range(count):
+                value = a + step * n
+
+                # с самого края кость не ставим: там поверхность заканчивается,
+                # крайние ряды сдвигаются внутрь на процент от диапазона
+                if n == 0:
+                    value += inset
+                elif n == count - 1:
+                    value -= inset
+
+                out.append(value)
+
+            return out
+
+        # сетка строится заново, поэтому всё, что стояло на этой поверхности,
+        # сначала убирается - иначе кости легли бы поверх старых
+        removed = self.delete_surface_joints(surf_id)
+
+        joints = []
+        for u in params(u0, u1, count_u):
+            for v in params(v0, v1, count_v):
+                joints += self.add_surface_joint(surf_id, u, v)
+
+        if joints:
+            cmds.select(joints)
+
+        print("%s: surface %s, grid %sx%s, %s joints, %s removed"
+              % (m_name, surf_id, count_u, count_v, len(joints), removed))
 
     def delete_joints(self, *args):
         """Удаляет выделенные джоинты поверхности - обе стороны сразу.
@@ -178,6 +338,29 @@ class BatWing(module.Module) :
         for n in (skin_j+"_decMat", skin_j+"_multMat", skin_j, out_j):
             if cmds.objExists(n):
                 cmds.delete(n)
+
+    def delete_surface_joints(self, i):
+        """Все кости поверхности i - на обеих сторонах.
+
+        Ищутся по имени группы и точному префиксу, а не по выделению: сетка
+        пересобирается целиком, и брать надо ровно её кости.
+        """
+        m_name = self.name
+        m_name_opp = utils.getOpposite(m_name)
+
+        removed = 0
+        for name in (m_name, m_name_opp):
+            group = f"{name}_surf_outJoint"
+            if not cmds.objExists(group):
+                continue
+
+            prefix = f"{name}_surf_{i}_outJoint_"
+            for j in cmds.listRelatives(group, children=True) or []:
+                if j.startswith(prefix):
+                    self.delete_joint(j)
+                    removed += 1
+
+        return removed
 
     def create_fingers_joints(self, count=0):
         m_name = self.name
@@ -247,6 +430,14 @@ class BatWing(module.Module) :
                 utils.resetAttrs(sj)
                 utils.connectByMatrix(sj, [jnt, sj], ["worldMatrix[0]", "parentInverseMatrix"], module_name=m_name)
 
+                # Место косточки вдоль кривой правится здесь, на скиновой кости:
+                # её и выделяют, и её значение уходит в темплейт. Дальше оно
+                # идёт в pos ведущей кости, а оттуда в uValue пути, так что
+                # зеркальная сторона подхватывается сама - её mpath и без того
+                # ведётся левым jnt.pos.
+                cmds.addAttr(sj, ln="pos", min=0, max=1, dv=value, k=1)
+                pm.connectAttr(f"{sj}.pos", f"{jnt}.pos")
+
                 # create opp joint
                 if not opp:
                     continue
@@ -279,12 +470,16 @@ class BatWing(module.Module) :
 
                 # create skin opp joint
                 cmds.select(clear=1) 
-                sj = f"{crv_opp}_{i}_skinJoint"
-                cmds.joint(name=sj)
-                cmds.parent(sj, f"{m_name_opp}_crv_skinJoint")
-                utils.removeTransformParentJoint(sj)
-                utils.resetAttrs(sj)
-                utils.connectByMatrix(sj, [jnt_opp, sj], ["worldMatrix[0]", "parentInverseMatrix"], module_name=m_name_opp)
+                sj_opp = f"{crv_opp}_{i}_skinJoint"
+                cmds.joint(name=sj_opp)
+                cmds.parent(sj_opp, f"{m_name_opp}_crv_skinJoint")
+                utils.removeTransformParentJoint(sj_opp)
+                utils.resetAttrs(sj_opp)
+                utils.connectByMatrix(sj_opp, [jnt_opp, sj_opp], ["worldMatrix[0]", "parentInverseMatrix"], module_name=m_name_opp)
+
+                # Ведомый: обе стороны стоят на одном значении, как и пути
+                cmds.addAttr(sj_opp, ln="pos", min=0, max=1, dv=value, k=1)
+                pm.connectAttr(f"{sj}.pos", f"{sj_opp}.pos")
 
     def connect(self, target, opposite=False, makeSeamless=False):
         super(self.__class__, self).connect(target, opposite=opposite, makeSeamless=makeSeamless)

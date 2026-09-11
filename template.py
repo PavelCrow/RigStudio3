@@ -630,6 +630,34 @@ class Template(object):
 				cmds.progressBar(progressControl, edit=True, step=1)
 			cmds.progressBar(progressControl2, edit=True, step=1)
 
+		def set_opposite_modules(load="controlVis"):
+			"""Данные зеркальных модулей: в файл они пишутся, а применялись нигде.
+
+			Сами модули для правой стороны создаёт makeSymmetryModule из левых,
+			поэтому в modulesData, по которому идёт set_modules, они не попадают.
+			Всё, что на правой стороне задано отдельно - значения атрибутов
+			контролов, спейсы, цвета, - терялось при загрузке.
+			"""
+			if print_main_messages: print(
+				" -------------------------------- SET OPPOSITE MODULES ------------------------------------------------ ")
+
+			pairs = []
+			for mData in data['modulesData']:
+				if not mData['opposite']:
+					continue
+
+				mod = self.main.rig.modules.get(mData['name'])
+				if mod is None:
+					if load_type == 'rig':
+						cmds.warning("template - %s is not in the rig, its data is skipped"
+									 %mData['name'])
+					continue
+
+				pairs.append([mod, mData])
+
+			if pairs:
+				set_modules(pairs, load)
+
 		def create_oss(modulesData):
 			self.par_class = self.main.curParents
 			for data in modulesData:
@@ -637,6 +665,7 @@ class Template(object):
 				for d in mData['parents']:
 					self.par_class.os_makeConstraint(d)
 
+		load_type = load
 		print_main_messages = utils.isDebug()
 
 		# create progress window
@@ -674,6 +703,7 @@ class Template(object):
 				_t('create_ibtws', create_ibtws, data["ibtwsData"])
 			_t('create_oss', create_oss, modulesData)
 			_t('set_modules(vis)', set_modules, modulesData, "controlVis")
+			_t('set_modules(opp)', set_opposite_modules)
 			_t('set_modules(opt)', set_modules, modulesData, "options")
 		finally:
 			cmds.refresh(suspend=False)
