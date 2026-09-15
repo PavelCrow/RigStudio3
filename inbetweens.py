@@ -19,6 +19,8 @@ rootPath = os.path.normpath(os.path.dirname(__file__))
 full = os.path.isfile(rootPath + "/full")
 
 class Inbetweens(object):
+	OPTIONS_FRAME_TITLE = "Joints"
+
 	def __init__(self, win): #
 		self.win = win
 		self.curIbName = ""
@@ -47,7 +49,7 @@ class Inbetweens(object):
 	def selectItem(self): #
 		# get current twist
 		if self.win.ibtw_childs_listWidget.currentItem():
-			self.curIbName = self.win.ibtw_childs_listWidget.currentItem().text()
+			self.curIbName = self.listItemName(self.win.ibtw_childs_listWidget.currentItem())
 			self.curIb = self.getData(self.curIbName)
 		# except:
 			# self.curIbName = ''
@@ -72,17 +74,45 @@ class Inbetweens(object):
 		
 		self.win.ibtw_childs_listWidget.clear()
 		for n in ib_names:
-			item = QtWidgets.QListWidgetItem(n)
+			# строка помечена, но имя ноды остаётся чистым - по нему адресуются
+			# все ноды инбетвина, поэтому оно лежит в данных строки, а подпись
+			# только показывается
+			item = QtWidgets.QListWidgetItem((n + "   (mll)") if self.isMll(n) else n)
+			item.setData(QtCore.Qt.UserRole, n)
 			self.win.ibtw_childs_listWidget.addItem(item)
 
 			if n.split('_')[0] == 'r':
 				item.setForeground(QtGui.QBrush(QtGui.QColor("#6C6B6B")))		
 
+	def listItem(self, name): #
+		"""Строка списка по имени инбетвина - подпись у неё может быть с пометкой."""
+		w = self.win.ibtw_childs_listWidget
+		for i in range(w.count()):
+			item = w.item(i)
+			if item.data(QtCore.Qt.UserRole) == name:
+				return item
+		return None
+
+	@staticmethod
+	def listItemName(item): #
+		"""Имя инбетвина строки списка, а не её подпись."""
+		if not item:
+			return ''
+		return item.data(QtCore.Qt.UserRole) or item.text()
+
 	def updateFrameVisibility(self, is_mll): #
-		"""The plugin variant has no offset locators, no world mode and nothing
-		to pick by hand - the two add buttons and the remove one are all it uses.
+		"""У плагинного варианта нет ни оффсетных локаторов, ни выбора костей
+		руками - ему адресованы только две кнопки добавления и удаление.
+
+		Calculation при этом остаётся: пространство есть и у него, оно лежит в
+		driverMode солвера, а радиокнопки тут ничего не переключают - это
+		индикатор.
 		"""
-		widgets = ("label_36", "local_rbtn", "world_rbtn", "ib_switch_btn",
+		# заголовок панели говорит, какой инбетвин правится: снаружи оба
+		# варианта выглядят одинаково, а настраиваются по-разному
+		self.win.pose_label_13.setText(self.OPTIONS_FRAME_TITLE + (" (mll)" if is_mll else ""))
+
+		widgets = ("ib_switch_btn",
 				   "label_35", "label_41", "parentJoint_lineEdit", "childJoint_lineEdit",
 				   "ibtw_setParent_btn", "ibtw_setChild_btn",
 				   "ib_selectOffsetLocator_btn")
@@ -106,12 +136,12 @@ class Inbetweens(object):
 			self.win.parentJoint_lineEdit.setText(self.curIb['parent_j'])	
 			self.win.childJoint_lineEdit.setText(self.curIb['child_j'])	
 			
-			if self.isLocal(self.curIbName) or self.isMll(self.curIbName):
-				self.win.local_rbtn.setChecked(True)
-				self.win.world_rbtn.setChecked(False)
+			if self.isMll(self.curIbName):
+				world = self.isMllWorld(self.curIbName)
 			else:
-				self.win.world_rbtn.setChecked(True)
-				self.win.local_rbtn.setChecked(False)
+				world = not self.isLocal(self.curIbName)
+			self.win.local_rbtn.setChecked(not world)
+			self.win.world_rbtn.setChecked(world)
 		
 		# set check state for offsetLocs button
 		offset_locs = self.getOffsetLocators(self.curIbName)
@@ -122,10 +152,9 @@ class Inbetweens(object):
 			self.win.ibs_options_frame.setEnabled(False)
 
 	def selectListItem(self, name): #
-		try:
-			item = self.win.ibtw_childs_listWidget.findItems(name, QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive)[0]
-			self.win.ibtw_childs_listWidget.setCurrentItem(item)		
-		except: pass
+		item = self.listItem(name)
+		if item:
+			self.win.ibtw_childs_listWidget.setCurrentItem(item)
 
 	def add(self, data={}, local=False, newModuleName=None): #
 		if data and data.get("mode") == "mll":
@@ -434,7 +463,7 @@ class Inbetweens(object):
 				return
 			if not self.win.ibtw_childs_listWidget.currentItem():
 				return
-			name = self.win.ibtw_childs_listWidget.currentItem().text()
+			name = self.listItemName(self.win.ibtw_childs_listWidget.currentItem())
 		
 		# delete all twist nodes
 		if cmds.objExists(name+'_ibtwNodesSet'):
@@ -477,7 +506,7 @@ class Inbetweens(object):
 		if not self.win.ibtw_childs_listWidget.currentItem():
 			return
 
-		name = self.win.ibtw_childs_listWidget.currentItem().text()
+		name = self.listItemName(self.win.ibtw_childs_listWidget.currentItem())
 		offset_locs = self.getOffsetLocators(name)
 		if not offset_locs:
 			return
@@ -849,9 +878,14 @@ class Inbetweens(object):
 		return j + "_" + suffix if suffix else j
 
 	def isMllWorld(self, name): #
-		"""The plugin variant driven by two matrices instead of one rotate."""
+		"""The plugin variant driven by two matrices instead of one rotate.
+
+		Проверяется сам атрибут, а не только нода: выгруженный плагин оставляет
+		за собой тип-заглушку, и ноды на ней без единого атрибута - getAttr на
+		такой падает, а зовут отсюда в том числе обновление списка.
+		"""
 		solver = name + "_ibtw_solver"
-		return cmds.objExists(solver) and cmds.getAttr(solver+".driverMode") == 1
+		return cmds.objExists(solver+".driverMode") and cmds.getAttr(solver+".driverMode") == 1
 
 	def getMllDriver(self, name): #
 		"""The joint the correctives hang under - in both modes."""

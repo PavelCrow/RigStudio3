@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: batWing.ma
-//Last modified: Fri, Sep 11, 2026 09:21:04 AM
+//Last modified: Mon, Sep 14, 2026 06:26:47 AM
 //Codeset: 1251
 requires maya "2022";
 requires -nodeType "inverseMatrix" "matrixNodes" "1.0";
@@ -14,7 +14,7 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202110272215-ad32f8f1e6";
 fileInfo "osv" "Windows 10 Pro v2009 (Build: 26200)";
-fileInfo "UUID" "C8655E7D-4233-9263-F035-E9933DD30CCA";
+fileInfo "UUID" "BAD645FF-4EBC-185F-4F47-888A7690C166";
 createNode transform -n "mod";
 	rename -uid "1AEC415F-424F-70DE-1522-FA98FBD9C08E";
 	addAttr -ci true -sn "mirror" -ln "mirror" -min 0 -max 1 -at "bool";
@@ -11509,7 +11509,6 @@ createNode joint -n "a_finalJoint" -p "joints";
 	setAttr ".bps" -type "matrix" 0.09961607666187984 0.0055378625360235382 -0.0067800699868501638 0
 		 -0.0051303064434430621 0.099685224997002969 0.0060444911360065237 0 0.0070934636314600244 -0.0056734465564594666 0.099586619472096516 0
 		 0.32123309041702086 2.3902817968656178 -0.054956858176564261 1;
-	setAttr ".radi" 5;
 createNode joint -n "b_finalJoint" -p "a_finalJoint";
 	rename -uid "0702E35F-4614-4285-6914-6DA098A73FB4";
 	addAttr -ci true -sn "liw" -ln "lockInfluenceWeights" -min 0 -max 1 -at "bool";
@@ -13502,8 +13501,8 @@ createNode nurbsCurve -n "lower_twist_curveShape" -p "lower_twist_curve";
 createNode transform -s -n "persp";
 	rename -uid "78F7E0CF-4DFD-ED4C-2210-7E8583425325";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 11.046379207320552 32.72328618158113 47.161532741284105 ;
-	setAttr ".r" -type "double3" 338.39999999989516 706.39999999999134 -8.1807672313252551e-16 ;
+	setAttr ".t" -type "double3" 3.9482737184680374 71.929842974034088 33.60042541185441 ;
+	setAttr ".r" -type "double3" 305.99999999988705 699.99999999999579 0 ;
 	setAttr ".rp" -type "double3" 9.2370555648813024e-14 6.0396132539608516e-14 -1.2967404927621828e-13 ;
 	setAttr ".rpt" -type "double3" 3.1130132316051067e-14 -1.565334175653936e-13 6.2587732248230867e-14 ;
 createNode camera -s -n "perspShape" -p "persp";
@@ -13512,7 +13511,7 @@ createNode camera -s -n "perspShape" -p "persp";
 	setAttr ".pze" yes;
 	setAttr ".fl" 34.999999999999993;
 	setAttr ".fcp" 50000;
-	setAttr ".coi" 61.492488133640393;
+	setAttr ".coi" 78.243874296191521;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -14016,19 +14015,19 @@ createNode objectSet -n "main_moduleControlSet";
 	setAttr ".an" -type "string" "";
 	setAttr -l on ".moduleName" -type "string" "l_wing";
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "BB9D186D-451C-114D-30A8-459540D372EE";
+	rename -uid "06196640-418D-312F-DD17-34BC72030030";
 	setAttr -s 3 ".lnk";
 	setAttr -s 3 ".slnk";
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "FF0202BF-4367-5EC3-6777-F3A440C6F17D";
+	rename -uid "CD8680B6-4C0E-B2B7-08D1-E1ABD3B086AA";
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "CDA29423-45CB-B0A3-3319-D6BF809D5454";
+	rename -uid "DEB4B338-491C-DDBB-0C80-01931C92E14C";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "38926C66-4E7B-A56F-0E16-B5BA77364A50";
+	rename -uid "65433150-491D-1259-41ED-F39595134F3C";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "8AFDF75E-4E64-89B5-7AEA-FA98DFDFFAEA";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "C2A8ECC3-41E2-641C-5053-2C85269D99A3";
+	rename -uid "41BDEF31-4AF8-77FD-8241-779409CB0EBA";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "47E500DE-4021-5B41-30E1-71A447FA7B70";
 	setAttr ".g" yes;
@@ -15415,314 +15414,314 @@ createNode network -n "hyperNode_sessionData";
 	addAttr -ci true -sn "hyperNodeSessionJSON" -ln "hyperNodeSessionJSON" -dt "string";
 	setAttr ".ihi" 0;
 	setAttr ".hyperNodeSessionJSON" -type "string" (
-		"{\"tabs\": [{\"name\": \"Tab 0\", \"nodes\": {\"ik_end_closed\": {\"x\": 1060.6264896027785, \"y\": -469.2951960077691, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"fk_closed_ikHandle\": {\"x\": 1450.4924670361604, \"y\": -246.55636320525895, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"condition2\": {\"x\": 657.1591337028267, \"y\": -114.72302987192566, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ik_end_closedShape\": {\"x\": 1069.2450431126997, \"y\": -104.56667291032768, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"hyper_sets\": [], \"view\": {\"cx\": 1289.927868057268, \"cy\": -47.130585398382465, \"scale\": 1.379146884142687}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 1\", \"nodes\": {\"lower_twist_twistEnd_offset\": {\"x\": -4983.289564925195, \"y\": 3164.2657310254667, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_twistEnd_aimMatrix_2\": {\"x\": -5432.836273049677, \"y\": 3740.177207184973, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_mute_twistEnd_offset_rotateX\": {\"x\": -5496.984404687901, \"y\": 3088.5655530862496, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_condition_mirror\": {\"x\": -8400.9844046879, \"y\": 3433.7862376100584, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_up_multMatrix\": {\"x\": -6363.786895836941, \"y\": 3591.3088063009345, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_target_multMatrix\": {\"x\": -6005.03200250847, \"y\": 3903.041467610797, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"lower_twist_twistEnd_aimMatrix_1\": {\"x\": -5887.340721530107, \"y\": 3359.165197207815, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_mod\": {\"x\": -8901.9844046879, \"y\": 3184.2309796735503, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_multDoubleLinear13\": {\"x\": -5958.984404687901, \"y\": 3036.5655530862496, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_multDoubleLinear14\": {\"x\": -6400.984404687901, \"y\": 2765.4226959433922, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_composeMatrix\": {\"x\": -6415.0813797212095, \"y\": 2931.7718952169157, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_quatToEuler_1\": {\"x\": -7611.984404687901, \"y\": 3431.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_endUp_loc\": {\"x\": -6781.984404687901, \"y\": 3589.786237610058, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_up\": {\"x\": -6781.984404687901, \"y\": 3433.7862376100584, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_middle_target\": {\"x\": -6375.984404687901, \"y\": 3401.961386419582, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"condition2\": {\"x\": -9373.9844046879, \"y\": 3167.7862376100584, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_connector\": {\"x\": -9356.986184080071, \"y\": 3354.8338354306275, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"mainPoser\": {\"x\": -9735.9844046879, \"y\": 3167.7862376100584, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_quatToEuler_2\": {\"x\": -7199.984404687901, \"y\": 3899.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_connector_decomposeMatrix\": {\"x\": -8465.9844046879, \"y\": 3587.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_multDoubleLinear10\": {\"x\": -7998.984404687901, \"y\": 3691.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_multDoubleLinear15\": {\"x\": -7224.984404687901, \"y\": 3431.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_middle_target_multiplyDivide\": {\"x\": -6862.984404687901, \"y\": 3901.786237610058, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_target_multiplyDivide\": {\"x\": -6847.984404687901, \"y\": 4057.786237610058, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_multDoubleLinear11\": {\"x\": -6812.984404687901, \"y\": 3789.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_multDoubleLinear12\": {\"x\": -7224.984404687901, \"y\": 4055.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_connector_parentConstraint1\": {\"x\": -9831.9844046879, \"y\": 3323.7862376100584, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_connector_multMatrix\": {\"x\": -8962.9844046879, \"y\": 3743.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_start_connector_decomposeMatrix\": {\"x\": -7701.984404687901, \"y\": 3847.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"hyper_sets\": [], \"view\": {\"cx\": -8917.56004068582, \"cy\": 3546.3256177272815, \"scale\": 0.8696324964024115}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 2\", \"nodes\": {\"end_finalJoint\": {\"x\": -10907.023653544853, \"y\": -2065.3778567590307, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"end_joint_parentConstraint1\": {\"x\": -11241.423210472843, \"y\": -2324.2322998356303, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"constraintJointOrient\", \"target\"]}, \"control\": {\"x\": -13191.023653544855, \"y\": -2051.4021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_ikFk_reverse\": {\"x\": -11639.023653544855, \"y\": -1872.4021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"end_ikJoint\": {\"x\": -11543.601547309763, \"y\": -1405.8179171439165, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"end_fkJoint\": {\"x\": -11679.031560838557, \"y\": -2630.7628047912244, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"mirror_condition\": {\"x\": -12070.57078233752, \"y\": -2296.445391305824, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_snap_blend\": {\"x\": -11989.023653544855, \"y\": -1503.9021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_decomposeMatrix33\": {\"x\": -11989.023653544855, \"y\": -1265.9021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"mod\": {\"x\": -13541.023653544855, \"y\": -1809.5396111158707, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_scale_to_translate_converter\": {\"x\": -12390.023653544855, \"y\": -1503.9021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_multMatrix29\": {\"x\": -12339.023653544855, \"y\": -1286.9021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_current_toSnapPoint_length_scaled\": {\"x\": -12505.970492050117, \"y\": -2598.014243136078, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"ik_end_out\": {\"x\": -12841.023653544855, \"y\": -1286.9021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_final_length\": {\"x\": -12841.023653544855, \"y\": -1503.9021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_current_endToSnapPoint_length\": {\"x\": -13002.041433313338, \"y\": -2395.0602870043367, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_current_rootToSnapPoint_length\": {\"x\": -13002.823527960274, \"y\": -2871.4681848312357, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_root_connector_decomposeMatrix\": {\"x\": -13007.041433313338, \"y\": -2673.5602870043367, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_fk_end_group_decomposeMatrix\": {\"x\": -12997.041433313338, \"y\": -2414.5602870043367, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_arm_fk_b_group_decomposeMatrix\": {\"x\": -12837.71031964344, \"y\": -1717.2876667661067, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"end_outJoint\": {\"x\": -10533.661463638151, \"y\": -2160.5392197502797, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix247\": {\"x\": -10118.39698574202, \"y\": -1458.787666766106, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix244\": {\"x\": -10119.354949994928, \"y\": -2029.6949089530742, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_connector_parentConstraint1\": {\"x\": -10083.652007064367, \"y\": -2586.252688428331, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_root_connector_aimConstraint1\": {\"x\": -10115.626183228125, \"y\": -1789.4496546533496, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_connector\": {\"x\": -9659.023653544855, \"y\": -2405.968777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wrist_group\": {\"x\": -9643.50381251327, \"y\": -1706.375855117611, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_root_connector\": {\"x\": -9687.258653970917, \"y\": -2019.34516584297, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_root_connector_pointConstraint1\": {\"x\": -10447.570772119036, \"y\": -1470.642630823613, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_middle_target_multiplyDivide\": {\"x\": -9220.429677116676, \"y\": -2529.126612779799, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_composeMatrix\": {\"x\": -9297.023653544855, \"y\": -2951.968777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_twist_3_multDoubleLinear\": {\"x\": -9242.023653544855, \"y\": -1571.468777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_target_multiplyDivide\": {\"x\": -9237.023653544855, \"y\": -2321.968777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_connector_multMatrix\": {\"x\": -9242.023653544855, \"y\": -1733.968777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_twist_1_group_multDoubleLinear\": {\"x\": -9212.023653544855, \"y\": -2015.093777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_endUp_loc\": {\"x\": -9317.36944139848, \"y\": -2771.9085420643414, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_start_target\": {\"x\": -8770.023653544855, \"y\": -2177.593777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_middle_target\": {\"x\": -8765.023653544855, \"y\": -2789.468777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_up_multMatrix\": {\"x\": -8745.023653544855, \"y\": -3045.593777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_twistEnd_aimMatrix_1\": {\"x\": -8328.023653544855, \"y\": -2977.052111115869, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_twist_1_group\": {\"x\": -8765.023653544855, \"y\": -1960.593777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_twistMiddle_offset\": {\"x\": -8740.023653544855, \"y\": -2632.593777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_twist_3_group\": {\"x\": -8726.768219268522, \"y\": -1528.4069599781715, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_connector_decomposeMatrix\": {\"x\": -8750.975490907706, \"y\": -1722.6521056146366, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"lower_twist_end_target\": {\"x\": -8771.023653544855, \"y\": -2394.593777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"hyper_sets\": [], \"view\": {\"cx\": -12441.010403258097, \"cy\": -2110.4257934296515, \"scale\": 0.6951203897181238}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 3\", \"nodes\": {\"surf_Shape3\": {\"x\": -18409.925274882924, \"y\": -3393.6085623785566, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"loft3\": {\"x\": -19034.39706324391, \"y\": -3810.5866348647687, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"inputCurve\"]}, \"crv_Shape8\": {\"x\": -20040.053246119027, \"y\": -3926.2061253160614, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"crv_Shape7\": {\"x\": -19630.731719748706, \"y\": 1351.0289732209703, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_2_locShape\": {\"x\": -20352.050009325543, \"y\": 1335.145036577273, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_3_locShape\": {\"x\": -20352.050009325543, \"y\": 1491.145036577273, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_1_loc2Shape\": {\"x\": -20908.162245450163, \"y\": -4056.1180813812, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_2_loc1Shape\": {\"x\": -20908.162245450163, \"y\": -3900.1180813812, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_4_loc1Shape\": {\"x\": -20908.162245450163, \"y\": -3588.1180813812, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_1_locShape\": {\"x\": -20352.050009325543, \"y\": 1179.145036577273, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_4_locShape\": {\"x\": -20352.050009325543, \"y\": 1647.145036577273, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_3_loc1Shape\": {\"x\": -20908.162245450163, \"y\": -3744.1180813812, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"surf_Shape2\": {\"x\": -18036.08720917293, \"y\": 388.1137679003172, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"loft2\": {\"x\": -18739.23944233706, \"y\": 39.12685744553179, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"inputCurve\"]}, \"crv_Shape6\": {\"x\": -19677.01050875943, \"y\": 27.831497636250827, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"crv_Shape5\": {\"x\": -19378.831482888218, \"y\": 2085.0526631387074, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_2_locShape\": {\"x\": -19961.084562512628, \"y\": 1992.950471553604, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_1_locShape\": {\"x\": -19961.084562512628, \"y\": 1836.950471553604, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_2_loc2Shape\": {\"x\": -20332.751156564536, \"y\": 124.15542310411217, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_4_locShape\": {\"x\": -19961.084562512628, \"y\": 2304.9504715536023, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_3_locShape\": {\"x\": -19961.084562512628, \"y\": 2148.950471553604, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_2_loc3Shape\": {\"x\": -20332.751156564536, \"y\": 280.1554231041122, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_2_loc1Shape\": {\"x\": -20332.751156564536, \"y\": -31.844576895887826, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_1_loc1Shape\": {\"x\": -20330.325045477606, \"y\": -142.96152178767784, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldPosition\"]}, \"surf_Shape1\": {\"x\": -17608.439681338994, \"y\": 3599.962696316475, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"loft5\": {\"x\": -18273.253145709743, \"y\": 3346.481933916247, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"inputCurve\"]}, \"surf_1_sec_Shape7\": {\"x\": -19425.452040104326, \"y\": 4496.847281402486, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"surf_1_sec_Shape8\": {\"x\": -19425.452040104326, \"y\": 4713.847281402486, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"crv_Shape1\": {\"x\": -19312.70667964634, \"y\": 6324.654160928202, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"surf_1_sec_Shape10\": {\"x\": -19369.401076623675, \"y\": 5156.100076896118, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"surf_1_sec_Shape5\": {\"x\": -19421.98884821323, \"y\": 4062.8472814024863, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"surf_1_sec_Shape3\": {\"x\": -19412.753669836995, \"y\": 3628.8472814024863, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"surf_1_sec_Shape6\": {\"x\": -19425.452040104326, \"y\": 4279.847281402486, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"surf_1_sec_Shape2\": {\"x\": -19413.908067134034, \"y\": 3411.8472814024863, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"surf_1_sec_Shape9\": {\"x\": -19459.285634025655, \"y\": 4930.847281402486, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"surf_1_sec_Shape4\": {\"x\": -19409.290477945913, \"y\": 3845.8472814024863, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"surf_1_sec_Shape1\": {\"x\": -19425.452040104326, \"y\": 3173.8472814024863, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldSpace\"]}, \"crv_Shape9\": {\"x\": -20027.352591812938, \"y\": -2411.9498337785685, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_4_locShape\": {\"x\": -20768.35099665572, \"y\": -2007.4168396334721, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_2_locShape\": {\"x\": -20768.35099665572, \"y\": -2319.416839633472, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_1_locShape\": {\"x\": -20768.35099665572, \"y\": -2475.416839633472, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_3_locShape\": {\"x\": -20768.35099665572, \"y\": -2163.416839633472, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_4_loc3Shape\": {\"x\": -20819.199639837043, \"y\": -2781.65145392979, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_2_loc3Shape\": {\"x\": -20819.199639837043, \"y\": -3093.65145392979, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_1_loc2Shape\": {\"x\": -20819.199639837043, \"y\": -3249.65145392979, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_3_loc3Shape\": {\"x\": -20819.199639837043, \"y\": -2937.65145392979, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"crv_Shape14\": {\"x\": -20046.94738390224, \"y\": -3224.825199884903, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"controlPoints\"]}, \"first_curve_3_2_loc2Shape\": {\"x\": -20895.204706738958, \"y\": -4755.736516430501, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_3_loc2Shape\": {\"x\": -20895.204706738958, \"y\": -4599.736516430501, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_1_loc1Shape\": {\"x\": -20895.204706738958, \"y\": -4911.736516430501, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_4_loc2Shape\": {\"x\": -20895.204706738958, \"y\": -4443.736516430501, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"crv_Shape15\": {\"x\": -20041.85745949004, \"y\": -4826.66548721092, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_2_loc4Shape\": {\"x\": -20349.515382292007, \"y\": -864.3944232331048, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_1_loc4Shape\": {\"x\": -20357.87679001177, \"y\": -1088.842138713294, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_4_loc1Shape\": {\"x\": -20349.515382292007, \"y\": -472.3944232331048, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_3_loc1Shape\": {\"x\": -20349.515382292007, \"y\": -668.3944232331048, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"crv_Shape17\": {\"x\": -19669.31805930762, \"y\": 735.2633916097868, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_2_loc3Shape\": {\"x\": -20372.387655497318, \"y\": 675.0959744568978, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_3_loc3Shape\": {\"x\": -20372.387655497318, \"y\": 831.0959744568978, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_1_loc2Shape\": {\"x\": -20372.387655497318, \"y\": 519.0959744568978, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_4_loc3Shape\": {\"x\": -20372.387655497318, \"y\": 987.0959744568978, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"crv_Shape16\": {\"x\": -19747.86889242141, \"y\": -931.911853136304, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"crv_Shape18\": {\"x\": -19315.721221686035, \"y\": 2849.120643673801, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_2_loc5Shape\": {\"x\": -19895.29186469164, \"y\": 2801.2786562989486, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_1_loc5Shape\": {\"x\": -19895.29186469164, \"y\": 2645.2786562989486, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_4_loc2Shape\": {\"x\": -19895.29186469164, \"y\": 3113.2786562989477, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_3_loc2Shape\": {\"x\": -19895.29186469164, \"y\": 2957.2786562989486, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_7_4_locShape\": {\"x\": -19857.819683735845, \"y\": 6635.174942998896, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_7_1_locShape\": {\"x\": -19866.297802116245, \"y\": 6167.174942998896, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_7_2_locShape\": {\"x\": -19861.453163041722, \"y\": 6323.174942998896, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_7_3_locShape\": {\"x\": -19860.242003273106, \"y\": 6479.174942998896, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_7_4_loc3Shape\": {\"x\": -20029.841980945745, \"y\": 5847.902622478544, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_7_1_loc7Shape\": {\"x\": -20040.742418863407, \"y\": 5379.902622478544, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_7_2_loc4Shape\": {\"x\": -20045.587057937915, \"y\": 5535.902622478544, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_7_3_loc4Shape\": {\"x\": -20048.009377475177, \"y\": 5691.902622478544, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"crv_Shape19\": {\"x\": -19531.349168989876, \"y\": 5561.0474290446, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"surf_Shape4\": {\"x\": -19049.080009600475, \"y\": -6561.559701304642, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"loft4\": {\"x\": -19530.594338443432, \"y\": -6753.947334467047, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"inputCurve\"]}, \"crv_Shape10\": {\"x\": -20250.221334873928, \"y\": -7021.982763393841, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"crv_Shape13\": {\"x\": -20245.68603990093, \"y\": -7583.891663477513, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"crv_Shape12\": {\"x\": -20706.130591599936, \"y\": -6500.153223585503, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"controlPoints\"]}, \"crv_Shape11\": {\"x\": -20768.693948096552, \"y\": -5736.008974674695, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"controlPoints\"]}, \"first_curve_1_4_loc1Shape\": {\"x\": -21521.694122481953, \"y\": -6207.271038740284, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_4_loc2Shape\": {\"x\": -20910.937828822636, \"y\": -7430.695232375481, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_3_loc2Shape\": {\"x\": -20910.937828822636, \"y\": -7586.695232375481, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_1_3_loc1Shape\": {\"x\": -21557.217362475407, \"y\": -6374.977592159497, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_1_4_locShape\": {\"x\": -21460.24430832148, \"y\": -5183.232116040577, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_3_loc1Shape\": {\"x\": -20910.937828822636, \"y\": -6962.695232375481, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_1_1_loc1Shape\": {\"x\": -21568.55559990791, \"y\": -6718.72465697051, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_1_3_locShape\": {\"x\": -21459.70028813589, \"y\": -5416.276070358293, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_1_loc1Shape\": {\"x\": -20910.937828822636, \"y\": -7898.695232375481, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_1_1_locShape\": {\"x\": -21473.51728150368, \"y\": -5921.088858381176, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_4_loc1Shape\": {\"x\": -20910.937828822636, \"y\": -6806.695232375481, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_6_3_loc1Shape\": {\"x\": -21557.217362475407, \"y\": -6530.977592159497, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_4_1_loc3Shape\": {\"x\": -20910.937828822636, \"y\": -7274.695232375481, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_6_3_locShape\": {\"x\": -21472.223275359138, \"y\": -5634.394237782636, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_2_loc1Shape\": {\"x\": -20910.937828822636, \"y\": -7118.695232375481, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_2_2_loc2Shape\": {\"x\": -20910.937828822636, \"y\": -7742.695232375481, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"hyper_sets\": [], \"view\": {\"cx\": -20008.14484325287, \"cy\": -2354.4938123625852, \"scale\": 0.19791939887597265}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 4\", \"nodes\": {\"crv_Shape7\": {\"x\": -14291.40812313135, \"y\": -4384.035402871763, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_2_locShape\": {\"x\": -14641.40812313135, \"y\": -4462.035402871763, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_3_locShape\": {\"x\": -14641.40812313135, \"y\": -4306.035402871763, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_1_locShape\": {\"x\": -14641.40812313135, \"y\": -4618.035402871763, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"first_curve_3_4_locShape\": {\"x\": -14641.40812313135, \"y\": -4150.035402871763, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"hyper_sets\": [], \"view\": {\"cx\": -14015.595221496957, \"cy\": -4662.899773720935, \"scale\": 0.7064273649123344}, \"group_path\": [], \"group_history\": []}], \"active_tab\": 3, \"basket\": []}");
+		"{\"tabs\": [{\"name\": \"Tab 0\", \"nodes\": {\"ik_end_closed\": {\"x\": 1060.6264896027785, \"y\": -469.2951960077691, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"fk_closed_ikHandle\": {\"x\": 1450.4924670361604, \"y\": -246.55636320525895, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"condition2\": {\"x\": 657.1591337028267, \"y\": -114.72302987192566, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"ik_end_closedShape\": {\"x\": 1069.2450431126997, \"y\": -104.56667291032768, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}}, \"basket_entry_id\": null, \"notes\": [], \"hyper_sets\": [], \"view\": {\"cx\": 1291.3780399156797, \"cy\": -45.6804135399707, \"scale\": 1.379146884142687}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 1\", \"nodes\": {\"lower_twist_twistEnd_offset\": {\"x\": -4983.289564925195, \"y\": 3164.2657310254667, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_twistEnd_aimMatrix_2\": {\"x\": -5432.836273049677, \"y\": 3740.177207184973, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_mute_twistEnd_offset_rotateX\": {\"x\": -5496.984404687901, \"y\": 3088.5655530862496, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_condition_mirror\": {\"x\": -8400.9844046879, \"y\": 3433.7862376100584, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_end_up_multMatrix\": {\"x\": -6363.786895836941, \"y\": 3591.3088063009345, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_end_target_multMatrix\": {\"x\": -6005.03200250847, \"y\": 3903.041467610797, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"], \"filter_exempt\": false}, \"lower_twist_twistEnd_aimMatrix_1\": {\"x\": -5887.340721530107, \"y\": 3359.165197207815, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_mod\": {\"x\": -8901.9844046879, \"y\": 3184.2309796735503, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_multDoubleLinear13\": {\"x\": -5958.984404687901, \"y\": 3036.5655530862496, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_multDoubleLinear14\": {\"x\": -6400.984404687901, \"y\": 2765.4226959433922, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_composeMatrix\": {\"x\": -6415.0813797212095, \"y\": 2931.7718952169157, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_quatToEuler_1\": {\"x\": -7611.984404687901, \"y\": 3431.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_endUp_loc\": {\"x\": -6781.984404687901, \"y\": 3589.786237610058, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_end_up\": {\"x\": -6781.984404687901, \"y\": 3433.7862376100584, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_middle_target\": {\"x\": -6375.984404687901, \"y\": 3401.961386419582, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"condition2\": {\"x\": -9373.9844046879, \"y\": 3167.7862376100584, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_end_connector\": {\"x\": -9356.986184080071, \"y\": 3354.8338354306275, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"mainPoser\": {\"x\": -9735.9844046879, \"y\": 3167.7862376100584, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_quatToEuler_2\": {\"x\": -7199.984404687901, \"y\": 3899.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_end_connector_decomposeMatrix\": {\"x\": -8465.9844046879, \"y\": 3587.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_multDoubleLinear10\": {\"x\": -7998.984404687901, \"y\": 3691.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_multDoubleLinear15\": {\"x\": -7224.984404687901, \"y\": 3431.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_middle_target_multiplyDivide\": {\"x\": -6862.984404687901, \"y\": 3901.786237610058, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_end_target_multiplyDivide\": {\"x\": -6847.984404687901, \"y\": 4057.786237610058, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_multDoubleLinear11\": {\"x\": -6812.984404687901, \"y\": 3789.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_multDoubleLinear12\": {\"x\": -7224.984404687901, \"y\": 4055.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_end_connector_parentConstraint1\": {\"x\": -9831.9844046879, \"y\": 3323.7862376100584, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_end_connector_multMatrix\": {\"x\": -8962.9844046879, \"y\": 3743.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_start_connector_decomposeMatrix\": {\"x\": -7701.984404687901, \"y\": 3847.01793403863, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}}, \"basket_entry_id\": null, \"notes\": [], \"hyper_sets\": [], \"view\": {\"cx\": -8914.110307594645, \"cy\": 3547.475528757673, \"scale\": 0.8696324964024115}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 2\", \"nodes\": {\"end_finalJoint\": {\"x\": -10907.023653544853, \"y\": -2065.3778567590307, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"end_joint_parentConstraint1\": {\"x\": -11241.423210472843, \"y\": -2324.2322998356303, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"constraintJointOrient\", \"target\"], \"filter_exempt\": false}, \"control\": {\"x\": -13191.023653544855, \"y\": -2051.4021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"l_arm_ikFk_reverse\": {\"x\": -11639.023653544855, \"y\": -1872.4021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"end_ikJoint\": {\"x\": -11543.601547309763, \"y\": -1405.8179171439165, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"end_fkJoint\": {\"x\": -11679.031560838557, \"y\": -2630.7628047912244, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"mirror_condition\": {\"x\": -12070.57078233752, \"y\": -2296.445391305824, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"l_arm_snap_blend\": {\"x\": -11989.023653544855, \"y\": -1503.9021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"l_arm_decomposeMatrix33\": {\"x\": -11989.023653544855, \"y\": -1265.9021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"mod\": {\"x\": -13541.023653544855, \"y\": -1809.5396111158707, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"l_arm_scale_to_translate_converter\": {\"x\": -12390.023653544855, \"y\": -1503.9021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"l_arm_multMatrix29\": {\"x\": -12339.023653544855, \"y\": -1286.9021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"l_arm_current_toSnapPoint_length_scaled\": {\"x\": -12505.970492050117, \"y\": -2598.014243136078, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"ik_end_out\": {\"x\": -12841.023653544855, \"y\": -1286.9021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"l_arm_final_length\": {\"x\": -12841.023653544855, \"y\": -1503.9021111158704, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"l_arm_current_endToSnapPoint_length\": {\"x\": -13002.041433313338, \"y\": -2395.0602870043367, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"l_arm_current_rootToSnapPoint_length\": {\"x\": -13002.823527960274, \"y\": -2871.4681848312357, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"l_arm_root_connector_decomposeMatrix\": {\"x\": -13007.041433313338, \"y\": -2673.5602870043367, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"l_arm_fk_end_group_decomposeMatrix\": {\"x\": -12997.041433313338, \"y\": -2414.5602870043367, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"l_arm_fk_b_group_decomposeMatrix\": {\"x\": -12837.71031964344, \"y\": -1717.2876667661067, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"end_outJoint\": {\"x\": -10533.661463638151, \"y\": -2160.5392197502797, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"multMatrix247\": {\"x\": -10118.39698574202, \"y\": -1458.787666766106, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"multMatrix244\": {\"x\": -10119.354949994928, \"y\": -2029.6949089530742, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_end_connector_parentConstraint1\": {\"x\": -10083.652007064367, \"y\": -2586.252688428331, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_root_connector_aimConstraint1\": {\"x\": -10115.626183228125, \"y\": -1789.4496546533496, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_end_connector\": {\"x\": -9659.023653544855, \"y\": -2405.968777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"wrist_group\": {\"x\": -9643.50381251327, \"y\": -1706.375855117611, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_root_connector\": {\"x\": -9687.258653970917, \"y\": -2019.34516584297, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_root_connector_pointConstraint1\": {\"x\": -10447.570772119036, \"y\": -1470.642630823613, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_middle_target_multiplyDivide\": {\"x\": -9220.429677116676, \"y\": -2529.126612779799, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_composeMatrix\": {\"x\": -9297.023653544855, \"y\": -2951.968777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_twist_3_multDoubleLinear\": {\"x\": -9242.023653544855, \"y\": -1571.468777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_end_target_multiplyDivide\": {\"x\": -9237.023653544855, \"y\": -2321.968777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_end_connector_multMatrix\": {\"x\": -9242.023653544855, \"y\": -1733.968777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_twist_1_group_multDoubleLinear\": {\"x\": -9212.023653544855, \"y\": -2015.093777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_endUp_loc\": {\"x\": -9317.36944139848, \"y\": -2771.9085420643414, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_start_target\": {\"x\": -8770.023653544855, \"y\": -2177.593777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_middle_target\": {\"x\": -8765.023653544855, \"y\": -2789.468777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_end_up_multMatrix\": {\"x\": -8745.023653544855, \"y\": -3045.593777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_twistEnd_aimMatrix_1\": {\"x\": -8328.023653544855, \"y\": -2977.052111115869, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_twist_1_group\": {\"x\": -8765.023653544855, \"y\": -1960.593777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_twistMiddle_offset\": {\"x\": -8740.023653544855, \"y\": -2632.593777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_twist_3_group\": {\"x\": -8726.768219268522, \"y\": -1528.4069599781715, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_end_connector_decomposeMatrix\": {\"x\": -8750.975490907706, \"y\": -1722.6521056146366, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"lower_twist_end_target\": {\"x\": -8771.023653544855, \"y\": -2394.593777782536, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}}, \"basket_entry_id\": null, \"notes\": [], \"hyper_sets\": [], \"view\": {\"cx\": -12438.133203812384, \"cy\": -2107.5485939839396, \"scale\": 0.6951203897181238}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 3\", \"nodes\": {\"sec_3_1_group_2\": {\"x\": -22307.050119306823, \"y\": -5278.568771961063, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"scale\"], \"filter_exempt\": false}, \"sec_4_1_group_2\": {\"x\": -22309.095960767227, \"y\": -4998.829633842098, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"scale\"], \"filter_exempt\": false}, \"decomposeMatrix134\": {\"x\": -22999.278571136987, \"y\": -5572.781528760237, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"decomposeMatrix137\": {\"x\": -22999.278571136987, \"y\": -5416.781528760237, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"mirror_condition\": {\"x\": -22784.30032846216, \"y\": -5156.662741264579, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"outColor\"], \"filter_exempt\": false}, \"multMatrix270\": {\"x\": -23349.278571136987, \"y\": -5173.844223778529, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"multMatrix265\": {\"x\": -23349.278571136987, \"y\": -5329.844223778529, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"mod\": {\"x\": -23277.44060142735, \"y\": -4868.902683407124, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"sec_3_1_group\": {\"x\": -23714.74112877962, \"y\": -5366.093350909021, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"blendMatrix100\": {\"x\": -23699.278571136987, \"y\": -5161.987616020835, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"blendMatrix99\": {\"x\": -23699.278571136987, \"y\": -5473.987616020835, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"sec_4_1_group\": {\"x\": -23714.74112877962, \"y\": -5054.093350909021, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"feathers_6_1\": {\"x\": -24064.74112877962, \"y\": -5325.711558892666, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"feathers_5_1\": {\"x\": -24064.74112877962, \"y\": -5949.711558892666, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"sec_4_target_2_init\": {\"x\": -24049.278571136987, \"y\": -5121.60582400448, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"sec_4_target_1_init\": {\"x\": -24049.278571136987, \"y\": -4965.60582400448, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"sec_3_target_2_init\": {\"x\": -24049.278571136987, \"y\": -5745.60582400448, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"multMatrix269\": {\"x\": -24064.74112877962, \"y\": -4857.711558892666, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"sec_3_target_1_init\": {\"x\": -24049.278571136987, \"y\": -5589.60582400448, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"multMatrix261\": {\"x\": -24064.74112877962, \"y\": -5481.711558892666, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"sec_4_root_init\": {\"x\": -24414.74112877962, \"y\": -4836.759708236329, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"multMatrix271\": {\"x\": -24414.74112877962, \"y\": -4992.759708236329, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"sec_3_root_init\": {\"x\": -24414.74112877962, \"y\": -5616.759708236329, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"multMatrix264\": {\"x\": -24414.74112877962, \"y\": -5928.759708236329, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"multMatrix263\": {\"x\": -24414.74112877962, \"y\": -5772.759708236329, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"sec_controls_group\": {\"x\": -24414.74112877962, \"y\": -5304.759708236329, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"multMatrix272\": {\"x\": -24414.74112877962, \"y\": -5148.759708236329, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}}, \"basket_entry_id\": null, \"notes\": [], \"hyper_sets\": [], \"view\": {\"cx\": -22337.86095896567, \"cy\": -4967.985013007232, \"scale\": 1.466389286788574}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 4\", \"nodes\": {\"crv_Shape7\": {\"x\": -14291.40812313135, \"y\": -4384.035402871763, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"first_curve_3_2_locShape\": {\"x\": -14641.40812313135, \"y\": -4462.035402871763, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"first_curve_3_3_locShape\": {\"x\": -14641.40812313135, \"y\": -4306.035402871763, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"first_curve_3_1_locShape\": {\"x\": -14641.40812313135, \"y\": -4618.035402871763, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"first_curve_3_4_locShape\": {\"x\": -14641.40812313135, \"y\": -4150.035402871763, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}}, \"basket_entry_id\": null, \"notes\": [], \"hyper_sets\": [], \"view\": {\"cx\": -14012.76407409336, \"cy\": -4660.068626317339, \"scale\": 0.7064273649123344}, \"group_path\": [], \"group_history\": []}], \"active_tab\": 3, \"basket\": []}");
 createNode unitConversion -n "unitConversion447";
 	rename -uid "1B021B81-4C26-33A8-9E3B-CBB7DD8F0B3C";
 	setAttr ".cf" 0.017453292519943295;
 createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
-	rename -uid "6570CE2E-425F-F64C-3528-DE9B6DA08B72";
+	rename -uid "D77F83B2-4A9A-554C-C4BE-D49EA401B66B";
 	setAttr -s 5 ".tgi";
 	setAttr ".tgi[0].tn" -type "string" "Untitled_2";
-	setAttr ".tgi[0].vl" -type "double2" 28454.760774071256 -21770.427604816367 ;
-	setAttr ".tgi[0].vh" -type "double2" 42176.188800259275 4926.3806550910094 ;
+	setAttr ".tgi[0].vl" -type "double2" 28454.760774071219 -29974.924019951814 ;
+	setAttr ".tgi[0].vh" -type "double2" 42177.379276402404 13129.686594083314 ;
 	setAttr -s 6 ".tgi[0].ni";
-	setAttr ".tgi[0].ni[0].x" 35193.8203125;
-	setAttr ".tgi[0].ni[0].y" -8475.171875;
-	setAttr ".tgi[0].ni[0].nvs" 18304;
-	setAttr ".tgi[0].ni[1].x" 35480.5078125;
-	setAttr ".tgi[0].ni[1].y" -8120.2236328125;
-	setAttr ".tgi[0].ni[1].nvs" 18305;
-	setAttr ".tgi[0].ni[2].x" 34841.375;
-	setAttr ".tgi[0].ni[2].y" -7983.29052734375;
+	setAttr ".tgi[0].ni[0].x" 34841.375;
+	setAttr ".tgi[0].ni[0].y" -7983.29052734375;
+	setAttr ".tgi[0].ni[0].nvs" 18305;
+	setAttr ".tgi[0].ni[1].x" 35434.171875;
+	setAttr ".tgi[0].ni[1].y" -8706.251953125;
+	setAttr ".tgi[0].ni[1].nvs" 18304;
+	setAttr ".tgi[0].ni[2].x" 35480.5078125;
+	setAttr ".tgi[0].ni[2].y" -8120.2236328125;
 	setAttr ".tgi[0].ni[2].nvs" 18305;
-	setAttr ".tgi[0].ni[3].x" 35164.66796875;
-	setAttr ".tgi[0].ni[3].y" -7940.50048828125;
-	setAttr ".tgi[0].ni[3].nvs" 18305;
-	setAttr ".tgi[0].ni[4].x" 35448.21875;
-	setAttr ".tgi[0].ni[4].y" -8381.9951171875;
+	setAttr ".tgi[0].ni[3].x" 35448.21875;
+	setAttr ".tgi[0].ni[3].y" -8381.9951171875;
+	setAttr ".tgi[0].ni[3].nvs" 18304;
+	setAttr ".tgi[0].ni[4].x" 35193.8203125;
+	setAttr ".tgi[0].ni[4].y" -8475.171875;
 	setAttr ".tgi[0].ni[4].nvs" 18304;
-	setAttr ".tgi[0].ni[5].x" 35434.171875;
-	setAttr ".tgi[0].ni[5].y" -8706.251953125;
-	setAttr ".tgi[0].ni[5].nvs" 18304;
+	setAttr ".tgi[0].ni[5].x" 35164.66796875;
+	setAttr ".tgi[0].ni[5].y" -7940.50048828125;
+	setAttr ".tgi[0].ni[5].nvs" 18305;
 	setAttr ".tgi[1].tn" -type "string" "Untitled_3";
-	setAttr ".tgi[1].vl" -type "double2" 24602.379974770167 -26471.650257888752 ;
-	setAttr ".tgi[1].vh" -type "double2" 38322.61752481501 222.8417771132055 ;
+	setAttr ".tgi[1].vl" -type "double2" 24602.379974770127 -34675.435061758057 ;
+	setAttr ".tgi[1].vh" -type "double2" 38323.808000958139 8425.4361048393894 ;
 	setAttr -s 17 ".tgi[1].ni";
 	setAttr ".tgi[1].ni[0].x" 31811.427734375;
-	setAttr ".tgi[1].ni[0].y" -14562.857421875;
+	setAttr ".tgi[1].ni[0].y" -13142.857421875;
 	setAttr ".tgi[1].ni[0].nvs" 18304;
 	setAttr ".tgi[1].ni[1].x" 31811.427734375;
-	setAttr ".tgi[1].ni[1].y" -13345.7138671875;
+	setAttr ".tgi[1].ni[1].y" -13244.2861328125;
 	setAttr ".tgi[1].ni[1].nvs" 18304;
 	setAttr ".tgi[1].ni[2].x" 31811.427734375;
-	setAttr ".tgi[1].ni[2].y" -13751.4287109375;
+	setAttr ".tgi[1].ni[2].y" -10708.5712890625;
 	setAttr ".tgi[1].ni[2].nvs" 18304;
 	setAttr ".tgi[1].ni[3].x" 31811.427734375;
 	setAttr ".tgi[1].ni[3].y" -14664.2861328125;
 	setAttr ".tgi[1].ni[3].nvs" 18304;
 	setAttr ".tgi[1].ni[4].x" 31811.427734375;
-	setAttr ".tgi[1].ni[4].y" -13244.2861328125;
+	setAttr ".tgi[1].ni[4].y" -12534.2861328125;
 	setAttr ".tgi[1].ni[4].nvs" 18304;
 	setAttr ".tgi[1].ni[5].x" 31811.427734375;
-	setAttr ".tgi[1].ni[5].y" -11317.142578125;
+	setAttr ".tgi[1].ni[5].y" -13751.4287109375;
 	setAttr ".tgi[1].ni[5].nvs" 18304;
 	setAttr ".tgi[1].ni[6].x" 31811.427734375;
-	setAttr ".tgi[1].ni[6].y" -10404.2861328125;
+	setAttr ".tgi[1].ni[6].y" -13548.5712890625;
 	setAttr ".tgi[1].ni[6].nvs" 18304;
 	setAttr ".tgi[1].ni[7].x" 31811.427734375;
 	setAttr ".tgi[1].ni[7].y" -11520;
 	setAttr ".tgi[1].ni[7].nvs" 18304;
 	setAttr ".tgi[1].ni[8].x" 31811.427734375;
-	setAttr ".tgi[1].ni[8].y" -13548.5712890625;
+	setAttr ".tgi[1].ni[8].y" -14258.5712890625;
 	setAttr ".tgi[1].ni[8].nvs" 18304;
 	setAttr ".tgi[1].ni[9].x" 31811.427734375;
 	setAttr ".tgi[1].ni[9].y" -11621.4287109375;
 	setAttr ".tgi[1].ni[9].nvs" 18304;
-	setAttr ".tgi[1].ni[10].x" 31811.427734375;
-	setAttr ".tgi[1].ni[10].y" -12534.2861328125;
-	setAttr ".tgi[1].ni[10].nvs" 18304;
+	setAttr ".tgi[1].ni[10].x" 31100.923828125;
+	setAttr ".tgi[1].ni[10].y" -12634.2861328125;
+	setAttr ".tgi[1].ni[10].nvs" 18305;
 	setAttr ".tgi[1].ni[11].x" 31811.427734375;
-	setAttr ".tgi[1].ni[11].y" -14258.5712890625;
+	setAttr ".tgi[1].ni[11].y" -14562.857421875;
 	setAttr ".tgi[1].ni[11].nvs" 18304;
 	setAttr ".tgi[1].ni[12].x" 31811.427734375;
-	setAttr ".tgi[1].ni[12].y" -14461.4287109375;
+	setAttr ".tgi[1].ni[12].y" -10404.2861328125;
 	setAttr ".tgi[1].ni[12].nvs" 18304;
 	setAttr ".tgi[1].ni[13].x" 31811.427734375;
-	setAttr ".tgi[1].ni[13].y" -13142.857421875;
+	setAttr ".tgi[1].ni[13].y" -13345.7138671875;
 	setAttr ".tgi[1].ni[13].nvs" 18304;
 	setAttr ".tgi[1].ni[14].x" 31811.427734375;
-	setAttr ".tgi[1].ni[14].y" -14765.7138671875;
+	setAttr ".tgi[1].ni[14].y" -14461.4287109375;
 	setAttr ".tgi[1].ni[14].nvs" 18304;
 	setAttr ".tgi[1].ni[15].x" 31811.427734375;
-	setAttr ".tgi[1].ni[15].y" -10708.5712890625;
+	setAttr ".tgi[1].ni[15].y" -14765.7138671875;
 	setAttr ".tgi[1].ni[15].nvs" 18304;
-	setAttr ".tgi[1].ni[16].x" 31100.923828125;
-	setAttr ".tgi[1].ni[16].y" -12634.2861328125;
-	setAttr ".tgi[1].ni[16].nvs" 18305;
+	setAttr ".tgi[1].ni[16].x" 31811.427734375;
+	setAttr ".tgi[1].ni[16].y" -11317.142578125;
+	setAttr ".tgi[1].ni[16].nvs" 18304;
 	setAttr ".tgi[2].tn" -type "string" "Untitled_4";
-	setAttr ".tgi[2].vl" -type "double2" 9434.5234346295347 -22897.245638018096 ;
-	setAttr ".tgi[2].vh" -type "double2" 23154.760984674376 3797.246396983865 ;
+	setAttr ".tgi[2].vl" -type "double2" 9434.523434629531 -31101.030441887418 ;
+	setAttr ".tgi[2].vh" -type "double2" 23155.951460817541 11999.840724710029 ;
 	setAttr -s 2 ".tgi[2].ni";
-	setAttr ".tgi[2].ni[0].x" 15882.857421875;
+	setAttr ".tgi[2].ni[0].x" 16190;
 	setAttr ".tgi[2].ni[0].y" -9438.5712890625;
 	setAttr ".tgi[2].ni[0].nvs" 18304;
-	setAttr ".tgi[2].ni[1].x" 16190;
+	setAttr ".tgi[2].ni[1].x" 15882.857421875;
 	setAttr ".tgi[2].ni[1].y" -9438.5712890625;
 	setAttr ".tgi[2].ni[1].nvs" 18304;
 	setAttr ".tgi[3].tn" -type "string" "Untitled_5";
-	setAttr ".tgi[3].vl" -type "double2" 31713.093977930104 248.90279750110497 ;
-	setAttr ".tgi[3].vh" -type "double2" 32504.760613138769 1789.1923596075083 ;
+	setAttr ".tgi[3].vl" -type "double2" 31713.093977930104 -226.78365626176566 ;
+	setAttr ".tgi[3].vh" -type "double2" 32505.951089281934 2263.6883372272073 ;
 	setAttr -s 51 ".tgi[3].ni";
-	setAttr ".tgi[3].ni[0].x" 30644.28515625;
-	setAttr ".tgi[3].ni[0].y" 951.4285888671875;
+	setAttr ".tgi[3].ni[0].x" 29937.142578125;
+	setAttr ".tgi[3].ni[0].y" 757.14288330078125;
 	setAttr ".tgi[3].ni[0].nvs" 18304;
-	setAttr ".tgi[3].ni[1].x" 27407.142578125;
-	setAttr ".tgi[3].ni[1].y" 345.71429443359375;
+	setAttr ".tgi[3].ni[1].x" 25105.71484375;
+	setAttr ".tgi[3].ni[1].y" 575.71429443359375;
 	setAttr ".tgi[3].ni[1].nvs" 18304;
-	setAttr ".tgi[3].ni[2].x" 31568.572265625;
-	setAttr ".tgi[3].ni[2].y" 1148.5714111328125;
+	setAttr ".tgi[3].ni[2].x" 30337.142578125;
+	setAttr ".tgi[3].ni[2].y" 848.5714111328125;
 	setAttr ".tgi[3].ni[2].nvs" 18304;
-	setAttr ".tgi[3].ni[3].x" 24415.71484375;
-	setAttr ".tgi[3].ni[3].y" 587.14288330078125;
+	setAttr ".tgi[3].ni[3].x" 24798.572265625;
+	setAttr ".tgi[3].ni[3].y" 441.42855834960938;
 	setAttr ".tgi[3].ni[3].nvs" 18304;
-	setAttr ".tgi[3].ni[4].x" 31261.427734375;
-	setAttr ".tgi[3].ni[4].y" 1057.142822265625;
+	setAttr ".tgi[3].ni[4].x" 27714.28515625;
+	setAttr ".tgi[3].ni[4].y" 395.71429443359375;
 	setAttr ".tgi[3].ni[4].nvs" 18304;
-	setAttr ".tgi[3].ni[5].x" 24415.71484375;
-	setAttr ".tgi[3].ni[5].y" 790;
+	setAttr ".tgi[3].ni[5].x" 23774.28515625;
+	setAttr ".tgi[3].ni[5].y" 587.14288330078125;
 	setAttr ".tgi[3].ni[5].nvs" 18304;
-	setAttr ".tgi[3].ni[6].x" 31875.71484375;
-	setAttr ".tgi[3].ni[6].y" 1148.5714111328125;
+	setAttr ".tgi[3].ni[6].x" 24081.427734375;
+	setAttr ".tgi[3].ni[6].y" 631.4285888671875;
 	setAttr ".tgi[3].ni[6].nvs" 18304;
-	setAttr ".tgi[3].ni[7].x" 30337.142578125;
-	setAttr ".tgi[3].ni[7].y" 848.5714111328125;
+	setAttr ".tgi[3].ni[7].x" 31261.427734375;
+	setAttr ".tgi[3].ni[7].y" 1057.142822265625;
 	setAttr ".tgi[3].ni[7].nvs" 18304;
-	setAttr ".tgi[3].ni[8].x" 24415.71484375;
-	setAttr ".tgi[3].ni[8].y" 688.5714111328125;
+	setAttr ".tgi[3].ni[8].x" 25105.71484375;
+	setAttr ".tgi[3].ni[8].y" 474.28570556640625;
 	setAttr ".tgi[3].ni[8].nvs" 18304;
-	setAttr ".tgi[3].ni[9].x" 26121.427734375;
-	setAttr ".tgi[3].ni[9].y" 232.85714721679688;
+	setAttr ".tgi[3].ni[9].x" 23774.28515625;
+	setAttr ".tgi[3].ni[9].y" 790;
 	setAttr ".tgi[3].ni[9].nvs" 18304;
-	setAttr ".tgi[3].ni[10].x" 32307.142578125;
-	setAttr ".tgi[3].ni[10].y" 1148.5714111328125;
-	setAttr ".tgi[3].ni[10].nvs" 18305;
-	setAttr ".tgi[3].ni[11].x" 27714.28515625;
-	setAttr ".tgi[3].ni[11].y" 395.71429443359375;
+	setAttr ".tgi[3].ni[10].x" 25500;
+	setAttr ".tgi[3].ni[10].y" 450;
+	setAttr ".tgi[3].ni[10].nvs" 18304;
+	setAttr ".tgi[3].ni[11].x" 31875.71484375;
+	setAttr ".tgi[3].ni[11].y" 945.71429443359375;
 	setAttr ".tgi[3].ni[11].nvs" 18304;
-	setAttr ".tgi[3].ni[12].x" 25105.71484375;
-	setAttr ".tgi[3].ni[12].y" 474.28570556640625;
+	setAttr ".tgi[3].ni[12].x" 24081.427734375;
+	setAttr ".tgi[3].ni[12].y" 745.71429443359375;
 	setAttr ".tgi[3].ni[12].nvs" 18304;
-	setAttr ".tgi[3].ni[13].x" 28942.857421875;
-	setAttr ".tgi[3].ni[13].y" 615.71429443359375;
+	setAttr ".tgi[3].ni[13].x" 30644.28515625;
+	setAttr ".tgi[3].ni[13].y" 850;
 	setAttr ".tgi[3].ni[13].nvs" 18304;
-	setAttr ".tgi[3].ni[14].x" 29557.142578125;
-	setAttr ".tgi[3].ni[14].y" 972.85711669921875;
+	setAttr ".tgi[3].ni[14].x" 24415.71484375;
+	setAttr ".tgi[3].ni[14].y" 587.14288330078125;
 	setAttr ".tgi[3].ni[14].nvs" 18304;
-	setAttr ".tgi[3].ni[15].x" 23774.28515625;
-	setAttr ".tgi[3].ni[15].y" 790;
-	setAttr ".tgi[3].ni[15].nvs" 18304;
-	setAttr ".tgi[3].ni[16].x" 29937.142578125;
-	setAttr ".tgi[3].ni[16].y" 757.14288330078125;
+	setAttr ".tgi[3].ni[15].x" 29937.142578125;
+	setAttr ".tgi[3].ni[15].y" 1192.857177734375;
+	setAttr ".tgi[3].ni[15].nvs" 18305;
+	setAttr ".tgi[3].ni[16].x" 29557.142578125;
+	setAttr ".tgi[3].ni[16].y" 972.85711669921875;
 	setAttr ".tgi[3].ni[16].nvs" 18304;
-	setAttr ".tgi[3].ni[17].x" 30337.142578125;
-	setAttr ".tgi[3].ni[17].y" 1108.5714111328125;
+	setAttr ".tgi[3].ni[17].x" 29557.142578125;
+	setAttr ".tgi[3].ni[17].y" 598.5714111328125;
 	setAttr ".tgi[3].ni[17].nvs" 18304;
-	setAttr ".tgi[3].ni[18].x" 24081.427734375;
-	setAttr ".tgi[3].ni[18].y" 631.4285888671875;
+	setAttr ".tgi[3].ni[18].x" 24798.572265625;
+	setAttr ".tgi[3].ni[18].y" 542.85711669921875;
 	setAttr ".tgi[3].ni[18].nvs" 18304;
-	setAttr ".tgi[3].ni[19].x" 24798.572265625;
-	setAttr ".tgi[3].ni[19].y" 542.85711669921875;
+	setAttr ".tgi[3].ni[19].x" 25105.71484375;
+	setAttr ".tgi[3].ni[19].y" 372.85714721679688;
 	setAttr ".tgi[3].ni[19].nvs" 18304;
-	setAttr ".tgi[3].ni[20].x" 26792.857421875;
-	setAttr ".tgi[3].ni[20].y" 280;
+	setAttr ".tgi[3].ni[20].x" 31568.572265625;
+	setAttr ".tgi[3].ni[20].y" 1148.5714111328125;
 	setAttr ".tgi[3].ni[20].nvs" 18304;
-	setAttr ".tgi[3].ni[21].x" 23774.28515625;
-	setAttr ".tgi[3].ni[21].y" 688.5714111328125;
+	setAttr ".tgi[3].ni[21].x" 28942.857421875;
+	setAttr ".tgi[3].ni[21].y" 615.71429443359375;
 	setAttr ".tgi[3].ni[21].nvs" 18304;
-	setAttr ".tgi[3].ni[22].x" 28635.71484375;
-	setAttr ".tgi[3].ni[22].y" 585.71429443359375;
+	setAttr ".tgi[3].ni[22].x" 30644.28515625;
+	setAttr ".tgi[3].ni[22].y" 1052.857177734375;
 	setAttr ".tgi[3].ni[22].nvs" 18304;
-	setAttr ".tgi[3].ni[23].x" 28328.572265625;
-	setAttr ".tgi[3].ni[23].y" 542.85711669921875;
+	setAttr ".tgi[3].ni[23].x" 29937.142578125;
+	setAttr ".tgi[3].ni[23].y" 858.5714111328125;
 	setAttr ".tgi[3].ni[23].nvs" 18304;
-	setAttr ".tgi[3].ni[24].x" 30644.28515625;
-	setAttr ".tgi[3].ni[24].y" 1052.857177734375;
+	setAttr ".tgi[3].ni[24].x" 27407.142578125;
+	setAttr ".tgi[3].ni[24].y" 345.71429443359375;
 	setAttr ".tgi[3].ni[24].nvs" 18304;
-	setAttr ".tgi[3].ni[25].x" 24798.572265625;
-	setAttr ".tgi[3].ni[25].y" 441.42855834960938;
+	setAttr ".tgi[3].ni[25].x" 25105.71484375;
+	setAttr ".tgi[3].ni[25].y" 791.4285888671875;
 	setAttr ".tgi[3].ni[25].nvs" 18304;
-	setAttr ".tgi[3].ni[26].x" 29250;
-	setAttr ".tgi[3].ni[26].y" 602.85711669921875;
+	setAttr ".tgi[3].ni[26].x" 26792.857421875;
+	setAttr ".tgi[3].ni[26].y" 280;
 	setAttr ".tgi[3].ni[26].nvs" 18304;
-	setAttr ".tgi[3].ni[27].x" 26447.142578125;
-	setAttr ".tgi[3].ni[27].y" 271.42855834960938;
+	setAttr ".tgi[3].ni[27].x" 30644.28515625;
+	setAttr ".tgi[3].ni[27].y" 951.4285888671875;
 	setAttr ".tgi[3].ni[27].nvs" 18304;
-	setAttr ".tgi[3].ni[28].x" 31568.572265625;
-	setAttr ".tgi[3].ni[28].y" 1047.142822265625;
+	setAttr ".tgi[3].ni[28].x" 27100;
+	setAttr ".tgi[3].ni[28].y" 291.42855834960938;
 	setAttr ".tgi[3].ni[28].nvs" 18304;
-	setAttr ".tgi[3].ni[29].x" 25105.71484375;
-	setAttr ".tgi[3].ni[29].y" 372.85714721679688;
+	setAttr ".tgi[3].ni[29].x" 25500;
+	setAttr ".tgi[3].ni[29].y" 551.4285888671875;
 	setAttr ".tgi[3].ni[29].nvs" 18304;
-	setAttr ".tgi[3].ni[30].x" 29937.142578125;
-	setAttr ".tgi[3].ni[30].y" 858.5714111328125;
-	setAttr ".tgi[3].ni[30].nvs" 18304;
-	setAttr ".tgi[3].ni[31].x" 25500;
-	setAttr ".tgi[3].ni[31].y" 551.4285888671875;
+	setAttr ".tgi[3].ni[30].x" 32307.142578125;
+	setAttr ".tgi[3].ni[30].y" 1148.5714111328125;
+	setAttr ".tgi[3].ni[30].nvs" 18305;
+	setAttr ".tgi[3].ni[31].x" 29557.142578125;
+	setAttr ".tgi[3].ni[31].y" 871.4285888671875;
 	setAttr ".tgi[3].ni[31].nvs" 18304;
-	setAttr ".tgi[3].ni[32].x" 31875.71484375;
-	setAttr ".tgi[3].ni[32].y" 945.71429443359375;
+	setAttr ".tgi[3].ni[32].x" 24415.71484375;
+	setAttr ".tgi[3].ni[32].y" 688.5714111328125;
 	setAttr ".tgi[3].ni[32].nvs" 18304;
-	setAttr ".tgi[3].ni[33].x" 31261.427734375;
-	setAttr ".tgi[3].ni[33].y" 898.5714111328125;
+	setAttr ".tgi[3].ni[33].x" 28328.572265625;
+	setAttr ".tgi[3].ni[33].y" 542.85711669921875;
 	setAttr ".tgi[3].ni[33].nvs" 18304;
-	setAttr ".tgi[3].ni[34].x" 27100;
-	setAttr ".tgi[3].ni[34].y" 291.42855834960938;
+	setAttr ".tgi[3].ni[34].x" 23774.28515625;
+	setAttr ".tgi[3].ni[34].y" 688.5714111328125;
 	setAttr ".tgi[3].ni[34].nvs" 18304;
-	setAttr ".tgi[3].ni[35].x" 30644.28515625;
-	setAttr ".tgi[3].ni[35].y" 1154.2857666015625;
+	setAttr ".tgi[3].ni[35].x" 31568.572265625;
+	setAttr ".tgi[3].ni[35].y" 1047.142822265625;
 	setAttr ".tgi[3].ni[35].nvs" 18304;
-	setAttr ".tgi[3].ni[36].x" 31261.427734375;
-	setAttr ".tgi[3].ni[36].y" 1272.857177734375;
+	setAttr ".tgi[3].ni[36].x" 30644.28515625;
+	setAttr ".tgi[3].ni[36].y" 1255.7142333984375;
 	setAttr ".tgi[3].ni[36].nvs" 18304;
-	setAttr ".tgi[3].ni[37].x" 29557.142578125;
-	setAttr ".tgi[3].ni[37].y" 598.5714111328125;
+	setAttr ".tgi[3].ni[37].x" 30951.427734375;
+	setAttr ".tgi[3].ni[37].y" 1078.5714111328125;
 	setAttr ".tgi[3].ni[37].nvs" 18304;
-	setAttr ".tgi[3].ni[38].x" 29937.142578125;
-	setAttr ".tgi[3].ni[38].y" 1192.857177734375;
-	setAttr ".tgi[3].ni[38].nvs" 18305;
-	setAttr ".tgi[3].ni[39].x" 30644.28515625;
-	setAttr ".tgi[3].ni[39].y" 1255.7142333984375;
+	setAttr ".tgi[3].ni[38].x" 30644.28515625;
+	setAttr ".tgi[3].ni[38].y" 1154.2857666015625;
+	setAttr ".tgi[3].ni[38].nvs" 18304;
+	setAttr ".tgi[3].ni[39].x" 26447.142578125;
+	setAttr ".tgi[3].ni[39].y" 271.42855834960938;
 	setAttr ".tgi[3].ni[39].nvs" 18304;
-	setAttr ".tgi[3].ni[40].x" 28021.427734375;
-	setAttr ".tgi[3].ni[40].y" 474.28570556640625;
+	setAttr ".tgi[3].ni[40].x" 24415.71484375;
+	setAttr ".tgi[3].ni[40].y" 790;
 	setAttr ".tgi[3].ni[40].nvs" 18304;
-	setAttr ".tgi[3].ni[41].x" 29557.142578125;
-	setAttr ".tgi[3].ni[41].y" 871.4285888671875;
+	setAttr ".tgi[3].ni[41].x" 25814.28515625;
+	setAttr ".tgi[3].ni[41].y" 231.42857360839844;
 	setAttr ".tgi[3].ni[41].nvs" 18304;
-	setAttr ".tgi[3].ni[42].x" 25105.71484375;
-	setAttr ".tgi[3].ni[42].y" 575.71429443359375;
+	setAttr ".tgi[3].ni[42].x" 31875.71484375;
+	setAttr ".tgi[3].ni[42].y" 1148.5714111328125;
 	setAttr ".tgi[3].ni[42].nvs" 18304;
-	setAttr ".tgi[3].ni[43].x" 25814.28515625;
-	setAttr ".tgi[3].ni[43].y" 231.42857360839844;
+	setAttr ".tgi[3].ni[43].x" 28021.427734375;
+	setAttr ".tgi[3].ni[43].y" 474.28570556640625;
 	setAttr ".tgi[3].ni[43].nvs" 18304;
-	setAttr ".tgi[3].ni[44].x" 30644.28515625;
-	setAttr ".tgi[3].ni[44].y" 850;
+	setAttr ".tgi[3].ni[44].x" 31261.427734375;
+	setAttr ".tgi[3].ni[44].y" 898.5714111328125;
 	setAttr ".tgi[3].ni[44].nvs" 18304;
-	setAttr ".tgi[3].ni[45].x" 30951.427734375;
-	setAttr ".tgi[3].ni[45].y" 1078.5714111328125;
+	setAttr ".tgi[3].ni[45].x" 30337.142578125;
+	setAttr ".tgi[3].ni[45].y" 1108.5714111328125;
 	setAttr ".tgi[3].ni[45].nvs" 18304;
-	setAttr ".tgi[3].ni[46].x" 25500;
-	setAttr ".tgi[3].ni[46].y" 450;
+	setAttr ".tgi[3].ni[46].x" 29250;
+	setAttr ".tgi[3].ni[46].y" 602.85711669921875;
 	setAttr ".tgi[3].ni[46].nvs" 18304;
-	setAttr ".tgi[3].ni[47].x" 25105.71484375;
-	setAttr ".tgi[3].ni[47].y" 791.4285888671875;
+	setAttr ".tgi[3].ni[47].x" 28635.71484375;
+	setAttr ".tgi[3].ni[47].y" 585.71429443359375;
 	setAttr ".tgi[3].ni[47].nvs" 18304;
-	setAttr ".tgi[3].ni[48].x" 24081.427734375;
-	setAttr ".tgi[3].ni[48].y" 745.71429443359375;
+	setAttr ".tgi[3].ni[48].x" 31261.427734375;
+	setAttr ".tgi[3].ni[48].y" 1272.857177734375;
 	setAttr ".tgi[3].ni[48].nvs" 18304;
 	setAttr ".tgi[3].ni[49].x" 24798.572265625;
 	setAttr ".tgi[3].ni[49].y" 815.71429443359375;
 	setAttr ".tgi[3].ni[49].nvs" 18304;
-	setAttr ".tgi[3].ni[50].x" 23774.28515625;
-	setAttr ".tgi[3].ni[50].y" 587.14288330078125;
+	setAttr ".tgi[3].ni[50].x" 26121.427734375;
+	setAttr ".tgi[3].ni[50].y" 232.85714721679688;
 	setAttr ".tgi[3].ni[50].nvs" 18304;
 	setAttr ".tgi[4].tn" -type "string" "Untitled_6";
-	setAttr ".tgi[4].vl" -type "double2" 41840.474527885111 -33825.880725125877 ;
-	setAttr ".tgi[4].vh" -type "double2" 42771.426871844771 -32014.592849084966 ;
+	setAttr ".tgi[4].vl" -type "double2" 41840.474527885111 -34384.825697025255 ;
+	setAttr ".tgi[4].vh" -type "double2" 43895.680986666048 -31456.83835332876 ;
 	setAttr -s 18 ".tgi[4].ni";
-	setAttr ".tgi[4].ni[0].x" 42550;
-	setAttr ".tgi[4].ni[0].y" -33410;
-	setAttr ".tgi[4].ni[0].nvs" 18304;
+	setAttr ".tgi[4].ni[0].x" 42279.53125;
+	setAttr ".tgi[4].ni[0].y" -32617.794921875;
+	setAttr ".tgi[4].ni[0].nvs" 18305;
 	setAttr ".tgi[4].ni[1].x" 41628.5703125;
-	setAttr ".tgi[4].ni[1].y" -32772.85546875;
+	setAttr ".tgi[4].ni[1].y" -33077.14453125;
 	setAttr ".tgi[4].ni[1].nvs" 18304;
-	setAttr ".tgi[4].ni[2].x" 41912.91796875;
-	setAttr ".tgi[4].ni[2].y" -32857.6640625;
+	setAttr ".tgi[4].ni[2].x" 41628.5703125;
+	setAttr ".tgi[4].ni[2].y" -32975.71484375;
 	setAttr ".tgi[4].ni[2].nvs" 18304;
 	setAttr ".tgi[4].ni[3].x" 41628.5703125;
-	setAttr ".tgi[4].ni[3].y" -32671.427734375;
+	setAttr ".tgi[4].ni[3].y" -32468.572265625;
 	setAttr ".tgi[4].ni[3].nvs" 18304;
-	setAttr ".tgi[4].ni[4].x" 42279.53125;
-	setAttr ".tgi[4].ni[4].y" -32617.794921875;
-	setAttr ".tgi[4].ni[4].nvs" 18305;
+	setAttr ".tgi[4].ni[4].x" 41628.5703125;
+	setAttr ".tgi[4].ni[4].y" -32874.28515625;
+	setAttr ".tgi[4].ni[4].nvs" 18304;
 	setAttr ".tgi[4].ni[5].x" 41628.5703125;
 	setAttr ".tgi[4].ni[5].y" -32164.28515625;
 	setAttr ".tgi[4].ni[5].nvs" 18304;
-	setAttr ".tgi[4].ni[6].x" 41628.5703125;
-	setAttr ".tgi[4].ni[6].y" -32265.71484375;
+	setAttr ".tgi[4].ni[6].x" 42550;
+	setAttr ".tgi[4].ni[6].y" -33410;
 	setAttr ".tgi[4].ni[6].nvs" 18304;
-	setAttr ".tgi[4].ni[7].x" 41628.5703125;
-	setAttr ".tgi[4].ni[7].y" -32975.71484375;
+	setAttr ".tgi[4].ni[7].x" 41932.7421875;
+	setAttr ".tgi[4].ni[7].y" -32587.595703125;
 	setAttr ".tgi[4].ni[7].nvs" 18304;
 	setAttr ".tgi[4].ni[8].x" 41628.5703125;
-	setAttr ".tgi[4].ni[8].y" -33280;
+	setAttr ".tgi[4].ni[8].y" -32570;
 	setAttr ".tgi[4].ni[8].nvs" 18304;
-	setAttr ".tgi[4].ni[9].x" 41628.5703125;
-	setAttr ".tgi[4].ni[9].y" -33178.5703125;
+	setAttr ".tgi[4].ni[9].x" 42550;
+	setAttr ".tgi[4].ni[9].y" -32722.857421875;
 	setAttr ".tgi[4].ni[9].nvs" 18304;
-	setAttr ".tgi[4].ni[10].x" 41932.7421875;
-	setAttr ".tgi[4].ni[10].y" -32721.880859375;
+	setAttr ".tgi[4].ni[10].x" 41628.5703125;
+	setAttr ".tgi[4].ni[10].y" -32265.71484375;
 	setAttr ".tgi[4].ni[10].nvs" 18304;
 	setAttr ".tgi[4].ni[11].x" 41628.5703125;
-	setAttr ".tgi[4].ni[11].y" -32367.142578125;
+	setAttr ".tgi[4].ni[11].y" -32671.427734375;
 	setAttr ".tgi[4].ni[11].nvs" 18304;
-	setAttr ".tgi[4].ni[12].x" 41628.5703125;
-	setAttr ".tgi[4].ni[12].y" -32874.28515625;
+	setAttr ".tgi[4].ni[12].x" 41912.91796875;
+	setAttr ".tgi[4].ni[12].y" -32857.6640625;
 	setAttr ".tgi[4].ni[12].nvs" 18304;
 	setAttr ".tgi[4].ni[13].x" 41628.5703125;
-	setAttr ".tgi[4].ni[13].y" -32468.572265625;
+	setAttr ".tgi[4].ni[13].y" -32772.85546875;
 	setAttr ".tgi[4].ni[13].nvs" 18304;
 	setAttr ".tgi[4].ni[14].x" 41628.5703125;
-	setAttr ".tgi[4].ni[14].y" -33077.14453125;
+	setAttr ".tgi[4].ni[14].y" -33178.5703125;
 	setAttr ".tgi[4].ni[14].nvs" 18304;
-	setAttr ".tgi[4].ni[15].x" 41932.7421875;
-	setAttr ".tgi[4].ni[15].y" -32587.595703125;
+	setAttr ".tgi[4].ni[15].x" 41628.5703125;
+	setAttr ".tgi[4].ni[15].y" -32367.142578125;
 	setAttr ".tgi[4].ni[15].nvs" 18304;
-	setAttr ".tgi[4].ni[16].x" 41628.5703125;
-	setAttr ".tgi[4].ni[16].y" -32570;
+	setAttr ".tgi[4].ni[16].x" 41932.7421875;
+	setAttr ".tgi[4].ni[16].y" -32721.880859375;
 	setAttr ".tgi[4].ni[16].nvs" 18304;
-	setAttr ".tgi[4].ni[17].x" 42550;
-	setAttr ".tgi[4].ni[17].y" -32722.857421875;
+	setAttr ".tgi[4].ni[17].x" 41628.5703125;
+	setAttr ".tgi[4].ni[17].y" -33280;
 	setAttr ".tgi[4].ni[17].nvs" 18304;
 select -ne :time1;
 	setAttr -av -k on ".cch";
@@ -18322,6 +18321,7 @@ connectAttr "feathers_7_1Shape.ws" "feathers_7_1_closedShape.cr";
 connectAttr "multMatrix269.o" "sec_4_1_group.opm";
 connectAttr "decomposeMatrix137.or" "sec_4_1_group_2.r";
 connectAttr "mirror_condition.ocr" "sec_4_1_group_2.sy";
+connectAttr "mirror_condition.ocr" "sec_4_1_group_2.sz";
 connectAttr "pairBlend102.ot" "feathers_6_1_closedGroup.t";
 connectAttr "pairBlend102.or" "feathers_6_1_closedGroup.r";
 connectAttr "multMatrix280.o" "feathers_6_2_group.opm";
@@ -18343,6 +18343,7 @@ connectAttr "feathers_6_1Shape.ws" "feathers_6_1_closedShape.cr";
 connectAttr "multMatrix261.o" "sec_3_1_group.opm";
 connectAttr "decomposeMatrix134.or" "sec_3_1_group_2.r";
 connectAttr "mirror_condition.ocr" "sec_3_1_group_2.sy";
+connectAttr "mirror_condition.ocr" "sec_3_1_group_2.sz";
 connectAttr "pairBlend107.ot" "feathers_5_1_closedGroup.t";
 connectAttr "pairBlend107.or" "feathers_5_1_closedGroup.r";
 connectAttr "condition2.ocr" "feathers_5_1Shape.v";
@@ -20885,169 +20886,168 @@ connectAttr "lower_twist_curve_3_mpath.rx" "composeMatrix44.irx";
 connectAttr "lower_twist_curve_3_mpath.ry" "composeMatrix44.iry";
 connectAttr "lower_twist_curve_3_mpath.rz" "composeMatrix44.irz";
 connectAttr "mirror_condition.ocg" "unitConversion447.i";
-connectAttr "ik_root.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn";
-connectAttr "ik_end.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn";
-connectAttr "mainPoser.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn";
-connectAttr "condition2.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn";
-connectAttr "ik_end_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[4].dn"
+connectAttr "mainPoser.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn";
+connectAttr "ik_aim.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn";
+connectAttr "ik_end.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn";
+connectAttr "ik_end_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn"
 		;
-connectAttr "ik_aim.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn";
-connectAttr "l_arm_middleOffset_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn"
+connectAttr "ik_root.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[4].dn";
+connectAttr "condition2.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn";
+connectAttr "skinMiddle_1_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn"
 		;
-connectAttr "main_posers_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn"
+connectAttr "main_3_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn"
 		;
-connectAttr "ik_aim_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn"
+connectAttr "skinMiddle_4_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn"
 		;
 connectAttr "skinMiddle_2_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn"
 		;
-connectAttr "main_3_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn"
+connectAttr "upper_twist_mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn";
+connectAttr "ik_aim_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn"
 		;
-connectAttr "main_1_closed_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn"
-		;
-connectAttr "posers_sweep.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[6].dn";
+connectAttr "ik_root_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[6].dn";
 connectAttr "skinMiddle_3_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[7].dn"
 		;
-connectAttr "ik_root_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[8].dn";
+connectAttr "aim_curve.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[8].dn";
 connectAttr "main_end_group_2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[9].dn"
 		;
-connectAttr "upper_twist_mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[10].dn"
+connectAttr "condition2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[10].dn";
+connectAttr "l_arm_middleOffset_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[11].dn"
 		;
-connectAttr "aim_curve.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[11].dn";
-connectAttr "lower_twist_mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[12].dn"
+connectAttr "posers_sweep.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[12].dn";
+connectAttr "main_posers_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[13].dn"
 		;
-connectAttr "skinMiddle_1_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[13].dn"
+connectAttr "lower_twist_mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[14].dn"
 		;
-connectAttr "ik_end_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[14].dn"
+connectAttr "ik_end_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[15].dn"
 		;
-connectAttr "skinMiddle_4_closedGroup.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[15].dn"
+connectAttr "main_1_closed_group.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[16].dn"
 		;
-connectAttr "condition2.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[16].dn";
-connectAttr "mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn";
-connectAttr "mirror_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn"
+connectAttr "mirror_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn"
 		;
-connectAttr "unitConversion444.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[0].dn"
+connectAttr "mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn";
+connectAttr "l_arm_scale_to_translate_converter.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[0].dn"
 		;
-connectAttr "l_arm_one_minus_by_softIk.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[1].dn"
+connectAttr "l_arm_current_length.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[1].dn"
 		;
-connectAttr "end_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[2].dn";
-connectAttr "l_arm_fk_end_group_decomposeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[3].dn"
+connectAttr "l_arm_snap_blend.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[2].dn"
 		;
-connectAttr "end_finalJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[4].dn";
-connectAttr "l_arm_fk_b_group_decomposeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[5].dn"
+connectAttr "l_arm_init_length_a.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[3].dn"
 		;
-connectAttr "lower_twist_end_connector_parentConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[6].dn"
+connectAttr "l_arm_return_softIk.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[4].dn"
 		;
-connectAttr "l_arm_snap_blend.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[7].dn"
+connectAttr "start_poserOrient.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[5].dn"
 		;
-connectAttr "control.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[8].dn";
-connectAttr "l_arm_length_difference_minus.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[9].dn"
+connectAttr "l_arm_fk_end_group_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[6].dn"
 		;
-connectAttr "lower_twist_end_connector.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[10].dn"
+connectAttr "end_finalJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[7].dn";
+connectAttr "l_arm_softIk_value.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[8].dn"
 		;
-connectAttr "l_arm_return_softIk.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[11].dn"
+connectAttr "end_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[9].dn";
+connectAttr "l_arm_init_lenth_minus_softIk.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[10].dn"
 		;
-connectAttr "l_arm_softIk_value.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[12].dn"
+connectAttr "l_arm_decomposeMatrix33.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[11].dn"
 		;
-connectAttr "l_arm_stretch_blend.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[13].dn"
+connectAttr "l_arm_fk_b_group_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[12].dn"
 		;
-connectAttr "l_arm_current_endToSnapPoint_length.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[14].dn"
+connectAttr "end_ikJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[13].dn";
+connectAttr "l_arm_fk_end_group_decomposeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[14].dn"
 		;
-connectAttr "end_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[15].dn";
-connectAttr "l_arm_scale_to_translate_converter.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[16].dn"
+connectAttr "mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[15].dn";
+connectAttr "l_arm_current_endToSnapPoint_length.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[16].dn"
 		;
-connectAttr "mirror_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[17].dn"
+connectAttr "l_arm_final_length.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[17].dn"
 		;
-connectAttr "l_arm_fk_end_group_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[18].dn"
+connectAttr "l_arm_init_length_b.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[18].dn"
 		;
-connectAttr "l_arm_init_length_b.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[19].dn"
+connectAttr "l_arm_init_length.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[19].dn"
 		;
-connectAttr "l_arm_power.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[20].dn";
-connectAttr "middle_poserOrient.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[21].dn"
+connectAttr "end_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[20].dn";
+connectAttr "l_arm_stretch_blend.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[21].dn"
 		;
-connectAttr "l_arm_final_length_factor.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[22].dn"
+connectAttr "end_fkJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[22].dn";
+connectAttr "l_arm_current_toSnapPoint_length_scaled.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[23].dn"
 		;
-connectAttr "l_arm_stretch_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[23].dn"
+connectAttr "l_arm_one_minus_by_softIk.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[24].dn"
 		;
-connectAttr "end_fkJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[24].dn";
-connectAttr "l_arm_init_length_a.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[25].dn"
+connectAttr "l_arm_root_connector_decomposeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[25].dn"
 		;
-connectAttr "l_arm_ikfk_blend.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[26].dn"
+connectAttr "l_arm_power.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[26].dn";
+connectAttr "unitConversion444.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[27].dn"
 		;
-connectAttr "l_arm_length_difference_by_softIk.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[27].dn"
+connectAttr "l_arm_one_minus.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[28].dn"
 		;
-connectAttr "l_arm_multMatrix29.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[28].dn"
+connectAttr "l_arm_current_length_scaled.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[29].dn"
 		;
-connectAttr "l_arm_init_length.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[29].dn"
+connectAttr "lower_twist_end_connector.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[30].dn"
 		;
-connectAttr "l_arm_current_toSnapPoint_length_scaled.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[30].dn"
+connectAttr "l_arm_current_rootToSnapPoint_length.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[31].dn"
 		;
-connectAttr "l_arm_current_length_scaled.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[31].dn"
+connectAttr "control.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[32].dn";
+connectAttr "l_arm_stretch_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[33].dn"
 		;
-connectAttr "l_arm_decomposeMatrix33.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[32].dn"
+connectAttr "middle_poserOrient.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[34].dn"
 		;
-connectAttr "ik_end_out.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[33].dn";
-connectAttr "l_arm_one_minus.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[34].dn"
+connectAttr "l_arm_multMatrix29.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[35].dn"
 		;
-connectAttr "unitConversion443.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[35].dn"
+connectAttr "l_arm_ikFk_reverse.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[36].dn"
 		;
-connectAttr "middle_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[36].dn"
+connectAttr "end_joint_parentConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[37].dn"
 		;
-connectAttr "l_arm_final_length.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[37].dn"
+connectAttr "unitConversion443.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[38].dn"
 		;
-connectAttr "mod.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[38].dn";
-connectAttr "l_arm_ikFk_reverse.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[39].dn"
+connectAttr "l_arm_length_difference_by_softIk.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[39].dn"
 		;
-connectAttr "l_arm_softIk_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[40].dn"
+connectAttr "l_arm_fk_b_group_decomposeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[40].dn"
 		;
-connectAttr "l_arm_current_rootToSnapPoint_length.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[41].dn"
+connectAttr "l_arm_length_difference.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[41].dn"
 		;
-connectAttr "l_arm_current_length.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[42].dn"
+connectAttr "lower_twist_end_connector_parentConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[42].dn"
 		;
-connectAttr "l_arm_length_difference.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[43].dn"
+connectAttr "l_arm_softIk_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[43].dn"
 		;
-connectAttr "end_ikJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[44].dn";
-connectAttr "end_joint_parentConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[45].dn"
+connectAttr "ik_end_out.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[44].dn";
+connectAttr "mirror_condition.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[45].dn"
 		;
-connectAttr "l_arm_init_lenth_minus_softIk.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[46].dn"
+connectAttr "l_arm_ikfk_blend.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[46].dn"
 		;
-connectAttr "l_arm_root_connector_decomposeMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[47].dn"
+connectAttr "l_arm_final_length_factor.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[47].dn"
 		;
-connectAttr "l_arm_fk_b_group_multMatrix.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[48].dn"
+connectAttr "middle_outJoint.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[48].dn"
 		;
 connectAttr "arm_root_connector.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[49].dn"
 		;
-connectAttr "start_poserOrient.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[50].dn"
+connectAttr "l_arm_length_difference_minus.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[50].dn"
 		;
-connectAttr "surf_4.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[0].dn";
-connectAttr "first_curve_2_3_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[1].dn"
+connectAttr "loft4.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[0].dn";
+connectAttr "first_curve_2_2_loc1Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[1].dn"
 		;
-connectAttr "crv_Shape11.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[2].dn";
-connectAttr "first_curve_2_1_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[3].dn"
+connectAttr "first_curve_4_1_loc3Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[2].dn"
 		;
-connectAttr "loft4.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[4].dn";
+connectAttr "first_curve_1_3_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[3].dn"
+		;
+connectAttr "first_curve_2_4_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[4].dn"
+		;
 connectAttr "first_curve_6_3_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[5].dn"
 		;
-connectAttr "first_curve_1_4_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[6].dn"
+connectAttr "surf_4.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[6].dn";
+connectAttr "crv_Shape9.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[7].dn";
+connectAttr "first_curve_2_2_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[8].dn"
 		;
-connectAttr "first_curve_4_1_loc3Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[7].dn"
+connectAttr "surf_Shape4.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[9].dn";
+connectAttr "first_curve_1_4_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[10].dn"
 		;
-connectAttr "first_curve_2_4_loc1Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[8].dn"
+connectAttr "first_curve_2_1_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[11].dn"
 		;
-connectAttr "first_curve_2_3_loc1Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[9].dn"
+connectAttr "crv_Shape11.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[12].dn";
+connectAttr "first_curve_2_3_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[13].dn"
 		;
-connectAttr "crv_Shape10.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[10].dn";
-connectAttr "first_curve_1_1_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[11].dn"
+connectAttr "first_curve_2_3_loc1Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[14].dn"
 		;
-connectAttr "first_curve_2_4_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[12].dn"
+connectAttr "first_curve_1_1_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[15].dn"
 		;
-connectAttr "first_curve_1_3_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[13].dn"
+connectAttr "crv_Shape10.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[16].dn";
+connectAttr "first_curve_2_4_loc1Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[17].dn"
 		;
-connectAttr "first_curve_2_2_loc1Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[14].dn"
-		;
-connectAttr "crv_Shape9.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[15].dn";
-connectAttr "first_curve_2_2_locShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[16].dn"
-		;
-connectAttr "surf_Shape4.msg" "MayaNodeEditorSavedTabsInfo.tgi[4].ni[17].dn";
 connectAttr "lambert1SG.pa" ":renderPartition.st" -na;
 connectAttr "l_wing_root_decomposeMatrix1.msg" ":defaultRenderUtilityList1.u" -na
 		;

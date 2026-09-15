@@ -521,6 +521,9 @@ class MainWindow:
             self.win.addTwist_btn.setIconSize(QtCore.QSize(30, 20))
             self.win.addTwistSimple_btn.setIcon(QtGui.QIcon(self.rootPath + '/ui/icons/twistSimple_add.png'))
             self.win.addTwistSimple_btn.setIconSize(QtCore.QSize(30, 20))
+            self.win.addTwistSimple_btn.hide()  # упрощённый твист не используется
+            self.win.addTwistMll_btn.setIcon(QtGui.QIcon(self.rootPath + '/ui/icons/twist_addPlugin.png'))
+            self.win.addTwistMll_btn.setIconSize(QtCore.QSize(30, 20))
             self.win.removeTwist_btn.setIcon(QtGui.QIcon(self.rootPath + '/ui/icons/delete.png'))
             self.win.removeTwist_btn.setIconSize(QtCore.QSize(24, 20))
 
@@ -529,6 +532,8 @@ class MainWindow:
             self.win.ibtw_addLocal_btn.setIconSize(QtCore.QSize(30, 20))
             self.win.ibtw_addWorld_btn.setIcon(QtGui.QIcon(self.rootPath + '/ui/icons/ib_plusW.png'))
             self.win.ibtw_addWorld_btn.setIconSize(QtCore.QSize(30, 20))
+            self.win.ibtw_addLocalMll_btn.setIcon(QtGui.QIcon(self.rootPath + '/ui/icons/ib_plusPlugin.png'))
+            self.win.ibtw_addLocalMll_btn.setIconSize(QtCore.QSize(30, 20))
             self.win.ibtw_remove_btn.setIcon(QtGui.QIcon(self.rootPath + '/ui/icons/delete.png'))
             self.win.ibtw_remove_btn.setIconSize(QtCore.QSize(24, 20))
 

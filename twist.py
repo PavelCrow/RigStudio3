@@ -19,6 +19,8 @@ rootPath = os.path.normpath(os.path.dirname(__file__))
 
 
 class Twist(object):
+    TWIST_FRAME_TITLE = "Edit Current Twist"
+
     def __init__(self, win, main):
         self.win = win
         self.main = main
@@ -126,11 +128,8 @@ class Twist(object):
             cmds.select(self.curTwistName+"_mod")
 
     def selectItem(self):
-        # get current twist 
-        try:
-            self.curTwistName = self.win.twists_listWidget.currentItem().text()
-        except:
-            self.curTwistName = ''
+        # get current twist
+        self.curTwistName = self.listItemName(self.win.twists_listWidget.currentItem())
         self.curTwist = {}
 
         # update cur twist frame
@@ -151,15 +150,36 @@ class Twist(object):
 
         self.win.twists_listWidget.clear()
         for n in twist_names:
-            item = QtWidgets.QListWidgetItem(n)
+            # в списке плагинный вариант помечен, но имя ноды остаётся чистым -
+            # по нему адресуются все ноды твиста, поэтому оно лежит в данных
+            # строки, а подпись только показывается
+            item = QtWidgets.QListWidgetItem((n + "   (mll)") if self.isMll(n) else n)
+            item.setData(QtCore.Qt.UserRole, n)
             self.win.twists_listWidget.addItem(item)
 
             if n.split('_')[0] == 'r':
-                item.setForeground(QtGui.QBrush(QtGui.QColor("#6C6B6B")))		
+                item.setForeground(QtGui.QBrush(QtGui.QColor("#6C6B6B")))
+
+    def listItem(self, name): #
+        """Строка списка по имени твиста - подпись у неё может быть с пометкой."""
+        w = self.win.twists_listWidget
+        for i in range(w.count()):
+            item = w.item(i)
+            if item.data(QtCore.Qt.UserRole) == name:
+                return item
+        return None
+
+    @staticmethod
+    def listItemName(item): #
+        """Имя твиста строки списка, а не её подпись."""
+        if not item:
+            return ''
+        return item.data(QtCore.Qt.UserRole) or item.text()
 
     def updateFrame(self):
         if self.curTwistName == '':
             self.win.twist_frame.setEnabled(False)
+            self.win.pose_label_5.setText(self.TWIST_FRAME_TITLE)
             self.win.twistName_lineEdit.setText("")		
             self.win.twistRootJoint_lineEdit.setText("")		
             self.win.twistRootOrientJoint_lineEdit.setText("")
@@ -173,6 +193,10 @@ class Twist(object):
             is_mll = self.isMll(self.curTwistName)
             if not cmds.objExists(self.curTwistName+"_mod") and not is_mll:
                 return
+
+            # заголовок панели говорит, какой твист правится: снаружи оба
+            # варианта выглядят одинаково, а настраиваются по-разному
+            self.win.pose_label_5.setText(self.TWIST_FRAME_TITLE + (" (mll)" if is_mll else ""))
 
             # у плагинного варианта нет ни коннекторов, ни оффсетных локаторов,
             # ни пересчёта количества костей - эти кнопки ему не адресованы.
@@ -584,8 +608,7 @@ class Twist(object):
         # select item in list
         self.updateList()
 
-        item = self.win.twists_listWidget.findItems(t_name, QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive)[0]
-        self.win.twists_listWidget.setCurrentItem(item)
+        self.win.twists_listWidget.setCurrentItem(self.listItem(t_name))
 
         # display axises
         mod.toggleLRA(self.win.actionSkeleton_LRA.isChecked())
@@ -1008,10 +1031,9 @@ class Twist(object):
         return joint.split("_skinJoint")[0].split("_outJoint")[0].split("_twJoint")[0]
 
     def selectListItemMll(self, name): #
-        try:
-            item = self.win.twists_listWidget.findItems(name, QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive)[0]
+        item = self.listItem(name)
+        if item:
             self.win.twists_listWidget.setCurrentItem(item)
-        except: pass
 
     def buildMll(self, start_j, count): #
         """Одна сторона: солвер, цепочка костей и контрол посередине."""
@@ -1288,7 +1310,7 @@ class Twist(object):
                 return
             if not self.win.twists_listWidget.currentItem():
                 return
-            item_name = self.win.twists_listWidget.currentItem().text()
+            item_name = self.listItemName(self.win.twists_listWidget.currentItem())
 
         # delete ibtws
         ibtws_data = self.main.ibtwClass.getIbtwsData()
@@ -1301,8 +1323,9 @@ class Twist(object):
             return
 
         # delete item
-        item = self.win.twists_listWidget.findItems(item_name, QtCore.Qt.MatchExactly | QtCore.Qt.MatchRecursive)[0]
-        self.win.twists_listWidget.removeItemWidget(item)
+        item = self.listItem(item_name)
+        if item:
+            self.win.twists_listWidget.removeItemWidget(item)
 
         cmds.sets(item_name+"_skinJoint", e=1, forceElement='skinJointsSet' )
 
