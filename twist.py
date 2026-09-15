@@ -361,10 +361,10 @@ class Twist(object):
         cmds.setAttr(root_loc+'.overrideColor', 13)
         cmds.setAttr(root_loc+".v", False)
 
-        comp = cmds.createNode('composeMatrix', n=t_name+'_root_compMat')
-        cmds.sets(comp, e=1, forceElement=set)
+        comp_root = cmds.createNode('composeMatrix', n=t_name+'_root_compMat')
+        cmds.sets(comp_root, e=1, forceElement=set)
 
-        utils.connectByMatrix(t_name+'_root_connector', [comp, root_loc], ['outputMatrix', 'worldMatrix[0]'], module_name=moduleName)
+        utils.connectByMatrix(t_name+'_root_connector', [comp_root, root_loc], ['outputMatrix', 'worldMatrix[0]'], module_name=moduleName)
 
         # root up connector
         rootUpLoc = cmds.duplicate(t_name+"_start_connector", n=t_name+'_rootUpLoc')[0]
@@ -385,14 +385,6 @@ class Twist(object):
             cmds.group(n="twists", empty=1)
             cmds.parent("twists", "rig")
         cmds.parent(t_name+'_mod', 'twists')
-
-        # create absolute scale multiplier
-        mult = cmds.createNode('multiplyDivide', n=t_name+'_absScaleMult')
-        cmds.sets(mult, e=1, forceElement=set)
-        cmds.connectAttr(t_name+'_root_connector.s', mult+'.input1')
-        if cmds.getAttr(t_name+'_root_connector.sx') < 0: cmds.setAttr( mult+'.input2X', -1)
-        if cmds.getAttr(t_name+'_root_connector.sy') < 0: cmds.setAttr( mult+'.input2Y', -1)
-        if cmds.getAttr(t_name+'_root_connector.sz') < 0: cmds.setAttr( mult+'.input2Z', -1)
 
         cmds.hide(t_name+'_root_connectorShape', t_name+'_end_connector', t_name+'_start_connector')
 
@@ -416,7 +408,26 @@ class Twist(object):
         cmds.connectAttr(root_outJoint+".worldInverseMatrix[0]", mm+".matrixIn[1]")
         cmds.connectAttr(mm+".matrixSum", root_loc+".offsetParentMatrix")
 
-        # start orient 
+        # Снять отражение с корня цепочки.
+        #
+        # root_connector берёт мировую матрицу кости как есть (aimMatrix скейл
+        # входной матрицы сохраняет), а зеркальная сторона живёт на
+        # отрицательном скейле. Пока родитель тоже зеркальный, отражение по
+        # дороге сокращается, но правый на центральном родителе - нет: у модуля
+        # это снимает свой compMat в цепочке коннектора (Module.connect), а у
+        # additional контрола такого нет, и минус доезжает до твиста. Ось
+        # скручивания от него разворачивается, и цепочка крутится в обратную
+        # сторону.
+        #
+        # _root_compMat стоит перед мировой матрицей кости как раз для этого и
+        # до сих пор был единичным. Ось не гадаем, а берём ту, на которую минус
+        # лёг: она зависит от ориентации кости. Там, где отражения нет, ничего
+        # не меняется.
+        for axis in "XYZ":
+            if cmds.getAttr(t_name+'_root_connector.scale'+axis) < 0:
+                cmds.setAttr(comp_root+'.inputScale'+axis, -1)
+
+        # start orient
         utils.connectByMatrix(t_name+'_start_connector', [rootUpLoc, t_name+'_root_connector'], ['worldMatrix[0]', 'worldInverseMatrix[0]'], module_name=moduleName, attrs=['r'])
 
         # stretch volume
@@ -1234,6 +1245,38 @@ class Twist(object):
             if cmds.objExists(j) and cmds.objExists(opp_j):
                 connectIfNeeded(j+".pos", opp_j+".pos")
 
+    def rename(self, old_name, new_name): #
+        """Твист назван по своей кости: переименовали её - переименовать и его.
+
+        Всё, что твист создаёт, лежит в его <имя>_twistNodesSet, поэтому идём
+        по набору, а не поиском по сцене. Классический вариант держит имена
+        целей строками на <имя>_mod - их правим отдельно, иначе getData вернёт
+        ноды, которых уже нет.
+        """
+        if old_name == new_name:
+            return False
+
+        if not cmds.objExists(old_name + "_twistNodesSet"):
+            return False
+
+        utils.renameNodesInSet(old_name + "_twistNodesSet", old_name + "_", new_name + "_")
+
+        mod = new_name + "_mod"
+        for attr in ("target", "endTarget", "rootOrientTarget", "endOrientTarget"):
+            if not cmds.objExists(mod + "." + attr):
+                continue
+            value = cmds.getAttr(mod + "." + attr) or ""
+            if value.startswith(old_name + "_"):
+                # через setUserAttr: атрибут заперт, им же его и ставили
+                utils.setUserAttr(mod, attr, new_name + value[len(old_name):])
+
+        if self.curTwistName == old_name:
+            self.curTwistName = new_name
+
+        self.updateList()
+
+        return True
+
     @utils.oneStepUndo
     def twists_remove(self, item_name=""):
         if self.win.twists_listWidget.count() == 0:
@@ -1907,10 +1950,16 @@ class Twist(object):
             cmds.ShowSelectedObjects()
         else:
             cmds.hide()
-            name = t_name.split("_")[-1]
-            m_name = t_name.split(name)[0]
-            cmds.hide(m_name+"output")
-            opp = utils.getOppositeIfExists(m_name+"output")
+
+            # модуль берём по кости, а не отрезанием хвоста от имени твиста:
+            # у твиста на additional контроле имя своё собственное, и от
+            # "l_neck" оставался "l_"
+            m_name = utils.getModuleName(t_name+"_outJoint")
+            if not m_name:
+                return
+
+            cmds.hide(m_name+"_output")
+            opp = utils.getOppositeIfExists(m_name+"_output")
             cmds.hide(opp)
 
     def addSkinJoints(self, twName):

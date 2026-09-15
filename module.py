@@ -977,7 +977,13 @@ class Module(object):
     def isSeamless(self): #
         if not self.parent:
             return False
-        
+
+        # кэш мог устареть: родительскую ноду переименовали после load()
+        if not cmds.objExists(self.parent):
+            self.parent = self.getParent()
+            if not self.parent:
+                return False
+
         parent_p = self.parent.replace("outJoint", "poser")
         parent_add_p = self.parent.replace("outJoint", "addPoser")
         if cmds.objExists(parent_add_p):
@@ -986,6 +992,11 @@ class Module(object):
         if not cmds.objExists(parent_p):
             target_module_name = utils.getModuleName(self.parent)
             parent_p = utils.getClosestPoser(target_module_name, self.parent)
+
+        if not parent_p:
+            cmds.warning("isSeamless - не найден позер родителя "+self.parent+" для "+self.name)
+            return False
+
         seamless = not cmds.getAttr(parent_p+'.lodVisibility')
         return seamless
 

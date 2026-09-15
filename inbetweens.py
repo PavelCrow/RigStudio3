@@ -399,6 +399,32 @@ class Inbetweens(object):
 
 		cmds.select(clear=1)
 
+	def rename(self, old_name, new_name): #
+		"""Инбетвин назван по своей кости - переименовать вслед за ней.
+
+		Берём и сам инбетвин на кости, и те, что сидят на её твист-цепочке: имена
+		у них общим началом, а ноды - каждый в своём <имя>_ibtwNodesSet.
+		"""
+		if old_name == new_name:
+			return
+
+		names = []
+		for root in (cmds.ls("*_ibtw_root") or []) + (cmds.ls("*_ibtw_solver") or []):
+			name = root.split("_ibtw_")[0]
+			if name != old_name and not name.startswith(old_name + "_"):
+				continue
+			if name not in names:
+				names.append(name)
+
+		if not names:
+			return
+
+		for name in names:
+			new = new_name + name[len(old_name):]
+			utils.renameNodesInSet(name + "_ibtwNodesSet", name + "_", new + "_")
+
+		self.updateList()
+
 	def remove(self, name=""): #
 		if self.win.ibtw_childs_listWidget.count() == 0:
 			return
@@ -576,7 +602,8 @@ class Inbetweens(object):
 			name = self.curIbName
 
 		if self.isMll(name):
-			return self.addJointMll(side, name, data)
+			# кнопкой добавляют в текущей позе, из темплейта значения приходят свои
+			return self.addJointMll(side, name, data, pose=not data)
 		j_name = utils.incrementNameIfExistsWithSuffix(f"{name}_ibtw_{side}_1_outJoint")
 		local = self.isLocal(name)
 
@@ -925,7 +952,7 @@ class Inbetweens(object):
 											  "posMin": posMin, "posMax": posMax,
 											  "swingMin": 0, "swingMax": 0,
 											  "bind": 0.5, "reverse": False},
-								 mirrored=mirrored)
+								 mirrored=mirrored, pose=True)
 
 		# opposite
 		if utils.isSymmetrical(driver_j) and utils.getObjectSide(driver_j) == "l":
@@ -1065,7 +1092,7 @@ class Inbetweens(object):
 			if not cmds.listConnections(opp_element, source=1, destination=0):
 				cmds.connectAttr(element, opp_element)
 
-	def addJointMll(self, side, name=None, data=None, mirrored=False): #
+	def addJointMll(self, side, name=None, data=None, mirrored=False, pose=False): #
 		if not name:
 			name = self.curIbName
 
@@ -1093,6 +1120,12 @@ class Inbetweens(object):
 		j = cmds.joint(n=j_name)
 		cmds.setAttr(j+".segmentScaleCompensate", 0)
 		utils.resetAttrs(j, jointOrient=True)
+
+		# кость рисуется того же размера, что и та, на которой она висит:
+		# cmds.joint берёт радиус из настроек инструмента, а не у родителя, и
+		# на риге другого масштаба косточки оказывались то булыжниками, то
+		# точками
+		cmds.setAttr(j+".radius", cmds.getAttr(driver_j+".radius"))
 		cmds.sets(j, e=1, forceElement=name+"_ibtwNodesSet")
 
 		cmds.addAttr(j, ln="driverAngle", at="doubleAngle", k=1)
@@ -1109,7 +1142,11 @@ class Inbetweens(object):
 			# the angles are doubleAngle, so they plug into the node without a
 			# unitConversion in between and still read as degrees in the channel box
 			cmds.addAttr(j, ln="angleMin", at="doubleAngle", k=1, dv=0)
-			cmds.addAttr(j, ln="angleMax", at="doubleAngle", k=1, dv=45)
+			# dv у углового атрибута задаётся в радианах, в отличие от setAttr:
+			# от dv=45 косточка получала диапазон в 2578 градусов и не двигалась
+			# вовсе - это видно было только на кнопке Add Joint, потому что при
+			# создании инбитвина значения приходят готовыми и перекрывают dv
+			cmds.addAttr(j, ln="angleMax", at="doubleAngle", k=1, dv=math.radians(45))
 			cmds.addAttr(j, ln="posMin", at="double", k=1, dv=1)
 			cmds.addAttr(j, ln="posMax", at="double", k=1, dv=5)
 			# the joint swings around the origin of the driver instead of sliding
@@ -1136,6 +1173,16 @@ class Inbetweens(object):
 		cmds.connectAttr("%s.out[%s].outRotate" %(solver, index), j+".rotate")
 		cmds.connectAttr("%s.out[%s].outDriverAngle" %(solver, index), j+".driverAngle")
 		cmds.setAttr(j+".driverAngle", lock=1)
+
+		# Косточка заводится от той позы, в которой стоит риг: угол драйвера
+		# прямо сейчас и есть начало диапазона. Берётся он с самой ноды, с
+		# driverAngle - она уже посчитала его так, как будет считать и дальше,
+		# своей осью и в своём режиме. Поэтому после связи, а не до неё.
+		#
+		# В дефолтной позе это ноль, то есть ровно то, что было раньше. Из
+		# темплейта приходят свои значения, и pose туда не ставится.
+		if pose and not mirrored:
+			cmds.setAttr(j+".angleMin", cmds.getAttr(j+".driverAngle"))
 
 		return j
 

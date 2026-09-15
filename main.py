@@ -2734,6 +2734,26 @@ class MainWindow:
 
         cmds.undoInfo(closeChunk=True)
 
+    def renameControlDependents(self, oldControlName, newControlName): #
+        """Поправить то, что ломает переименование additional контрола.
+
+        AdditionalControl.rename переименовывает только свои ноды, а на его
+        _outJoint и _skinJoint завязаны чужие: к _outJoint подключены дочерние
+        модули (в human это head на neck_outJoint), а по _skinJoint названы твист
+        со всей его цепочкой и инбетвины. Связи переименование переживают, но
+        имена - нет: module.parent посчитан один раз в load(), а ноды твиста и
+        инбетвинов остаются со старым началом имени, и они оказываются ничьи.
+        """
+        old_j = oldControlName + "_outJoint"
+        new_j = newControlName + "_outJoint"
+
+        for m in self.rig.modules.values():
+            if m.parent == old_j:
+                m.parent = new_j
+
+        self.twistClass.rename(oldControlName, newControlName)
+        self.ibtwClass.rename(oldControlName, newControlName)
+
     def rebuildModule(self, options={}, moduleType="", new_target=None):
         sel = cmds.ls(sl=1)
 
@@ -3335,6 +3355,7 @@ class MainWindow:
 
         # rename if needed
         if curAddControl.name.split('_')[0] != 'l':
+            oldName = curAddControl.name
             newName = 'l_' + curAddControl.name
             while cmds.objExists(newName):
                 newName = utils.incrementName(newName)
@@ -3345,6 +3366,7 @@ class MainWindow:
                         c.parent = newName
 
             curAddControl.rename(newName)
+            self.renameControlDependents(oldName, newName)
 
         # get cur addControl data 
         data = curAddControl.getData()
@@ -3627,7 +3649,11 @@ class MainWindow:
             # print "REN", oldCtrlName, newCtrlName
             if cmds.getAttr(oldCtrlName + ".type") == "additionalControl":
                 c = utils.getAdditionalControlInstance(oldCtrlName)
+                sym = c.isSymmetry()
                 c.rename(newCtrlName)
+                self.renameControlDependents(oldCtrlName, newCtrlName)
+                if sym:  # rename переименовал и противоположный контрол
+                    self.renameControlDependents(utils.getOpposite(oldCtrlName), utils.getOpposite(newCtrlName))
             else:
                 utils.renameControl(oldCtrlName, newCtrlName)
 
@@ -3643,13 +3669,6 @@ class MainWindow:
             self.addControls_updateTree()
             # self.curParents.updateList()
             self.curParents.page_update()
-
-            # rename parents attributes all modules
-            # for m in self.rig.modules:
-            # if m.parent == oldCtrlName:
-            # m.parent = m.parent.replace(oldCtrlName, newCtrlName)
-            # m.save()
-            # print "END"
 
             self.modulePageUpdated = True
     

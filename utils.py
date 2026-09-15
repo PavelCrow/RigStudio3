@@ -609,6 +609,31 @@ def getControlVis(controlName):
 def getControlColor(controlName):
 	return cmds.getAttr(getShape(controlName) + '.overrideColor')
 
+def renameNodesInSet(nodes_set, old_prefix, new_prefix):
+	"""Переименовать ноды набора, заменив начало имени. Сам набор тоже.
+
+	Идём по uuid, а не по именам: переименование группы меняет полные пути её
+	детей, и по пути, взятому заранее, их уже не найти. Ноды, чьё имя не с того
+	префикса, набор может держать чужими - их не трогаем.
+	"""
+	if not cmds.objExists(nodes_set):
+		return False
+
+	items = []
+	for n in (cmds.sets(nodes_set, q=1) or []) + [nodes_set]:
+		uuid = cmds.ls(n, uuid=True)
+		if uuid:
+			items.append((n.split("|")[-1], uuid[0]))
+
+	for name, uuid in items:
+		if not name.startswith(old_prefix):
+			continue
+		current = cmds.ls(uuid, long=True)
+		if current:
+			cmds.rename(current[0], new_prefix + name[len(old_prefix):])
+
+	return True
+
 def renameControl(oldCtrlName, newCtrlName):
 	#print (122, oldCtrlName, newCtrlName)
 	cmds.rename(oldCtrlName, newCtrlName)
