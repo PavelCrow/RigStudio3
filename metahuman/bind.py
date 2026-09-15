@@ -32,6 +32,8 @@
 #   the spine    a point plus an aim, because the rig's spine joints
 #                ride a surface and their axes are not the bones' -
 #                see bones.AIM_BINDS.
+#   the root     a scaleConstraint as well, from the rig's root control,
+#                so scaling the character takes the skeleton with it.
 #
 # Scope is the main body. The twist bones, the hundreds of correctives
 # and the whole face are left alone: a plugin drives those. The rig's
@@ -297,6 +299,46 @@ def report(matched, missed):  #
     print("--- %s bones driven ---\n" % len(matched))
 
 
+def _rootControl():  #
+    """The rig's root control, and "" with the reason when there is none.
+
+    Found by the module's type, and then by internalName 'root' inside
+    that module's control set - the rig's own rename-proof name for it.
+    Not by its scene name, which does not follow the '<module>_<control>'
+    pattern here: on the rig this was written for, the control with
+    internalName 'root' is called 'main' in the scene.
+
+    Only when the rig has exactly one root module: with two, either could
+    be the one that scales the character.
+    """
+    roots = sorted(m for m, t in scene.modules().items() if t == "root")
+    if not roots:
+        return "", "the rig has no root module"
+    if len(roots) > 1:
+        return "", "more than one root module: %s" % ", ".join(roots)
+
+    controlSet = roots[0] + "_moduleControlSet"
+    if not cmds.objExists(controlSet):
+        return "", "%s is not in the scene" % controlSet
+
+    # read here rather than through utils.getControlNameFromInternal,
+    # which reads internalName off every member unguarded and falls over
+    # on the first one that has none
+    found = []
+    for node in utils.getSetObjects(controlSet):
+        plug = node + ".internalName"
+        if cmds.objExists(plug) and cmds.getAttr(plug) == "root":
+            found.append(node)
+
+    if not found:
+        return "", "no control with internalName 'root' in %s" % controlSet
+    if len(found) > 1:
+        return "", ("more than one control with internalName 'root': %s"
+                    % ", ".join(found))
+
+    return found[0], ""
+
+
 def run(skeletonRoot=None, dryRun=False, scaleToo=False,
         name="metahuman"):  #
     """Constrain the MetaHuman skeleton to the rig.
@@ -377,11 +419,37 @@ def run(skeletonRoot=None, dryRun=False, scaleToo=False,
                 made.append(bone)
             except Exception as e:
                 failed.append("%s (%s)" % (bone, e))
+
+        # Scale goes onto the skeleton's root once, from the root control.
+        # Everything above holds position and rotation, and scale is
+        # inherited down the hierarchy - so scaling the character as a
+        # whole would otherwise leave the skeleton at its own size while
+        # the rig around it grows or shrinks.
+        scaled = ""
+        control, why = _rootControl()
+        rootBone = namespace + "root"
+        if not control:
+            failed.append("root scale (%s)" % why)
+        elif not cmds.objExists(rootBone):
+            failed.append("root scale (%s is not in the scene)" % rootBone)
+        elif cmds.listConnections(rootBone, type="scaleConstraint",
+                                  source=True, destination=False):
+            failed.append("root scale (%s already has a scaleConstraint)"
+                          % rootBone)
+        else:
+            try:
+                sCon = cmds.scaleConstraint(control, rootBone, mo=True)[0]
+                cmds.sets(sCon, add=BIND_SET)
+                scaled = control
+            except Exception as e:
+                failed.append("root scale (%s)" % e)
     finally:
         cmds.undoInfo(closeChunk=True)
 
     print("metahuman: constrained %s bones, %s already had a constraint"
           % (len(made), len(already)))
+    if scaled:
+        print("scale: %s -> %s" % (scaled, namespace + "root"))
     if already:
         # Silence here reads as success, and the bones keep whatever
         # they were bound with last time - which is exactly wrong after
@@ -399,7 +467,7 @@ def run(skeletonRoot=None, dryRun=False, scaleToo=False,
             print("    " + line)
 
     return {"constrained": made, "already": already, "failed": failed,
-            "missed": missed, "aimed": aimed}
+            "missed": missed, "aimed": aimed, "scaled": scaled}
 
 
 def status(skeletonRoot=None):  #
