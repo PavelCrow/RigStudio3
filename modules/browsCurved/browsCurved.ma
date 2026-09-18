@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: browsCurved.ma
-//Last modified: Mon, Aug 24, 2026 06:52:53 AM
+//Last modified: Fri, Sep 18, 2026 11:03:36 AM
 //Codeset: 1251
 requires maya "2022";
 requires -nodeType "sweepMeshCreator" -dataType "sweepMeshData" -dataType "sweepProfileData"
@@ -13,7 +13,7 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202110272215-ad32f8f1e6";
 fileInfo "osv" "Windows 10 Pro v2009 (Build: 26200)";
-fileInfo "UUID" "99CDE51E-444E-CF15-0DC2-E6A5FC76DE43";
+fileInfo "UUID" "B7FE5696-4281-C319-6085-B890E96A2C45";
 createNode transform -n "mod";
 	rename -uid "A8281E66-4053-4FC7-AA21-27BF6ABE5693";
 	addAttr -ci true -sn "version" -ln "version" -dt "string";
@@ -894,6 +894,7 @@ createNode mesh -n "posers_curve_1_sweepMeshShape" -p "posers_curve_1_sweepMesh"
 	setAttr ".dcc" -type "string" "Ambient+Diffuse";
 	setAttr ".covm[0]"  0 1 1;
 	setAttr ".cdvm[0]"  0 1 1;
+	setAttr ".ndt" 0;
 createNode transform -n "input" -p "mod";
 	rename -uid "EA12AC18-4B08-D6DC-C862-F6A9004128AF";
 	setAttr ".v" no;
@@ -921,16 +922,16 @@ createNode nurbsCurve -n "l_curveShape" -p "l_curve";
 		 1 1
 		12
 		0.046722914327709253 17.687249826513597 7.0475914749852384
-		1.1472200256733398 18.190383734108611 7.2939358685005606
-		1.1953074264927601 18.177724357194723 7.2992052550442192
-		1.2463008964072455 18.164805027670777 7.2875252577169549
-		1.7818526865478681 17.968101439453203 7.3612489132130197
-		2.5079672196498937 18.124254357163512 7.2190740639755431
+		1.104316128873635 17.841438883871387 7.2891100731394172
+		1.1540223244699519 17.84143888387139 7.294561540400859
+		1.2066678301281117 17.841438883871387 7.2830673627082421
+		1.7804454394047942 17.952846833446486 7.3610906272007552
+		2.5079672196498937 18.082888290379845 7.2190740639755431
 		3.2002664508399108 18.162841056875799 7.0141754281404225
-		3.8971245307105824 18.166927813797756 6.4356131974421436
+		3.897124530710582 18.147439041420384 6.4356131974421444
 		4.3349056047339278 17.967180677708335 5.9219045042791345
-		4.5319295494895346 17.749515832713325 5.5327024882940821
-		4.5637367386229029 17.737951138985615 5.4825590769256864
+		4.5318639460098984 17.749515832713325 5.5327856420593173
+		4.5636711351432666 17.737951138985615 5.4826422306909217
 		4.8711760210111033 17.0908647540905 4.4637330730635609
 		;
 createNode transform -n "r_curve" -p "system";
@@ -946,16 +947,16 @@ createNode nurbsCurve -n "r_curveShape" -p "r_curve";
 		 1 1
 		12
 		0.046722914327709253 17.687249826513597 7.0475914749852384
-		-1.1042108758047289 17.84143888387139 7.2890982343599724
-		-1.153917071401046 17.84143888387139 7.2945497016214107
-		-1.2065625770592057 17.841438883871387 7.2830555239287955
-		-1.7803928128703415 17.952846833446486 7.3610847078110311
+		-1.1043161288736347 17.84143888387139 7.2891100731394207
+		-1.1540223244699519 17.84143888387139 7.294561540400859
+		-1.2066678301281115 17.841438883871387 7.2830673627082438
+		-1.7804454394047942 17.952846833446486 7.3610906272007552
 		-2.5079672196498937 18.082888290379845 7.2190740639755431
 		-3.2002664508399108 18.162841056875799 7.0141754281404225
-		-3.8971245307105824 18.147439041420384 6.4356131974421436
+		-3.897124530710582 18.147439041420384 6.4356131974421444
 		-4.3349056047339278 17.967180677708335 5.9219045042791345
-		-4.5197949139406814 17.753903980904767 5.5518122349885974
-		-4.572372004271406 17.73478761245676 5.4689254807409196
+		-4.5318639460098984 17.749515832713325 5.5327856420593173
+		-4.5636711351432666 17.737951138985615 5.4826422306909217
 		-4.8711760210111033 17.0908647540905 4.4637330730635609
 		;
 createNode transform -n "controls" -p "mod";
@@ -1017,19 +1018,21 @@ createNode transform -n "l_brow_in_group_1" -p "l_brow_in_group";
 	setAttr ".sp" -type "double3" -2.2204460492503131e-16 0 0 ;
 createNode transform -n "l_brow_in" -p "l_brow_in_group_1";
 	rename -uid "FE11A664-45E0-3F35-AB68-4B8F7590F99C";
-	addAttr -ci true -sn "rotateToLength" -ln "rotateToLength" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "rotateToMove1" -ln "rotateToMove1" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "rotateToMove2" -ln "rotateToMove2" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "rotateToMove3" -ln "rotateToMove3" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "rotateToMove4" -ln "rotateToMove4" -min 0 -max 1 -at "double";
+	addAttr -ci true -sn "local1_lift" -ln "local1_lift" -dv -1.301 -at "double";
+	addAttr -ci true -sn "local1_side" -ln "local1_side" -dv 1.7812 -at "double";
+	addAttr -ci true -sn "local2_lift" -ln "local2_lift" -dv -0.7539 -at "double";
+	addAttr -ci true -sn "local2_side" -ln "local2_side" -dv 0.5437 -at "double";
+	addAttr -ci true -sn "local3_lift" -ln "local3_lift" -dv -0.1765 -at "double";
+	addAttr -ci true -sn "local3_side" -ln "local3_side" -at "double";
+	addAttr -ci true -sn "local4_lift" -ln "local4_lift" -dv -0.0628 -at "double";
+	addAttr -ci true -sn "local4_side" -ln "local4_side" -at "double";
 	setAttr -l on -k off ".v";
 	setAttr ".rp" -type "double3" 0 -4.4408920985006262e-16 0 ;
 	setAttr ".sp" -type "double3" 0 -4.4408920985006262e-16 0 ;
-	setAttr ".rotateToLength" 0.35384615390346602;
-	setAttr ".rotateToMove1" 1;
-	setAttr ".rotateToMove2" 0.87818696885963332;
-	setAttr ".rotateToMove3" 0.16713881058085489;
-	setAttr ".rotateToMove4" 0.059490084758941242;
+	setAttr ".local2_lift" -0.56400000000000006;
+	setAttr ".local2_side" 0.25399999999999995;
+	setAttr ".local3_lift" -0.025999999999999995;
+	setAttr ".local4_lift" 0;
 createNode nurbsCurve -n "l_brow_in_1Shape" -p "l_brow_in";
 	rename -uid "A2174BD3-4D15-D7D1-B512-589573F0B6B8";
 	setAttr -k off ".v";
@@ -1051,134 +1054,9 @@ createNode nurbsCurve -n "l_brow_in_1Shape" -p "l_brow_in";
 		-1.4969281253863699e-16 0.37015566509428743 0.24600004032846876
 		-0.26173958088278654 0.2617395808827867 0.24600004032846876
 		;
-createNode transform -n "l_brow_local_2_rotateOffset" -p "l_brow_in";
-	rename -uid "956FE6AD-47EB-BC06-DE84-229479FAE790";
-	setAttr ".rp" -type "double3" 0 -4.4408920985006262e-16 0 ;
-	setAttr ".sp" -type "double3" 0 -4.4408920985006262e-16 0 ;
-createNode transform -n "l_curve9_2_loc_moveOffset" -p "l_brow_local_2_rotateOffset";
-	rename -uid "A5A7E5F1-41B8-79E6-0B60-17A7AD2B1106";
-createNode transform -n "l_brow_local_2_group" -p "l_curve9_2_loc_moveOffset";
-	rename -uid "2D2E332B-44D5-BAB4-D480-6286B7A76BA4";
-createNode transform -n "l_brow_local_2_group_1" -p "l_brow_local_2_group";
-	rename -uid "20CA00C1-4AA4-42E0-0512-7E93AA9365B7";
-	setAttr ".s" -type "double3" 1 0.99999999999999989 1 ;
-createNode transform -n "l_brow_local_2" -p "l_brow_local_2_group_1";
-	rename -uid "7537F918-4B96-980F-0D4E-5BBC2A85F79E";
-	setAttr -l on -k off ".v";
-	setAttr ".t" -type "double3" 5.1006291204580556e-16 -0.081780224259241516 2.6541269182445149e-16 ;
-	setAttr -l on -k off ".rx";
-	setAttr -l on -k off ".ry";
-	setAttr -l on -k off ".rz";
-	setAttr -l on -k off ".sx";
-	setAttr -l on -k off ".sy";
-	setAttr -l on -k off ".sz";
-createNode nurbsCurve -n "l_brow_local_2Shape" -p "l_brow_local_2";
-	rename -uid "05792709-4A7C-D4AA-2930-C9A8EAD5AD0D";
-	setAttr -k off ".v";
-	setAttr ".ove" yes;
-	setAttr ".ovc" 20;
-	setAttr ".cc" -type "nurbsCurve" 
-		3 8 2 no 3
-		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
-		11
-		0.061328389338584727 0.061328372464537345 0.12249364956903555
-		1.6874047159554095e-08 0.086731416097617836 0.12249364956903555
-		-0.061328355590490248 0.061328372464537345 0.12249364956903555
-		-0.086731399223570746 -4.1355873594643409e-18 0.12249364956903555
-		-0.061328355590490304 -0.061328372464537415 0.12249364956903555
-		1.6874047104042944e-08 -0.086731416097617892 0.12249364956903555
-		0.061328389338584505 -0.061328372464537456 0.12249364956903555
-		0.086731432971665107 -7.6843990634803227e-17 0.12249364956903555
-		0.061328389338584727 0.061328372464537345 0.12249364956903555
-		1.6874047159554095e-08 0.086731416097617836 0.12249364956903555
-		-0.061328355590490248 0.061328372464537345 0.12249364956903555
-		;
-createNode transform -n "l_curve_loc_05" -p "l_brow_local_2";
-	rename -uid "158B9E29-4DF5-9FDC-983B-AF9C9672F5E4";
-	setAttr ".v" no;
-	setAttr ".spt" -type "double3" 0 1.4791141972893969e-31 0 ;
-createNode locator -n "l_curve_loc_05Shape" -p "l_curve_loc_05";
-	rename -uid "6D1DDD1B-4778-6DBF-6526-A5B34076ACEC";
-	setAttr -k off ".v";
-	setAttr ".lp" -type "double3" 0 -2.970714914637658e-17 -5.5511151231257827e-17 ;
-	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "l_brow_local_2_top" -p "l_brow_local_2_group";
-	rename -uid "C5495359-4E5F-2C1F-91D8-238085B6039B";
-	setAttr -k off ".v";
-	setAttr ".t" -type "double3" 0 -1.3322676295501878e-15 -1.6653345369377348e-16 ;
-	setAttr -l on -k off ".rx";
-	setAttr -l on -k off ".ry";
-	setAttr -l on -k off ".rz";
-	setAttr -l on -k off ".sx";
-	setAttr -l on -k off ".sy";
-	setAttr -l on -k off ".sz";
-createNode nurbsCurve -n "l_brow_local_2_topShape" -p "l_brow_local_2_top";
-	rename -uid "756E240D-466C-7120-4974-CBA11285D37E";
-	setAttr -k off ".v";
-	setAttr ".ove" yes;
-	setAttr ".ovc" 13;
-	setAttr ".cc" -type "nurbsCurve" 
-		3 8 2 no 3
-		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
-		11
-		0.061328389338584699 0.061328372464537352 0.12249364956903551
-		1.6874047215065247e-08 0.086731416097617836 0.12249364956903554
-		-0.061328355590490186 0.061328372464537366 0.12249364956903551
-		-0.086731399223570677 -4.1355873594643409e-18 0.12249364956903551
-		-0.061328355590490241 -0.061328372464537394 0.12249364956903551
-		1.6874047159554095e-08 -0.086731416097617892 0.12249364956903551
-		0.061328389338584532 -0.061328372464537435 0.12249364956903551
-		0.086731432971665107 -7.6843990634803227e-17 0.12249364956903551
-		0.061328389338584699 0.061328372464537352 0.12249364956903551
-		1.6874047215065247e-08 0.086731416097617836 0.12249364956903554
-		-0.061328355590490186 0.061328372464537366 0.12249364956903551
-		;
-createNode transform -n "l_brow_local_2_bot" -p "l_brow_local_2_group";
-	rename -uid "F0928C32-43E8-6085-411F-87BD7E93A034";
-	setAttr -k off ".v";
-	setAttr ".t" -type "double3" 0 -1.3322676295501878e-15 -1.6653345369377348e-16 ;
-	setAttr -l on -k off ".rx";
-	setAttr -l on -k off ".ry";
-	setAttr -l on -k off ".rz";
-	setAttr -l on -k off ".sx";
-	setAttr -l on -k off ".sy";
-	setAttr -l on -k off ".sz";
-createNode nurbsCurve -n "l_brow_local_2_botShape" -p "l_brow_local_2_bot";
-	rename -uid "EEF2C9B5-47A1-6AE6-A3F3-E4A1E3169020";
-	setAttr -k off ".v";
-	setAttr ".ove" yes;
-	setAttr ".ovc" 13;
-	setAttr ".cc" -type "nurbsCurve" 
-		3 8 2 no 3
-		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
-		11
-		0.061328389338584699 0.061328372464537352 0.12249364956903551
-		1.6874047215065247e-08 0.086731416097617836 0.12249364956903554
-		-0.061328355590490186 0.061328372464537366 0.12249364956903551
-		-0.086731399223570677 -4.1355873594643409e-18 0.12249364956903551
-		-0.061328355590490241 -0.061328372464537394 0.12249364956903551
-		1.6874047159554095e-08 -0.086731416097617892 0.12249364956903551
-		0.061328389338584532 -0.061328372464537435 0.12249364956903551
-		0.086731432971665107 -7.6843990634803227e-17 0.12249364956903551
-		0.061328389338584699 0.061328372464537352 0.12249364956903551
-		1.6874047215065247e-08 0.086731416097617836 0.12249364956903554
-		-0.061328355590490186 0.061328372464537366 0.12249364956903551
-		;
-createNode transform -n "l_brow_local_1_moveOffset" -p "l_brow_in";
-	rename -uid "622720E3-4916-4600-5B78-4EBF1FE0499E";
-	setAttr ".s" -type "double3" 1 0.99999999999999978 1 ;
-createNode transform -n "l_brow_local_1_rotateOffset" -p "l_brow_local_1_moveOffset";
-	rename -uid "D175FCD6-4487-5AD4-B521-D89303E1AEBE";
-createNode transform -n "l_brow_local_1_group" -p "l_brow_local_1_rotateOffset";
-	rename -uid "0ADAA1E0-423D-5EE3-FCBF-FE9D16AB1DC7";
-	addAttr -ci true -k true -sn "test" -ln "test" -at "double";
-	addAttr -ci true -k true -sn "test1" -ln "test1" -at "double";
-	addAttr -ci true -k true -sn "test2" -ln "test2" -at "double";
-	setAttr ".spt" -type "double3" 0 -4.3790577010150533e-47 0 ;
-createNode transform -n "l_brow_local_1_group_1" -p "l_brow_local_1_group";
-	rename -uid "B92F308B-4E45-0E14-B0B6-2EBC4CC23631";
-	setAttr ".s" -type "double3" 1 0.99999999999999989 1 ;
-createNode transform -n "l_brow_local_1" -p "l_brow_local_1_group_1";
+createNode transform -n "l_brow_local_1_group" -p "l_brow_in";
+	rename -uid "589524D9-44B8-DC00-E71C-459D871A55D8";
+createNode transform -n "l_brow_local_1" -p "l_brow_local_1_group";
 	rename -uid "DD8B40DA-479E-726B-073B-C99A2BC27175";
 	setAttr -l on -k off ".v";
 	setAttr -l on -k off ".rx";
@@ -1238,7 +1116,7 @@ createNode locator -n "l_curve_loc_02Shape" -p "l_curve_loc_02";
 	rename -uid "B41B7AFE-4EF6-A7E6-9D71-A8BDEF4AA0E8";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "l_brow_local_1_top" -p "l_brow_local_1_group";
+createNode transform -n "l_brow_local_1_top" -p "l_brow_in";
 	rename -uid "5B23F89C-4FE5-B9F4-646E-5C9D264A0B94";
 	setAttr -l on -k off ".v" no;
 	setAttr -l on -k off ".rx";
@@ -1271,7 +1149,7 @@ createNode nurbsCurve -n "l_brow_local_1_topShape" -p "l_brow_local_1_top";
 		0.16306873825661339 0.086731416097617836 0.092136783948363624
 		0.10174036579207596 0.061328372464537352 0.092136783948363624
 		;
-createNode transform -n "l_brow_local_1_bot" -p "l_brow_local_1_group";
+createNode transform -n "l_brow_local_1_bot" -p "l_brow_in";
 	rename -uid "A102A27C-42C5-6C7E-9E7E-6DA1AC991267";
 	setAttr -l on -k off ".v" no;
 	setAttr -l on -k off ".rx";
@@ -1303,6 +1181,110 @@ createNode nurbsCurve -n "l_brow_local_1_botShape" -p "l_brow_local_1_bot";
 		0.22439711072115093 0.061328372464537345 0.092136783948363624
 		0.16306873825661339 0.086731416097617836 0.092136783948363624
 		0.10174036579207596 0.061328372464537352 0.092136783948363624
+		;
+createNode transform -n "l_brow_local_2_group" -p "l_brow_in";
+	rename -uid "01FE7232-4445-B20B-499B-2CB9C1B95973";
+createNode transform -n "l_brow_local_2" -p "l_brow_local_2_group";
+	rename -uid "7537F918-4B96-980F-0D4E-5BBC2A85F79E";
+	setAttr -l on -k off ".v";
+	setAttr ".t" -type "double3" 0 0 2.6541269182445149e-16 ;
+	setAttr -l on -k off ".rx";
+	setAttr -l on -k off ".ry";
+	setAttr -l on -k off ".rz";
+	setAttr -l on -k off ".sx";
+	setAttr -l on -k off ".sy";
+	setAttr -l on -k off ".sz";
+createNode nurbsCurve -n "l_brow_local_2Shape" -p "l_brow_local_2";
+	rename -uid "05792709-4A7C-D4AA-2930-C9A8EAD5AD0D";
+	setAttr -k off ".v";
+	setAttr ".ove" yes;
+	setAttr ".ovc" 20;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		0.061328389338584727 0.061328372464537345 0.12249364956903555
+		1.6874047159554095e-08 0.086731416097617836 0.12249364956903555
+		-0.061328355590490248 0.061328372464537345 0.12249364956903555
+		-0.086731399223570746 -4.1355873594643409e-18 0.12249364956903555
+		-0.061328355590490304 -0.061328372464537415 0.12249364956903555
+		1.6874047104042944e-08 -0.086731416097617892 0.12249364956903555
+		0.061328389338584505 -0.061328372464537456 0.12249364956903555
+		0.086731432971665107 -7.6843990634803227e-17 0.12249364956903555
+		0.061328389338584727 0.061328372464537345 0.12249364956903555
+		1.6874047159554095e-08 0.086731416097617836 0.12249364956903555
+		-0.061328355590490248 0.061328372464537345 0.12249364956903555
+		;
+createNode transform -n "l_curve_loc_05" -p "l_brow_local_2";
+	rename -uid "158B9E29-4DF5-9FDC-983B-AF9C9672F5E4";
+	setAttr ".v" no;
+	setAttr ".spt" -type "double3" 0 1.4791141972893969e-31 0 ;
+createNode locator -n "l_curve_loc_05Shape" -p "l_curve_loc_05";
+	rename -uid "6D1DDD1B-4778-6DBF-6526-A5B34076ACEC";
+	setAttr -k off ".v";
+	setAttr ".lp" -type "double3" 0 -2.970714914637658e-17 -5.5511151231257827e-17 ;
+	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
+createNode transform -n "l_brow_local_2_top" -p "l_brow_in";
+	rename -uid "C5495359-4E5F-2C1F-91D8-238085B6039B";
+	setAttr -k off ".v";
+	setAttr ".t" -type "double3" 0 -1.3322676295501878e-15 -1.6653345369377348e-16 ;
+	setAttr -l on -k off ".rx";
+	setAttr -l on -k off ".ry";
+	setAttr -l on -k off ".rz";
+	setAttr -l on -k off ".sx";
+	setAttr -l on -k off ".sy";
+	setAttr -l on -k off ".sz";
+createNode nurbsCurve -n "l_brow_local_2_topShape" -p "l_brow_local_2_top";
+	rename -uid "756E240D-466C-7120-4974-CBA11285D37E";
+	setAttr -k off ".v";
+	setAttr ".ove" yes;
+	setAttr ".ovc" 13;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		0.061328389338584699 0.061328372464537352 0.12249364956903551
+		1.6874047215065247e-08 0.086731416097617836 0.12249364956903554
+		-0.061328355590490186 0.061328372464537366 0.12249364956903551
+		-0.086731399223570677 -4.1355873594643409e-18 0.12249364956903551
+		-0.061328355590490241 -0.061328372464537394 0.12249364956903551
+		1.6874047159554095e-08 -0.086731416097617892 0.12249364956903551
+		0.061328389338584532 -0.061328372464537435 0.12249364956903551
+		0.086731432971665107 -7.6843990634803227e-17 0.12249364956903551
+		0.061328389338584699 0.061328372464537352 0.12249364956903551
+		1.6874047215065247e-08 0.086731416097617836 0.12249364956903554
+		-0.061328355590490186 0.061328372464537366 0.12249364956903551
+		;
+createNode transform -n "l_brow_local_2_bot" -p "l_brow_in";
+	rename -uid "F0928C32-43E8-6085-411F-87BD7E93A034";
+	setAttr -k off ".v";
+	setAttr ".t" -type "double3" 0 -1.3322676295501878e-15 -1.6653345369377348e-16 ;
+	setAttr -l on -k off ".rx";
+	setAttr -l on -k off ".ry";
+	setAttr -l on -k off ".rz";
+	setAttr -l on -k off ".sx";
+	setAttr -l on -k off ".sy";
+	setAttr -l on -k off ".sz";
+createNode nurbsCurve -n "l_brow_local_2_botShape" -p "l_brow_local_2_bot";
+	rename -uid "EEF2C9B5-47A1-6AE6-A3F3-E4A1E3169020";
+	setAttr -k off ".v";
+	setAttr ".ove" yes;
+	setAttr ".ovc" 13;
+	setAttr ".cc" -type "nurbsCurve" 
+		3 8 2 no 3
+		13 -2 -1 0 1 2 3 4 5 6 7 8 9 10
+		11
+		0.061328389338584699 0.061328372464537352 0.12249364956903551
+		1.6874047215065247e-08 0.086731416097617836 0.12249364956903554
+		-0.061328355590490186 0.061328372464537366 0.12249364956903551
+		-0.086731399223570677 -4.1355873594643409e-18 0.12249364956903551
+		-0.061328355590490241 -0.061328372464537394 0.12249364956903551
+		1.6874047159554095e-08 -0.086731416097617892 0.12249364956903551
+		0.061328389338584532 -0.061328372464537435 0.12249364956903551
+		0.086731432971665107 -7.6843990634803227e-17 0.12249364956903551
+		0.061328389338584699 0.061328372464537352 0.12249364956903551
+		1.6874047215065247e-08 0.086731416097617836 0.12249364956903554
+		-0.061328355590490186 0.061328372464537366 0.12249364956903551
 		;
 createNode transform -n "l_brow_in_top" -p "l_brow_in_group";
 	rename -uid "95AA7EFB-4E22-7B69-BB64-ED9AC4638BC8";
@@ -1410,21 +1392,12 @@ createNode nurbsCurve -n "l_brow_midShape" -p "l_brow_mid";
 		7.2351792386394334e-17 0.37015566509428749 0.24600004032846876
 		-0.26173958088278632 0.26173958088278676 0.24600004032846876
 		;
-createNode transform -n "l_brow_local_3_rotateOffset" -p "l_brow_mid";
-	rename -uid "E1152CB3-463A-46D4-4609-38A79C74486F";
-	setAttr ".rp" -type "double3" 4.4408920985006271e-16 0 0 ;
-	setAttr ".sp" -type "double3" 4.4408920985006271e-16 0 0 ;
-createNode transform -n "l_curve9_3_loc_moveOffset" -p "l_brow_local_3_rotateOffset";
-	rename -uid "A947DF12-4830-1443-C979-8DB6CFEDF5AD";
-createNode transform -n "l_brow_local_3_group" -p "l_curve9_3_loc_moveOffset";
-	rename -uid "6DE80D6C-4A5C-E104-8309-5CAAEC6AAC11";
-createNode transform -n "l_brow_local_3_group_1" -p "l_brow_local_3_group";
-	rename -uid "72CBDA20-47D9-6031-1F38-96ADE5DF2E09";
-	setAttr ".s" -type "double3" 1 0.99999999999999989 0.99999999999999978 ;
-createNode transform -n "l_brow_local_3" -p "l_brow_local_3_group_1";
+createNode transform -n "l_brow_local_3_group" -p "l_brow_mid";
+	rename -uid "299C625B-498C-EFA3-197C-EC9DD6CB9189";
+createNode transform -n "l_brow_local_3" -p "l_brow_local_3_group";
 	rename -uid "1678DC15-4635-C849-E923-80AC81CF91E5";
 	setAttr -l on -k off ".v";
-	setAttr ".t" -type "double3" 0 -4.4408920985006262e-16 -3.3306690738754696e-16 ;
+	setAttr ".t" -type "double3" 0 0 -3.3306690738754696e-16 ;
 	setAttr -l on -k off ".rx";
 	setAttr -l on -k off ".ry";
 	setAttr -l on -k off ".rz";
@@ -1461,7 +1434,7 @@ createNode locator -n "l_curve_loc_06Shape" -p "l_curve_loc_06";
 	rename -uid "159FC85E-414C-49BE-8DF6-DF98D354E4E4";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "l_brow_local_3_top" -p "l_brow_local_3_group";
+createNode transform -n "l_brow_local_3_top" -p "l_brow_mid";
 	rename -uid "304FCB9D-423B-AF3A-AF0E-7A8E2C6DE72C";
 	setAttr -k off ".v";
 	setAttr ".t" -type "double3" 0 0 -5.5511151231257827e-16 ;
@@ -1493,7 +1466,7 @@ createNode nurbsCurve -n "l_brow_local_3_topShape" -p "l_brow_local_3_top";
 		2.1382346858389578e-08 0.08673141609761742 0.10273604085023856
 		-0.061328351082190452 0.061328372464536991 0.10273604085023856
 		;
-createNode transform -n "l_brow_local_3_bot" -p "l_brow_local_3_group";
+createNode transform -n "l_brow_local_3_bot" -p "l_brow_mid";
 	rename -uid "5788B988-45FC-6500-DF0A-85ADD2D5D5A3";
 	setAttr -k off ".v";
 	setAttr ".t" -type "double3" 4.9563531621167177e-16 -0.0036896680511477307 -5.2570630520019297e-16 ;
@@ -1525,11 +1498,8 @@ createNode nurbsCurve -n "l_brow_local_3_botShape" -p "l_brow_local_3_bot";
 		2.1382346858389578e-08 0.08673141609761742 0.10273604085023856
 		-0.061328351082190452 0.061328372464536991 0.10273604085023856
 		;
-createNode transform -n "l_brow_local_4_moveOffset" -p "l_brow_local_3_rotateOffset";
-	rename -uid "F2E44A07-4787-EAEA-CB33-41812398F8E3";
-createNode transform -n "l_brow_local_4_group" -p "l_brow_local_4_moveOffset";
-	rename -uid "1E8DDA0D-47B5-1DD8-851F-D3ACA78A109B";
-	setAttr ".s" -type "double3" 1 1 0.99999999999999978 ;
+createNode transform -n "l_brow_local_4_group" -p "l_brow_mid";
+	rename -uid "0BDAC95F-48C0-4E5B-A92D-5B9D8E7F5351";
 createNode transform -n "l_brow_local_4" -p "l_brow_local_4_group";
 	rename -uid "EAEA6C0B-46E2-F544-1B8F-E5A0A57D9B63";
 	setAttr -l on -k off ".v";
@@ -1569,7 +1539,7 @@ createNode locator -n "l_curve_loc_07Shape" -p "l_curve_loc_07";
 	rename -uid "10D114A7-4437-1CAC-AACC-A4818325DF82";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "l_brow_local_4_top" -p "l_brow_local_4_moveOffset";
+createNode transform -n "l_brow_local_4_top" -p "l_brow_mid";
 	rename -uid "28AA7525-45BB-1F40-19D8-CAABEF43E1E2";
 	setAttr -k off ".v";
 	setAttr -l on -k off ".rx";
@@ -1601,7 +1571,7 @@ createNode nurbsCurve -n "l_brow_local_4_topShape" -p "l_brow_local_4_top";
 		2.1382346858389578e-08 0.08673141609761742 0.10273604085023856
 		-0.061328351082190452 0.061328372464536991 0.10273604085023856
 		;
-createNode transform -n "l_brow_local_4_bot" -p "l_brow_local_4_moveOffset";
+createNode transform -n "l_brow_local_4_bot" -p "l_brow_mid";
 	rename -uid "60388E3D-4E1F-54CC-2895-328E6EEF2652";
 	setAttr -k off ".v";
 	setAttr -l on -k off ".rx";
@@ -1713,18 +1683,19 @@ createNode transform -n "l_brow_out_group_1" -p "l_brow_out_group";
 	setAttr ".sp" -type "double3" 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 ;
 createNode transform -n "l_brow_out" -p "l_brow_out_group_1";
 	rename -uid "B5A8F586-46A4-911B-EB2C-C39D5F5544B0";
-	addAttr -ci true -sn "rotateToLength" -ln "rotateToLength" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "rotateToMove1" -ln "rotateToMove1" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "rotateToMove2" -ln "rotateToMove2" -min 0 -max 1 -at "double";
-	addAttr -ci true -sn "rotateToMove3" -ln "rotateToMove3" -min 0 -max 1 -at "double";
+	addAttr -ci true -sn "local4_lift" -ln "local4_lift" -dv 0.0419 -at "double";
+	addAttr -ci true -sn "local4_side" -ln "local4_side" -at "double";
+	addAttr -ci true -sn "local5_lift" -ln "local5_lift" -dv 0.1615 -at "double";
+	addAttr -ci true -sn "local5_side" -ln "local5_side" -at "double";
+	addAttr -ci true -sn "local6_lift" -ln "local6_lift" -dv 0.7148 -at "double";
+	addAttr -ci true -sn "local6_side" -ln "local6_side" -at "double";
+	addAttr -ci true -sn "local7_lift" -ln "local7_lift" -dv 1.5033 -at "double";
+	addAttr -ci true -sn "local7_side" -ln "local7_side" -dv -2.051 -at "double";
 	setAttr -l on -k off ".v";
-	setAttr -s 2 ".iog";
 	setAttr ".rp" -type "double3" 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 ;
 	setAttr ".sp" -type "double3" 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 ;
-	setAttr ".rotateToLength" 0.49230769275186154;
-	setAttr ".rotateToMove1" 0.67692307695173304;
-	setAttr ".rotateToMove2" 0.15297450433107931;
-	setAttr ".rotateToMove3" 0.039660056195519967;
+	setAttr ".local4_lift" 0;
+	setAttr ".local6_side" -0.67;
 createNode nurbsCurve -n "l_brow_out_1Shape" -p "l_brow_out";
 	rename -uid "3ED7DBEC-4E76-9703-9F5F-8F90345CC94C";
 	setAttr -k off ".v";
@@ -1746,23 +1717,12 @@ createNode nurbsCurve -n "l_brow_out_1Shape" -p "l_brow_out";
 		0.0083187522378923556 0.37015566509428743 0.30408721245735482
 		-0.25342082864489412 0.2617395808827867 0.30408721245735476
 		;
-createNode transform -n "l_brow_local_out_rotateOffset" -p "l_brow_out";
-	rename -uid "00644BB7-4DC2-3B0A-9FC3-BC90CA9B3746";
-	setAttr ".rp" -type "double3" 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 ;
-	setAttr ".sp" -type "double3" 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 ;
-createNode transform -n "l_curve9_5_loc_moveOffset" -p "l_brow_local_out_rotateOffset";
-	rename -uid "F854BFEF-476F-582D-4B26-C7AF5AC7AA40";
-	setAttr ".rp" -type "double3" 0 0 0.0581 ;
-	setAttr ".sp" -type "double3" 0 0 0.0581 ;
-createNode transform -n "l_brow_local_5_group" -p "l_curve9_5_loc_moveOffset";
-	rename -uid "97839686-4E42-4FAC-E4AE-C3997A7A58E2";
-createNode transform -n "l_brow_local_5_group_1" -p "l_brow_local_5_group";
-	rename -uid "3989DE35-47B6-4358-7003-91BB41CA7487";
-	setAttr ".s" -type "double3" 1 1.0000000000000002 1 ;
-createNode transform -n "l_brow_local_5" -p "l_brow_local_5_group_1";
+createNode transform -n "l_brow_local_5_group" -p "l_brow_out";
+	rename -uid "344FBF40-448B-13B1-96AB-908F67BAF2A6";
+createNode transform -n "l_brow_local_5" -p "l_brow_local_5_group";
 	rename -uid "DB1609B3-4E8C-5A8F-A02F-BD8ABB00F1AD";
 	setAttr -l on -k off ".v";
-	setAttr ".t" -type "double3" 8.8817841970012523e-16 0 -2.2204460492503131e-16 ;
+	setAttr ".t" -type "double3" 0 0 -2.2204460492503131e-16 ;
 	setAttr -l on -k off ".rx";
 	setAttr -l on -k off ".ry";
 	setAttr -l on -k off ".rz";
@@ -1801,7 +1761,7 @@ createNode locator -n "l_curve_loc_08Shape" -p "l_curve_loc_08";
 	rename -uid "4927A584-4877-F146-6309-9A944F6D2D02";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "l_brow_local_5_top" -p "l_brow_local_5_group";
+createNode transform -n "l_brow_local_5_top" -p "l_brow_out";
 	rename -uid "C65E47C9-4909-D058-9BF1-67B3A11245A6";
 	setAttr -k off ".v";
 	setAttr ".t" -type "double3" 1.0798653637955624e-15 0.016566719817571081 6.0064800355696946e-16 ;
@@ -1834,7 +1794,7 @@ createNode nurbsCurve -n "l_brow_local_5_topShape" -p "l_brow_local_5_top";
 		2.138234801718486e-08 0.08673141609761699 0.16728831474681899
 		-0.0613283510821893 0.061328372464536651 0.16728831474681899
 		;
-createNode transform -n "l_brow_local_5_bot" -p "l_brow_local_5_group";
+createNode transform -n "l_brow_local_5_bot" -p "l_brow_out";
 	rename -uid "521DB183-4F19-59FA-9FBF-C8AA08804AA8";
 	setAttr -k off ".v";
 	setAttr ".t" -type "double3" 1.6132928326584306e-16 0.036124582186072465 1.1293049828609014e-15 ;
@@ -1867,14 +1827,9 @@ createNode nurbsCurve -n "l_brow_local_5_botShape" -p "l_brow_local_5_bot";
 		2.1382347066556395e-08 0.086731416097617489 0.16757058166715699
 		-0.061328351082190244 0.061328372464537061 0.16757058166715699
 		;
-createNode transform -n "l_curve9_6_loc_moveOffset" -p "l_brow_local_out_rotateOffset";
-	rename -uid "4C252C15-485D-4B50-433D-4FB5D8BEDA7A";
-createNode transform -n "l_brow_local_6_group" -p "l_curve9_6_loc_moveOffset";
-	rename -uid "41786743-486A-7F46-6164-5DAA0CE2517A";
-createNode transform -n "l_brow_local_6_group_1" -p "l_brow_local_6_group";
-	rename -uid "686BE014-4323-1ACF-4B2D-FAAAF68ECD49";
-	setAttr ".s" -type "double3" 1.0000000000000002 1.0000000000000002 1 ;
-createNode transform -n "l_brow_local_6" -p "l_brow_local_6_group_1";
+createNode transform -n "l_brow_local_6_group" -p "l_brow_out";
+	rename -uid "DD5E5A84-4B35-3739-1D2F-C1B6F1FB685A";
+createNode transform -n "l_brow_local_6" -p "l_brow_local_6_group";
 	rename -uid "3EAE4035-42E9-30CC-087A-9AAF4B709061";
 	setAttr -l on -k off ".v";
 	setAttr ".t" -type "double3" 0 0 6.6613381477509392e-16 ;
@@ -1916,7 +1871,7 @@ createNode locator -n "l_curve_loc_09Shape" -p "l_curve_loc_09";
 	rename -uid "5F592D59-4F09-CEB0-2D02-20A88FD1D8F7";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "l_brow_local_6_top" -p "l_brow_local_6_group";
+createNode transform -n "l_brow_local_6_top" -p "l_brow_out";
 	rename -uid "1BE16471-4EF6-BE61-C491-A98AE4531957";
 	setAttr -k off ".v";
 	setAttr ".t" -type "double3" 1.3530843112619095e-16 -0.062565330574229597 2.6367796834847468e-16 ;
@@ -1949,7 +1904,7 @@ createNode nurbsCurve -n "l_brow_local_6_topShape" -p "l_brow_local_6_top";
 		2.1382348445661559e-08 0.086731416097617114 0.14841357136466518
 		-0.06132835108218887 0.061328372464536825 0.14841357136466518
 		;
-createNode transform -n "l_brow_local_6_bot" -p "l_brow_local_6_group";
+createNode transform -n "l_brow_local_6_bot" -p "l_brow_out";
 	rename -uid "76FB9142-4B7F-2C60-EC97-888F476F7AD5";
 	setAttr -k off ".v";
 	setAttr -l on -k off ".rx";
@@ -1981,19 +1936,12 @@ createNode nurbsCurve -n "l_brow_local_6_botShape" -p "l_brow_local_6_bot";
 		2.1382347495033094e-08 0.086731416097617614 0.14869583828500318
 		-0.061328351082189814 0.061328372464537227 0.14869583828500318
 		;
-createNode transform -n "l_brow_local_7_rotateOffset" -p "l_brow_out";
-	rename -uid "79130D5E-48B3-73F0-6B96-788E343402B5";
-	setAttr ".rp" -type "double3" 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 ;
-	setAttr ".sp" -type "double3" 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 ;
-createNode transform -n "l_brow_local_7_group" -p "l_brow_local_7_rotateOffset";
-	rename -uid "53BE29E0-4C4A-76F2-E6CC-BEA6C033334A";
-createNode transform -n "l_brow_local_7_group_1" -p "l_brow_local_7_group";
-	rename -uid "231390E2-414D-D357-6591-E7B5554F04F2";
-	setAttr ".s" -type "double3" 1 1.0000000000000002 1.0000000000000002 ;
-createNode transform -n "l_brow_local_7" -p "l_brow_local_7_group_1";
+createNode transform -n "l_brow_local_7_group" -p "l_brow_out";
+	rename -uid "9F23497C-44FF-2078-ED8F-42A9F4FC41D4";
+createNode transform -n "l_brow_local_7" -p "l_brow_local_7_group";
 	rename -uid "CBBA1EB1-4C3D-C73D-72F0-2BBF4A1DEBA5";
 	setAttr -l on -k off ".v";
-	setAttr ".t" -type "double3" 1.3322676295501878e-15 -2.2204460492503131e-16 -8.8817841970012523e-16 ;
+	setAttr ".t" -type "double3" 0 0 -8.8817841970012523e-16 ;
 	setAttr -l on -k off ".rx";
 	setAttr -l on -k off ".ry";
 	setAttr -l on -k off ".rz";
@@ -2039,7 +1987,7 @@ createNode locator -n "l_curve_loc_Shape11" -p "l_curve_loc_11";
 	rename -uid "2B2C7791-4321-0ED4-3D7B-ECB3D3435184";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "l_brow_local_7_top" -p "l_brow_local_7_group";
+createNode transform -n "l_brow_local_7_top" -p "l_brow_out";
 	rename -uid "A42A6E8C-4CDF-472B-2E09-B9BB74115CD6";
 	setAttr -k off ".v";
 	setAttr ".t" -type "double3" -2.1510571102112408e-16 -0.019418709264114035 -3.9497485143646927e-16 ;
@@ -2072,7 +2020,7 @@ createNode nurbsCurve -n "l_brow_local_7_topShape" -p "l_brow_local_7_top";
 		2.1382346228684956e-08 0.086731416097617614 0.11693261445036246
 		-0.06132835108219109 0.061328372464537338 0.11693261445036246
 		;
-createNode transform -n "l_brow_local_7_bot" -p "l_brow_local_7_group";
+createNode transform -n "l_brow_local_7_bot" -p "l_brow_out";
 	rename -uid "C320D1D6-4412-4097-38E8-4AA8DB92A328";
 	setAttr -k off ".v";
 	setAttr ".t" -type "double3" 0.047729763709386891 0.078047376950070926 0 ;
@@ -2219,8 +2167,6 @@ createNode transform -n "r_brow" -p "r_brow_group";
 	setAttr -l on -k off ".sx";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
-	setAttr ".mtye" yes;
-	setAttr ".xtye" yes;
 	setAttr -cb on ".limits" yes;
 	setAttr ".default_translateX" -type "string" "0.0";
 	setAttr ".default_translateY" -type "string" "0.0";
@@ -2253,62 +2199,11 @@ createNode nurbsCurve -n "r_brow_in_1Shape" -p "r_brow_in";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 18;
 	setAttr ".tw" yes;
-createNode transform -n "r_brow_local_2_rotateOffset" -p "r_brow_in";
-	rename -uid "5FB1C080-4F37-D561-430F-D5B670B4933E";
-	setAttr ".rp" -type "double3" 0 -4.4408920985006262e-16 0 ;
-	setAttr ".sp" -type "double3" 0 -4.4408920985006262e-16 0 ;
-createNode transform -n "r_curve9_2_loc_moveOffset" -p "r_brow_local_2_rotateOffset";
-	rename -uid "7E027184-431B-BAD8-B021-4495A71E89DA";
-	setAttr ".rp" -type "double3" -0.16502494294434356 -4.4408920985006262e-16 -2.7755575615628914e-17 ;
-	setAttr ".sp" -type "double3" -0.16502494294434356 -4.4408920985006262e-16 -2.7755575615628914e-17 ;
-createNode transform -n "r_brow_local_2_group" -p "r_curve9_2_loc_moveOffset";
-	rename -uid "EAD3F184-4B0E-9181-1E7D-CFADA5C81D4C";
-createNode transform -n "r_brow_local_2_group_1" -p "r_brow_local_2_group";
-	rename -uid "2BC616E7-42CC-108F-0C3B-39A12F692B0E";
-	setAttr ".s" -type "double3" 1 0.99999999999999989 1 ;
-createNode transform -n "r_brow_local_2" -p "r_brow_local_2_group_1";
-	rename -uid "C5554C38-4EB3-02D1-23EA-9F9EFD26F043";
-	setAttr -l on -k off ".v";
-	setAttr ".t" -type "double3" 2.2204460492503131e-16 4.4408920985006262e-16 1.3877787807814457e-16 ;
-	setAttr -l on -k off ".rx";
-	setAttr -l on -k off ".ry";
-	setAttr -l on -k off ".rz";
-	setAttr -l on -k off ".sx";
-	setAttr -l on -k off ".sy";
-	setAttr -l on -k off ".sz";
-createNode nurbsCurve -n "r_brow_local_2Shape" -p "r_brow_local_2";
-	rename -uid "9DDD4181-4F18-78B0-7AB0-D081272C1455";
-	setAttr -k off ".v";
-	setAttr ".ove" yes;
-	setAttr ".ovc" 20;
-	setAttr ".tw" yes;
-createNode transform -n "r_curve_loc_05" -p "r_brow_local_2";
-	rename -uid "A92B0658-466F-401E-3347-469BFB01F2AA";
-	setAttr ".v" no;
-	setAttr ".spt" -type "double3" 0 1.4791141972893969e-31 0 ;
-createNode locator -n "r_curve_loc_05Shape" -p "r_curve_loc_05";
-	rename -uid "530ACC6F-4706-A619-8E67-C0A94D2540DE";
-	setAttr -k off ".v";
-	setAttr ".lp" -type "double3" 0 -2.970714914637658e-17 -5.5511151231257827e-17 ;
-	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "r_brow_local_1_moveOffset" -p "r_brow_in";
-	rename -uid "1FD8B6DE-4F38-962C-CF3D-2B9404067E86";
-	setAttr ".s" -type "double3" 1 0.99999999999999978 1 ;
-createNode transform -n "r_brow_local_1_rotateOffset" -p "r_brow_local_1_moveOffset";
-	rename -uid "1E36D7A1-45C1-72BF-2384-7696DAEC62E0";
-createNode transform -n "r_brow_local_1_group" -p "r_brow_local_1_rotateOffset";
-	rename -uid "06CBF1B6-4D61-D424-57C6-A181DD8A70F8";
-	addAttr -ci true -k true -sn "test" -ln "test" -at "double";
-	addAttr -ci true -k true -sn "test1" -ln "test1" -at "double";
-	addAttr -ci true -k true -sn "test2" -ln "test2" -at "double";
-	setAttr ".spt" -type "double3" 0 -4.3790577010150533e-47 0 ;
-createNode transform -n "r_brow_local_1_group_1" -p "r_brow_local_1_group";
-	rename -uid "4C8AAA2C-414D-F188-24F9-05B9A917B172";
-	setAttr ".s" -type "double3" 1 0.99999999999999989 1 ;
-createNode transform -n "r_brow_local_1" -p "r_brow_local_1_group_1";
+createNode transform -n "r_brow_local_1_group" -p "r_brow_in";
+	rename -uid "828FC52B-4E84-D4BB-16FB-DE83DF57FD40";
+createNode transform -n "r_brow_local_1" -p "r_brow_local_1_group";
 	rename -uid "2C2F5AC0-4E7D-0955-C89B-BDB465ADD6E4";
 	setAttr -l on -k off ".v";
-	setAttr ".t" -type "double3" 1.1102230246251565e-16 0 0 ;
 	setAttr -l on -k off ".rx";
 	setAttr -l on -k off ".ry";
 	setAttr -l on -k off ".rz";
@@ -2350,6 +2245,33 @@ createNode locator -n "r_curve_loc_02Shape" -p "r_curve_loc_02";
 	rename -uid "264245EE-4129-9363-DF5C-5F8C95AE48B6";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
+createNode transform -n "r_brow_local_2_group" -p "r_brow_in";
+	rename -uid "D4585546-4ACA-A2B8-174D-A69FD2B96ABB";
+createNode transform -n "r_brow_local_2" -p "r_brow_local_2_group";
+	rename -uid "C5554C38-4EB3-02D1-23EA-9F9EFD26F043";
+	setAttr -l on -k off ".v";
+	setAttr ".t" -type "double3" 0 0 1.3877787807814457e-16 ;
+	setAttr -l on -k off ".rx";
+	setAttr -l on -k off ".ry";
+	setAttr -l on -k off ".rz";
+	setAttr -l on -k off ".sx";
+	setAttr -l on -k off ".sy";
+	setAttr -l on -k off ".sz";
+createNode nurbsCurve -n "r_brow_local_2Shape" -p "r_brow_local_2";
+	rename -uid "9DDD4181-4F18-78B0-7AB0-D081272C1455";
+	setAttr -k off ".v";
+	setAttr ".ove" yes;
+	setAttr ".ovc" 20;
+	setAttr ".tw" yes;
+createNode transform -n "r_curve_loc_05" -p "r_brow_local_2";
+	rename -uid "A92B0658-466F-401E-3347-469BFB01F2AA";
+	setAttr ".v" no;
+	setAttr ".spt" -type "double3" 0 1.4791141972893969e-31 0 ;
+createNode locator -n "r_curve_loc_05Shape" -p "r_curve_loc_05";
+	rename -uid "530ACC6F-4706-A619-8E67-C0A94D2540DE";
+	setAttr -k off ".v";
+	setAttr ".lp" -type "double3" 0 -2.970714914637658e-17 -5.5511151231257827e-17 ;
+	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
 createNode transform -n "r_brow_mid_group" -p "r_brow";
 	rename -uid "FF30DD87-4670-C7D0-079D-A1883A952227";
 	setAttr ".rp" -type "double3" 4.4408920985006271e-16 0 0 ;
@@ -2371,21 +2293,12 @@ createNode nurbsCurve -n "r_brow_midShape" -p "r_brow_mid";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 18;
 	setAttr ".tw" yes;
-createNode transform -n "r_brow_local_3_rotateOffset" -p "r_brow_mid";
-	rename -uid "0EF01166-4DC2-E5C8-9757-ED89F0528619";
-	setAttr ".rp" -type "double3" 4.4408920985006271e-16 0 0 ;
-	setAttr ".sp" -type "double3" 4.4408920985006271e-16 0 0 ;
-createNode transform -n "r_curve9_3_loc_moveOffset" -p "r_brow_local_3_rotateOffset";
-	rename -uid "D539B096-4EA1-7DCC-E17F-B39447D2B7FC";
-createNode transform -n "r_brow_local_3_group" -p "r_curve9_3_loc_moveOffset";
-	rename -uid "1E82EAF3-4F51-A3C7-7E4B-3293165CAAC5";
-createNode transform -n "r_brow_local_3_group_1" -p "r_brow_local_3_group";
-	rename -uid "96504FB4-4597-0B82-E0CD-F795B1C3CEE8";
-	setAttr ".s" -type "double3" 1 0.99999999999999989 0.99999999999999978 ;
-createNode transform -n "r_brow_local_3" -p "r_brow_local_3_group_1";
+createNode transform -n "r_brow_local_3_group" -p "r_brow_mid";
+	rename -uid "C20B7E47-4B6B-41B6-18DC-94B59773FCFC";
+createNode transform -n "r_brow_local_3" -p "r_brow_local_3_group";
 	rename -uid "A39E0C02-4D6F-BA9A-0890-6B9FAA744D2A";
 	setAttr -l on -k off ".v";
-	setAttr ".t" -type "double3" 0 -4.4408920985006262e-16 -3.3306690738754696e-16 ;
+	setAttr ".t" -type "double3" 0 0 -3.3306690738754696e-16 ;
 	setAttr -l on -k off ".rx";
 	setAttr -l on -k off ".ry";
 	setAttr -l on -k off ".rz";
@@ -2407,11 +2320,8 @@ createNode locator -n "r_curve_loc_06Shape" -p "r_curve_loc_06";
 	rename -uid "62230003-42B9-1121-28F5-99B3D84E20BA";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "r_brow_local_4_moveOffset" -p "r_brow_local_3_rotateOffset";
-	rename -uid "777F8EEF-4877-00AD-C0CF-80A2A4FDB734";
-createNode transform -n "r_brow_local_4_group" -p "r_brow_local_4_moveOffset";
-	rename -uid "E1A3D1C5-46CB-1254-A8CB-0C91F2028FF1";
-	setAttr ".s" -type "double3" 1 1 0.99999999999999978 ;
+createNode transform -n "r_brow_local_4_group" -p "r_brow_mid";
+	rename -uid "3734C8A7-4E98-DE9F-D944-F2B92A27A4D8";
 createNode transform -n "r_brow_local_4" -p "r_brow_local_4_group";
 	rename -uid "127CC114-4F7E-5477-EEB8-1A89BFBA7360";
 	setAttr -l on -k off ".v";
@@ -2457,23 +2367,12 @@ createNode nurbsCurve -n "r_brow_out_1Shape" -p "r_brow_out";
 	setAttr ".ove" yes;
 	setAttr ".ovc" 18;
 	setAttr ".tw" yes;
-createNode transform -n "r_brow_local_out_rotateOffset" -p "r_brow_out";
-	rename -uid "12EBDE1E-47CF-3316-E5BF-B183A0A172F7";
-	setAttr ".rp" -type "double3" 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 ;
-	setAttr ".sp" -type "double3" 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 ;
-createNode transform -n "r_curve9_5_loc_moveOffset" -p "r_brow_local_out_rotateOffset";
-	rename -uid "49B917B9-4E4E-EF2E-B89A-62B2F1170C68";
-	setAttr ".rp" -type "double3" 0 0 0.0581 ;
-	setAttr ".sp" -type "double3" 0 0 0.0581 ;
-createNode transform -n "r_brow_local_5_group" -p "r_curve9_5_loc_moveOffset";
-	rename -uid "A5BBD253-44B5-3418-74C8-70BB9DEAF6FE";
-createNode transform -n "r_brow_local_5_group_1" -p "r_brow_local_5_group";
-	rename -uid "D89DF7D1-4C73-7983-55B4-1AB1E92A9BA8";
-	setAttr ".s" -type "double3" 1 1.0000000000000002 1 ;
-createNode transform -n "r_brow_local_5" -p "r_brow_local_5_group_1";
+createNode transform -n "r_brow_local_5_group" -p "r_brow_out";
+	rename -uid "B1191011-48B3-C642-05B1-96A94E667C74";
+createNode transform -n "r_brow_local_5" -p "r_brow_local_5_group";
 	rename -uid "4C9046A5-4658-B9F3-CC83-778A89E3C194";
 	setAttr -l on -k off ".v";
-	setAttr ".t" -type "double3" 8.8817841970012523e-16 0 -2.2204460492503131e-16 ;
+	setAttr ".t" -type "double3" 0 0 -2.2204460492503131e-16 ;
 	setAttr -l on -k off ".rx";
 	setAttr -l on -k off ".ry";
 	setAttr -l on -k off ".rz";
@@ -2497,16 +2396,9 @@ createNode locator -n "r_curve_loc_08Shape" -p "r_curve_loc_08";
 	rename -uid "2200EF00-417E-0E65-418E-F9961CBBE858";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "r_curve9_6_loc_moveOffset" -p "r_brow_local_out_rotateOffset";
-	rename -uid "D3DA6A68-4B5E-F77C-3542-1CA337B88328";
-	setAttr ".rp" -type "double3" 0 0 0.0581 ;
-	setAttr ".sp" -type "double3" 0 0 0.0581 ;
-createNode transform -n "r_brow_local_6_group" -p "r_curve9_6_loc_moveOffset";
-	rename -uid "AF699A37-4843-37FD-94AB-3A808265A920";
-createNode transform -n "r_brow_local_6_group_1" -p "r_brow_local_6_group";
-	rename -uid "907F8995-47E3-2439-113A-CCBEE02EDFF1";
-	setAttr ".s" -type "double3" 1.0000000000000002 1.0000000000000002 1 ;
-createNode transform -n "r_brow_local_6" -p "r_brow_local_6_group_1";
+createNode transform -n "r_brow_local_6_group" -p "r_brow_out";
+	rename -uid "5514427D-4864-3863-A6A0-F4B2B6F96492";
+createNode transform -n "r_brow_local_6" -p "r_brow_local_6_group";
 	rename -uid "1F4978BF-4649-F6BB-66FC-6CA147E64082";
 	setAttr -l on -k off ".v";
 	setAttr ".t" -type "double3" 0 0 6.6613381477509392e-16 ;
@@ -2533,18 +2425,12 @@ createNode locator -n "r_curve_loc_09Shape" -p "r_curve_loc_09";
 	rename -uid "2C11EAD4-474C-85E1-A7BA-D9B864B78657";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.1 0.1 0.1 ;
-createNode transform -n "r_brow_local_7_rotateOffset" -p "r_brow_out";
-	rename -uid "DDF8EDB7-4083-7911-0928-86A5117736BD";
-	setAttr ".rp" -type "double3" 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 ;
-	setAttr ".sp" -type "double3" 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 ;
-createNode transform -n "r_brow_local_7_group" -p "r_brow_local_7_rotateOffset";
-	rename -uid "01B2DED1-4D32-997F-BA1A-BAB507B0C5E4";
-createNode transform -n "r_brow_local_7_group_1" -p "r_brow_local_7_group";
-	rename -uid "81075915-4B4A-67EC-9A2C-D587BDC2CC58";
-createNode transform -n "r_brow_local_7" -p "r_brow_local_7_group_1";
+createNode transform -n "r_brow_local_7_group" -p "r_brow_out";
+	rename -uid "3EAE5183-4D8A-C588-E091-27B9155FCD60";
+createNode transform -n "r_brow_local_7" -p "r_brow_local_7_group";
 	rename -uid "E7A5BE7C-4007-9B47-8133-C983A26C0B63";
 	setAttr -l on -k off ".v";
-	setAttr ".t" -type "double3" 1.3322676295501878e-15 -2.2204460492503131e-16 -8.8817841970012523e-16 ;
+	setAttr ".t" -type "double3" 0 0 -8.8817841970012523e-16 ;
 	setAttr -l on -k off ".rx";
 	setAttr -l on -k off ".ry";
 	setAttr -l on -k off ".rz";
@@ -2562,7 +2448,7 @@ createNode nurbsCurve -n "r_brow_local_7Shape" -p "r_brow_local_7";
 createNode transform -n "r_curve_loc_10" -p "r_brow_local_7";
 	rename -uid "31DCB233-45AB-B137-C8D2-9A9593158A5E";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" -0.05 3.725860765746436e-16 1.3287981825982342e-15 ;
+	setAttr ".t" -type "double3" -0.027045074207603541 -8.2339733989411634e-16 2.6367796834847468e-16 ;
 	setAttr ".rp" -type "double3" -5.551115123125779e-17 2.0816681711721657e-17 2.0816681711721673e-17 ;
 	setAttr ".rpt" -type "double3" -2.8931106410549319e-18 -3.0299817608164079e-18 -5.9596333507377932e-18 ;
 createNode locator -n "r_curve_loc_10Shape" -p "r_curve_loc_10";
@@ -2572,7 +2458,7 @@ createNode locator -n "r_curve_loc_10Shape" -p "r_curve_loc_10";
 createNode transform -n "r_curve_loc_11" -p "r_brow_local_7";
 	rename -uid "2CD8038B-44BA-D6A0-E327-FCBF73E2157F";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 0.05 3.6041590718849381e-15 -1.4155343563970746e-15 ;
+	setAttr ".t" -type "double3" 0.033451215969907917 -1.2656976161595779e-15 -8.6389229103644993e-16 ;
 	setAttr ".rp" -type "double3" -5.551115123125779e-17 2.0816681711721657e-17 2.0816681711721673e-17 ;
 	setAttr ".rpt" -type "double3" -2.8931106410549319e-18 -3.0299817608164079e-18 -5.9596333507377932e-18 ;
 createNode locator -n "r_curve_loc_11Shape" -p "r_curve_loc_11";
@@ -2723,19 +2609,19 @@ createNode transform -n "bs_weights" -p "output";
 createNode transform -s -n "persp";
 	rename -uid "6DD988D0-4F67-01C8-21B5-089512DF5F58";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 1.7018494393376804 18.212132377014541 18.4816968646115 ;
-	setAttr ".r" -type "double3" -6.0000000000004139 5.9999999999999254 0 ;
+	setAttr ".t" -type "double3" 3.4001569052276275 19.046245386064449 19.752539607969613 ;
+	setAttr ".r" -type "double3" -4.7999999999999883 11.600000000000035 0 ;
 	setAttr ".rp" -type "double3" 0 0 2.2204460492503131e-16 ;
 	setAttr ".rpt" -type "double3" 7.8318074438749568e-15 2.2130181764198789e-14 -1.4375173266478273e-15 ;
 createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "C0598692-4A65-CD2F-2E76-769943D8CE56";
 	setAttr -k off ".v" no;
 	setAttr ".fl" 34.999999999999979;
-	setAttr ".coi" 11.837986618809019;
+	setAttr ".coi" 13.227307630024448;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
-	setAttr ".tp" -type "double3" 3.0968014525376506 18.152185673419474 7.7566467922090103 ;
+	setAttr ".tp" -type "double3" 4.5507707071561319 17.744345796680758 5.5034708454481693 ;
 	setAttr ".hc" -type "string" "viewSet -p %camera";
 createNode transform -s -n "top";
 	rename -uid "76B76DF1-4C7C-BBEC-766D-F091444014EB";
@@ -2756,13 +2642,13 @@ createNode camera -s -n "topShape" -p "top";
 createNode transform -s -n "front";
 	rename -uid "1D0857E7-4234-8209-D26A-799A73F29C99";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 1.2436157504604979 18.70174073040052 16.090882128288385 ;
+	setAttr ".t" -type "double3" 0.0021975790078059276 17.018088978088173 20.979635495626994 ;
 createNode camera -s -n "frontShape" -p "front";
 	rename -uid "2AF88D17-453B-6B4B-9254-A5A3D4235324";
 	setAttr -k off ".v" no;
 	setAttr ".rnd" no;
 	setAttr ".coi" 100.1;
-	setAttr ".ow" 10.33324201498526;
+	setAttr ".ow" 15.180598971410472;
 	setAttr ".imn" -type "string" "front";
 	setAttr ".den" -type "string" "front_depth";
 	setAttr ".man" -type "string" "front_mask";
@@ -2785,18 +2671,18 @@ createNode camera -s -n "sideShape" -p "side";
 	setAttr ".hc" -type "string" "viewSet -s %camera";
 	setAttr ".o" yes;
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "D6FB5D77-432A-1CC0-6F73-D29CE772D5CF";
+	rename -uid "BA29DA74-4646-15E9-7AF8-9999080569E8";
 	setAttr -s 24 ".lnk";
 	setAttr -s 24 ".slnk";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "8561348F-4B85-FF99-CE60-87984F365C60";
+	rename -uid "10D087D1-4955-B5A7-AE84-7C93FD19522B";
 	setAttr ".cdl" 1;
 	setAttr -s 3 ".dli[1:2]"  3 1;
 	setAttr -s 2 ".dli";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "47598A7F-4076-9A26-4738-16A1F08E3130";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "3DE8305B-4A82-65F6-193B-F3ACC40875C6";
+	rename -uid "0D697607-4FF6-73BF-1181-ECA01259AAC7";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "50669F66-46C9-894E-CDC6-858734AB76F8";
 	setAttr ".g" yes;
@@ -2885,10 +2771,10 @@ createNode shadingEngine -n "black_rsSG";
 createNode materialInfo -n "materialInfo1";
 	rename -uid "8DB900E0-43C7-80AF-0ADC-A7AE8603C4D0";
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "75BEA21B-41C6-F5B9-C853-08A43BD3469E";
+	rename -uid "A682A022-438D-2D9F-CF93-2C9299CF6A9A";
 	setAttr ".bsdt[0].bscd" -type "Int32Array" 1 0 ;
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "C4F287BD-47AD-8CDB-612A-0D9F897C1FA2";
+	rename -uid "E6A86BDD-4355-8C8E-2AEE-D8A7286988ED";
 createNode multiplyDivide -n "size_multiplyDivide";
 	rename -uid "FC884255-462D-CC24-783E-69B68427DF01";
 createNode makeNurbSphere -n "mid_makeNurbSphere";
@@ -3349,7 +3235,7 @@ createNode network -n "hyperNode_sessionData";
 	addAttr -ci true -sn "hyperNodeSessionJSON" -ln "hyperNodeSessionJSON" -dt "string";
 	setAttr ".ihi" 0;
 	setAttr ".hyperNodeSessionJSON" -type "string" (
-		"{\"tabs\": [{\"name\": \"Up Offset\", \"nodes\": {\"blendMatrix11\": {\"x\": -2230.8345825163337, \"y\": -1346.2394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix12\": {\"x\": -2230.8345825163337, \"y\": -1190.2394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix13\": {\"x\": -2230.8345825163337, \"y\": -1034.2394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix14\": {\"x\": -2230.8345825163337, \"y\": -878.2394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix15\": {\"x\": -2230.8345825163337, \"y\": -722.2394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix16\": {\"x\": -2230.8345825163337, \"y\": -566.2394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix52\": {\"x\": -1880.8345825163337, \"y\": -1246.2394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix53\": {\"x\": -1880.8345825163337, \"y\": -934.2394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix54\": {\"x\": -1880.8345825163337, \"y\": -1090.2394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"up_down_setRange1\": {\"x\": -2580.8345825163337, \"y\": -1056.2394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors3\": {\"x\": -2230.8345825163337, \"y\": -1658.2394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage37\": {\"x\": -1880.8345825163337, \"y\": -1402.2394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors4\": {\"x\": -2230.8345825163337, \"y\": -1502.2394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow\": {\"x\": -2930.8345825163337, \"y\": -1079.0394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_bot\": {\"x\": -2930.8345825163337, \"y\": -1703.0394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_bot\": {\"x\": -2930.8345825163337, \"y\": -611.0394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_top\": {\"x\": -2930.8345825163337, \"y\": -1391.0394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_top\": {\"x\": -2930.8345825163337, \"y\": -1859.0394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_top\": {\"x\": -2930.8345825163337, \"y\": -923.0394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_bot\": {\"x\": -2930.8345825163337, \"y\": -455.0394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_bot\": {\"x\": -2930.8345825163337, \"y\": -767.0394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_top\": {\"x\": -2930.8345825163337, \"y\": -1547.0394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow\": {\"x\": -2930.8345825163337, \"y\": -1235.0394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"up_vis_condition\": {\"x\": -3280.8345825163337, \"y\": -1154.5394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"down_vis_condition\": {\"x\": -3280.8345825163337, \"y\": -998.5394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -2460.08608815427, \"cy\": -1138.121900826446, \"scale\": 0.9410239792611795}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Limits Positions\", \"nodes\": {\"up_vis_condition\": {\"x\": -2166.6568703927096, \"y\": 874.1147865853516, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"colorIfFalse\", \"outColor\"]}, \"down_vis_condition\": {\"x\": -2189.562862399022, \"y\": 2630.4536162250015, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"colorIfTrue\", \"outColor\"]}, \"multDoubleLinear6\": {\"x\": -490.84109558006315, \"y\": 2777.707056746256, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_1_group_1\": {\"x\": 739.580257279335, \"y\": 731.973061854147, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow\": {\"x\": -2494.931235842602, \"y\": 363.32108307228737, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_brow\": {\"x\": -910.3714456407814, \"y\": 845.1024105177219, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_in_group_1\": {\"x\": 283.43579711559767, \"y\": 345.7943039171994, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group_1\": {\"x\": 259.76156139464166, \"y\": 86.3084541293361, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_group_1\": {\"x\": 287.6704399282422, \"y\": -179.49899178341397, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_in_group_1\": {\"x\": 766.0758577850279, \"y\": 396.4457630312555, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_mid_group_1\": {\"x\": 720.0655778401981, \"y\": 116.70134708316337, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_out_group_1\": {\"x\": 717.3590907846199, \"y\": -148.15739005924854, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3_top\": {\"x\": -654.3660599517458, \"y\": 1755.0770391535198, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_top\": {\"x\": -654.3660599517458, \"y\": 1911.0770391535189, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_top\": {\"x\": -654.3660599517458, \"y\": 2067.0770391535193, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_top\": {\"x\": -654.3660599517458, \"y\": 2223.0770391535193, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_top\": {\"x\": -654.3660599517458, \"y\": 2379.0770391535193, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3_bot\": {\"x\": -1001.0039742674024, \"y\": 2974.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_bot\": {\"x\": -1001.0039742674024, \"y\": 3130.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_bot\": {\"x\": -1001.0039742674024, \"y\": 3286.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_bot\": {\"x\": -1001.0039742674024, \"y\": 3442.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_bot\": {\"x\": -1001.0039742674024, \"y\": 3598.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_bot\": {\"x\": -1589.5823838428544, \"y\": 884.8684080840438, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_bot\": {\"x\": -1589.5823838428544, \"y\": 572.8684080840438, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_bot\": {\"x\": -1589.5823838428544, \"y\": 728.8684080840438, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_top\": {\"x\": -1605.7733050593943, \"y\": 1377.240307037215, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_top\": {\"x\": -1590.7236369844452, \"y\": 1039.419853873925, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_top\": {\"x\": -1605.7733050593943, \"y\": 1221.240307037215, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_midShape\": {\"x\": -103.11179961164635, \"y\": 2814.3503646322097, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_1Shape\": {\"x\": -103.11179961164635, \"y\": 2970.3503646322097, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3Shape\": {\"x\": 386.8111748537466, \"y\": 2894.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4Shape\": {\"x\": 386.8111748537466, \"y\": 3050.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5Shape\": {\"x\": 386.8111748537466, \"y\": 3206.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6Shape\": {\"x\": 386.8111748537466, \"y\": 3362.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7Shape\": {\"x\": 386.8111748537466, \"y\": 3518.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_bot\": {\"x\": -1144.4963303125119, \"y\": 181.2747320270655, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_top\": {\"x\": -1227.1018650322728, \"y\": -43.72759313175617, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1Shape\": {\"x\": 421.1196816708501, \"y\": 2444.873929804466, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_group_1\": {\"x\": 329.0846799346817, \"y\": 752.1165622477623, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_bot\": {\"x\": -1002.0342895341465, \"y\": 2673.075343360965, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_top\": {\"x\": -664.1307711498106, \"y\": 1522.354308311582, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2Shape\": {\"x\": 386.8111748537466, \"y\": 2738.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_1Shape\": {\"x\": -117.4179670236613, \"y\": 2685.2506906095537, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix1\": {\"x\": -433.61451964038184, \"y\": 665.4855477561346, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix2\": {\"x\": -370.52806451546786, \"y\": -80.09452180473676, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix3\": {\"x\": -464.5974067875403, \"y\": -911.8456175171914, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix4\": {\"x\": -488.4757895478527, \"y\": -484.7400042825338, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix5\": {\"x\": -441.01491688021133, \"y\": 975.6382545269321, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix6\": {\"x\": -356.172747406989, \"y\": 197.72021908446703, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix48\": {\"x\": 109.14225508886341, \"y\": 889.0675413540507, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix49\": {\"x\": 26.712769433348967, \"y\": 21.084556778611102, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix50\": {\"x\": 11.171940233934833, \"y\": -658.7616593783745, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"up_down_setRange\": {\"x\": -1296.9309682841053, \"y\": -1275.1683229363343, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors1\": {\"x\": -517.8859719336522, \"y\": -1796.650372677354, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage30\": {\"x\": -73.78699932658458, \"y\": -1753.1690196359257, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors2\": {\"x\": -513.8310672428833, \"y\": -1601.7844781982085, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"up_down_setRange1\": {\"x\": -1388.8126452034303, \"y\": -288.53821624040074, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix11\": {\"x\": -322.71840508090384, \"y\": 1431.4243997807512, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix12\": {\"x\": -259.63194995598985, \"y\": 685.84433021988, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix13\": {\"x\": -353.7012922280623, \"y\": -145.90676549257455, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix14\": {\"x\": -377.5796749883747, \"y\": 281.198847742083, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix15\": {\"x\": -330.1188023207333, \"y\": 1741.5771065515487, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix16\": {\"x\": -245.276632847511, \"y\": 963.6590711090838, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix52\": {\"x\": 220.03836964834136, \"y\": 1655.0063933786673, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix53\": {\"x\": 137.60888399282692, \"y\": 787.0234088032279, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix54\": {\"x\": 122.06805479341284, \"y\": 107.17719264624236, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors3\": {\"x\": -402.2975230202385, \"y\": -1087.0195328999666, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage37\": {\"x\": 43.53242688217881, \"y\": -1031.3904352001464, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors4\": {\"x\": -402.9349526834053, \"y\": -835.8456261735918, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -2136.0352890791423, \"cy\": 1712.3588681047672, \"scale\": 0.16994101261149644}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Local Controls\", \"nodes\": {\"l_curve9_5_loc_moveOffset\": {\"x\": 2621.8344790595875, \"y\": 1267.3844852546517, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_local_4_moveOffset\": {\"x\": 2647.9305989544955, \"y\": 2056.311674483266, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_local_7_rotateOffset\": {\"x\": 1490.8491645270976, \"y\": 1586.4956355805161, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_curve9_3_loc_moveOffset\": {\"x\": 1437.8507537297994, \"y\": 527.0551049994947, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow\": {\"x\": -1739.378953487646, \"y\": 137.3582187643736, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"minTransLimitEnable\", \"rotate\", \"translate\"]}, \"r_brow_local_2_rotateOffset\": {\"x\": -630.2311870407996, \"y\": -27.432186803719844, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\"]}, \"r_brow_in\": {\"x\": -1745.427055503622, \"y\": 2620.3880802635827, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"unitConversion59\": {\"x\": -1073.5190718009053, \"y\": 47.324359257401454, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow\": {\"x\": -1755.6593343750458, \"y\": 2230.357333894182, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_mid\": {\"x\": -1734.2663701107542, \"y\": 1219.6641350509706, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"r_brow_mid\": {\"x\": -1739.571056147512, \"y\": 3102.653994878301, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_brow_out\": {\"x\": -1703.852813382678, \"y\": 1724.1765822733835, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"r_brow_out\": {\"x\": -1689.0018459518478, \"y\": 3482.208085942973, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"r_brow_local_1_moveOffset\": {\"x\": 1512.0907572016654, \"y\": 2012.81123502651, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_curve9_5_loc_moveOffset\": {\"x\": 1575.1589401218994, \"y\": 3415.2578859666005, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_brow_local_4_moveOffset\": {\"x\": 1582.4262086829349, \"y\": 3061.10587777533, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_brow_local_7_rotateOffset\": {\"x\": 1612.845253694074, \"y\": 4063.193504678843, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"r_curve9_2_loc_moveOffset\": {\"x\": 1512.3589515567824, \"y\": 2359.05979166998, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_curve9_3_loc_moveOffset\": {\"x\": 1530.2836675818512, \"y\": 2747.1840200994898, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_curve9_6_loc_moveOffset\": {\"x\": 1432.456891892983, \"y\": 1030.9057280606355, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_curve9_6_loc_moveOffset\": {\"x\": 1615.8431315318644, \"y\": 3705.435167356371, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"multDoubleLinear64\": {\"x\": -1068.6977208355947, \"y\": 2520.352348138507, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear65\": {\"x\": -1154.6373648747235, \"y\": 1781.7116627119099, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion87\": {\"x\": 96.74710315806637, \"y\": 2857.84695731484, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage53\": {\"x\": -1634.8174828385586, \"y\": 2873.256285418064, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage54\": {\"x\": -1674.2236025194027, \"y\": 1271.3956969659007, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear48\": {\"x\": -2210.671506792376, \"y\": 1543.3947047202132, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear49\": {\"x\": -2204.605530791863, \"y\": 3127.3698456958937, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear51\": {\"x\": -2209.4543891902604, \"y\": 1051.499838778564, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage55\": {\"x\": 1125.6225411950254, \"y\": 2670.694521075638, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage56\": {\"x\": 2137.2786732568547, \"y\": 2827.8250078369756, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear67\": {\"x\": -1154.5220580907555, \"y\": 974.1480101703723, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear68\": {\"x\": -347.6046702713435, \"y\": 840.1849306401605, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion88\": {\"x\": -739.0547055381572, \"y\": 1876.1115624071695, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear69\": {\"x\": -340.99820939120093, \"y\": 2267.4886512127628, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear70\": {\"x\": -333.4583766983511, \"y\": 3133.7851497348393, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear71\": {\"x\": -345.46269299507514, \"y\": 1441.8105479141154, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear72\": {\"x\": -1095.4422251795627, \"y\": 3500.562451047821, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion89\": {\"x\": 1091.8351278447349, \"y\": 3598.947957734646, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear73\": {\"x\": 523.1000818415463, \"y\": 2068.060133928398, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear74\": {\"x\": 504.2234756067777, \"y\": 2439.549293539281, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear75\": {\"x\": 463.61805057808067, \"y\": 1059.4013230499572, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear76\": {\"x\": 499.7023756826069, \"y\": 3220.191390408489, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage57\": {\"x\": 1077.187749004342, \"y\": 2476.642823393009, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage58\": {\"x\": 2157.2043070261316, \"y\": 3290.892832057253, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion90\": {\"x\": 69.46156599936955, \"y\": 1429.6237404076783, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear77\": {\"x\": 1509.105586196707, \"y\": 3630.570979338425, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear78\": {\"x\": 1486.458364803993, \"y\": 3453.3487528397686, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear79\": {\"x\": 1463.4574725058524, \"y\": 3172.4957521466804, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear80\": {\"x\": -374.70815937325335, \"y\": 570.1341476433568, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion91\": {\"x\": -728.5490280277414, \"y\": 418.67143694170363, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear81\": {\"x\": 715.2708653488725, \"y\": 698.823690017412, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear82\": {\"x\": 1531.486627428786, \"y\": 3851.3919704469167, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"clamp18\": {\"x\": 2161.4979543218997, \"y\": 3905.5231972876236, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear83\": {\"x\": -1302.8513656189955, \"y\": 3820.6566058213607, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear84\": {\"x\": 583.2736396327249, \"y\": 2683.0426249992083, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_moveOffset\": {\"x\": 1429.2074050921362, \"y\": -75.16161677367381, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve9_2_loc_moveOffset\": {\"x\": 1444.2380514399285, \"y\": 223.76090673751605, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion57\": {\"x\": -1066.7750606323048, \"y\": -321.34825129275345, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_rotateOffset\": {\"x\": -649.9376013229803, \"y\": -386.8824012562231, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in\": {\"x\": -1736.6328496490178, \"y\": 741.9721598559564, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear3\": {\"x\": -1084.8284477220034, \"y\": 1241.2315230982206, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear4\": {\"x\": -1170.7680917611322, \"y\": 502.59083767162383, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion24\": {\"x\": 80.61637627165783, \"y\": 1578.7261322745537, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage24\": {\"x\": -1650.9482097249672, \"y\": 1594.1354603777781, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage25\": {\"x\": -1690.3543294058113, \"y\": -7.7251280743853386, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear5\": {\"x\": -1698.272401677079, \"y\": 822.9417392430896, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear9\": {\"x\": -2226.8022336787844, \"y\": 264.2738796799272, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear10\": {\"x\": -2220.736257678271, \"y\": 1848.2490206556076, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear2\": {\"x\": -2154.3142249885364, \"y\": 630.4425095087945, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear8\": {\"x\": -2225.5851160766683, \"y\": -227.620986261722, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage26\": {\"x\": 2130.534296827283, \"y\": 781.7455831885877, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage27\": {\"x\": 2024.6384514474494, \"y\": 1292.7442180009139, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"input1D\"]}, \"multDoubleLinear2\": {\"x\": -1170.6527849771642, \"y\": -304.9728148699137, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear7\": {\"x\": -363.735397157752, \"y\": -438.93589440012556, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion54\": {\"x\": -535.066708281329, \"y\": 389.8712660638016, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear11\": {\"x\": -357.12893627760945, \"y\": 988.3678261724767, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear12\": {\"x\": -236.29534867515423, \"y\": 1741.3705697849482, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear9\": {\"x\": -140.57627748882146, \"y\": -49.820257925806345, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear1\": {\"x\": -1111.5729520659713, \"y\": 2221.441626007535, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion26\": {\"x\": 1075.7044009583262, \"y\": 2319.82713269436, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear13\": {\"x\": 658.4364718246309, \"y\": 809.1349244707112, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear14\": {\"x\": 530.0093308247643, \"y\": 1444.9401866083901, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear15\": {\"x\": 678.2744844897359, \"y\": -453.72352328184706, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear16\": {\"x\": 483.57164879619836, \"y\": 1941.070565368203, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage28\": {\"x\": 1963.232998613357, \"y\": 634.2050356671671, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage29\": {\"x\": 2048.760150213378, \"y\": 2179.6146068830494, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion56\": {\"x\": 317.66540041282565, \"y\": 341.8494656588814, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear17\": {\"x\": 1492.9748593102984, \"y\": 2351.450154298139, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear18\": {\"x\": 1470.3276379175843, \"y\": 2174.2279277994826, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear19\": {\"x\": 1447.326745619444, \"y\": 1552.094974045361, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear20\": {\"x\": -169.82174386699967, \"y\": -921.496658196565, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion58\": {\"x\": -523.6626125214877, \"y\": -1072.9593688982186, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear21\": {\"x\": 929.9272992605281, \"y\": -814.3011563143914, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear22\": {\"x\": 1515.3559005423774, \"y\": 2572.2711454066307, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear42\": {\"x\": -1318.9820925054041, \"y\": 2541.5357807810747, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear63\": {\"x\": 567.1429127463164, \"y\": 1403.9217999589223, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": 4, \"notes\": [], \"view\": {\"cx\": 2639.5290879696463, \"cy\": 2067.4500812492015, \"scale\": 0.5523712569204945}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 3\", \"nodes\": {\"l_brow_local_3_group_1\": {\"x\": -3344.5706504287286, \"y\": -1642.2152273153836, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\"]}, \"l_brow_local_3_top\": {\"x\": -4567.663228225373, \"y\": -1722.5031462899315, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3_bot\": {\"x\": -4578.1329164802255, \"y\": -1504.0234655443223, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_group\": {\"x\": -3417.618423470978, \"y\": -951.0464661833422, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_top\": {\"x\": -4625.970940172138, \"y\": -1080.108694358415, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_bot\": {\"x\": -4606.512767600461, \"y\": -820.0074710999415, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_group_1\": {\"x\": -3356.559534173694, \"y\": -366.92476215960886, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_top\": {\"x\": -4597.580373641829, \"y\": -495.35398556092275, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_bot\": {\"x\": -4600.1535657163995, \"y\": -216.6984966731013, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_group_1\": {\"x\": -3435.472031710467, \"y\": 353.12024554882015, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_top\": {\"x\": -4585.88064544554, \"y\": 230.15744155559213, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_bot\": {\"x\": -4594.22370635609, \"y\": 514.3371955449311, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_group_1\": {\"x\": -3425.089002895046, \"y\": 990.5103701763926, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_top\": {\"x\": -4570.363727888548, \"y\": 846.9186374794167, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_bot\": {\"x\": -4568.846807722995, \"y\": 1124.2722507237618, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"up_down_setRange1\": {\"x\": -5188.476101808852, \"y\": 900.3821552628244, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"outValue\"]}, \"up_down_setRange\": {\"x\": -5141.426450141917, \"y\": -589.9464601692215, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"outValue\"]}, \"r_brow_local_2_group_1\": {\"x\": -3074.8262851081518, \"y\": -1867.4320223921638, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_3_group_1\": {\"x\": -3111.033373024211, \"y\": -1332.2474422307703, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_4_group\": {\"x\": -3081.4907290456563, \"y\": -749.6439762226261, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_5_group_1\": {\"x\": -3020.742717199687, \"y\": -147.5961385009074, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_6_group_1\": {\"x\": -3109.323705977312, \"y\": 544.2763114254969, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_7_group_1\": {\"x\": -3120.3151978185024, \"y\": 1172.3391939210214, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_bot\": {\"x\": -4614.325026808659, \"y\": -1989.2501833151512, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_top\": {\"x\": -4586.892796880182, \"y\": -2303.9678436193226, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_group_1\": {\"x\": -3357.690204260645, \"y\": -2188.1175765262287, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors6\": {\"x\": -4128.791022783066, \"y\": -2458.4883874569528, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors7\": {\"x\": -4123.505158276117, \"y\": -2151.4968981599886, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage38\": {\"x\": -3669.421629675811, \"y\": -2323.9393326288064, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors18\": {\"x\": -4092.2873137950605, \"y\": -2041.2834013279237, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors19\": {\"x\": -4087.001449288112, \"y\": -1734.2919120309596, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage44\": {\"x\": -3632.9179206878052, \"y\": -1906.734346499777, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors8\": {\"x\": -4084.6352113253724, \"y\": -1803.5604979550706, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors9\": {\"x\": -4090.0160134850903, \"y\": -1530.5690086581064, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage39\": {\"x\": -3623.265818218117, \"y\": -1705.6781097935907, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors20\": {\"x\": -4094.9048415854504, \"y\": -1490.1248049415271, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors21\": {\"x\": -4100.285643745168, \"y\": -1217.133315644563, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage45\": {\"x\": -3633.535448478195, \"y\": -1392.2424167800473, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors10\": {\"x\": -4130.725943863675, \"y\": -1116.567311955927, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors11\": {\"x\": -4136.106746023393, \"y\": -843.5758226589629, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage40\": {\"x\": -3669.3565507564194, \"y\": -1018.6849237944472, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors22\": {\"x\": -4085.699777248221, \"y\": -786.7870549244457, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors23\": {\"x\": -4091.080579407939, \"y\": -513.7955656274816, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage46\": {\"x\": -3624.3303841409656, \"y\": -688.9046667629658, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors12\": {\"x\": -4105.250583533041, \"y\": -506.45533262968723, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors13\": {\"x\": -4110.631385692759, \"y\": -233.46384333272312, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage41\": {\"x\": -3643.8811904257864, \"y\": -408.57294446820737, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors24\": {\"x\": -4099.666206941716, \"y\": -258.5090119748444, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors25\": {\"x\": -4105.047009101434, \"y\": 14.482477322119735, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage47\": {\"x\": -3638.296813834461, \"y\": -160.62662381336452, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors14\": {\"x\": -4154.630767433449, \"y\": 165.75161272625598, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors15\": {\"x\": -4160.011569593167, \"y\": 438.7431020232201, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage42\": {\"x\": -3693.261374326194, \"y\": 263.63400088773585, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors26\": {\"x\": -4143.62829532274, \"y\": 406.70575195077845, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors27\": {\"x\": -4149.009097482458, \"y\": 679.6972412477426, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage48\": {\"x\": -3682.2589022154853, \"y\": 504.5881401122583, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors16\": {\"x\": -4141.831035494188, \"y\": 832.1903278270308, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendColors17\": {\"x\": -4147.211837653906, \"y\": 1105.181817123995, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage43\": {\"x\": -3680.4616423869325, \"y\": 930.0727159885107, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -3924.796149189195, \"cy\": 1278.5531813185526, \"scale\": 0.7179990738072236}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 5\", \"nodes\": {\"l_curve_loc_01Shape\": {\"x\": -2576.473661788548, \"y\": -1810.4533830982177, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_06Shape\": {\"x\": -2334.6666666666665, \"y\": -862.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_07Shape\": {\"x\": -2334.6666666666665, \"y\": -706.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_08Shape\": {\"x\": -2334.6666666666665, \"y\": -550.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_09Shape\": {\"x\": -2334.6666666666665, \"y\": -394.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_12Shape\": {\"x\": -2315.6971112205542, \"y\": 80.73461968851441, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_02Shape\": {\"x\": -2334.6666666666665, \"y\": -1486.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_03Shape\": {\"x\": -2334.6666666666665, \"y\": -1330.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_04Shape\": {\"x\": -2334.6666666666665, \"y\": -1174.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_05Shape\": {\"x\": -2334.6666666666665, \"y\": -1018.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -2922.8435191691788, \"cy\": -1304.9636653231805, \"scale\": 0.5816253894027233}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 6\", \"nodes\": {\"l_brow_mid\": {\"x\": -3279.592385711044, \"y\": -1072.245475887653, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out\": {\"x\": -3247.0048378997517, \"y\": -823.4864292284245, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_brow\": {\"x\": -3250.49355694966, \"y\": -1783.2273491605335, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve9_2_loc_moveOffset\": {\"x\": -2271.602612211118, \"y\": -1237.0570565523803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in\": {\"x\": -3264.6497042659466, \"y\": -1395.870794556709, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": 3185.3349406541297, \"cy\": -3590.666764721943, \"scale\": 0.24424433050052582}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Local Init Position\", \"nodes\": {\"mid_mainPoser\": {\"x\": 625.828107567229, \"y\": -4912.367590250758, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_1_poser\": {\"x\": 579.7643754469279, \"y\": -6262.364361997303, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix59\": {\"x\": 989.588693214276, \"y\": -6136.408366914609, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"in_mainPoser\": {\"x\": 588.3372870076138, \"y\": -5962.082067359466, \"width\": 234.232137161958, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_2_poser\": {\"x\": 588.8320062734404, \"y\": -5571.016450258607, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix60\": {\"x\": 971.2593109796278, \"y\": -5664.323815999474, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"l_brow_local_3_group\": {\"x\": 1432.8748761575484, \"y\": -5129.637786698762, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix61\": {\"x\": 1026.1959632938767, \"y\": -5118.857981827443, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"local_3_poser\": {\"x\": 608.9129175822877, \"y\": -5187.5282218056145, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_group\": {\"x\": 1463.1026844756236, \"y\": -4665.251729790567, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix62\": {\"x\": 1069.5645342645628, \"y\": -4706.352271896964, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"local_4_poser\": {\"x\": 660.9428469328705, \"y\": -4541.054760418152, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_group\": {\"x\": 1470.041463436909, \"y\": -4185.1888229419255, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix63\": {\"x\": 1048.6515178954537, \"y\": -4300.4848431038845, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"local_5_poser\": {\"x\": 609.4934442260718, \"y\": -4193.083156041814, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"out_mainPoser\": {\"x\": 618.6887330257752, \"y\": -3932.0979650688732, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_group\": {\"x\": 1475.6833335828833, \"y\": -3771.695047283213, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix64\": {\"x\": 1057.3812551267677, \"y\": -3876.3705993576737, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"local_6_poser\": {\"x\": 610.2680003878909, \"y\": -3646.2465057977015, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_group\": {\"x\": 1533.5370167418955, \"y\": -3432.4817894643797, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_7_poser\": {\"x\": 610.2680003878905, \"y\": -3372.0536245138273, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix65\": {\"x\": 1112.9396793264182, \"y\": -3456.9931828831504, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"r_brow_local_1_group\": {\"x\": 1436.7922418548765, \"y\": -6067.299722022102, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_2_group\": {\"x\": 1427.2225061262827, \"y\": -5499.585963715228, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_3_group\": {\"x\": 1435.1530883894227, \"y\": -5234.675028054771, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_4_group\": {\"x\": 1480.9566359675355, \"y\": -4795.691368274052, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_5_group\": {\"x\": 1467.166004600157, \"y\": -4342.065250827147, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_6_group\": {\"x\": 1471.8277749792733, \"y\": -3913.390089461798, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_7_group\": {\"x\": 1540.7357761897167, \"y\": -3537.6601460195916, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_group\": {\"x\": 1437.2505827883774, \"y\": -6195.780626198113, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_group\": {\"x\": 1435.7979697024327, \"y\": -5795.5369041821, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": 5, \"notes\": [], \"view\": {\"cx\": 1393.089910462572, \"cy\": -5264.583963957394, \"scale\": 0.4938661854004465}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 8\", \"nodes\": {}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": 168.10932719290219, \"cy\": 1656.6410061555086, \"scale\": 0.3271680454522822}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Limits Positions\", \"nodes\": {\"blendMatrix1\": {\"x\": -141.56959874763538, \"y\": 1767.0604867519587, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix2\": {\"x\": -78.48314362272141, \"y\": 1021.4804171910872, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix3\": {\"x\": -187.4227873745779, \"y\": 320.36825012212046, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix4\": {\"x\": -182.88215131229754, \"y\": 628.2237784730197, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix5\": {\"x\": -148.96999598746487, \"y\": 2077.2131935227562, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix6\": {\"x\": -64.12782651424254, \"y\": 1299.295158080291, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"multMatrix48\": {\"x\": 390.5017926751634, \"y\": 1938.1304703556586, \"width\": 58, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"multMatrix49\": {\"x\": 441.7429996902672, \"y\": 1193.5241228774244, \"width\": 58, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"multMatrix50\": {\"x\": 422.8450079591119, \"y\": 513.327898111087, \"width\": 58, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"l_brow_in_group_1\": {\"x\": 729.4716456990075, \"y\": 425.9544872116985, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_bot\": {\"x\": -651.0868360892679, \"y\": 714.8530803061245, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group_1\": {\"x\": 751.2939526130042, \"y\": 1115.7180774517633, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group\": {\"x\": 626.4062081722725, \"y\": -851.3106580164614, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_mid_bot\": {\"x\": -615.9755427150907, \"y\": 1365.8780424840943, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_group_1\": {\"x\": 772.6345377753617, \"y\": 1741.942711307439, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_brow_out_bot\": {\"x\": -603.0514818382629, \"y\": 2182.4095646903797, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_top\": {\"x\": -653.8637953447529, \"y\": 338.10545203479035, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_top\": {\"x\": -618.2454104053027, \"y\": 1085.5475589866642, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_top\": {\"x\": -609.5024522886177, \"y\": 1808.790155325404, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldInverseMatrix\"]}}, \"basket_entry_id\": 2, \"notes\": [], \"view\": {\"cx\": 461.07688746318314, \"cy\": 1965.3724309184845, \"scale\": 0.38822158487459013}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Joints\", \"nodes\": {\"l_brow_out\": {\"x\": -2982.1556813391408, \"y\": 1519.738927074029, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": 3, \"notes\": [], \"view\": {\"cx\": -2534.343563447038, \"cy\": 1630.5260862998136, \"scale\": 0.7114268270509011}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 10\", \"nodes\": {\"l_curve9_2_loc_moveOffset\": {\"x\": -11053.9824265778, \"y\": -9586.424686618291, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow\": {\"x\": -12149.582141494906, \"y\": -9721.848820268959, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in\": {\"x\": -12192.151790648146, \"y\": -9585.121586038378, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_mid\": {\"x\": -12185.28535117666, \"y\": -9346.724312380562, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out\": {\"x\": -12185.28535117666, \"y\": -9190.724312380562, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_last\": {\"x\": -11568.157373544846, \"y\": -8788.040205139572, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_8_poser\": {\"x\": -12423.221209337353, \"y\": -8922.996063559833, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldMatrix\"]}, \"multMatrix68\": {\"x\": -12023.504621039168, \"y\": -8779.798625999405, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"full_mainPoser\": {\"x\": -12422.466274524324, \"y\": -8514.500138120997, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldInverseMatrix\"]}, \"r_brow_last\": {\"x\": -11567.127176152318, \"y\": -8432.622104719794, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear3\": {\"x\": -12733.05216823083, \"y\": -9336.155886724058, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear4\": {\"x\": -12818.99181226996, \"y\": -10074.796572150655, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion24\": {\"x\": -11567.607344237169, \"y\": -8998.661277547726, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage24\": {\"x\": -13299.171930233795, \"y\": -8983.2519494445, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage25\": {\"x\": -13338.578049914639, \"y\": -10585.112537896664, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear5\": {\"x\": -13346.496122185907, \"y\": -9754.445670579189, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear9\": {\"x\": -13875.025954187611, \"y\": -10313.113530142353, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear10\": {\"x\": -13868.959978187098, \"y\": -8729.138389166672, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear2\": {\"x\": -13802.537945497363, \"y\": -9946.944900313485, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear8\": {\"x\": -13873.808836585496, \"y\": -10805.008396084002, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage26\": {\"x\": -9517.689423681544, \"y\": -9795.641826633691, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage27\": {\"x\": -9527.075774138382, \"y\": -9028.683227025589, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear2\": {\"x\": -12818.87650548599, \"y\": -10882.360224692193, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear7\": {\"x\": -12011.95911766658, \"y\": -11016.323304222406, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion54\": {\"x\": -12183.290428790157, \"y\": -10187.516143758477, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear11\": {\"x\": -12005.352656786437, \"y\": -9589.019583649802, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear12\": {\"x\": -11997.812824093588, \"y\": -8722.723085127725, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear9\": {\"x\": -11788.799997997648, \"y\": -10627.207667748085, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear1\": {\"x\": -12759.7966725748, \"y\": -8355.945783814745, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion26\": {\"x\": -10572.519319550502, \"y\": -8257.56027712792, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear13\": {\"x\": -10989.787248684197, \"y\": -9768.252485351568, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear14\": {\"x\": -11160.130971788458, \"y\": -9416.958941323284, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear15\": {\"x\": -10969.94923601909, \"y\": -11031.110933104126, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear16\": {\"x\": -11164.65207171263, \"y\": -8636.316844454075, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage28\": {\"x\": -9684.99072189547, \"y\": -9943.182374155112, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage29\": {\"x\": -9507.150140369104, \"y\": -8565.615402805312, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion56\": {\"x\": -11330.558320096, \"y\": -10235.537944163398, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear17\": {\"x\": -10155.248861198528, \"y\": -8225.93725552414, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear18\": {\"x\": -10177.896082591244, \"y\": -8403.159482022797, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear19\": {\"x\": -10200.896974889383, \"y\": -8684.012482715885, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear20\": {\"x\": -11818.045464375828, \"y\": -11498.884068018844, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion58\": {\"x\": -12171.886333030316, \"y\": -11650.346778720497, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear21\": {\"x\": -10718.296421248298, \"y\": -11391.68856613667, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear22\": {\"x\": -10132.86781996645, \"y\": -8005.116264415648, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear42\": {\"x\": -12967.205813014232, \"y\": -8035.851629041204, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear63\": {\"x\": -11081.080807762512, \"y\": -9173.465609863357, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -11663.75170579469, \"cy\": -8874.455459233575, \"scale\": 0.47180359620190165}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 11\", \"nodes\": {\"l_curve9_5_loc_moveOffset\": {\"x\": 423.2903521094678, \"y\": -609.2068918104612, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_moveOffset\": {\"x\": 450.87607980476594, \"y\": -173.26284038410066, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage29\": {\"x\": -35.440672894527125, \"y\": -138.5304768302172, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"input1D\"]}, \"plusMinusAverage27\": {\"x\": -65.62407378048016, \"y\": -635.5446866186433, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"input1D\"]}, \"multDoubleLinear63\": {\"x\": -628.7555507079154, \"y\": -776.492871815822, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear1\": {\"x\": -671.6666826783795, \"y\": 29.304269451204846, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear14\": {\"x\": -632.8423251812928, \"y\": -625.665662705817, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear12\": {\"x\": -650.2111166931479, \"y\": -528.2856453564102, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear18\": {\"x\": -644.0809549830813, \"y\": 169.65974156934868, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear16\": {\"x\": -625.6904698528822, \"y\": 354.9054100963724, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear19\": {\"x\": -604.2349038676504, \"y\": -265.32693903694064, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion26\": {\"x\": -1021.6666826783795, \"y\": 154.1042694512048, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out\": {\"x\": -2267.0000160117133, \"y\": -5.632767585832212, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion24\": {\"x\": -1009.4063592582469, \"y\": -189.56823271747106, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in\": {\"x\": -1446.25031681752, \"y\": -585.7132370548229, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid\": {\"x\": -2067.5799082050016, \"y\": -387.6957548847069, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear42\": {\"x\": -1021.6666826783795, \"y\": -1.8957305487951999, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear2\": {\"x\": -1721.6666826783794, \"y\": -14.029063882128526, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear3\": {\"x\": -1034.9486997168565, \"y\": -780.809714132178, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion54\": {\"x\": -1039.0354741902338, \"y\": -489.30790929733865, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear5\": {\"x\": -1424.7947508322873, \"y\": -727.0260799930379, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage24\": {\"x\": -1407.425959320433, \"y\": -118.41580706647659, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear10\": {\"x\": -1777.8598316873206, \"y\": -435.66940465166783, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear9\": {\"x\": -1768.664589122221, \"y\": -181.97026369557065, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow\": {\"x\": -2071.6666826783794, \"y\": -181.6327675858322, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_curve9_5_loc_moveOffset\": {\"x\": 632.263914299477, \"y\": 689.7845102337626, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_4_moveOffset\": {\"x\": 628.7539060314743, \"y\": 1248.315977296038, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage58\": {\"x\": 174.66204603431112, \"y\": 1231.4568537767263, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"input1D\"]}, \"plusMinusAverage56\": {\"x\": 194.70027606813727, \"y\": 611.6142783782302, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": false, \"expanded_attrs\": [\"input1D\"]}, \"multDoubleLinear79\": {\"x\": -300.5893065472944, \"y\": 680.7412538398751, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear84\": {\"x\": -308.6455311962635, \"y\": 252.71947537028979, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear74\": {\"x\": -314.3999773740985, \"y\": 388.9363240429683, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear78\": {\"x\": -294.51840170831485, \"y\": 1390.2915855859248, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear72\": {\"x\": -295.3229615707054, \"y\": 1201.8102001160287, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear76\": {\"x\": -285.4572870903951, \"y\": 1580.4314585944737, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear70\": {\"x\": -293.5038413570483, \"y\": 493.55442681785735, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion87\": {\"x\": -664.3999773740985, \"y\": 822.9054100963724, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion89\": {\"x\": -664.3999773740985, \"y\": 666.9054100963724, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear83\": {\"x\": -664.3999773740985, \"y\": 1134.9054100963724, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear64\": {\"x\": -664.3999773740985, \"y\": 978.9054100963724, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion88\": {\"x\": -664.3999773740985, \"y\": 510.9054100963724, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_in\": {\"x\": -1025.0380735990702, \"y\": 499.3455117487898, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage53\": {\"x\": -1014.3999773740985, \"y\": 688.146308442453, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_mid\": {\"x\": -1714.3999773740984, \"y\": 552.5041888837546, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_out\": {\"x\": -1714.3999773740984, \"y\": 708.5041888837546, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear49\": {\"x\": -1364.3999773740984, \"y\": 766.146308442453, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear48\": {\"x\": -1364.3999773740984, \"y\": 610.146308442453, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow\": {\"x\": -1714.3999773740984, \"y\": 396.50418888375464, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": 305.84526646793904, \"cy\": 1108.1350234345618, \"scale\": 1.1280213814790736}, \"group_path\": [], \"group_history\": []}], \"active_tab\": 11, \"basket\": [{\"name\": \"Limits Positions\", \"nodes\": {\"main\": {\"x\": -1825.5607163550967, \"y\": 950.7685322270993, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"setRange18\": {\"x\": -1319.763812799787, \"y\": 1011.2544182582883, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"oldMax\", \"outValue\", \"value\"]}, \"blendMatrix1\": {\"x\": -141.56959874763538, \"y\": 1767.0604867519587, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix2\": {\"x\": -78.48314362272141, \"y\": 1021.4804171910872, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix3\": {\"x\": -187.4227873745779, \"y\": 320.36825012212046, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix4\": {\"x\": -182.88215131229754, \"y\": 628.2237784730197, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix5\": {\"x\": -148.96999598746487, \"y\": 2077.2131935227562, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix6\": {\"x\": -64.12782651424254, \"y\": 1299.295158080291, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"multMatrix48\": {\"x\": 390.5017926751634, \"y\": 1938.1304703556586, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"multMatrix49\": {\"x\": 441.7429996902672, \"y\": 1193.5241228774244, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"multMatrix50\": {\"x\": 422.8450079591119, \"y\": 513.327898111087, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"condition1\": {\"x\": -1331.6973432035552, \"y\": 1331.140654551796, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"outColor\"]}, \"condition2\": {\"x\": -1317.6003841987715, \"y\": 1735.922080887228, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"colorIfTrue\", \"outColor\"]}, \"l_brow_in_group_1\": {\"x\": 729.4716456990075, \"y\": 425.9544872116985, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_bot\": {\"x\": -651.0868360892679, \"y\": 714.8530803061245, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group_1\": {\"x\": 751.2939526130042, \"y\": 1115.7180774517633, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group\": {\"x\": 626.4062081722725, \"y\": -851.3106580164614, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_mid_bot\": {\"x\": -615.9755427150907, \"y\": 1365.8780424840943, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_group_1\": {\"x\": 772.6345377753617, \"y\": 1741.942711307439, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_brow_out_bot\": {\"x\": -603.0514818382629, \"y\": 2182.4095646903797, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_top\": {\"x\": -653.8637953447529, \"y\": 338.10545203479035, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_top\": {\"x\": -618.2454104053027, \"y\": 1085.5475589866642, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_top\": {\"x\": -609.5024522886177, \"y\": 1808.790155325404, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldInverseMatrix\"]}}, \"view\": {\"cx\": -1470.0649377902198, \"cy\": 1245.3230445873469, \"scale\": 1.027845750998805}, \"group_path\": [], \"group_history\": [], \"id\": 2}, {\"name\": \"Joints\", \"nodes\": {\"wide_joint_01\": {\"x\": -924.4861322306755, \"y\": 419.1768768918133, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_02\": {\"x\": -958.2211547058437, \"y\": 698.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_03\": {\"x\": -958.2211547058437, \"y\": 854.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_04\": {\"x\": -958.2211547058437, \"y\": 1010.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_05\": {\"x\": -958.2211547058437, \"y\": 1166.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_06\": {\"x\": -922.5073771486836, \"y\": 1320.5473806915552, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_07\": {\"x\": -958.2211547058437, \"y\": 1478.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_08\": {\"x\": -958.2211547058437, \"y\": 1634.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_09\": {\"x\": -958.2211547058437, \"y\": 1790.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_10\": {\"x\": -958.2211547058437, \"y\": 1946.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_11\": {\"x\": -958.2211547058437, \"y\": 2102.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_12\": {\"x\": -958.2211547058437, \"y\": 2258.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_13\": {\"x\": -958.2211547058437, \"y\": 2414.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_1_mpath\": {\"x\": -2169.273776889795, \"y\": 935.1550532592105, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath5\": {\"x\": -2158.3661041477494, \"y\": 367.2995127969548, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath\": {\"x\": -2271.0498077863385, \"y\": 1914.214404827273, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath2\": {\"x\": -2307.535554711515, \"y\": 2182.958447924242, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_2_mpath\": {\"x\": -2178.8752892385255, \"y\": 1128.096300134952, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_4_mpath\": {\"x\": -2190.3971040570023, \"y\": 1394.9200407621765, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_6_mpath\": {\"x\": -2236.484363330909, \"y\": 1750.0776949977226, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_0_mpath\": {\"x\": -2169.273776889795, \"y\": 776.7792508388984, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath4\": {\"x\": -2184.97353139744, \"y\": 582.216098122861, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath1\": {\"x\": -2299.85434483253, \"y\": 2061.068392429108, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath3\": {\"x\": -2336.3400917577064, \"y\": 2352.8560651630323, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_5_mpath\": {\"x\": -2215.361036163701, \"y\": 1589.7815901076647, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curveShape\": {\"x\": -2982.1556813391408, \"y\": 1363.738927074029, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out\": {\"x\": -2982.1556813391408, \"y\": 1519.738927074029, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear18\": {\"x\": -1308.2211547058437, \"y\": 2113.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear17\": {\"x\": -1308.2211547058437, \"y\": 1957.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear21\": {\"x\": -1306.7330806409618, \"y\": 459.4998904923532, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear11\": {\"x\": -1308.2211547058432, \"y\": 783.4044830114067, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear13\": {\"x\": -1315.661525030252, \"y\": 1310.9274456066732, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear19\": {\"x\": -1308.2211547058437, \"y\": 2425.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear20\": {\"x\": -1312.6853769004883, \"y\": 627.4044830114067, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear22\": {\"x\": -1308.2211547058437, \"y\": 2269.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear15\": {\"x\": -1308.2211547058437, \"y\": 1645.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear14\": {\"x\": -1308.2211547058437, \"y\": 1489.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_3_mpath\": {\"x\": -2228.815480223774, \"y\": 1269.0660371775443, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear23\": {\"x\": -1311.197302835607, \"y\": 1105.8210014655788, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear16\": {\"x\": -1308.2211547058437, \"y\": 1801.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear12\": {\"x\": -1315.6615250302516, \"y\": 928.987964557235, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange29\": {\"x\": -1774.4566750629067, \"y\": 2029.1072901700882, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange31\": {\"x\": -1774.4566750629067, \"y\": 625.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange30\": {\"x\": -1774.4566750629067, \"y\": 2341.107290170088, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange21\": {\"x\": -1774.4566750629067, \"y\": 1093.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange23\": {\"x\": -1774.4566750629067, \"y\": 937.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange22\": {\"x\": -1774.4566750629067, \"y\": 781.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange33\": {\"x\": -1774.4566750629067, \"y\": 2185.107290170088, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange28\": {\"x\": -1774.4566750629067, \"y\": 1873.1072901700882, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange24\": {\"x\": -1774.4566750629067, \"y\": 1249.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange32\": {\"x\": -1774.4566750629067, \"y\": 469.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange25\": {\"x\": -1774.4566750629067, \"y\": 1405.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange26\": {\"x\": -1774.4566750629067, \"y\": 1561.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange27\": {\"x\": -1774.4566750629067, \"y\": 1717.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": 3, \"notes\": [], \"view\": {\"cx\": -1501.2085001450007, \"cy\": 985.3437814622149, \"scale\": 0.7114268270509011}, \"group_path\": [], \"group_history\": [], \"id\": 3}, {\"id\": 4, \"basket_entry_id\": 4, \"name\": \"Local Controls\", \"nodes\": {}, \"notes\": [], \"view\": {}, \"group_path\": [], \"group_history\": []}, {\"id\": 5, \"basket_entry_id\": 5, \"name\": \"Local Init Position\", \"nodes\": {}, \"notes\": [], \"view\": {}, \"group_path\": [], \"group_history\": []}]}");
+		"{\"tabs\": [{\"name\": \"Up Offset\", \"nodes\": {\"blendMatrix11\": {\"x\": -2230.8345825163337, \"y\": -1346.2394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix12\": {\"x\": -2230.8345825163337, \"y\": -1190.2394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix13\": {\"x\": -2230.8345825163337, \"y\": -1034.2394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix14\": {\"x\": -2230.8345825163337, \"y\": -878.2394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix15\": {\"x\": -2230.8345825163337, \"y\": -722.2394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix16\": {\"x\": -2230.8345825163337, \"y\": -566.2394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix52\": {\"x\": -1880.8345825163337, \"y\": -1246.2394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix53\": {\"x\": -1880.8345825163337, \"y\": -934.2394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix54\": {\"x\": -1880.8345825163337, \"y\": -1090.2394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"up_down_setRange1\": {\"x\": -2580.8345825163337, \"y\": -1056.2394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow\": {\"x\": -2930.8345825163337, \"y\": -1079.0394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_bot\": {\"x\": -2930.8345825163337, \"y\": -1703.0394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_bot\": {\"x\": -2930.8345825163337, \"y\": -611.0394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_top\": {\"x\": -2930.8345825163337, \"y\": -1391.0394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_top\": {\"x\": -2930.8345825163337, \"y\": -1859.0394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_top\": {\"x\": -2930.8345825163337, \"y\": -923.0394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_bot\": {\"x\": -2930.8345825163337, \"y\": -455.0394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_bot\": {\"x\": -2930.8345825163337, \"y\": -767.0394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_top\": {\"x\": -2930.8345825163337, \"y\": -1547.0394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow\": {\"x\": -2930.8345825163337, \"y\": -1235.0394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"up_vis_condition\": {\"x\": -3280.8345825163337, \"y\": -1154.5394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"down_vis_condition\": {\"x\": -3280.8345825163337, \"y\": -998.5394360544567, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -2460.08608815427, \"cy\": -1138.121900826446, \"scale\": 0.9410239792611795}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Limits Positions\", \"nodes\": {\"up_vis_condition\": {\"x\": -2166.6568703927096, \"y\": 874.1147865853516, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"colorIfFalse\", \"outColor\"]}, \"down_vis_condition\": {\"x\": -2189.562862399022, \"y\": 2630.4536162250015, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"colorIfTrue\", \"outColor\"]}, \"multDoubleLinear6\": {\"x\": -490.84109558006315, \"y\": 2777.707056746256, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_1_group\": {\"x\": 739.580257279335, \"y\": 731.973061854147, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow\": {\"x\": -2494.931235842602, \"y\": 363.32108307228737, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_brow\": {\"x\": -910.3714456407814, \"y\": 845.1024105177219, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_in_group_1\": {\"x\": 283.43579711559767, \"y\": 345.7943039171994, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group_1\": {\"x\": 259.76156139464166, \"y\": 86.3084541293361, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_group_1\": {\"x\": 287.6704399282422, \"y\": -179.49899178341397, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_in_group_1\": {\"x\": 766.0758577850279, \"y\": 396.4457630312555, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_mid_group_1\": {\"x\": 720.0655778401981, \"y\": 116.70134708316337, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_out_group_1\": {\"x\": 717.3590907846199, \"y\": -148.15739005924854, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3_top\": {\"x\": -654.3660599517458, \"y\": 1755.0770391535198, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_top\": {\"x\": -654.3660599517458, \"y\": 1911.0770391535189, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_top\": {\"x\": -654.3660599517458, \"y\": 2067.0770391535193, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_top\": {\"x\": -654.3660599517458, \"y\": 2223.0770391535193, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_top\": {\"x\": -654.3660599517458, \"y\": 2379.0770391535193, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3_bot\": {\"x\": -1001.0039742674024, \"y\": 2974.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_bot\": {\"x\": -1001.0039742674024, \"y\": 3130.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_bot\": {\"x\": -1001.0039742674024, \"y\": 3286.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_bot\": {\"x\": -1001.0039742674024, \"y\": 3442.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_bot\": {\"x\": -1001.0039742674024, \"y\": 3598.3497959718966, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_bot\": {\"x\": -1589.5823838428544, \"y\": 884.8684080840438, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_bot\": {\"x\": -1589.5823838428544, \"y\": 572.8684080840438, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_bot\": {\"x\": -1589.5823838428544, \"y\": 728.8684080840438, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_top\": {\"x\": -1605.7733050593943, \"y\": 1377.240307037215, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_top\": {\"x\": -1590.7236369844452, \"y\": 1039.419853873925, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_top\": {\"x\": -1605.7733050593943, \"y\": 1221.240307037215, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_midShape\": {\"x\": -103.11179961164635, \"y\": 2814.3503646322097, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_1Shape\": {\"x\": -103.11179961164635, \"y\": 2970.3503646322097, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3Shape\": {\"x\": 386.8111748537466, \"y\": 2894.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4Shape\": {\"x\": 386.8111748537466, \"y\": 3050.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5Shape\": {\"x\": 386.8111748537466, \"y\": 3206.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6Shape\": {\"x\": 386.8111748537466, \"y\": 3362.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7Shape\": {\"x\": 386.8111748537466, \"y\": 3518.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_bot\": {\"x\": -1144.4963303125119, \"y\": 181.2747320270655, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_top\": {\"x\": -1227.1018650322728, \"y\": -43.72759313175617, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1Shape\": {\"x\": 421.1196816708501, \"y\": 2444.873929804466, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_group\": {\"x\": 329.0846799346817, \"y\": 752.1165622477623, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_bot\": {\"x\": -1002.0342895341465, \"y\": 2673.075343360965, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_top\": {\"x\": -664.1307711498106, \"y\": 1522.354308311582, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2Shape\": {\"x\": 386.8111748537466, \"y\": 2738.1079570728803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_1Shape\": {\"x\": -117.4179670236613, \"y\": 2685.2506906095537, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix1\": {\"x\": -433.61451964038184, \"y\": 665.4855477561346, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix2\": {\"x\": -370.52806451546786, \"y\": -80.09452180473676, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix3\": {\"x\": -464.5974067875403, \"y\": -911.8456175171914, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix4\": {\"x\": -488.4757895478527, \"y\": -484.7400042825338, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix5\": {\"x\": -441.01491688021133, \"y\": 975.6382545269321, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix6\": {\"x\": -356.172747406989, \"y\": 197.72021908446703, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix48\": {\"x\": 109.14225508886341, \"y\": 889.0675413540507, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix49\": {\"x\": 26.712769433348967, \"y\": 21.084556778611102, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix50\": {\"x\": 11.171940233934833, \"y\": -658.7616593783745, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"up_down_setRange\": {\"x\": -1296.9309682841053, \"y\": -1275.1683229363343, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"up_down_setRange1\": {\"x\": -1388.8126452034303, \"y\": -288.53821624040074, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix11\": {\"x\": -322.71840508090384, \"y\": 1431.4243997807512, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix12\": {\"x\": -259.63194995598985, \"y\": 685.84433021988, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix13\": {\"x\": -353.7012922280623, \"y\": -145.90676549257455, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix14\": {\"x\": -377.5796749883747, \"y\": 281.198847742083, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix15\": {\"x\": -330.1188023207333, \"y\": 1741.5771065515487, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"blendMatrix16\": {\"x\": -245.276632847511, \"y\": 963.6590711090838, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix52\": {\"x\": 220.03836964834136, \"y\": 1655.0063933786673, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix53\": {\"x\": 137.60888399282692, \"y\": 787.0234088032279, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix54\": {\"x\": 122.06805479341284, \"y\": 107.17719264624236, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -2136.0352890791423, \"cy\": 1712.3588681047672, \"scale\": 0.16994101261149644}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Local Controls\", \"nodes\": {\"l_brow_local_5_move_composeMatrix\": {\"x\": 2621.8344790595875, \"y\": 1267.3844852546517, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_local_4_move_composeMatrix\": {\"x\": 2647.9305989544955, \"y\": 2056.311674483266, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_local_3_move_composeMatrix\": {\"x\": 1437.8507537297994, \"y\": 527.0551049994947, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow\": {\"x\": -1739.378953487646, \"y\": 137.3582187643736, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"minTransLimitEnable\", \"rotate\", \"translate\"]}, \"r_brow_in\": {\"x\": -1745.427055503622, \"y\": 2620.3880802635827, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"r_brow\": {\"x\": -1755.6593343750458, \"y\": 2230.357333894182, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_mid\": {\"x\": -1734.2663701107542, \"y\": 1219.6641350509706, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"r_brow_mid\": {\"x\": -1739.571056147512, \"y\": 3102.653994878301, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_brow_out\": {\"x\": -1703.852813382678, \"y\": 1724.1765822733835, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"r_brow_out\": {\"x\": -1689.0018459518478, \"y\": 3482.208085942973, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"r_brow_local_5_move_composeMatrix\": {\"x\": 1575.1589401218994, \"y\": 3415.2578859666005, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_brow_local_4_move_composeMatrix\": {\"x\": 1582.4262086829349, \"y\": 3061.10587777533, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_brow_local_2_move_composeMatrix\": {\"x\": 1512.3589515567824, \"y\": 2359.05979166998, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"r_brow_local_3_move_composeMatrix\": {\"x\": 1530.2836675818512, \"y\": 2747.1840200994898, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"multDoubleLinear64\": {\"x\": -1068.6977208355947, \"y\": 2520.352348138507, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear65\": {\"x\": -1154.6373648747235, \"y\": 1781.7116627119099, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion87\": {\"x\": 96.74710315806637, \"y\": 2857.84695731484, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage53\": {\"x\": -1634.8174828385586, \"y\": 2873.256285418064, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage54\": {\"x\": -1674.2236025194027, \"y\": 1271.3956969659007, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear48\": {\"x\": -2210.671506792376, \"y\": 1543.3947047202132, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear49\": {\"x\": -2204.605530791863, \"y\": 3127.3698456958937, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear51\": {\"x\": -2209.4543891902604, \"y\": 1051.499838778564, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage55\": {\"x\": 1125.6225411950254, \"y\": 2670.694521075638, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage56\": {\"x\": 2137.2786732568547, \"y\": 2827.8250078369756, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear67\": {\"x\": -1154.5220580907555, \"y\": 974.1480101703723, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear72\": {\"x\": -1095.4422251795627, \"y\": 3500.562451047821, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear73\": {\"x\": 523.1000818415463, \"y\": 2068.060133928398, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear74\": {\"x\": 504.2234756067777, \"y\": 2439.549293539281, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear75\": {\"x\": 463.61805057808067, \"y\": 1059.4013230499572, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear76\": {\"x\": 499.7023756826069, \"y\": 3220.191390408489, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage57\": {\"x\": 1077.187749004342, \"y\": 2476.642823393009, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage58\": {\"x\": 2157.2043070261316, \"y\": 3290.892832057253, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion90\": {\"x\": 69.46156599936955, \"y\": 1429.6237404076783, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear83\": {\"x\": -1302.8513656189955, \"y\": 3820.6566058213607, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear84\": {\"x\": 583.2736396327249, \"y\": 2683.0426249992083, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_move_composeMatrix\": {\"x\": 1444.2380514399285, \"y\": 223.76090673751605, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in\": {\"x\": -1736.6328496490178, \"y\": 741.9721598559564, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear3\": {\"x\": -1084.8284477220034, \"y\": 1241.2315230982206, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear4\": {\"x\": -1170.7680917611322, \"y\": 502.59083767162383, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion24\": {\"x\": 80.61637627165783, \"y\": 1578.7261322745537, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage24\": {\"x\": -1650.9482097249672, \"y\": 1594.1354603777781, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage25\": {\"x\": -1690.3543294058113, \"y\": -7.7251280743853386, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear5\": {\"x\": -1698.272401677079, \"y\": 822.9417392430896, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear9\": {\"x\": -2226.8022336787844, \"y\": 264.2738796799272, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear10\": {\"x\": -2220.736257678271, \"y\": 1848.2490206556076, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear2\": {\"x\": -2154.3142249885364, \"y\": 630.4425095087945, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear8\": {\"x\": -2225.5851160766683, \"y\": -227.620986261722, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage26\": {\"x\": 2130.534296827283, \"y\": 781.7455831885877, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage27\": {\"x\": 2024.6384514474494, \"y\": 1292.7442180009139, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"input1D\"]}, \"multDoubleLinear2\": {\"x\": -1170.6527849771642, \"y\": -304.9728148699137, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear1\": {\"x\": -1111.5729520659713, \"y\": 2221.441626007535, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear13\": {\"x\": 658.4364718246309, \"y\": 809.1349244707112, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear14\": {\"x\": 530.0093308247643, \"y\": 1444.9401866083901, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear15\": {\"x\": 678.2744844897359, \"y\": -453.72352328184706, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear16\": {\"x\": 483.57164879619836, \"y\": 1941.070565368203, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage28\": {\"x\": 1963.232998613357, \"y\": 634.2050356671671, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage29\": {\"x\": 2048.760150213378, \"y\": 2179.6146068830494, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion56\": {\"x\": 317.66540041282565, \"y\": 341.8494656588814, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear42\": {\"x\": -1318.9820925054041, \"y\": 2541.5357807810747, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear63\": {\"x\": 567.1429127463164, \"y\": 1403.9217999589223, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": 4, \"notes\": [], \"view\": {\"cx\": 2639.5290879696463, \"cy\": 2067.4500812492015, \"scale\": 0.5523712569204945}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 3\", \"nodes\": {\"l_brow_local_3_group\": {\"x\": -3344.5706504287286, \"y\": -1642.2152273153836, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\"]}, \"l_brow_local_3_top\": {\"x\": -4567.663228225373, \"y\": -1722.5031462899315, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3_bot\": {\"x\": -4578.1329164802255, \"y\": -1504.0234655443223, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_group\": {\"x\": -3417.618423470978, \"y\": -951.0464661833422, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_top\": {\"x\": -4625.970940172138, \"y\": -1080.108694358415, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_bot\": {\"x\": -4606.512767600461, \"y\": -820.0074710999415, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_group\": {\"x\": -3356.559534173694, \"y\": -366.92476215960886, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_top\": {\"x\": -4597.580373641829, \"y\": -495.35398556092275, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_bot\": {\"x\": -4600.1535657163995, \"y\": -216.6984966731013, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_group\": {\"x\": -3435.472031710467, \"y\": 353.12024554882015, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_top\": {\"x\": -4585.88064544554, \"y\": 230.15744155559213, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_bot\": {\"x\": -4594.22370635609, \"y\": 514.3371955449311, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_group\": {\"x\": -3425.089002895046, \"y\": 990.5103701763926, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_top\": {\"x\": -4570.363727888548, \"y\": 846.9186374794167, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_bot\": {\"x\": -4568.846807722995, \"y\": 1124.2722507237618, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"up_down_setRange1\": {\"x\": -5188.476101808852, \"y\": 900.3821552628244, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"outValue\"]}, \"up_down_setRange\": {\"x\": -5141.426450141917, \"y\": -589.9464601692215, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"outValue\"]}, \"r_brow_local_2_group\": {\"x\": -3074.8262851081518, \"y\": -1867.4320223921638, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_3_group\": {\"x\": -3111.033373024211, \"y\": -1332.2474422307703, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_4_group\": {\"x\": -3081.4907290456563, \"y\": -749.6439762226261, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_5_group\": {\"x\": -3020.742717199687, \"y\": -147.5961385009074, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_6_group\": {\"x\": -3109.323705977312, \"y\": 544.2763114254969, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_7_group\": {\"x\": -3120.3151978185024, \"y\": 1172.3391939210214, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_bot\": {\"x\": -4614.325026808659, \"y\": -1989.2501833151512, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_top\": {\"x\": -4586.892796880182, \"y\": -2303.9678436193226, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_group\": {\"x\": -3357.690204260645, \"y\": -2188.1175765262287, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -3924.796149189195, \"cy\": 1278.5531813185526, \"scale\": 0.7179990738072236}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 5\", \"nodes\": {\"l_curve_loc_01Shape\": {\"x\": -2576.473661788548, \"y\": -1810.4533830982177, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_06Shape\": {\"x\": -2334.6666666666665, \"y\": -862.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_07Shape\": {\"x\": -2334.6666666666665, \"y\": -706.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_08Shape\": {\"x\": -2334.6666666666665, \"y\": -550.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_09Shape\": {\"x\": -2334.6666666666665, \"y\": -394.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_12Shape\": {\"x\": -2315.6971112205542, \"y\": 80.73461968851441, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_02Shape\": {\"x\": -2334.6666666666665, \"y\": -1486.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_03Shape\": {\"x\": -2334.6666666666665, \"y\": -1330.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_04Shape\": {\"x\": -2334.6666666666665, \"y\": -1174.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_curve_loc_05Shape\": {\"x\": -2334.6666666666665, \"y\": -1018.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -2922.8435191691788, \"cy\": -1304.9636653231805, \"scale\": 0.5816253894027233}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 6\", \"nodes\": {\"l_brow_mid\": {\"x\": -3279.592385711044, \"y\": -1072.245475887653, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out\": {\"x\": -3247.0048378997517, \"y\": -823.4864292284245, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_brow\": {\"x\": -3250.49355694966, \"y\": -1783.2273491605335, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_move_composeMatrix\": {\"x\": -2271.602612211118, \"y\": -1237.0570565523803, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in\": {\"x\": -3264.6497042659466, \"y\": -1395.870794556709, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": 3185.3349406541297, \"cy\": -3590.666764721943, \"scale\": 0.24424433050052582}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Local Init Position\", \"nodes\": {\"mid_mainPoser\": {\"x\": 625.828107567229, \"y\": -4912.367590250758, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_1_poser\": {\"x\": 579.7643754469279, \"y\": -6262.364361997303, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_group_multMatrix\": {\"x\": 989.588693214276, \"y\": -6136.408366914609, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"in_mainPoser\": {\"x\": 588.3372870076138, \"y\": -5962.082067359466, \"width\": 234.232137161958, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_2_poser\": {\"x\": 588.8320062734404, \"y\": -5571.016450258607, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_group_multMatrix\": {\"x\": 971.2593109796278, \"y\": -5664.323815999474, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"l_brow_local_3_group\": {\"x\": 1432.8748761575484, \"y\": -5129.637786698762, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3_group_multMatrix\": {\"x\": 1026.1959632938767, \"y\": -5118.857981827443, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"local_3_poser\": {\"x\": 608.9129175822877, \"y\": -5187.5282218056145, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_group\": {\"x\": 1463.1026844756236, \"y\": -4665.251729790567, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_group_multMatrix\": {\"x\": 1069.5645342645628, \"y\": -4706.352271896964, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"local_4_poser\": {\"x\": 660.9428469328705, \"y\": -4541.054760418152, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_group\": {\"x\": 1470.041463436909, \"y\": -4185.1888229419255, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_group_multMatrix\": {\"x\": 1048.6515178954537, \"y\": -4300.4848431038845, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"local_5_poser\": {\"x\": 609.4934442260718, \"y\": -4193.083156041814, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"out_mainPoser\": {\"x\": 618.6887330257752, \"y\": -3932.0979650688732, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_group\": {\"x\": 1475.6833335828833, \"y\": -3771.695047283213, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_group_multMatrix\": {\"x\": 1057.3812551267677, \"y\": -3876.3705993576737, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"local_6_poser\": {\"x\": 610.2680003878909, \"y\": -3646.2465057977015, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_group\": {\"x\": 1533.5370167418955, \"y\": -3432.4817894643797, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_7_poser\": {\"x\": 610.2680003878905, \"y\": -3372.0536245138273, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_group_multMatrix\": {\"x\": 1112.9396793264182, \"y\": -3456.9931828831504, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"r_brow_local_1_group\": {\"x\": 1436.7922418548765, \"y\": -6067.299722022102, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_2_group\": {\"x\": 1427.2225061262827, \"y\": -5499.585963715228, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_3_group\": {\"x\": 1435.1530883894227, \"y\": -5234.675028054771, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_4_group\": {\"x\": 1480.9566359675355, \"y\": -4795.691368274052, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_5_group\": {\"x\": 1467.166004600157, \"y\": -4342.065250827147, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_6_group\": {\"x\": 1471.8277749792733, \"y\": -3913.390089461798, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_7_group\": {\"x\": 1540.7357761897167, \"y\": -3537.6601460195916, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_group\": {\"x\": 1437.2505827883774, \"y\": -6195.780626198113, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_group\": {\"x\": 1435.7979697024327, \"y\": -5795.5369041821, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": 5, \"notes\": [], \"view\": {\"cx\": 1393.089910462572, \"cy\": -5264.583963957394, \"scale\": 0.4938661854004465}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 8\", \"nodes\": {}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": 168.10932719290219, \"cy\": 1656.6410061555086, \"scale\": 0.3271680454522822}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Limits Positions\", \"nodes\": {\"blendMatrix1\": {\"x\": -141.56959874763538, \"y\": 1767.0604867519587, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix2\": {\"x\": -78.48314362272141, \"y\": 1021.4804171910872, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix3\": {\"x\": -187.4227873745779, \"y\": 320.36825012212046, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix4\": {\"x\": -182.88215131229754, \"y\": 628.2237784730197, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix5\": {\"x\": -148.96999598746487, \"y\": 2077.2131935227562, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix6\": {\"x\": -64.12782651424254, \"y\": 1299.295158080291, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"multMatrix48\": {\"x\": 390.5017926751634, \"y\": 1938.1304703556586, \"width\": 58, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"multMatrix49\": {\"x\": 441.7429996902672, \"y\": 1193.5241228774244, \"width\": 58, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"multMatrix50\": {\"x\": 422.8450079591119, \"y\": 513.327898111087, \"width\": 58, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"l_brow_in_group_1\": {\"x\": 729.4716456990075, \"y\": 425.9544872116985, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_bot\": {\"x\": -651.0868360892679, \"y\": 714.8530803061245, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group_1\": {\"x\": 751.2939526130042, \"y\": 1115.7180774517633, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group\": {\"x\": 626.4062081722725, \"y\": -851.3106580164614, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_mid_bot\": {\"x\": -615.9755427150907, \"y\": 1365.8780424840943, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_group_1\": {\"x\": 772.6345377753617, \"y\": 1741.942711307439, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_brow_out_bot\": {\"x\": -603.0514818382629, \"y\": 2182.4095646903797, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_top\": {\"x\": -653.8637953447529, \"y\": 338.10545203479035, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_top\": {\"x\": -618.2454104053027, \"y\": 1085.5475589866642, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_top\": {\"x\": -609.5024522886177, \"y\": 1808.790155325404, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldInverseMatrix\"]}}, \"basket_entry_id\": 2, \"notes\": [], \"view\": {\"cx\": 461.07688746318314, \"cy\": 1965.3724309184845, \"scale\": 0.38822158487459013}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Joints\", \"nodes\": {\"l_brow_out\": {\"x\": -2982.1556813391408, \"y\": 1519.738927074029, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": 3, \"notes\": [], \"view\": {\"cx\": -2534.343563447038, \"cy\": 1630.5260862998136, \"scale\": 0.7114268270509011}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 10\", \"nodes\": {\"l_brow_local_2_move_composeMatrix\": {\"x\": -11053.9824265778, \"y\": -9586.424686618291, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow\": {\"x\": -12149.582141494906, \"y\": -9721.848820268959, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in\": {\"x\": -12192.151790648146, \"y\": -9585.121586038378, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_mid\": {\"x\": -12185.28535117666, \"y\": -9346.724312380562, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out\": {\"x\": -12185.28535117666, \"y\": -9190.724312380562, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_last\": {\"x\": -11568.157373544846, \"y\": -8788.040205139572, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_8_poser\": {\"x\": -12423.221209337353, \"y\": -8922.996063559833, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldMatrix\"]}, \"multMatrix68\": {\"x\": -12023.504621039168, \"y\": -8779.798625999405, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"full_mainPoser\": {\"x\": -12422.466274524324, \"y\": -8514.500138120997, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldInverseMatrix\"]}, \"r_brow_last\": {\"x\": -11567.127176152318, \"y\": -8432.622104719794, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear3\": {\"x\": -12733.05216823083, \"y\": -9336.155886724058, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear4\": {\"x\": -12818.99181226996, \"y\": -10074.796572150655, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion24\": {\"x\": -11567.607344237169, \"y\": -8998.661277547726, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage24\": {\"x\": -13299.171930233795, \"y\": -8983.2519494445, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage25\": {\"x\": -13338.578049914639, \"y\": -10585.112537896664, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear5\": {\"x\": -13346.496122185907, \"y\": -9754.445670579189, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear9\": {\"x\": -13875.025954187611, \"y\": -10313.113530142353, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear10\": {\"x\": -13868.959978187098, \"y\": -8729.138389166672, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear2\": {\"x\": -13802.537945497363, \"y\": -9946.944900313485, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear8\": {\"x\": -13873.808836585496, \"y\": -10805.008396084002, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage26\": {\"x\": -9517.689423681544, \"y\": -9795.641826633691, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage27\": {\"x\": -9527.075774138382, \"y\": -9028.683227025589, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear2\": {\"x\": -12818.87650548599, \"y\": -10882.360224692193, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear1\": {\"x\": -12759.7966725748, \"y\": -8355.945783814745, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear13\": {\"x\": -10989.787248684197, \"y\": -9768.252485351568, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear14\": {\"x\": -11160.130971788458, \"y\": -9416.958941323284, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear15\": {\"x\": -10969.94923601909, \"y\": -11031.110933104126, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear16\": {\"x\": -11164.65207171263, \"y\": -8636.316844454075, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage28\": {\"x\": -9684.99072189547, \"y\": -9943.182374155112, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage29\": {\"x\": -9507.150140369104, \"y\": -8565.615402805312, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion56\": {\"x\": -11330.558320096, \"y\": -10235.537944163398, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear42\": {\"x\": -12967.205813014232, \"y\": -8035.851629041204, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear63\": {\"x\": -11081.080807762512, \"y\": -9173.465609863357, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -11663.75170579469, \"cy\": -8874.455459233575, \"scale\": 0.47180359620190165}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 11\", \"nodes\": {\"l_brow_local_5_move_composeMatrix\": {\"x\": 423.2903521094678, \"y\": -609.2068918104612, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_move_composeMatrix\": {\"x\": 450.87607980476594, \"y\": -173.26284038410066, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage29\": {\"x\": -35.440672894527125, \"y\": -138.5304768302172, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"input1D\"]}, \"plusMinusAverage27\": {\"x\": -65.62407378048016, \"y\": -635.5446866186433, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"input1D\"]}, \"multDoubleLinear63\": {\"x\": -628.7555507079154, \"y\": -776.492871815822, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear1\": {\"x\": -671.6666826783795, \"y\": 29.304269451204846, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear14\": {\"x\": -632.8423251812928, \"y\": -625.665662705817, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear16\": {\"x\": -625.6904698528822, \"y\": 354.9054100963724, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out\": {\"x\": -2267.0000160117133, \"y\": -5.632767585832212, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion24\": {\"x\": -1009.4063592582469, \"y\": -189.56823271747106, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in\": {\"x\": -1446.25031681752, \"y\": -585.7132370548229, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid\": {\"x\": -2067.5799082050016, \"y\": -387.6957548847069, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear42\": {\"x\": -1021.6666826783795, \"y\": -1.8957305487951999, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear2\": {\"x\": -1721.6666826783794, \"y\": -14.029063882128526, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear3\": {\"x\": -1034.9486997168565, \"y\": -780.809714132178, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear5\": {\"x\": -1424.7947508322873, \"y\": -727.0260799930379, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage24\": {\"x\": -1407.425959320433, \"y\": -118.41580706647659, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear10\": {\"x\": -1777.8598316873206, \"y\": -435.66940465166783, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear9\": {\"x\": -1768.664589122221, \"y\": -181.97026369557065, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow\": {\"x\": -2071.6666826783794, \"y\": -181.6327675858322, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_5_move_composeMatrix\": {\"x\": 632.263914299477, \"y\": 689.7845102337626, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_local_4_move_composeMatrix\": {\"x\": 628.7539060314743, \"y\": 1248.315977296038, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage58\": {\"x\": 174.66204603431112, \"y\": 1231.4568537767263, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"input1D\"]}, \"plusMinusAverage56\": {\"x\": 194.70027606813727, \"y\": 611.6142783782302, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": false, \"expanded_attrs\": [\"input1D\"]}, \"multDoubleLinear84\": {\"x\": -308.6455311962635, \"y\": 252.71947537028979, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear74\": {\"x\": -314.3999773740985, \"y\": 388.9363240429683, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear72\": {\"x\": -295.3229615707054, \"y\": 1201.8102001160287, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear76\": {\"x\": -285.4572870903951, \"y\": 1580.4314585944737, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion87\": {\"x\": -664.3999773740985, \"y\": 822.9054100963724, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear83\": {\"x\": -664.3999773740985, \"y\": 1134.9054100963724, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multDoubleLinear64\": {\"x\": -664.3999773740985, \"y\": 978.9054100963724, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_in\": {\"x\": -1025.0380735990702, \"y\": 499.3455117487898, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"plusMinusAverage53\": {\"x\": -1014.3999773740985, \"y\": 688.146308442453, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_mid\": {\"x\": -1714.3999773740984, \"y\": 552.5041888837546, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow_out\": {\"x\": -1714.3999773740984, \"y\": 708.5041888837546, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear49\": {\"x\": -1364.3999773740984, \"y\": 766.146308442453, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear48\": {\"x\": -1364.3999773740984, \"y\": 610.146308442453, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"r_brow\": {\"x\": -1714.3999773740984, \"y\": 396.50418888375464, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": 305.84526646793904, \"cy\": 1108.1350234345618, \"scale\": 1.1280213814790736}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Out Arc\", \"nodes\": {\"l_brow_out\": {\"x\": -3200, \"y\": -1600, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_4_initLoc\": {\"x\": -3200, \"y\": -1450, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_5_initLoc\": {\"x\": -3200, \"y\": -1300, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_6_initLoc\": {\"x\": -3200, \"y\": -1150, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_7_initLoc\": {\"x\": -3200, \"y\": -1000, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"unitConversion22\": {\"x\": -2870, \"y\": -1675, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_tilt_composeMatrix\": {\"x\": -2870, \"y\": -1525, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_4_arcHeight_pointMatrixMult\": {\"x\": -2870, \"y\": -1375, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_5_arcHeight_pointMatrixMult\": {\"x\": -2870, \"y\": -1225, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_6_arcHeight_pointMatrixMult\": {\"x\": -2870, \"y\": -1075, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_7_arcHeight_pointMatrixMult\": {\"x\": -2870, \"y\": -925, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_cancel_composeMatrix\": {\"x\": -2540, \"y\": -1600, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_4_outArcHeightRatio_multiplyDivide\": {\"x\": -2540, \"y\": -1450, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_5_outArcHeightRatio_multiplyDivide\": {\"x\": -2540, \"y\": -1300, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_6_outArcHeightRatio_multiplyDivide\": {\"x\": -2540, \"y\": -1150, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_7_outArcHeightRatio_multiplyDivide\": {\"x\": -2540, \"y\": -1000, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_4_outArcHeightRatio_condition\": {\"x\": -2210, \"y\": -1525, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_5_outArcHeightRatio_condition\": {\"x\": -2210, \"y\": -1375, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_6_outArcHeightRatio_condition\": {\"x\": -2210, \"y\": -1225, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_7_outArcHeightRatio_condition\": {\"x\": -2210, \"y\": -1075, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_4_outArcHeightRatioNeg_multDoubleLinear\": {\"x\": -1880, \"y\": -1525, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_5_outArcHeightRatioNeg_multDoubleLinear\": {\"x\": -1880, \"y\": -1375, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_6_outArcHeightRatioNeg_multDoubleLinear\": {\"x\": -1880, \"y\": -1225, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_7_outArcHeightRatioNeg_multDoubleLinear\": {\"x\": -1880, \"y\": -1075, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_outArc_rotate_composeMatrix\": {\"x\": -1550, \"y\": -1525, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_outArc_rotate_composeMatrix\": {\"x\": -1550, \"y\": -1375, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_outArc_rotate_composeMatrix\": {\"x\": -1550, \"y\": -1225, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_outArc_rotate_composeMatrix\": {\"x\": -1550, \"y\": -1075, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_outArc_pointMatrixMult\": {\"x\": -1220, \"y\": -1525, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_outArc_pointMatrixMult\": {\"x\": -1220, \"y\": -1375, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_outArc_pointMatrixMult\": {\"x\": -1220, \"y\": -1225, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_outArc_pointMatrixMult\": {\"x\": -1220, \"y\": -1075, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_outArc_multiplyDivide\": {\"x\": -890, \"y\": -1525, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_outArc_multiplyDivide\": {\"x\": -890, \"y\": -1375, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_outArc_multiplyDivide\": {\"x\": -890, \"y\": -1225, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_outArc_multiplyDivide\": {\"x\": -890, \"y\": -1075, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_outArc_composeMatrix\": {\"x\": -560, \"y\": -1525, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_outArc_composeMatrix\": {\"x\": -560, \"y\": -1375, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_outArc_composeMatrix\": {\"x\": -560, \"y\": -1225, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_outArc_composeMatrix\": {\"x\": -560, \"y\": -1075, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_group_multMatrix\": {\"x\": -230, \"y\": -1525, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_group_multMatrix\": {\"x\": -230, \"y\": -1375, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_group_multMatrix\": {\"x\": -230, \"y\": -1225, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_group_multMatrix\": {\"x\": -230, \"y\": -1075, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_group\": {\"x\": 100, \"y\": -1525, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_5_group\": {\"x\": 100, \"y\": -1375, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_6_group\": {\"x\": 100, \"y\": -1225, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_7_group\": {\"x\": 100, \"y\": -1075, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -2460.08608815427, \"cy\": -1138.121900826446, \"scale\": 0.9410239792611795}, \"group_path\": [], \"group_history\": []}, {\"name\": \"In Arc\", \"nodes\": {\"l_brow_in\": {\"x\": -3200, \"y\": -1600, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_1_initLoc\": {\"x\": -3200, \"y\": -1450, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_2_initLoc\": {\"x\": -3200, \"y\": -1300, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_3_initLoc\": {\"x\": -3200, \"y\": -1150, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_4_initLoc\": {\"x\": -3200, \"y\": -1000, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_negRz_unitConversion\": {\"x\": -2870, \"y\": -1675, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_tilt_composeMatrix\": {\"x\": -2870, \"y\": -1525, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_1_arcHeight_pointMatrixMult\": {\"x\": -2870, \"y\": -1375, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_2_arcHeight_pointMatrixMult\": {\"x\": -2870, \"y\": -1225, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_3_arcHeight_pointMatrixMult\": {\"x\": -2870, \"y\": -1075, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_4_arcHeight_pointMatrixMult\": {\"x\": -2870, \"y\": -925, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_cancel_composeMatrix\": {\"x\": -2540, \"y\": -1600, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_1_inArcHeightRatio_multiplyDivide\": {\"x\": -2540, \"y\": -1450, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_2_inArcHeightRatio_multiplyDivide\": {\"x\": -2540, \"y\": -1300, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_3_inArcHeightRatio_multiplyDivide\": {\"x\": -2540, \"y\": -1150, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_4_inArcHeightRatio_multiplyDivide\": {\"x\": -2540, \"y\": -1000, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_1_inArcHeightRatio_condition\": {\"x\": -2210, \"y\": -1525, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_2_inArcHeightRatio_condition\": {\"x\": -2210, \"y\": -1375, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_3_inArcHeightRatio_condition\": {\"x\": -2210, \"y\": -1225, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_4_inArcHeightRatio_condition\": {\"x\": -2210, \"y\": -1075, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_1_inArcHeightRatioNeg_multDoubleLinear\": {\"x\": -1880, \"y\": -1525, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_2_inArcHeightRatioNeg_multDoubleLinear\": {\"x\": -1880, \"y\": -1375, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_3_inArcHeightRatioNeg_multDoubleLinear\": {\"x\": -1880, \"y\": -1225, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"local_4_inArcHeightRatioNeg_multDoubleLinear\": {\"x\": -1880, \"y\": -1075, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_inArc_rotate_composeMatrix\": {\"x\": -1550, \"y\": -1525, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_inArc_rotate_composeMatrix\": {\"x\": -1550, \"y\": -1375, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3_inArc_rotate_composeMatrix\": {\"x\": -1550, \"y\": -1225, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_inArc_rotate_composeMatrix\": {\"x\": -1550, \"y\": -1075, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_inArc_pointMatrixMult\": {\"x\": -1220, \"y\": -1525, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_inArc_pointMatrixMult\": {\"x\": -1220, \"y\": -1375, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3_inArc_pointMatrixMult\": {\"x\": -1220, \"y\": -1225, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_inArc_pointMatrixMult\": {\"x\": -1220, \"y\": -1075, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_inArc_multiplyDivide\": {\"x\": -890, \"y\": -1525, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_inArc_multiplyDivide\": {\"x\": -890, \"y\": -1375, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3_inArc_multiplyDivide\": {\"x\": -890, \"y\": -1225, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_inArc_multiplyDivide\": {\"x\": -890, \"y\": -1075, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_inArc_composeMatrix\": {\"x\": -560, \"y\": -1525, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_inArc_composeMatrix\": {\"x\": -560, \"y\": -1375, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3_inArc_composeMatrix\": {\"x\": -560, \"y\": -1225, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_inArc_composeMatrix\": {\"x\": -560, \"y\": -1075, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_group_multMatrix\": {\"x\": -230, \"y\": -1525, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_group_multMatrix\": {\"x\": -230, \"y\": -1375, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3_group_multMatrix\": {\"x\": -230, \"y\": -1225, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_group_multMatrix\": {\"x\": -230, \"y\": -1075, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_1_group\": {\"x\": 100, \"y\": -1525, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_2_group\": {\"x\": 100, \"y\": -1375, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_3_group\": {\"x\": 100, \"y\": -1225, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_local_4_group\": {\"x\": 100, \"y\": -1075, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -2460.08608815427, \"cy\": -1138.121900826446, \"scale\": 0.9410239792611795}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Limits Path (in)\", \"nodes\": {\"l_brow\": {\"x\": -3000, \"y\": -1450, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_top\": {\"x\": -3000, \"y\": -1300, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_bot\": {\"x\": -3000, \"y\": -1150, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_lift_multMatrix\": {\"x\": -2670, \"y\": -1525, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_lift_pointMatrixMult\": {\"x\": -2670, \"y\": -1375, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_liftUp_multiplyDivide\": {\"x\": -2670, \"y\": -1225, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_liftDown_multiplyDivide\": {\"x\": -2670, \"y\": -1075, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_pathUp_plusMinusAverage\": {\"x\": -2340, \"y\": -1525, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_pathDownNeg_plusMinusAverage\": {\"x\": -2340, \"y\": -1375, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_turnUp_composeMatrix\": {\"x\": -2340, \"y\": -1225, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_turnDown_composeMatrix\": {\"x\": -2340, \"y\": -1075, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_pathUp_distanceBetween\": {\"x\": -2010, \"y\": -1600, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_pathDown_distanceBetween\": {\"x\": -2010, \"y\": -1450, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_lift_distanceBetween\": {\"x\": -2010, \"y\": -1300, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_speedDen_multiplyDivide\": {\"x\": -2010, \"y\": -1150, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_speed_multiplyDivide\": {\"x\": -2010, \"y\": -1000, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_limits_split_clamp\": {\"x\": -1680, \"y\": -1600, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"up_down_setRange\": {\"x\": -1680, \"y\": -1450, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_radial_multiplyDivide\": {\"x\": -1680, \"y\": -1300, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_radial_plusMinusAverage\": {\"x\": -1680, \"y\": -1150, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_radialVec_multiplyDivide\": {\"x\": -1680, \"y\": -1000, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_turn_blendMatrix\": {\"x\": -1350, \"y\": -1600, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_path_pointMatrixMult\": {\"x\": -1350, \"y\": -1450, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_liftNow_multiplyDivide\": {\"x\": -1350, \"y\": -1300, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_offset_plusMinusAverage\": {\"x\": -1350, \"y\": -1150, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_offset_composeMatrix\": {\"x\": -1350, \"y\": -1000, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"multMatrix50\": {\"x\": -1020, \"y\": -1375, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_group_1\": {\"x\": -1020, \"y\": -1225, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_tangentUp_vectorProduct\": {\"x\": -3000, \"y\": -300, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_tangentUp_unitConversion\": {\"x\": -3000, \"y\": -150, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_tangentUp_multiplyDivide\": {\"x\": -3000, \"y\": 0, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_tangentUp_plusMinusAverage\": {\"x\": -3000, \"y\": 150, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_tangentDown_vectorProduct\": {\"x\": -2670, \"y\": -300, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_tangentDown_unitConversion\": {\"x\": -2670, \"y\": -150, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_tangentDown_multiplyDivide\": {\"x\": -2670, \"y\": 0, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_tangentDown_plusMinusAverage\": {\"x\": -2670, \"y\": 150, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_limits_over_plusMinusAverage\": {\"x\": -2340, \"y\": -300, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_limits_over_clamp\": {\"x\": -2340, \"y\": -150, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_limits_over_multiplyDivide\": {\"x\": -2340, \"y\": 0, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_overUp_multiplyDivide\": {\"x\": -2010, \"y\": -300, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_overDown_multiplyDivide\": {\"x\": -2010, \"y\": -150, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_limits_pathTotal_plusMinusAverage\": {\"x\": -2010, \"y\": 0, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": null, \"notes\": [], \"view\": {\"cx\": -2460.08608815427, \"cy\": -1138.121900826446, \"scale\": 0.9410239792611795}, \"group_path\": [], \"group_history\": []}], \"active_tab\": 11, \"basket\": [{\"name\": \"Limits Positions\", \"nodes\": {\"main\": {\"x\": -1825.5607163550967, \"y\": 950.7685322270993, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"setRange18\": {\"x\": -1319.763812799787, \"y\": 1011.2544182582883, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"oldMax\", \"outValue\", \"value\"]}, \"blendMatrix1\": {\"x\": -141.56959874763538, \"y\": 1767.0604867519587, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix2\": {\"x\": -78.48314362272141, \"y\": 1021.4804171910872, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix3\": {\"x\": -187.4227873745779, \"y\": 320.36825012212046, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix4\": {\"x\": -182.88215131229754, \"y\": 628.2237784730197, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix5\": {\"x\": -148.96999598746487, \"y\": 2077.2131935227562, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"blendMatrix6\": {\"x\": -64.12782651424254, \"y\": 1299.295158080291, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"target\"]}, \"multMatrix48\": {\"x\": 390.5017926751634, \"y\": 1938.1304703556586, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"multMatrix49\": {\"x\": 441.7429996902672, \"y\": 1193.5241228774244, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"multMatrix50\": {\"x\": 422.8450079591119, \"y\": 513.327898111087, \"attr_display_mode\": \"compact\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"]}, \"condition1\": {\"x\": -1331.6973432035552, \"y\": 1331.140654551796, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"outColor\"]}, \"condition2\": {\"x\": -1317.6003841987715, \"y\": 1735.922080887228, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"colorIfTrue\", \"outColor\"]}, \"l_brow_in_group_1\": {\"x\": 729.4716456990075, \"y\": 425.9544872116985, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_bot\": {\"x\": -651.0868360892679, \"y\": 714.8530803061245, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group_1\": {\"x\": 751.2939526130042, \"y\": 1115.7180774517633, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_group\": {\"x\": 626.4062081722725, \"y\": -851.3106580164614, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"translate\"]}, \"l_brow_mid_bot\": {\"x\": -615.9755427150907, \"y\": 1365.8780424840943, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_group_1\": {\"x\": 772.6345377753617, \"y\": 1741.942711307439, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\", \"translate\"]}, \"l_brow_out_bot\": {\"x\": -603.0514818382629, \"y\": 2182.4095646903797, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_in_top\": {\"x\": -653.8637953447529, \"y\": 338.10545203479035, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_mid_top\": {\"x\": -618.2454104053027, \"y\": 1085.5475589866642, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out_top\": {\"x\": -609.5024522886177, \"y\": 1808.790155325404, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldInverseMatrix\"]}}, \"view\": {\"cx\": -1470.0649377902198, \"cy\": 1245.3230445873469, \"scale\": 1.027845750998805}, \"group_path\": [], \"group_history\": [], \"id\": 2}, {\"name\": \"Joints\", \"nodes\": {\"wide_joint_01\": {\"x\": -924.4861322306755, \"y\": 419.1768768918133, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_02\": {\"x\": -958.2211547058437, \"y\": 698.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_03\": {\"x\": -958.2211547058437, \"y\": 854.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_04\": {\"x\": -958.2211547058437, \"y\": 1010.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_05\": {\"x\": -958.2211547058437, \"y\": 1166.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_06\": {\"x\": -922.5073771486836, \"y\": 1320.5473806915552, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_07\": {\"x\": -958.2211547058437, \"y\": 1478.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_08\": {\"x\": -958.2211547058437, \"y\": 1634.035454756437, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_09\": {\"x\": -958.2211547058437, \"y\": 1790.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_10\": {\"x\": -958.2211547058437, \"y\": 1946.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_11\": {\"x\": -958.2211547058437, \"y\": 2102.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_12\": {\"x\": -958.2211547058437, \"y\": 2258.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"wide_joint_13\": {\"x\": -958.2211547058437, \"y\": 2414.0354547564375, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_1_mpath\": {\"x\": -2169.273776889795, \"y\": 935.1550532592105, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath5\": {\"x\": -2158.3661041477494, \"y\": 367.2995127969548, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath\": {\"x\": -2271.0498077863385, \"y\": 1914.214404827273, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath2\": {\"x\": -2307.535554711515, \"y\": 2182.958447924242, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_2_mpath\": {\"x\": -2178.8752892385255, \"y\": 1128.096300134952, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_4_mpath\": {\"x\": -2190.3971040570023, \"y\": 1394.9200407621765, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_6_mpath\": {\"x\": -2236.484363330909, \"y\": 1750.0776949977226, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_0_mpath\": {\"x\": -2169.273776889795, \"y\": 776.7792508388984, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath4\": {\"x\": -2184.97353139744, \"y\": 582.216098122861, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath1\": {\"x\": -2299.85434483253, \"y\": 2061.068392429108, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_7_mpath3\": {\"x\": -2336.3400917577064, \"y\": 2352.8560651630323, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_5_mpath\": {\"x\": -2215.361036163701, \"y\": 1589.7815901076647, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curveShape\": {\"x\": -2982.1556813391408, \"y\": 1363.738927074029, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"l_brow_out\": {\"x\": -2982.1556813391408, \"y\": 1519.738927074029, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear18\": {\"x\": -1308.2211547058437, \"y\": 2113.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear17\": {\"x\": -1308.2211547058437, \"y\": 1957.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear21\": {\"x\": -1306.7330806409618, \"y\": 459.4998904923532, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear11\": {\"x\": -1308.2211547058432, \"y\": 783.4044830114067, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear13\": {\"x\": -1315.661525030252, \"y\": 1310.9274456066732, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear19\": {\"x\": -1308.2211547058437, \"y\": 2425.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear20\": {\"x\": -1312.6853769004883, \"y\": 627.4044830114067, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear22\": {\"x\": -1308.2211547058437, \"y\": 2269.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear15\": {\"x\": -1308.2211547058437, \"y\": 1645.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear14\": {\"x\": -1308.2211547058437, \"y\": 1489.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"curve9_3_mpath\": {\"x\": -2228.815480223774, \"y\": 1269.0660371775443, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear23\": {\"x\": -1311.197302835607, \"y\": 1105.8210014655788, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear16\": {\"x\": -1308.2211547058437, \"y\": 1801.0007797673234, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"addDoubleLinear12\": {\"x\": -1315.6615250302516, \"y\": 928.987964557235, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange29\": {\"x\": -1774.4566750629067, \"y\": 2029.1072901700882, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange31\": {\"x\": -1774.4566750629067, \"y\": 625.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange30\": {\"x\": -1774.4566750629067, \"y\": 2341.107290170088, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange21\": {\"x\": -1774.4566750629067, \"y\": 1093.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange23\": {\"x\": -1774.4566750629067, \"y\": 937.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange22\": {\"x\": -1774.4566750629067, \"y\": 781.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange33\": {\"x\": -1774.4566750629067, \"y\": 2185.107290170088, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange28\": {\"x\": -1774.4566750629067, \"y\": 1873.1072901700882, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange24\": {\"x\": -1774.4566750629067, \"y\": 1249.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange32\": {\"x\": -1774.4566750629067, \"y\": 469.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange25\": {\"x\": -1774.4566750629067, \"y\": 1405.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange26\": {\"x\": -1774.4566750629067, \"y\": 1561.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}, \"setRange27\": {\"x\": -1774.4566750629067, \"y\": 1717.1072901700886, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": []}}, \"basket_entry_id\": 3, \"notes\": [], \"view\": {\"cx\": -1501.2085001450007, \"cy\": 985.3437814622149, \"scale\": 0.7114268270509011}, \"group_path\": [], \"group_history\": [], \"id\": 3}, {\"id\": 4, \"basket_entry_id\": 4, \"name\": \"Local Controls\", \"nodes\": {}, \"notes\": [], \"view\": {}, \"group_path\": [], \"group_history\": []}, {\"id\": 5, \"basket_entry_id\": 5, \"name\": \"Local Init Position\", \"nodes\": {}, \"notes\": [], \"view\": {}, \"group_path\": [], \"group_history\": []}]}");
 createNode setRange -n "setRange14";
 	rename -uid "2055E302-4275-EEC3-263B-5B9F6046C041";
 	setAttr ".om" -type "float3" 1 1 1 ;
@@ -3366,6 +3252,7 @@ createNode plusMinusAverage -n "plusMinusAverage24";
 	setAttr -s 2 ".i1";
 createNode multDoubleLinear -n "multDoubleLinear1";
 	rename -uid "B75E060A-4AAF-2C41-D6CC-939567A4FD3D";
+	setAttr ".i2" 0.25;
 createNode plusMinusAverage -n "plusMinusAverage25";
 	rename -uid "E6506988-4878-D437-AC71-33A6DAEB2C66";
 	setAttr ".op" 2;
@@ -3373,8 +3260,10 @@ createNode plusMinusAverage -n "plusMinusAverage25";
 	setAttr -s 2 ".i1";
 createNode multDoubleLinear -n "multDoubleLinear3";
 	rename -uid "17F82072-43B9-D144-7CD2-E1BA8EBAA707";
+	setAttr ".i2" -0.25;
 createNode multDoubleLinear -n "multDoubleLinear4";
 	rename -uid "0572723B-49C0-25DA-6B51-C38234DADB10";
+	setAttr ".i2" -0.25;
 createNode unitConversion -n "unitConversion20";
 	rename -uid "FC5DEA4E-4845-77B3-D236-7994433D8808";
 	setAttr ".cf" -1;
@@ -3383,8 +3272,6 @@ createNode unitConversion -n "unitConversion22";
 	setAttr ".cf" -1;
 createNode unitConversion -n "unitConversion24";
 	rename -uid "0E3D02E1-4893-208E-A1B0-4A8615FB051B";
-createNode unitConversion -n "unitConversion26";
-	rename -uid "B20D43B0-46C9-8431-C2FF-0D9019151D65";
 createNode ngst2SkinLayerData -n "ngSkinToolsData_skinCluster1";
 	rename -uid "F36BCF30-4F2C-96A3-8AA6-B7B9357BCD1F";
 	setAttr ".ld" -type "ngst2SkinLayerDataStorage" 16 135140 {
@@ -3568,13 +3455,13 @@ createNode blendMatrix -n "blendMatrix6";
 	rename -uid "7EA5AFAD-451A-53F6-C2A3-FBBEE3D9D492";
 createNode multMatrix -n "multMatrix48";
 	rename -uid "6414FFC6-4164-1BAC-635B-269DD78AFA2F";
-	setAttr -s 2 ".i";
+	setAttr -s 3 ".i";
 createNode multMatrix -n "multMatrix49";
 	rename -uid "D6710101-4CFD-858D-C57E-12A54E38000D";
-	setAttr -s 2 ".i";
+	setAttr -s 3 ".i";
 createNode multMatrix -n "multMatrix50";
 	rename -uid "02DE48AA-4E98-88AC-E19F-91962C840A28";
-	setAttr -s 2 ".i";
+	setAttr -s 3 ".i";
 createNode displayLayer -n "geometry";
 	rename -uid "ABBA4E54-401F-3401-46F7-5694E89968E5";
 	setAttr ".dt" 2;
@@ -3594,12 +3481,12 @@ createNode multDoubleLinear -n "multDoubleLinear6";
 	rename -uid "F788C240-4C1E-7E5D-8A8C-60902955F3EE";
 createNode plusMinusAverage -n "plusMinusAverage26";
 	rename -uid "86E59FBC-4C15-DDA4-A225-7B888D1C584B";
-	setAttr -s 4 ".i1[3]"  0;
 	setAttr -s 3 ".i1";
+	setAttr ".i1[3]" 0;
 createNode plusMinusAverage -n "plusMinusAverage27";
 	rename -uid "A1ADF02F-4399-E8F6-AFB0-319573AD88F2";
-	setAttr -s 4 ".i1[2:3]"  0 0;
-	setAttr -s 3 ".i1";
+	setAttr -s 3 ".i1[2]"  0;
+	setAttr -s 2 ".i1";
 createNode multDoubleLinear -n "multDoubleLinear13";
 	rename -uid "8548A0AA-4CBB-E204-A6D6-C08B2C88A60C";
 	setAttr ".i2" 0.5;
@@ -3610,19 +3497,10 @@ createNode multDoubleLinear -n "multDoubleLinear16";
 	setAttr ".i2" 0.5;
 createNode plusMinusAverage -n "plusMinusAverage29";
 	rename -uid "9D1EBF6A-4CC2-F4C6-CD2F-33B95D229237";
-	setAttr -s 4 ".i1";
-	setAttr -s 4 ".i1";
+	setAttr -s 2 ".i1";
 createNode unitConversion -n "unitConversion56";
 	rename -uid "954EFDBE-44FF-FB63-A41A-20961278A91B";
 	setAttr ".cf" -1;
-createNode multDoubleLinear -n "multDoubleLinear17";
-	rename -uid "DE5E8BFF-444B-8AB5-7DC1-3B878CEE8CBA";
-createNode multDoubleLinear -n "multDoubleLinear18";
-	rename -uid "C72D01B0-4809-E481-391D-C4A4521932C8";
-createNode multDoubleLinear -n "multDoubleLinear19";
-	rename -uid "ABA087D0-4678-A179-EACB-84A644CDAA4F";
-createNode multDoubleLinear -n "multDoubleLinear22";
-	rename -uid "4E2D699A-4489-9F22-3C53-5195FADD5963";
 createNode network -n "hyperNode_snapshotData";
 	rename -uid "FF5C2188-4658-2EA1-1859-EEB1A6D60606";
 	addAttr -ci true -sn "hyperNodeSnapshotJSON" -ln "hyperNodeSnapshotJSON" -dt "string";
@@ -3635,9 +3513,6 @@ createNode multMatrix -n "multMatrix51";
 createNode composeMatrix -n "composeMatrix4";
 	rename -uid "78562193-4200-0D5E-B87F-A28DF7FA6897";
 	setAttr ".is" -type "double3" -1 1 1 ;
-createNode unitConversion -n "unitConversion59";
-	rename -uid "7B9AE23D-4203-1948-B3EF-7795C3AAD253";
-	setAttr ".cf" -0.5;
 createNode blendMatrix -n "blendMatrix11";
 	rename -uid "CD47265A-45BA-62B1-5FEC-F69ECE32C477";
 createNode blendMatrix -n "blendMatrix12";
@@ -3652,128 +3527,18 @@ createNode blendMatrix -n "blendMatrix16";
 	rename -uid "AE094DEA-45EA-02AD-69BB-06A5C82A3D69";
 createNode multMatrix -n "multMatrix52";
 	rename -uid "D5B7DE88-451D-035E-9997-6AB5B3DEC08E";
-	setAttr -s 2 ".i";
+	setAttr -s 3 ".i";
 createNode multMatrix -n "multMatrix53";
 	rename -uid "F3F313BA-47EC-ABB2-FC8D-54AEE3FB467D";
-	setAttr -s 2 ".i";
+	setAttr -s 3 ".i";
 createNode multMatrix -n "multMatrix54";
 	rename -uid "545C5888-4A56-8A3E-40BE-D2854E386385";
-	setAttr -s 2 ".i";
+	setAttr -s 3 ".i";
 createNode setRange -n "up_down_setRange1";
 	rename -uid "D49AD675-46C0-49B9-C84D-9CAD60CD4896";
 	setAttr ".n" -type "float3" 1 0 1 ;
 	setAttr ".m" -type "float3" 0 1 0 ;
 	setAttr ".on" -type "float3" -0.80000001 0 -1 ;
-createNode blendColors -n "blendColors3";
-	rename -uid "24F1E26F-494A-20D5-FB12-C7BD6D4F6005";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode plusMinusAverage -n "plusMinusAverage37";
-	rename -uid "9D8D9E46-460C-677C-F033-70B0031728F3";
-	setAttr -s 2 ".i3";
-	setAttr -s 2 ".i3";
-createNode blendColors -n "blendColors4";
-	rename -uid "1CDE56F6-4408-7ECB-BC2C-7BA123199881";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode blendColors -n "blendColors8";
-	rename -uid "16C3986F-4CFC-CCD4-04F9-1A9E57959964";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode blendColors -n "blendColors9";
-	rename -uid "9EDCE857-4F56-891F-0E03-B6A9CE68065C";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode plusMinusAverage -n "plusMinusAverage39";
-	rename -uid "5CDFAF33-46FD-0015-C881-7299DA5CD8AE";
-	setAttr -s 2 ".i3";
-	setAttr -s 2 ".i3";
-createNode blendColors -n "blendColors10";
-	rename -uid "E7F74723-46F2-DE9F-A66C-BB9393411D57";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode blendColors -n "blendColors11";
-	rename -uid "4332834E-4415-DE2B-C395-9CB33354595E";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode plusMinusAverage -n "plusMinusAverage40";
-	rename -uid "163EFAC1-4AFE-C398-7E07-EAB39769DBE8";
-	setAttr -s 2 ".i3";
-	setAttr -s 2 ".i3";
-createNode blendColors -n "blendColors12";
-	rename -uid "FC3C5C05-4EEC-C40D-61AE-43BA623D7816";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode blendColors -n "blendColors13";
-	rename -uid "81521D8C-4800-F816-52AF-8D9A269A184C";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode plusMinusAverage -n "plusMinusAverage41";
-	rename -uid "2711C7B0-4174-179C-9D8E-5896F4920D0E";
-	setAttr -s 2 ".i3";
-	setAttr -s 2 ".i3";
-createNode blendColors -n "blendColors14";
-	rename -uid "508E7E49-497B-DFF1-C277-D2880170ECE6";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode blendColors -n "blendColors15";
-	rename -uid "9F62960E-4C49-B3F9-4E70-58ABAED5B6BB";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode plusMinusAverage -n "plusMinusAverage42";
-	rename -uid "B9B83834-455D-6819-7FDA-F795744D9C28";
-	setAttr -s 2 ".i3";
-	setAttr -s 2 ".i3";
-createNode blendColors -n "blendColors16";
-	rename -uid "683923A7-48BC-7314-E81B-3E9CE39B2ABD";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode blendColors -n "blendColors17";
-	rename -uid "59B5629A-4FFA-3922-C146-BFBD427DD99B";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode plusMinusAverage -n "plusMinusAverage43";
-	rename -uid "3C7005F4-4633-3F77-8E87-E8BEFA6882C1";
-	setAttr -s 2 ".i3";
-	setAttr -s 2 ".i3";
-createNode blendColors -n "blendColors18";
-	rename -uid "3E411DAC-4608-DE2E-D04C-B5A289276593";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode blendColors -n "blendColors19";
-	rename -uid "CDABF95A-4644-7972-AB6D-4CAA592328AC";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode plusMinusAverage -n "plusMinusAverage44";
-	rename -uid "4F6C2B56-4941-D7C2-343F-EB9A308D741B";
-	setAttr -s 2 ".i3";
-	setAttr -s 2 ".i3";
-createNode blendColors -n "blendColors20";
-	rename -uid "9A9210BB-41BB-3466-1DD9-4AB73BA098A5";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode blendColors -n "blendColors21";
-	rename -uid "B394CEC4-4C86-9A6C-D905-F5AC37DECA35";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode plusMinusAverage -n "plusMinusAverage45";
-	rename -uid "D2BFC6F0-41FA-18ED-1698-17A1C4103475";
-	setAttr -s 2 ".i3";
-	setAttr -s 2 ".i3";
-createNode blendColors -n "blendColors22";
-	rename -uid "542DFB81-4D8B-FB35-81BC-0BA5F59D2041";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode blendColors -n "blendColors23";
-	rename -uid "A1AEB7B7-47AB-BF1C-B824-BA89E1792B98";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode plusMinusAverage -n "plusMinusAverage46";
-	rename -uid "C71D9A6D-445A-19DD-F5AB-D1901F8D0B5C";
-	setAttr -s 2 ".i3";
-	setAttr -s 2 ".i3";
-createNode blendColors -n "blendColors24";
-	rename -uid "DC76607B-45E2-2ACE-740A-818D77396864";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode blendColors -n "blendColors25";
-	rename -uid "EBDA0F26-4D14-93C5-43DA-4FB01BF53C2C";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode plusMinusAverage -n "plusMinusAverage47";
-	rename -uid "6EB25703-4985-64EE-095D-1490E4BFE7ED";
-	setAttr -s 2 ".i3";
-	setAttr -s 2 ".i3";
-createNode blendColors -n "blendColors26";
-	rename -uid "B1C619BD-406D-4364-444C-0D91BA927EC4";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode blendColors -n "blendColors27";
-	rename -uid "646DEEE7-4A3C-4039-1E06-32BB0E575F34";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode plusMinusAverage -n "plusMinusAverage48";
-	rename -uid "3C7F15CD-4106-2ABC-DB44-69BE212CA1F5";
-	setAttr -s 2 ".i3";
-	setAttr -s 2 ".i3";
 createNode multiplyDivide -n "size_multiplyDivide1";
 	rename -uid "B1BFABE3-4CFF-24CA-F7E0-DD905084B899";
 createNode plusMinusAverage -n "plusMinusAverage50";
@@ -4022,36 +3787,15 @@ createNode objectSet -n "r_moduleControlSet";
 	setAttr ".ihi" 0;
 	setAttr -s 2 ".dnsm";
 	setAttr ".an" -type "string" "gControlSet";
-createNode multMatrix -n "multMatrix59";
-	rename -uid "99F98075-4B19-492F-8E39-BCAA90E0AC6D";
-	setAttr -s 2 ".i";
-createNode multMatrix -n "multMatrix60";
-	rename -uid "ADB39F7C-427F-9FD0-5730-47B6593B722F";
-	setAttr -s 2 ".i";
 createNode multDoubleLinear -n "multDoubleLinear42";
 	rename -uid "14E9D170-416D-9EE6-59CA-01A334983125";
 	setAttr ".i2" -1;
 createNode unitConversion -n "unitConversion86";
 	rename -uid "2FF18AC9-4D52-593A-330B-709996707090";
 	setAttr ".cf" -1;
-createNode multMatrix -n "multMatrix61";
-	rename -uid "CDFB2951-4727-0C3C-BD0F-C68E6E41856A";
-	setAttr -s 2 ".i";
-createNode multMatrix -n "multMatrix62";
-	rename -uid "2736DA92-4AE9-F023-E9F3-1AA2715151BD";
-	setAttr -s 2 ".i";
 createNode multDoubleLinear -n "multDoubleLinear63";
 	rename -uid "8E346623-4E01-5CDE-58BD-16931672D8F6";
 	setAttr ".i2" -1;
-createNode multMatrix -n "multMatrix63";
-	rename -uid "F98702D8-4632-FF53-E4CD-D5806A18A1D7";
-	setAttr -s 2 ".i";
-createNode multMatrix -n "multMatrix64";
-	rename -uid "B4F671BC-4DF5-1D1C-E694-828300F89AE5";
-	setAttr -s 2 ".i";
-createNode multMatrix -n "multMatrix65";
-	rename -uid "020643E2-4A7E-FCEC-2F80-B5B4F2F59489";
-	setAttr -s 2 ".i";
 createNode multDoubleLinear -n "multDoubleLinear64";
 	rename -uid "D4DAE834-48C5-E8E7-E039-03BF09355FBA";
 	setAttr ".i2" -0.25;
@@ -4081,31 +3825,18 @@ createNode addDoubleLinear -n "addDoubleLinear51";
 	setAttr ".ihi" 2;
 createNode plusMinusAverage -n "plusMinusAverage55";
 	rename -uid "2D613EAB-4452-02D4-B342-01BD8527A7EF";
-	setAttr -s 4 ".i1[3]"  0;
 	setAttr -s 3 ".i1";
+	setAttr ".i1[3]" 0;
 createNode plusMinusAverage -n "plusMinusAverage56";
 	rename -uid "10B9D53C-4EC9-E950-3DB0-DD8F145C9E15";
-	setAttr -s 4 ".i1[2:3]"  0 0;
-	setAttr -s 3 ".i1";
+	setAttr -s 3 ".i1[2]"  0;
+	setAttr -s 2 ".i1";
 createNode multDoubleLinear -n "multDoubleLinear67";
 	rename -uid "2E443F92-4F8A-113C-12F4-5682926490F0";
 	setAttr ".i2" 0.25;
-createNode multDoubleLinear -n "multDoubleLinear68";
-	rename -uid "11F16236-482E-7B18-9492-9CA54BB8A715";
-createNode unitConversion -n "unitConversion88";
-	rename -uid "CB869634-41D6-A160-49F9-5699700C1CD0";
-	setAttr ".cf" -1;
-createNode multDoubleLinear -n "multDoubleLinear69";
-	rename -uid "5B1DBB5B-449F-9D42-F45B-A98F87C62186";
-createNode multDoubleLinear -n "multDoubleLinear70";
-	rename -uid "DF7BE349-4D83-10DA-F4FF-2690EC0B5BD4";
-createNode multDoubleLinear -n "multDoubleLinear71";
-	rename -uid "891D9358-4B55-9206-0FDC-288CE50F7DB9";
 createNode multDoubleLinear -n "multDoubleLinear72";
 	rename -uid "C1859E9C-4ECC-911E-F00A-3DBF37CA39EE";
 	setAttr ".i2" 0.25;
-createNode unitConversion -n "unitConversion89";
-	rename -uid "C1B2A0C7-4845-1B35-F799-7A82D20BFB95";
 createNode multDoubleLinear -n "multDoubleLinear73";
 	rename -uid "576EC74C-44E8-9B0D-B400-B592E87FD0FE";
 	setAttr ".i2" 0.5;
@@ -4118,33 +3849,14 @@ createNode multDoubleLinear -n "multDoubleLinear76";
 	setAttr ".i2" 0.5;
 createNode plusMinusAverage -n "plusMinusAverage57";
 	rename -uid "9F926821-46BC-5F70-0908-34B0F8E100F1";
-	setAttr -s 4 ".i1[3]"  0;
 	setAttr -s 3 ".i1";
+	setAttr ".i1[3]" 0;
 createNode plusMinusAverage -n "plusMinusAverage58";
 	rename -uid "14EAC57A-46FD-E6EF-8BF6-FFAA3808A492";
-	setAttr -s 4 ".i1";
-	setAttr -s 4 ".i1";
+	setAttr -s 2 ".i1";
 createNode unitConversion -n "unitConversion90";
 	rename -uid "0B59699E-4A6C-009A-152F-9EBB71EB8D7D";
 	setAttr ".cf" -1;
-createNode multDoubleLinear -n "multDoubleLinear77";
-	rename -uid "6AC2ED90-40FC-E8CD-85C9-CBAF35FA1087";
-createNode multDoubleLinear -n "multDoubleLinear78";
-	rename -uid "0A90B8A9-4050-1A4D-45DD-DE88BADA35B2";
-createNode multDoubleLinear -n "multDoubleLinear79";
-	rename -uid "3625CF06-4547-FB82-9609-0E957B08F723";
-createNode multDoubleLinear -n "multDoubleLinear80";
-	rename -uid "E41AEC27-4FD2-5379-5F03-458E74682A09";
-createNode unitConversion -n "unitConversion91";
-	rename -uid "B06B37C2-478F-B8D4-81E1-D2A88F647407";
-createNode multDoubleLinear -n "multDoubleLinear81";
-	rename -uid "CA485587-4B30-E948-4093-41929C04CDAF";
-	setAttr ".i2" 0.5;
-createNode multDoubleLinear -n "multDoubleLinear82";
-	rename -uid "637D57F5-409B-0A0B-8E06-B896362AE9BD";
-createNode clamp -n "clamp18";
-	rename -uid "260C83AE-41CE-9AEF-F74A-6EBB5B00B61D";
-	setAttr ".mx" -type "float3" 10 0 0 ;
 createNode multDoubleLinear -n "multDoubleLinear83";
 	rename -uid "CC9E1654-477D-8A18-9E4B-799A284BE5D1";
 	setAttr ".i2" -1;
@@ -4165,97 +3877,15 @@ createNode multiplyDivide -n "multiplyDivide42";
 createNode addDoubleLinear -n "addDoubleLinear8";
 	rename -uid "1C4ED870-4008-FE5D-9806-7682943147B5";
 	setAttr ".ihi" 2;
-createNode unitConversion -n "unitConversion54";
-	rename -uid "8AECF7C0-4B1C-E906-FCA1-BA851370F83D";
-	setAttr ".cf" -1;
-createNode multDoubleLinear -n "multDoubleLinear12";
-	rename -uid "2250C787-460A-61EF-D6B9-B79222FF03E5";
-createNode multDoubleLinear -n "multDoubleLinear11";
-	rename -uid "06788486-4B2C-16E7-916D-449D4C010361";
-createNode unitConversion -n "unitConversion57";
-	rename -uid "5FE72649-4A14-4385-9531-B099159720B9";
-	setAttr ".cf" -0.5;
-createNode multDoubleLinear -n "multDoubleLinear21";
-	rename -uid "2166CEB6-464C-8682-029E-54A98FD29219";
-	setAttr ".i2" 0.5;
-createNode multDoubleLinear -n "multDoubleLinear20";
-	rename -uid "0C79B5D1-4B94-5A8F-1646-C5BA872D210D";
-createNode unitConversion -n "unitConversion58";
-	rename -uid "47FCC8DF-460E-0890-A5C9-D09DE3DD41FB";
 createNode plusMinusAverage -n "plusMinusAverage28";
 	rename -uid "CEBA28C4-4AA6-A612-48E9-AF88A4441C6E";
-	setAttr -s 4 ".i1[3]"  0;
 	setAttr -s 3 ".i1";
+	setAttr ".i1[3]" 0;
 createNode multDoubleLinear -n "multDoubleLinear2";
 	rename -uid "C709053F-4BC2-E6A3-C054-D9855AFE613B";
-createNode addDoubleLinear -n "addDoubleLinear2";
-	rename -uid "4732AA98-4223-721D-9C6B-7ABAB99BBE23";
-	setAttr ".ihi" 2;
-	setAttr ".i1" 0.25;
-createNode multDoubleLinear -n "multDoubleLinear5";
-	rename -uid "EC988A1B-4F1A-A636-428C-769B166B6012";
-	setAttr ".i2" -1;
-createNode multDoubleLinear -n "multDoubleLinear9";
-	rename -uid "73CF2B8B-44A0-22C4-EDB3-A9B9FF14C044";
+	setAttr ".i2" 0.25;
 createNode multDoubleLinear -n "multDoubleLinear15";
 	rename -uid "61963180-4E14-D97C-5B32-0A9A322FBA21";
-createNode plusMinusAverage -n "plusMinusAverage38";
-	rename -uid "E9D84FAB-4BAE-23A8-F2FA-09A543B0C3C6";
-	setAttr -s 2 ".i3";
-	setAttr -s 2 ".i3";
-createNode blendColors -n "blendColors6";
-	rename -uid "DB7180D6-4853-2BF0-5BCD-00A570D5A0F2";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode blendColors -n "blendColors7";
-	rename -uid "4A034282-4212-11D3-85A7-678BCF1A1D7B";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode multDoubleLinear -n "multDoubleLinear7";
-	rename -uid "E8244693-4437-99AC-8F91-A19468366FE1";
-createNode plusMinusAverage -n "plusMinusAverage30";
-	rename -uid "8B2FA21F-47B8-46AE-F0C0-9F8F605613CE";
-	setAttr -s 2 ".i3";
-	setAttr -s 2 ".i3";
-createNode blendColors -n "blendColors1";
-	rename -uid "D9C9C377-4424-6F3C-9960-B984693C61BE";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode blendColors -n "blendColors2";
-	rename -uid "7591854E-4A99-D152-6AC4-1CA1E3618BBB";
-	setAttr ".c2" -type "float3" 0 0 0 ;
-createNode remapValue -n "remapValue1";
-	rename -uid "E4201E31-4160-031C-389F-92B219A74F71";
-	setAttr ".imn" -1;
-	setAttr ".omx" -1;
-	setAttr -s 3 ".vl[0:2]"  0 1 3 1 1 1 0.49671772 0 3;
-	setAttr -s 2 ".cl";
-	setAttr ".cl[0].clp" 0;
-	setAttr ".cl[0].clc" -type "float3" 0 0 0 ;
-	setAttr ".cl[0].cli" 1;
-	setAttr ".cl[1].clp" 1;
-	setAttr ".cl[1].clc" -type "float3" 1 1 1 ;
-	setAttr ".cl[1].cli" 1;
-createNode remapValue -n "remapValue2";
-	rename -uid "2732A5E2-428D-3424-C61F-7F959B689342";
-	setAttr ".imn" -1;
-	setAttr ".omx" -1;
-	setAttr -s 3 ".vl[0:2]"  0 1 3 1 1 1 0.49671772 0 3;
-	setAttr -s 2 ".cl";
-	setAttr ".cl[0].clp" 0;
-	setAttr ".cl[0].clc" -type "float3" 0 0 0 ;
-	setAttr ".cl[0].cli" 1;
-	setAttr ".cl[1].clp" 1;
-	setAttr ".cl[1].clc" -type "float3" 1 1 1 ;
-	setAttr ".cl[1].cli" 1;
-createNode remapValue -n "remapValue3";
-	rename -uid "B14D9A45-48B1-700F-40F2-B3BDD38C47BE";
-	setAttr ".imn" -1;
-	setAttr -s 3 ".vl[0:2]"  0 1 3 1 1 1 0.49671772 0 3;
-	setAttr -s 2 ".cl";
-	setAttr ".cl[0].clp" 0;
-	setAttr ".cl[0].clc" -type "float3" 0 0 0 ;
-	setAttr ".cl[0].cli" 1;
-	setAttr ".cl[1].clp" 1;
-	setAttr ".cl[1].clc" -type "float3" 1 1 1 ;
-	setAttr ".cl[1].cli" 1;
 createNode objectSet -n "skinJointsSet";
 	rename -uid "2EAF73D2-4150-ADEA-CB79-24B8399E98E5";
 	setAttr ".ihi" 0;
@@ -4287,95 +3917,1674 @@ createNode plusMinusAverage -n "plusMinusAverage60";
 createNode setRange -n "setRange19";
 	rename -uid "BCFEAF44-4AF5-F15E-9055-EAA301330EF9";
 	setAttr ".n" -type "float3" 1 1 1 ;
+createNode unitConversion -n "r_brow_mid_rz_unitConversion";
+	rename -uid "D3C3BF6B-45FF-2681-DBC2-2BA79FF3A665";
+	setAttr ".cf" -1;
+createNode composeMatrix -n "l_brow_local_2_move_composeMatrix";
+	rename -uid "2BB57AC9-4E0C-0A5C-2DF8-33A3DBA12F7A";
+createNode composeMatrix -n "l_brow_local_3_move_composeMatrix";
+	rename -uid "C65925EA-4F65-D6EA-1DB5-3CBBCEEF3B26";
+createNode composeMatrix -n "l_brow_local_3_4_rotate_composeMatrix";
+	rename -uid "71B9CE30-49B0-4673-EF69-E79527999F6D";
+createNode composeMatrix -n "l_brow_local_4_move_composeMatrix";
+	rename -uid "1E86DDB8-4C0E-958C-B2B0-FA916A1379C7";
+createNode composeMatrix -n "l_brow_local_5_move_composeMatrix";
+	rename -uid "65284422-43FF-8E5B-8D2A-68BAD359EC46";
+createNode composeMatrix -n "l_brow_out_cancel_composeMatrix";
+	rename -uid "9FD42339-4CA5-F300-4710-D3A5D8D55B05";
+createNode composeMatrix -n "r_brow_local_2_move_composeMatrix";
+	rename -uid "5479C2E2-44FC-B20D-9C62-789ED19EBA18";
+createNode composeMatrix -n "r_brow_local_3_move_composeMatrix";
+	rename -uid "5A48B6FE-4B81-1740-7E61-1D8CF3BB029B";
+createNode composeMatrix -n "r_brow_local_3_4_rotate_composeMatrix";
+	rename -uid "27BAFD05-4188-B07F-2375-F98717831315";
+createNode composeMatrix -n "r_brow_local_4_move_composeMatrix";
+	rename -uid "03533A01-4511-9E06-42E3-199108E959DA";
+createNode composeMatrix -n "r_brow_local_5_move_composeMatrix";
+	rename -uid "843476C5-4CF2-C3EE-FC55-4D8DB3B88F53";
+createNode composeMatrix -n "r_brow_out_cancel_composeMatrix";
+	rename -uid "BCD29DBC-45D3-2B3D-421A-9B8FF8310F49";
+createNode multMatrix -n "l_brow_local_1_group_multMatrix";
+	rename -uid "BA1B36AE-4DE7-B040-20CA-B8B5591476F7";
+	setAttr -s 5 ".i";
+createNode multMatrix -n "l_brow_local_2_group_multMatrix";
+	rename -uid "B3BFE005-466D-0173-313D-6E8597FE2F4F";
+	setAttr -s 6 ".i";
+createNode multMatrix -n "l_brow_local_3_group_multMatrix";
+	rename -uid "0AB42E39-47A3-6DC7-F284-05AFD4F4072A";
+	setAttr -s 5 ".i";
+createNode multMatrix -n "l_brow_local_4_group_multMatrix";
+	rename -uid "FE5DDE8B-4842-3159-802B-318BFFFA1040";
+	setAttr -s 6 ".i";
+createNode multMatrix -n "l_brow_local_5_group_multMatrix";
+	rename -uid "4CE6C60E-49B7-94CE-9B33-6581B184CF95";
+	setAttr -s 8 ".i";
+	setAttr ".i[5]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 -0.008318752237892026 4.4408920985006271e-16 -0.058087172128885603 1;
+	setAttr ".i[7]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 1;
+createNode multMatrix -n "l_brow_local_6_group_multMatrix";
+	rename -uid "FEEF96DB-4569-A1EE-16ED-F581EE75DD55";
+	setAttr -s 7 ".i";
+	setAttr ".i[4]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 -0.008318752237892026 4.4408920985006271e-16 -0.058087172128885603 1;
+	setAttr ".i[6]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 1;
+createNode multMatrix -n "l_brow_local_7_group_multMatrix";
+	rename -uid "D9C3FD40-4137-F603-8675-34BAD6922484";
+	setAttr -s 7 ".i";
+	setAttr ".i[4]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 -0.008318752237892026 4.4408920985006271e-16 -0.058087172128885603 1;
+	setAttr ".i[6]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 1;
+createNode multMatrix -n "r_brow_local_1_group_multMatrix";
+	rename -uid "57BE7258-4345-BF26-4246-8190A2F6D14B";
+	setAttr -s 5 ".i";
+createNode multMatrix -n "r_brow_local_2_group_multMatrix";
+	rename -uid "3EAD31D9-4B84-E054-98EC-7FB397086517";
+	setAttr -s 6 ".i";
+createNode multMatrix -n "r_brow_local_3_group_multMatrix";
+	rename -uid "FAE9D35C-4C51-2C86-34D0-16A7AC9624BA";
+	setAttr -s 5 ".i";
+createNode multMatrix -n "r_brow_local_4_group_multMatrix";
+	rename -uid "D5493A5C-4B97-792E-7549-498164EDE46E";
+	setAttr -s 6 ".i";
+createNode multMatrix -n "r_brow_local_5_group_multMatrix";
+	rename -uid "EA3EBA61-42A2-4315-20B3-AEB032EAA691";
+	setAttr -s 8 ".i";
+	setAttr ".i[5]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 -0.008318752237892026 4.4408920985006271e-16 -0.058087172128885603 1;
+	setAttr ".i[7]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 1;
+createNode multMatrix -n "r_brow_local_6_group_multMatrix";
+	rename -uid "17FF4768-48B0-D140-C9A0-DC8B33BB458A";
+	setAttr -s 7 ".i";
+	setAttr ".i[4]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 -0.008318752237892026 4.4408920985006271e-16 -0.058087172128885603 1;
+	setAttr ".i[6]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 1;
+createNode multMatrix -n "r_brow_local_7_group_multMatrix";
+	rename -uid "C88555D9-43E8-F82B-EE05-3D902C1B31A6";
+	setAttr -s 7 ".i";
+	setAttr ".i[4]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 -0.008318752237892026 4.4408920985006271e-16 -0.058087172128885603 1;
+	setAttr ".i[6]" -type "matrix" 1 0 0 0 0 1 0 0 0 0 1 0 0.008318752237892026 -4.4408920985006271e-16 0.058087172128885603 1;
+createNode composeMatrix -n "l_brow_out_tilt_composeMatrix";
+	rename -uid "7666D629-4315-5827-1FF5-8688EDC79F01";
+createNode multiplyDivide -n "l_brow_local_4_outArc_multiplyDivide";
+	rename -uid "D2E9ECA5-4924-5439-F95C-CEABA29563DA";
+	setAttr ".i2" -type "float3" 0 0 0 ;
+createNode composeMatrix -n "l_brow_local_4_outArc_composeMatrix";
+	rename -uid "62615984-4C8A-CB54-4EA4-76824F56DCBA";
+createNode multiplyDivide -n "l_brow_local_5_outArc_multiplyDivide";
+	rename -uid "6783FE13-4724-F8FD-DECE-7F9F3C3E3D7E";
+	setAttr ".i2" -type "float3" 0 0.16150001 0 ;
+createNode composeMatrix -n "l_brow_local_5_outArc_composeMatrix";
+	rename -uid "4882DB80-4CEE-5568-EF0A-9BB5BD631049";
+createNode multiplyDivide -n "l_brow_local_6_outArc_multiplyDivide";
+	rename -uid "0535D06F-410F-90D3-BFB1-858AA4AADFA5";
+	setAttr ".i2" -type "float3" -0.67000002 0.7148 0 ;
+createNode composeMatrix -n "l_brow_local_6_outArc_composeMatrix";
+	rename -uid "F4C2975F-44B2-D95C-BB69-F7A53D1D2CBC";
+createNode multiplyDivide -n "l_brow_local_7_outArc_multiplyDivide";
+	rename -uid "427D1179-495B-801F-B8A6-68A4A1DB453D";
+	setAttr ".i2" -type "float3" -2.0510001 1.5033 0 ;
+createNode composeMatrix -n "l_brow_local_7_outArc_composeMatrix";
+	rename -uid "76FAE41E-4A7E-EF03-DE55-088240894B2B";
+createNode composeMatrix -n "r_brow_out_tilt_composeMatrix";
+	rename -uid "DDD521A0-49AE-0A11-D9C5-26B6A08D0400";
+createNode multiplyDivide -n "r_brow_local_4_outArc_multiplyDivide";
+	rename -uid "54662536-4B68-68C4-4900-7281FB4C29CB";
+	setAttr ".i2" -type "float3" 0 0 0 ;
+createNode composeMatrix -n "r_brow_local_4_outArc_composeMatrix";
+	rename -uid "286F56C4-4CA5-F785-4A04-2B97C33CF6BE";
+createNode multiplyDivide -n "r_brow_local_5_outArc_multiplyDivide";
+	rename -uid "66370CD8-4806-69D2-8A25-13B59DEDFB5A";
+	setAttr ".i2" -type "float3" 0 0.16150001 0 ;
+createNode composeMatrix -n "r_brow_local_5_outArc_composeMatrix";
+	rename -uid "7743CAE0-4F97-9583-14EF-188477F15BFC";
+createNode multiplyDivide -n "r_brow_local_6_outArc_multiplyDivide";
+	rename -uid "0DCBFDC7-45CE-A434-EFFD-A9922DEE2A74";
+	setAttr ".i2" -type "float3" -0.67000002 0.7148 0 ;
+createNode composeMatrix -n "r_brow_local_6_outArc_composeMatrix";
+	rename -uid "F4888949-4A61-845D-3A1C-E8B52987500C";
+createNode multiplyDivide -n "r_brow_local_7_outArc_multiplyDivide";
+	rename -uid "3633AB86-4780-9262-C64F-2DA3555DE4B2";
+	setAttr ".i2" -type "float3" -2.0510001 1.5033 0 ;
+createNode composeMatrix -n "r_brow_local_7_outArc_composeMatrix";
+	rename -uid "55E4585D-4110-6AF7-75AB-368933B7C63D";
+createNode pointMatrixMult -n "local_4_arcHeight_pointMatrixMult";
+	rename -uid "EED85940-42FC-C95D-0745-E9ABA1C1D48F";
+createNode multiplyDivide -n "local_4_outArcHeightRatio_multiplyDivide";
+	rename -uid "8F9BC3A3-4CD3-ECCA-1CB1-FE9D87F32584";
+	setAttr ".op" 2;
+createNode condition -n "local_4_outArcHeightRatio_condition";
+	rename -uid "3CBEF961-41DD-66A1-77C1-07AB32BB57CC";
+createNode multDoubleLinear -n "local_4_outArcHeightRatioNeg_multDoubleLinear";
+	rename -uid "4CAD750D-43C0-30CC-1033-B787BC30228F";
+	setAttr ".i2" -1;
+createNode pointMatrixMult -n "local_5_arcHeight_pointMatrixMult";
+	rename -uid "4B2B55D9-4EF9-6CE6-6EFF-B4A0960F2261";
+createNode multiplyDivide -n "local_5_outArcHeightRatio_multiplyDivide";
+	rename -uid "9DE5B19D-40A1-E56E-E15E-9E8AC19461F5";
+	setAttr ".op" 2;
+createNode condition -n "local_5_outArcHeightRatio_condition";
+	rename -uid "D5270BA9-45B4-A33C-C76C-BC97FA3D887C";
+createNode multDoubleLinear -n "local_5_outArcHeightRatioNeg_multDoubleLinear";
+	rename -uid "5145BC90-45FF-56D9-F035-7FB789D6E479";
+	setAttr ".i2" -1;
+createNode pointMatrixMult -n "local_6_arcHeight_pointMatrixMult";
+	rename -uid "E44FD659-48E6-5829-0AE3-0F887DE5250E";
+createNode multiplyDivide -n "local_6_outArcHeightRatio_multiplyDivide";
+	rename -uid "AF6553B9-41E8-CCB8-050C-33B821FDF44F";
+	setAttr ".op" 2;
+createNode condition -n "local_6_outArcHeightRatio_condition";
+	rename -uid "EAC49FAE-4D5E-8A14-4F80-05B4D879BCEB";
+createNode multDoubleLinear -n "local_6_outArcHeightRatioNeg_multDoubleLinear";
+	rename -uid "081B24D0-4409-5FBB-B84B-278F57DB965D";
+	setAttr ".i2" -1;
+createNode pointMatrixMult -n "local_7_arcHeight_pointMatrixMult";
+	rename -uid "05A756BC-4D18-8C1F-5DB4-3E95DA868C4E";
+createNode multiplyDivide -n "local_7_outArcHeightRatio_multiplyDivide";
+	rename -uid "3792B4A8-444D-28EC-D4F9-4F8062B3F669";
+	setAttr ".op" 2;
+createNode condition -n "local_7_outArcHeightRatio_condition";
+	rename -uid "598ECA5F-43EF-1C0D-59B9-DDBCBB946312";
+createNode multDoubleLinear -n "local_7_outArcHeightRatioNeg_multDoubleLinear";
+	rename -uid "CAC8B060-4DFC-D0DA-7AEC-5D9E9549874A";
+	setAttr ".i2" -1;
+createNode composeMatrix -n "l_brow_local_4_outArc_rotate_composeMatrix";
+	rename -uid "D457ADBC-4810-CE37-8730-C590ED83299F";
+	setAttr ".it" -type "double3" 1 0 0 ;
+createNode pointMatrixMult -n "l_brow_local_4_outArc_pointMatrixMult";
+	rename -uid "17D69CDD-452A-0F2E-85C5-53866463430E";
+	setAttr ".ip" -type "double3" -1 0 0 ;
+createNode composeMatrix -n "l_brow_local_5_outArc_rotate_composeMatrix";
+	rename -uid "16FB936F-4A0A-2FF1-5E1F-9BAB74B884D6";
+	setAttr ".it" -type "double3" 1 -0.31665295362472534 0 ;
+createNode pointMatrixMult -n "l_brow_local_5_outArc_pointMatrixMult";
+	rename -uid "C6E30BBA-49AA-43BF-8459-63851EC46B8D";
+	setAttr ".ip" -type "double3" -1 0.31665295362472534 0 ;
+createNode composeMatrix -n "l_brow_local_6_outArc_rotate_composeMatrix";
+	rename -uid "6EADF20E-41DA-906C-3755-269799BEA3B0";
+	setAttr ".it" -type "double3" 1 0.18014521896839142 0 ;
+createNode pointMatrixMult -n "l_brow_local_6_outArc_pointMatrixMult";
+	rename -uid "A52FDBDE-4ADA-60EF-4863-989B9754EEE1";
+	setAttr ".ip" -type "double3" -1 -0.18014521896839142 0 ;
+createNode composeMatrix -n "l_brow_local_7_outArc_rotate_composeMatrix";
+	rename -uid "A00B84CD-414C-053C-4DDA-8790676A7804";
+	setAttr ".it" -type "double3" 1 0.23444217443466187 0 ;
+createNode pointMatrixMult -n "l_brow_local_7_outArc_pointMatrixMult";
+	rename -uid "B2329176-4C19-EA2A-B132-17A8C72332EB";
+	setAttr ".ip" -type "double3" -1 -0.23444217443466187 0 ;
+createNode composeMatrix -n "r_brow_local_4_outArc_rotate_composeMatrix";
+	rename -uid "956E19A1-4CBB-4204-5FC7-E6AC111AD582";
+	setAttr ".it" -type "double3" 1 0 0 ;
+createNode pointMatrixMult -n "r_brow_local_4_outArc_pointMatrixMult";
+	rename -uid "6E05A29B-49D9-06B6-AB73-A6B8E6517205";
+	setAttr ".ip" -type "double3" -1 0 0 ;
+createNode composeMatrix -n "r_brow_local_5_outArc_rotate_composeMatrix";
+	rename -uid "2012F538-409B-F24B-F05E-56B0EC1766DF";
+	setAttr ".it" -type "double3" 1 -0.31665295362472534 0 ;
+createNode pointMatrixMult -n "r_brow_local_5_outArc_pointMatrixMult";
+	rename -uid "64494F5A-4AF2-5254-7121-63BE90A9DA80";
+	setAttr ".ip" -type "double3" -1 0.31665295362472534 0 ;
+createNode composeMatrix -n "r_brow_local_6_outArc_rotate_composeMatrix";
+	rename -uid "0BF4CE5C-4C60-E637-2593-5E868B563282";
+	setAttr ".it" -type "double3" 1 0.18014521896839142 0 ;
+createNode pointMatrixMult -n "r_brow_local_6_outArc_pointMatrixMult";
+	rename -uid "066D81FE-4531-D4EC-F4A2-32B19F96A630";
+	setAttr ".ip" -type "double3" -1 -0.18014521896839142 0 ;
+createNode composeMatrix -n "r_brow_local_7_outArc_rotate_composeMatrix";
+	rename -uid "9E49ED5A-4E63-7341-5CDE-D496116F6CDE";
+	setAttr ".it" -type "double3" 1 0.23444217443466187 0 ;
+createNode pointMatrixMult -n "r_brow_local_7_outArc_pointMatrixMult";
+	rename -uid "C048A896-4C58-EE7D-DADB-1B9108F53704";
+	setAttr ".ip" -type "double3" -1 -0.23444217443466187 0 ;
+createNode pointMatrixMult -n "local_1_arcHeight_pointMatrixMult";
+	rename -uid "695FD2A6-4E93-765F-D083-9BAD7D7ADC63";
+createNode multiplyDivide -n "local_1_inArcHeightRatio_multiplyDivide";
+	rename -uid "8418D442-4371-607D-7B4B-D484609A5375";
+	setAttr ".op" 2;
+createNode condition -n "local_1_inArcHeightRatio_condition";
+	rename -uid "CC5702FE-4F58-3636-D466-A6A980FD68D4";
+createNode multDoubleLinear -n "local_1_inArcHeightRatioNeg_multDoubleLinear";
+	rename -uid "9A2112EC-4B5C-1519-22E4-1E9E3BB8D1EC";
+	setAttr ".i2" -1;
+createNode pointMatrixMult -n "local_2_arcHeight_pointMatrixMult";
+	rename -uid "6BF07194-4422-A95A-2D79-94AA289DA087";
+createNode multiplyDivide -n "local_2_inArcHeightRatio_multiplyDivide";
+	rename -uid "7542DD0C-49A7-C957-D89C-37AA9FA77BBB";
+	setAttr ".op" 2;
+createNode condition -n "local_2_inArcHeightRatio_condition";
+	rename -uid "74BB57B4-46E0-E452-6D5A-CEBE60E64448";
+createNode multDoubleLinear -n "local_2_inArcHeightRatioNeg_multDoubleLinear";
+	rename -uid "65DB4B0F-471C-1431-41D3-6C842F82F8CE";
+	setAttr ".i2" -1;
+createNode pointMatrixMult -n "local_3_arcHeight_pointMatrixMult";
+	rename -uid "F602689C-47AC-5028-7868-318AF5065E5C";
+createNode multiplyDivide -n "local_3_inArcHeightRatio_multiplyDivide";
+	rename -uid "28478BC4-49A8-C97C-3CDB-B8A083D22650";
+	setAttr ".op" 2;
+createNode condition -n "local_3_inArcHeightRatio_condition";
+	rename -uid "BE9B99FA-4D6A-0965-6761-72B509D1EB5B";
+createNode multDoubleLinear -n "local_3_inArcHeightRatioNeg_multDoubleLinear";
+	rename -uid "2C69DC67-4930-416C-0BC3-A6BD7D8FA719";
+	setAttr ".i2" -1;
+createNode multiplyDivide -n "local_4_inArcHeightRatio_multiplyDivide";
+	rename -uid "6ED59230-4E13-5CAD-7770-A8AD45F12612";
+	setAttr ".op" 2;
+createNode condition -n "local_4_inArcHeightRatio_condition";
+	rename -uid "6D9248F6-4E18-4605-5118-359763387EB8";
+createNode multDoubleLinear -n "local_4_inArcHeightRatioNeg_multDoubleLinear";
+	rename -uid "CCCC893D-413A-642E-9E98-258BFA96BD23";
+	setAttr ".i2" -1;
+createNode unitConversion -n "l_brow_in_negRz_unitConversion";
+	rename -uid "3B4D60BF-4680-018A-9004-DE9924866E68";
+	setAttr ".cf" -1;
+createNode composeMatrix -n "l_brow_in_cancel_composeMatrix";
+	rename -uid "E28F504C-4286-386D-CA53-D685F51FD9E5";
+createNode composeMatrix -n "l_brow_in_tilt_composeMatrix";
+	rename -uid "348E040B-48A0-7977-1524-77A89A579E06";
+createNode composeMatrix -n "l_brow_local_1_inArc_rotate_composeMatrix";
+	rename -uid "BEFC431B-4596-F071-4974-08B9CB67075F";
+	setAttr ".it" -type "double3" 1 -0.052848398685455322 0 ;
+createNode pointMatrixMult -n "l_brow_local_1_inArc_pointMatrixMult";
+	rename -uid "F4B3C52A-44E7-602D-8E5B-4D929ACBA860";
+	setAttr ".ip" -type "double3" -1 0.052848398685455322 0 ;
+createNode multiplyDivide -n "l_brow_local_1_inArc_multiplyDivide";
+	rename -uid "A392C352-42BE-44F9-140C-E9AB47B04849";
+	setAttr ".i2" -type "float3" 1.7812001 -1.301 0 ;
+createNode composeMatrix -n "l_brow_local_1_inArc_composeMatrix";
+	rename -uid "29C6AB0E-48FB-58DE-D371-17992BB57A18";
+createNode composeMatrix -n "l_brow_local_2_inArc_rotate_composeMatrix";
+	rename -uid "C0ACC547-41A9-0D3D-D69B-AA90FFFA30CF";
+	setAttr ".it" -type "double3" 1 0.075624428689479828 0 ;
+createNode pointMatrixMult -n "l_brow_local_2_inArc_pointMatrixMult";
+	rename -uid "C4EBE48F-405B-60CB-1F1B-809AD8ED96F2";
+	setAttr ".ip" -type "double3" -1 -0.075624428689479828 0 ;
+createNode multiplyDivide -n "l_brow_local_2_inArc_multiplyDivide";
+	rename -uid "186954CD-4694-6A38-FDAB-3AA8CC415E3C";
+	setAttr ".i2" -type "float3" 0.25400001 -0.56400001 0 ;
+createNode composeMatrix -n "l_brow_local_2_inArc_composeMatrix";
+	rename -uid "675CF59D-4AB1-62E5-CD58-69BE9C3DD23D";
+createNode composeMatrix -n "l_brow_local_3_inArc_rotate_composeMatrix";
+	rename -uid "777A6A2F-4593-591E-76B5-84982F701325";
+	setAttr ".it" -type "double3" 1 -2.6652839183807373 0 ;
+createNode pointMatrixMult -n "l_brow_local_3_inArc_pointMatrixMult";
+	rename -uid "E8D79217-4305-C239-5FE2-0BA5B5EC1272";
+	setAttr ".ip" -type "double3" -1 2.6652839183807373 0 ;
+createNode multiplyDivide -n "l_brow_local_3_inArc_multiplyDivide";
+	rename -uid "4FE65B73-475B-05AD-894A-10B6BDA92CEE";
+	setAttr ".i2" -type "float3" 0 -0.026000001 0 ;
+createNode composeMatrix -n "l_brow_local_3_inArc_composeMatrix";
+	rename -uid "D6F0CB52-4F3A-3E6F-3D8B-C4BF0AE94B45";
+createNode composeMatrix -n "l_brow_local_4_inArc_rotate_composeMatrix";
+	rename -uid "52206E98-4CFE-23C1-6B47-F1A656952D22";
+	setAttr ".it" -type "double3" 1 0 0 ;
+createNode pointMatrixMult -n "l_brow_local_4_inArc_pointMatrixMult";
+	rename -uid "FBF0E2A1-4A4F-90C0-BC15-CE919FDCBDFA";
+	setAttr ".ip" -type "double3" -1 0 0 ;
+createNode multiplyDivide -n "l_brow_local_4_inArc_multiplyDivide";
+	rename -uid "42EB5412-45EC-A6A4-860A-1B80C4768AC7";
+	setAttr ".i2" -type "float3" 0 0 0 ;
+createNode composeMatrix -n "l_brow_local_4_inArc_composeMatrix";
+	rename -uid "480419BB-40CA-B42F-3E17-D593FA967B49";
+createNode unitConversion -n "r_brow_in_negRz_unitConversion";
+	rename -uid "BB109D88-4E44-908D-3D70-3B83F93D9FEE";
+	setAttr ".cf" -1;
+createNode composeMatrix -n "r_brow_in_cancel_composeMatrix";
+	rename -uid "C9E4FF52-4B96-991A-A438-E4B5E1476E54";
+createNode composeMatrix -n "r_brow_in_tilt_composeMatrix";
+	rename -uid "AAA63826-4AD2-3DBA-14B2-D285792E74FC";
+createNode composeMatrix -n "r_brow_local_1_inArc_rotate_composeMatrix";
+	rename -uid "3940DC5F-4B4E-3E12-81F9-DCA921264C87";
+	setAttr ".it" -type "double3" 1 -0.052848398685455322 0 ;
+createNode pointMatrixMult -n "r_brow_local_1_inArc_pointMatrixMult";
+	rename -uid "5DBB8276-42C8-6BEA-58BE-41970F9324B2";
+	setAttr ".ip" -type "double3" -1 0.052848398685455322 0 ;
+createNode multiplyDivide -n "r_brow_local_1_inArc_multiplyDivide";
+	rename -uid "DF778FA0-46F0-0878-D88C-EDB01867BE2A";
+	setAttr ".i2" -type "float3" 1.7812001 -1.301 0 ;
+createNode composeMatrix -n "r_brow_local_1_inArc_composeMatrix";
+	rename -uid "54DF7D00-452F-00CC-89FC-13A6E4CE6A3B";
+createNode composeMatrix -n "r_brow_local_2_inArc_rotate_composeMatrix";
+	rename -uid "DB2351E1-4484-CB98-EB0F-5D98E10D9060";
+	setAttr ".it" -type "double3" 1 0.075624428689479828 0 ;
+createNode pointMatrixMult -n "r_brow_local_2_inArc_pointMatrixMult";
+	rename -uid "06CFB88D-4785-207C-8623-FCA715478275";
+	setAttr ".ip" -type "double3" -1 -0.075624428689479828 0 ;
+createNode multiplyDivide -n "r_brow_local_2_inArc_multiplyDivide";
+	rename -uid "E6B0DD20-4788-F467-FAA9-80B18C10E1A7";
+	setAttr ".i2" -type "float3" 0.25400001 -0.56400001 0 ;
+createNode composeMatrix -n "r_brow_local_2_inArc_composeMatrix";
+	rename -uid "9C82995D-4E98-5C97-7122-C7AF6A8F037A";
+createNode composeMatrix -n "r_brow_local_3_inArc_rotate_composeMatrix";
+	rename -uid "54804C86-4BFB-20EC-60D9-47A72D26F0CD";
+	setAttr ".it" -type "double3" 1 -2.6652839183807373 0 ;
+createNode pointMatrixMult -n "r_brow_local_3_inArc_pointMatrixMult";
+	rename -uid "6686EB9C-40D7-2821-6AC6-59B9EB6AA2E4";
+	setAttr ".ip" -type "double3" -1 2.6652839183807373 0 ;
+createNode multiplyDivide -n "r_brow_local_3_inArc_multiplyDivide";
+	rename -uid "25F9854A-416B-B5B4-76B4-7A88F446BC0C";
+	setAttr ".i2" -type "float3" 0 -0.026000001 0 ;
+createNode composeMatrix -n "r_brow_local_3_inArc_composeMatrix";
+	rename -uid "6D084A1D-4B49-F9AF-8415-E292BDE773C4";
+createNode composeMatrix -n "r_brow_local_4_inArc_rotate_composeMatrix";
+	rename -uid "3D1EFFE2-453B-B5A2-9F83-6D9E28D195DB";
+	setAttr ".it" -type "double3" 1 0 0 ;
+createNode pointMatrixMult -n "r_brow_local_4_inArc_pointMatrixMult";
+	rename -uid "464D2ABD-41AD-566A-DB28-BA853101D088";
+	setAttr ".ip" -type "double3" -1 0 0 ;
+createNode multiplyDivide -n "r_brow_local_4_inArc_multiplyDivide";
+	rename -uid "E97D470F-499D-B6E4-F01F-C2A4F8509D29";
+	setAttr ".i2" -type "float3" 0 0 0 ;
+createNode composeMatrix -n "r_brow_local_4_inArc_composeMatrix";
+	rename -uid "5C5C8525-4A95-695A-4F3F-5F859836ED07";
+createNode multDoubleLinear -n "brow_limits_downAbs_multDoubleLinear";
+	rename -uid "F0648480-45BD-DF58-BABF-318B58474C33";
+	setAttr ".i2" -1;
+createNode clamp -n "l_brow_limits_split_clamp";
+	rename -uid "0068A60F-4527-04BF-BC7B-02A5D93D1471";
+createNode clamp -n "r_brow_limits_split_clamp";
+	rename -uid "B54262D6-4029-6942-DC1B-5797DD0C0CDB";
+createNode multMatrix -n "l_brow_in_limits_lift_multMatrix";
+	rename -uid "C6262BE3-4D69-CBCB-304E-6DBFBF52176D";
+	setAttr -s 2 ".i";
+createNode pointMatrixMult -n "l_brow_in_limits_lift_pointMatrixMult";
+	rename -uid "74D5CC6C-4701-F590-71F7-738E319C6EBC";
+	setAttr ".ip" -type "double3" 0 1 0 ;
+	setAttr ".vm" yes;
+createNode multiplyDivide -n "l_brow_in_limits_liftUp_multiplyDivide";
+	rename -uid "D45191EC-4EF7-13D2-033D-3E89451FFC69";
+createNode multiplyDivide -n "l_brow_in_limits_liftDown_multiplyDivide";
+	rename -uid "E5FA8A68-44DF-FECA-D5AE-64AC2366714B";
+createNode plusMinusAverage -n "l_brow_in_limits_pathUp_plusMinusAverage";
+	rename -uid "CF587458-41AD-F636-9C8F-6584DDDB0AD5";
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode plusMinusAverage -n "l_brow_in_limits_pathDownNeg_plusMinusAverage";
+	rename -uid "2D7682AF-448F-7FFD-84C0-DFBC927E7E1B";
+	setAttr ".op" 2;
+	setAttr -s 3 ".i3[0:2]" -type "float3"  0 0 0 0 -0.80000001 0 -0.01024713
+		 0.23619254 0.011102135;
+	setAttr -s 2 ".i3";
+createNode angleBetween -n "l_brow_in_limits_turnUp_angleBetween";
+	rename -uid "9FF62050-4192-9DBB-A53B-7D9E49459BDB";
+createNode composeMatrix -n "l_brow_in_limits_turnUp_composeMatrix";
+	rename -uid "F2A25732-48F6-6B6B-392D-B9B5C0F6ADA2";
+createNode distanceBetween -n "l_brow_in_limits_pathUp_distanceBetween";
+	rename -uid "CE3128B9-49F0-EDFD-C96B-1ABD063CD24F";
+createNode angleBetween -n "l_brow_in_limits_turnDown_angleBetween";
+	rename -uid "05B9B304-4A1F-8AF2-0B72-32A0ED8C8B70";
+createNode composeMatrix -n "l_brow_in_limits_turnDown_composeMatrix";
+	rename -uid "07C9FC70-4FD5-E495-CC45-62A3A102F4DA";
+createNode distanceBetween -n "l_brow_in_limits_pathDown_distanceBetween";
+	rename -uid "6BBAA7F7-461F-6886-834B-3D817444ECA2";
+createNode distanceBetween -n "l_brow_in_limits_lift_distanceBetween";
+	rename -uid "26A20CAB-4424-E69A-A35D-66AE7B236F58";
+createNode multiplyDivide -n "l_brow_in_limits_speedDen_multiplyDivide";
+	rename -uid "E7EBCDB3-4469-3CD1-BD78-3E879FFD580C";
+createNode multiplyDivide -n "l_brow_in_limits_speed_multiplyDivide";
+	rename -uid "DF503657-40BE-B7B4-A97B-4D9F42B677BB";
+	setAttr ".op" 2;
+createNode multMatrix -n "l_brow_local_1_limits_lift_multMatrix";
+	rename -uid "2020229D-449C-7816-7B7F-72A7971D398A";
+	setAttr -s 2 ".i";
+createNode pointMatrixMult -n "l_brow_local_1_limits_lift_pointMatrixMult";
+	rename -uid "392397BD-4E36-7982-D932-9FBBEEB18DDD";
+	setAttr ".ip" -type "double3" 0 1 0 ;
+	setAttr ".vm" yes;
+createNode multiplyDivide -n "l_brow_local_1_limits_liftUp_multiplyDivide";
+	rename -uid "54B9E69E-4156-4BD0-CBDA-82B013F8D1E2";
+createNode multiplyDivide -n "l_brow_local_1_limits_liftDown_multiplyDivide";
+	rename -uid "5C82CB37-41DA-0FEF-4AB0-7D98B7FEFA22";
+createNode plusMinusAverage -n "l_brow_local_1_limits_pathUp_plusMinusAverage";
+	rename -uid "FCF453D1-4A95-1DAC-B787-2B890154CD7C";
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode plusMinusAverage -n "l_brow_local_1_limits_pathDownNeg_plusMinusAverage";
+	rename -uid "7A10D313-4859-54E2-97F4-E99210DF3A0A";
+	setAttr ".op" 2;
+	setAttr -s 3 ".i3[0:2]" -type "float3"  0 0 0 0 -0.80000001 0 0 0
+		 0;
+	setAttr -s 2 ".i3";
+createNode angleBetween -n "l_brow_local_1_limits_turnUp_angleBetween";
+	rename -uid "ED27092B-41FD-2C5D-B818-A4A8F7D644B3";
+createNode composeMatrix -n "l_brow_local_1_limits_turnUp_composeMatrix";
+	rename -uid "58C9DECC-45B7-DDC0-A324-C28B59006A30";
+createNode distanceBetween -n "l_brow_local_1_limits_pathUp_distanceBetween";
+	rename -uid "7C62C76D-40D1-26A3-5ACB-52921DF78EAC";
+createNode angleBetween -n "l_brow_local_1_limits_turnDown_angleBetween";
+	rename -uid "1021AC5A-4425-C747-07C0-299BD77B5D4E";
+createNode composeMatrix -n "l_brow_local_1_limits_turnDown_composeMatrix";
+	rename -uid "CC7CEFD8-4D3D-8824-C305-D89B46874485";
+createNode distanceBetween -n "l_brow_local_1_limits_pathDown_distanceBetween";
+	rename -uid "97DF2AEE-488F-C2ED-AB03-8C9DF19190DD";
+createNode distanceBetween -n "l_brow_local_1_limits_lift_distanceBetween";
+	rename -uid "8EE53EB1-4E13-62C9-CC81-95BE099392E8";
+createNode multiplyDivide -n "l_brow_local_1_limits_speedDen_multiplyDivide";
+	rename -uid "ED1A81B5-4F36-081F-48AE-A3AAF7539FEA";
+createNode multiplyDivide -n "l_brow_local_1_limits_speed_multiplyDivide";
+	rename -uid "7C7C22DB-4CB8-E5D3-101B-9D8230812C79";
+	setAttr ".op" 2;
+createNode multMatrix -n "l_brow_local_2_limits_lift_multMatrix";
+	rename -uid "BF3D6F1C-4D47-14BD-B18F-0BA3F54EFB48";
+	setAttr -s 2 ".i";
+createNode pointMatrixMult -n "l_brow_local_2_limits_lift_pointMatrixMult";
+	rename -uid "3EEC548D-4FD9-717D-64CC-4CA0AA9F7DCE";
+	setAttr ".ip" -type "double3" 0 1 0 ;
+	setAttr ".vm" yes;
+createNode multiplyDivide -n "l_brow_local_2_limits_liftUp_multiplyDivide";
+	rename -uid "BA660CFA-4EEA-459C-20DD-2C8942F39FC1";
+createNode multiplyDivide -n "l_brow_local_2_limits_liftDown_multiplyDivide";
+	rename -uid "19C30ABF-4421-F95C-60B5-1C8B7888CDA5";
+createNode plusMinusAverage -n "l_brow_local_2_limits_pathUp_plusMinusAverage";
+	rename -uid "B66AB689-4625-7557-8195-7AA73043196E";
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode plusMinusAverage -n "l_brow_local_2_limits_pathDownNeg_plusMinusAverage";
+	rename -uid "B3A7D1EE-4BAF-4625-CA5F-0B8F37B1AF5B";
+	setAttr ".op" 2;
+	setAttr -s 3 ".i3[0:2]" -type "float3"  0 0 0 0 -0.80000001 0 0 -1.3322676e-15
+		 -1.6653345e-16;
+	setAttr -s 2 ".i3";
+createNode angleBetween -n "l_brow_local_2_limits_turnUp_angleBetween";
+	rename -uid "A107E97C-422D-33BD-395E-8E80C9505A08";
+createNode composeMatrix -n "l_brow_local_2_limits_turnUp_composeMatrix";
+	rename -uid "E7307710-4A75-D5CF-975E-3A803F76E7E2";
+createNode distanceBetween -n "l_brow_local_2_limits_pathUp_distanceBetween";
+	rename -uid "A03696F8-4112-9CAB-146D-BBB2D9114128";
+createNode angleBetween -n "l_brow_local_2_limits_turnDown_angleBetween";
+	rename -uid "974FB611-4957-F5DB-A60E-9EB4FEEB335F";
+createNode composeMatrix -n "l_brow_local_2_limits_turnDown_composeMatrix";
+	rename -uid "CA820921-437F-F12F-BB5E-B5BB727FBEC5";
+createNode distanceBetween -n "l_brow_local_2_limits_pathDown_distanceBetween";
+	rename -uid "B4C69B43-4EB6-4B5D-14F2-0DB957404BF6";
+createNode distanceBetween -n "l_brow_local_2_limits_lift_distanceBetween";
+	rename -uid "354715A0-498B-CB0B-AEBD-8B8A6EEA4BE3";
+createNode multiplyDivide -n "l_brow_local_2_limits_speedDen_multiplyDivide";
+	rename -uid "41DDA791-4E87-B310-58C6-F5A24C17A176";
+createNode multiplyDivide -n "l_brow_local_2_limits_speed_multiplyDivide";
+	rename -uid "18A220CF-4EF7-179E-58BB-BF8E6A902D3A";
+	setAttr ".op" 2;
+createNode multMatrix -n "l_brow_local_3_limits_lift_multMatrix";
+	rename -uid "25382914-4F0E-6632-EDD9-EDAB7D56A481";
+	setAttr -s 2 ".i";
+createNode pointMatrixMult -n "l_brow_local_3_limits_lift_pointMatrixMult";
+	rename -uid "AA6B4E3B-49AF-EF3A-D5F0-05A1DAE87EA9";
+	setAttr ".ip" -type "double3" 0 1 0 ;
+	setAttr ".vm" yes;
+createNode multiplyDivide -n "l_brow_local_3_limits_liftUp_multiplyDivide";
+	rename -uid "32D4D2F4-4031-28ED-54DB-EB95F22464E1";
+createNode multiplyDivide -n "l_brow_local_3_limits_liftDown_multiplyDivide";
+	rename -uid "ACD7635C-4CD8-7606-1178-C08489B84DC8";
+createNode plusMinusAverage -n "l_brow_local_3_limits_pathUp_plusMinusAverage";
+	rename -uid "7236CA10-4DC4-1E37-39A1-9C9CC3CF60FD";
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode plusMinusAverage -n "l_brow_local_3_limits_pathDownNeg_plusMinusAverage";
+	rename -uid "45FA36CB-4F85-567D-9CB9-C2836A1A15F7";
+	setAttr ".op" 2;
+	setAttr -s 3 ".i3[0:2]" -type "float3"  0 0 0 0 -0.80000001 0 4.9563529e-16
+		 -0.0036896681 -5.2570629e-16;
+	setAttr -s 2 ".i3";
+createNode angleBetween -n "l_brow_local_3_limits_turnUp_angleBetween";
+	rename -uid "850E9ECC-478C-34F0-4191-9BB9E91103E6";
+createNode composeMatrix -n "l_brow_local_3_limits_turnUp_composeMatrix";
+	rename -uid "E12FB106-49E7-14DC-2082-D7AC05F9FAF1";
+createNode distanceBetween -n "l_brow_local_3_limits_pathUp_distanceBetween";
+	rename -uid "4C8D0131-47AF-F304-57A4-C3B3B6BDFBD0";
+createNode angleBetween -n "l_brow_local_3_limits_turnDown_angleBetween";
+	rename -uid "BC882CFB-4776-98B7-A837-7B8480046048";
+createNode composeMatrix -n "l_brow_local_3_limits_turnDown_composeMatrix";
+	rename -uid "F8D86BC4-4336-AC7D-285E-D1A9F0FE32A0";
+createNode distanceBetween -n "l_brow_local_3_limits_pathDown_distanceBetween";
+	rename -uid "3EB47C10-4948-8628-6C5E-F1A69D42D1AC";
+createNode distanceBetween -n "l_brow_local_3_limits_lift_distanceBetween";
+	rename -uid "CD333490-4832-E1BD-1306-6E9A7F7E36C5";
+createNode multiplyDivide -n "l_brow_local_3_limits_speedDen_multiplyDivide";
+	rename -uid "9694C79D-4082-E422-8109-84A07E02BA35";
+createNode multiplyDivide -n "l_brow_local_3_limits_speed_multiplyDivide";
+	rename -uid "8693A6E8-4D78-A603-0C3A-4FABCE648735";
+	setAttr ".op" 2;
+createNode multMatrix -n "l_brow_local_4_limits_lift_multMatrix";
+	rename -uid "58327A16-4A92-5772-4489-B18B213DADDE";
+	setAttr -s 2 ".i";
+createNode pointMatrixMult -n "l_brow_local_4_limits_lift_pointMatrixMult";
+	rename -uid "25779A97-4C5B-0C9B-88DB-9AA4F81B3A27";
+	setAttr ".ip" -type "double3" 0 1 0 ;
+	setAttr ".vm" yes;
+createNode multiplyDivide -n "l_brow_local_4_limits_liftUp_multiplyDivide";
+	rename -uid "01E7D757-48A3-F0AE-B412-9AB44438228C";
+createNode multiplyDivide -n "l_brow_local_4_limits_liftDown_multiplyDivide";
+	rename -uid "01901027-4D3D-A6F6-2AEC-7AB3228232AA";
+createNode plusMinusAverage -n "l_brow_local_4_limits_pathUp_plusMinusAverage";
+	rename -uid "7F9CCC13-4909-7FCF-33FF-EF82123DD3D5";
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode plusMinusAverage -n "l_brow_local_4_limits_pathDownNeg_plusMinusAverage";
+	rename -uid "62558CC2-4F09-3735-3A3C-E3BE54BA7E7B";
+	setAttr ".op" 2;
+	setAttr -s 3 ".i3[0:2]" -type "float3"  0 0 0 0 -0.80000001 0 0 0
+		 0;
+	setAttr -s 2 ".i3";
+createNode angleBetween -n "l_brow_local_4_limits_turnUp_angleBetween";
+	rename -uid "F94E95F4-4533-F7E1-A26A-C28F66050660";
+createNode composeMatrix -n "l_brow_local_4_limits_turnUp_composeMatrix";
+	rename -uid "2CD1ACD5-4DE3-2683-C1F4-14A577113F1F";
+createNode distanceBetween -n "l_brow_local_4_limits_pathUp_distanceBetween";
+	rename -uid "5BE90471-4755-7B7E-5D0F-98BA4CC7F7C6";
+createNode angleBetween -n "l_brow_local_4_limits_turnDown_angleBetween";
+	rename -uid "83DB46C6-451B-CD84-3A02-05BE6639F824";
+createNode composeMatrix -n "l_brow_local_4_limits_turnDown_composeMatrix";
+	rename -uid "57A4C3EC-48C1-9406-A1E1-F6BA735AAC14";
+createNode distanceBetween -n "l_brow_local_4_limits_pathDown_distanceBetween";
+	rename -uid "FFECFA30-48D2-DABC-D3CC-E2AE7B6C9AB6";
+createNode distanceBetween -n "l_brow_local_4_limits_lift_distanceBetween";
+	rename -uid "30905F88-4F86-45D2-E57D-3EA1DFF6E51B";
+createNode multiplyDivide -n "l_brow_local_4_limits_speedDen_multiplyDivide";
+	rename -uid "F06B3EB9-4257-F7F7-036F-09A0D093F6C7";
+createNode multiplyDivide -n "l_brow_local_4_limits_speed_multiplyDivide";
+	rename -uid "9DF5C915-4639-B96F-2BA9-B898F1655B93";
+	setAttr ".op" 2;
+createNode multMatrix -n "l_brow_local_5_limits_lift_multMatrix";
+	rename -uid "B196255D-4527-E8E5-8019-FBBA5CF9FF7D";
+	setAttr -s 2 ".i";
+createNode pointMatrixMult -n "l_brow_local_5_limits_lift_pointMatrixMult";
+	rename -uid "734BCA70-4C75-323B-C54C-EC9D48CEE525";
+	setAttr ".ip" -type "double3" 0 1 0 ;
+	setAttr ".vm" yes;
+createNode multiplyDivide -n "l_brow_local_5_limits_liftUp_multiplyDivide";
+	rename -uid "358B2A2C-4304-F614-CEF3-C5822FABD9AC";
+createNode multiplyDivide -n "l_brow_local_5_limits_liftDown_multiplyDivide";
+	rename -uid "8091B79F-4A11-C37B-98D1-65A760BAF4F3";
+createNode plusMinusAverage -n "l_brow_local_5_limits_pathUp_plusMinusAverage";
+	rename -uid "6E81C999-4191-C94F-37B0-53AFE5371873";
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode plusMinusAverage -n "l_brow_local_5_limits_pathDownNeg_plusMinusAverage";
+	rename -uid "B33EBDA4-4F21-CE7A-343C-32B285A15FDB";
+	setAttr ".op" 2;
+	setAttr -s 3 ".i3[0:2]" -type "float3"  0 0 0 0 -0.80000001 0 1.6132928e-16
+		 0.036124583 1.129305e-15;
+	setAttr -s 2 ".i3";
+createNode angleBetween -n "l_brow_local_5_limits_turnUp_angleBetween";
+	rename -uid "DEDF2C05-442A-61E7-225B-5A99057D3472";
+createNode composeMatrix -n "l_brow_local_5_limits_turnUp_composeMatrix";
+	rename -uid "8FBA2453-4829-CFFF-5DE1-84957D7949DE";
+createNode distanceBetween -n "l_brow_local_5_limits_pathUp_distanceBetween";
+	rename -uid "0C3E6322-4F69-B168-6118-91846CE14184";
+createNode angleBetween -n "l_brow_local_5_limits_turnDown_angleBetween";
+	rename -uid "CFF5E624-45BD-F0B0-C72F-10AA0BBF65FA";
+createNode composeMatrix -n "l_brow_local_5_limits_turnDown_composeMatrix";
+	rename -uid "0D78AE9E-4B43-233A-7382-399BDBB7D7CD";
+createNode distanceBetween -n "l_brow_local_5_limits_pathDown_distanceBetween";
+	rename -uid "551C0FAB-40E5-828A-D9B1-33958ACDCA4C";
+createNode distanceBetween -n "l_brow_local_5_limits_lift_distanceBetween";
+	rename -uid "085D1A5D-4870-CED3-E852-21A10BB8BAE7";
+createNode multiplyDivide -n "l_brow_local_5_limits_speedDen_multiplyDivide";
+	rename -uid "8D3DF2D5-4AA8-2137-0785-9BB0CD6B971F";
+createNode multiplyDivide -n "l_brow_local_5_limits_speed_multiplyDivide";
+	rename -uid "F2660463-4D5F-1EBD-3467-5B8D162B9785";
+	setAttr ".op" 2;
+createNode multMatrix -n "l_brow_local_6_limits_lift_multMatrix";
+	rename -uid "21DD42E1-4589-3482-4A14-2093D3BC97F2";
+	setAttr -s 2 ".i";
+createNode pointMatrixMult -n "l_brow_local_6_limits_lift_pointMatrixMult";
+	rename -uid "69F43877-4AA1-B21B-F9C7-82AFA8A2A1DF";
+	setAttr ".ip" -type "double3" 0 1 0 ;
+	setAttr ".vm" yes;
+createNode multiplyDivide -n "l_brow_local_6_limits_liftUp_multiplyDivide";
+	rename -uid "A0328000-4499-E87F-05B1-63A1DC7184B3";
+createNode multiplyDivide -n "l_brow_local_6_limits_liftDown_multiplyDivide";
+	rename -uid "E7D97E62-4696-F883-A4E8-BC8E0BAC693E";
+createNode plusMinusAverage -n "l_brow_local_6_limits_pathUp_plusMinusAverage";
+	rename -uid "CE87CF49-4178-3B75-62E2-3B8EDD132B71";
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode plusMinusAverage -n "l_brow_local_6_limits_pathDownNeg_plusMinusAverage";
+	rename -uid "1C999313-41A1-6AFC-0F48-DA95004518C7";
+	setAttr ".op" 2;
+	setAttr -s 3 ".i3[0:2]" -type "float3"  0 0 0 0 -0.80000001 0 0 0
+		 0;
+	setAttr -s 2 ".i3";
+createNode angleBetween -n "l_brow_local_6_limits_turnUp_angleBetween";
+	rename -uid "43444E9A-457A-9CB1-2C1A-3F9DF83A4B18";
+createNode composeMatrix -n "l_brow_local_6_limits_turnUp_composeMatrix";
+	rename -uid "3FA447C3-4F7D-586C-1647-1CB73B52048B";
+createNode distanceBetween -n "l_brow_local_6_limits_pathUp_distanceBetween";
+	rename -uid "4B69ABCC-493B-F236-A11B-C4B090EE1151";
+createNode angleBetween -n "l_brow_local_6_limits_turnDown_angleBetween";
+	rename -uid "85F84CB9-4476-7F32-7BF2-AF8BE3CA8D22";
+createNode composeMatrix -n "l_brow_local_6_limits_turnDown_composeMatrix";
+	rename -uid "33979796-4C0F-DAB1-BF87-C3B394932643";
+createNode distanceBetween -n "l_brow_local_6_limits_pathDown_distanceBetween";
+	rename -uid "44402088-4840-C503-6C25-85A2F6AA6F73";
+createNode distanceBetween -n "l_brow_local_6_limits_lift_distanceBetween";
+	rename -uid "63CD585C-45CB-E1E4-432D-AC8CDC394D18";
+createNode multiplyDivide -n "l_brow_local_6_limits_speedDen_multiplyDivide";
+	rename -uid "D9D69C97-4161-BF1C-2E15-389704065E5C";
+createNode multiplyDivide -n "l_brow_local_6_limits_speed_multiplyDivide";
+	rename -uid "5F62B348-43BC-A8CF-F15A-28A04033B8E1";
+	setAttr ".op" 2;
+createNode multMatrix -n "l_brow_local_7_limits_lift_multMatrix";
+	rename -uid "14D69895-4309-4411-C641-0D9010DD4AFF";
+	setAttr -s 2 ".i";
+createNode pointMatrixMult -n "l_brow_local_7_limits_lift_pointMatrixMult";
+	rename -uid "F4881138-4057-37EB-EAD9-FC869A91E9EC";
+	setAttr ".ip" -type "double3" 0 1 0 ;
+	setAttr ".vm" yes;
+createNode multiplyDivide -n "l_brow_local_7_limits_liftUp_multiplyDivide";
+	rename -uid "74B81ABF-4CE5-3D90-1093-76BB05B09EB2";
+createNode multiplyDivide -n "l_brow_local_7_limits_liftDown_multiplyDivide";
+	rename -uid "0179A5B0-4C34-1742-83C9-8D81FF418C5E";
+createNode plusMinusAverage -n "l_brow_local_7_limits_pathUp_plusMinusAverage";
+	rename -uid "1ED717EB-4115-CD73-0CD4-8D98C4E23207";
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode plusMinusAverage -n "l_brow_local_7_limits_pathDownNeg_plusMinusAverage";
+	rename -uid "24B2E321-4348-8D2A-0E91-23876E722969";
+	setAttr ".op" 2;
+	setAttr -s 3 ".i3[0:2]" -type "float3"  0 0 0 0.15293096 -0.77579063
+		 0.12149516 0.047729764 0.07804738 0;
+	setAttr -s 2 ".i3";
+createNode angleBetween -n "l_brow_local_7_limits_turnUp_angleBetween";
+	rename -uid "66E08700-4BAD-028E-4058-7897C39827C1";
+createNode composeMatrix -n "l_brow_local_7_limits_turnUp_composeMatrix";
+	rename -uid "735A53B7-496D-EFCE-1725-86A77A1D16E4";
+createNode distanceBetween -n "l_brow_local_7_limits_pathUp_distanceBetween";
+	rename -uid "2F7F46EA-48C9-1B5C-CEF2-00B79E26DD55";
+createNode angleBetween -n "l_brow_local_7_limits_turnDown_angleBetween";
+	rename -uid "D7980B61-4445-C889-C3C3-25A02AC2BDF8";
+createNode composeMatrix -n "l_brow_local_7_limits_turnDown_composeMatrix";
+	rename -uid "FBCAD75E-483D-0109-BF75-99BF7B9D068A";
+createNode distanceBetween -n "l_brow_local_7_limits_pathDown_distanceBetween";
+	rename -uid "E4E15633-4ABE-7383-D884-74A9BA31585D";
+createNode distanceBetween -n "l_brow_local_7_limits_lift_distanceBetween";
+	rename -uid "986F4D64-4962-3B03-4C5D-E4B6B707B3C8";
+createNode multiplyDivide -n "l_brow_local_7_limits_speedDen_multiplyDivide";
+	rename -uid "DB1F4239-45BD-25CD-8EE9-688E75338C76";
+createNode multiplyDivide -n "l_brow_local_7_limits_speed_multiplyDivide";
+	rename -uid "B800AEE4-451A-CF38-6D2A-4D944B94FFDC";
+	setAttr ".op" 2;
+createNode multMatrix -n "l_brow_mid_limits_lift_multMatrix";
+	rename -uid "E6227FE1-4528-1718-57DC-5DA94D60B6A7";
+	setAttr -s 2 ".i";
+createNode pointMatrixMult -n "l_brow_mid_limits_lift_pointMatrixMult";
+	rename -uid "B463CCCD-4A93-6512-39F4-C6ABAE0DB204";
+	setAttr ".ip" -type "double3" 0 1 0 ;
+	setAttr ".vm" yes;
+createNode multiplyDivide -n "l_brow_mid_limits_liftUp_multiplyDivide";
+	rename -uid "C1C45CA6-459F-E1B0-8485-EBAB1A69671B";
+createNode multiplyDivide -n "l_brow_mid_limits_liftDown_multiplyDivide";
+	rename -uid "F44481CB-49AB-4BE1-0800-7DA1BADF3600";
+createNode plusMinusAverage -n "l_brow_mid_limits_pathUp_plusMinusAverage";
+	rename -uid "1C778025-4676-ABAC-6579-FB885FCB0656";
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode plusMinusAverage -n "l_brow_mid_limits_pathDownNeg_plusMinusAverage";
+	rename -uid "22EBB779-432E-3CBF-B338-A384C0A100F3";
+	setAttr ".op" 2;
+	setAttr -s 3 ".i3[0:2]" -type "float3"  0 0 0 0 -0.80000001 0 0 0
+		 0;
+	setAttr -s 2 ".i3";
+createNode angleBetween -n "l_brow_mid_limits_turnUp_angleBetween";
+	rename -uid "D6EEB15C-4F6C-D4C9-3401-4DA96F7D3850";
+createNode composeMatrix -n "l_brow_mid_limits_turnUp_composeMatrix";
+	rename -uid "ACC5EFAA-45FA-4FF3-7722-1D97B1D22B92";
+createNode distanceBetween -n "l_brow_mid_limits_pathUp_distanceBetween";
+	rename -uid "9B8E23B5-4A8E-7E24-1609-978BE347314C";
+createNode angleBetween -n "l_brow_mid_limits_turnDown_angleBetween";
+	rename -uid "8056E426-455E-D3AC-3D41-CB9D4C54B6F5";
+createNode composeMatrix -n "l_brow_mid_limits_turnDown_composeMatrix";
+	rename -uid "0679E486-467B-168D-0FE3-5FA9D237334C";
+createNode distanceBetween -n "l_brow_mid_limits_pathDown_distanceBetween";
+	rename -uid "46E22792-4713-D53B-0DE6-ECB56867E8F7";
+createNode distanceBetween -n "l_brow_mid_limits_lift_distanceBetween";
+	rename -uid "5C5D8393-4FFE-470D-5993-40AF021BA502";
+createNode multiplyDivide -n "l_brow_mid_limits_speedDen_multiplyDivide";
+	rename -uid "45047DAB-4DFE-6AE6-35F1-96979E175455";
+createNode multiplyDivide -n "l_brow_mid_limits_speed_multiplyDivide";
+	rename -uid "81085F71-4E4A-03E2-2E04-41A3C827F7FA";
+	setAttr ".op" 2;
+createNode multMatrix -n "l_brow_out_limits_lift_multMatrix";
+	rename -uid "C8F18BFA-4D06-0D0C-39BC-689DC58D01A0";
+	setAttr -s 2 ".i";
+createNode pointMatrixMult -n "l_brow_out_limits_lift_pointMatrixMult";
+	rename -uid "32EE9767-49BD-1B13-A009-64A04BC528C0";
+	setAttr ".ip" -type "double3" 0 1 0 ;
+	setAttr ".vm" yes;
+createNode multiplyDivide -n "l_brow_out_limits_liftUp_multiplyDivide";
+	rename -uid "0CF1263D-427A-FC18-59F9-06BF647393C4";
+createNode multiplyDivide -n "l_brow_out_limits_liftDown_multiplyDivide";
+	rename -uid "2276EC30-4BC1-15DC-D403-71AADD6C2C0D";
+createNode plusMinusAverage -n "l_brow_out_limits_pathUp_plusMinusAverage";
+	rename -uid "C29F6F69-4CC3-2F74-4B42-9DB40EC6272C";
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode plusMinusAverage -n "l_brow_out_limits_pathDownNeg_plusMinusAverage";
+	rename -uid "30F0F1FE-495D-302B-1C8F-2F88C94E35D7";
+	setAttr ".op" 2;
+	setAttr -s 3 ".i3[0:2]" -type "float3"  0 0 0 0 -0.80000001 0 0.0036999413
+		 0.069483742 0.0073467325;
+	setAttr -s 2 ".i3";
+createNode angleBetween -n "l_brow_out_limits_turnUp_angleBetween";
+	rename -uid "FAFB00E7-4774-F579-EAE1-71AB33195AC7";
+createNode composeMatrix -n "l_brow_out_limits_turnUp_composeMatrix";
+	rename -uid "332915BF-4F85-509E-A89D-82B32627FC61";
+createNode distanceBetween -n "l_brow_out_limits_pathUp_distanceBetween";
+	rename -uid "610F25AB-42D4-C45E-59C1-14BFA5559E17";
+createNode angleBetween -n "l_brow_out_limits_turnDown_angleBetween";
+	rename -uid "B791B6B4-41F6-5ED1-1632-26BCFBD9167B";
+createNode composeMatrix -n "l_brow_out_limits_turnDown_composeMatrix";
+	rename -uid "E6F4B44D-4637-520E-0283-419A73B67890";
+createNode distanceBetween -n "l_brow_out_limits_pathDown_distanceBetween";
+	rename -uid "0145204D-4896-9E09-624E-B89CD88747EB";
+createNode distanceBetween -n "l_brow_out_limits_lift_distanceBetween";
+	rename -uid "0681EB34-4F3D-6348-2458-1885618AF761";
+createNode multiplyDivide -n "l_brow_out_limits_speedDen_multiplyDivide";
+	rename -uid "A9C4F859-4ACC-BFE5-B7CC-398A26A40104";
+createNode multiplyDivide -n "l_brow_out_limits_speed_multiplyDivide";
+	rename -uid "911B6255-4F44-7316-7C9B-16A3DCA7A18F";
+	setAttr ".op" 2;
+createNode multiplyDivide -n "l_brow_local_1_limits_radial_multiplyDivide";
+	rename -uid "90BD5939-42F8-B4B2-9D1A-A287805F9777";
+createNode plusMinusAverage -n "l_brow_local_1_limits_radial_plusMinusAverage";
+	rename -uid "F7448519-4D42-0D09-FDD1-4DAE00F76808";
+	setAttr -s 2 ".i1";
+	setAttr -s 2 ".i1";
+createNode blendMatrix -n "l_brow_local_1_limits_turn_blendMatrix";
+	rename -uid "7A40F263-49E2-10FE-1391-DD9B33C7423F";
+	setAttr -s 2 ".tgt";
+createNode multiplyDivide -n "l_brow_local_1_limits_radialVec_multiplyDivide";
+	rename -uid "5350F57F-4623-6331-29DF-94AED7C69489";
+createNode pointMatrixMult -n "l_brow_local_1_limits_path_pointMatrixMult";
+	rename -uid "FCED7205-422E-5FA7-928E-498B29A5DDDF";
+createNode multiplyDivide -n "l_brow_local_1_limits_liftNow_multiplyDivide";
+	rename -uid "05A7BF75-4DAE-5BF6-585F-31BA80E4BDFE";
+createNode plusMinusAverage -n "l_brow_local_1_limits_offset_plusMinusAverage";
+	rename -uid "3172CAA1-4102-4FDF-ADB6-8D99A02C6BF2";
+	setAttr ".op" 2;
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode multiplyDivide -n "r_brow_local_1_limits_radial_multiplyDivide";
+	rename -uid "137F8414-44BF-356B-6A98-13A276494F34";
+createNode plusMinusAverage -n "r_brow_local_1_limits_radial_plusMinusAverage";
+	rename -uid "69638D55-4669-7CBF-E456-8D937AF8DFBB";
+	setAttr -s 2 ".i1";
+	setAttr -s 2 ".i1";
+createNode blendMatrix -n "r_brow_local_1_limits_turn_blendMatrix";
+	rename -uid "DD901EC2-407A-FCC0-0CDB-DF9F8FAE7E43";
+	setAttr -s 2 ".tgt";
+createNode multiplyDivide -n "r_brow_local_1_limits_radialVec_multiplyDivide";
+	rename -uid "FD7AEE2F-4728-FA1D-CD95-46B5744D421E";
+createNode pointMatrixMult -n "r_brow_local_1_limits_path_pointMatrixMult";
+	rename -uid "51A14030-4227-D6FD-E0EB-32AF008E9FBD";
+createNode multiplyDivide -n "r_brow_local_1_limits_liftNow_multiplyDivide";
+	rename -uid "C86D998E-415A-F15E-E4A3-98ACF2E9599B";
+createNode plusMinusAverage -n "r_brow_local_1_limits_offset_plusMinusAverage";
+	rename -uid "3229405C-4148-36D2-1D04-F3B3DC7EF0AE";
+	setAttr ".op" 2;
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode multiplyDivide -n "l_brow_local_2_limits_radial_multiplyDivide";
+	rename -uid "72346A6C-4CA6-8311-6F37-DBA25BFB5017";
+createNode plusMinusAverage -n "l_brow_local_2_limits_radial_plusMinusAverage";
+	rename -uid "43419729-4824-58AA-5590-A68F25D11F35";
+	setAttr -s 2 ".i1";
+	setAttr -s 2 ".i1";
+createNode blendMatrix -n "l_brow_local_2_limits_turn_blendMatrix";
+	rename -uid "6E603D7C-4312-15CA-2BE4-F6A4C171C395";
+	setAttr -s 2 ".tgt";
+createNode multiplyDivide -n "l_brow_local_2_limits_radialVec_multiplyDivide";
+	rename -uid "7854D96A-4552-3490-85C7-4FB3F8A6C3CA";
+createNode pointMatrixMult -n "l_brow_local_2_limits_path_pointMatrixMult";
+	rename -uid "5273A58D-4AEA-E241-E837-B5A32F2F923A";
+createNode multiplyDivide -n "l_brow_local_2_limits_liftNow_multiplyDivide";
+	rename -uid "EFAA564F-40DF-7EA9-6044-DCB75328AF5A";
+createNode plusMinusAverage -n "l_brow_local_2_limits_offset_plusMinusAverage";
+	rename -uid "15AC660E-4335-127E-6AF3-3A9C9BF05E88";
+	setAttr ".op" 2;
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode multiplyDivide -n "l_brow_local_3_limits_radial_multiplyDivide";
+	rename -uid "D3F33017-46D6-C593-CC32-CE9563508253";
+createNode plusMinusAverage -n "l_brow_local_3_limits_radial_plusMinusAverage";
+	rename -uid "B89BFCA6-46F8-E554-9BC7-28ADDED47EA4";
+	setAttr -s 2 ".i1";
+	setAttr -s 2 ".i1";
+createNode blendMatrix -n "l_brow_local_3_limits_turn_blendMatrix";
+	rename -uid "FD8BD6F3-464C-39B7-7E10-32B42B8C5ABD";
+	setAttr -s 2 ".tgt";
+createNode multiplyDivide -n "l_brow_local_3_limits_radialVec_multiplyDivide";
+	rename -uid "C4B83398-41A8-EA44-EC64-03B9DFE3F702";
+createNode pointMatrixMult -n "l_brow_local_3_limits_path_pointMatrixMult";
+	rename -uid "4825B2CC-4979-A5AC-CBA1-EBB9E56F2102";
+createNode multiplyDivide -n "l_brow_local_3_limits_liftNow_multiplyDivide";
+	rename -uid "CF32C2A5-4194-5D7F-DFCD-81AACCE092E0";
+createNode plusMinusAverage -n "l_brow_local_3_limits_offset_plusMinusAverage";
+	rename -uid "33CEDC42-460B-687E-F06D-D79FE3F2663E";
+	setAttr ".op" 2;
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode multiplyDivide -n "l_brow_local_4_limits_radial_multiplyDivide";
+	rename -uid "74DCE667-44A9-7391-E77C-17913FB2E965";
+createNode plusMinusAverage -n "l_brow_local_4_limits_radial_plusMinusAverage";
+	rename -uid "66D6FC1F-44AE-3E40-0D0C-97AFCF86F4E8";
+	setAttr -s 2 ".i1";
+	setAttr -s 2 ".i1";
+createNode blendMatrix -n "l_brow_local_4_limits_turn_blendMatrix";
+	rename -uid "31088451-4082-4720-6719-A78C41A0D092";
+	setAttr -s 2 ".tgt";
+createNode multiplyDivide -n "l_brow_local_4_limits_radialVec_multiplyDivide";
+	rename -uid "8CDE138F-4265-6454-24F0-618D4967608C";
+createNode pointMatrixMult -n "l_brow_local_4_limits_path_pointMatrixMult";
+	rename -uid "F1EDEE08-4282-A764-35FD-2DB8ADC932B7";
+createNode multiplyDivide -n "l_brow_local_4_limits_liftNow_multiplyDivide";
+	rename -uid "2D650286-4813-4EC0-B943-A8A4B383D4B8";
+createNode plusMinusAverage -n "l_brow_local_4_limits_offset_plusMinusAverage";
+	rename -uid "8DFDD996-44BE-A6B7-E0CF-8790E7C36893";
+	setAttr ".op" 2;
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode multiplyDivide -n "l_brow_local_5_limits_radial_multiplyDivide";
+	rename -uid "8075F915-4C8B-9763-78B3-F7836FFB772D";
+createNode plusMinusAverage -n "l_brow_local_5_limits_radial_plusMinusAverage";
+	rename -uid "CCB25C28-49C3-7816-60EE-F38C25ED91AC";
+	setAttr -s 2 ".i1";
+	setAttr -s 2 ".i1";
+createNode blendMatrix -n "l_brow_local_5_limits_turn_blendMatrix";
+	rename -uid "37ABE557-43E9-9D8E-755F-2683C1B7C3FB";
+	setAttr -s 2 ".tgt";
+createNode multiplyDivide -n "l_brow_local_5_limits_radialVec_multiplyDivide";
+	rename -uid "83053E5C-4BAE-9A18-F90E-D9B622DDE536";
+createNode pointMatrixMult -n "l_brow_local_5_limits_path_pointMatrixMult";
+	rename -uid "B37B4302-4101-446A-4199-C193F878BEE0";
+createNode multiplyDivide -n "l_brow_local_5_limits_liftNow_multiplyDivide";
+	rename -uid "CA9247DC-495E-D739-482B-AB89D5D0B6F3";
+createNode plusMinusAverage -n "l_brow_local_5_limits_offset_plusMinusAverage";
+	rename -uid "B219F7A2-43FB-D61E-C67C-098E8D8376CD";
+	setAttr ".op" 2;
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode multiplyDivide -n "l_brow_local_6_limits_radial_multiplyDivide";
+	rename -uid "06276451-4F0A-836B-968D-8A9092BE8E0A";
+createNode plusMinusAverage -n "l_brow_local_6_limits_radial_plusMinusAverage";
+	rename -uid "D1FF84A6-418D-AFFA-6564-3C95979FFA0B";
+	setAttr -s 2 ".i1";
+	setAttr -s 2 ".i1";
+createNode blendMatrix -n "l_brow_local_6_limits_turn_blendMatrix";
+	rename -uid "321F0ABD-46BB-122E-3E2B-F49E278C9D78";
+	setAttr -s 2 ".tgt";
+createNode multiplyDivide -n "l_brow_local_6_limits_radialVec_multiplyDivide";
+	rename -uid "5314C1A5-44E2-34BD-58D7-328F962242CF";
+createNode pointMatrixMult -n "l_brow_local_6_limits_path_pointMatrixMult";
+	rename -uid "6FE8EDA0-4399-8930-7052-509A4C4F5DED";
+createNode multiplyDivide -n "l_brow_local_6_limits_liftNow_multiplyDivide";
+	rename -uid "0C3EFF76-492A-A6EE-7F63-7D8A3DF2A90C";
+createNode plusMinusAverage -n "l_brow_local_6_limits_offset_plusMinusAverage";
+	rename -uid "5FAE2EA2-45D6-05C2-186B-B5B2AD04C023";
+	setAttr ".op" 2;
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode multiplyDivide -n "l_brow_local_7_limits_radial_multiplyDivide";
+	rename -uid "03712FBB-4015-7CBC-F550-E89473A74076";
+createNode plusMinusAverage -n "l_brow_local_7_limits_radial_plusMinusAverage";
+	rename -uid "51014B12-49F9-7E7A-45AF-B7A099EF3F33";
+	setAttr -s 2 ".i1";
+	setAttr -s 2 ".i1";
+createNode blendMatrix -n "l_brow_local_7_limits_turn_blendMatrix";
+	rename -uid "ABA87F58-407B-7BFB-3E55-1AB3715EDB99";
+	setAttr -s 2 ".tgt";
+createNode multiplyDivide -n "l_brow_local_7_limits_radialVec_multiplyDivide";
+	rename -uid "18728927-4617-7E0F-ED5A-8B98D10BBB7F";
+createNode pointMatrixMult -n "l_brow_local_7_limits_path_pointMatrixMult";
+	rename -uid "37EB6A09-4675-376C-474A-1FB1A2CC929C";
+createNode multiplyDivide -n "l_brow_local_7_limits_liftNow_multiplyDivide";
+	rename -uid "0353B21B-4A9A-BC31-7F64-DAACF6B085CF";
+createNode plusMinusAverage -n "l_brow_local_7_limits_offset_plusMinusAverage";
+	rename -uid "0567ECA2-4076-58EC-6EE0-BCAF93EE1823";
+	setAttr ".op" 2;
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode multiplyDivide -n "r_brow_local_2_limits_radial_multiplyDivide";
+	rename -uid "C740070D-4309-BFA7-16B2-4EAE47568378";
+createNode plusMinusAverage -n "r_brow_local_2_limits_radial_plusMinusAverage";
+	rename -uid "568F7928-4648-DEA6-084D-24A070A9C8A7";
+	setAttr -s 2 ".i1";
+	setAttr -s 2 ".i1";
+createNode blendMatrix -n "r_brow_local_2_limits_turn_blendMatrix";
+	rename -uid "8B88D3BE-4D9C-668D-4FA2-0384655B27E1";
+	setAttr -s 2 ".tgt";
+createNode multiplyDivide -n "r_brow_local_2_limits_radialVec_multiplyDivide";
+	rename -uid "E6B075FB-4ADD-59CD-C1DD-81985B5F451D";
+createNode pointMatrixMult -n "r_brow_local_2_limits_path_pointMatrixMult";
+	rename -uid "D0C45CEF-44C2-602A-F3B4-E89BFD20C185";
+createNode multiplyDivide -n "r_brow_local_2_limits_liftNow_multiplyDivide";
+	rename -uid "CED11AB4-4C6E-244B-345A-0686CE770B6E";
+createNode plusMinusAverage -n "r_brow_local_2_limits_offset_plusMinusAverage";
+	rename -uid "81F7892F-4B13-3565-796C-9584FD02FB6E";
+	setAttr ".op" 2;
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode multiplyDivide -n "r_brow_local_3_limits_radial_multiplyDivide";
+	rename -uid "F04A2AE7-4F93-C6A2-E964-109C0D360CBD";
+createNode plusMinusAverage -n "r_brow_local_3_limits_radial_plusMinusAverage";
+	rename -uid "C3C762B5-4CCD-5D82-9E25-F3AD4792EBE2";
+	setAttr -s 2 ".i1";
+	setAttr -s 2 ".i1";
+createNode blendMatrix -n "r_brow_local_3_limits_turn_blendMatrix";
+	rename -uid "ECC3EBDE-4295-3D71-D607-A581FD6D7892";
+	setAttr -s 2 ".tgt";
+createNode multiplyDivide -n "r_brow_local_3_limits_radialVec_multiplyDivide";
+	rename -uid "02AA37C9-489B-BB65-2C4C-8081080D59C9";
+createNode pointMatrixMult -n "r_brow_local_3_limits_path_pointMatrixMult";
+	rename -uid "FB3B311D-4CB5-B946-D950-E4961920EF28";
+createNode multiplyDivide -n "r_brow_local_3_limits_liftNow_multiplyDivide";
+	rename -uid "424BA5AC-4B99-DA3F-BCD1-3BA67818CF69";
+createNode plusMinusAverage -n "r_brow_local_3_limits_offset_plusMinusAverage";
+	rename -uid "4333503E-4D85-4455-3959-D4B2A0131ED0";
+	setAttr ".op" 2;
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode multiplyDivide -n "r_brow_local_4_limits_radial_multiplyDivide";
+	rename -uid "A82BD17C-417F-EF68-EFFA-DCA7290B1015";
+createNode plusMinusAverage -n "r_brow_local_4_limits_radial_plusMinusAverage";
+	rename -uid "7B55A168-4A12-C524-446E-C4A68B4C2462";
+	setAttr -s 2 ".i1";
+	setAttr -s 2 ".i1";
+createNode blendMatrix -n "r_brow_local_4_limits_turn_blendMatrix";
+	rename -uid "226BCE1E-4533-DC3C-C048-23A000C5D533";
+	setAttr -s 2 ".tgt";
+createNode multiplyDivide -n "r_brow_local_4_limits_radialVec_multiplyDivide";
+	rename -uid "DA1BA0D6-4373-9B1A-AB8F-3EA223FD5B6B";
+createNode pointMatrixMult -n "r_brow_local_4_limits_path_pointMatrixMult";
+	rename -uid "AD2BFEBB-4CD8-3F50-46F0-00AC85EB6F64";
+createNode multiplyDivide -n "r_brow_local_4_limits_liftNow_multiplyDivide";
+	rename -uid "12E8ED0D-42FC-94C4-2F4F-BC91B12740F1";
+createNode plusMinusAverage -n "r_brow_local_4_limits_offset_plusMinusAverage";
+	rename -uid "99579232-49A6-89F9-EEF0-929F292ED5D5";
+	setAttr ".op" 2;
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode multiplyDivide -n "r_brow_local_5_limits_radial_multiplyDivide";
+	rename -uid "CEC43829-4652-46A3-7AFA-59B4E87B47C5";
+createNode plusMinusAverage -n "r_brow_local_5_limits_radial_plusMinusAverage";
+	rename -uid "01980CD1-425E-A288-6654-37B49580DA6D";
+	setAttr -s 2 ".i1";
+	setAttr -s 2 ".i1";
+createNode blendMatrix -n "r_brow_local_5_limits_turn_blendMatrix";
+	rename -uid "404A370C-4CB5-7605-F13C-B3B85461B855";
+	setAttr -s 2 ".tgt";
+createNode multiplyDivide -n "r_brow_local_5_limits_radialVec_multiplyDivide";
+	rename -uid "00FB6CF9-4DFF-E408-EE03-5CBD5C6EFF63";
+createNode pointMatrixMult -n "r_brow_local_5_limits_path_pointMatrixMult";
+	rename -uid "7C7C2665-4CDA-3E3A-014A-85B967B65FB4";
+createNode multiplyDivide -n "r_brow_local_5_limits_liftNow_multiplyDivide";
+	rename -uid "CDE1E640-4B9E-1129-7AAD-C68459260C8E";
+createNode plusMinusAverage -n "r_brow_local_5_limits_offset_plusMinusAverage";
+	rename -uid "C1522FC9-490E-18A0-55ED-45A9AE606207";
+	setAttr ".op" 2;
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode multiplyDivide -n "r_brow_local_6_limits_radial_multiplyDivide";
+	rename -uid "9EBCEDE0-4824-8EDB-8D91-8193FB109E4C";
+createNode plusMinusAverage -n "r_brow_local_6_limits_radial_plusMinusAverage";
+	rename -uid "CED3A3B9-4ED9-2753-DC39-DB9E063AD5F5";
+	setAttr -s 2 ".i1";
+	setAttr -s 2 ".i1";
+createNode blendMatrix -n "r_brow_local_6_limits_turn_blendMatrix";
+	rename -uid "6496FEB6-48E5-FA71-4DE0-C48E43DC6C8D";
+	setAttr -s 2 ".tgt";
+createNode multiplyDivide -n "r_brow_local_6_limits_radialVec_multiplyDivide";
+	rename -uid "A24FC293-4554-59C1-3F9F-9D9E8F8B9CC5";
+createNode pointMatrixMult -n "r_brow_local_6_limits_path_pointMatrixMult";
+	rename -uid "54312D90-460B-D121-5FF9-91983EBC0FA9";
+createNode multiplyDivide -n "r_brow_local_6_limits_liftNow_multiplyDivide";
+	rename -uid "49099F3C-49C5-5186-75D7-DA90E358AD47";
+createNode plusMinusAverage -n "r_brow_local_6_limits_offset_plusMinusAverage";
+	rename -uid "018235FE-4342-6C70-314B-7B8E99ED7858";
+	setAttr ".op" 2;
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode multiplyDivide -n "r_brow_local_7_limits_radial_multiplyDivide";
+	rename -uid "445BBAC2-41CE-6510-AD0B-7FB458C2E2D1";
+createNode plusMinusAverage -n "r_brow_local_7_limits_radial_plusMinusAverage";
+	rename -uid "CB167E68-46A2-7693-8D68-B083D4905F43";
+	setAttr -s 2 ".i1";
+	setAttr -s 2 ".i1";
+createNode blendMatrix -n "r_brow_local_7_limits_turn_blendMatrix";
+	rename -uid "5C0B538B-40A2-7307-76B3-059B9B500F8D";
+	setAttr -s 2 ".tgt";
+createNode multiplyDivide -n "r_brow_local_7_limits_radialVec_multiplyDivide";
+	rename -uid "D0E7FB46-4C8C-88B2-94C0-40BDFA0F9515";
+createNode pointMatrixMult -n "r_brow_local_7_limits_path_pointMatrixMult";
+	rename -uid "2F3B2791-42FC-EDBB-0210-8E8F7D03346B";
+createNode multiplyDivide -n "r_brow_local_7_limits_liftNow_multiplyDivide";
+	rename -uid "4274C5D5-4734-1745-A0F3-BF8C6A61BE0D";
+createNode plusMinusAverage -n "r_brow_local_7_limits_offset_plusMinusAverage";
+	rename -uid "AEC6AD1B-4BA8-3498-D0B1-7E8E34F34F98";
+	setAttr ".op" 2;
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode multiplyDivide -n "l_brow_out_limits_radial_multiplyDivide";
+	rename -uid "5EF6D130-4780-3D44-C00E-0182516A8863";
+createNode plusMinusAverage -n "l_brow_out_limits_radial_plusMinusAverage";
+	rename -uid "B3DFE464-41EE-54B5-C35C-5E88361275D5";
+	setAttr -s 2 ".i1";
+	setAttr -s 2 ".i1";
+createNode blendMatrix -n "l_brow_out_limits_turn_blendMatrix";
+	rename -uid "C34CD759-4A62-8BDC-23D9-F6AAF181733E";
+	setAttr -s 2 ".tgt";
+createNode multiplyDivide -n "l_brow_out_limits_radialVec_multiplyDivide";
+	rename -uid "0A8568F9-4E27-9282-C563-8F8983B6D7BF";
+createNode pointMatrixMult -n "l_brow_out_limits_path_pointMatrixMult";
+	rename -uid "0E7DB33B-46B7-E74B-1119-0AA0D331DBF9";
+createNode multiplyDivide -n "l_brow_out_limits_liftNow_multiplyDivide";
+	rename -uid "C50A6673-4EFD-3831-7AA5-A48D500C7BE5";
+createNode plusMinusAverage -n "l_brow_out_limits_offset_plusMinusAverage";
+	rename -uid "C608650F-43D8-A6FB-1728-DA853DA1837E";
+	setAttr ".op" 2;
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode pickMatrix -n "l_brow_out_top_rotate_pickMatrix";
+	rename -uid "A634D0D6-4B4A-742F-C285-B8A7604842D3";
+	setAttr ".tra" no;
+createNode pickMatrix -n "l_brow_out_bot_rotate_pickMatrix";
+	rename -uid "D9C31956-49F2-7B22-E229-CBA2C8151034";
+	setAttr ".tra" no;
+createNode composeMatrix -n "l_brow_out_limits_offset_composeMatrix";
+	rename -uid "CB727EF9-40DB-A5F2-F4AC-4FB492BD1371";
+createNode multiplyDivide -n "l_brow_mid_limits_radial_multiplyDivide";
+	rename -uid "A8AEB99E-4927-9967-867A-48B118CB6FBD";
+createNode plusMinusAverage -n "l_brow_mid_limits_radial_plusMinusAverage";
+	rename -uid "AFC5804D-420F-C0BB-3C2E-6A825E123BAD";
+	setAttr -s 2 ".i1";
+	setAttr -s 2 ".i1";
+createNode blendMatrix -n "l_brow_mid_limits_turn_blendMatrix";
+	rename -uid "52128E66-4D11-EBBE-AB31-97847193481C";
+	setAttr -s 2 ".tgt";
+createNode multiplyDivide -n "l_brow_mid_limits_radialVec_multiplyDivide";
+	rename -uid "6F5686DA-4571-56E1-38BD-979A1EEE41DB";
+createNode pointMatrixMult -n "l_brow_mid_limits_path_pointMatrixMult";
+	rename -uid "F3A5B4F3-45B7-CC1D-D50D-AD9167E6C99D";
+createNode multiplyDivide -n "l_brow_mid_limits_liftNow_multiplyDivide";
+	rename -uid "21E6325B-42B6-2654-6CB4-938962977868";
+createNode plusMinusAverage -n "l_brow_mid_limits_offset_plusMinusAverage";
+	rename -uid "DBA74D1E-483E-F1CA-C26A-6EBB5B178619";
+	setAttr ".op" 2;
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode pickMatrix -n "l_brow_mid_top_rotate_pickMatrix";
+	rename -uid "795334ED-440A-F8E3-A1C2-068B8CB8D271";
+	setAttr ".tra" no;
+createNode pickMatrix -n "l_brow_mid_bot_rotate_pickMatrix";
+	rename -uid "9626F9FF-4E2B-A4C5-ED8A-39808A14E98B";
+	setAttr ".tra" no;
+createNode composeMatrix -n "l_brow_mid_limits_offset_composeMatrix";
+	rename -uid "5011CD49-44A4-9EC3-743C-7D9DFD1EDE47";
+createNode multiplyDivide -n "l_brow_in_limits_radial_multiplyDivide";
+	rename -uid "587F737B-404A-B466-791A-8E9331ACEBE1";
+createNode plusMinusAverage -n "l_brow_in_limits_radial_plusMinusAverage";
+	rename -uid "706C0D51-4753-BA4E-40A9-9E8D0F123BE6";
+	setAttr -s 2 ".i1";
+	setAttr -s 2 ".i1";
+createNode blendMatrix -n "l_brow_in_limits_turn_blendMatrix";
+	rename -uid "332E6A80-42A2-B1F8-6198-54A258D73BAC";
+	setAttr -s 2 ".tgt";
+createNode multiplyDivide -n "l_brow_in_limits_radialVec_multiplyDivide";
+	rename -uid "B8B8400D-43BA-ED55-A599-738E339320F2";
+createNode pointMatrixMult -n "l_brow_in_limits_path_pointMatrixMult";
+	rename -uid "2AC3EE98-4DC6-DC73-7B9C-1EB13E85F622";
+createNode multiplyDivide -n "l_brow_in_limits_liftNow_multiplyDivide";
+	rename -uid "E9C7F50D-4D7D-7886-E111-32AF01C09CB2";
+createNode plusMinusAverage -n "l_brow_in_limits_offset_plusMinusAverage";
+	rename -uid "F4A577E4-4F56-3797-74ED-D4A0490D7BC2";
+	setAttr ".op" 2;
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode pickMatrix -n "l_brow_in_top_rotate_pickMatrix";
+	rename -uid "77C90204-4C00-859B-A0B2-EC845D235069";
+	setAttr ".tra" no;
+createNode pickMatrix -n "l_brow_in_bot_rotate_pickMatrix";
+	rename -uid "6CA4F300-4EA3-FD5E-702E-63B602A098DF";
+	setAttr ".tra" no;
+createNode composeMatrix -n "l_brow_in_limits_offset_composeMatrix";
+	rename -uid "97F69BCB-4F3F-21F2-409E-1189E0DB852A";
+createNode multiplyDivide -n "r_brow_out_limits_radial_multiplyDivide";
+	rename -uid "D6FF162A-43BD-6811-61B8-C6AF6E303BE0";
+createNode plusMinusAverage -n "r_brow_out_limits_radial_plusMinusAverage";
+	rename -uid "2DBBA6D1-4F08-2AA5-CD7C-0F940FB86E72";
+	setAttr -s 2 ".i1";
+	setAttr -s 2 ".i1";
+createNode blendMatrix -n "r_brow_out_limits_turn_blendMatrix";
+	rename -uid "2D69E8A9-4DDE-24D3-428A-0CB8B33E92F2";
+	setAttr -s 2 ".tgt";
+createNode multiplyDivide -n "r_brow_out_limits_radialVec_multiplyDivide";
+	rename -uid "F63A9800-4C13-6A9D-08C6-7DABBC743C6D";
+createNode pointMatrixMult -n "r_brow_out_limits_path_pointMatrixMult";
+	rename -uid "9DD99668-4C65-AB0D-CA14-CEB774A97B9E";
+createNode multiplyDivide -n "r_brow_out_limits_liftNow_multiplyDivide";
+	rename -uid "AEDC2A7C-4DF2-4365-B6DE-36A00E5BA8DC";
+createNode plusMinusAverage -n "r_brow_out_limits_offset_plusMinusAverage";
+	rename -uid "986B63F6-4C9F-769D-6A5C-0F8C7A51E412";
+	setAttr ".op" 2;
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode composeMatrix -n "r_brow_out_limits_offset_composeMatrix";
+	rename -uid "855F896A-4FA4-749B-11E9-09A701F49595";
+createNode multiplyDivide -n "r_brow_mid_limits_radial_multiplyDivide";
+	rename -uid "88819EBB-424A-F9A3-124C-BFADAF99D30F";
+createNode plusMinusAverage -n "r_brow_mid_limits_radial_plusMinusAverage";
+	rename -uid "0516B980-4D5D-8C6B-7340-27934D475346";
+	setAttr -s 2 ".i1";
+	setAttr -s 2 ".i1";
+createNode blendMatrix -n "r_brow_mid_limits_turn_blendMatrix";
+	rename -uid "B027A56F-478A-ED13-5DC1-B3A8E44C1FDD";
+	setAttr -s 2 ".tgt";
+createNode multiplyDivide -n "r_brow_mid_limits_radialVec_multiplyDivide";
+	rename -uid "5FB6AA0E-413E-4CA2-C1F1-1C9348FEF4C0";
+createNode pointMatrixMult -n "r_brow_mid_limits_path_pointMatrixMult";
+	rename -uid "1F0218D2-4F9F-6B38-2204-DB8FE4BA06DE";
+createNode multiplyDivide -n "r_brow_mid_limits_liftNow_multiplyDivide";
+	rename -uid "90CBE5EE-4EA8-D759-0E0A-50A43DDB59E4";
+createNode plusMinusAverage -n "r_brow_mid_limits_offset_plusMinusAverage";
+	rename -uid "58274B3D-477B-059A-692A-26B76E882E7B";
+	setAttr ".op" 2;
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode composeMatrix -n "r_brow_mid_limits_offset_composeMatrix";
+	rename -uid "4EA69B5A-4E0F-5288-3A24-48B528C5B3BC";
+createNode multiplyDivide -n "r_brow_in_limits_radial_multiplyDivide";
+	rename -uid "8584E36D-4296-A9CE-71E2-6AB5E8699487";
+createNode plusMinusAverage -n "r_brow_in_limits_radial_plusMinusAverage";
+	rename -uid "69A6E3D9-465D-90CB-FBD6-7B9A1C0F642F";
+	setAttr -s 2 ".i1";
+	setAttr -s 2 ".i1";
+createNode blendMatrix -n "r_brow_in_limits_turn_blendMatrix";
+	rename -uid "F84C005D-4537-9119-B980-CC993872576D";
+	setAttr -s 2 ".tgt";
+createNode multiplyDivide -n "r_brow_in_limits_radialVec_multiplyDivide";
+	rename -uid "3676DA3C-498B-1708-9900-71A3FB9EE616";
+createNode pointMatrixMult -n "r_brow_in_limits_path_pointMatrixMult";
+	rename -uid "2FFA3E40-4024-DE31-FA07-4BBB66C55399";
+createNode multiplyDivide -n "r_brow_in_limits_liftNow_multiplyDivide";
+	rename -uid "556A9305-4FCE-9906-C092-BD92F570CF6C";
+createNode plusMinusAverage -n "r_brow_in_limits_offset_plusMinusAverage";
+	rename -uid "3AC07F38-4C17-2C4A-99B9-86835A414A4D";
+	setAttr ".op" 2;
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode composeMatrix -n "r_brow_in_limits_offset_composeMatrix";
+	rename -uid "B1A23EDB-4209-1C26-752D-54B58E693C43";
+createNode plusMinusAverage -n "l_brow_limits_over_plusMinusAverage";
+	rename -uid "1915F985-49EA-86A9-B9FA-6FB28CA73CC9";
+	setAttr ".op" 2;
+	setAttr -s 2 ".i2";
+	setAttr -s 2 ".i2";
+createNode clamp -n "l_brow_limits_over_clamp";
+	rename -uid "47D53E58-41A8-EC95-46EA-D899377A1146";
+	setAttr ".mn" -type "float3" 0 -1000000 0 ;
+	setAttr ".mx" -type "float3" 1000000 0 0 ;
+createNode multiplyDivide -n "l_brow_limits_over_multiplyDivide";
+	rename -uid "0A6BCD9A-4470-AE16-B60F-AEB8B75ABAE7";
+	setAttr ".op" 2;
+createNode plusMinusAverage -n "r_brow_limits_over_plusMinusAverage";
+	rename -uid "5414C95B-4972-826F-9AF0-449DEB1551B6";
+	setAttr ".op" 2;
+	setAttr -s 2 ".i2";
+	setAttr -s 2 ".i2";
+createNode clamp -n "r_brow_limits_over_clamp";
+	rename -uid "12C1E0D8-41F8-A04C-DDD0-11A76923E126";
+	setAttr ".mn" -type "float3" 0 -1000000 0 ;
+	setAttr ".mx" -type "float3" 1000000 0 0 ;
+createNode multiplyDivide -n "r_brow_limits_over_multiplyDivide";
+	rename -uid "17BDDD0C-4CFD-25A9-634C-99832E8877DC";
+	setAttr ".op" 2;
+createNode vectorProduct -n "l_brow_in_limits_tangentUp_vectorProduct";
+	rename -uid "F53AFD0C-4D59-92C6-3A7F-428E39D02B4C";
+	setAttr ".op" 2;
+createNode unitConversion -n "l_brow_in_limits_tangentUp_unitConversion";
+	rename -uid "E7719748-4A9A-7299-1612-969E7191F73D";
+createNode multiplyDivide -n "l_brow_in_limits_tangentUp_multiplyDivide";
+	rename -uid "5D81EB0C-4845-1299-EE11-C4AB5244B118";
+createNode plusMinusAverage -n "l_brow_in_limits_tangentUp_plusMinusAverage";
+	rename -uid "3F88CFC8-4A75-7144-DAB1-9DA5C8D0A041";
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode vectorProduct -n "l_brow_in_limits_tangentDown_vectorProduct";
+	rename -uid "D62A22B5-49B1-45CB-4095-71BDBAE83790";
+	setAttr ".op" 2;
+createNode unitConversion -n "l_brow_in_limits_tangentDown_unitConversion";
+	rename -uid "68A405A8-4A85-6774-CAE5-398B6F79EBD4";
+createNode multiplyDivide -n "l_brow_in_limits_tangentDown_multiplyDivide";
+	rename -uid "8398443E-421C-A7D6-09C1-F6A3BF85AB61";
+createNode plusMinusAverage -n "l_brow_in_limits_tangentDown_plusMinusAverage";
+	rename -uid "1FC8E072-4DFC-8BAB-3DD3-CE97EFE05E82";
+	setAttr ".op" 2;
+	setAttr -s 3 ".i3[0:2]" -type "float3"  0 0 0 0.01024713 0.56380749
+		 -0.011102135 0.010244678 -0.00040475954 -0.011099479;
+	setAttr -s 2 ".i3";
+createNode vectorProduct -n "l_brow_local_1_limits_tangentUp_vectorProduct";
+	rename -uid "7E2E7F5D-47C9-5BEC-1B44-4088667389BE";
+	setAttr ".op" 2;
+createNode unitConversion -n "l_brow_local_1_limits_tangentUp_unitConversion";
+	rename -uid "3A73EF2D-4232-B214-6303-F69549D077ED";
+createNode multiplyDivide -n "l_brow_local_1_limits_tangentUp_multiplyDivide";
+	rename -uid "57BD4A4B-4D56-7C05-EEE1-9DB4F4FA7391";
+createNode plusMinusAverage -n "l_brow_local_1_limits_tangentUp_plusMinusAverage";
+	rename -uid "6A9B0227-41C9-ED32-1312-8989417457A6";
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode vectorProduct -n "l_brow_local_1_limits_tangentDown_vectorProduct";
+	rename -uid "C2722293-45A3-E411-CAA2-F39F3A3A0FD0";
+	setAttr ".op" 2;
+createNode unitConversion -n "l_brow_local_1_limits_tangentDown_unitConversion";
+	rename -uid "FBE1818C-4F42-6F10-9D3B-C8A7E563D108";
+createNode multiplyDivide -n "l_brow_local_1_limits_tangentDown_multiplyDivide";
+	rename -uid "FA3F6C66-4975-8D6F-B987-CBB9C5DAFEBD";
+createNode plusMinusAverage -n "l_brow_local_1_limits_tangentDown_plusMinusAverage";
+	rename -uid "37E81AA7-46AE-4CFC-915E-A89B9F638DE5";
+	setAttr ".op" 2;
+	setAttr -s 3 ".i3[0:2]" -type "float3"  0 0 0 0 0.80000001 0 0 0 0;
+	setAttr -s 2 ".i3";
+createNode vectorProduct -n "l_brow_local_2_limits_tangentUp_vectorProduct";
+	rename -uid "BA270D94-4152-3136-769D-02A0DC0EDA39";
+	setAttr ".op" 2;
+createNode unitConversion -n "l_brow_local_2_limits_tangentUp_unitConversion";
+	rename -uid "61450637-4221-1EED-5FBD-AE8B465A3F29";
+createNode multiplyDivide -n "l_brow_local_2_limits_tangentUp_multiplyDivide";
+	rename -uid "8E0A76D6-4DD6-1D11-132C-E5A92402EEA9";
+createNode plusMinusAverage -n "l_brow_local_2_limits_tangentUp_plusMinusAverage";
+	rename -uid "E5F2985B-466C-CF17-D333-1E897DC7E3EB";
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode vectorProduct -n "l_brow_local_2_limits_tangentDown_vectorProduct";
+	rename -uid "F9D1BDC4-4DB4-27AF-0008-698EE2CBED1F";
+	setAttr ".op" 2;
+createNode unitConversion -n "l_brow_local_2_limits_tangentDown_unitConversion";
+	rename -uid "FF1955E9-44D9-3C19-0CBC-CFB5B69B7B45";
+createNode multiplyDivide -n "l_brow_local_2_limits_tangentDown_multiplyDivide";
+	rename -uid "60BA0D6C-4C62-C353-9127-4EA37F3A7EF8";
+createNode plusMinusAverage -n "l_brow_local_2_limits_tangentDown_plusMinusAverage";
+	rename -uid "6D2361ED-4189-AC8A-75F8-50B60762BD33";
+	setAttr ".op" 2;
+	setAttr -s 3 ".i3[0:2]" -type "float3"  0 0 0 0 0.80000001 1.6653345e-16
+		 0 0 0;
+	setAttr -s 2 ".i3";
+createNode vectorProduct -n "l_brow_local_3_limits_tangentUp_vectorProduct";
+	rename -uid "76496B2E-45E0-1EE9-C3E7-99ADC430450D";
+	setAttr ".op" 2;
+createNode unitConversion -n "l_brow_local_3_limits_tangentUp_unitConversion";
+	rename -uid "F7FBAE20-42A9-7F10-ADC7-44B9DAD62390";
+createNode multiplyDivide -n "l_brow_local_3_limits_tangentUp_multiplyDivide";
+	rename -uid "165EA1F8-4E5D-99DB-3679-D8B3C6D6E32D";
+createNode plusMinusAverage -n "l_brow_local_3_limits_tangentUp_plusMinusAverage";
+	rename -uid "92605D2E-4454-5314-B622-AFA23D1FA9D3";
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode vectorProduct -n "l_brow_local_3_limits_tangentDown_vectorProduct";
+	rename -uid "13F3B282-4EEC-A777-7F81-FC93F3909917";
+	setAttr ".op" 2;
+createNode unitConversion -n "l_brow_local_3_limits_tangentDown_unitConversion";
+	rename -uid "854B5582-441B-8DAE-5C9F-E99E78608CDB";
+createNode multiplyDivide -n "l_brow_local_3_limits_tangentDown_multiplyDivide";
+	rename -uid "A0513CE8-4B71-736E-50B1-AB9AE25722F1";
+createNode plusMinusAverage -n "l_brow_local_3_limits_tangentDown_plusMinusAverage";
+	rename -uid "08CD0C1D-4A59-3791-2856-97A7E158444D";
+	setAttr ".op" 2;
+	setAttr -s 3 ".i3[0:2]" -type "float3"  0 0 0 -4.9563529e-16 0.80368966
+		 5.2570629e-16 0 0 0;
+	setAttr -s 2 ".i3";
+createNode vectorProduct -n "l_brow_local_4_limits_tangentUp_vectorProduct";
+	rename -uid "6F6E65F1-4769-167A-99DD-35B30CF424B5";
+	setAttr ".op" 2;
+createNode unitConversion -n "l_brow_local_4_limits_tangentUp_unitConversion";
+	rename -uid "7155E243-4F8E-1336-21BA-BEB011A7A1AA";
+createNode multiplyDivide -n "l_brow_local_4_limits_tangentUp_multiplyDivide";
+	rename -uid "95AA3DC7-45A5-C8DE-352C-9A96FE1747D2";
+createNode plusMinusAverage -n "l_brow_local_4_limits_tangentUp_plusMinusAverage";
+	rename -uid "A18437AA-43DB-997F-9329-A6A20BD7F02D";
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode vectorProduct -n "l_brow_local_4_limits_tangentDown_vectorProduct";
+	rename -uid "FE033C35-4A3D-9DBE-E35A-EEA4CEFD3160";
+	setAttr ".op" 2;
+createNode unitConversion -n "l_brow_local_4_limits_tangentDown_unitConversion";
+	rename -uid "3A712946-428D-DF41-1BC0-C4B6FED0BEAE";
+createNode multiplyDivide -n "l_brow_local_4_limits_tangentDown_multiplyDivide";
+	rename -uid "ECBD067C-4A93-75A1-03B5-16BCD49E51D2";
+createNode plusMinusAverage -n "l_brow_local_4_limits_tangentDown_plusMinusAverage";
+	rename -uid "0213774C-4144-3988-E1CD-FC87E1B717ED";
+	setAttr ".op" 2;
+	setAttr -s 3 ".i3[0:2]" -type "float3"  0 0 0 0 0.80000001 0 0 0 0;
+	setAttr -s 2 ".i3";
+createNode vectorProduct -n "l_brow_local_5_limits_tangentUp_vectorProduct";
+	rename -uid "412980BA-4228-1639-3C4B-909AB081799B";
+	setAttr ".op" 2;
+createNode unitConversion -n "l_brow_local_5_limits_tangentUp_unitConversion";
+	rename -uid "E006512F-470C-5E82-7C47-A29ADF4C8484";
+createNode multiplyDivide -n "l_brow_local_5_limits_tangentUp_multiplyDivide";
+	rename -uid "65BC9203-4315-FD37-2E5B-CAB12CD5CB0C";
+createNode plusMinusAverage -n "l_brow_local_5_limits_tangentUp_plusMinusAverage";
+	rename -uid "6447BB4E-4690-7BF9-7067-A495CF5C740A";
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode vectorProduct -n "l_brow_local_5_limits_tangentDown_vectorProduct";
+	rename -uid "E5386F5F-4222-30B0-3F2F-39A8DE802A52";
+	setAttr ".op" 2;
+createNode unitConversion -n "l_brow_local_5_limits_tangentDown_unitConversion";
+	rename -uid "544CDEE3-464D-1299-ABC0-71924C166AC2";
+createNode multiplyDivide -n "l_brow_local_5_limits_tangentDown_multiplyDivide";
+	rename -uid "63BB91C4-4559-3689-F1DD-41A814080FBF";
+createNode plusMinusAverage -n "l_brow_local_5_limits_tangentDown_plusMinusAverage";
+	rename -uid "FFCA52CE-49C0-91E8-7024-F2AA7ED1F118";
+	setAttr ".op" 2;
+	setAttr -s 3 ".i3[0:2]" -type "float3"  0 0 0 -1.6132928e-16 0.76387542
+		 -1.129305e-15 0 0 0;
+	setAttr -s 2 ".i3";
+createNode vectorProduct -n "l_brow_local_6_limits_tangentUp_vectorProduct";
+	rename -uid "825418A6-4F5D-6AE0-D397-5C9C90683414";
+	setAttr ".op" 2;
+createNode unitConversion -n "l_brow_local_6_limits_tangentUp_unitConversion";
+	rename -uid "F82AAC9C-4CA3-0FEE-C552-229A754A6F07";
+createNode multiplyDivide -n "l_brow_local_6_limits_tangentUp_multiplyDivide";
+	rename -uid "99B27454-4DF1-E47D-7828-94A2044CCFFE";
+createNode plusMinusAverage -n "l_brow_local_6_limits_tangentUp_plusMinusAverage";
+	rename -uid "341EAAC3-4114-58EF-A1E5-5996C13E3424";
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode vectorProduct -n "l_brow_local_6_limits_tangentDown_vectorProduct";
+	rename -uid "70667D75-4D8D-EAED-7812-4A9E2D66F23B";
+	setAttr ".op" 2;
+createNode unitConversion -n "l_brow_local_6_limits_tangentDown_unitConversion";
+	rename -uid "2CAFDE77-4B72-EEA1-F3A7-A28E8CA8051D";
+createNode multiplyDivide -n "l_brow_local_6_limits_tangentDown_multiplyDivide";
+	rename -uid "AA76F396-4449-6E6D-7140-2E8561F9929B";
+createNode plusMinusAverage -n "l_brow_local_6_limits_tangentDown_plusMinusAverage";
+	rename -uid "F5C5A36C-4AD2-D12C-338D-17B574D71F3B";
+	setAttr ".op" 2;
+	setAttr -s 3 ".i3[0:2]" -type "float3"  0 0 0 0 0.80000001 0 0 0 0;
+	setAttr -s 2 ".i3";
+createNode vectorProduct -n "l_brow_local_7_limits_tangentUp_vectorProduct";
+	rename -uid "26DE4166-4F91-BD37-7B87-809E5A1B161B";
+	setAttr ".op" 2;
+createNode unitConversion -n "l_brow_local_7_limits_tangentUp_unitConversion";
+	rename -uid "0B42DF96-41B7-A486-AA9D-ACA77BBBF837";
+createNode multiplyDivide -n "l_brow_local_7_limits_tangentUp_multiplyDivide";
+	rename -uid "303B71F7-4A42-F0AE-414B-AABC5264C09F";
+createNode plusMinusAverage -n "l_brow_local_7_limits_tangentUp_plusMinusAverage";
+	rename -uid "34F6D1F2-4C3B-72CA-C6C1-0F9F63717D53";
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode vectorProduct -n "l_brow_local_7_limits_tangentDown_vectorProduct";
+	rename -uid "E80930EC-47A1-9836-9BFB-F89EE6FB66F7";
+	setAttr ".op" 2;
+createNode unitConversion -n "l_brow_local_7_limits_tangentDown_unitConversion";
+	rename -uid "37888232-4330-5E4A-57B2-0DB031189E3B";
+createNode multiplyDivide -n "l_brow_local_7_limits_tangentDown_multiplyDivide";
+	rename -uid "C82BD35B-42B3-B0A0-976B-B991CD66B802";
+createNode plusMinusAverage -n "l_brow_local_7_limits_tangentDown_plusMinusAverage";
+	rename -uid "96B204AF-4F18-5DD1-C2A2-4A8B8EAB1478";
+	setAttr ".op" 2;
+	setAttr -s 3 ".i3[0:2]" -type "float3"  0 0 0 -0.20066072 0.69774324
+		 -0.12149516 -0.059282765 -0.018663064 -0.0092703672;
+	setAttr -s 2 ".i3";
+createNode vectorProduct -n "l_brow_mid_limits_tangentUp_vectorProduct";
+	rename -uid "2D01050C-4212-94E6-2C55-91BA25A7D30D";
+	setAttr ".op" 2;
+createNode unitConversion -n "l_brow_mid_limits_tangentUp_unitConversion";
+	rename -uid "239268B3-4092-79F6-9A9A-CB87EA751CD0";
+createNode multiplyDivide -n "l_brow_mid_limits_tangentUp_multiplyDivide";
+	rename -uid "AB95FF76-459E-DA24-33FE-39AC255F398D";
+createNode plusMinusAverage -n "l_brow_mid_limits_tangentUp_plusMinusAverage";
+	rename -uid "15A85182-40F9-529B-FFAA-59AE73C55D6D";
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode vectorProduct -n "l_brow_mid_limits_tangentDown_vectorProduct";
+	rename -uid "D8A3741C-4825-056F-647A-448E73569433";
+	setAttr ".op" 2;
+createNode unitConversion -n "l_brow_mid_limits_tangentDown_unitConversion";
+	rename -uid "72B4572F-4403-8535-8EB7-D3ADA50B2D9A";
+createNode multiplyDivide -n "l_brow_mid_limits_tangentDown_multiplyDivide";
+	rename -uid "EF59B98F-4846-D349-5CFD-08AB852BFB26";
+createNode plusMinusAverage -n "l_brow_mid_limits_tangentDown_plusMinusAverage";
+	rename -uid "B97569BE-4639-9603-B821-EDB928517005";
+	setAttr ".op" 2;
+	setAttr -s 3 ".i3[0:2]" -type "float3"  0 0 0 0 0.80000001 0 0 0 0;
+	setAttr -s 2 ".i3";
+createNode vectorProduct -n "l_brow_out_limits_tangentUp_vectorProduct";
+	rename -uid "E66EA41A-4B50-D62E-9878-95BBAE956D81";
+	setAttr ".op" 2;
+createNode unitConversion -n "l_brow_out_limits_tangentUp_unitConversion";
+	rename -uid "DE413063-4000-CDE3-3F40-669C8845CE80";
+createNode multiplyDivide -n "l_brow_out_limits_tangentUp_multiplyDivide";
+	rename -uid "5D36E7FD-4992-6BF7-9A9E-31A9A9A33AE7";
+createNode plusMinusAverage -n "l_brow_out_limits_tangentUp_plusMinusAverage";
+	rename -uid "B64BC3AD-4ABE-63B8-8A63-168001D5FAAF";
+	setAttr -s 2 ".i3";
+	setAttr -s 2 ".i3";
+createNode vectorProduct -n "l_brow_out_limits_tangentDown_vectorProduct";
+	rename -uid "4100C380-4894-484F-C337-80A435BEAFB1";
+	setAttr ".op" 2;
+createNode unitConversion -n "l_brow_out_limits_tangentDown_unitConversion";
+	rename -uid "0C47E927-4237-2316-504A-6E8B07D916CC";
+createNode multiplyDivide -n "l_brow_out_limits_tangentDown_multiplyDivide";
+	rename -uid "5372D0AC-4FF6-8D43-AC14-82B9884F1F3D";
+createNode plusMinusAverage -n "l_brow_out_limits_tangentDown_plusMinusAverage";
+	rename -uid "29EC40A3-4E95-9253-36EF-758D43F5B302";
+	setAttr ".op" 2;
+	setAttr -s 3 ".i3[0:2]" -type "float3"  0 0 0 -0.0036999413 0.73051625
+		 -0.0073467325 -0.0036997851 -9.2621049e-05 -0.0073464224;
+	setAttr -s 2 ".i3";
+createNode plusMinusAverage -n "l_brow_in_limits_pathTotal_plusMinusAverage";
+	rename -uid "510FD303-4253-AC0D-C6D2-92B68B952D0E";
+	setAttr -s 3 ".i3";
+	setAttr -s 3 ".i3";
+createNode multiplyDivide -n "l_brow_in_limits_overUp_multiplyDivide";
+	rename -uid "DB17CDFB-4F29-1DB5-2D3E-21AE4C887AC4";
+createNode multiplyDivide -n "l_brow_in_limits_overDown_multiplyDivide";
+	rename -uid "DA93E863-4DFD-03AB-D3B9-3A84FDC9AF8A";
+createNode plusMinusAverage -n "l_brow_local_1_limits_pathTotal_plusMinusAverage";
+	rename -uid "DB7BF5B7-4089-9D28-284C-B4B715C175C0";
+	setAttr -s 3 ".i3";
+	setAttr -s 3 ".i3";
+createNode multiplyDivide -n "l_brow_local_1_limits_overUp_multiplyDivide";
+	rename -uid "68CE0973-463E-A924-841D-389BCD93AFB0";
+createNode multiplyDivide -n "l_brow_local_1_limits_overDown_multiplyDivide";
+	rename -uid "6CB66A6D-4DBE-741C-9683-89BD69868E91";
+createNode plusMinusAverage -n "l_brow_local_2_limits_pathTotal_plusMinusAverage";
+	rename -uid "3FF60251-4840-AC30-F3A2-87B65C4483F8";
+	setAttr -s 3 ".i3";
+	setAttr -s 3 ".i3";
+createNode multiplyDivide -n "l_brow_local_2_limits_overUp_multiplyDivide";
+	rename -uid "9C35BAAA-4B93-384A-76F7-3DAA1BBFB7E7";
+createNode multiplyDivide -n "l_brow_local_2_limits_overDown_multiplyDivide";
+	rename -uid "6FB4D94D-4445-9CFE-DECB-6F89EBE1BC2F";
+createNode plusMinusAverage -n "l_brow_local_3_limits_pathTotal_plusMinusAverage";
+	rename -uid "EFCED600-44A4-9BA5-DD2E-D4AAB19AF42D";
+	setAttr -s 3 ".i3";
+	setAttr -s 3 ".i3";
+createNode multiplyDivide -n "l_brow_local_3_limits_overUp_multiplyDivide";
+	rename -uid "EF83AC1F-4ABF-FB8F-9D78-AFBD18DD0C65";
+createNode multiplyDivide -n "l_brow_local_3_limits_overDown_multiplyDivide";
+	rename -uid "F01AB77B-4D18-BBDA-16B0-A59AB9A0DECD";
+createNode plusMinusAverage -n "l_brow_local_4_limits_pathTotal_plusMinusAverage";
+	rename -uid "53CBE214-423F-9E73-5909-E3913FE33C9E";
+	setAttr -s 3 ".i3";
+	setAttr -s 3 ".i3";
+createNode multiplyDivide -n "l_brow_local_4_limits_overUp_multiplyDivide";
+	rename -uid "1A07BD30-45E1-8E48-4FF6-AEA65947E8AD";
+createNode multiplyDivide -n "l_brow_local_4_limits_overDown_multiplyDivide";
+	rename -uid "CE8D3B62-4231-6AE3-07E0-3E95B4BCDA9A";
+createNode plusMinusAverage -n "l_brow_local_5_limits_pathTotal_plusMinusAverage";
+	rename -uid "3109F578-4B76-4F9E-8205-FBB7911831B3";
+	setAttr -s 3 ".i3";
+	setAttr -s 3 ".i3";
+createNode multiplyDivide -n "l_brow_local_5_limits_overUp_multiplyDivide";
+	rename -uid "3404EADF-4AF1-8772-A7E5-9CBB2AC745F1";
+createNode multiplyDivide -n "l_brow_local_5_limits_overDown_multiplyDivide";
+	rename -uid "13DD09B2-462D-2958-486E-B7BFF7289521";
+createNode plusMinusAverage -n "l_brow_local_6_limits_pathTotal_plusMinusAverage";
+	rename -uid "4CDD7CF0-4FE8-7FE5-9582-0D81EC313BAA";
+	setAttr -s 3 ".i3";
+	setAttr -s 3 ".i3";
+createNode multiplyDivide -n "l_brow_local_6_limits_overUp_multiplyDivide";
+	rename -uid "232F371F-40F7-9DE5-741A-A3B1910EC62D";
+createNode multiplyDivide -n "l_brow_local_6_limits_overDown_multiplyDivide";
+	rename -uid "44B4C63D-431B-FCE7-53D9-E9BDF283A5AA";
+createNode plusMinusAverage -n "l_brow_local_7_limits_pathTotal_plusMinusAverage";
+	rename -uid "DE30C03F-413A-C38B-4BA0-C3B7CAAF66B0";
+	setAttr -s 3 ".i3";
+	setAttr -s 3 ".i3";
+createNode multiplyDivide -n "l_brow_local_7_limits_overUp_multiplyDivide";
+	rename -uid "416FB0F9-43F5-761E-F2E1-B5BF5895A62C";
+createNode multiplyDivide -n "l_brow_local_7_limits_overDown_multiplyDivide";
+	rename -uid "59201D82-4EB1-F6B7-26D8-2C8A0D19B6E0";
+createNode plusMinusAverage -n "l_brow_mid_limits_pathTotal_plusMinusAverage";
+	rename -uid "FF85A2E1-46E9-C6BD-5B8F-6DAD960D1DE0";
+	setAttr -s 3 ".i3";
+	setAttr -s 3 ".i3";
+createNode multiplyDivide -n "l_brow_mid_limits_overUp_multiplyDivide";
+	rename -uid "7693BCF7-432B-DFD8-56BF-E18F8318D553";
+createNode multiplyDivide -n "l_brow_mid_limits_overDown_multiplyDivide";
+	rename -uid "E6AEBE51-4580-3CD2-3126-98A6C5FADAC6";
+createNode plusMinusAverage -n "l_brow_out_limits_pathTotal_plusMinusAverage";
+	rename -uid "0153B5DE-4FE2-0EC4-DD2B-4F8755FF313E";
+	setAttr -s 3 ".i3";
+	setAttr -s 3 ".i3";
+createNode multiplyDivide -n "l_brow_out_limits_overUp_multiplyDivide";
+	rename -uid "3F942B5A-4983-0254-C259-E3942C7C77E6";
+createNode multiplyDivide -n "l_brow_out_limits_overDown_multiplyDivide";
+	rename -uid "3C332899-479A-AFD3-2EA2-C1AC6F6534B2";
+createNode plusMinusAverage -n "r_brow_in_limits_pathTotal_plusMinusAverage";
+	rename -uid "33EB1DBE-4C56-DE5D-3163-79AA17E7F235";
+	setAttr -s 3 ".i3";
+	setAttr -s 3 ".i3";
+createNode multiplyDivide -n "r_brow_in_limits_overUp_multiplyDivide";
+	rename -uid "CAF03C3C-4A33-76B3-007D-B58BF6B47B24";
+createNode multiplyDivide -n "r_brow_in_limits_overDown_multiplyDivide";
+	rename -uid "68772AF3-47D2-0BA1-D773-28BE188806A0";
+createNode plusMinusAverage -n "r_brow_local_1_limits_pathTotal_plusMinusAverage";
+	rename -uid "730A64FD-4C1C-5912-1A7C-BBAD94A44DD2";
+	setAttr -s 3 ".i3";
+	setAttr -s 3 ".i3";
+createNode multiplyDivide -n "r_brow_local_1_limits_overUp_multiplyDivide";
+	rename -uid "711F3905-4C20-2974-07AD-27B48E0AC78A";
+createNode multiplyDivide -n "r_brow_local_1_limits_overDown_multiplyDivide";
+	rename -uid "57E36F19-4EA6-4F3A-3FE2-53BC444EC4DA";
+createNode plusMinusAverage -n "r_brow_local_2_limits_pathTotal_plusMinusAverage";
+	rename -uid "DB270DF8-4782-E727-C6F5-819EC6079FFB";
+	setAttr -s 3 ".i3";
+	setAttr -s 3 ".i3";
+createNode multiplyDivide -n "r_brow_local_2_limits_overUp_multiplyDivide";
+	rename -uid "9D93FB7E-4DD4-7AC6-2E61-63A2C4F5290F";
+createNode multiplyDivide -n "r_brow_local_2_limits_overDown_multiplyDivide";
+	rename -uid "F9FE5600-4EF2-938C-B7EC-C09DE1CC5973";
+createNode plusMinusAverage -n "r_brow_local_3_limits_pathTotal_plusMinusAverage";
+	rename -uid "E0F63FCD-4D84-1CF5-53CF-CCB1AB5378C2";
+	setAttr -s 3 ".i3";
+	setAttr -s 3 ".i3";
+createNode multiplyDivide -n "r_brow_local_3_limits_overUp_multiplyDivide";
+	rename -uid "5309824D-42B5-EAA2-96F1-27944D133DF4";
+createNode multiplyDivide -n "r_brow_local_3_limits_overDown_multiplyDivide";
+	rename -uid "4C7493DD-4D74-BD9D-7812-68911698102F";
+createNode plusMinusAverage -n "r_brow_local_4_limits_pathTotal_plusMinusAverage";
+	rename -uid "46F7ABC2-4E0F-BA60-FA0D-958AF9F70469";
+	setAttr -s 3 ".i3";
+	setAttr -s 3 ".i3";
+createNode multiplyDivide -n "r_brow_local_4_limits_overUp_multiplyDivide";
+	rename -uid "0E309ECF-4CD3-4F49-7117-A8889B3ECE2F";
+createNode multiplyDivide -n "r_brow_local_4_limits_overDown_multiplyDivide";
+	rename -uid "09E14A0F-41DD-61F0-75A7-3183713B6750";
+createNode plusMinusAverage -n "r_brow_local_5_limits_pathTotal_plusMinusAverage";
+	rename -uid "BE45CEBF-4338-4C55-E134-F592E55A1A0E";
+	setAttr -s 3 ".i3";
+	setAttr -s 3 ".i3";
+createNode multiplyDivide -n "r_brow_local_5_limits_overUp_multiplyDivide";
+	rename -uid "D54CE316-48C6-A062-9093-58A3214D077E";
+createNode multiplyDivide -n "r_brow_local_5_limits_overDown_multiplyDivide";
+	rename -uid "7205B62C-4689-1737-4206-56874D9E2ECA";
+createNode plusMinusAverage -n "r_brow_local_6_limits_pathTotal_plusMinusAverage";
+	rename -uid "96F919C7-44FB-C72A-7A73-90A4822ACB1E";
+	setAttr -s 3 ".i3";
+	setAttr -s 3 ".i3";
+createNode multiplyDivide -n "r_brow_local_6_limits_overUp_multiplyDivide";
+	rename -uid "455516B4-4FE8-79DA-E0F5-8387807BA6B1";
+createNode multiplyDivide -n "r_brow_local_6_limits_overDown_multiplyDivide";
+	rename -uid "D1CCEFB1-49B3-6AD4-5D6A-8B8A3D050763";
+createNode plusMinusAverage -n "r_brow_local_7_limits_pathTotal_plusMinusAverage";
+	rename -uid "C340D05F-4BDC-829C-C2C1-80A421C8C4FD";
+	setAttr -s 3 ".i3";
+	setAttr -s 3 ".i3";
+createNode multiplyDivide -n "r_brow_local_7_limits_overUp_multiplyDivide";
+	rename -uid "1D13D012-4B18-77B3-8BAF-E295B6C436CA";
+createNode multiplyDivide -n "r_brow_local_7_limits_overDown_multiplyDivide";
+	rename -uid "FFF9D2C6-4540-A2BE-B271-9A97EA172FF1";
+createNode plusMinusAverage -n "r_brow_mid_limits_pathTotal_plusMinusAverage";
+	rename -uid "E14AE6A3-4A11-7016-C96A-43BD9219FCD9";
+	setAttr -s 3 ".i3";
+	setAttr -s 3 ".i3";
+createNode multiplyDivide -n "r_brow_mid_limits_overUp_multiplyDivide";
+	rename -uid "C593E273-4083-E756-18DA-A196EBABDBC7";
+createNode multiplyDivide -n "r_brow_mid_limits_overDown_multiplyDivide";
+	rename -uid "E060F06C-4DB7-23C7-8C56-0587EFD02D75";
+createNode plusMinusAverage -n "r_brow_out_limits_pathTotal_plusMinusAverage";
+	rename -uid "46E76032-440E-7A59-269C-808510C8C478";
+	setAttr -s 3 ".i3";
+	setAttr -s 3 ".i3";
+createNode multiplyDivide -n "r_brow_out_limits_overUp_multiplyDivide";
+	rename -uid "0EDACA41-49B8-E56E-8C53-AE8EF41DBE9F";
+createNode multiplyDivide -n "r_brow_out_limits_overDown_multiplyDivide";
+	rename -uid "F6BCCE48-463B-5798-5725-CABE37F51673";
 createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
-	rename -uid "6385C0A0-4DCF-0145-5B90-479B3212A575";
+	rename -uid "CCF74A7A-4BC6-B670-5A06-989A9ACF0D69";
 	setAttr -s 3 ".tgi";
 	setAttr ".tgi[0].tn" -type "string" "Untitled_1";
-	setAttr ".tgi[0].vl" -type "double2" -6652.3811137865487 -655.95247019376279 ;
-	setAttr ".tgi[0].vh" -type "double2" 7061.9049070373476 3058.333327112709 ;
+	setAttr ".tgi[0].vl" -type "double2" -6652.380688039093 -8569.4060012540813 ;
+	setAttr ".tgi[0].vh" -type "double2" 7063.0949574330607 10970.596382029826 ;
 	setAttr ".tgi[1].tn" -type "string" "Untitled_2";
-	setAttr ".tgi[1].vl" -type "double2" -7858.0125082634577 -3788.0950875698923 ;
-	setAttr ".tgi[1].vh" -type "double2" -1721.7490158329254 -2126.1903917032901 ;
-	setAttr -s 6 ".tgi[1].ni";
+	setAttr ".tgi[1].vl" -type "double2" -7862.2548082095482 -7344.4578724224766 ;
+	setAttr ".tgi[1].vh" -type "double2" -1705.8157011474968 1426.4253206987146 ;
 	setAttr ".tgi[1].ni[0].x" -4885.71435546875;
 	setAttr ".tgi[1].ni[0].y" -3392.857177734375;
 	setAttr ".tgi[1].ni[0].nvs" 18304;
-	setAttr ".tgi[1].ni[1].x" -4516.869140625;
-	setAttr ".tgi[1].ni[1].y" -2611.53515625;
-	setAttr ".tgi[1].ni[1].nvs" 18305;
-	setAttr ".tgi[1].ni[2].x" -5491.64111328125;
-	setAttr ".tgi[1].ni[2].y" -2499.787109375;
-	setAttr ".tgi[1].ni[2].nvs" 18304;
-	setAttr ".tgi[1].ni[3].x" -5195.109375;
-	setAttr ".tgi[1].ni[3].y" -2605.524658203125;
-	setAttr ".tgi[1].ni[3].nvs" 18305;
-	setAttr ".tgi[1].ni[4].x" -4860.162109375;
-	setAttr ".tgi[1].ni[4].y" -2901.93603515625;
-	setAttr ".tgi[1].ni[4].nvs" 18305;
-	setAttr ".tgi[1].ni[5].x" -5740.50146484375;
-	setAttr ".tgi[1].ni[5].y" -2830.6240234375;
-	setAttr ".tgi[1].ni[5].nvs" 18305;
 	setAttr ".tgi[2].tn" -type "string" "Untitled_3";
-	setAttr ".tgi[2].vl" -type "double2" -25005.109763629818 -1216.3424447401808 ;
-	setAttr ".tgi[2].vh" -type "double2" -24198.513437659967 565.78624157334559 ;
-	setAttr -s 19 ".tgi[2].ni";
-	setAttr ".tgi[2].ni[0].x" -25157.142578125;
-	setAttr ".tgi[2].ni[0].y" -192.85714721679688;
+	setAttr ".tgi[2].vl" -type "double2" -25949.454790259402 -2802.2197794584386 ;
+	setAttr ".tgi[2].vh" -type "double2" -23668.493133441581 447.39382217507051 ;
+	setAttr -s 14 ".tgi[2].ni";
+	setAttr ".tgi[2].ni[0].x" -24848.572265625;
+	setAttr ".tgi[2].ni[0].y" 330;
 	setAttr ".tgi[2].ni[0].nvs" 18304;
-	setAttr ".tgi[2].ni[1].x" -25464.28515625;
-	setAttr ".tgi[2].ni[1].y" -48.571430206298828;
+	setAttr ".tgi[2].ni[1].x" -24541.427734375;
+	setAttr ".tgi[2].ni[1].y" -915.71429443359375;
 	setAttr ".tgi[2].ni[1].nvs" 18304;
-	setAttr ".tgi[2].ni[2].x" -24838.28125;
-	setAttr ".tgi[2].ni[2].y" 195.37550354003906;
+	setAttr ".tgi[2].ni[2].x" -24848.572265625;
+	setAttr ".tgi[2].ni[2].y" -177.14285278320312;
 	setAttr ".tgi[2].ni[2].nvs" 18304;
-	setAttr ".tgi[2].ni[3].x" -24510.923828125;
-	setAttr ".tgi[2].ni[3].y" 64.957977294921875;
-	setAttr ".tgi[2].ni[3].nvs" 18305;
-	setAttr ".tgi[2].ni[4].x" -26078.572265625;
-	setAttr ".tgi[2].ni[4].y" 2.8571429252624512;
+	setAttr ".tgi[2].ni[3].x" -24848.572265625;
+	setAttr ".tgi[2].ni[3].y" -278.57144165039062;
+	setAttr ".tgi[2].ni[3].nvs" 18304;
+	setAttr ".tgi[2].ni[4].x" -24848.572265625;
+	setAttr ".tgi[2].ni[4].y" 228.57142639160156;
 	setAttr ".tgi[2].ni[4].nvs" 18304;
-	setAttr ".tgi[2].ni[5].x" -25771.427734375;
-	setAttr ".tgi[2].ni[5].y" -100;
+	setAttr ".tgi[2].ni[5].x" -24848.572265625;
+	setAttr ".tgi[2].ni[5].y" 127.14286041259766;
 	setAttr ".tgi[2].ni[5].nvs" 18304;
-	setAttr ".tgi[2].ni[6].x" -25771.427734375;
-	setAttr ".tgi[2].ni[6].y" -201.42857360839844;
+	setAttr ".tgi[2].ni[6].x" -24848.572265625;
+	setAttr ".tgi[2].ni[6].y" 25.714284896850586;
 	setAttr ".tgi[2].ni[6].nvs" 18304;
-	setAttr ".tgi[2].ni[7].x" -26078.572265625;
-	setAttr ".tgi[2].ni[7].y" 104.28571319580078;
+	setAttr ".tgi[2].ni[7].x" -24848.572265625;
+	setAttr ".tgi[2].ni[7].y" -684.28570556640625;
 	setAttr ".tgi[2].ni[7].nvs" 18304;
-	setAttr ".tgi[2].ni[8].x" -25157.142578125;
-	setAttr ".tgi[2].ni[8].y" 67.142860412597656;
+	setAttr ".tgi[2].ni[8].x" -24848.572265625;
+	setAttr ".tgi[2].ni[8].y" -481.42855834960938;
 	setAttr ".tgi[2].ni[8].nvs" 18304;
-	setAttr ".tgi[2].ni[9].x" -24235.71484375;
-	setAttr ".tgi[2].ni[9].y" -30;
-	setAttr ".tgi[2].ni[9].nvs" 18305;
-	setAttr ".tgi[2].ni[10].x" -24852.9296875;
-	setAttr ".tgi[2].ni[10].y" -21.666170120239258;
-	setAttr ".tgi[2].ni[10].nvs" 18304;
-	setAttr ".tgi[2].ni[11].x" -25157.142578125;
-	setAttr ".tgi[2].ni[11].y" 168.57142639160156;
+	setAttr ".tgi[2].ni[9].x" -24848.572265625;
+	setAttr ".tgi[2].ni[9].y" -582.85711669921875;
+	setAttr ".tgi[2].ni[9].nvs" 18304;
+	setAttr ".tgi[2].ni[10].x" -24339.3671875;
+	setAttr ".tgi[2].ni[10].y" -159.78912353515625;
+	setAttr ".tgi[2].ni[10].nvs" 18305;
+	setAttr ".tgi[2].ni[11].x" -24848.572265625;
+	setAttr ".tgi[2].ni[11].y" -380;
 	setAttr ".tgi[2].ni[11].nvs" 18304;
-	setAttr ".tgi[2].ni[12].x" -25464.28515625;
-	setAttr ".tgi[2].ni[12].y" -268.57144165039062;
+	setAttr ".tgi[2].ni[12].x" -24848.572265625;
+	setAttr ".tgi[2].ni[12].y" -785.71429443359375;
 	setAttr ".tgi[2].ni[12].nvs" 18304;
-	setAttr ".tgi[2].ni[13].x" -25157.142578125;
-	setAttr ".tgi[2].ni[13].y" -91.428573608398438;
+	setAttr ".tgi[2].ni[13].x" -24848.572265625;
+	setAttr ".tgi[2].ni[13].y" -75.714286804199219;
 	setAttr ".tgi[2].ni[13].nvs" 18304;
-	setAttr ".tgi[2].ni[14].x" -26078.572265625;
-	setAttr ".tgi[2].ni[14].y" -98.571426391601562;
-	setAttr ".tgi[2].ni[14].nvs" 18305;
-	setAttr ".tgi[2].ni[15].x" -25771.427734375;
-	setAttr ".tgi[2].ni[15].y" 1.4285714626312256;
-	setAttr ".tgi[2].ni[15].nvs" 18304;
-	setAttr ".tgi[2].ni[16].x" -24864.6484375;
-	setAttr ".tgi[2].ni[16].y" -325.23208618164062;
-	setAttr ".tgi[2].ni[16].nvs" 18304;
-	setAttr ".tgi[2].ni[17].x" -24850;
-	setAttr ".tgi[2].ni[17].y" -181.42857360839844;
-	setAttr ".tgi[2].ni[17].nvs" 18304;
-	setAttr ".tgi[2].ni[18].x" -25464.28515625;
-	setAttr ".tgi[2].ni[18].y" -150;
-	setAttr ".tgi[2].ni[18].nvs" 18304;
 select -ne :time1;
 	setAttr -av -k on ".cch";
 	setAttr -k on ".fzn";
@@ -4486,7 +5695,7 @@ select -ne :defaultRenderUtilityList1;
 	setAttr -cb on ".ihi";
 	setAttr -av -k on ".nds";
 	setAttr -cb on ".bnm";
-	setAttr -s 105 ".u";
+	setAttr -s 102 ".u";
 select -ne :defaultRenderingList1;
 	setAttr -av -k on ".cch";
 	setAttr -k on ".ihi";
@@ -4724,8 +5933,6 @@ select -ne :hardwareRenderGlobals;
 	setAttr -av -k on ".bswa";
 	setAttr -av -k on ".shml";
 	setAttr -av -k on ".hwel";
-select -ne :ikSystem;
-	setAttr -s 4 ".sol";
 connectAttr "mainPoser.sx" "mainPoser.sy" -l on;
 connectAttr "mainPoser.sx" "mainPoser.sz" -l on;
 connectAttr "cluster4GroupId.id" "mainPoserShape.iog.og[1].gid";
@@ -4868,62 +6075,70 @@ connectAttr "l_brow.downLimit" "l_brow.mtyl";
 connectAttr "in_mainPoser.m" "l_brow_in_group.opm";
 connectAttr "multMatrix50.o" "l_brow_in_group_1.opm";
 connectAttr "multDoubleLinear6.o" "l_brow_in_1Shape.v";
-connectAttr "unitConversion57.o" "l_brow_local_2_rotateOffset.rz";
-connectAttr "plusMinusAverage28.o1" "l_curve9_2_loc_moveOffset.ty";
-connectAttr "multDoubleLinear21.o" "l_curve9_2_loc_moveOffset.tx";
-connectAttr "multMatrix60.o" "l_brow_local_2_group.opm";
-connectAttr "plusMinusAverage38.o3" "l_brow_local_2_group_1.t";
+connectAttr "l_brow_local_1_limits_offset_plusMinusAverage.o3" "l_brow_local_1_group.t"
+		;
+connectAttr "l_brow_local_1_group_multMatrix.o" "l_brow_local_1_group.opm";
+connectAttr "multDoubleLinear6.o" "l_brow_local_1Shape.v";
+connectAttr "l_brow_local_1_group_multMatrix.o" "l_brow_local_1_top.opm";
+connectAttr "l_brow_local_1_group_multMatrix.o" "l_brow_local_1_bot.opm";
+connectAttr "l_brow_local_2_limits_offset_plusMinusAverage.o3" "l_brow_local_2_group.t"
+		;
+connectAttr "l_brow_local_2_group_multMatrix.o" "l_brow_local_2_group.opm";
 connectAttr "multDoubleLinear6.o" "l_brow_local_2Shape.v";
 connectAttr "up_vis_condition.ocr" "l_brow_local_2_top.v";
+connectAttr "l_brow_local_2_group_multMatrix.o" "l_brow_local_2_top.opm";
 connectAttr "down_vis_condition.ocr" "l_brow_local_2_bot.v";
-connectAttr "multDoubleLinear7.o" "l_brow_local_1_moveOffset.ty";
-connectAttr "remapValue1.ov" "l_brow_local_1_moveOffset.tx";
-connectAttr "multMatrix59.o" "l_brow_local_1_group.opm";
-connectAttr "plusMinusAverage30.o3" "l_brow_local_1_group_1.t";
-connectAttr "multDoubleLinear6.o" "l_brow_local_1Shape.v";
+connectAttr "l_brow_local_2_group_multMatrix.o" "l_brow_local_2_bot.opm";
 connectAttr "up_vis_condition.ocr" "l_brow_in_top.v";
 connectAttr "down_vis_condition.ocr" "l_brow_in_bot.v";
 connectAttr "multMatrix56.o" "l_brow_mid_group.opm";
 connectAttr "multMatrix49.o" "l_brow_mid_group_1.opm";
 connectAttr "multDoubleLinear6.o" "l_brow_midShape.v";
-connectAttr "unitConversion20.o" "l_brow_local_3_rotateOffset.rz";
-connectAttr "plusMinusAverage26.o1" "l_curve9_3_loc_moveOffset.ty";
-connectAttr "multMatrix61.o" "l_brow_local_3_group.opm";
-connectAttr "plusMinusAverage39.o3" "l_brow_local_3_group_1.t";
+connectAttr "l_brow_local_3_limits_offset_plusMinusAverage.o3" "l_brow_local_3_group.t"
+		;
+connectAttr "l_brow_local_3_group_multMatrix.o" "l_brow_local_3_group.opm";
 connectAttr "multDoubleLinear6.o" "l_brow_local_3Shape.v";
 connectAttr "up_vis_condition.ocr" "l_brow_local_3_top.v";
+connectAttr "l_brow_local_3_group_multMatrix.o" "l_brow_local_3_top.opm";
 connectAttr "down_vis_condition.ocr" "l_brow_local_3_bot.v";
-connectAttr "plusMinusAverage29.o1" "l_brow_local_4_moveOffset.ty";
-connectAttr "plusMinusAverage40.o3" "l_brow_local_4_group.t";
-connectAttr "multMatrix62.o" "l_brow_local_4_group.opm";
+connectAttr "l_brow_local_3_group_multMatrix.o" "l_brow_local_3_bot.opm";
+connectAttr "l_brow_local_4_limits_offset_plusMinusAverage.o3" "l_brow_local_4_group.t"
+		;
+connectAttr "l_brow_local_4_group_multMatrix.o" "l_brow_local_4_group.opm";
 connectAttr "multDoubleLinear6.o" "l_brow_local_4Shape.v";
 connectAttr "up_vis_condition.ocr" "l_brow_local_4_top.v";
+connectAttr "l_brow_local_4_group_multMatrix.o" "l_brow_local_4_top.opm";
 connectAttr "down_vis_condition.ocr" "l_brow_local_4_bot.v";
+connectAttr "l_brow_local_4_group_multMatrix.o" "l_brow_local_4_bot.opm";
 connectAttr "up_vis_condition.ocr" "l_brow_mid_top.v";
 connectAttr "down_vis_condition.ocr" "l_brow_mid_bot.v";
 connectAttr "out_mainPoser.m" "l_brow_out_group.opm";
 connectAttr "multMatrix48.o" "l_brow_out_group_1.opm";
 connectAttr "multDoubleLinear6.o" "l_brow_out_1Shape.v";
-connectAttr "unitConversion22.o" "l_brow_local_out_rotateOffset.rz";
-connectAttr "plusMinusAverage27.o1" "l_curve9_5_loc_moveOffset.ty";
-connectAttr "multMatrix63.o" "l_brow_local_5_group.opm";
-connectAttr "plusMinusAverage41.o3" "l_brow_local_5_group_1.t";
+connectAttr "l_brow_local_5_limits_offset_plusMinusAverage.o3" "l_brow_local_5_group.t"
+		;
+connectAttr "l_brow_local_5_group_multMatrix.o" "l_brow_local_5_group.opm";
 connectAttr "multDoubleLinear6.o" "l_brow_local_5Shape.v";
 connectAttr "up_vis_condition.ocr" "l_brow_local_5_top.v";
+connectAttr "l_brow_local_5_group_multMatrix.o" "l_brow_local_5_top.opm";
 connectAttr "down_vis_condition.ocr" "l_brow_local_5_bot.v";
-connectAttr "multDoubleLinear17.o" "l_curve9_6_loc_moveOffset.ty";
-connectAttr "multMatrix64.o" "l_brow_local_6_group.opm";
-connectAttr "plusMinusAverage42.o3" "l_brow_local_6_group_1.t";
+connectAttr "l_brow_local_5_group_multMatrix.o" "l_brow_local_5_bot.opm";
+connectAttr "l_brow_local_6_limits_offset_plusMinusAverage.o3" "l_brow_local_6_group.t"
+		;
+connectAttr "l_brow_local_6_group_multMatrix.o" "l_brow_local_6_group.opm";
 connectAttr "multDoubleLinear6.o" "l_brow_local_6Shape.v";
 connectAttr "up_vis_condition.ocr" "l_brow_local_6_top.v";
+connectAttr "l_brow_local_6_group_multMatrix.o" "l_brow_local_6_top.opm";
 connectAttr "down_vis_condition.ocr" "l_brow_local_6_bot.v";
-connectAttr "l_brow_out.rz" "l_brow_local_7_rotateOffset.rz";
-connectAttr "remapValue3.ov" "l_brow_local_7_rotateOffset.tx";
-connectAttr "multMatrix65.o" "l_brow_local_7_group.opm";
-connectAttr "plusMinusAverage43.o3" "l_brow_local_7_group_1.t";
+connectAttr "l_brow_local_6_group_multMatrix.o" "l_brow_local_6_bot.opm";
+connectAttr "l_brow_local_7_limits_offset_plusMinusAverage.o3" "l_brow_local_7_group.t"
+		;
+connectAttr "l_brow_local_7_group_multMatrix.o" "l_brow_local_7_group.opm";
 connectAttr "multDoubleLinear6.o" "l_brow_local_7Shape.v";
 connectAttr "up_vis_condition.ocr" "l_brow_local_7_top.v";
+connectAttr "l_brow_local_7_group_multMatrix.o" "l_brow_local_7_top.opm";
 connectAttr "down_vis_condition.ocr" "l_brow_local_7_bot.v";
+connectAttr "l_brow_local_7_group_multMatrix.o" "l_brow_local_7_bot.opm";
 connectAttr "up_vis_condition.ocr" "l_brow_out_top.v";
 connectAttr "down_vis_condition.ocr" "l_brow_out_bot.v";
 connectAttr "multMatrix68.o" "l_brow_last.opm";
@@ -4934,43 +6149,39 @@ connectAttr "l_browShape.ws" "r_browShape.cr";
 connectAttr "in_mainPoser.m" "r_brow_in_group.opm";
 connectAttr "multMatrix54.o" "r_brow_in_group_1.opm";
 connectAttr "l_brow_in_1Shape.ws" "r_brow_in_1Shape.cr";
-connectAttr "unitConversion59.o" "r_brow_local_2_rotateOffset.rz";
-connectAttr "multDoubleLinear81.o" "r_curve9_2_loc_moveOffset.tx";
-connectAttr "plusMinusAverage57.o1" "r_curve9_2_loc_moveOffset.ty";
-connectAttr "multMatrix60.o" "r_brow_local_2_group.opm";
-connectAttr "plusMinusAverage44.o3" "r_brow_local_2_group_1.t";
-connectAttr "l_brow_local_2Shape.ws" "r_brow_local_2Shape.cr";
-connectAttr "remapValue2.ov" "r_brow_local_1_moveOffset.tx";
-connectAttr "multDoubleLinear68.o" "r_brow_local_1_moveOffset.ty";
-connectAttr "multMatrix59.o" "r_brow_local_1_group.opm";
-connectAttr "plusMinusAverage37.o3" "r_brow_local_1_group_1.t";
+connectAttr "r_brow_local_1_limits_offset_plusMinusAverage.o3" "r_brow_local_1_group.t"
+		;
+connectAttr "r_brow_local_1_group_multMatrix.o" "r_brow_local_1_group.opm";
 connectAttr "l_brow_local_1Shape.ws" "r_brow_local_1Shape.cr";
+connectAttr "r_brow_local_2_limits_offset_plusMinusAverage.o3" "r_brow_local_2_group.t"
+		;
+connectAttr "r_brow_local_2_group_multMatrix.o" "r_brow_local_2_group.opm";
+connectAttr "l_brow_local_2Shape.ws" "r_brow_local_2Shape.cr";
 connectAttr "multMatrix56.o" "r_brow_mid_group.opm";
 connectAttr "multMatrix53.o" "r_brow_mid_group_1.opm";
 connectAttr "l_brow_midShape.ws" "r_brow_midShape.cr";
-connectAttr "plusMinusAverage55.o1" "r_curve9_3_loc_moveOffset.ty";
-connectAttr "multMatrix61.o" "r_brow_local_3_group.opm";
-connectAttr "plusMinusAverage45.o3" "r_brow_local_3_group_1.t";
+connectAttr "r_brow_local_3_limits_offset_plusMinusAverage.o3" "r_brow_local_3_group.t"
+		;
+connectAttr "r_brow_local_3_group_multMatrix.o" "r_brow_local_3_group.opm";
 connectAttr "l_brow_local_3Shape.ws" "r_brow_local_3Shape.cr";
-connectAttr "plusMinusAverage58.o1" "r_brow_local_4_moveOffset.ty";
-connectAttr "plusMinusAverage46.o3" "r_brow_local_4_group.t";
-connectAttr "multMatrix62.o" "r_brow_local_4_group.opm";
+connectAttr "r_brow_local_4_limits_offset_plusMinusAverage.o3" "r_brow_local_4_group.t"
+		;
+connectAttr "r_brow_local_4_group_multMatrix.o" "r_brow_local_4_group.opm";
 connectAttr "l_brow_local_4Shape.ws" "r_brow_local_4Shape.cr";
 connectAttr "out_mainPoser.m" "r_brow_out_group.opm";
 connectAttr "multMatrix52.o" "r_brow_out_group_1.opm";
 connectAttr "l_brow_out_1Shape.ws" "r_brow_out_1Shape.cr";
-connectAttr "unitConversion86.o" "r_brow_local_out_rotateOffset.rz";
-connectAttr "plusMinusAverage56.o1" "r_curve9_5_loc_moveOffset.ty";
-connectAttr "multMatrix63.o" "r_brow_local_5_group.opm";
-connectAttr "plusMinusAverage47.o3" "r_brow_local_5_group_1.t";
+connectAttr "r_brow_local_5_limits_offset_plusMinusAverage.o3" "r_brow_local_5_group.t"
+		;
+connectAttr "r_brow_local_5_group_multMatrix.o" "r_brow_local_5_group.opm";
 connectAttr "l_brow_local_5Shape.ws" "r_brow_local_5Shape.cr";
-connectAttr "multDoubleLinear77.o" "r_curve9_6_loc_moveOffset.ty";
-connectAttr "multMatrix64.o" "r_brow_local_6_group.opm";
-connectAttr "plusMinusAverage48.o3" "r_brow_local_6_group_1.t";
+connectAttr "r_brow_local_6_limits_offset_plusMinusAverage.o3" "r_brow_local_6_group.t"
+		;
+connectAttr "r_brow_local_6_group_multMatrix.o" "r_brow_local_6_group.opm";
 connectAttr "l_brow_local_6Shape.ws" "r_brow_local_6Shape.cr";
-connectAttr "clamp18.opr" "r_brow_local_7_rotateOffset.tx";
-connectAttr "r_brow_out.rz" "r_brow_local_7_rotateOffset.rz";
-connectAttr "multMatrix65.o" "r_brow_local_7_group.opm";
+connectAttr "r_brow_local_7_limits_offset_plusMinusAverage.o3" "r_brow_local_7_group.t"
+		;
+connectAttr "r_brow_local_7_group_multMatrix.o" "r_brow_local_7_group.opm";
 connectAttr "l_brow_local_7Shape.ws" "r_brow_local_7Shape.cr";
 connectAttr "multMatrix68.o" "r_brow_last.opm";
 connectAttr "multMatrix55.o" "brow_center_group.opm";
@@ -5211,17 +6422,13 @@ connectAttr ":lambert1.oc" "pasted__lambert1SG.ss";
 connectAttr "addDoubleLinear9.o" "plusMinusAverage24.i1[0]";
 connectAttr "addDoubleLinear10.o" "plusMinusAverage24.i1[1]";
 connectAttr "multDoubleLinear42.o" "multDoubleLinear1.i1";
-connectAttr "addDoubleLinear2.o" "multDoubleLinear1.i2";
 connectAttr "addDoubleLinear9.o" "plusMinusAverage25.i1[0]";
 connectAttr "addDoubleLinear8.o" "plusMinusAverage25.i1[1]";
 connectAttr "plusMinusAverage24.o1" "multDoubleLinear3.i1";
-connectAttr "multDoubleLinear5.o" "multDoubleLinear3.i2";
 connectAttr "plusMinusAverage25.o1" "multDoubleLinear4.i1";
-connectAttr "multDoubleLinear5.o" "multDoubleLinear4.i2";
 connectAttr "l_brow_mid.rz" "unitConversion20.i";
 connectAttr "l_brow_out.rz" "unitConversion22.i";
 connectAttr "l_brow_mid.rz" "unitConversion24.i";
-connectAttr "l_brow_out.rz" "unitConversion26.i";
 connectAttr "pasted__lambert1SG1.msg" "pasted__materialInfo48.sg";
 connectAttr ":lambert1.msg" "pasted__materialInfo48.m";
 connectAttr ":lambert1.oc" "pasted__lambert1SG1.ss";
@@ -5234,23 +6441,26 @@ connectAttr "l_brow.ty" "up_down_setRange.vy";
 connectAttr "l_brow.upLimit" "up_down_setRange.omy";
 connectAttr "l_brow.downLimit" "up_down_setRange.onx";
 connectAttr "up_down_setRange.oy" "blendMatrix1.env";
-connectAttr "l_brow_out_top.m" "blendMatrix1.tgt[0].tmat";
+connectAttr "l_brow_out_top_rotate_pickMatrix.tmat" "blendMatrix1.tgt[0].tmat";
 connectAttr "up_down_setRange.oy" "blendMatrix2.env";
-connectAttr "l_brow_mid_top.m" "blendMatrix2.tgt[0].tmat";
+connectAttr "l_brow_mid_top_rotate_pickMatrix.tmat" "blendMatrix2.tgt[0].tmat";
 connectAttr "up_down_setRange.oy" "blendMatrix3.env";
-connectAttr "l_brow_in_top.m" "blendMatrix3.tgt[0].tmat";
+connectAttr "l_brow_in_top_rotate_pickMatrix.tmat" "blendMatrix3.tgt[0].tmat";
 connectAttr "up_down_setRange.ox" "blendMatrix4.env";
-connectAttr "l_brow_in_bot.m" "blendMatrix4.tgt[0].tmat";
+connectAttr "l_brow_in_bot_rotate_pickMatrix.tmat" "blendMatrix4.tgt[0].tmat";
 connectAttr "up_down_setRange.ox" "blendMatrix5.env";
-connectAttr "l_brow_out_bot.m" "blendMatrix5.tgt[0].tmat";
+connectAttr "l_brow_out_bot_rotate_pickMatrix.tmat" "blendMatrix5.tgt[0].tmat";
 connectAttr "up_down_setRange.ox" "blendMatrix6.env";
-connectAttr "l_brow_mid_bot.m" "blendMatrix6.tgt[0].tmat";
+connectAttr "l_brow_mid_bot_rotate_pickMatrix.tmat" "blendMatrix6.tgt[0].tmat";
 connectAttr "blendMatrix1.omat" "multMatrix48.i[0]";
 connectAttr "blendMatrix5.omat" "multMatrix48.i[1]";
+connectAttr "l_brow_out_limits_offset_composeMatrix.omat" "multMatrix48.i[2]";
 connectAttr "blendMatrix2.omat" "multMatrix49.i[0]";
 connectAttr "blendMatrix6.omat" "multMatrix49.i[1]";
+connectAttr "l_brow_mid_limits_offset_composeMatrix.omat" "multMatrix49.i[2]";
 connectAttr "blendMatrix3.omat" "multMatrix50.i[0]";
 connectAttr "blendMatrix4.omat" "multMatrix50.i[1]";
+connectAttr "l_brow_in_limits_offset_composeMatrix.omat" "multMatrix50.i[2]";
 connectAttr "layerManager.dli[2]" "geometry.id";
 connectAttr "l_brow.limitPositions" "up_vis_condition.ft";
 connectAttr "l_brow.limitPositions" "down_vis_condition.ft";
@@ -5258,118 +6468,42 @@ connectAttr "up_vis_condition.ocg" "multDoubleLinear6.i1";
 connectAttr "down_vis_condition.ocg" "multDoubleLinear6.i2";
 connectAttr "multDoubleLinear4.o" "plusMinusAverage26.i1[0]";
 connectAttr "multDoubleLinear13.o" "plusMinusAverage26.i1[1]";
-connectAttr "multDoubleLinear11.o" "plusMinusAverage26.i1[2]";
 connectAttr "multDoubleLinear63.o" "plusMinusAverage27.i1[0]";
 connectAttr "multDoubleLinear14.o" "plusMinusAverage27.i1[1]";
-connectAttr "multDoubleLinear19.o" "plusMinusAverage27.i1[3]";
 connectAttr "unitConversion56.o" "multDoubleLinear13.i1";
 connectAttr "unitConversion24.o" "multDoubleLinear14.i1";
 connectAttr "l_brow_mid.rotateToMove" "multDoubleLinear14.i2";
 connectAttr "unitConversion24.o" "multDoubleLinear16.i1";
 connectAttr "multDoubleLinear1.o" "plusMinusAverage29.i1[0]";
-connectAttr "multDoubleLinear18.o" "plusMinusAverage29.i1[1]";
 connectAttr "multDoubleLinear16.o" "plusMinusAverage29.i1[2]";
-connectAttr "multDoubleLinear12.o" "plusMinusAverage29.i1[3]";
 connectAttr "l_brow_mid.rz" "unitConversion56.i";
-connectAttr "unitConversion26.o" "multDoubleLinear17.i1";
-connectAttr "l_brow_out.rotateToMove1" "multDoubleLinear17.i2";
-connectAttr "unitConversion26.o" "multDoubleLinear18.i1";
-connectAttr "l_brow_out.rotateToMove3" "multDoubleLinear18.i2";
-connectAttr "unitConversion26.o" "multDoubleLinear19.i1";
-connectAttr "l_brow_out.rotateToMove2" "multDoubleLinear19.i2";
-connectAttr "unitConversion26.o" "multDoubleLinear22.i1";
-connectAttr "l_brow_out.rotateToLength" "multDoubleLinear22.i2";
 connectAttr "multMatrix58.o" "multMatrix51.i[0]";
 connectAttr "composeMatrix4.omat" "multMatrix51.i[1]";
-connectAttr "r_brow_in.rz" "unitConversion59.i";
 connectAttr "up_down_setRange1.oy" "blendMatrix11.env";
-connectAttr "l_brow_out_top.m" "blendMatrix11.tgt[0].tmat";
+connectAttr "l_brow_out_top_rotate_pickMatrix.tmat" "blendMatrix11.tgt[0].tmat";
 connectAttr "up_down_setRange1.oy" "blendMatrix12.env";
-connectAttr "l_brow_mid_top.m" "blendMatrix12.tgt[0].tmat";
+connectAttr "l_brow_mid_top_rotate_pickMatrix.tmat" "blendMatrix12.tgt[0].tmat";
 connectAttr "up_down_setRange1.oy" "blendMatrix13.env";
-connectAttr "l_brow_in_top.m" "blendMatrix13.tgt[0].tmat";
+connectAttr "l_brow_in_top_rotate_pickMatrix.tmat" "blendMatrix13.tgt[0].tmat";
 connectAttr "up_down_setRange1.ox" "blendMatrix14.env";
-connectAttr "l_brow_in_bot.m" "blendMatrix14.tgt[0].tmat";
+connectAttr "l_brow_in_bot_rotate_pickMatrix.tmat" "blendMatrix14.tgt[0].tmat";
 connectAttr "up_down_setRange1.ox" "blendMatrix15.env";
-connectAttr "l_brow_out_bot.m" "blendMatrix15.tgt[0].tmat";
+connectAttr "l_brow_out_bot_rotate_pickMatrix.tmat" "blendMatrix15.tgt[0].tmat";
 connectAttr "up_down_setRange1.ox" "blendMatrix16.env";
-connectAttr "l_brow_mid_bot.m" "blendMatrix16.tgt[0].tmat";
+connectAttr "l_brow_mid_bot_rotate_pickMatrix.tmat" "blendMatrix16.tgt[0].tmat";
 connectAttr "blendMatrix11.omat" "multMatrix52.i[0]";
 connectAttr "blendMatrix15.omat" "multMatrix52.i[1]";
+connectAttr "r_brow_out_limits_offset_composeMatrix.omat" "multMatrix52.i[2]";
 connectAttr "blendMatrix12.omat" "multMatrix53.i[0]";
 connectAttr "blendMatrix16.omat" "multMatrix53.i[1]";
+connectAttr "r_brow_mid_limits_offset_composeMatrix.omat" "multMatrix53.i[2]";
 connectAttr "blendMatrix13.omat" "multMatrix54.i[0]";
 connectAttr "blendMatrix14.omat" "multMatrix54.i[1]";
+connectAttr "r_brow_in_limits_offset_composeMatrix.omat" "multMatrix54.i[2]";
 connectAttr "r_brow.ty" "up_down_setRange1.vx";
 connectAttr "r_brow.ty" "up_down_setRange1.vy";
 connectAttr "l_brow.upLimit" "up_down_setRange1.omy";
 connectAttr "l_brow.downLimit" "up_down_setRange1.onx";
-connectAttr "up_down_setRange1.oy" "blendColors3.b";
-connectAttr "l_brow_local_1_top.t" "blendColors3.c1";
-connectAttr "blendColors3.op" "plusMinusAverage37.i3[0]";
-connectAttr "blendColors4.op" "plusMinusAverage37.i3[1]";
-connectAttr "up_down_setRange1.ox" "blendColors4.b";
-connectAttr "l_brow_local_1_bot.t" "blendColors4.c1";
-connectAttr "up_down_setRange.oy" "blendColors8.b";
-connectAttr "l_brow_local_3_top.t" "blendColors8.c1";
-connectAttr "up_down_setRange.ox" "blendColors9.b";
-connectAttr "l_brow_local_3_bot.t" "blendColors9.c1";
-connectAttr "blendColors8.op" "plusMinusAverage39.i3[0]";
-connectAttr "blendColors9.op" "plusMinusAverage39.i3[1]";
-connectAttr "up_down_setRange.oy" "blendColors10.b";
-connectAttr "l_brow_local_4_top.t" "blendColors10.c1";
-connectAttr "up_down_setRange.ox" "blendColors11.b";
-connectAttr "l_brow_local_4_bot.t" "blendColors11.c1";
-connectAttr "blendColors10.op" "plusMinusAverage40.i3[0]";
-connectAttr "blendColors11.op" "plusMinusAverage40.i3[1]";
-connectAttr "up_down_setRange.oy" "blendColors12.b";
-connectAttr "l_brow_local_5_top.t" "blendColors12.c1";
-connectAttr "up_down_setRange.ox" "blendColors13.b";
-connectAttr "l_brow_local_5_bot.t" "blendColors13.c1";
-connectAttr "blendColors12.op" "plusMinusAverage41.i3[0]";
-connectAttr "blendColors13.op" "plusMinusAverage41.i3[1]";
-connectAttr "up_down_setRange.oy" "blendColors14.b";
-connectAttr "l_brow_local_6_top.t" "blendColors14.c1";
-connectAttr "up_down_setRange.ox" "blendColors15.b";
-connectAttr "l_brow_local_6_bot.t" "blendColors15.c1";
-connectAttr "blendColors14.op" "plusMinusAverage42.i3[0]";
-connectAttr "blendColors15.op" "plusMinusAverage42.i3[1]";
-connectAttr "up_down_setRange.oy" "blendColors16.b";
-connectAttr "l_brow_local_7_top.t" "blendColors16.c1";
-connectAttr "up_down_setRange.ox" "blendColors17.b";
-connectAttr "l_brow_local_7_bot.t" "blendColors17.c1";
-connectAttr "blendColors16.op" "plusMinusAverage43.i3[0]";
-connectAttr "blendColors17.op" "plusMinusAverage43.i3[1]";
-connectAttr "up_down_setRange1.oy" "blendColors18.b";
-connectAttr "l_brow_local_2_top.t" "blendColors18.c1";
-connectAttr "up_down_setRange1.ox" "blendColors19.b";
-connectAttr "l_brow_local_2_bot.t" "blendColors19.c1";
-connectAttr "blendColors18.op" "plusMinusAverage44.i3[0]";
-connectAttr "blendColors19.op" "plusMinusAverage44.i3[1]";
-connectAttr "up_down_setRange1.oy" "blendColors20.b";
-connectAttr "l_brow_local_3_top.t" "blendColors20.c1";
-connectAttr "up_down_setRange1.ox" "blendColors21.b";
-connectAttr "l_brow_local_3_bot.t" "blendColors21.c1";
-connectAttr "blendColors20.op" "plusMinusAverage45.i3[0]";
-connectAttr "blendColors21.op" "plusMinusAverage45.i3[1]";
-connectAttr "up_down_setRange1.oy" "blendColors22.b";
-connectAttr "l_brow_local_4_top.t" "blendColors22.c1";
-connectAttr "up_down_setRange1.ox" "blendColors23.b";
-connectAttr "l_brow_local_4_bot.t" "blendColors23.c1";
-connectAttr "blendColors22.op" "plusMinusAverage46.i3[0]";
-connectAttr "blendColors23.op" "plusMinusAverage46.i3[1]";
-connectAttr "up_down_setRange1.oy" "blendColors24.b";
-connectAttr "l_brow_local_5_top.t" "blendColors24.c1";
-connectAttr "up_down_setRange1.ox" "blendColors25.b";
-connectAttr "l_brow_local_5_bot.t" "blendColors25.c1";
-connectAttr "blendColors24.op" "plusMinusAverage47.i3[0]";
-connectAttr "blendColors25.op" "plusMinusAverage47.i3[1]";
-connectAttr "up_down_setRange1.oy" "blendColors26.b";
-connectAttr "l_brow_local_6_top.t" "blendColors26.c1";
-connectAttr "up_down_setRange1.ox" "blendColors27.b";
-connectAttr "l_brow_local_6_bot.t" "blendColors27.c1";
-connectAttr "blendColors26.op" "plusMinusAverage48.i3[0]";
-connectAttr "blendColors27.op" "plusMinusAverage48.i3[1]";
 connectAttr "plusMinusAverage51.o3" "plusMinusAverage50.i3[0]";
 connectAttr "multiplyDivide41.o" "plusMinusAverage50.i3[1]";
 connectAttr "l_brow.t" "plusMinusAverage51.i3[0]";
@@ -5547,23 +6681,9 @@ connectAttr "l_main_moduleControlSet.msg" "l_moduleControlSet.dnsm" -na;
 connectAttr "l_local_moduleControlSet.msg" "l_moduleControlSet.dnsm" -na;
 connectAttr "r_local_moduleControlSet.msg" "r_moduleControlSet.dnsm" -na;
 connectAttr "r_main_moduleControlSet.msg" "r_moduleControlSet.dnsm" -na;
-connectAttr "local_1_poser.wm" "multMatrix59.i[0]";
-connectAttr "in_mainPoser.wim" "multMatrix59.i[1]";
-connectAttr "local_2_poser.wm" "multMatrix60.i[0]";
-connectAttr "in_mainPoser.wim" "multMatrix60.i[1]";
 connectAttr "plusMinusAverage24.o1" "multDoubleLinear42.i1";
 connectAttr "r_brow_out.rz" "unitConversion86.i";
-connectAttr "local_3_poser.wm" "multMatrix61.i[0]";
-connectAttr "mid_mainPoser.wim" "multMatrix61.i[1]";
-connectAttr "local_4_poser.wm" "multMatrix62.i[0]";
-connectAttr "mid_mainPoser.wim" "multMatrix62.i[1]";
 connectAttr "multDoubleLinear3.o" "multDoubleLinear63.i1";
-connectAttr "local_5_poser.wm" "multMatrix63.i[0]";
-connectAttr "out_mainPoser.wim" "multMatrix63.i[1]";
-connectAttr "local_6_poser.wm" "multMatrix64.i[0]";
-connectAttr "out_mainPoser.wim" "multMatrix64.i[1]";
-connectAttr "local_7_poser.wm" "multMatrix65.i[0]";
-connectAttr "out_mainPoser.wim" "multMatrix65.i[1]";
 connectAttr "plusMinusAverage53.o1" "multDoubleLinear64.i1";
 connectAttr "plusMinusAverage54.o1" "multDoubleLinear65.i1";
 connectAttr "r_brow_mid.rz" "unitConversion87.i";
@@ -5579,22 +6699,10 @@ connectAttr "r_brow_in.ty" "addDoubleLinear51.i1";
 connectAttr "r_brow.ty" "addDoubleLinear51.i2";
 connectAttr "multDoubleLinear65.o" "plusMinusAverage55.i1[0]";
 connectAttr "multDoubleLinear73.o" "plusMinusAverage55.i1[1]";
-connectAttr "multDoubleLinear69.o" "plusMinusAverage55.i1[2]";
 connectAttr "multDoubleLinear84.o" "plusMinusAverage56.i1[0]";
 connectAttr "multDoubleLinear74.o" "plusMinusAverage56.i1[1]";
-connectAttr "multDoubleLinear79.o" "plusMinusAverage56.i1[3]";
 connectAttr "plusMinusAverage54.o1" "multDoubleLinear67.i1";
-connectAttr "unitConversion88.o" "multDoubleLinear68.i1";
-connectAttr "l_brow_in.rotateToMove1" "multDoubleLinear68.i2";
-connectAttr "r_brow_in.rz" "unitConversion88.i";
-connectAttr "unitConversion88.o" "multDoubleLinear69.i1";
-connectAttr "l_brow_in.rotateToMove3" "multDoubleLinear69.i2";
-connectAttr "unitConversion88.o" "multDoubleLinear70.i1";
-connectAttr "l_brow_in.rotateToMove4" "multDoubleLinear70.i2";
-connectAttr "unitConversion88.o" "multDoubleLinear71.i1";
-connectAttr "l_brow_in.rotateToMove2" "multDoubleLinear71.i2";
 connectAttr "multDoubleLinear83.o" "multDoubleLinear72.i1";
-connectAttr "r_brow_out.rz" "unitConversion89.i";
 connectAttr "unitConversion90.o" "multDoubleLinear73.i1";
 connectAttr "unitConversion87.o" "multDoubleLinear74.i1";
 connectAttr "l_brow_mid.rotateToMove" "multDoubleLinear74.i2";
@@ -5602,26 +6710,10 @@ connectAttr "unitConversion90.o" "multDoubleLinear75.i1";
 connectAttr "l_brow_mid.rotateToMove" "multDoubleLinear75.i2";
 connectAttr "unitConversion87.o" "multDoubleLinear76.i1";
 connectAttr "multDoubleLinear67.o" "plusMinusAverage57.i1[0]";
-connectAttr "multDoubleLinear71.o" "plusMinusAverage57.i1[1]";
 connectAttr "multDoubleLinear75.o" "plusMinusAverage57.i1[2]";
 connectAttr "multDoubleLinear72.o" "plusMinusAverage58.i1[0]";
-connectAttr "multDoubleLinear78.o" "plusMinusAverage58.i1[1]";
 connectAttr "multDoubleLinear76.o" "plusMinusAverage58.i1[2]";
-connectAttr "multDoubleLinear70.o" "plusMinusAverage58.i1[3]";
 connectAttr "r_brow_mid.rz" "unitConversion90.i";
-connectAttr "unitConversion89.o" "multDoubleLinear77.i1";
-connectAttr "l_brow_out.rotateToMove1" "multDoubleLinear77.i2";
-connectAttr "unitConversion89.o" "multDoubleLinear78.i1";
-connectAttr "l_brow_out.rotateToMove3" "multDoubleLinear78.i2";
-connectAttr "unitConversion89.o" "multDoubleLinear79.i1";
-connectAttr "l_brow_out.rotateToMove2" "multDoubleLinear79.i2";
-connectAttr "l_brow_in.rotateToLength" "multDoubleLinear80.i1";
-connectAttr "unitConversion91.o" "multDoubleLinear80.i2";
-connectAttr "r_brow_in.rz" "unitConversion91.i";
-connectAttr "remapValue2.ov" "multDoubleLinear81.i1";
-connectAttr "unitConversion89.o" "multDoubleLinear82.i1";
-connectAttr "l_brow_out.rotateToLength" "multDoubleLinear82.i2";
-connectAttr "multDoubleLinear82.o" "clamp18.ipr";
 connectAttr "plusMinusAverage53.o1" "multDoubleLinear83.i1";
 connectAttr "multDoubleLinear64.o" "multDoubleLinear84.i1";
 connectAttr "local_8_poser.wm" "multMatrix66.i[0]";
@@ -5634,43 +6726,11 @@ connectAttr "brow_center.auto" "multiplyDivide42.i2z";
 connectAttr "plusMinusAverage50.o3" "multiplyDivide42.i1";
 connectAttr "l_brow_in.ty" "addDoubleLinear8.i1";
 connectAttr "l_brow.ty" "addDoubleLinear8.i2";
-connectAttr "l_brow_in.rz" "unitConversion54.i";
-connectAttr "unitConversion54.o" "multDoubleLinear12.i1";
-connectAttr "l_brow_in.rotateToMove4" "multDoubleLinear12.i2";
-connectAttr "unitConversion54.o" "multDoubleLinear11.i1";
-connectAttr "l_brow_in.rotateToMove3" "multDoubleLinear11.i2";
-connectAttr "l_brow_in.rz" "unitConversion57.i";
-connectAttr "remapValue1.ov" "multDoubleLinear21.i1";
-connectAttr "l_brow_in.rotateToLength" "multDoubleLinear20.i1";
-connectAttr "unitConversion58.o" "multDoubleLinear20.i2";
-connectAttr "l_brow_in.rz" "unitConversion58.i";
 connectAttr "multDoubleLinear2.o" "plusMinusAverage28.i1[0]";
-connectAttr "multDoubleLinear9.o" "plusMinusAverage28.i1[1]";
 connectAttr "multDoubleLinear15.o" "plusMinusAverage28.i1[2]";
 connectAttr "plusMinusAverage25.o1" "multDoubleLinear2.i1";
-connectAttr "addDoubleLinear2.o" "multDoubleLinear2.i2";
-connectAttr "addDoubleLinear2.o" "multDoubleLinear5.i1";
-connectAttr "unitConversion54.o" "multDoubleLinear9.i1";
-connectAttr "l_brow_in.rotateToMove2" "multDoubleLinear9.i2";
 connectAttr "unitConversion56.o" "multDoubleLinear15.i1";
 connectAttr "l_brow_mid.rotateToMove" "multDoubleLinear15.i2";
-connectAttr "blendColors6.op" "plusMinusAverage38.i3[0]";
-connectAttr "blendColors7.op" "plusMinusAverage38.i3[1]";
-connectAttr "up_down_setRange.oy" "blendColors6.b";
-connectAttr "l_brow_local_2_top.t" "blendColors6.c1";
-connectAttr "up_down_setRange.ox" "blendColors7.b";
-connectAttr "l_brow_local_2_bot.t" "blendColors7.c1";
-connectAttr "unitConversion54.o" "multDoubleLinear7.i1";
-connectAttr "l_brow_in.rotateToMove1" "multDoubleLinear7.i2";
-connectAttr "blendColors1.op" "plusMinusAverage30.i3[0]";
-connectAttr "blendColors2.op" "plusMinusAverage30.i3[1]";
-connectAttr "up_down_setRange.oy" "blendColors1.b";
-connectAttr "l_brow_local_1_top.t" "blendColors1.c1";
-connectAttr "up_down_setRange.ox" "blendColors2.b";
-connectAttr "l_brow_local_1_bot.t" "blendColors2.c1";
-connectAttr "multDoubleLinear20.o" "remapValue1.i";
-connectAttr "multDoubleLinear80.o" "remapValue2.i";
-connectAttr "multDoubleLinear22.o" "remapValue3.i";
 connectAttr "root_outJoint.iog" "skinJointsSet.dsm" -na;
 connectAttr "local_8_poser.wm" "multMatrix68.i[0]";
 connectAttr "full_mainPoser.wim" "multMatrix68.i[1]";
@@ -5713,48 +6773,2749 @@ connectAttr "plusMinusAverage60.o3z" "setRange19.vz";
 connectAttr "l_brow.downLimit" "setRange19.onx";
 connectAttr "l_brow.downLimit" "setRange19.ony";
 connectAttr "l_brow.downLimit" "setRange19.onz";
+connectAttr "r_brow_mid.rz" "r_brow_mid_rz_unitConversion.i";
+connectAttr "plusMinusAverage28.o1" "l_brow_local_2_move_composeMatrix.ity";
+connectAttr "plusMinusAverage26.o1" "l_brow_local_3_move_composeMatrix.ity";
+connectAttr "unitConversion20.o" "l_brow_local_3_4_rotate_composeMatrix.irz";
+connectAttr "plusMinusAverage29.o1" "l_brow_local_4_move_composeMatrix.ity";
+connectAttr "plusMinusAverage27.o1" "l_brow_local_5_move_composeMatrix.ity";
+connectAttr "unitConversion22.o" "l_brow_out_cancel_composeMatrix.irz";
+connectAttr "plusMinusAverage57.o1" "r_brow_local_2_move_composeMatrix.ity";
+connectAttr "plusMinusAverage55.o1" "r_brow_local_3_move_composeMatrix.ity";
+connectAttr "r_brow_mid_rz_unitConversion.o" "r_brow_local_3_4_rotate_composeMatrix.irz"
+		;
+connectAttr "plusMinusAverage58.o1" "r_brow_local_4_move_composeMatrix.ity";
+connectAttr "plusMinusAverage56.o1" "r_brow_local_5_move_composeMatrix.ity";
+connectAttr "unitConversion86.o" "r_brow_out_cancel_composeMatrix.irz";
+connectAttr "l_brow_in_tilt_composeMatrix.omat" "l_brow_local_1_group_multMatrix.i[0]"
+		;
+connectAttr "local_1_poser.wm" "l_brow_local_1_group_multMatrix.i[1]";
+connectAttr "in_mainPoser.wim" "l_brow_local_1_group_multMatrix.i[2]";
+connectAttr "l_brow_local_1_inArc_composeMatrix.omat" "l_brow_local_1_group_multMatrix.i[3]"
+		;
+connectAttr "l_brow_in_cancel_composeMatrix.omat" "l_brow_local_1_group_multMatrix.i[4]"
+		;
+connectAttr "l_brow_in_tilt_composeMatrix.omat" "l_brow_local_2_group_multMatrix.i[0]"
+		;
+connectAttr "local_2_poser.wm" "l_brow_local_2_group_multMatrix.i[1]";
+connectAttr "in_mainPoser.wim" "l_brow_local_2_group_multMatrix.i[2]";
+connectAttr "l_brow_local_2_move_composeMatrix.omat" "l_brow_local_2_group_multMatrix.i[3]"
+		;
+connectAttr "l_brow_local_2_inArc_composeMatrix.omat" "l_brow_local_2_group_multMatrix.i[4]"
+		;
+connectAttr "l_brow_in_cancel_composeMatrix.omat" "l_brow_local_2_group_multMatrix.i[5]"
+		;
+connectAttr "local_3_poser.wm" "l_brow_local_3_group_multMatrix.i[0]";
+connectAttr "mid_mainPoser.wim" "l_brow_local_3_group_multMatrix.i[1]";
+connectAttr "l_brow_local_3_move_composeMatrix.omat" "l_brow_local_3_group_multMatrix.i[2]"
+		;
+connectAttr "l_brow_local_3_inArc_composeMatrix.omat" "l_brow_local_3_group_multMatrix.i[3]"
+		;
+connectAttr "l_brow_local_3_4_rotate_composeMatrix.omat" "l_brow_local_3_group_multMatrix.i[4]"
+		;
+connectAttr "local_4_poser.wm" "l_brow_local_4_group_multMatrix.i[0]";
+connectAttr "mid_mainPoser.wim" "l_brow_local_4_group_multMatrix.i[1]";
+connectAttr "l_brow_local_4_move_composeMatrix.omat" "l_brow_local_4_group_multMatrix.i[2]"
+		;
+connectAttr "l_brow_local_4_outArc_composeMatrix.omat" "l_brow_local_4_group_multMatrix.i[3]"
+		;
+connectAttr "l_brow_local_4_inArc_composeMatrix.omat" "l_brow_local_4_group_multMatrix.i[4]"
+		;
+connectAttr "l_brow_local_3_4_rotate_composeMatrix.omat" "l_brow_local_4_group_multMatrix.i[5]"
+		;
+connectAttr "l_brow_out_tilt_composeMatrix.omat" "l_brow_local_5_group_multMatrix.i[0]"
+		;
+connectAttr "local_5_poser.wm" "l_brow_local_5_group_multMatrix.i[1]";
+connectAttr "out_mainPoser.wim" "l_brow_local_5_group_multMatrix.i[2]";
+connectAttr "l_brow_local_5_move_composeMatrix.omat" "l_brow_local_5_group_multMatrix.i[3]"
+		;
+connectAttr "l_brow_local_5_outArc_composeMatrix.omat" "l_brow_local_5_group_multMatrix.i[4]"
+		;
+connectAttr "l_brow_out_cancel_composeMatrix.omat" "l_brow_local_5_group_multMatrix.i[6]"
+		;
+connectAttr "l_brow_out_tilt_composeMatrix.omat" "l_brow_local_6_group_multMatrix.i[0]"
+		;
+connectAttr "local_6_poser.wm" "l_brow_local_6_group_multMatrix.i[1]";
+connectAttr "out_mainPoser.wim" "l_brow_local_6_group_multMatrix.i[2]";
+connectAttr "l_brow_local_6_outArc_composeMatrix.omat" "l_brow_local_6_group_multMatrix.i[3]"
+		;
+connectAttr "l_brow_out_cancel_composeMatrix.omat" "l_brow_local_6_group_multMatrix.i[5]"
+		;
+connectAttr "l_brow_out_tilt_composeMatrix.omat" "l_brow_local_7_group_multMatrix.i[0]"
+		;
+connectAttr "local_7_poser.wm" "l_brow_local_7_group_multMatrix.i[1]";
+connectAttr "out_mainPoser.wim" "l_brow_local_7_group_multMatrix.i[2]";
+connectAttr "l_brow_local_7_outArc_composeMatrix.omat" "l_brow_local_7_group_multMatrix.i[3]"
+		;
+connectAttr "l_brow_out_cancel_composeMatrix.omat" "l_brow_local_7_group_multMatrix.i[5]"
+		;
+connectAttr "r_brow_in_tilt_composeMatrix.omat" "r_brow_local_1_group_multMatrix.i[0]"
+		;
+connectAttr "local_1_poser.wm" "r_brow_local_1_group_multMatrix.i[1]";
+connectAttr "in_mainPoser.wim" "r_brow_local_1_group_multMatrix.i[2]";
+connectAttr "r_brow_local_1_inArc_composeMatrix.omat" "r_brow_local_1_group_multMatrix.i[3]"
+		;
+connectAttr "r_brow_in_cancel_composeMatrix.omat" "r_brow_local_1_group_multMatrix.i[4]"
+		;
+connectAttr "r_brow_in_tilt_composeMatrix.omat" "r_brow_local_2_group_multMatrix.i[0]"
+		;
+connectAttr "local_2_poser.wm" "r_brow_local_2_group_multMatrix.i[1]";
+connectAttr "in_mainPoser.wim" "r_brow_local_2_group_multMatrix.i[2]";
+connectAttr "r_brow_local_2_move_composeMatrix.omat" "r_brow_local_2_group_multMatrix.i[3]"
+		;
+connectAttr "r_brow_local_2_inArc_composeMatrix.omat" "r_brow_local_2_group_multMatrix.i[4]"
+		;
+connectAttr "r_brow_in_cancel_composeMatrix.omat" "r_brow_local_2_group_multMatrix.i[5]"
+		;
+connectAttr "local_3_poser.wm" "r_brow_local_3_group_multMatrix.i[0]";
+connectAttr "mid_mainPoser.wim" "r_brow_local_3_group_multMatrix.i[1]";
+connectAttr "r_brow_local_3_move_composeMatrix.omat" "r_brow_local_3_group_multMatrix.i[2]"
+		;
+connectAttr "r_brow_local_3_inArc_composeMatrix.omat" "r_brow_local_3_group_multMatrix.i[3]"
+		;
+connectAttr "r_brow_local_3_4_rotate_composeMatrix.omat" "r_brow_local_3_group_multMatrix.i[4]"
+		;
+connectAttr "local_4_poser.wm" "r_brow_local_4_group_multMatrix.i[0]";
+connectAttr "mid_mainPoser.wim" "r_brow_local_4_group_multMatrix.i[1]";
+connectAttr "r_brow_local_4_move_composeMatrix.omat" "r_brow_local_4_group_multMatrix.i[2]"
+		;
+connectAttr "r_brow_local_4_outArc_composeMatrix.omat" "r_brow_local_4_group_multMatrix.i[3]"
+		;
+connectAttr "r_brow_local_4_inArc_composeMatrix.omat" "r_brow_local_4_group_multMatrix.i[4]"
+		;
+connectAttr "r_brow_local_3_4_rotate_composeMatrix.omat" "r_brow_local_4_group_multMatrix.i[5]"
+		;
+connectAttr "r_brow_out_tilt_composeMatrix.omat" "r_brow_local_5_group_multMatrix.i[0]"
+		;
+connectAttr "local_5_poser.wm" "r_brow_local_5_group_multMatrix.i[1]";
+connectAttr "out_mainPoser.wim" "r_brow_local_5_group_multMatrix.i[2]";
+connectAttr "r_brow_local_5_move_composeMatrix.omat" "r_brow_local_5_group_multMatrix.i[3]"
+		;
+connectAttr "r_brow_local_5_outArc_composeMatrix.omat" "r_brow_local_5_group_multMatrix.i[4]"
+		;
+connectAttr "r_brow_out_cancel_composeMatrix.omat" "r_brow_local_5_group_multMatrix.i[6]"
+		;
+connectAttr "r_brow_out_tilt_composeMatrix.omat" "r_brow_local_6_group_multMatrix.i[0]"
+		;
+connectAttr "local_6_poser.wm" "r_brow_local_6_group_multMatrix.i[1]";
+connectAttr "out_mainPoser.wim" "r_brow_local_6_group_multMatrix.i[2]";
+connectAttr "r_brow_local_6_outArc_composeMatrix.omat" "r_brow_local_6_group_multMatrix.i[3]"
+		;
+connectAttr "r_brow_out_cancel_composeMatrix.omat" "r_brow_local_6_group_multMatrix.i[5]"
+		;
+connectAttr "r_brow_out_tilt_composeMatrix.omat" "r_brow_local_7_group_multMatrix.i[0]"
+		;
+connectAttr "local_7_poser.wm" "r_brow_local_7_group_multMatrix.i[1]";
+connectAttr "out_mainPoser.wim" "r_brow_local_7_group_multMatrix.i[2]";
+connectAttr "r_brow_local_7_outArc_composeMatrix.omat" "r_brow_local_7_group_multMatrix.i[3]"
+		;
+connectAttr "r_brow_out_cancel_composeMatrix.omat" "r_brow_local_7_group_multMatrix.i[5]"
+		;
+connectAttr "l_brow_out.rz" "l_brow_out_tilt_composeMatrix.irz";
+connectAttr "l_brow_local_4_outArc_pointMatrixMult.o" "l_brow_local_4_outArc_multiplyDivide.i1"
+		;
+connectAttr "l_brow_out.local4_side" "l_brow_local_4_outArc_multiplyDivide.i2x";
+connectAttr "l_brow_out.local4_lift" "l_brow_local_4_outArc_multiplyDivide.i2y";
+connectAttr "l_brow_local_4_outArc_multiplyDivide.o" "l_brow_local_4_outArc_composeMatrix.it"
+		;
+connectAttr "l_brow_local_5_outArc_pointMatrixMult.o" "l_brow_local_5_outArc_multiplyDivide.i1"
+		;
+connectAttr "l_brow_out.local5_side" "l_brow_local_5_outArc_multiplyDivide.i2x";
+connectAttr "l_brow_out.local5_lift" "l_brow_local_5_outArc_multiplyDivide.i2y";
+connectAttr "l_brow_local_5_outArc_multiplyDivide.o" "l_brow_local_5_outArc_composeMatrix.it"
+		;
+connectAttr "l_brow_local_6_outArc_pointMatrixMult.o" "l_brow_local_6_outArc_multiplyDivide.i1"
+		;
+connectAttr "l_brow_out.local6_side" "l_brow_local_6_outArc_multiplyDivide.i2x";
+connectAttr "l_brow_out.local6_lift" "l_brow_local_6_outArc_multiplyDivide.i2y";
+connectAttr "l_brow_local_6_outArc_multiplyDivide.o" "l_brow_local_6_outArc_composeMatrix.it"
+		;
+connectAttr "l_brow_local_7_outArc_pointMatrixMult.o" "l_brow_local_7_outArc_multiplyDivide.i1"
+		;
+connectAttr "l_brow_out.local7_side" "l_brow_local_7_outArc_multiplyDivide.i2x";
+connectAttr "l_brow_out.local7_lift" "l_brow_local_7_outArc_multiplyDivide.i2y";
+connectAttr "l_brow_local_7_outArc_multiplyDivide.o" "l_brow_local_7_outArc_composeMatrix.it"
+		;
+connectAttr "r_brow_out.rz" "r_brow_out_tilt_composeMatrix.irz";
+connectAttr "r_brow_local_4_outArc_pointMatrixMult.o" "r_brow_local_4_outArc_multiplyDivide.i1"
+		;
+connectAttr "l_brow_out.local4_side" "r_brow_local_4_outArc_multiplyDivide.i2x";
+connectAttr "l_brow_out.local4_lift" "r_brow_local_4_outArc_multiplyDivide.i2y";
+connectAttr "r_brow_local_4_outArc_multiplyDivide.o" "r_brow_local_4_outArc_composeMatrix.it"
+		;
+connectAttr "r_brow_local_5_outArc_pointMatrixMult.o" "r_brow_local_5_outArc_multiplyDivide.i1"
+		;
+connectAttr "l_brow_out.local5_side" "r_brow_local_5_outArc_multiplyDivide.i2x";
+connectAttr "l_brow_out.local5_lift" "r_brow_local_5_outArc_multiplyDivide.i2y";
+connectAttr "r_brow_local_5_outArc_multiplyDivide.o" "r_brow_local_5_outArc_composeMatrix.it"
+		;
+connectAttr "r_brow_local_6_outArc_pointMatrixMult.o" "r_brow_local_6_outArc_multiplyDivide.i1"
+		;
+connectAttr "l_brow_out.local6_side" "r_brow_local_6_outArc_multiplyDivide.i2x";
+connectAttr "l_brow_out.local6_lift" "r_brow_local_6_outArc_multiplyDivide.i2y";
+connectAttr "r_brow_local_6_outArc_multiplyDivide.o" "r_brow_local_6_outArc_composeMatrix.it"
+		;
+connectAttr "r_brow_local_7_outArc_pointMatrixMult.o" "r_brow_local_7_outArc_multiplyDivide.i1"
+		;
+connectAttr "l_brow_out.local7_side" "r_brow_local_7_outArc_multiplyDivide.i2x";
+connectAttr "l_brow_out.local7_lift" "r_brow_local_7_outArc_multiplyDivide.i2y";
+connectAttr "r_brow_local_7_outArc_multiplyDivide.o" "r_brow_local_7_outArc_composeMatrix.it"
+		;
+connectAttr "local_4_initLocShape.wp" "local_4_arcHeight_pointMatrixMult.ip";
+connectAttr "mid_mainPoser.wim" "local_4_arcHeight_pointMatrixMult.im";
+connectAttr "local_4_arcHeight_pointMatrixMult.oy" "local_4_outArcHeightRatio_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_out.local4_lift" "local_4_outArcHeightRatio_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_out.local4_lift" "local_4_outArcHeightRatio_condition.ft";
+connectAttr "local_4_outArcHeightRatio_multiplyDivide.ox" "local_4_outArcHeightRatio_condition.cfr"
+		;
+connectAttr "local_4_outArcHeightRatio_condition.ocr" "local_4_outArcHeightRatioNeg_multDoubleLinear.i1"
+		;
+connectAttr "local_5_initLocShape.wp" "local_5_arcHeight_pointMatrixMult.ip";
+connectAttr "out_mainPoser.wim" "local_5_arcHeight_pointMatrixMult.im";
+connectAttr "local_5_arcHeight_pointMatrixMult.oy" "local_5_outArcHeightRatio_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_out.local5_lift" "local_5_outArcHeightRatio_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_out.local5_lift" "local_5_outArcHeightRatio_condition.ft";
+connectAttr "local_5_outArcHeightRatio_multiplyDivide.ox" "local_5_outArcHeightRatio_condition.cfr"
+		;
+connectAttr "local_5_outArcHeightRatio_condition.ocr" "local_5_outArcHeightRatioNeg_multDoubleLinear.i1"
+		;
+connectAttr "local_6_initLocShape.wp" "local_6_arcHeight_pointMatrixMult.ip";
+connectAttr "out_mainPoser.wim" "local_6_arcHeight_pointMatrixMult.im";
+connectAttr "local_6_arcHeight_pointMatrixMult.oy" "local_6_outArcHeightRatio_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_out.local6_lift" "local_6_outArcHeightRatio_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_out.local6_lift" "local_6_outArcHeightRatio_condition.ft";
+connectAttr "local_6_outArcHeightRatio_multiplyDivide.ox" "local_6_outArcHeightRatio_condition.cfr"
+		;
+connectAttr "local_6_outArcHeightRatio_condition.ocr" "local_6_outArcHeightRatioNeg_multDoubleLinear.i1"
+		;
+connectAttr "local_7_initLocShape.wp" "local_7_arcHeight_pointMatrixMult.ip";
+connectAttr "out_mainPoser.wim" "local_7_arcHeight_pointMatrixMult.im";
+connectAttr "local_7_arcHeight_pointMatrixMult.oy" "local_7_outArcHeightRatio_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_out.local7_lift" "local_7_outArcHeightRatio_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_out.local7_lift" "local_7_outArcHeightRatio_condition.ft";
+connectAttr "local_7_outArcHeightRatio_multiplyDivide.ox" "local_7_outArcHeightRatio_condition.cfr"
+		;
+connectAttr "local_7_outArcHeightRatio_condition.ocr" "local_7_outArcHeightRatioNeg_multDoubleLinear.i1"
+		;
+connectAttr "unitConversion22.o" "l_brow_local_4_outArc_rotate_composeMatrix.irz"
+		;
+connectAttr "local_4_outArcHeightRatioNeg_multDoubleLinear.o" "l_brow_local_4_outArc_rotate_composeMatrix.ity"
+		;
+connectAttr "l_brow_local_4_outArc_rotate_composeMatrix.omat" "l_brow_local_4_outArc_pointMatrixMult.im"
+		;
+connectAttr "local_4_outArcHeightRatio_condition.ocr" "l_brow_local_4_outArc_pointMatrixMult.ipy"
+		;
+connectAttr "unitConversion22.o" "l_brow_local_5_outArc_rotate_composeMatrix.irz"
+		;
+connectAttr "local_5_outArcHeightRatioNeg_multDoubleLinear.o" "l_brow_local_5_outArc_rotate_composeMatrix.ity"
+		;
+connectAttr "l_brow_local_5_outArc_rotate_composeMatrix.omat" "l_brow_local_5_outArc_pointMatrixMult.im"
+		;
+connectAttr "local_5_outArcHeightRatio_condition.ocr" "l_brow_local_5_outArc_pointMatrixMult.ipy"
+		;
+connectAttr "unitConversion22.o" "l_brow_local_6_outArc_rotate_composeMatrix.irz"
+		;
+connectAttr "local_6_outArcHeightRatioNeg_multDoubleLinear.o" "l_brow_local_6_outArc_rotate_composeMatrix.ity"
+		;
+connectAttr "l_brow_local_6_outArc_rotate_composeMatrix.omat" "l_brow_local_6_outArc_pointMatrixMult.im"
+		;
+connectAttr "local_6_outArcHeightRatio_condition.ocr" "l_brow_local_6_outArc_pointMatrixMult.ipy"
+		;
+connectAttr "unitConversion22.o" "l_brow_local_7_outArc_rotate_composeMatrix.irz"
+		;
+connectAttr "local_7_outArcHeightRatioNeg_multDoubleLinear.o" "l_brow_local_7_outArc_rotate_composeMatrix.ity"
+		;
+connectAttr "l_brow_local_7_outArc_rotate_composeMatrix.omat" "l_brow_local_7_outArc_pointMatrixMult.im"
+		;
+connectAttr "local_7_outArcHeightRatio_condition.ocr" "l_brow_local_7_outArc_pointMatrixMult.ipy"
+		;
+connectAttr "unitConversion86.o" "r_brow_local_4_outArc_rotate_composeMatrix.irz"
+		;
+connectAttr "local_4_outArcHeightRatioNeg_multDoubleLinear.o" "r_brow_local_4_outArc_rotate_composeMatrix.ity"
+		;
+connectAttr "r_brow_local_4_outArc_rotate_composeMatrix.omat" "r_brow_local_4_outArc_pointMatrixMult.im"
+		;
+connectAttr "local_4_outArcHeightRatio_condition.ocr" "r_brow_local_4_outArc_pointMatrixMult.ipy"
+		;
+connectAttr "unitConversion86.o" "r_brow_local_5_outArc_rotate_composeMatrix.irz"
+		;
+connectAttr "local_5_outArcHeightRatioNeg_multDoubleLinear.o" "r_brow_local_5_outArc_rotate_composeMatrix.ity"
+		;
+connectAttr "r_brow_local_5_outArc_rotate_composeMatrix.omat" "r_brow_local_5_outArc_pointMatrixMult.im"
+		;
+connectAttr "local_5_outArcHeightRatio_condition.ocr" "r_brow_local_5_outArc_pointMatrixMult.ipy"
+		;
+connectAttr "unitConversion86.o" "r_brow_local_6_outArc_rotate_composeMatrix.irz"
+		;
+connectAttr "local_6_outArcHeightRatioNeg_multDoubleLinear.o" "r_brow_local_6_outArc_rotate_composeMatrix.ity"
+		;
+connectAttr "r_brow_local_6_outArc_rotate_composeMatrix.omat" "r_brow_local_6_outArc_pointMatrixMult.im"
+		;
+connectAttr "local_6_outArcHeightRatio_condition.ocr" "r_brow_local_6_outArc_pointMatrixMult.ipy"
+		;
+connectAttr "unitConversion86.o" "r_brow_local_7_outArc_rotate_composeMatrix.irz"
+		;
+connectAttr "local_7_outArcHeightRatioNeg_multDoubleLinear.o" "r_brow_local_7_outArc_rotate_composeMatrix.ity"
+		;
+connectAttr "r_brow_local_7_outArc_rotate_composeMatrix.omat" "r_brow_local_7_outArc_pointMatrixMult.im"
+		;
+connectAttr "local_7_outArcHeightRatio_condition.ocr" "r_brow_local_7_outArc_pointMatrixMult.ipy"
+		;
+connectAttr "local_1_initLocShape.wp" "local_1_arcHeight_pointMatrixMult.ip";
+connectAttr "in_mainPoser.wim" "local_1_arcHeight_pointMatrixMult.im";
+connectAttr "local_1_arcHeight_pointMatrixMult.oy" "local_1_inArcHeightRatio_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_in.local1_lift" "local_1_inArcHeightRatio_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_in.local1_lift" "local_1_inArcHeightRatio_condition.ft";
+connectAttr "local_1_inArcHeightRatio_multiplyDivide.ox" "local_1_inArcHeightRatio_condition.cfr"
+		;
+connectAttr "local_1_inArcHeightRatio_condition.ocr" "local_1_inArcHeightRatioNeg_multDoubleLinear.i1"
+		;
+connectAttr "local_2_initLocShape.wp" "local_2_arcHeight_pointMatrixMult.ip";
+connectAttr "in_mainPoser.wim" "local_2_arcHeight_pointMatrixMult.im";
+connectAttr "local_2_arcHeight_pointMatrixMult.oy" "local_2_inArcHeightRatio_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_in.local2_lift" "local_2_inArcHeightRatio_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_in.local2_lift" "local_2_inArcHeightRatio_condition.ft";
+connectAttr "local_2_inArcHeightRatio_multiplyDivide.ox" "local_2_inArcHeightRatio_condition.cfr"
+		;
+connectAttr "local_2_inArcHeightRatio_condition.ocr" "local_2_inArcHeightRatioNeg_multDoubleLinear.i1"
+		;
+connectAttr "local_3_initLocShape.wp" "local_3_arcHeight_pointMatrixMult.ip";
+connectAttr "mid_mainPoser.wim" "local_3_arcHeight_pointMatrixMult.im";
+connectAttr "local_3_arcHeight_pointMatrixMult.oy" "local_3_inArcHeightRatio_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_in.local3_lift" "local_3_inArcHeightRatio_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_in.local3_lift" "local_3_inArcHeightRatio_condition.ft";
+connectAttr "local_3_inArcHeightRatio_multiplyDivide.ox" "local_3_inArcHeightRatio_condition.cfr"
+		;
+connectAttr "local_3_inArcHeightRatio_condition.ocr" "local_3_inArcHeightRatioNeg_multDoubleLinear.i1"
+		;
+connectAttr "local_4_arcHeight_pointMatrixMult.oy" "local_4_inArcHeightRatio_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_in.local4_lift" "local_4_inArcHeightRatio_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_in.local4_lift" "local_4_inArcHeightRatio_condition.ft";
+connectAttr "local_4_inArcHeightRatio_multiplyDivide.ox" "local_4_inArcHeightRatio_condition.cfr"
+		;
+connectAttr "local_4_inArcHeightRatio_condition.ocr" "local_4_inArcHeightRatioNeg_multDoubleLinear.i1"
+		;
+connectAttr "l_brow_in.rz" "l_brow_in_negRz_unitConversion.i";
+connectAttr "l_brow_in_negRz_unitConversion.o" "l_brow_in_cancel_composeMatrix.irz"
+		;
+connectAttr "l_brow_in.rz" "l_brow_in_tilt_composeMatrix.irz";
+connectAttr "l_brow_in_negRz_unitConversion.o" "l_brow_local_1_inArc_rotate_composeMatrix.irz"
+		;
+connectAttr "local_1_inArcHeightRatioNeg_multDoubleLinear.o" "l_brow_local_1_inArc_rotate_composeMatrix.ity"
+		;
+connectAttr "l_brow_local_1_inArc_rotate_composeMatrix.omat" "l_brow_local_1_inArc_pointMatrixMult.im"
+		;
+connectAttr "local_1_inArcHeightRatio_condition.ocr" "l_brow_local_1_inArc_pointMatrixMult.ipy"
+		;
+connectAttr "l_brow_local_1_inArc_pointMatrixMult.o" "l_brow_local_1_inArc_multiplyDivide.i1"
+		;
+connectAttr "l_brow_in.local1_side" "l_brow_local_1_inArc_multiplyDivide.i2x";
+connectAttr "l_brow_in.local1_lift" "l_brow_local_1_inArc_multiplyDivide.i2y";
+connectAttr "l_brow_local_1_inArc_multiplyDivide.o" "l_brow_local_1_inArc_composeMatrix.it"
+		;
+connectAttr "l_brow_in_negRz_unitConversion.o" "l_brow_local_2_inArc_rotate_composeMatrix.irz"
+		;
+connectAttr "local_2_inArcHeightRatioNeg_multDoubleLinear.o" "l_brow_local_2_inArc_rotate_composeMatrix.ity"
+		;
+connectAttr "l_brow_local_2_inArc_rotate_composeMatrix.omat" "l_brow_local_2_inArc_pointMatrixMult.im"
+		;
+connectAttr "local_2_inArcHeightRatio_condition.ocr" "l_brow_local_2_inArc_pointMatrixMult.ipy"
+		;
+connectAttr "l_brow_local_2_inArc_pointMatrixMult.o" "l_brow_local_2_inArc_multiplyDivide.i1"
+		;
+connectAttr "l_brow_in.local2_side" "l_brow_local_2_inArc_multiplyDivide.i2x";
+connectAttr "l_brow_in.local2_lift" "l_brow_local_2_inArc_multiplyDivide.i2y";
+connectAttr "l_brow_local_2_inArc_multiplyDivide.o" "l_brow_local_2_inArc_composeMatrix.it"
+		;
+connectAttr "l_brow_in_negRz_unitConversion.o" "l_brow_local_3_inArc_rotate_composeMatrix.irz"
+		;
+connectAttr "local_3_inArcHeightRatioNeg_multDoubleLinear.o" "l_brow_local_3_inArc_rotate_composeMatrix.ity"
+		;
+connectAttr "l_brow_local_3_inArc_rotate_composeMatrix.omat" "l_brow_local_3_inArc_pointMatrixMult.im"
+		;
+connectAttr "local_3_inArcHeightRatio_condition.ocr" "l_brow_local_3_inArc_pointMatrixMult.ipy"
+		;
+connectAttr "l_brow_local_3_inArc_pointMatrixMult.o" "l_brow_local_3_inArc_multiplyDivide.i1"
+		;
+connectAttr "l_brow_in.local3_side" "l_brow_local_3_inArc_multiplyDivide.i2x";
+connectAttr "l_brow_in.local3_lift" "l_brow_local_3_inArc_multiplyDivide.i2y";
+connectAttr "l_brow_local_3_inArc_multiplyDivide.o" "l_brow_local_3_inArc_composeMatrix.it"
+		;
+connectAttr "l_brow_in_negRz_unitConversion.o" "l_brow_local_4_inArc_rotate_composeMatrix.irz"
+		;
+connectAttr "local_4_inArcHeightRatioNeg_multDoubleLinear.o" "l_brow_local_4_inArc_rotate_composeMatrix.ity"
+		;
+connectAttr "l_brow_local_4_inArc_rotate_composeMatrix.omat" "l_brow_local_4_inArc_pointMatrixMult.im"
+		;
+connectAttr "local_4_inArcHeightRatio_condition.ocr" "l_brow_local_4_inArc_pointMatrixMult.ipy"
+		;
+connectAttr "l_brow_local_4_inArc_pointMatrixMult.o" "l_brow_local_4_inArc_multiplyDivide.i1"
+		;
+connectAttr "l_brow_in.local4_side" "l_brow_local_4_inArc_multiplyDivide.i2x";
+connectAttr "l_brow_in.local4_lift" "l_brow_local_4_inArc_multiplyDivide.i2y";
+connectAttr "l_brow_local_4_inArc_multiplyDivide.o" "l_brow_local_4_inArc_composeMatrix.it"
+		;
+connectAttr "r_brow_in.rz" "r_brow_in_negRz_unitConversion.i";
+connectAttr "r_brow_in_negRz_unitConversion.o" "r_brow_in_cancel_composeMatrix.irz"
+		;
+connectAttr "r_brow_in.rz" "r_brow_in_tilt_composeMatrix.irz";
+connectAttr "r_brow_in_negRz_unitConversion.o" "r_brow_local_1_inArc_rotate_composeMatrix.irz"
+		;
+connectAttr "local_1_inArcHeightRatioNeg_multDoubleLinear.o" "r_brow_local_1_inArc_rotate_composeMatrix.ity"
+		;
+connectAttr "r_brow_local_1_inArc_rotate_composeMatrix.omat" "r_brow_local_1_inArc_pointMatrixMult.im"
+		;
+connectAttr "local_1_inArcHeightRatio_condition.ocr" "r_brow_local_1_inArc_pointMatrixMult.ipy"
+		;
+connectAttr "r_brow_local_1_inArc_pointMatrixMult.o" "r_brow_local_1_inArc_multiplyDivide.i1"
+		;
+connectAttr "l_brow_in.local1_side" "r_brow_local_1_inArc_multiplyDivide.i2x";
+connectAttr "l_brow_in.local1_lift" "r_brow_local_1_inArc_multiplyDivide.i2y";
+connectAttr "r_brow_local_1_inArc_multiplyDivide.o" "r_brow_local_1_inArc_composeMatrix.it"
+		;
+connectAttr "r_brow_in_negRz_unitConversion.o" "r_brow_local_2_inArc_rotate_composeMatrix.irz"
+		;
+connectAttr "local_2_inArcHeightRatioNeg_multDoubleLinear.o" "r_brow_local_2_inArc_rotate_composeMatrix.ity"
+		;
+connectAttr "r_brow_local_2_inArc_rotate_composeMatrix.omat" "r_brow_local_2_inArc_pointMatrixMult.im"
+		;
+connectAttr "local_2_inArcHeightRatio_condition.ocr" "r_brow_local_2_inArc_pointMatrixMult.ipy"
+		;
+connectAttr "r_brow_local_2_inArc_pointMatrixMult.o" "r_brow_local_2_inArc_multiplyDivide.i1"
+		;
+connectAttr "l_brow_in.local2_side" "r_brow_local_2_inArc_multiplyDivide.i2x";
+connectAttr "l_brow_in.local2_lift" "r_brow_local_2_inArc_multiplyDivide.i2y";
+connectAttr "r_brow_local_2_inArc_multiplyDivide.o" "r_brow_local_2_inArc_composeMatrix.it"
+		;
+connectAttr "r_brow_in_negRz_unitConversion.o" "r_brow_local_3_inArc_rotate_composeMatrix.irz"
+		;
+connectAttr "local_3_inArcHeightRatioNeg_multDoubleLinear.o" "r_brow_local_3_inArc_rotate_composeMatrix.ity"
+		;
+connectAttr "r_brow_local_3_inArc_rotate_composeMatrix.omat" "r_brow_local_3_inArc_pointMatrixMult.im"
+		;
+connectAttr "local_3_inArcHeightRatio_condition.ocr" "r_brow_local_3_inArc_pointMatrixMult.ipy"
+		;
+connectAttr "r_brow_local_3_inArc_pointMatrixMult.o" "r_brow_local_3_inArc_multiplyDivide.i1"
+		;
+connectAttr "l_brow_in.local3_side" "r_brow_local_3_inArc_multiplyDivide.i2x";
+connectAttr "l_brow_in.local3_lift" "r_brow_local_3_inArc_multiplyDivide.i2y";
+connectAttr "r_brow_local_3_inArc_multiplyDivide.o" "r_brow_local_3_inArc_composeMatrix.it"
+		;
+connectAttr "r_brow_in_negRz_unitConversion.o" "r_brow_local_4_inArc_rotate_composeMatrix.irz"
+		;
+connectAttr "local_4_inArcHeightRatioNeg_multDoubleLinear.o" "r_brow_local_4_inArc_rotate_composeMatrix.ity"
+		;
+connectAttr "r_brow_local_4_inArc_rotate_composeMatrix.omat" "r_brow_local_4_inArc_pointMatrixMult.im"
+		;
+connectAttr "local_4_inArcHeightRatio_condition.ocr" "r_brow_local_4_inArc_pointMatrixMult.ipy"
+		;
+connectAttr "r_brow_local_4_inArc_pointMatrixMult.o" "r_brow_local_4_inArc_multiplyDivide.i1"
+		;
+connectAttr "l_brow_in.local4_side" "r_brow_local_4_inArc_multiplyDivide.i2x";
+connectAttr "l_brow_in.local4_lift" "r_brow_local_4_inArc_multiplyDivide.i2y";
+connectAttr "r_brow_local_4_inArc_multiplyDivide.o" "r_brow_local_4_inArc_composeMatrix.it"
+		;
+connectAttr "l_brow.downLimit" "brow_limits_downAbs_multDoubleLinear.i1";
+connectAttr "l_brow.ty" "l_brow_limits_split_clamp.ipr";
+connectAttr "l_brow.ty" "l_brow_limits_split_clamp.ipg";
+connectAttr "l_brow.upLimit" "l_brow_limits_split_clamp.mxr";
+connectAttr "l_brow.downLimit" "l_brow_limits_split_clamp.mng";
+connectAttr "r_brow.ty" "r_brow_limits_split_clamp.ipr";
+connectAttr "r_brow.ty" "r_brow_limits_split_clamp.ipg";
+connectAttr "l_brow.upLimit" "r_brow_limits_split_clamp.mxr";
+connectAttr "l_brow.downLimit" "r_brow_limits_split_clamp.mng";
+connectAttr "l_brow.pm" "l_brow_in_limits_lift_multMatrix.i[0]";
+connectAttr "l_brow_in_group.wim" "l_brow_in_limits_lift_multMatrix.i[1]";
+connectAttr "l_brow_in_limits_lift_multMatrix.o" "l_brow_in_limits_lift_pointMatrixMult.im"
+		;
+connectAttr "l_brow_in_limits_lift_pointMatrixMult.o" "l_brow_in_limits_liftUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow.upLimit" "l_brow_in_limits_liftUp_multiplyDivide.i2x";
+connectAttr "l_brow.upLimit" "l_brow_in_limits_liftUp_multiplyDivide.i2y";
+connectAttr "l_brow.upLimit" "l_brow_in_limits_liftUp_multiplyDivide.i2z";
+connectAttr "l_brow_in_limits_lift_pointMatrixMult.o" "l_brow_in_limits_liftDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow.downLimit" "l_brow_in_limits_liftDown_multiplyDivide.i2x";
+connectAttr "l_brow.downLimit" "l_brow_in_limits_liftDown_multiplyDivide.i2y";
+connectAttr "l_brow.downLimit" "l_brow_in_limits_liftDown_multiplyDivide.i2z";
+connectAttr "l_brow_in_limits_liftUp_multiplyDivide.o" "l_brow_in_limits_pathUp_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_in_top.t" "l_brow_in_limits_pathUp_plusMinusAverage.i3[1]";
+connectAttr "l_brow_in_limits_liftDown_multiplyDivide.o" "l_brow_in_limits_pathDownNeg_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_in_bot.t" "l_brow_in_limits_pathDownNeg_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_in_limits_lift_pointMatrixMult.o" "l_brow_in_limits_turnUp_angleBetween.v1"
+		;
+connectAttr "l_brow_in_limits_pathUp_plusMinusAverage.o3" "l_brow_in_limits_turnUp_angleBetween.v2"
+		;
+connectAttr "l_brow_in_limits_turnUp_angleBetween.eu" "l_brow_in_limits_turnUp_composeMatrix.ir"
+		;
+connectAttr "l_brow_in_limits_pathUp_plusMinusAverage.o3" "l_brow_in_limits_pathUp_distanceBetween.p2"
+		;
+connectAttr "l_brow_in_limits_lift_pointMatrixMult.o" "l_brow_in_limits_turnDown_angleBetween.v1"
+		;
+connectAttr "l_brow_in_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_in_limits_turnDown_angleBetween.v2"
+		;
+connectAttr "l_brow_in_limits_turnDown_angleBetween.eu" "l_brow_in_limits_turnDown_composeMatrix.ir"
+		;
+connectAttr "l_brow_in_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_in_limits_pathDown_distanceBetween.p2"
+		;
+connectAttr "l_brow_in_limits_lift_pointMatrixMult.o" "l_brow_in_limits_lift_distanceBetween.p2"
+		;
+connectAttr "l_brow.upLimit" "l_brow_in_limits_speedDen_multiplyDivide.i1x";
+connectAttr "brow_limits_downAbs_multDoubleLinear.o" "l_brow_in_limits_speedDen_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_in_limits_lift_distanceBetween.d" "l_brow_in_limits_speedDen_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_in_limits_lift_distanceBetween.d" "l_brow_in_limits_speedDen_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_in_limits_pathUp_distanceBetween.d" "l_brow_in_limits_speed_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_in_limits_pathDown_distanceBetween.d" "l_brow_in_limits_speed_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_in_limits_speedDen_multiplyDivide.ox" "l_brow_in_limits_speed_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_in_limits_speedDen_multiplyDivide.oy" "l_brow_in_limits_speed_multiplyDivide.i2y"
+		;
+connectAttr "l_brow.pm" "l_brow_local_1_limits_lift_multMatrix.i[0]";
+connectAttr "l_brow_local_1_top.wim" "l_brow_local_1_limits_lift_multMatrix.i[1]"
+		;
+connectAttr "l_brow_local_1_limits_lift_multMatrix.o" "l_brow_local_1_limits_lift_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_1_limits_lift_pointMatrixMult.o" "l_brow_local_1_limits_liftUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow.upLimit" "l_brow_local_1_limits_liftUp_multiplyDivide.i2x";
+connectAttr "l_brow.upLimit" "l_brow_local_1_limits_liftUp_multiplyDivide.i2y";
+connectAttr "l_brow.upLimit" "l_brow_local_1_limits_liftUp_multiplyDivide.i2z";
+connectAttr "l_brow_local_1_limits_lift_pointMatrixMult.o" "l_brow_local_1_limits_liftDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow.downLimit" "l_brow_local_1_limits_liftDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow.downLimit" "l_brow_local_1_limits_liftDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow.downLimit" "l_brow_local_1_limits_liftDown_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_1_limits_liftUp_multiplyDivide.o" "l_brow_local_1_limits_pathUp_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_1_top.t" "l_brow_local_1_limits_pathUp_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_1_limits_liftDown_multiplyDivide.o" "l_brow_local_1_limits_pathDownNeg_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_1_bot.t" "l_brow_local_1_limits_pathDownNeg_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_1_limits_lift_pointMatrixMult.o" "l_brow_local_1_limits_turnUp_angleBetween.v1"
+		;
+connectAttr "l_brow_local_1_limits_pathUp_plusMinusAverage.o3" "l_brow_local_1_limits_turnUp_angleBetween.v2"
+		;
+connectAttr "l_brow_local_1_limits_turnUp_angleBetween.eu" "l_brow_local_1_limits_turnUp_composeMatrix.ir"
+		;
+connectAttr "l_brow_local_1_limits_pathUp_plusMinusAverage.o3" "l_brow_local_1_limits_pathUp_distanceBetween.p2"
+		;
+connectAttr "l_brow_local_1_limits_lift_pointMatrixMult.o" "l_brow_local_1_limits_turnDown_angleBetween.v1"
+		;
+connectAttr "l_brow_local_1_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_1_limits_turnDown_angleBetween.v2"
+		;
+connectAttr "l_brow_local_1_limits_turnDown_angleBetween.eu" "l_brow_local_1_limits_turnDown_composeMatrix.ir"
+		;
+connectAttr "l_brow_local_1_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_1_limits_pathDown_distanceBetween.p2"
+		;
+connectAttr "l_brow_local_1_limits_lift_pointMatrixMult.o" "l_brow_local_1_limits_lift_distanceBetween.p2"
+		;
+connectAttr "l_brow.upLimit" "l_brow_local_1_limits_speedDen_multiplyDivide.i1x"
+		;
+connectAttr "brow_limits_downAbs_multDoubleLinear.o" "l_brow_local_1_limits_speedDen_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_1_limits_lift_distanceBetween.d" "l_brow_local_1_limits_speedDen_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_1_limits_lift_distanceBetween.d" "l_brow_local_1_limits_speedDen_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_1_limits_pathUp_distanceBetween.d" "l_brow_local_1_limits_speed_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_local_1_limits_pathDown_distanceBetween.d" "l_brow_local_1_limits_speed_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_1_limits_speedDen_multiplyDivide.ox" "l_brow_local_1_limits_speed_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_1_limits_speedDen_multiplyDivide.oy" "l_brow_local_1_limits_speed_multiplyDivide.i2y"
+		;
+connectAttr "l_brow.pm" "l_brow_local_2_limits_lift_multMatrix.i[0]";
+connectAttr "l_brow_local_2_top.wim" "l_brow_local_2_limits_lift_multMatrix.i[1]"
+		;
+connectAttr "l_brow_local_2_limits_lift_multMatrix.o" "l_brow_local_2_limits_lift_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_2_limits_lift_pointMatrixMult.o" "l_brow_local_2_limits_liftUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow.upLimit" "l_brow_local_2_limits_liftUp_multiplyDivide.i2x";
+connectAttr "l_brow.upLimit" "l_brow_local_2_limits_liftUp_multiplyDivide.i2y";
+connectAttr "l_brow.upLimit" "l_brow_local_2_limits_liftUp_multiplyDivide.i2z";
+connectAttr "l_brow_local_2_limits_lift_pointMatrixMult.o" "l_brow_local_2_limits_liftDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow.downLimit" "l_brow_local_2_limits_liftDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow.downLimit" "l_brow_local_2_limits_liftDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow.downLimit" "l_brow_local_2_limits_liftDown_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_2_limits_liftUp_multiplyDivide.o" "l_brow_local_2_limits_pathUp_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_2_top.t" "l_brow_local_2_limits_pathUp_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_2_limits_liftDown_multiplyDivide.o" "l_brow_local_2_limits_pathDownNeg_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_2_bot.t" "l_brow_local_2_limits_pathDownNeg_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_2_limits_lift_pointMatrixMult.o" "l_brow_local_2_limits_turnUp_angleBetween.v1"
+		;
+connectAttr "l_brow_local_2_limits_pathUp_plusMinusAverage.o3" "l_brow_local_2_limits_turnUp_angleBetween.v2"
+		;
+connectAttr "l_brow_local_2_limits_turnUp_angleBetween.eu" "l_brow_local_2_limits_turnUp_composeMatrix.ir"
+		;
+connectAttr "l_brow_local_2_limits_pathUp_plusMinusAverage.o3" "l_brow_local_2_limits_pathUp_distanceBetween.p2"
+		;
+connectAttr "l_brow_local_2_limits_lift_pointMatrixMult.o" "l_brow_local_2_limits_turnDown_angleBetween.v1"
+		;
+connectAttr "l_brow_local_2_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_2_limits_turnDown_angleBetween.v2"
+		;
+connectAttr "l_brow_local_2_limits_turnDown_angleBetween.eu" "l_brow_local_2_limits_turnDown_composeMatrix.ir"
+		;
+connectAttr "l_brow_local_2_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_2_limits_pathDown_distanceBetween.p2"
+		;
+connectAttr "l_brow_local_2_limits_lift_pointMatrixMult.o" "l_brow_local_2_limits_lift_distanceBetween.p2"
+		;
+connectAttr "l_brow.upLimit" "l_brow_local_2_limits_speedDen_multiplyDivide.i1x"
+		;
+connectAttr "brow_limits_downAbs_multDoubleLinear.o" "l_brow_local_2_limits_speedDen_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_2_limits_lift_distanceBetween.d" "l_brow_local_2_limits_speedDen_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_2_limits_lift_distanceBetween.d" "l_brow_local_2_limits_speedDen_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_2_limits_pathUp_distanceBetween.d" "l_brow_local_2_limits_speed_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_local_2_limits_pathDown_distanceBetween.d" "l_brow_local_2_limits_speed_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_2_limits_speedDen_multiplyDivide.ox" "l_brow_local_2_limits_speed_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_2_limits_speedDen_multiplyDivide.oy" "l_brow_local_2_limits_speed_multiplyDivide.i2y"
+		;
+connectAttr "l_brow.pm" "l_brow_local_3_limits_lift_multMatrix.i[0]";
+connectAttr "l_brow_local_3_top.wim" "l_brow_local_3_limits_lift_multMatrix.i[1]"
+		;
+connectAttr "l_brow_local_3_limits_lift_multMatrix.o" "l_brow_local_3_limits_lift_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_3_limits_lift_pointMatrixMult.o" "l_brow_local_3_limits_liftUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow.upLimit" "l_brow_local_3_limits_liftUp_multiplyDivide.i2x";
+connectAttr "l_brow.upLimit" "l_brow_local_3_limits_liftUp_multiplyDivide.i2y";
+connectAttr "l_brow.upLimit" "l_brow_local_3_limits_liftUp_multiplyDivide.i2z";
+connectAttr "l_brow_local_3_limits_lift_pointMatrixMult.o" "l_brow_local_3_limits_liftDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow.downLimit" "l_brow_local_3_limits_liftDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow.downLimit" "l_brow_local_3_limits_liftDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow.downLimit" "l_brow_local_3_limits_liftDown_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_3_limits_liftUp_multiplyDivide.o" "l_brow_local_3_limits_pathUp_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_3_top.t" "l_brow_local_3_limits_pathUp_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_3_limits_liftDown_multiplyDivide.o" "l_brow_local_3_limits_pathDownNeg_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_3_bot.t" "l_brow_local_3_limits_pathDownNeg_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_3_limits_lift_pointMatrixMult.o" "l_brow_local_3_limits_turnUp_angleBetween.v1"
+		;
+connectAttr "l_brow_local_3_limits_pathUp_plusMinusAverage.o3" "l_brow_local_3_limits_turnUp_angleBetween.v2"
+		;
+connectAttr "l_brow_local_3_limits_turnUp_angleBetween.eu" "l_brow_local_3_limits_turnUp_composeMatrix.ir"
+		;
+connectAttr "l_brow_local_3_limits_pathUp_plusMinusAverage.o3" "l_brow_local_3_limits_pathUp_distanceBetween.p2"
+		;
+connectAttr "l_brow_local_3_limits_lift_pointMatrixMult.o" "l_brow_local_3_limits_turnDown_angleBetween.v1"
+		;
+connectAttr "l_brow_local_3_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_3_limits_turnDown_angleBetween.v2"
+		;
+connectAttr "l_brow_local_3_limits_turnDown_angleBetween.eu" "l_brow_local_3_limits_turnDown_composeMatrix.ir"
+		;
+connectAttr "l_brow_local_3_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_3_limits_pathDown_distanceBetween.p2"
+		;
+connectAttr "l_brow_local_3_limits_lift_pointMatrixMult.o" "l_brow_local_3_limits_lift_distanceBetween.p2"
+		;
+connectAttr "l_brow.upLimit" "l_brow_local_3_limits_speedDen_multiplyDivide.i1x"
+		;
+connectAttr "brow_limits_downAbs_multDoubleLinear.o" "l_brow_local_3_limits_speedDen_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_3_limits_lift_distanceBetween.d" "l_brow_local_3_limits_speedDen_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_3_limits_lift_distanceBetween.d" "l_brow_local_3_limits_speedDen_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_3_limits_pathUp_distanceBetween.d" "l_brow_local_3_limits_speed_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_local_3_limits_pathDown_distanceBetween.d" "l_brow_local_3_limits_speed_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_3_limits_speedDen_multiplyDivide.ox" "l_brow_local_3_limits_speed_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_3_limits_speedDen_multiplyDivide.oy" "l_brow_local_3_limits_speed_multiplyDivide.i2y"
+		;
+connectAttr "l_brow.pm" "l_brow_local_4_limits_lift_multMatrix.i[0]";
+connectAttr "l_brow_local_4_top.wim" "l_brow_local_4_limits_lift_multMatrix.i[1]"
+		;
+connectAttr "l_brow_local_4_limits_lift_multMatrix.o" "l_brow_local_4_limits_lift_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_4_limits_lift_pointMatrixMult.o" "l_brow_local_4_limits_liftUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow.upLimit" "l_brow_local_4_limits_liftUp_multiplyDivide.i2x";
+connectAttr "l_brow.upLimit" "l_brow_local_4_limits_liftUp_multiplyDivide.i2y";
+connectAttr "l_brow.upLimit" "l_brow_local_4_limits_liftUp_multiplyDivide.i2z";
+connectAttr "l_brow_local_4_limits_lift_pointMatrixMult.o" "l_brow_local_4_limits_liftDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow.downLimit" "l_brow_local_4_limits_liftDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow.downLimit" "l_brow_local_4_limits_liftDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow.downLimit" "l_brow_local_4_limits_liftDown_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_4_limits_liftUp_multiplyDivide.o" "l_brow_local_4_limits_pathUp_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_4_top.t" "l_brow_local_4_limits_pathUp_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_4_limits_liftDown_multiplyDivide.o" "l_brow_local_4_limits_pathDownNeg_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_4_bot.t" "l_brow_local_4_limits_pathDownNeg_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_4_limits_lift_pointMatrixMult.o" "l_brow_local_4_limits_turnUp_angleBetween.v1"
+		;
+connectAttr "l_brow_local_4_limits_pathUp_plusMinusAverage.o3" "l_brow_local_4_limits_turnUp_angleBetween.v2"
+		;
+connectAttr "l_brow_local_4_limits_turnUp_angleBetween.eu" "l_brow_local_4_limits_turnUp_composeMatrix.ir"
+		;
+connectAttr "l_brow_local_4_limits_pathUp_plusMinusAverage.o3" "l_brow_local_4_limits_pathUp_distanceBetween.p2"
+		;
+connectAttr "l_brow_local_4_limits_lift_pointMatrixMult.o" "l_brow_local_4_limits_turnDown_angleBetween.v1"
+		;
+connectAttr "l_brow_local_4_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_4_limits_turnDown_angleBetween.v2"
+		;
+connectAttr "l_brow_local_4_limits_turnDown_angleBetween.eu" "l_brow_local_4_limits_turnDown_composeMatrix.ir"
+		;
+connectAttr "l_brow_local_4_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_4_limits_pathDown_distanceBetween.p2"
+		;
+connectAttr "l_brow_local_4_limits_lift_pointMatrixMult.o" "l_brow_local_4_limits_lift_distanceBetween.p2"
+		;
+connectAttr "l_brow.upLimit" "l_brow_local_4_limits_speedDen_multiplyDivide.i1x"
+		;
+connectAttr "brow_limits_downAbs_multDoubleLinear.o" "l_brow_local_4_limits_speedDen_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_4_limits_lift_distanceBetween.d" "l_brow_local_4_limits_speedDen_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_4_limits_lift_distanceBetween.d" "l_brow_local_4_limits_speedDen_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_4_limits_pathUp_distanceBetween.d" "l_brow_local_4_limits_speed_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_local_4_limits_pathDown_distanceBetween.d" "l_brow_local_4_limits_speed_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_4_limits_speedDen_multiplyDivide.ox" "l_brow_local_4_limits_speed_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_4_limits_speedDen_multiplyDivide.oy" "l_brow_local_4_limits_speed_multiplyDivide.i2y"
+		;
+connectAttr "l_brow.pm" "l_brow_local_5_limits_lift_multMatrix.i[0]";
+connectAttr "l_brow_local_5_top.wim" "l_brow_local_5_limits_lift_multMatrix.i[1]"
+		;
+connectAttr "l_brow_local_5_limits_lift_multMatrix.o" "l_brow_local_5_limits_lift_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_5_limits_lift_pointMatrixMult.o" "l_brow_local_5_limits_liftUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow.upLimit" "l_brow_local_5_limits_liftUp_multiplyDivide.i2x";
+connectAttr "l_brow.upLimit" "l_brow_local_5_limits_liftUp_multiplyDivide.i2y";
+connectAttr "l_brow.upLimit" "l_brow_local_5_limits_liftUp_multiplyDivide.i2z";
+connectAttr "l_brow_local_5_limits_lift_pointMatrixMult.o" "l_brow_local_5_limits_liftDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow.downLimit" "l_brow_local_5_limits_liftDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow.downLimit" "l_brow_local_5_limits_liftDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow.downLimit" "l_brow_local_5_limits_liftDown_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_5_limits_liftUp_multiplyDivide.o" "l_brow_local_5_limits_pathUp_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_5_top.t" "l_brow_local_5_limits_pathUp_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_5_limits_liftDown_multiplyDivide.o" "l_brow_local_5_limits_pathDownNeg_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_5_bot.t" "l_brow_local_5_limits_pathDownNeg_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_5_limits_lift_pointMatrixMult.o" "l_brow_local_5_limits_turnUp_angleBetween.v1"
+		;
+connectAttr "l_brow_local_5_limits_pathUp_plusMinusAverage.o3" "l_brow_local_5_limits_turnUp_angleBetween.v2"
+		;
+connectAttr "l_brow_local_5_limits_turnUp_angleBetween.eu" "l_brow_local_5_limits_turnUp_composeMatrix.ir"
+		;
+connectAttr "l_brow_local_5_limits_pathUp_plusMinusAverage.o3" "l_brow_local_5_limits_pathUp_distanceBetween.p2"
+		;
+connectAttr "l_brow_local_5_limits_lift_pointMatrixMult.o" "l_brow_local_5_limits_turnDown_angleBetween.v1"
+		;
+connectAttr "l_brow_local_5_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_5_limits_turnDown_angleBetween.v2"
+		;
+connectAttr "l_brow_local_5_limits_turnDown_angleBetween.eu" "l_brow_local_5_limits_turnDown_composeMatrix.ir"
+		;
+connectAttr "l_brow_local_5_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_5_limits_pathDown_distanceBetween.p2"
+		;
+connectAttr "l_brow_local_5_limits_lift_pointMatrixMult.o" "l_brow_local_5_limits_lift_distanceBetween.p2"
+		;
+connectAttr "l_brow.upLimit" "l_brow_local_5_limits_speedDen_multiplyDivide.i1x"
+		;
+connectAttr "brow_limits_downAbs_multDoubleLinear.o" "l_brow_local_5_limits_speedDen_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_5_limits_lift_distanceBetween.d" "l_brow_local_5_limits_speedDen_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_5_limits_lift_distanceBetween.d" "l_brow_local_5_limits_speedDen_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_5_limits_pathUp_distanceBetween.d" "l_brow_local_5_limits_speed_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_local_5_limits_pathDown_distanceBetween.d" "l_brow_local_5_limits_speed_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_5_limits_speedDen_multiplyDivide.ox" "l_brow_local_5_limits_speed_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_5_limits_speedDen_multiplyDivide.oy" "l_brow_local_5_limits_speed_multiplyDivide.i2y"
+		;
+connectAttr "l_brow.pm" "l_brow_local_6_limits_lift_multMatrix.i[0]";
+connectAttr "l_brow_local_6_top.wim" "l_brow_local_6_limits_lift_multMatrix.i[1]"
+		;
+connectAttr "l_brow_local_6_limits_lift_multMatrix.o" "l_brow_local_6_limits_lift_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_6_limits_lift_pointMatrixMult.o" "l_brow_local_6_limits_liftUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow.upLimit" "l_brow_local_6_limits_liftUp_multiplyDivide.i2x";
+connectAttr "l_brow.upLimit" "l_brow_local_6_limits_liftUp_multiplyDivide.i2y";
+connectAttr "l_brow.upLimit" "l_brow_local_6_limits_liftUp_multiplyDivide.i2z";
+connectAttr "l_brow_local_6_limits_lift_pointMatrixMult.o" "l_brow_local_6_limits_liftDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow.downLimit" "l_brow_local_6_limits_liftDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow.downLimit" "l_brow_local_6_limits_liftDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow.downLimit" "l_brow_local_6_limits_liftDown_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_6_limits_liftUp_multiplyDivide.o" "l_brow_local_6_limits_pathUp_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_6_top.t" "l_brow_local_6_limits_pathUp_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_6_limits_liftDown_multiplyDivide.o" "l_brow_local_6_limits_pathDownNeg_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_6_bot.t" "l_brow_local_6_limits_pathDownNeg_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_6_limits_lift_pointMatrixMult.o" "l_brow_local_6_limits_turnUp_angleBetween.v1"
+		;
+connectAttr "l_brow_local_6_limits_pathUp_plusMinusAverage.o3" "l_brow_local_6_limits_turnUp_angleBetween.v2"
+		;
+connectAttr "l_brow_local_6_limits_turnUp_angleBetween.eu" "l_brow_local_6_limits_turnUp_composeMatrix.ir"
+		;
+connectAttr "l_brow_local_6_limits_pathUp_plusMinusAverage.o3" "l_brow_local_6_limits_pathUp_distanceBetween.p2"
+		;
+connectAttr "l_brow_local_6_limits_lift_pointMatrixMult.o" "l_brow_local_6_limits_turnDown_angleBetween.v1"
+		;
+connectAttr "l_brow_local_6_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_6_limits_turnDown_angleBetween.v2"
+		;
+connectAttr "l_brow_local_6_limits_turnDown_angleBetween.eu" "l_brow_local_6_limits_turnDown_composeMatrix.ir"
+		;
+connectAttr "l_brow_local_6_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_6_limits_pathDown_distanceBetween.p2"
+		;
+connectAttr "l_brow_local_6_limits_lift_pointMatrixMult.o" "l_brow_local_6_limits_lift_distanceBetween.p2"
+		;
+connectAttr "l_brow.upLimit" "l_brow_local_6_limits_speedDen_multiplyDivide.i1x"
+		;
+connectAttr "brow_limits_downAbs_multDoubleLinear.o" "l_brow_local_6_limits_speedDen_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_6_limits_lift_distanceBetween.d" "l_brow_local_6_limits_speedDen_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_6_limits_lift_distanceBetween.d" "l_brow_local_6_limits_speedDen_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_6_limits_pathUp_distanceBetween.d" "l_brow_local_6_limits_speed_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_local_6_limits_pathDown_distanceBetween.d" "l_brow_local_6_limits_speed_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_6_limits_speedDen_multiplyDivide.ox" "l_brow_local_6_limits_speed_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_6_limits_speedDen_multiplyDivide.oy" "l_brow_local_6_limits_speed_multiplyDivide.i2y"
+		;
+connectAttr "l_brow.pm" "l_brow_local_7_limits_lift_multMatrix.i[0]";
+connectAttr "l_brow_local_7_top.wim" "l_brow_local_7_limits_lift_multMatrix.i[1]"
+		;
+connectAttr "l_brow_local_7_limits_lift_multMatrix.o" "l_brow_local_7_limits_lift_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_7_limits_lift_pointMatrixMult.o" "l_brow_local_7_limits_liftUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow.upLimit" "l_brow_local_7_limits_liftUp_multiplyDivide.i2x";
+connectAttr "l_brow.upLimit" "l_brow_local_7_limits_liftUp_multiplyDivide.i2y";
+connectAttr "l_brow.upLimit" "l_brow_local_7_limits_liftUp_multiplyDivide.i2z";
+connectAttr "l_brow_local_7_limits_lift_pointMatrixMult.o" "l_brow_local_7_limits_liftDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow.downLimit" "l_brow_local_7_limits_liftDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow.downLimit" "l_brow_local_7_limits_liftDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow.downLimit" "l_brow_local_7_limits_liftDown_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_7_limits_liftUp_multiplyDivide.o" "l_brow_local_7_limits_pathUp_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_7_top.t" "l_brow_local_7_limits_pathUp_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_7_limits_liftDown_multiplyDivide.o" "l_brow_local_7_limits_pathDownNeg_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_7_bot.t" "l_brow_local_7_limits_pathDownNeg_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_7_limits_lift_pointMatrixMult.o" "l_brow_local_7_limits_turnUp_angleBetween.v1"
+		;
+connectAttr "l_brow_local_7_limits_pathUp_plusMinusAverage.o3" "l_brow_local_7_limits_turnUp_angleBetween.v2"
+		;
+connectAttr "l_brow_local_7_limits_turnUp_angleBetween.eu" "l_brow_local_7_limits_turnUp_composeMatrix.ir"
+		;
+connectAttr "l_brow_local_7_limits_pathUp_plusMinusAverage.o3" "l_brow_local_7_limits_pathUp_distanceBetween.p2"
+		;
+connectAttr "l_brow_local_7_limits_lift_pointMatrixMult.o" "l_brow_local_7_limits_turnDown_angleBetween.v1"
+		;
+connectAttr "l_brow_local_7_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_7_limits_turnDown_angleBetween.v2"
+		;
+connectAttr "l_brow_local_7_limits_turnDown_angleBetween.eu" "l_brow_local_7_limits_turnDown_composeMatrix.ir"
+		;
+connectAttr "l_brow_local_7_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_7_limits_pathDown_distanceBetween.p2"
+		;
+connectAttr "l_brow_local_7_limits_lift_pointMatrixMult.o" "l_brow_local_7_limits_lift_distanceBetween.p2"
+		;
+connectAttr "l_brow.upLimit" "l_brow_local_7_limits_speedDen_multiplyDivide.i1x"
+		;
+connectAttr "brow_limits_downAbs_multDoubleLinear.o" "l_brow_local_7_limits_speedDen_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_7_limits_lift_distanceBetween.d" "l_brow_local_7_limits_speedDen_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_7_limits_lift_distanceBetween.d" "l_brow_local_7_limits_speedDen_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_7_limits_pathUp_distanceBetween.d" "l_brow_local_7_limits_speed_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_local_7_limits_pathDown_distanceBetween.d" "l_brow_local_7_limits_speed_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_7_limits_speedDen_multiplyDivide.ox" "l_brow_local_7_limits_speed_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_7_limits_speedDen_multiplyDivide.oy" "l_brow_local_7_limits_speed_multiplyDivide.i2y"
+		;
+connectAttr "l_brow.pm" "l_brow_mid_limits_lift_multMatrix.i[0]";
+connectAttr "l_brow_mid_group.wim" "l_brow_mid_limits_lift_multMatrix.i[1]";
+connectAttr "l_brow_mid_limits_lift_multMatrix.o" "l_brow_mid_limits_lift_pointMatrixMult.im"
+		;
+connectAttr "l_brow_mid_limits_lift_pointMatrixMult.o" "l_brow_mid_limits_liftUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow.upLimit" "l_brow_mid_limits_liftUp_multiplyDivide.i2x";
+connectAttr "l_brow.upLimit" "l_brow_mid_limits_liftUp_multiplyDivide.i2y";
+connectAttr "l_brow.upLimit" "l_brow_mid_limits_liftUp_multiplyDivide.i2z";
+connectAttr "l_brow_mid_limits_lift_pointMatrixMult.o" "l_brow_mid_limits_liftDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow.downLimit" "l_brow_mid_limits_liftDown_multiplyDivide.i2x";
+connectAttr "l_brow.downLimit" "l_brow_mid_limits_liftDown_multiplyDivide.i2y";
+connectAttr "l_brow.downLimit" "l_brow_mid_limits_liftDown_multiplyDivide.i2z";
+connectAttr "l_brow_mid_limits_liftUp_multiplyDivide.o" "l_brow_mid_limits_pathUp_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_mid_top.t" "l_brow_mid_limits_pathUp_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_mid_limits_liftDown_multiplyDivide.o" "l_brow_mid_limits_pathDownNeg_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_mid_bot.t" "l_brow_mid_limits_pathDownNeg_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_mid_limits_lift_pointMatrixMult.o" "l_brow_mid_limits_turnUp_angleBetween.v1"
+		;
+connectAttr "l_brow_mid_limits_pathUp_plusMinusAverage.o3" "l_brow_mid_limits_turnUp_angleBetween.v2"
+		;
+connectAttr "l_brow_mid_limits_turnUp_angleBetween.eu" "l_brow_mid_limits_turnUp_composeMatrix.ir"
+		;
+connectAttr "l_brow_mid_limits_pathUp_plusMinusAverage.o3" "l_brow_mid_limits_pathUp_distanceBetween.p2"
+		;
+connectAttr "l_brow_mid_limits_lift_pointMatrixMult.o" "l_brow_mid_limits_turnDown_angleBetween.v1"
+		;
+connectAttr "l_brow_mid_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_mid_limits_turnDown_angleBetween.v2"
+		;
+connectAttr "l_brow_mid_limits_turnDown_angleBetween.eu" "l_brow_mid_limits_turnDown_composeMatrix.ir"
+		;
+connectAttr "l_brow_mid_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_mid_limits_pathDown_distanceBetween.p2"
+		;
+connectAttr "l_brow_mid_limits_lift_pointMatrixMult.o" "l_brow_mid_limits_lift_distanceBetween.p2"
+		;
+connectAttr "l_brow.upLimit" "l_brow_mid_limits_speedDen_multiplyDivide.i1x";
+connectAttr "brow_limits_downAbs_multDoubleLinear.o" "l_brow_mid_limits_speedDen_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_mid_limits_lift_distanceBetween.d" "l_brow_mid_limits_speedDen_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_mid_limits_lift_distanceBetween.d" "l_brow_mid_limits_speedDen_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_mid_limits_pathUp_distanceBetween.d" "l_brow_mid_limits_speed_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_mid_limits_pathDown_distanceBetween.d" "l_brow_mid_limits_speed_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_mid_limits_speedDen_multiplyDivide.ox" "l_brow_mid_limits_speed_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_mid_limits_speedDen_multiplyDivide.oy" "l_brow_mid_limits_speed_multiplyDivide.i2y"
+		;
+connectAttr "l_brow.pm" "l_brow_out_limits_lift_multMatrix.i[0]";
+connectAttr "l_brow_out_group.wim" "l_brow_out_limits_lift_multMatrix.i[1]";
+connectAttr "l_brow_out_limits_lift_multMatrix.o" "l_brow_out_limits_lift_pointMatrixMult.im"
+		;
+connectAttr "l_brow_out_limits_lift_pointMatrixMult.o" "l_brow_out_limits_liftUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow.upLimit" "l_brow_out_limits_liftUp_multiplyDivide.i2x";
+connectAttr "l_brow.upLimit" "l_brow_out_limits_liftUp_multiplyDivide.i2y";
+connectAttr "l_brow.upLimit" "l_brow_out_limits_liftUp_multiplyDivide.i2z";
+connectAttr "l_brow_out_limits_lift_pointMatrixMult.o" "l_brow_out_limits_liftDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow.downLimit" "l_brow_out_limits_liftDown_multiplyDivide.i2x";
+connectAttr "l_brow.downLimit" "l_brow_out_limits_liftDown_multiplyDivide.i2y";
+connectAttr "l_brow.downLimit" "l_brow_out_limits_liftDown_multiplyDivide.i2z";
+connectAttr "l_brow_out_limits_liftUp_multiplyDivide.o" "l_brow_out_limits_pathUp_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_out_top.t" "l_brow_out_limits_pathUp_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_out_limits_liftDown_multiplyDivide.o" "l_brow_out_limits_pathDownNeg_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_out_bot.t" "l_brow_out_limits_pathDownNeg_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_out_limits_lift_pointMatrixMult.o" "l_brow_out_limits_turnUp_angleBetween.v1"
+		;
+connectAttr "l_brow_out_limits_pathUp_plusMinusAverage.o3" "l_brow_out_limits_turnUp_angleBetween.v2"
+		;
+connectAttr "l_brow_out_limits_turnUp_angleBetween.eu" "l_brow_out_limits_turnUp_composeMatrix.ir"
+		;
+connectAttr "l_brow_out_limits_pathUp_plusMinusAverage.o3" "l_brow_out_limits_pathUp_distanceBetween.p2"
+		;
+connectAttr "l_brow_out_limits_lift_pointMatrixMult.o" "l_brow_out_limits_turnDown_angleBetween.v1"
+		;
+connectAttr "l_brow_out_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_out_limits_turnDown_angleBetween.v2"
+		;
+connectAttr "l_brow_out_limits_turnDown_angleBetween.eu" "l_brow_out_limits_turnDown_composeMatrix.ir"
+		;
+connectAttr "l_brow_out_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_out_limits_pathDown_distanceBetween.p2"
+		;
+connectAttr "l_brow_out_limits_lift_pointMatrixMult.o" "l_brow_out_limits_lift_distanceBetween.p2"
+		;
+connectAttr "l_brow.upLimit" "l_brow_out_limits_speedDen_multiplyDivide.i1x";
+connectAttr "brow_limits_downAbs_multDoubleLinear.o" "l_brow_out_limits_speedDen_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_out_limits_lift_distanceBetween.d" "l_brow_out_limits_speedDen_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_out_limits_lift_distanceBetween.d" "l_brow_out_limits_speedDen_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_out_limits_pathUp_distanceBetween.d" "l_brow_out_limits_speed_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_out_limits_pathDown_distanceBetween.d" "l_brow_out_limits_speed_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_out_limits_speedDen_multiplyDivide.ox" "l_brow_out_limits_speed_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_out_limits_speedDen_multiplyDivide.oy" "l_brow_out_limits_speed_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_limits_split_clamp.opr" "l_brow_local_1_limits_radial_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_limits_split_clamp.opg" "l_brow_local_1_limits_radial_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_1_limits_speed_multiplyDivide.ox" "l_brow_local_1_limits_radial_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_1_limits_speed_multiplyDivide.oy" "l_brow_local_1_limits_radial_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_1_limits_radial_multiplyDivide.ox" "l_brow_local_1_limits_radial_plusMinusAverage.i1[0]"
+		;
+connectAttr "l_brow_local_1_limits_radial_multiplyDivide.oy" "l_brow_local_1_limits_radial_plusMinusAverage.i1[1]"
+		;
+connectAttr "l_brow_local_1_limits_turnUp_composeMatrix.omat" "l_brow_local_1_limits_turn_blendMatrix.tgt[0].tmat"
+		;
+connectAttr "up_down_setRange.oy" "l_brow_local_1_limits_turn_blendMatrix.tgt[0].wgt"
+		;
+connectAttr "l_brow_local_1_limits_turnDown_composeMatrix.omat" "l_brow_local_1_limits_turn_blendMatrix.tgt[1].tmat"
+		;
+connectAttr "up_down_setRange.ox" "l_brow_local_1_limits_turn_blendMatrix.tgt[1].wgt"
+		;
+connectAttr "l_brow_local_1_limits_lift_pointMatrixMult.o" "l_brow_local_1_limits_radialVec_multiplyDivide.i1"
+		;
+connectAttr "l_brow_local_1_limits_radial_plusMinusAverage.o1" "l_brow_local_1_limits_radialVec_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_1_limits_radial_plusMinusAverage.o1" "l_brow_local_1_limits_radialVec_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_1_limits_radial_plusMinusAverage.o1" "l_brow_local_1_limits_radialVec_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_1_limits_radialVec_multiplyDivide.o" "l_brow_local_1_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "l_brow_local_1_limits_turn_blendMatrix.omat" "l_brow_local_1_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_1_limits_lift_pointMatrixMult.o" "l_brow_local_1_limits_liftNow_multiplyDivide.i1"
+		;
+connectAttr "l_brow.ty" "l_brow_local_1_limits_liftNow_multiplyDivide.i2x";
+connectAttr "l_brow.ty" "l_brow_local_1_limits_liftNow_multiplyDivide.i2y";
+connectAttr "l_brow.ty" "l_brow_local_1_limits_liftNow_multiplyDivide.i2z";
+connectAttr "l_brow_local_1_limits_pathTotal_plusMinusAverage.o3" "l_brow_local_1_limits_offset_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_1_limits_liftNow_multiplyDivide.o" "l_brow_local_1_limits_offset_plusMinusAverage.i3[1]"
+		;
+connectAttr "r_brow_limits_split_clamp.opr" "r_brow_local_1_limits_radial_multiplyDivide.i1x"
+		;
+connectAttr "r_brow_limits_split_clamp.opg" "r_brow_local_1_limits_radial_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_1_limits_speed_multiplyDivide.ox" "r_brow_local_1_limits_radial_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_1_limits_speed_multiplyDivide.oy" "r_brow_local_1_limits_radial_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_local_1_limits_radial_multiplyDivide.ox" "r_brow_local_1_limits_radial_plusMinusAverage.i1[0]"
+		;
+connectAttr "r_brow_local_1_limits_radial_multiplyDivide.oy" "r_brow_local_1_limits_radial_plusMinusAverage.i1[1]"
+		;
+connectAttr "l_brow_local_1_limits_turnUp_composeMatrix.omat" "r_brow_local_1_limits_turn_blendMatrix.tgt[0].tmat"
+		;
+connectAttr "up_down_setRange1.oy" "r_brow_local_1_limits_turn_blendMatrix.tgt[0].wgt"
+		;
+connectAttr "l_brow_local_1_limits_turnDown_composeMatrix.omat" "r_brow_local_1_limits_turn_blendMatrix.tgt[1].tmat"
+		;
+connectAttr "up_down_setRange1.ox" "r_brow_local_1_limits_turn_blendMatrix.tgt[1].wgt"
+		;
+connectAttr "l_brow_local_1_limits_lift_pointMatrixMult.o" "r_brow_local_1_limits_radialVec_multiplyDivide.i1"
+		;
+connectAttr "r_brow_local_1_limits_radial_plusMinusAverage.o1" "r_brow_local_1_limits_radialVec_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_local_1_limits_radial_plusMinusAverage.o1" "r_brow_local_1_limits_radialVec_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_local_1_limits_radial_plusMinusAverage.o1" "r_brow_local_1_limits_radialVec_multiplyDivide.i2z"
+		;
+connectAttr "r_brow_local_1_limits_radialVec_multiplyDivide.o" "r_brow_local_1_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "r_brow_local_1_limits_turn_blendMatrix.omat" "r_brow_local_1_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_1_limits_lift_pointMatrixMult.o" "r_brow_local_1_limits_liftNow_multiplyDivide.i1"
+		;
+connectAttr "r_brow.ty" "r_brow_local_1_limits_liftNow_multiplyDivide.i2x";
+connectAttr "r_brow.ty" "r_brow_local_1_limits_liftNow_multiplyDivide.i2y";
+connectAttr "r_brow.ty" "r_brow_local_1_limits_liftNow_multiplyDivide.i2z";
+connectAttr "r_brow_local_1_limits_pathTotal_plusMinusAverage.o3" "r_brow_local_1_limits_offset_plusMinusAverage.i3[0]"
+		;
+connectAttr "r_brow_local_1_limits_liftNow_multiplyDivide.o" "r_brow_local_1_limits_offset_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_limits_split_clamp.opr" "l_brow_local_2_limits_radial_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_limits_split_clamp.opg" "l_brow_local_2_limits_radial_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_2_limits_speed_multiplyDivide.ox" "l_brow_local_2_limits_radial_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_2_limits_speed_multiplyDivide.oy" "l_brow_local_2_limits_radial_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_2_limits_radial_multiplyDivide.ox" "l_brow_local_2_limits_radial_plusMinusAverage.i1[0]"
+		;
+connectAttr "l_brow_local_2_limits_radial_multiplyDivide.oy" "l_brow_local_2_limits_radial_plusMinusAverage.i1[1]"
+		;
+connectAttr "l_brow_local_2_limits_turnUp_composeMatrix.omat" "l_brow_local_2_limits_turn_blendMatrix.tgt[0].tmat"
+		;
+connectAttr "up_down_setRange.oy" "l_brow_local_2_limits_turn_blendMatrix.tgt[0].wgt"
+		;
+connectAttr "l_brow_local_2_limits_turnDown_composeMatrix.omat" "l_brow_local_2_limits_turn_blendMatrix.tgt[1].tmat"
+		;
+connectAttr "up_down_setRange.ox" "l_brow_local_2_limits_turn_blendMatrix.tgt[1].wgt"
+		;
+connectAttr "l_brow_local_2_limits_lift_pointMatrixMult.o" "l_brow_local_2_limits_radialVec_multiplyDivide.i1"
+		;
+connectAttr "l_brow_local_2_limits_radial_plusMinusAverage.o1" "l_brow_local_2_limits_radialVec_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_2_limits_radial_plusMinusAverage.o1" "l_brow_local_2_limits_radialVec_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_2_limits_radial_plusMinusAverage.o1" "l_brow_local_2_limits_radialVec_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_2_limits_radialVec_multiplyDivide.o" "l_brow_local_2_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "l_brow_local_2_limits_turn_blendMatrix.omat" "l_brow_local_2_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_2_limits_lift_pointMatrixMult.o" "l_brow_local_2_limits_liftNow_multiplyDivide.i1"
+		;
+connectAttr "l_brow.ty" "l_brow_local_2_limits_liftNow_multiplyDivide.i2x";
+connectAttr "l_brow.ty" "l_brow_local_2_limits_liftNow_multiplyDivide.i2y";
+connectAttr "l_brow.ty" "l_brow_local_2_limits_liftNow_multiplyDivide.i2z";
+connectAttr "l_brow_local_2_limits_pathTotal_plusMinusAverage.o3" "l_brow_local_2_limits_offset_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_2_limits_liftNow_multiplyDivide.o" "l_brow_local_2_limits_offset_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_limits_split_clamp.opr" "l_brow_local_3_limits_radial_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_limits_split_clamp.opg" "l_brow_local_3_limits_radial_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_3_limits_speed_multiplyDivide.ox" "l_brow_local_3_limits_radial_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_3_limits_speed_multiplyDivide.oy" "l_brow_local_3_limits_radial_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_3_limits_radial_multiplyDivide.ox" "l_brow_local_3_limits_radial_plusMinusAverage.i1[0]"
+		;
+connectAttr "l_brow_local_3_limits_radial_multiplyDivide.oy" "l_brow_local_3_limits_radial_plusMinusAverage.i1[1]"
+		;
+connectAttr "l_brow_local_3_limits_turnUp_composeMatrix.omat" "l_brow_local_3_limits_turn_blendMatrix.tgt[0].tmat"
+		;
+connectAttr "up_down_setRange.oy" "l_brow_local_3_limits_turn_blendMatrix.tgt[0].wgt"
+		;
+connectAttr "l_brow_local_3_limits_turnDown_composeMatrix.omat" "l_brow_local_3_limits_turn_blendMatrix.tgt[1].tmat"
+		;
+connectAttr "up_down_setRange.ox" "l_brow_local_3_limits_turn_blendMatrix.tgt[1].wgt"
+		;
+connectAttr "l_brow_local_3_limits_lift_pointMatrixMult.o" "l_brow_local_3_limits_radialVec_multiplyDivide.i1"
+		;
+connectAttr "l_brow_local_3_limits_radial_plusMinusAverage.o1" "l_brow_local_3_limits_radialVec_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_3_limits_radial_plusMinusAverage.o1" "l_brow_local_3_limits_radialVec_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_3_limits_radial_plusMinusAverage.o1" "l_brow_local_3_limits_radialVec_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_3_limits_radialVec_multiplyDivide.o" "l_brow_local_3_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "l_brow_local_3_limits_turn_blendMatrix.omat" "l_brow_local_3_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_3_limits_lift_pointMatrixMult.o" "l_brow_local_3_limits_liftNow_multiplyDivide.i1"
+		;
+connectAttr "l_brow.ty" "l_brow_local_3_limits_liftNow_multiplyDivide.i2x";
+connectAttr "l_brow.ty" "l_brow_local_3_limits_liftNow_multiplyDivide.i2y";
+connectAttr "l_brow.ty" "l_brow_local_3_limits_liftNow_multiplyDivide.i2z";
+connectAttr "l_brow_local_3_limits_pathTotal_plusMinusAverage.o3" "l_brow_local_3_limits_offset_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_3_limits_liftNow_multiplyDivide.o" "l_brow_local_3_limits_offset_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_limits_split_clamp.opr" "l_brow_local_4_limits_radial_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_limits_split_clamp.opg" "l_brow_local_4_limits_radial_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_4_limits_speed_multiplyDivide.ox" "l_brow_local_4_limits_radial_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_4_limits_speed_multiplyDivide.oy" "l_brow_local_4_limits_radial_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_4_limits_radial_multiplyDivide.ox" "l_brow_local_4_limits_radial_plusMinusAverage.i1[0]"
+		;
+connectAttr "l_brow_local_4_limits_radial_multiplyDivide.oy" "l_brow_local_4_limits_radial_plusMinusAverage.i1[1]"
+		;
+connectAttr "l_brow_local_4_limits_turnUp_composeMatrix.omat" "l_brow_local_4_limits_turn_blendMatrix.tgt[0].tmat"
+		;
+connectAttr "up_down_setRange.oy" "l_brow_local_4_limits_turn_blendMatrix.tgt[0].wgt"
+		;
+connectAttr "l_brow_local_4_limits_turnDown_composeMatrix.omat" "l_brow_local_4_limits_turn_blendMatrix.tgt[1].tmat"
+		;
+connectAttr "up_down_setRange.ox" "l_brow_local_4_limits_turn_blendMatrix.tgt[1].wgt"
+		;
+connectAttr "l_brow_local_4_limits_lift_pointMatrixMult.o" "l_brow_local_4_limits_radialVec_multiplyDivide.i1"
+		;
+connectAttr "l_brow_local_4_limits_radial_plusMinusAverage.o1" "l_brow_local_4_limits_radialVec_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_4_limits_radial_plusMinusAverage.o1" "l_brow_local_4_limits_radialVec_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_4_limits_radial_plusMinusAverage.o1" "l_brow_local_4_limits_radialVec_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_4_limits_radialVec_multiplyDivide.o" "l_brow_local_4_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "l_brow_local_4_limits_turn_blendMatrix.omat" "l_brow_local_4_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_4_limits_lift_pointMatrixMult.o" "l_brow_local_4_limits_liftNow_multiplyDivide.i1"
+		;
+connectAttr "l_brow.ty" "l_brow_local_4_limits_liftNow_multiplyDivide.i2x";
+connectAttr "l_brow.ty" "l_brow_local_4_limits_liftNow_multiplyDivide.i2y";
+connectAttr "l_brow.ty" "l_brow_local_4_limits_liftNow_multiplyDivide.i2z";
+connectAttr "l_brow_local_4_limits_pathTotal_plusMinusAverage.o3" "l_brow_local_4_limits_offset_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_4_limits_liftNow_multiplyDivide.o" "l_brow_local_4_limits_offset_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_limits_split_clamp.opr" "l_brow_local_5_limits_radial_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_limits_split_clamp.opg" "l_brow_local_5_limits_radial_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_5_limits_speed_multiplyDivide.ox" "l_brow_local_5_limits_radial_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_5_limits_speed_multiplyDivide.oy" "l_brow_local_5_limits_radial_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_5_limits_radial_multiplyDivide.ox" "l_brow_local_5_limits_radial_plusMinusAverage.i1[0]"
+		;
+connectAttr "l_brow_local_5_limits_radial_multiplyDivide.oy" "l_brow_local_5_limits_radial_plusMinusAverage.i1[1]"
+		;
+connectAttr "l_brow_local_5_limits_turnUp_composeMatrix.omat" "l_brow_local_5_limits_turn_blendMatrix.tgt[0].tmat"
+		;
+connectAttr "up_down_setRange.oy" "l_brow_local_5_limits_turn_blendMatrix.tgt[0].wgt"
+		;
+connectAttr "l_brow_local_5_limits_turnDown_composeMatrix.omat" "l_brow_local_5_limits_turn_blendMatrix.tgt[1].tmat"
+		;
+connectAttr "up_down_setRange.ox" "l_brow_local_5_limits_turn_blendMatrix.tgt[1].wgt"
+		;
+connectAttr "l_brow_local_5_limits_lift_pointMatrixMult.o" "l_brow_local_5_limits_radialVec_multiplyDivide.i1"
+		;
+connectAttr "l_brow_local_5_limits_radial_plusMinusAverage.o1" "l_brow_local_5_limits_radialVec_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_5_limits_radial_plusMinusAverage.o1" "l_brow_local_5_limits_radialVec_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_5_limits_radial_plusMinusAverage.o1" "l_brow_local_5_limits_radialVec_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_5_limits_radialVec_multiplyDivide.o" "l_brow_local_5_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "l_brow_local_5_limits_turn_blendMatrix.omat" "l_brow_local_5_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_5_limits_lift_pointMatrixMult.o" "l_brow_local_5_limits_liftNow_multiplyDivide.i1"
+		;
+connectAttr "l_brow.ty" "l_brow_local_5_limits_liftNow_multiplyDivide.i2x";
+connectAttr "l_brow.ty" "l_brow_local_5_limits_liftNow_multiplyDivide.i2y";
+connectAttr "l_brow.ty" "l_brow_local_5_limits_liftNow_multiplyDivide.i2z";
+connectAttr "l_brow_local_5_limits_pathTotal_plusMinusAverage.o3" "l_brow_local_5_limits_offset_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_5_limits_liftNow_multiplyDivide.o" "l_brow_local_5_limits_offset_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_limits_split_clamp.opr" "l_brow_local_6_limits_radial_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_limits_split_clamp.opg" "l_brow_local_6_limits_radial_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_6_limits_speed_multiplyDivide.ox" "l_brow_local_6_limits_radial_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_6_limits_speed_multiplyDivide.oy" "l_brow_local_6_limits_radial_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_6_limits_radial_multiplyDivide.ox" "l_brow_local_6_limits_radial_plusMinusAverage.i1[0]"
+		;
+connectAttr "l_brow_local_6_limits_radial_multiplyDivide.oy" "l_brow_local_6_limits_radial_plusMinusAverage.i1[1]"
+		;
+connectAttr "l_brow_local_6_limits_turnUp_composeMatrix.omat" "l_brow_local_6_limits_turn_blendMatrix.tgt[0].tmat"
+		;
+connectAttr "up_down_setRange.oy" "l_brow_local_6_limits_turn_blendMatrix.tgt[0].wgt"
+		;
+connectAttr "l_brow_local_6_limits_turnDown_composeMatrix.omat" "l_brow_local_6_limits_turn_blendMatrix.tgt[1].tmat"
+		;
+connectAttr "up_down_setRange.ox" "l_brow_local_6_limits_turn_blendMatrix.tgt[1].wgt"
+		;
+connectAttr "l_brow_local_6_limits_lift_pointMatrixMult.o" "l_brow_local_6_limits_radialVec_multiplyDivide.i1"
+		;
+connectAttr "l_brow_local_6_limits_radial_plusMinusAverage.o1" "l_brow_local_6_limits_radialVec_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_6_limits_radial_plusMinusAverage.o1" "l_brow_local_6_limits_radialVec_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_6_limits_radial_plusMinusAverage.o1" "l_brow_local_6_limits_radialVec_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_6_limits_radialVec_multiplyDivide.o" "l_brow_local_6_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "l_brow_local_6_limits_turn_blendMatrix.omat" "l_brow_local_6_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_6_limits_lift_pointMatrixMult.o" "l_brow_local_6_limits_liftNow_multiplyDivide.i1"
+		;
+connectAttr "l_brow.ty" "l_brow_local_6_limits_liftNow_multiplyDivide.i2x";
+connectAttr "l_brow.ty" "l_brow_local_6_limits_liftNow_multiplyDivide.i2y";
+connectAttr "l_brow.ty" "l_brow_local_6_limits_liftNow_multiplyDivide.i2z";
+connectAttr "l_brow_local_6_limits_pathTotal_plusMinusAverage.o3" "l_brow_local_6_limits_offset_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_6_limits_liftNow_multiplyDivide.o" "l_brow_local_6_limits_offset_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_limits_split_clamp.opr" "l_brow_local_7_limits_radial_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_limits_split_clamp.opg" "l_brow_local_7_limits_radial_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_7_limits_speed_multiplyDivide.ox" "l_brow_local_7_limits_radial_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_7_limits_speed_multiplyDivide.oy" "l_brow_local_7_limits_radial_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_7_limits_radial_multiplyDivide.ox" "l_brow_local_7_limits_radial_plusMinusAverage.i1[0]"
+		;
+connectAttr "l_brow_local_7_limits_radial_multiplyDivide.oy" "l_brow_local_7_limits_radial_plusMinusAverage.i1[1]"
+		;
+connectAttr "l_brow_local_7_limits_turnUp_composeMatrix.omat" "l_brow_local_7_limits_turn_blendMatrix.tgt[0].tmat"
+		;
+connectAttr "up_down_setRange.oy" "l_brow_local_7_limits_turn_blendMatrix.tgt[0].wgt"
+		;
+connectAttr "l_brow_local_7_limits_turnDown_composeMatrix.omat" "l_brow_local_7_limits_turn_blendMatrix.tgt[1].tmat"
+		;
+connectAttr "up_down_setRange.ox" "l_brow_local_7_limits_turn_blendMatrix.tgt[1].wgt"
+		;
+connectAttr "l_brow_local_7_limits_lift_pointMatrixMult.o" "l_brow_local_7_limits_radialVec_multiplyDivide.i1"
+		;
+connectAttr "l_brow_local_7_limits_radial_plusMinusAverage.o1" "l_brow_local_7_limits_radialVec_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_7_limits_radial_plusMinusAverage.o1" "l_brow_local_7_limits_radialVec_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_7_limits_radial_plusMinusAverage.o1" "l_brow_local_7_limits_radialVec_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_7_limits_radialVec_multiplyDivide.o" "l_brow_local_7_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "l_brow_local_7_limits_turn_blendMatrix.omat" "l_brow_local_7_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_7_limits_lift_pointMatrixMult.o" "l_brow_local_7_limits_liftNow_multiplyDivide.i1"
+		;
+connectAttr "l_brow.ty" "l_brow_local_7_limits_liftNow_multiplyDivide.i2x";
+connectAttr "l_brow.ty" "l_brow_local_7_limits_liftNow_multiplyDivide.i2y";
+connectAttr "l_brow.ty" "l_brow_local_7_limits_liftNow_multiplyDivide.i2z";
+connectAttr "l_brow_local_7_limits_pathTotal_plusMinusAverage.o3" "l_brow_local_7_limits_offset_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_7_limits_liftNow_multiplyDivide.o" "l_brow_local_7_limits_offset_plusMinusAverage.i3[1]"
+		;
+connectAttr "r_brow_limits_split_clamp.opr" "r_brow_local_2_limits_radial_multiplyDivide.i1x"
+		;
+connectAttr "r_brow_limits_split_clamp.opg" "r_brow_local_2_limits_radial_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_2_limits_speed_multiplyDivide.ox" "r_brow_local_2_limits_radial_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_2_limits_speed_multiplyDivide.oy" "r_brow_local_2_limits_radial_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_local_2_limits_radial_multiplyDivide.ox" "r_brow_local_2_limits_radial_plusMinusAverage.i1[0]"
+		;
+connectAttr "r_brow_local_2_limits_radial_multiplyDivide.oy" "r_brow_local_2_limits_radial_plusMinusAverage.i1[1]"
+		;
+connectAttr "l_brow_local_2_limits_turnUp_composeMatrix.omat" "r_brow_local_2_limits_turn_blendMatrix.tgt[0].tmat"
+		;
+connectAttr "up_down_setRange1.oy" "r_brow_local_2_limits_turn_blendMatrix.tgt[0].wgt"
+		;
+connectAttr "l_brow_local_2_limits_turnDown_composeMatrix.omat" "r_brow_local_2_limits_turn_blendMatrix.tgt[1].tmat"
+		;
+connectAttr "up_down_setRange1.ox" "r_brow_local_2_limits_turn_blendMatrix.tgt[1].wgt"
+		;
+connectAttr "l_brow_local_2_limits_lift_pointMatrixMult.o" "r_brow_local_2_limits_radialVec_multiplyDivide.i1"
+		;
+connectAttr "r_brow_local_2_limits_radial_plusMinusAverage.o1" "r_brow_local_2_limits_radialVec_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_local_2_limits_radial_plusMinusAverage.o1" "r_brow_local_2_limits_radialVec_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_local_2_limits_radial_plusMinusAverage.o1" "r_brow_local_2_limits_radialVec_multiplyDivide.i2z"
+		;
+connectAttr "r_brow_local_2_limits_radialVec_multiplyDivide.o" "r_brow_local_2_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "r_brow_local_2_limits_turn_blendMatrix.omat" "r_brow_local_2_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_2_limits_lift_pointMatrixMult.o" "r_brow_local_2_limits_liftNow_multiplyDivide.i1"
+		;
+connectAttr "r_brow.ty" "r_brow_local_2_limits_liftNow_multiplyDivide.i2x";
+connectAttr "r_brow.ty" "r_brow_local_2_limits_liftNow_multiplyDivide.i2y";
+connectAttr "r_brow.ty" "r_brow_local_2_limits_liftNow_multiplyDivide.i2z";
+connectAttr "r_brow_local_2_limits_pathTotal_plusMinusAverage.o3" "r_brow_local_2_limits_offset_plusMinusAverage.i3[0]"
+		;
+connectAttr "r_brow_local_2_limits_liftNow_multiplyDivide.o" "r_brow_local_2_limits_offset_plusMinusAverage.i3[1]"
+		;
+connectAttr "r_brow_limits_split_clamp.opr" "r_brow_local_3_limits_radial_multiplyDivide.i1x"
+		;
+connectAttr "r_brow_limits_split_clamp.opg" "r_brow_local_3_limits_radial_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_3_limits_speed_multiplyDivide.ox" "r_brow_local_3_limits_radial_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_3_limits_speed_multiplyDivide.oy" "r_brow_local_3_limits_radial_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_local_3_limits_radial_multiplyDivide.ox" "r_brow_local_3_limits_radial_plusMinusAverage.i1[0]"
+		;
+connectAttr "r_brow_local_3_limits_radial_multiplyDivide.oy" "r_brow_local_3_limits_radial_plusMinusAverage.i1[1]"
+		;
+connectAttr "l_brow_local_3_limits_turnUp_composeMatrix.omat" "r_brow_local_3_limits_turn_blendMatrix.tgt[0].tmat"
+		;
+connectAttr "up_down_setRange1.oy" "r_brow_local_3_limits_turn_blendMatrix.tgt[0].wgt"
+		;
+connectAttr "l_brow_local_3_limits_turnDown_composeMatrix.omat" "r_brow_local_3_limits_turn_blendMatrix.tgt[1].tmat"
+		;
+connectAttr "up_down_setRange1.ox" "r_brow_local_3_limits_turn_blendMatrix.tgt[1].wgt"
+		;
+connectAttr "l_brow_local_3_limits_lift_pointMatrixMult.o" "r_brow_local_3_limits_radialVec_multiplyDivide.i1"
+		;
+connectAttr "r_brow_local_3_limits_radial_plusMinusAverage.o1" "r_brow_local_3_limits_radialVec_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_local_3_limits_radial_plusMinusAverage.o1" "r_brow_local_3_limits_radialVec_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_local_3_limits_radial_plusMinusAverage.o1" "r_brow_local_3_limits_radialVec_multiplyDivide.i2z"
+		;
+connectAttr "r_brow_local_3_limits_radialVec_multiplyDivide.o" "r_brow_local_3_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "r_brow_local_3_limits_turn_blendMatrix.omat" "r_brow_local_3_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_3_limits_lift_pointMatrixMult.o" "r_brow_local_3_limits_liftNow_multiplyDivide.i1"
+		;
+connectAttr "r_brow.ty" "r_brow_local_3_limits_liftNow_multiplyDivide.i2x";
+connectAttr "r_brow.ty" "r_brow_local_3_limits_liftNow_multiplyDivide.i2y";
+connectAttr "r_brow.ty" "r_brow_local_3_limits_liftNow_multiplyDivide.i2z";
+connectAttr "r_brow_local_3_limits_pathTotal_plusMinusAverage.o3" "r_brow_local_3_limits_offset_plusMinusAverage.i3[0]"
+		;
+connectAttr "r_brow_local_3_limits_liftNow_multiplyDivide.o" "r_brow_local_3_limits_offset_plusMinusAverage.i3[1]"
+		;
+connectAttr "r_brow_limits_split_clamp.opr" "r_brow_local_4_limits_radial_multiplyDivide.i1x"
+		;
+connectAttr "r_brow_limits_split_clamp.opg" "r_brow_local_4_limits_radial_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_4_limits_speed_multiplyDivide.ox" "r_brow_local_4_limits_radial_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_4_limits_speed_multiplyDivide.oy" "r_brow_local_4_limits_radial_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_local_4_limits_radial_multiplyDivide.ox" "r_brow_local_4_limits_radial_plusMinusAverage.i1[0]"
+		;
+connectAttr "r_brow_local_4_limits_radial_multiplyDivide.oy" "r_brow_local_4_limits_radial_plusMinusAverage.i1[1]"
+		;
+connectAttr "l_brow_local_4_limits_turnUp_composeMatrix.omat" "r_brow_local_4_limits_turn_blendMatrix.tgt[0].tmat"
+		;
+connectAttr "up_down_setRange1.oy" "r_brow_local_4_limits_turn_blendMatrix.tgt[0].wgt"
+		;
+connectAttr "l_brow_local_4_limits_turnDown_composeMatrix.omat" "r_brow_local_4_limits_turn_blendMatrix.tgt[1].tmat"
+		;
+connectAttr "up_down_setRange1.ox" "r_brow_local_4_limits_turn_blendMatrix.tgt[1].wgt"
+		;
+connectAttr "l_brow_local_4_limits_lift_pointMatrixMult.o" "r_brow_local_4_limits_radialVec_multiplyDivide.i1"
+		;
+connectAttr "r_brow_local_4_limits_radial_plusMinusAverage.o1" "r_brow_local_4_limits_radialVec_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_local_4_limits_radial_plusMinusAverage.o1" "r_brow_local_4_limits_radialVec_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_local_4_limits_radial_plusMinusAverage.o1" "r_brow_local_4_limits_radialVec_multiplyDivide.i2z"
+		;
+connectAttr "r_brow_local_4_limits_radialVec_multiplyDivide.o" "r_brow_local_4_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "r_brow_local_4_limits_turn_blendMatrix.omat" "r_brow_local_4_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_4_limits_lift_pointMatrixMult.o" "r_brow_local_4_limits_liftNow_multiplyDivide.i1"
+		;
+connectAttr "r_brow.ty" "r_brow_local_4_limits_liftNow_multiplyDivide.i2x";
+connectAttr "r_brow.ty" "r_brow_local_4_limits_liftNow_multiplyDivide.i2y";
+connectAttr "r_brow.ty" "r_brow_local_4_limits_liftNow_multiplyDivide.i2z";
+connectAttr "r_brow_local_4_limits_pathTotal_plusMinusAverage.o3" "r_brow_local_4_limits_offset_plusMinusAverage.i3[0]"
+		;
+connectAttr "r_brow_local_4_limits_liftNow_multiplyDivide.o" "r_brow_local_4_limits_offset_plusMinusAverage.i3[1]"
+		;
+connectAttr "r_brow_limits_split_clamp.opr" "r_brow_local_5_limits_radial_multiplyDivide.i1x"
+		;
+connectAttr "r_brow_limits_split_clamp.opg" "r_brow_local_5_limits_radial_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_5_limits_speed_multiplyDivide.ox" "r_brow_local_5_limits_radial_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_5_limits_speed_multiplyDivide.oy" "r_brow_local_5_limits_radial_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_local_5_limits_radial_multiplyDivide.ox" "r_brow_local_5_limits_radial_plusMinusAverage.i1[0]"
+		;
+connectAttr "r_brow_local_5_limits_radial_multiplyDivide.oy" "r_brow_local_5_limits_radial_plusMinusAverage.i1[1]"
+		;
+connectAttr "l_brow_local_5_limits_turnUp_composeMatrix.omat" "r_brow_local_5_limits_turn_blendMatrix.tgt[0].tmat"
+		;
+connectAttr "up_down_setRange1.oy" "r_brow_local_5_limits_turn_blendMatrix.tgt[0].wgt"
+		;
+connectAttr "l_brow_local_5_limits_turnDown_composeMatrix.omat" "r_brow_local_5_limits_turn_blendMatrix.tgt[1].tmat"
+		;
+connectAttr "up_down_setRange1.ox" "r_brow_local_5_limits_turn_blendMatrix.tgt[1].wgt"
+		;
+connectAttr "l_brow_local_5_limits_lift_pointMatrixMult.o" "r_brow_local_5_limits_radialVec_multiplyDivide.i1"
+		;
+connectAttr "r_brow_local_5_limits_radial_plusMinusAverage.o1" "r_brow_local_5_limits_radialVec_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_local_5_limits_radial_plusMinusAverage.o1" "r_brow_local_5_limits_radialVec_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_local_5_limits_radial_plusMinusAverage.o1" "r_brow_local_5_limits_radialVec_multiplyDivide.i2z"
+		;
+connectAttr "r_brow_local_5_limits_radialVec_multiplyDivide.o" "r_brow_local_5_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "r_brow_local_5_limits_turn_blendMatrix.omat" "r_brow_local_5_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_5_limits_lift_pointMatrixMult.o" "r_brow_local_5_limits_liftNow_multiplyDivide.i1"
+		;
+connectAttr "r_brow.ty" "r_brow_local_5_limits_liftNow_multiplyDivide.i2x";
+connectAttr "r_brow.ty" "r_brow_local_5_limits_liftNow_multiplyDivide.i2y";
+connectAttr "r_brow.ty" "r_brow_local_5_limits_liftNow_multiplyDivide.i2z";
+connectAttr "r_brow_local_5_limits_pathTotal_plusMinusAverage.o3" "r_brow_local_5_limits_offset_plusMinusAverage.i3[0]"
+		;
+connectAttr "r_brow_local_5_limits_liftNow_multiplyDivide.o" "r_brow_local_5_limits_offset_plusMinusAverage.i3[1]"
+		;
+connectAttr "r_brow_limits_split_clamp.opr" "r_brow_local_6_limits_radial_multiplyDivide.i1x"
+		;
+connectAttr "r_brow_limits_split_clamp.opg" "r_brow_local_6_limits_radial_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_6_limits_speed_multiplyDivide.ox" "r_brow_local_6_limits_radial_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_6_limits_speed_multiplyDivide.oy" "r_brow_local_6_limits_radial_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_local_6_limits_radial_multiplyDivide.ox" "r_brow_local_6_limits_radial_plusMinusAverage.i1[0]"
+		;
+connectAttr "r_brow_local_6_limits_radial_multiplyDivide.oy" "r_brow_local_6_limits_radial_plusMinusAverage.i1[1]"
+		;
+connectAttr "l_brow_local_6_limits_turnUp_composeMatrix.omat" "r_brow_local_6_limits_turn_blendMatrix.tgt[0].tmat"
+		;
+connectAttr "up_down_setRange1.oy" "r_brow_local_6_limits_turn_blendMatrix.tgt[0].wgt"
+		;
+connectAttr "l_brow_local_6_limits_turnDown_composeMatrix.omat" "r_brow_local_6_limits_turn_blendMatrix.tgt[1].tmat"
+		;
+connectAttr "up_down_setRange1.ox" "r_brow_local_6_limits_turn_blendMatrix.tgt[1].wgt"
+		;
+connectAttr "l_brow_local_6_limits_lift_pointMatrixMult.o" "r_brow_local_6_limits_radialVec_multiplyDivide.i1"
+		;
+connectAttr "r_brow_local_6_limits_radial_plusMinusAverage.o1" "r_brow_local_6_limits_radialVec_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_local_6_limits_radial_plusMinusAverage.o1" "r_brow_local_6_limits_radialVec_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_local_6_limits_radial_plusMinusAverage.o1" "r_brow_local_6_limits_radialVec_multiplyDivide.i2z"
+		;
+connectAttr "r_brow_local_6_limits_radialVec_multiplyDivide.o" "r_brow_local_6_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "r_brow_local_6_limits_turn_blendMatrix.omat" "r_brow_local_6_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_6_limits_lift_pointMatrixMult.o" "r_brow_local_6_limits_liftNow_multiplyDivide.i1"
+		;
+connectAttr "r_brow.ty" "r_brow_local_6_limits_liftNow_multiplyDivide.i2x";
+connectAttr "r_brow.ty" "r_brow_local_6_limits_liftNow_multiplyDivide.i2y";
+connectAttr "r_brow.ty" "r_brow_local_6_limits_liftNow_multiplyDivide.i2z";
+connectAttr "r_brow_local_6_limits_pathTotal_plusMinusAverage.o3" "r_brow_local_6_limits_offset_plusMinusAverage.i3[0]"
+		;
+connectAttr "r_brow_local_6_limits_liftNow_multiplyDivide.o" "r_brow_local_6_limits_offset_plusMinusAverage.i3[1]"
+		;
+connectAttr "r_brow_limits_split_clamp.opr" "r_brow_local_7_limits_radial_multiplyDivide.i1x"
+		;
+connectAttr "r_brow_limits_split_clamp.opg" "r_brow_local_7_limits_radial_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_local_7_limits_speed_multiplyDivide.ox" "r_brow_local_7_limits_radial_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_7_limits_speed_multiplyDivide.oy" "r_brow_local_7_limits_radial_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_local_7_limits_radial_multiplyDivide.ox" "r_brow_local_7_limits_radial_plusMinusAverage.i1[0]"
+		;
+connectAttr "r_brow_local_7_limits_radial_multiplyDivide.oy" "r_brow_local_7_limits_radial_plusMinusAverage.i1[1]"
+		;
+connectAttr "l_brow_local_7_limits_turnUp_composeMatrix.omat" "r_brow_local_7_limits_turn_blendMatrix.tgt[0].tmat"
+		;
+connectAttr "up_down_setRange1.oy" "r_brow_local_7_limits_turn_blendMatrix.tgt[0].wgt"
+		;
+connectAttr "l_brow_local_7_limits_turnDown_composeMatrix.omat" "r_brow_local_7_limits_turn_blendMatrix.tgt[1].tmat"
+		;
+connectAttr "up_down_setRange1.ox" "r_brow_local_7_limits_turn_blendMatrix.tgt[1].wgt"
+		;
+connectAttr "l_brow_local_7_limits_lift_pointMatrixMult.o" "r_brow_local_7_limits_radialVec_multiplyDivide.i1"
+		;
+connectAttr "r_brow_local_7_limits_radial_plusMinusAverage.o1" "r_brow_local_7_limits_radialVec_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_local_7_limits_radial_plusMinusAverage.o1" "r_brow_local_7_limits_radialVec_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_local_7_limits_radial_plusMinusAverage.o1" "r_brow_local_7_limits_radialVec_multiplyDivide.i2z"
+		;
+connectAttr "r_brow_local_7_limits_radialVec_multiplyDivide.o" "r_brow_local_7_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "r_brow_local_7_limits_turn_blendMatrix.omat" "r_brow_local_7_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_7_limits_lift_pointMatrixMult.o" "r_brow_local_7_limits_liftNow_multiplyDivide.i1"
+		;
+connectAttr "r_brow.ty" "r_brow_local_7_limits_liftNow_multiplyDivide.i2x";
+connectAttr "r_brow.ty" "r_brow_local_7_limits_liftNow_multiplyDivide.i2y";
+connectAttr "r_brow.ty" "r_brow_local_7_limits_liftNow_multiplyDivide.i2z";
+connectAttr "r_brow_local_7_limits_pathTotal_plusMinusAverage.o3" "r_brow_local_7_limits_offset_plusMinusAverage.i3[0]"
+		;
+connectAttr "r_brow_local_7_limits_liftNow_multiplyDivide.o" "r_brow_local_7_limits_offset_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_limits_split_clamp.opr" "l_brow_out_limits_radial_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_limits_split_clamp.opg" "l_brow_out_limits_radial_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_out_limits_speed_multiplyDivide.ox" "l_brow_out_limits_radial_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_out_limits_speed_multiplyDivide.oy" "l_brow_out_limits_radial_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_out_limits_radial_multiplyDivide.ox" "l_brow_out_limits_radial_plusMinusAverage.i1[0]"
+		;
+connectAttr "l_brow_out_limits_radial_multiplyDivide.oy" "l_brow_out_limits_radial_plusMinusAverage.i1[1]"
+		;
+connectAttr "l_brow_out_limits_turnUp_composeMatrix.omat" "l_brow_out_limits_turn_blendMatrix.tgt[0].tmat"
+		;
+connectAttr "up_down_setRange.oy" "l_brow_out_limits_turn_blendMatrix.tgt[0].wgt"
+		;
+connectAttr "l_brow_out_limits_turnDown_composeMatrix.omat" "l_brow_out_limits_turn_blendMatrix.tgt[1].tmat"
+		;
+connectAttr "up_down_setRange.ox" "l_brow_out_limits_turn_blendMatrix.tgt[1].wgt"
+		;
+connectAttr "l_brow_out_limits_lift_pointMatrixMult.o" "l_brow_out_limits_radialVec_multiplyDivide.i1"
+		;
+connectAttr "l_brow_out_limits_radial_plusMinusAverage.o1" "l_brow_out_limits_radialVec_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_out_limits_radial_plusMinusAverage.o1" "l_brow_out_limits_radialVec_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_out_limits_radial_plusMinusAverage.o1" "l_brow_out_limits_radialVec_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_out_limits_radialVec_multiplyDivide.o" "l_brow_out_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "l_brow_out_limits_turn_blendMatrix.omat" "l_brow_out_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_out_limits_lift_pointMatrixMult.o" "l_brow_out_limits_liftNow_multiplyDivide.i1"
+		;
+connectAttr "l_brow.ty" "l_brow_out_limits_liftNow_multiplyDivide.i2x";
+connectAttr "l_brow.ty" "l_brow_out_limits_liftNow_multiplyDivide.i2y";
+connectAttr "l_brow.ty" "l_brow_out_limits_liftNow_multiplyDivide.i2z";
+connectAttr "l_brow_out_limits_pathTotal_plusMinusAverage.o3" "l_brow_out_limits_offset_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_out_limits_liftNow_multiplyDivide.o" "l_brow_out_limits_offset_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_out_top.m" "l_brow_out_top_rotate_pickMatrix.imat";
+connectAttr "l_brow_out_bot.m" "l_brow_out_bot_rotate_pickMatrix.imat";
+connectAttr "l_brow_out_limits_offset_plusMinusAverage.o3" "l_brow_out_limits_offset_composeMatrix.it"
+		;
+connectAttr "l_brow_limits_split_clamp.opr" "l_brow_mid_limits_radial_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_limits_split_clamp.opg" "l_brow_mid_limits_radial_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_mid_limits_speed_multiplyDivide.ox" "l_brow_mid_limits_radial_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_mid_limits_speed_multiplyDivide.oy" "l_brow_mid_limits_radial_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_mid_limits_radial_multiplyDivide.ox" "l_brow_mid_limits_radial_plusMinusAverage.i1[0]"
+		;
+connectAttr "l_brow_mid_limits_radial_multiplyDivide.oy" "l_brow_mid_limits_radial_plusMinusAverage.i1[1]"
+		;
+connectAttr "l_brow_mid_limits_turnUp_composeMatrix.omat" "l_brow_mid_limits_turn_blendMatrix.tgt[0].tmat"
+		;
+connectAttr "up_down_setRange.oy" "l_brow_mid_limits_turn_blendMatrix.tgt[0].wgt"
+		;
+connectAttr "l_brow_mid_limits_turnDown_composeMatrix.omat" "l_brow_mid_limits_turn_blendMatrix.tgt[1].tmat"
+		;
+connectAttr "up_down_setRange.ox" "l_brow_mid_limits_turn_blendMatrix.tgt[1].wgt"
+		;
+connectAttr "l_brow_mid_limits_lift_pointMatrixMult.o" "l_brow_mid_limits_radialVec_multiplyDivide.i1"
+		;
+connectAttr "l_brow_mid_limits_radial_plusMinusAverage.o1" "l_brow_mid_limits_radialVec_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_mid_limits_radial_plusMinusAverage.o1" "l_brow_mid_limits_radialVec_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_mid_limits_radial_plusMinusAverage.o1" "l_brow_mid_limits_radialVec_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_mid_limits_radialVec_multiplyDivide.o" "l_brow_mid_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "l_brow_mid_limits_turn_blendMatrix.omat" "l_brow_mid_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_mid_limits_lift_pointMatrixMult.o" "l_brow_mid_limits_liftNow_multiplyDivide.i1"
+		;
+connectAttr "l_brow.ty" "l_brow_mid_limits_liftNow_multiplyDivide.i2x";
+connectAttr "l_brow.ty" "l_brow_mid_limits_liftNow_multiplyDivide.i2y";
+connectAttr "l_brow.ty" "l_brow_mid_limits_liftNow_multiplyDivide.i2z";
+connectAttr "l_brow_mid_limits_pathTotal_plusMinusAverage.o3" "l_brow_mid_limits_offset_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_mid_limits_liftNow_multiplyDivide.o" "l_brow_mid_limits_offset_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_mid_top.m" "l_brow_mid_top_rotate_pickMatrix.imat";
+connectAttr "l_brow_mid_bot.m" "l_brow_mid_bot_rotate_pickMatrix.imat";
+connectAttr "l_brow_mid_limits_offset_plusMinusAverage.o3" "l_brow_mid_limits_offset_composeMatrix.it"
+		;
+connectAttr "l_brow_limits_split_clamp.opr" "l_brow_in_limits_radial_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_limits_split_clamp.opg" "l_brow_in_limits_radial_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_in_limits_speed_multiplyDivide.ox" "l_brow_in_limits_radial_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_in_limits_speed_multiplyDivide.oy" "l_brow_in_limits_radial_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_in_limits_radial_multiplyDivide.ox" "l_brow_in_limits_radial_plusMinusAverage.i1[0]"
+		;
+connectAttr "l_brow_in_limits_radial_multiplyDivide.oy" "l_brow_in_limits_radial_plusMinusAverage.i1[1]"
+		;
+connectAttr "l_brow_in_limits_turnUp_composeMatrix.omat" "l_brow_in_limits_turn_blendMatrix.tgt[0].tmat"
+		;
+connectAttr "up_down_setRange.oy" "l_brow_in_limits_turn_blendMatrix.tgt[0].wgt"
+		;
+connectAttr "l_brow_in_limits_turnDown_composeMatrix.omat" "l_brow_in_limits_turn_blendMatrix.tgt[1].tmat"
+		;
+connectAttr "up_down_setRange.ox" "l_brow_in_limits_turn_blendMatrix.tgt[1].wgt"
+		;
+connectAttr "l_brow_in_limits_lift_pointMatrixMult.o" "l_brow_in_limits_radialVec_multiplyDivide.i1"
+		;
+connectAttr "l_brow_in_limits_radial_plusMinusAverage.o1" "l_brow_in_limits_radialVec_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_in_limits_radial_plusMinusAverage.o1" "l_brow_in_limits_radialVec_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_in_limits_radial_plusMinusAverage.o1" "l_brow_in_limits_radialVec_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_in_limits_radialVec_multiplyDivide.o" "l_brow_in_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "l_brow_in_limits_turn_blendMatrix.omat" "l_brow_in_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_in_limits_lift_pointMatrixMult.o" "l_brow_in_limits_liftNow_multiplyDivide.i1"
+		;
+connectAttr "l_brow.ty" "l_brow_in_limits_liftNow_multiplyDivide.i2x";
+connectAttr "l_brow.ty" "l_brow_in_limits_liftNow_multiplyDivide.i2y";
+connectAttr "l_brow.ty" "l_brow_in_limits_liftNow_multiplyDivide.i2z";
+connectAttr "l_brow_in_limits_pathTotal_plusMinusAverage.o3" "l_brow_in_limits_offset_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_in_limits_liftNow_multiplyDivide.o" "l_brow_in_limits_offset_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_in_top.m" "l_brow_in_top_rotate_pickMatrix.imat";
+connectAttr "l_brow_in_bot.m" "l_brow_in_bot_rotate_pickMatrix.imat";
+connectAttr "l_brow_in_limits_offset_plusMinusAverage.o3" "l_brow_in_limits_offset_composeMatrix.it"
+		;
+connectAttr "r_brow_limits_split_clamp.opr" "r_brow_out_limits_radial_multiplyDivide.i1x"
+		;
+connectAttr "r_brow_limits_split_clamp.opg" "r_brow_out_limits_radial_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_out_limits_speed_multiplyDivide.ox" "r_brow_out_limits_radial_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_out_limits_speed_multiplyDivide.oy" "r_brow_out_limits_radial_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_out_limits_radial_multiplyDivide.ox" "r_brow_out_limits_radial_plusMinusAverage.i1[0]"
+		;
+connectAttr "r_brow_out_limits_radial_multiplyDivide.oy" "r_brow_out_limits_radial_plusMinusAverage.i1[1]"
+		;
+connectAttr "l_brow_out_limits_turnUp_composeMatrix.omat" "r_brow_out_limits_turn_blendMatrix.tgt[0].tmat"
+		;
+connectAttr "up_down_setRange1.oy" "r_brow_out_limits_turn_blendMatrix.tgt[0].wgt"
+		;
+connectAttr "l_brow_out_limits_turnDown_composeMatrix.omat" "r_brow_out_limits_turn_blendMatrix.tgt[1].tmat"
+		;
+connectAttr "up_down_setRange1.ox" "r_brow_out_limits_turn_blendMatrix.tgt[1].wgt"
+		;
+connectAttr "l_brow_out_limits_lift_pointMatrixMult.o" "r_brow_out_limits_radialVec_multiplyDivide.i1"
+		;
+connectAttr "r_brow_out_limits_radial_plusMinusAverage.o1" "r_brow_out_limits_radialVec_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_out_limits_radial_plusMinusAverage.o1" "r_brow_out_limits_radialVec_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_out_limits_radial_plusMinusAverage.o1" "r_brow_out_limits_radialVec_multiplyDivide.i2z"
+		;
+connectAttr "r_brow_out_limits_radialVec_multiplyDivide.o" "r_brow_out_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "r_brow_out_limits_turn_blendMatrix.omat" "r_brow_out_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_out_limits_lift_pointMatrixMult.o" "r_brow_out_limits_liftNow_multiplyDivide.i1"
+		;
+connectAttr "r_brow.ty" "r_brow_out_limits_liftNow_multiplyDivide.i2x";
+connectAttr "r_brow.ty" "r_brow_out_limits_liftNow_multiplyDivide.i2y";
+connectAttr "r_brow.ty" "r_brow_out_limits_liftNow_multiplyDivide.i2z";
+connectAttr "r_brow_out_limits_pathTotal_plusMinusAverage.o3" "r_brow_out_limits_offset_plusMinusAverage.i3[0]"
+		;
+connectAttr "r_brow_out_limits_liftNow_multiplyDivide.o" "r_brow_out_limits_offset_plusMinusAverage.i3[1]"
+		;
+connectAttr "r_brow_out_limits_offset_plusMinusAverage.o3" "r_brow_out_limits_offset_composeMatrix.it"
+		;
+connectAttr "r_brow_limits_split_clamp.opr" "r_brow_mid_limits_radial_multiplyDivide.i1x"
+		;
+connectAttr "r_brow_limits_split_clamp.opg" "r_brow_mid_limits_radial_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_mid_limits_speed_multiplyDivide.ox" "r_brow_mid_limits_radial_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_mid_limits_speed_multiplyDivide.oy" "r_brow_mid_limits_radial_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_mid_limits_radial_multiplyDivide.ox" "r_brow_mid_limits_radial_plusMinusAverage.i1[0]"
+		;
+connectAttr "r_brow_mid_limits_radial_multiplyDivide.oy" "r_brow_mid_limits_radial_plusMinusAverage.i1[1]"
+		;
+connectAttr "l_brow_mid_limits_turnUp_composeMatrix.omat" "r_brow_mid_limits_turn_blendMatrix.tgt[0].tmat"
+		;
+connectAttr "up_down_setRange1.oy" "r_brow_mid_limits_turn_blendMatrix.tgt[0].wgt"
+		;
+connectAttr "l_brow_mid_limits_turnDown_composeMatrix.omat" "r_brow_mid_limits_turn_blendMatrix.tgt[1].tmat"
+		;
+connectAttr "up_down_setRange1.ox" "r_brow_mid_limits_turn_blendMatrix.tgt[1].wgt"
+		;
+connectAttr "l_brow_mid_limits_lift_pointMatrixMult.o" "r_brow_mid_limits_radialVec_multiplyDivide.i1"
+		;
+connectAttr "r_brow_mid_limits_radial_plusMinusAverage.o1" "r_brow_mid_limits_radialVec_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_mid_limits_radial_plusMinusAverage.o1" "r_brow_mid_limits_radialVec_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_mid_limits_radial_plusMinusAverage.o1" "r_brow_mid_limits_radialVec_multiplyDivide.i2z"
+		;
+connectAttr "r_brow_mid_limits_radialVec_multiplyDivide.o" "r_brow_mid_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "r_brow_mid_limits_turn_blendMatrix.omat" "r_brow_mid_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_mid_limits_lift_pointMatrixMult.o" "r_brow_mid_limits_liftNow_multiplyDivide.i1"
+		;
+connectAttr "r_brow.ty" "r_brow_mid_limits_liftNow_multiplyDivide.i2x";
+connectAttr "r_brow.ty" "r_brow_mid_limits_liftNow_multiplyDivide.i2y";
+connectAttr "r_brow.ty" "r_brow_mid_limits_liftNow_multiplyDivide.i2z";
+connectAttr "r_brow_mid_limits_pathTotal_plusMinusAverage.o3" "r_brow_mid_limits_offset_plusMinusAverage.i3[0]"
+		;
+connectAttr "r_brow_mid_limits_liftNow_multiplyDivide.o" "r_brow_mid_limits_offset_plusMinusAverage.i3[1]"
+		;
+connectAttr "r_brow_mid_limits_offset_plusMinusAverage.o3" "r_brow_mid_limits_offset_composeMatrix.it"
+		;
+connectAttr "r_brow_limits_split_clamp.opr" "r_brow_in_limits_radial_multiplyDivide.i1x"
+		;
+connectAttr "r_brow_limits_split_clamp.opg" "r_brow_in_limits_radial_multiplyDivide.i1y"
+		;
+connectAttr "l_brow_in_limits_speed_multiplyDivide.ox" "r_brow_in_limits_radial_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_in_limits_speed_multiplyDivide.oy" "r_brow_in_limits_radial_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_in_limits_radial_multiplyDivide.ox" "r_brow_in_limits_radial_plusMinusAverage.i1[0]"
+		;
+connectAttr "r_brow_in_limits_radial_multiplyDivide.oy" "r_brow_in_limits_radial_plusMinusAverage.i1[1]"
+		;
+connectAttr "l_brow_in_limits_turnUp_composeMatrix.omat" "r_brow_in_limits_turn_blendMatrix.tgt[0].tmat"
+		;
+connectAttr "up_down_setRange1.oy" "r_brow_in_limits_turn_blendMatrix.tgt[0].wgt"
+		;
+connectAttr "l_brow_in_limits_turnDown_composeMatrix.omat" "r_brow_in_limits_turn_blendMatrix.tgt[1].tmat"
+		;
+connectAttr "up_down_setRange1.ox" "r_brow_in_limits_turn_blendMatrix.tgt[1].wgt"
+		;
+connectAttr "l_brow_in_limits_lift_pointMatrixMult.o" "r_brow_in_limits_radialVec_multiplyDivide.i1"
+		;
+connectAttr "r_brow_in_limits_radial_plusMinusAverage.o1" "r_brow_in_limits_radialVec_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_in_limits_radial_plusMinusAverage.o1" "r_brow_in_limits_radialVec_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_in_limits_radial_plusMinusAverage.o1" "r_brow_in_limits_radialVec_multiplyDivide.i2z"
+		;
+connectAttr "r_brow_in_limits_radialVec_multiplyDivide.o" "r_brow_in_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "r_brow_in_limits_turn_blendMatrix.omat" "r_brow_in_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_in_limits_lift_pointMatrixMult.o" "r_brow_in_limits_liftNow_multiplyDivide.i1"
+		;
+connectAttr "r_brow.ty" "r_brow_in_limits_liftNow_multiplyDivide.i2x";
+connectAttr "r_brow.ty" "r_brow_in_limits_liftNow_multiplyDivide.i2y";
+connectAttr "r_brow.ty" "r_brow_in_limits_liftNow_multiplyDivide.i2z";
+connectAttr "r_brow_in_limits_pathTotal_plusMinusAverage.o3" "r_brow_in_limits_offset_plusMinusAverage.i3[0]"
+		;
+connectAttr "r_brow_in_limits_liftNow_multiplyDivide.o" "r_brow_in_limits_offset_plusMinusAverage.i3[1]"
+		;
+connectAttr "r_brow_in_limits_offset_plusMinusAverage.o3" "r_brow_in_limits_offset_composeMatrix.it"
+		;
+connectAttr "l_brow.ty" "l_brow_limits_over_plusMinusAverage.i2[0].i2x";
+connectAttr "l_brow.ty" "l_brow_limits_over_plusMinusAverage.i2[0].i2y";
+connectAttr "l_brow.upLimit" "l_brow_limits_over_plusMinusAverage.i2[1].i2x";
+connectAttr "l_brow.downLimit" "l_brow_limits_over_plusMinusAverage.i2[1].i2y";
+connectAttr "l_brow_limits_over_plusMinusAverage.o2x" "l_brow_limits_over_clamp.ipr"
+		;
+connectAttr "l_brow_limits_over_plusMinusAverage.o2y" "l_brow_limits_over_clamp.ipg"
+		;
+connectAttr "l_brow_limits_over_clamp.opr" "l_brow_limits_over_multiplyDivide.i1x"
+		;
+connectAttr "l_brow_limits_over_clamp.opg" "l_brow_limits_over_multiplyDivide.i1y"
+		;
+connectAttr "l_brow.upLimit" "l_brow_limits_over_multiplyDivide.i2x";
+connectAttr "l_brow.downLimit" "l_brow_limits_over_multiplyDivide.i2y";
+connectAttr "r_brow.ty" "r_brow_limits_over_plusMinusAverage.i2[0].i2x";
+connectAttr "r_brow.ty" "r_brow_limits_over_plusMinusAverage.i2[0].i2y";
+connectAttr "l_brow.upLimit" "r_brow_limits_over_plusMinusAverage.i2[1].i2x";
+connectAttr "l_brow.downLimit" "r_brow_limits_over_plusMinusAverage.i2[1].i2y";
+connectAttr "r_brow_limits_over_plusMinusAverage.o2x" "r_brow_limits_over_clamp.ipr"
+		;
+connectAttr "r_brow_limits_over_plusMinusAverage.o2y" "r_brow_limits_over_clamp.ipg"
+		;
+connectAttr "r_brow_limits_over_clamp.opr" "r_brow_limits_over_multiplyDivide.i1x"
+		;
+connectAttr "r_brow_limits_over_clamp.opg" "r_brow_limits_over_multiplyDivide.i1y"
+		;
+connectAttr "l_brow.upLimit" "r_brow_limits_over_multiplyDivide.i2x";
+connectAttr "l_brow.downLimit" "r_brow_limits_over_multiplyDivide.i2y";
+connectAttr "l_brow_in_limits_turnUp_angleBetween.ax" "l_brow_in_limits_tangentUp_vectorProduct.i1"
+		;
+connectAttr "l_brow_in_limits_pathUp_plusMinusAverage.o3" "l_brow_in_limits_tangentUp_vectorProduct.i2"
+		;
+connectAttr "l_brow_in_limits_turnUp_angleBetween.a" "l_brow_in_limits_tangentUp_unitConversion.i"
+		;
+connectAttr "l_brow_in_limits_tangentUp_vectorProduct.o" "l_brow_in_limits_tangentUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow_in_limits_tangentUp_unitConversion.o" "l_brow_in_limits_tangentUp_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_in_limits_tangentUp_unitConversion.o" "l_brow_in_limits_tangentUp_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_in_limits_tangentUp_unitConversion.o" "l_brow_in_limits_tangentUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_in_limits_pathUp_plusMinusAverage.o3" "l_brow_in_limits_tangentUp_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_in_limits_tangentUp_multiplyDivide.o" "l_brow_in_limits_tangentUp_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_in_limits_turnDown_angleBetween.ax" "l_brow_in_limits_tangentDown_vectorProduct.i1"
+		;
+connectAttr "l_brow_in_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_in_limits_tangentDown_vectorProduct.i2"
+		;
+connectAttr "l_brow_in_limits_turnDown_angleBetween.a" "l_brow_in_limits_tangentDown_unitConversion.i"
+		;
+connectAttr "l_brow_in_limits_tangentDown_vectorProduct.o" "l_brow_in_limits_tangentDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow_in_limits_tangentDown_unitConversion.o" "l_brow_in_limits_tangentDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_in_limits_tangentDown_unitConversion.o" "l_brow_in_limits_tangentDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_in_limits_tangentDown_unitConversion.o" "l_brow_in_limits_tangentDown_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_in_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_in_limits_tangentDown_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_in_limits_tangentDown_multiplyDivide.o" "l_brow_in_limits_tangentDown_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_1_limits_turnUp_angleBetween.ax" "l_brow_local_1_limits_tangentUp_vectorProduct.i1"
+		;
+connectAttr "l_brow_local_1_limits_pathUp_plusMinusAverage.o3" "l_brow_local_1_limits_tangentUp_vectorProduct.i2"
+		;
+connectAttr "l_brow_local_1_limits_turnUp_angleBetween.a" "l_brow_local_1_limits_tangentUp_unitConversion.i"
+		;
+connectAttr "l_brow_local_1_limits_tangentUp_vectorProduct.o" "l_brow_local_1_limits_tangentUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow_local_1_limits_tangentUp_unitConversion.o" "l_brow_local_1_limits_tangentUp_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_1_limits_tangentUp_unitConversion.o" "l_brow_local_1_limits_tangentUp_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_1_limits_tangentUp_unitConversion.o" "l_brow_local_1_limits_tangentUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_1_limits_pathUp_plusMinusAverage.o3" "l_brow_local_1_limits_tangentUp_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_1_limits_tangentUp_multiplyDivide.o" "l_brow_local_1_limits_tangentUp_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_1_limits_turnDown_angleBetween.ax" "l_brow_local_1_limits_tangentDown_vectorProduct.i1"
+		;
+connectAttr "l_brow_local_1_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_1_limits_tangentDown_vectorProduct.i2"
+		;
+connectAttr "l_brow_local_1_limits_turnDown_angleBetween.a" "l_brow_local_1_limits_tangentDown_unitConversion.i"
+		;
+connectAttr "l_brow_local_1_limits_tangentDown_vectorProduct.o" "l_brow_local_1_limits_tangentDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow_local_1_limits_tangentDown_unitConversion.o" "l_brow_local_1_limits_tangentDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_1_limits_tangentDown_unitConversion.o" "l_brow_local_1_limits_tangentDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_1_limits_tangentDown_unitConversion.o" "l_brow_local_1_limits_tangentDown_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_1_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_1_limits_tangentDown_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_1_limits_tangentDown_multiplyDivide.o" "l_brow_local_1_limits_tangentDown_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_2_limits_turnUp_angleBetween.ax" "l_brow_local_2_limits_tangentUp_vectorProduct.i1"
+		;
+connectAttr "l_brow_local_2_limits_pathUp_plusMinusAverage.o3" "l_brow_local_2_limits_tangentUp_vectorProduct.i2"
+		;
+connectAttr "l_brow_local_2_limits_turnUp_angleBetween.a" "l_brow_local_2_limits_tangentUp_unitConversion.i"
+		;
+connectAttr "l_brow_local_2_limits_tangentUp_vectorProduct.o" "l_brow_local_2_limits_tangentUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow_local_2_limits_tangentUp_unitConversion.o" "l_brow_local_2_limits_tangentUp_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_2_limits_tangentUp_unitConversion.o" "l_brow_local_2_limits_tangentUp_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_2_limits_tangentUp_unitConversion.o" "l_brow_local_2_limits_tangentUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_2_limits_pathUp_plusMinusAverage.o3" "l_brow_local_2_limits_tangentUp_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_2_limits_tangentUp_multiplyDivide.o" "l_brow_local_2_limits_tangentUp_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_2_limits_turnDown_angleBetween.ax" "l_brow_local_2_limits_tangentDown_vectorProduct.i1"
+		;
+connectAttr "l_brow_local_2_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_2_limits_tangentDown_vectorProduct.i2"
+		;
+connectAttr "l_brow_local_2_limits_turnDown_angleBetween.a" "l_brow_local_2_limits_tangentDown_unitConversion.i"
+		;
+connectAttr "l_brow_local_2_limits_tangentDown_vectorProduct.o" "l_brow_local_2_limits_tangentDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow_local_2_limits_tangentDown_unitConversion.o" "l_brow_local_2_limits_tangentDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_2_limits_tangentDown_unitConversion.o" "l_brow_local_2_limits_tangentDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_2_limits_tangentDown_unitConversion.o" "l_brow_local_2_limits_tangentDown_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_2_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_2_limits_tangentDown_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_2_limits_tangentDown_multiplyDivide.o" "l_brow_local_2_limits_tangentDown_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_3_limits_turnUp_angleBetween.ax" "l_brow_local_3_limits_tangentUp_vectorProduct.i1"
+		;
+connectAttr "l_brow_local_3_limits_pathUp_plusMinusAverage.o3" "l_brow_local_3_limits_tangentUp_vectorProduct.i2"
+		;
+connectAttr "l_brow_local_3_limits_turnUp_angleBetween.a" "l_brow_local_3_limits_tangentUp_unitConversion.i"
+		;
+connectAttr "l_brow_local_3_limits_tangentUp_vectorProduct.o" "l_brow_local_3_limits_tangentUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow_local_3_limits_tangentUp_unitConversion.o" "l_brow_local_3_limits_tangentUp_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_3_limits_tangentUp_unitConversion.o" "l_brow_local_3_limits_tangentUp_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_3_limits_tangentUp_unitConversion.o" "l_brow_local_3_limits_tangentUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_3_limits_pathUp_plusMinusAverage.o3" "l_brow_local_3_limits_tangentUp_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_3_limits_tangentUp_multiplyDivide.o" "l_brow_local_3_limits_tangentUp_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_3_limits_turnDown_angleBetween.ax" "l_brow_local_3_limits_tangentDown_vectorProduct.i1"
+		;
+connectAttr "l_brow_local_3_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_3_limits_tangentDown_vectorProduct.i2"
+		;
+connectAttr "l_brow_local_3_limits_turnDown_angleBetween.a" "l_brow_local_3_limits_tangentDown_unitConversion.i"
+		;
+connectAttr "l_brow_local_3_limits_tangentDown_vectorProduct.o" "l_brow_local_3_limits_tangentDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow_local_3_limits_tangentDown_unitConversion.o" "l_brow_local_3_limits_tangentDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_3_limits_tangentDown_unitConversion.o" "l_brow_local_3_limits_tangentDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_3_limits_tangentDown_unitConversion.o" "l_brow_local_3_limits_tangentDown_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_3_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_3_limits_tangentDown_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_3_limits_tangentDown_multiplyDivide.o" "l_brow_local_3_limits_tangentDown_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_4_limits_turnUp_angleBetween.ax" "l_brow_local_4_limits_tangentUp_vectorProduct.i1"
+		;
+connectAttr "l_brow_local_4_limits_pathUp_plusMinusAverage.o3" "l_brow_local_4_limits_tangentUp_vectorProduct.i2"
+		;
+connectAttr "l_brow_local_4_limits_turnUp_angleBetween.a" "l_brow_local_4_limits_tangentUp_unitConversion.i"
+		;
+connectAttr "l_brow_local_4_limits_tangentUp_vectorProduct.o" "l_brow_local_4_limits_tangentUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow_local_4_limits_tangentUp_unitConversion.o" "l_brow_local_4_limits_tangentUp_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_4_limits_tangentUp_unitConversion.o" "l_brow_local_4_limits_tangentUp_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_4_limits_tangentUp_unitConversion.o" "l_brow_local_4_limits_tangentUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_4_limits_pathUp_plusMinusAverage.o3" "l_brow_local_4_limits_tangentUp_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_4_limits_tangentUp_multiplyDivide.o" "l_brow_local_4_limits_tangentUp_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_4_limits_turnDown_angleBetween.ax" "l_brow_local_4_limits_tangentDown_vectorProduct.i1"
+		;
+connectAttr "l_brow_local_4_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_4_limits_tangentDown_vectorProduct.i2"
+		;
+connectAttr "l_brow_local_4_limits_turnDown_angleBetween.a" "l_brow_local_4_limits_tangentDown_unitConversion.i"
+		;
+connectAttr "l_brow_local_4_limits_tangentDown_vectorProduct.o" "l_brow_local_4_limits_tangentDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow_local_4_limits_tangentDown_unitConversion.o" "l_brow_local_4_limits_tangentDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_4_limits_tangentDown_unitConversion.o" "l_brow_local_4_limits_tangentDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_4_limits_tangentDown_unitConversion.o" "l_brow_local_4_limits_tangentDown_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_4_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_4_limits_tangentDown_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_4_limits_tangentDown_multiplyDivide.o" "l_brow_local_4_limits_tangentDown_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_5_limits_turnUp_angleBetween.ax" "l_brow_local_5_limits_tangentUp_vectorProduct.i1"
+		;
+connectAttr "l_brow_local_5_limits_pathUp_plusMinusAverage.o3" "l_brow_local_5_limits_tangentUp_vectorProduct.i2"
+		;
+connectAttr "l_brow_local_5_limits_turnUp_angleBetween.a" "l_brow_local_5_limits_tangentUp_unitConversion.i"
+		;
+connectAttr "l_brow_local_5_limits_tangentUp_vectorProduct.o" "l_brow_local_5_limits_tangentUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow_local_5_limits_tangentUp_unitConversion.o" "l_brow_local_5_limits_tangentUp_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_5_limits_tangentUp_unitConversion.o" "l_brow_local_5_limits_tangentUp_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_5_limits_tangentUp_unitConversion.o" "l_brow_local_5_limits_tangentUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_5_limits_pathUp_plusMinusAverage.o3" "l_brow_local_5_limits_tangentUp_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_5_limits_tangentUp_multiplyDivide.o" "l_brow_local_5_limits_tangentUp_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_5_limits_turnDown_angleBetween.ax" "l_brow_local_5_limits_tangentDown_vectorProduct.i1"
+		;
+connectAttr "l_brow_local_5_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_5_limits_tangentDown_vectorProduct.i2"
+		;
+connectAttr "l_brow_local_5_limits_turnDown_angleBetween.a" "l_brow_local_5_limits_tangentDown_unitConversion.i"
+		;
+connectAttr "l_brow_local_5_limits_tangentDown_vectorProduct.o" "l_brow_local_5_limits_tangentDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow_local_5_limits_tangentDown_unitConversion.o" "l_brow_local_5_limits_tangentDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_5_limits_tangentDown_unitConversion.o" "l_brow_local_5_limits_tangentDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_5_limits_tangentDown_unitConversion.o" "l_brow_local_5_limits_tangentDown_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_5_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_5_limits_tangentDown_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_5_limits_tangentDown_multiplyDivide.o" "l_brow_local_5_limits_tangentDown_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_6_limits_turnUp_angleBetween.ax" "l_brow_local_6_limits_tangentUp_vectorProduct.i1"
+		;
+connectAttr "l_brow_local_6_limits_pathUp_plusMinusAverage.o3" "l_brow_local_6_limits_tangentUp_vectorProduct.i2"
+		;
+connectAttr "l_brow_local_6_limits_turnUp_angleBetween.a" "l_brow_local_6_limits_tangentUp_unitConversion.i"
+		;
+connectAttr "l_brow_local_6_limits_tangentUp_vectorProduct.o" "l_brow_local_6_limits_tangentUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow_local_6_limits_tangentUp_unitConversion.o" "l_brow_local_6_limits_tangentUp_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_6_limits_tangentUp_unitConversion.o" "l_brow_local_6_limits_tangentUp_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_6_limits_tangentUp_unitConversion.o" "l_brow_local_6_limits_tangentUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_6_limits_pathUp_plusMinusAverage.o3" "l_brow_local_6_limits_tangentUp_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_6_limits_tangentUp_multiplyDivide.o" "l_brow_local_6_limits_tangentUp_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_6_limits_turnDown_angleBetween.ax" "l_brow_local_6_limits_tangentDown_vectorProduct.i1"
+		;
+connectAttr "l_brow_local_6_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_6_limits_tangentDown_vectorProduct.i2"
+		;
+connectAttr "l_brow_local_6_limits_turnDown_angleBetween.a" "l_brow_local_6_limits_tangentDown_unitConversion.i"
+		;
+connectAttr "l_brow_local_6_limits_tangentDown_vectorProduct.o" "l_brow_local_6_limits_tangentDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow_local_6_limits_tangentDown_unitConversion.o" "l_brow_local_6_limits_tangentDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_6_limits_tangentDown_unitConversion.o" "l_brow_local_6_limits_tangentDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_6_limits_tangentDown_unitConversion.o" "l_brow_local_6_limits_tangentDown_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_6_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_6_limits_tangentDown_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_6_limits_tangentDown_multiplyDivide.o" "l_brow_local_6_limits_tangentDown_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_7_limits_turnUp_angleBetween.ax" "l_brow_local_7_limits_tangentUp_vectorProduct.i1"
+		;
+connectAttr "l_brow_local_7_limits_pathUp_plusMinusAverage.o3" "l_brow_local_7_limits_tangentUp_vectorProduct.i2"
+		;
+connectAttr "l_brow_local_7_limits_turnUp_angleBetween.a" "l_brow_local_7_limits_tangentUp_unitConversion.i"
+		;
+connectAttr "l_brow_local_7_limits_tangentUp_vectorProduct.o" "l_brow_local_7_limits_tangentUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow_local_7_limits_tangentUp_unitConversion.o" "l_brow_local_7_limits_tangentUp_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_7_limits_tangentUp_unitConversion.o" "l_brow_local_7_limits_tangentUp_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_7_limits_tangentUp_unitConversion.o" "l_brow_local_7_limits_tangentUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_7_limits_pathUp_plusMinusAverage.o3" "l_brow_local_7_limits_tangentUp_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_7_limits_tangentUp_multiplyDivide.o" "l_brow_local_7_limits_tangentUp_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_7_limits_turnDown_angleBetween.ax" "l_brow_local_7_limits_tangentDown_vectorProduct.i1"
+		;
+connectAttr "l_brow_local_7_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_7_limits_tangentDown_vectorProduct.i2"
+		;
+connectAttr "l_brow_local_7_limits_turnDown_angleBetween.a" "l_brow_local_7_limits_tangentDown_unitConversion.i"
+		;
+connectAttr "l_brow_local_7_limits_tangentDown_vectorProduct.o" "l_brow_local_7_limits_tangentDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow_local_7_limits_tangentDown_unitConversion.o" "l_brow_local_7_limits_tangentDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_local_7_limits_tangentDown_unitConversion.o" "l_brow_local_7_limits_tangentDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_local_7_limits_tangentDown_unitConversion.o" "l_brow_local_7_limits_tangentDown_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_7_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_local_7_limits_tangentDown_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_7_limits_tangentDown_multiplyDivide.o" "l_brow_local_7_limits_tangentDown_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_mid_limits_turnUp_angleBetween.ax" "l_brow_mid_limits_tangentUp_vectorProduct.i1"
+		;
+connectAttr "l_brow_mid_limits_pathUp_plusMinusAverage.o3" "l_brow_mid_limits_tangentUp_vectorProduct.i2"
+		;
+connectAttr "l_brow_mid_limits_turnUp_angleBetween.a" "l_brow_mid_limits_tangentUp_unitConversion.i"
+		;
+connectAttr "l_brow_mid_limits_tangentUp_vectorProduct.o" "l_brow_mid_limits_tangentUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow_mid_limits_tangentUp_unitConversion.o" "l_brow_mid_limits_tangentUp_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_mid_limits_tangentUp_unitConversion.o" "l_brow_mid_limits_tangentUp_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_mid_limits_tangentUp_unitConversion.o" "l_brow_mid_limits_tangentUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_mid_limits_pathUp_plusMinusAverage.o3" "l_brow_mid_limits_tangentUp_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_mid_limits_tangentUp_multiplyDivide.o" "l_brow_mid_limits_tangentUp_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_mid_limits_turnDown_angleBetween.ax" "l_brow_mid_limits_tangentDown_vectorProduct.i1"
+		;
+connectAttr "l_brow_mid_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_mid_limits_tangentDown_vectorProduct.i2"
+		;
+connectAttr "l_brow_mid_limits_turnDown_angleBetween.a" "l_brow_mid_limits_tangentDown_unitConversion.i"
+		;
+connectAttr "l_brow_mid_limits_tangentDown_vectorProduct.o" "l_brow_mid_limits_tangentDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow_mid_limits_tangentDown_unitConversion.o" "l_brow_mid_limits_tangentDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_mid_limits_tangentDown_unitConversion.o" "l_brow_mid_limits_tangentDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_mid_limits_tangentDown_unitConversion.o" "l_brow_mid_limits_tangentDown_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_mid_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_mid_limits_tangentDown_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_mid_limits_tangentDown_multiplyDivide.o" "l_brow_mid_limits_tangentDown_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_out_limits_turnUp_angleBetween.ax" "l_brow_out_limits_tangentUp_vectorProduct.i1"
+		;
+connectAttr "l_brow_out_limits_pathUp_plusMinusAverage.o3" "l_brow_out_limits_tangentUp_vectorProduct.i2"
+		;
+connectAttr "l_brow_out_limits_turnUp_angleBetween.a" "l_brow_out_limits_tangentUp_unitConversion.i"
+		;
+connectAttr "l_brow_out_limits_tangentUp_vectorProduct.o" "l_brow_out_limits_tangentUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow_out_limits_tangentUp_unitConversion.o" "l_brow_out_limits_tangentUp_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_out_limits_tangentUp_unitConversion.o" "l_brow_out_limits_tangentUp_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_out_limits_tangentUp_unitConversion.o" "l_brow_out_limits_tangentUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_out_limits_pathUp_plusMinusAverage.o3" "l_brow_out_limits_tangentUp_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_out_limits_tangentUp_multiplyDivide.o" "l_brow_out_limits_tangentUp_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_out_limits_turnDown_angleBetween.ax" "l_brow_out_limits_tangentDown_vectorProduct.i1"
+		;
+connectAttr "l_brow_out_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_out_limits_tangentDown_vectorProduct.i2"
+		;
+connectAttr "l_brow_out_limits_turnDown_angleBetween.a" "l_brow_out_limits_tangentDown_unitConversion.i"
+		;
+connectAttr "l_brow_out_limits_tangentDown_vectorProduct.o" "l_brow_out_limits_tangentDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow_out_limits_tangentDown_unitConversion.o" "l_brow_out_limits_tangentDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_out_limits_tangentDown_unitConversion.o" "l_brow_out_limits_tangentDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_out_limits_tangentDown_unitConversion.o" "l_brow_out_limits_tangentDown_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_out_limits_pathDownNeg_plusMinusAverage.o3" "l_brow_out_limits_tangentDown_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_out_limits_tangentDown_multiplyDivide.o" "l_brow_out_limits_tangentDown_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_in_limits_path_pointMatrixMult.o" "l_brow_in_limits_pathTotal_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_in_limits_overUp_multiplyDivide.o" "l_brow_in_limits_pathTotal_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_in_limits_overDown_multiplyDivide.o" "l_brow_in_limits_pathTotal_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_in_limits_tangentUp_plusMinusAverage.o3" "l_brow_in_limits_overUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_in_limits_overUp_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_in_limits_overUp_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_in_limits_overUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_in_limits_tangentDown_plusMinusAverage.o3" "l_brow_in_limits_overDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_in_limits_overDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_in_limits_overDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_in_limits_overDown_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_1_limits_path_pointMatrixMult.o" "l_brow_local_1_limits_pathTotal_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_1_limits_overUp_multiplyDivide.o" "l_brow_local_1_limits_pathTotal_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_1_limits_overDown_multiplyDivide.o" "l_brow_local_1_limits_pathTotal_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_1_limits_tangentUp_plusMinusAverage.o3" "l_brow_local_1_limits_overUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_local_1_limits_overUp_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_local_1_limits_overUp_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_local_1_limits_overUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_1_limits_tangentDown_plusMinusAverage.o3" "l_brow_local_1_limits_overDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_local_1_limits_overDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_local_1_limits_overDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_local_1_limits_overDown_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_2_limits_path_pointMatrixMult.o" "l_brow_local_2_limits_pathTotal_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_2_limits_overUp_multiplyDivide.o" "l_brow_local_2_limits_pathTotal_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_2_limits_overDown_multiplyDivide.o" "l_brow_local_2_limits_pathTotal_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_2_limits_tangentUp_plusMinusAverage.o3" "l_brow_local_2_limits_overUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_local_2_limits_overUp_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_local_2_limits_overUp_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_local_2_limits_overUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_2_limits_tangentDown_plusMinusAverage.o3" "l_brow_local_2_limits_overDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_local_2_limits_overDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_local_2_limits_overDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_local_2_limits_overDown_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_3_limits_path_pointMatrixMult.o" "l_brow_local_3_limits_pathTotal_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_3_limits_overUp_multiplyDivide.o" "l_brow_local_3_limits_pathTotal_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_3_limits_overDown_multiplyDivide.o" "l_brow_local_3_limits_pathTotal_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_3_limits_tangentUp_plusMinusAverage.o3" "l_brow_local_3_limits_overUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_local_3_limits_overUp_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_local_3_limits_overUp_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_local_3_limits_overUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_3_limits_tangentDown_plusMinusAverage.o3" "l_brow_local_3_limits_overDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_local_3_limits_overDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_local_3_limits_overDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_local_3_limits_overDown_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_4_limits_path_pointMatrixMult.o" "l_brow_local_4_limits_pathTotal_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_4_limits_overUp_multiplyDivide.o" "l_brow_local_4_limits_pathTotal_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_4_limits_overDown_multiplyDivide.o" "l_brow_local_4_limits_pathTotal_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_4_limits_tangentUp_plusMinusAverage.o3" "l_brow_local_4_limits_overUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_local_4_limits_overUp_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_local_4_limits_overUp_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_local_4_limits_overUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_4_limits_tangentDown_plusMinusAverage.o3" "l_brow_local_4_limits_overDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_local_4_limits_overDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_local_4_limits_overDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_local_4_limits_overDown_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_5_limits_path_pointMatrixMult.o" "l_brow_local_5_limits_pathTotal_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_5_limits_overUp_multiplyDivide.o" "l_brow_local_5_limits_pathTotal_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_5_limits_overDown_multiplyDivide.o" "l_brow_local_5_limits_pathTotal_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_5_limits_tangentUp_plusMinusAverage.o3" "l_brow_local_5_limits_overUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_local_5_limits_overUp_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_local_5_limits_overUp_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_local_5_limits_overUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_5_limits_tangentDown_plusMinusAverage.o3" "l_brow_local_5_limits_overDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_local_5_limits_overDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_local_5_limits_overDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_local_5_limits_overDown_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_6_limits_path_pointMatrixMult.o" "l_brow_local_6_limits_pathTotal_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_6_limits_overUp_multiplyDivide.o" "l_brow_local_6_limits_pathTotal_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_6_limits_overDown_multiplyDivide.o" "l_brow_local_6_limits_pathTotal_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_6_limits_tangentUp_plusMinusAverage.o3" "l_brow_local_6_limits_overUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_local_6_limits_overUp_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_local_6_limits_overUp_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_local_6_limits_overUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_6_limits_tangentDown_plusMinusAverage.o3" "l_brow_local_6_limits_overDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_local_6_limits_overDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_local_6_limits_overDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_local_6_limits_overDown_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_7_limits_path_pointMatrixMult.o" "l_brow_local_7_limits_pathTotal_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_local_7_limits_overUp_multiplyDivide.o" "l_brow_local_7_limits_pathTotal_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_local_7_limits_overDown_multiplyDivide.o" "l_brow_local_7_limits_pathTotal_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_7_limits_tangentUp_plusMinusAverage.o3" "l_brow_local_7_limits_overUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_local_7_limits_overUp_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_local_7_limits_overUp_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_local_7_limits_overUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_7_limits_tangentDown_plusMinusAverage.o3" "l_brow_local_7_limits_overDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_local_7_limits_overDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_local_7_limits_overDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_local_7_limits_overDown_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_mid_limits_path_pointMatrixMult.o" "l_brow_mid_limits_pathTotal_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_mid_limits_overUp_multiplyDivide.o" "l_brow_mid_limits_pathTotal_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_mid_limits_overDown_multiplyDivide.o" "l_brow_mid_limits_pathTotal_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_mid_limits_tangentUp_plusMinusAverage.o3" "l_brow_mid_limits_overUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_mid_limits_overUp_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_mid_limits_overUp_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_mid_limits_overUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_mid_limits_tangentDown_plusMinusAverage.o3" "l_brow_mid_limits_overDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_mid_limits_overDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_mid_limits_overDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_mid_limits_overDown_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_out_limits_path_pointMatrixMult.o" "l_brow_out_limits_pathTotal_plusMinusAverage.i3[0]"
+		;
+connectAttr "l_brow_out_limits_overUp_multiplyDivide.o" "l_brow_out_limits_pathTotal_plusMinusAverage.i3[1]"
+		;
+connectAttr "l_brow_out_limits_overDown_multiplyDivide.o" "l_brow_out_limits_pathTotal_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_out_limits_tangentUp_plusMinusAverage.o3" "l_brow_out_limits_overUp_multiplyDivide.i1"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_out_limits_overUp_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_out_limits_overUp_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.ox" "l_brow_out_limits_overUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_out_limits_tangentDown_plusMinusAverage.o3" "l_brow_out_limits_overDown_multiplyDivide.i1"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_out_limits_overDown_multiplyDivide.i2x"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_out_limits_overDown_multiplyDivide.i2y"
+		;
+connectAttr "l_brow_limits_over_multiplyDivide.oy" "l_brow_out_limits_overDown_multiplyDivide.i2z"
+		;
+connectAttr "r_brow_in_limits_path_pointMatrixMult.o" "r_brow_in_limits_pathTotal_plusMinusAverage.i3[0]"
+		;
+connectAttr "r_brow_in_limits_overUp_multiplyDivide.o" "r_brow_in_limits_pathTotal_plusMinusAverage.i3[1]"
+		;
+connectAttr "r_brow_in_limits_overDown_multiplyDivide.o" "r_brow_in_limits_pathTotal_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_in_limits_tangentUp_plusMinusAverage.o3" "r_brow_in_limits_overUp_multiplyDivide.i1"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_in_limits_overUp_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_in_limits_overUp_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_in_limits_overUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_in_limits_tangentDown_plusMinusAverage.o3" "r_brow_in_limits_overDown_multiplyDivide.i1"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_in_limits_overDown_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_in_limits_overDown_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_in_limits_overDown_multiplyDivide.i2z"
+		;
+connectAttr "r_brow_local_1_limits_path_pointMatrixMult.o" "r_brow_local_1_limits_pathTotal_plusMinusAverage.i3[0]"
+		;
+connectAttr "r_brow_local_1_limits_overUp_multiplyDivide.o" "r_brow_local_1_limits_pathTotal_plusMinusAverage.i3[1]"
+		;
+connectAttr "r_brow_local_1_limits_overDown_multiplyDivide.o" "r_brow_local_1_limits_pathTotal_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_1_limits_tangentUp_plusMinusAverage.o3" "r_brow_local_1_limits_overUp_multiplyDivide.i1"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_local_1_limits_overUp_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_local_1_limits_overUp_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_local_1_limits_overUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_1_limits_tangentDown_plusMinusAverage.o3" "r_brow_local_1_limits_overDown_multiplyDivide.i1"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_local_1_limits_overDown_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_local_1_limits_overDown_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_local_1_limits_overDown_multiplyDivide.i2z"
+		;
+connectAttr "r_brow_local_2_limits_path_pointMatrixMult.o" "r_brow_local_2_limits_pathTotal_plusMinusAverage.i3[0]"
+		;
+connectAttr "r_brow_local_2_limits_overUp_multiplyDivide.o" "r_brow_local_2_limits_pathTotal_plusMinusAverage.i3[1]"
+		;
+connectAttr "r_brow_local_2_limits_overDown_multiplyDivide.o" "r_brow_local_2_limits_pathTotal_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_2_limits_tangentUp_plusMinusAverage.o3" "r_brow_local_2_limits_overUp_multiplyDivide.i1"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_local_2_limits_overUp_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_local_2_limits_overUp_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_local_2_limits_overUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_2_limits_tangentDown_plusMinusAverage.o3" "r_brow_local_2_limits_overDown_multiplyDivide.i1"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_local_2_limits_overDown_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_local_2_limits_overDown_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_local_2_limits_overDown_multiplyDivide.i2z"
+		;
+connectAttr "r_brow_local_3_limits_path_pointMatrixMult.o" "r_brow_local_3_limits_pathTotal_plusMinusAverage.i3[0]"
+		;
+connectAttr "r_brow_local_3_limits_overUp_multiplyDivide.o" "r_brow_local_3_limits_pathTotal_plusMinusAverage.i3[1]"
+		;
+connectAttr "r_brow_local_3_limits_overDown_multiplyDivide.o" "r_brow_local_3_limits_pathTotal_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_3_limits_tangentUp_plusMinusAverage.o3" "r_brow_local_3_limits_overUp_multiplyDivide.i1"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_local_3_limits_overUp_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_local_3_limits_overUp_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_local_3_limits_overUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_3_limits_tangentDown_plusMinusAverage.o3" "r_brow_local_3_limits_overDown_multiplyDivide.i1"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_local_3_limits_overDown_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_local_3_limits_overDown_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_local_3_limits_overDown_multiplyDivide.i2z"
+		;
+connectAttr "r_brow_local_4_limits_path_pointMatrixMult.o" "r_brow_local_4_limits_pathTotal_plusMinusAverage.i3[0]"
+		;
+connectAttr "r_brow_local_4_limits_overUp_multiplyDivide.o" "r_brow_local_4_limits_pathTotal_plusMinusAverage.i3[1]"
+		;
+connectAttr "r_brow_local_4_limits_overDown_multiplyDivide.o" "r_brow_local_4_limits_pathTotal_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_4_limits_tangentUp_plusMinusAverage.o3" "r_brow_local_4_limits_overUp_multiplyDivide.i1"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_local_4_limits_overUp_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_local_4_limits_overUp_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_local_4_limits_overUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_4_limits_tangentDown_plusMinusAverage.o3" "r_brow_local_4_limits_overDown_multiplyDivide.i1"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_local_4_limits_overDown_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_local_4_limits_overDown_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_local_4_limits_overDown_multiplyDivide.i2z"
+		;
+connectAttr "r_brow_local_5_limits_path_pointMatrixMult.o" "r_brow_local_5_limits_pathTotal_plusMinusAverage.i3[0]"
+		;
+connectAttr "r_brow_local_5_limits_overUp_multiplyDivide.o" "r_brow_local_5_limits_pathTotal_plusMinusAverage.i3[1]"
+		;
+connectAttr "r_brow_local_5_limits_overDown_multiplyDivide.o" "r_brow_local_5_limits_pathTotal_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_5_limits_tangentUp_plusMinusAverage.o3" "r_brow_local_5_limits_overUp_multiplyDivide.i1"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_local_5_limits_overUp_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_local_5_limits_overUp_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_local_5_limits_overUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_5_limits_tangentDown_plusMinusAverage.o3" "r_brow_local_5_limits_overDown_multiplyDivide.i1"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_local_5_limits_overDown_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_local_5_limits_overDown_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_local_5_limits_overDown_multiplyDivide.i2z"
+		;
+connectAttr "r_brow_local_6_limits_path_pointMatrixMult.o" "r_brow_local_6_limits_pathTotal_plusMinusAverage.i3[0]"
+		;
+connectAttr "r_brow_local_6_limits_overUp_multiplyDivide.o" "r_brow_local_6_limits_pathTotal_plusMinusAverage.i3[1]"
+		;
+connectAttr "r_brow_local_6_limits_overDown_multiplyDivide.o" "r_brow_local_6_limits_pathTotal_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_6_limits_tangentUp_plusMinusAverage.o3" "r_brow_local_6_limits_overUp_multiplyDivide.i1"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_local_6_limits_overUp_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_local_6_limits_overUp_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_local_6_limits_overUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_6_limits_tangentDown_plusMinusAverage.o3" "r_brow_local_6_limits_overDown_multiplyDivide.i1"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_local_6_limits_overDown_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_local_6_limits_overDown_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_local_6_limits_overDown_multiplyDivide.i2z"
+		;
+connectAttr "r_brow_local_7_limits_path_pointMatrixMult.o" "r_brow_local_7_limits_pathTotal_plusMinusAverage.i3[0]"
+		;
+connectAttr "r_brow_local_7_limits_overUp_multiplyDivide.o" "r_brow_local_7_limits_pathTotal_plusMinusAverage.i3[1]"
+		;
+connectAttr "r_brow_local_7_limits_overDown_multiplyDivide.o" "r_brow_local_7_limits_pathTotal_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_local_7_limits_tangentUp_plusMinusAverage.o3" "r_brow_local_7_limits_overUp_multiplyDivide.i1"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_local_7_limits_overUp_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_local_7_limits_overUp_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_local_7_limits_overUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_local_7_limits_tangentDown_plusMinusAverage.o3" "r_brow_local_7_limits_overDown_multiplyDivide.i1"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_local_7_limits_overDown_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_local_7_limits_overDown_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_local_7_limits_overDown_multiplyDivide.i2z"
+		;
+connectAttr "r_brow_mid_limits_path_pointMatrixMult.o" "r_brow_mid_limits_pathTotal_plusMinusAverage.i3[0]"
+		;
+connectAttr "r_brow_mid_limits_overUp_multiplyDivide.o" "r_brow_mid_limits_pathTotal_plusMinusAverage.i3[1]"
+		;
+connectAttr "r_brow_mid_limits_overDown_multiplyDivide.o" "r_brow_mid_limits_pathTotal_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_mid_limits_tangentUp_plusMinusAverage.o3" "r_brow_mid_limits_overUp_multiplyDivide.i1"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_mid_limits_overUp_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_mid_limits_overUp_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_mid_limits_overUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_mid_limits_tangentDown_plusMinusAverage.o3" "r_brow_mid_limits_overDown_multiplyDivide.i1"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_mid_limits_overDown_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_mid_limits_overDown_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_mid_limits_overDown_multiplyDivide.i2z"
+		;
+connectAttr "r_brow_out_limits_path_pointMatrixMult.o" "r_brow_out_limits_pathTotal_plusMinusAverage.i3[0]"
+		;
+connectAttr "r_brow_out_limits_overUp_multiplyDivide.o" "r_brow_out_limits_pathTotal_plusMinusAverage.i3[1]"
+		;
+connectAttr "r_brow_out_limits_overDown_multiplyDivide.o" "r_brow_out_limits_pathTotal_plusMinusAverage.i3[2]"
+		;
+connectAttr "l_brow_out_limits_tangentUp_plusMinusAverage.o3" "r_brow_out_limits_overUp_multiplyDivide.i1"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_out_limits_overUp_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_out_limits_overUp_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.ox" "r_brow_out_limits_overUp_multiplyDivide.i2z"
+		;
+connectAttr "l_brow_out_limits_tangentDown_plusMinusAverage.o3" "r_brow_out_limits_overDown_multiplyDivide.i1"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_out_limits_overDown_multiplyDivide.i2x"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_out_limits_overDown_multiplyDivide.i2y"
+		;
+connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_out_limits_overDown_multiplyDivide.i2z"
+		;
 connectAttr "skinJointsSet.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn";
-connectAttr "l_brow_local_7_rotateOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[1].dn"
+connectAttr "r_curve_loc_05Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn"
 		;
-connectAttr "unitConversion26.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[2].dn"
+connectAttr "r_curve.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn";
+connectAttr "r_curve_loc_11Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn"
 		;
-connectAttr "multDoubleLinear22.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[3].dn"
+connectAttr "r_curve_loc_12Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn"
 		;
-connectAttr "remapValue3.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[4].dn";
-connectAttr "l_brow_out.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[5].dn";
-connectAttr "unitConversion54.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn"
+connectAttr "l_curve_loc_01Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[4].dn"
 		;
-connectAttr "multDoubleLinear5.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn"
+connectAttr "r_curve_loc_03Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[5].dn"
 		;
-connectAttr "multDoubleLinear63.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn"
+connectAttr "r_curve_loc_07Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[6].dn"
 		;
-connectAttr "plusMinusAverage27.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn"
+connectAttr "r_curve_loc_02Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[7].dn"
 		;
-connectAttr "l_brow_out.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[4].dn";
-connectAttr "addDoubleLinear10.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[5].dn"
+connectAttr "r_curve_loc_06Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[8].dn"
 		;
-connectAttr "addDoubleLinear9.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[6].dn"
+connectAttr "r_curve_loc_04Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[9].dn"
 		;
-connectAttr "l_brow_mid.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[7].dn";
-connectAttr "unitConversion26.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[8].dn"
+connectAttr "r_curveShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[10].dn";
+connectAttr "r_curve_loc_09Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[11].dn"
 		;
-connectAttr "l_curve9_5_loc_moveOffset.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[9].dn"
+connectAttr "r_curve_loc_08Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[12].dn"
 		;
-connectAttr "multDoubleLinear14.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[10].dn"
-		;
-connectAttr "unitConversion24.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[11].dn"
-		;
-connectAttr "l_brow_in.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[12].dn";
-connectAttr "multDoubleLinear3.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[13].dn"
-		;
-connectAttr "l_brow.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[14].dn";
-connectAttr "addDoubleLinear2.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[15].dn"
-		;
-connectAttr "multDoubleLinear19.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[16].dn"
-		;
-connectAttr "multDoubleLinear12.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[17].dn"
-		;
-connectAttr "plusMinusAverage24.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[18].dn"
+connectAttr "r_curve_loc_10Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[13].dn"
 		;
 connectAttr "black_rsSG.pa" ":renderPartition.st" -na;
 connectAttr "green_rsSG.pa" ":renderPartition.st" -na;
@@ -5885,9 +9646,6 @@ connectAttr "out_mainPoser_size_multiplyDivide.msg" ":defaultRenderUtilityList1.
 		 -na;
 connectAttr "full_mainPoser_size_multiplyDivide.msg" ":defaultRenderUtilityList1.u"
 		 -na;
-connectAttr "remapValue1.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "remapValue2.msg" ":defaultRenderUtilityList1.u" -na;
-connectAttr "remapValue3.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix69.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "defaultRenderLayer.msg" ":defaultRenderingList1.r" -na;
 connectAttr "defaultRenderLayer1.msg" ":defaultRenderingList1.r" -na;
