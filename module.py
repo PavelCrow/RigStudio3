@@ -216,8 +216,13 @@ class Module(object):
         for j in list(joints):
             if j.endswith("_" + suffix):
                 sj = j[:-len(suffix)] + "skinJoint"
-                if cmds.objExists(sj):
-                    joints.append(sj)
+            else:
+                # кости, сделанные модулем не из outJoint (browsCurved: curveJnt_*),
+                # называют свою скиновую <кость>_skinJoint - без этого слайдер
+                # Joints Size менял радиус модульных костей, но не видимых скиновых
+                sj = j + "_skinJoint"
+            if cmds.objExists(sj):
+                joints.append(sj)
 
         return joints
 

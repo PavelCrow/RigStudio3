@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
 //Name: browsCurved.ma
-//Last modified: Fri, Sep 18, 2026 11:03:36 AM
+//Last modified: Sun, Sep 20, 2026 03:42:53 PM
 //Codeset: 1251
 requires maya "2022";
 requires -nodeType "sweepMeshCreator" -dataType "sweepMeshData" -dataType "sweepProfileData"
@@ -13,7 +13,7 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202110272215-ad32f8f1e6";
 fileInfo "osv" "Windows 10 Pro v2009 (Build: 26200)";
-fileInfo "UUID" "B7FE5696-4281-C319-6085-B890E96A2C45";
+fileInfo "UUID" "A4A6241A-479D-7616-558E-96B552C8610B";
 createNode transform -n "mod";
 	rename -uid "A8281E66-4053-4FC7-AA21-27BF6ABE5693";
 	addAttr -ci true -sn "version" -ln "version" -dt "string";
@@ -2609,15 +2609,15 @@ createNode transform -n "bs_weights" -p "output";
 createNode transform -s -n "persp";
 	rename -uid "6DD988D0-4F67-01C8-21B5-089512DF5F58";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" 3.4001569052276275 19.046245386064449 19.752539607969613 ;
-	setAttr ".r" -type "double3" -4.7999999999999883 11.600000000000035 0 ;
+	setAttr ".t" -type "double3" 8.1498344543640151 19.162568796501052 19.493563404456776 ;
+	setAttr ".r" -type "double3" -0.59999999999999953 26.000000000000028 0 ;
 	setAttr ".rp" -type "double3" 0 0 2.2204460492503131e-16 ;
 	setAttr ".rpt" -type "double3" 7.8318074438749568e-15 2.2130181764198789e-14 -1.4375173266478273e-15 ;
 createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "C0598692-4A65-CD2F-2E76-769943D8CE56";
 	setAttr -k off ".v" no;
 	setAttr ".fl" 34.999999999999979;
-	setAttr ".coi" 13.227307630024448;
+	setAttr ".coi" 14.628177371771891;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -2671,18 +2671,18 @@ createNode camera -s -n "sideShape" -p "side";
 	setAttr ".hc" -type "string" "viewSet -s %camera";
 	setAttr ".o" yes;
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "BA29DA74-4646-15E9-7AF8-9999080569E8";
+	rename -uid "6ACBE66C-400E-2CCD-6790-07B5B1845A80";
 	setAttr -s 24 ".lnk";
 	setAttr -s 24 ".slnk";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "10D087D1-4955-B5A7-AE84-7C93FD19522B";
+	rename -uid "021D1501-4CC2-D6C7-4A3E-37A8D450C242";
 	setAttr ".cdl" 1;
 	setAttr -s 3 ".dli[1:2]"  3 1;
 	setAttr -s 2 ".dli";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "47598A7F-4076-9A26-4738-16A1F08E3130";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "0D697607-4FF6-73BF-1181-ECA01259AAC7";
+	rename -uid "9685C2C0-40E6-AF64-B91B-C2A2EE4958B1";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "50669F66-46C9-894E-CDC6-858734AB76F8";
 	setAttr ".g" yes;
@@ -2771,10 +2771,10 @@ createNode shadingEngine -n "black_rsSG";
 createNode materialInfo -n "materialInfo1";
 	rename -uid "8DB900E0-43C7-80AF-0ADC-A7AE8603C4D0";
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "A682A022-438D-2D9F-CF93-2C9299CF6A9A";
+	rename -uid "7D4D3773-4D15-824F-595A-D990D08161C3";
 	setAttr ".bsdt[0].bscd" -type "Int32Array" 1 0 ;
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "E6A86BDD-4355-8C8E-2AEE-D8A7286988ED";
+	rename -uid "02C06BBA-4FAB-705C-5960-4D81BEB68B0A";
 createNode multiplyDivide -n "size_multiplyDivide";
 	rename -uid "FC884255-462D-CC24-783E-69B68427DF01";
 createNode makeNurbSphere -n "mid_makeNurbSphere";
@@ -3770,7 +3770,7 @@ createNode objectSet -n "r_local_moduleControlSet";
 createNode objectSet -n "l_main_moduleControlSet";
 	rename -uid "EB2B6425-48A2-F7ED-92AC-51850660C52A";
 	setAttr ".ihi" 0;
-	setAttr -s 5 ".dsm";
+	setAttr -s 3 ".dsm";
 	setAttr ".an" -type "string" "gControlSet";
 createNode objectSet -n "r_main_moduleControlSet";
 	rename -uid "161F23E2-4E77-E9B9-9539-0B8D7DB37BE4";
@@ -5528,62 +5528,62 @@ createNode multiplyDivide -n "r_brow_out_limits_overUp_multiplyDivide";
 createNode multiplyDivide -n "r_brow_out_limits_overDown_multiplyDivide";
 	rename -uid "F6BCCE48-463B-5798-5725-CABE37F51673";
 createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
-	rename -uid "CCF74A7A-4BC6-B670-5A06-989A9ACF0D69";
+	rename -uid "1FE44E7F-46A0-731B-77A8-45A074E05354";
 	setAttr -s 3 ".tgi";
 	setAttr ".tgi[0].tn" -type "string" "Untitled_1";
-	setAttr ".tgi[0].vl" -type "double2" -6652.380688039093 -8569.4060012540813 ;
-	setAttr ".tgi[0].vh" -type "double2" 7063.0949574330607 10970.596382029826 ;
+	setAttr ".tgi[0].vl" -type "double2" -6652.3806880390948 -8570.8492560943232 ;
+	setAttr ".tgi[0].vh" -type "double2" 7064.2854335762322 10970.84916072689 ;
 	setAttr ".tgi[1].tn" -type "string" "Untitled_2";
-	setAttr ".tgi[1].vl" -type "double2" -7862.2548082095482 -7344.4578724224766 ;
-	setAttr ".tgi[1].vh" -type "double2" -1705.8157011474968 1426.4253206987146 ;
+	setAttr ".tgi[1].vl" -type "double2" -7861.9044495007483 -7345.4664193920617 ;
+	setAttr ".tgi[1].vh" -type "double2" -1704.7618370207563 1426.4190355462572 ;
 	setAttr ".tgi[1].ni[0].x" -4885.71435546875;
 	setAttr ".tgi[1].ni[0].y" -3392.857177734375;
 	setAttr ".tgi[1].ni[0].nvs" 18304;
 	setAttr ".tgi[2].tn" -type "string" "Untitled_3";
-	setAttr ".tgi[2].vl" -type "double2" -25949.454790259402 -2802.2197794584386 ;
-	setAttr ".tgi[2].vh" -type "double2" -23668.493133441581 447.39382217507051 ;
+	setAttr ".tgi[2].vl" -type "double2" -25949.998968839689 -2803.6242891738843 ;
+	setAttr ".tgi[2].vh" -type "double2" -23667.856202381041 447.67200183863582 ;
 	setAttr -s 14 ".tgi[2].ni";
 	setAttr ".tgi[2].ni[0].x" -24848.572265625;
-	setAttr ".tgi[2].ni[0].y" 330;
+	setAttr ".tgi[2].ni[0].y" -75.714286804199219;
 	setAttr ".tgi[2].ni[0].nvs" 18304;
-	setAttr ".tgi[2].ni[1].x" -24541.427734375;
-	setAttr ".tgi[2].ni[1].y" -915.71429443359375;
+	setAttr ".tgi[2].ni[1].x" -24848.572265625;
+	setAttr ".tgi[2].ni[1].y" -177.14285278320312;
 	setAttr ".tgi[2].ni[1].nvs" 18304;
 	setAttr ".tgi[2].ni[2].x" -24848.572265625;
-	setAttr ".tgi[2].ni[2].y" -177.14285278320312;
+	setAttr ".tgi[2].ni[2].y" -380;
 	setAttr ".tgi[2].ni[2].nvs" 18304;
 	setAttr ".tgi[2].ni[3].x" -24848.572265625;
-	setAttr ".tgi[2].ni[3].y" -278.57144165039062;
+	setAttr ".tgi[2].ni[3].y" 25.714284896850586;
 	setAttr ".tgi[2].ni[3].nvs" 18304;
-	setAttr ".tgi[2].ni[4].x" -24848.572265625;
-	setAttr ".tgi[2].ni[4].y" 228.57142639160156;
+	setAttr ".tgi[2].ni[4].x" -24541.427734375;
+	setAttr ".tgi[2].ni[4].y" -915.71429443359375;
 	setAttr ".tgi[2].ni[4].nvs" 18304;
 	setAttr ".tgi[2].ni[5].x" -24848.572265625;
 	setAttr ".tgi[2].ni[5].y" 127.14286041259766;
 	setAttr ".tgi[2].ni[5].nvs" 18304;
 	setAttr ".tgi[2].ni[6].x" -24848.572265625;
-	setAttr ".tgi[2].ni[6].y" 25.714284896850586;
+	setAttr ".tgi[2].ni[6].y" -582.85711669921875;
 	setAttr ".tgi[2].ni[6].nvs" 18304;
 	setAttr ".tgi[2].ni[7].x" -24848.572265625;
-	setAttr ".tgi[2].ni[7].y" -684.28570556640625;
+	setAttr ".tgi[2].ni[7].y" 330;
 	setAttr ".tgi[2].ni[7].nvs" 18304;
 	setAttr ".tgi[2].ni[8].x" -24848.572265625;
-	setAttr ".tgi[2].ni[8].y" -481.42855834960938;
+	setAttr ".tgi[2].ni[8].y" 228.57142639160156;
 	setAttr ".tgi[2].ni[8].nvs" 18304;
 	setAttr ".tgi[2].ni[9].x" -24848.572265625;
-	setAttr ".tgi[2].ni[9].y" -582.85711669921875;
+	setAttr ".tgi[2].ni[9].y" -785.71429443359375;
 	setAttr ".tgi[2].ni[9].nvs" 18304;
 	setAttr ".tgi[2].ni[10].x" -24339.3671875;
 	setAttr ".tgi[2].ni[10].y" -159.78912353515625;
 	setAttr ".tgi[2].ni[10].nvs" 18305;
 	setAttr ".tgi[2].ni[11].x" -24848.572265625;
-	setAttr ".tgi[2].ni[11].y" -380;
+	setAttr ".tgi[2].ni[11].y" -481.42855834960938;
 	setAttr ".tgi[2].ni[11].nvs" 18304;
 	setAttr ".tgi[2].ni[12].x" -24848.572265625;
-	setAttr ".tgi[2].ni[12].y" -785.71429443359375;
+	setAttr ".tgi[2].ni[12].y" -278.57144165039062;
 	setAttr ".tgi[2].ni[12].nvs" 18304;
 	setAttr ".tgi[2].ni[13].x" -24848.572265625;
-	setAttr ".tgi[2].ni[13].y" -75.714286804199219;
+	setAttr ".tgi[2].ni[13].y" -684.28570556640625;
 	setAttr ".tgi[2].ni[13].nvs" 18304;
 select -ne :time1;
 	setAttr -av -k on ".cch";
@@ -6672,15 +6672,15 @@ connectAttr "r_brow_local_7.iog" "r_local_moduleControlSet.dsm" -na;
 connectAttr "l_brow_in.iog" "l_main_moduleControlSet.dsm" -na;
 connectAttr "l_brow_mid.iog" "l_main_moduleControlSet.dsm" -na;
 connectAttr "l_brow_out.iog" "l_main_moduleControlSet.dsm" -na;
-connectAttr "l_brow_last.iog" "l_main_moduleControlSet.dsm" -na;
-connectAttr "r_brow_last.iog" "l_main_moduleControlSet.dsm" -na;
 connectAttr "r_brow_in.iog" "r_main_moduleControlSet.dsm" -na;
 connectAttr "r_brow_mid.iog" "r_main_moduleControlSet.dsm" -na;
 connectAttr "r_brow_out.iog" "r_main_moduleControlSet.dsm" -na;
 connectAttr "l_main_moduleControlSet.msg" "l_moduleControlSet.dnsm" -na;
 connectAttr "l_local_moduleControlSet.msg" "l_moduleControlSet.dnsm" -na;
+connectAttr "l_brow.iog" "l_moduleControlSet.dsm" -na;
 connectAttr "r_local_moduleControlSet.msg" "r_moduleControlSet.dnsm" -na;
 connectAttr "r_main_moduleControlSet.msg" "r_moduleControlSet.dnsm" -na;
+connectAttr "r_brow.iog" "r_moduleControlSet.dsm" -na;
 connectAttr "plusMinusAverage24.o1" "multDoubleLinear42.i1";
 connectAttr "r_brow_out.rz" "unitConversion86.i";
 connectAttr "multDoubleLinear3.o" "multDoubleLinear63.i1";
@@ -9491,31 +9491,31 @@ connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_out_limits_overDown_m
 connectAttr "r_brow_limits_over_multiplyDivide.oy" "r_brow_out_limits_overDown_multiplyDivide.i2z"
 		;
 connectAttr "skinJointsSet.msg" "MayaNodeEditorSavedTabsInfo.tgi[1].ni[0].dn";
-connectAttr "r_curve_loc_05Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn"
+connectAttr "r_curve_loc_10Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn"
 		;
-connectAttr "r_curve.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn";
-connectAttr "r_curve_loc_11Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn"
+connectAttr "r_curve_loc_11Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn"
 		;
-connectAttr "r_curve_loc_12Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn"
+connectAttr "r_curve_loc_09Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn"
 		;
-connectAttr "l_curve_loc_01Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[4].dn"
+connectAttr "r_curve_loc_07Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn"
 		;
+connectAttr "r_curve.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[4].dn";
 connectAttr "r_curve_loc_03Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[5].dn"
 		;
-connectAttr "r_curve_loc_07Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[6].dn"
+connectAttr "r_curve_loc_04Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[6].dn"
 		;
-connectAttr "r_curve_loc_02Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[7].dn"
+connectAttr "r_curve_loc_05Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[7].dn"
 		;
-connectAttr "r_curve_loc_06Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[8].dn"
+connectAttr "l_curve_loc_01Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[8].dn"
 		;
-connectAttr "r_curve_loc_04Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[9].dn"
+connectAttr "r_curve_loc_08Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[9].dn"
 		;
 connectAttr "r_curveShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[10].dn";
-connectAttr "r_curve_loc_09Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[11].dn"
+connectAttr "r_curve_loc_06Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[11].dn"
 		;
-connectAttr "r_curve_loc_08Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[12].dn"
+connectAttr "r_curve_loc_12Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[12].dn"
 		;
-connectAttr "r_curve_loc_10Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[13].dn"
+connectAttr "r_curve_loc_02Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[13].dn"
 		;
 connectAttr "black_rsSG.pa" ":renderPartition.st" -na;
 connectAttr "green_rsSG.pa" ":renderPartition.st" -na;
