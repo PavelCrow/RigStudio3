@@ -1082,3 +1082,10 @@ browsCurved: pos правой стороны ведёт левая - точка 
 browsCurved: модуль обзавёлся getData/setData - из темплейта кости на кривой ставит generate(), как в brows.py, а pos восстанавливаются после него
 browsCurved: контролы модуля - self.widget как у соседних модулей, сброс self.edges при пустых опциях, убраны неиспользуемые переменные и print в цикле
 module: getModuleJoints() ищет скиновую кость и у тех костей, что сделаны не из outJoint (browsCurved: curveJnt_*) - без этого слайдер Joints Size менял радиус модульных костей, но не видимых скиновых
+
+---Version 3.28.10
+spine: stomach не вращается от fk_3 - aim смотрит на chest, посчитанный без поворота fk_3 (позиция покоя без поворота, собственный сдвиг chest - с ним). Старая компенсация group3.r = -0.5*fk_3.r убрана: она крутила fk_1_loc_1 вбок; у group4 rotateOrder zyx - обратное к xyz вращение fk_3 теперь точное и по нескольким осям
+spine: при вращении fk_1 stomach едет вместе с цепочкой, а не уходит в обратную сторону - вторая точка позиции берётся от stomach_group, сдвиг hips прибавляется в осях ik_controls. hips_to_stomach_loc_group, pairBlend2 и multMatrix95 убраны
+spine: при разных weight у chest и hips stomach смещается поперёк спины к контролу с весом 1 (при 1/0 - на 3/8 вместо 1/2), линия джоинтов - гладкая кривая без излома. Вдоль спины он по-прежнему посередине. Сила - stomach_side_weights_pma.input3D[2]
+spine: концевые касательные меняются по weight линейно, без рывка у единицы - статичная цель стоит в позиции покоя противоположного конца, а не в 1-3 юнитах от контрола. Заодно исправлен hipsStomachMid_aim, который брал в opm мировую матрицу root_poserOrient: при сдвинутом mainPoser поза покоя зависела от weight
+spine: aim-констрейны chest_aim_group, hipsStomachMid_loc_group, stomach_group_1 и pointConstraint hips_out заменены на aimMatrix/blendMatrix/pickMatrix в offsetParentMatrix, всё в локальном пространстве родителя. Локаторы-цели и reverse8/9 убраны. Остались два pointConstraint позиции stomach, они живут под stomach_group: в Maya 2022 констрейн читает offsetParentMatrix своего DAG-родителя, и под stomach_group_1 это давало скрытую обратную связь
