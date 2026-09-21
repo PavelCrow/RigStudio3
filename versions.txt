@@ -1089,3 +1089,7 @@ spine: при вращении fk_1 stomach едет вместе с цепоч�
 spine: при разных weight у chest и hips stomach смещается поперёк спины к контролу с весом 1 (при 1/0 - на 3/8 вместо 1/2), линия джоинтов - гладкая кривая без излома. Вдоль спины он по-прежнему посередине. Сила - stomach_side_weights_pma.input3D[2]
 spine: концевые касательные меняются по weight линейно, без рывка у единицы - статичная цель стоит в позиции покоя противоположного конца, а не в 1-3 юнитах от контрола. Заодно исправлен hipsStomachMid_aim, который брал в opm мировую матрицу root_poserOrient: при сдвинутом mainPoser поза покоя зависела от weight
 spine: aim-констрейны chest_aim_group, hipsStomachMid_loc_group, stomach_group_1 и pointConstraint hips_out заменены на aimMatrix/blendMatrix/pickMatrix в offsetParentMatrix, всё в локальном пространстве родителя. Локаторы-цели и reverse8/9 убраны. Остались два pointConstraint позиции stomach, они живут под stomach_group: в Maya 2022 констрейн читает offsetParentMatrix своего DAG-родителя, и под stomach_group_1 это давало скрытую обратную связь
+
+---Version 3.28.11
+spine: pos на скин-джоинтах работает - он ведёт pos у outJoint (раньше скин-джоинт получал от дубликата неподключённую копию атрибута, а двигал кость только pos на скрытом outJoint). Связь ставится в addSkinJoints и после rebuildJoints
+spine: значения pos пишутся в темплейт (posData) и восстанавливаются при загрузке, после пересборки на нужное количество костей; старые темплейты без posData загружаются как раньше

@@ -45,9 +45,10 @@ class Spine(module.Module) :
 		data = super(self.__class__, self).getData()
 		
 		self.jointsCount = self.getOptions()['jointsCount']
-		data['jointsCount'] = self.jointsCount	
+		data['jointsCount'] = self.jointsCount
+		data['posData'] = self.getPosData()
 
-		return data	
+		return data
 
 	def setData(self, data, sym=False, namingForce=False, load="all"): #
 		super(self.__class__, self).setData(data, sym, namingForce, load)
@@ -56,6 +57,41 @@ class Spine(module.Module) :
 		if self.jointsCount != data["jointsCount"]:
 			self.rebuildJoints(data["jointsCount"])
 		# except: print ("NO DATA")
+
+		# в старых темплейтах posData нет - кости остаются как их поставил rebuildJoints
+		self.setPosData(data.get('posData') or [])
+
+	def posPlug(self, i):
+		"""pos кости local_i: на скин-джоинте, если он есть, иначе на outJoint."""
+		skin = f"{self.name}_local_{i}_skinJoint.pos"
+		if cmds.objExists(skin):
+			return skin
+		return f"{self.name}_local_{i}_outJoint.pos"
+
+	def getPosData(self):
+		count = len(cmds.listRelatives(self.name+'_surf_joints'))
+		return [cmds.getAttr(self.posPlug(i+1)) for i in range(count)]
+
+	def setPosData(self, posData):
+		for i, value in enumerate(posData):
+			plug = self.posPlug(i+1)
+			if cmds.objExists(plug):
+				cmds.setAttr(plug, value)
+
+	def connectPos(self):
+		"""pos переезжает на скин-джоинт: им и управляют, outJoint в сцене скрыт и просто следует."""
+		count = len(cmds.listRelatives(self.name+'_surf_joints'))
+		for i in range(1, count+1):
+			oj = f"{self.name}_local_{i}_outJoint"
+			sj = f"{self.name}_local_{i}_skinJoint"
+			if not cmds.objExists(sj) or not cmds.objExists(oj+".pos"):
+				continue
+			value = cmds.getAttr(oj+".pos")
+			# addSkinJoints дублирует outJoint вместе с pos - копия есть, но ни к чему не подключена
+			if not cmds.objExists(sj+".pos"):
+				cmds.addAttr(sj, ln="pos", at="double", min=0, max=1, dv=value, k=1)
+			cmds.setAttr(sj+".pos", value)
+			cmds.connectAttr(sj+".pos", oj+".pos", f=1)
 
 	def rebuildWithNewOptions(self, mainInstance, widget): #
 		self.rebuildJoints(widget.jointsCount_spinBox.value())
@@ -127,6 +163,8 @@ class Spine(module.Module) :
 		utils.removeTransformParentJoint(name+'_end_skinJoint')
 		utils.removeTransformParentJoint(name+'_end_outJoint')
 		utils.resetJointOrient(name+'_end_skinJoint')
+
+		self.connectPos()
 	
 	def delete(self):
 		# cmds.delete(self.name+"_multiplyDivide1846")
@@ -143,6 +181,8 @@ class Spine(module.Module) :
 			utils.connectByMatrix(sj, [oj, sj], ['worldMatrix[0]', 'parentInverseMatrix[0]'], attrs=['t', 'r', 's', 'shr'], module_name=self.name)
 
 		cmds.setAttr(self.name+"_root_skinJoint.segmentScaleCompensate", 0)
+
+		self.connectPos()
 
 	def bake(self):
 		super(self.__class__, self).bake(forceDelete=[self.name+"_decomposeMatrix91",self.name+"_decomposeMatrix92",self.name+"_decomposeMatrix93"])
