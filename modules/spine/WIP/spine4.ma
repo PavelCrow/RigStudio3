@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
-//Name: spine.ma
-//Last modified: Mon, Sep 21, 2026 10:12:39 AM
+//Name: spine4.ma
+//Last modified: Mon, Sep 21, 2026 06:42:19 AM
 //Codeset: 1251
 requires maya "2022";
 requires -nodeType "inverseMatrix" "matrixNodes" "1.0";
@@ -13,7 +13,7 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202110272215-ad32f8f1e6";
 fileInfo "osv" "Windows 10 Pro v2009 (Build: 26200)";
-fileInfo "UUID" "3C115CF6-43AC-4C64-4D3A-0CA3CEA3C3F4";
+fileInfo "UUID" "66EFA426-4350-B540-CE3D-428D12C436CF";
 createNode transform -n "mod";
 	rename -uid "C55DD497-492A-4EC0-E01E-33B4860B4331";
 	addAttr -ci true -sn "version" -ln "version" -dt "string";
@@ -302,7 +302,6 @@ createNode nurbsSurface -n "local_1_poserShape" -p "local_1_poser";
 	setAttr ".nvfa" 4.5;
 createNode transform -n "local_1_poserOrient" -p "local_1_poser";
 	rename -uid "43778514-4C48-FD5D-93D7-BB9D82B49211";
-	setAttr ".v" no;
 createNode locator -n "local_1_poserOrientShape" -p "local_1_poserOrient";
 	rename -uid "790E75B7-4A49-2D6F-102A-5D8C2974175F";
 	setAttr -k off ".v" no;
@@ -325,7 +324,6 @@ createNode locator -n "init_surfLoc_5Shape" -p "init_surfLoc_5";
 	setAttr -k off ".v";
 createNode transform -n "fk_hips_initLoc" -p "local_1_poser";
 	rename -uid "CE2D08D0-423C-0CD6-E4E9-B09F917C14FE";
-	setAttr ".v" no;
 createNode locator -n "fk_hips_initLocShape" -p "fk_hips_initLoc";
 	rename -uid "93EB5877-4BD8-15CF-24A4-BFA6ECB32CCB";
 	setAttr -k off ".v";
@@ -978,8 +976,8 @@ createNode transform -n "pelvis" -p "pelvis_group";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
 	setAttr ".rotateZMirror" yes;
-	setAttr -k on ".squash";
-	setAttr -cb on ".localControls";
+	setAttr -k on ".squash" 1;
+	setAttr -cb on ".localControls" yes;
 createNode nurbsCurve -n "pelvisShape" -p "pelvis";
 	rename -uid "8C14EE6D-48F2-978C-9F87-07AB406F1FFE";
 	addAttr -ci true -sn "ocellarisSurfaceShaderAttrs" -ln "ocellarisSurfaceShaderAttrs" 
@@ -1322,6 +1320,41 @@ createNode transform -n "chest_stomach_target" -p "chest_aim_group";
 createNode locator -n "chest_stomach_targetShape" -p "chest_stomach_target";
 	rename -uid "4EC8CACE-4E50-E80A-5C4C-92B9CECC4DC2";
 	setAttr -k off ".v";
+createNode aimConstraint -n "group2_aimConstraint1" -p "chest_aim_group";
+	rename -uid "903AC91F-4F63-79DC-0AA8-1CBDE9EC5195";
+	addAttr -dcb 0 -ci true -sn "w1" -ln "chest_loc_aim_staticW1" -dv 1 -at "double";
+	addAttr -dcb 0 -ci true -sn "w2" -ln "hips_loc_targetW2" -dv 1 -at "double";
+	setAttr -k on ".nds";
+	setAttr -k off ".v";
+	setAttr -k off ".tx";
+	setAttr -k off ".ty";
+	setAttr -k off ".tz";
+	setAttr -k off ".rx";
+	setAttr -k off ".ry";
+	setAttr -k off ".rz";
+	setAttr -k off ".sx";
+	setAttr -k off ".sy";
+	setAttr -k off ".sz";
+	setAttr ".erp" yes;
+	setAttr -s 2 ".tg";
+	setAttr ".a" -type "double3" 0 -1 0 ;
+	setAttr ".u" -type "double3" 1 0 0 ;
+	setAttr ".wu" -type "double3" 1 0 0 ;
+	setAttr ".wut" 2;
+	setAttr ".rsrr" -type "double3" -90.000000000000071 80.511831410867444 90.000000000000071 ;
+	setAttr -k on ".w1";
+	setAttr -k on ".w2";
+createNode transform -n "chest_loc_aim_static" -p "chest";
+	rename -uid "4071A68C-4BFD-2A49-BC20-049BFFDA927B";
+createNode locator -n "chest_loc_aim_staticShape" -p "chest_loc_aim_static";
+	rename -uid "76FD044B-4AA3-24C6-6D75-279331181739";
+	setAttr -k off ".v";
+createNode transform -n "hips_loc_target" -p "chest_group";
+	rename -uid "53F45885-40C6-DB6A-295A-62985C3C0723";
+	setAttr ".v" no;
+createNode locator -n "hips_loc_targetShape" -p "hips_loc_target";
+	rename -uid "87EAA64A-4226-FD8B-F981-559CB0A10FDA";
+	setAttr -k off ".v";
 createNode transform -n "chest_to_stomach_loc_group" -p "chest_group";
 	rename -uid "250598D4-4F1C-EC31-BBE1-3E81F9F0C768";
 createNode transform -n "group4" -p "chest_to_stomach_loc_group";
@@ -1329,7 +1362,6 @@ createNode transform -n "group4" -p "chest_to_stomach_loc_group";
 	setAttr ".ro" 5;
 createNode transform -n "chest_to_stomach_loc" -p "group4";
 	rename -uid "89221593-4BBE-91B3-8258-AAA773339F64";
-	setAttr ".v" no;
 	setAttr ".t" -type "double3" 0 -1.7763568394002505e-15 0 ;
 createNode locator -n "chest_to_stomach_locShape" -p "chest_to_stomach_loc";
 	rename -uid "4EB3AA85-4FCB-B2C8-EA8B-D2877940E280";
@@ -1341,7 +1373,6 @@ createNode locator -n "fk_3_loc_1Shape" -p "fk_3_loc_1";
 	setAttr -k off ".v" no;
 createNode transform -n "local_4_group_2" -p "fk_3_loc_1";
 	rename -uid "C74082DA-40BC-09B2-411B-F89FE54F824F";
-	setAttr ".v" no;
 createNode transform -n "local_ik_4" -p "local_4_group_2";
 	rename -uid "AFD8C8DA-45B8-C11D-2CF7-D3AFBA207CBC";
 	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
@@ -1490,10 +1521,12 @@ createNode locator -n "stomach_loc_2Shape" -p "stomach_loc_2";
 	rename -uid "4ED9BF86-4AA5-C429-32C2-1889137CBCAF";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.5 0.5 0.5 ;
-createNode pointConstraint -n "stomach_group_1_pointConstraint1" -p "stomach_group";
+createNode pointConstraint -n "stomach_group_1_pointConstraint1" -p "stomach_group_1";
 	rename -uid "6F8F5D47-4C8F-9FE8-2912-F3B8C9BBDA78";
-	addAttr -dcb 0 -ci true -k true -sn "w0" -ln "chestW0" -dv 1 -min 0 -at "double";
-	addAttr -dcb 0 -ci true -k true -sn "w1" -ln "hipsW1" -dv 1 -min 0 -at "double";
+	addAttr -dcb 0 -ci true -k true -sn "w0" -ln "chestW0" -dv 1 -min 
+		0 -at "double";
+	addAttr -dcb 0 -ci true -k true -sn "w1" -ln "hipsW1" -dv 1 -min 
+		0 -at "double";
 	setAttr -k on ".nds";
 	setAttr -k off ".v";
 	setAttr -k off ".tx";
@@ -1510,8 +1543,7 @@ createNode pointConstraint -n "stomach_group_1_pointConstraint1" -p "stomach_gro
 	setAttr ".rst" -type "double3" 0 0 2.2204460492503141e-16 ;
 	setAttr -k on ".w0";
 	setAttr -k on ".w1";
-createNode pointConstraint -n "stomach_group_1_sidePointConstraint" -p "stomach_group";
-	rename -uid "92AC1BA5-4072-54A3-4545-5AA873F8C413";
+createNode pointConstraint -n "stomach_group_1_sidePointConstraint" -p "stomach_group_1";
 	addAttr -dcb 0 -ci true -k true -sn "w0" -ln "chestW0" -dv 1 -min 0 -at "double";
 	addAttr -dcb 0 -ci true -k true -sn "w1" -ln "hipsW1" -dv 1 -min 0 -at "double";
 	setAttr -k on ".nds";
@@ -1528,6 +1560,30 @@ createNode pointConstraint -n "stomach_group_1_sidePointConstraint" -p "stomach_
 	setAttr ".erp" yes;
 	setAttr -s 2 ".tg";
 	setAttr -k on ".w0";
+	setAttr -k on ".w1";
+createNode aimConstraint -n "stomach_group_1_aimConstraint1" -p "stomach_group_1";
+	rename -uid "7FEF039F-443D-AD6B-9B9F-0CA81C6C590A";
+	addAttr -dcb 0 -ci true -sn "w0" -ln "chestW0" -dv 1 -at "double";
+	addAttr -dcb 0 -ci true -sn "w1" -ln "chestNoFk3W1" -dv 1 -at "double";
+	setAttr -k on ".nds";
+	setAttr -k off ".v";
+	setAttr -k off ".tx";
+	setAttr -k off ".ty";
+	setAttr -k off ".tz";
+	setAttr -k off ".rx";
+	setAttr -k off ".ry";
+	setAttr -k off ".rz";
+	setAttr -k off ".sx";
+	setAttr -k off ".sy";
+	setAttr -k off ".sz";
+	setAttr ".erp" yes;
+	setAttr ".a" -type "double3" 0 1 0 ;
+	setAttr ".u" -type "double3" 0 0 1 ;
+	setAttr ".wu" -type "double3" 0 0 1 ;
+	setAttr ".wut" 4;
+	setAttr -s 2 ".tg";
+	setAttr ".rsrr" -type "double3" 5.3613424655282845e-12 -89.958579736221495 -5.3590174767085848e-12 ;
+	setAttr -k on ".w0" 0;
 	setAttr -k on ".w1";
 createNode transform -n "fk_1_loc_1" -p "fk_1";
 	rename -uid "28FE2FA6-49C0-FCBA-DF5C-3FA57DC37BD4";
@@ -1594,6 +1650,7 @@ createNode transform -n "hips" -p "ik_controls";
 	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
 	addAttr -ci true -sn "weight" -ln "weight" -dv 1 -min 0 -max 1 -at "double";
 	setAttr -l on -k off ".v";
+	setAttr -s 2 ".iog";
 	setAttr ".uoc" 1;
 	setAttr ".oc" 3;
 	setAttr -k on ".t";
@@ -1638,6 +1695,23 @@ createNode nurbsCurve -n "hipsShape" -p "hips";
 createNode transform -n "hips_out" -p "hips";
 	rename -uid "66372931-45DD-4B76-F093-6987462BF351";
 	setAttr ".s" -type "double3" 1 1.0000000000000004 1.0000000000000004 ;
+createNode pointConstraint -n "hips_out_pointConstraint1" -p "hips_out";
+	rename -uid "389FA444-44F4-A740-D5AF-8B8ED690CAD9";
+	addAttr -dcb 0 -ci true -k true -sn "w0" -ln "bendJoint_1_outW0" -dv 1 -min 0 -at "double";
+	setAttr -k on ".nds";
+	setAttr -k off ".v";
+	setAttr -k off ".tx";
+	setAttr -k off ".ty";
+	setAttr -k off ".tz";
+	setAttr -k off ".rx";
+	setAttr -k off ".ry";
+	setAttr -k off ".rz";
+	setAttr -k off ".sx";
+	setAttr -k off ".sy";
+	setAttr -k off ".sz";
+	setAttr ".erp" yes;
+	setAttr ".rst" -type "double3" 0 8.8817841970012563e-16 -1.3322676295501878e-15 ;
+	setAttr -k on ".w0";
 createNode transform -n "hips_out_2" -p "hips_out";
 	rename -uid "D0520590-4AA8-C13D-5E7D-4BA2B372C46F";
 	setAttr ".v" no;
@@ -1648,8 +1722,41 @@ createNode locator -n "hips_out_2Shape" -p "hips_out_2";
 	rename -uid "1FAD03FA-4ADC-14A7-2386-6FAAE6127D20";
 	setAttr -k off ".v";
 	setAttr ".los" -type "double3" 0.5 0.5 0.5 ;
+createNode transform -n "hipsStomachMid_aim" -p "hips";
+	rename -uid "D766C323-4D8E-570E-AFB9-87884A8CBC39";
+	setAttr ".t" -type "double3" -4.4408920985006262e-16 3 -1.7347234759768071e-18 ;
+createNode locator -n "hipsStomachMid_aimShape" -p "hipsStomachMid_aim";
+	rename -uid "9213834D-498F-93F2-9649-B2A163C4C677";
+	setAttr -k off ".v";
+	setAttr ".los" -type "double3" 0.5 0.5 0.5 ;
 createNode transform -n "hipsStomachMid_loc_group" -p "hips";
 	rename -uid "1D3E6570-4A45-C2F2-29BE-80A503B5BE7B";
+	setAttr ".t" -type "double3" 0 7.7715611723760968e-16 -1.3322676295501878e-15 ;
+	setAttr ".s" -type "double3" 1 0.99999999999999956 0.99999999999999956 ;
+createNode aimConstraint -n "hipsStomachMid_loc_group_aimConstraint1" -p "hipsStomachMid_loc_group";
+	rename -uid "F771EA38-41C4-BB21-DF25-5F87384296A0";
+	addAttr -ci true -sn "w0" -ln "hipsStomachMid_aimW0" -dv 1 -at "double";
+	addAttr -dcb 0 -ci true -sn "w4" -ln "locator3W4" -dv 1 -at "double";
+	setAttr -k on ".nds";
+	setAttr -k off ".v";
+	setAttr -k off ".tx";
+	setAttr -k off ".ty";
+	setAttr -k off ".tz";
+	setAttr -k off ".rx";
+	setAttr -k off ".ry";
+	setAttr -k off ".rz";
+	setAttr -k off ".sx";
+	setAttr -k off ".sy";
+	setAttr -k off ".sz";
+	setAttr ".erp" yes;
+	setAttr -s 2 ".tg";
+	setAttr ".a" -type "double3" 0 1 0 ;
+	setAttr ".u" -type "double3" 1 0 0 ;
+	setAttr ".wu" -type "double3" 0 0 1 ;
+	setAttr ".wut" 4;
+	setAttr ".rsrr" -type "double3" -90 -77.256050684317032 90 ;
+	setAttr -k on ".w0";
+	setAttr -k on ".w4";
 createNode transform -n "hips_loc_1" -p "hipsStomachMid_loc_group";
 	rename -uid "51A00B0D-49DD-8972-B75E-E6996F9B8230";
 createNode locator -n "hips_loc_1Shape" -p "hips_loc_1";
@@ -1804,6 +1911,12 @@ createNode transform -n "bend_surfLoc_3" -p "local_ik_9";
 createNode locator -n "bend_surfLoc_3Shape" -p "bend_surfLoc_3";
 	rename -uid "59E462B1-455D-1109-141A-AEB4EBCE0667";
 	setAttr -k off ".v";
+createNode transform -n "chest_local_target" -p "ik_controls";
+	rename -uid "662A6FEF-4039-4318-2255-E794F324FC7F";
+	setAttr ".v" no;
+createNode locator -n "chest_local_targetShape" -p "chest_local_target";
+	rename -uid "037955FF-416D-E21C-65E8-EC9B959B92FD";
+	setAttr -k off ".v";
 createNode transform -n "system" -p "mod";
 	rename -uid "425C5BC8-4007-736D-CDC0-C2870A98A214";
 	setAttr ".v" no;
@@ -1869,16 +1982,16 @@ createNode nurbsSurface -n "surfShape" -p "surf";
 		2 0 1
 		
 		14
-		0 -8.8817841970012523e-16 1.0000000000000007
-		0 -8.8817841970012523e-16 -0.99999999999999978
-		0 2.8167376113159297 1.0000000000000007
-		0 2.8167376113159297 -0.99999999999999978
-		0 5.6334752226318612 1.0000000000000002
-		0 5.6334752226318612 -0.99999999999999978
-		0 10.260170773249513 1
-		0 10.260170713063468 -1
-		0 15.383901764278649 0.99999999999999944
-		0 15.383901764278649 -0.99999999999999878
+		0 0 0.99999999999999889
+		0 0 -1.0000000000000007
+		0 2.8167376113159293 0.99999999999999889
+		0 2.8167376113159293 -1.0000000000000007
+		0 5.6334752226318585 0.99999999999999944
+		0 5.6334752226318585 -1
+		0 10.260170773249509 1.0000000000000002
+		0 10.260170713063465 -0.99999999999999978
+		0 15.383901764278646 0.99999999999999956
+		0 15.383901764278646 -0.99999999999999867
 		0 17.691950882139324 0.99999999999999978
 		0 17.691950882139324 -0.99999999999999978
 		0 20.000336109213126 1
@@ -2225,8 +2338,8 @@ createNode mesh -n "pCubeShape7" -p "pCube7";
 createNode transform -s -n "persp";
 	rename -uid "742B74BF-4D6B-9A22-954F-B78DD4DB06E5";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" -54.973437622992996 17.590687830872806 12.151299405783737 ;
-	setAttr ".r" -type "double3" -10.200000000043248 -1157.9999999993202 -3.8244057714794811e-15 ;
+	setAttr ".t" -type "double3" -46.673547201092994 12.106887248138792 1.210944644934778 ;
+	setAttr ".r" -type "double3" -1.1999999999919084 -1161.9999999993511 -7.1416339150368419e-16 ;
 	setAttr ".rp" -type "double3" -3.3306690738754696e-16 -4.4408920985006262e-16 -1.7763568394002505e-15 ;
 	setAttr ".rpt" -type "double3" -6.7928001781737458e-16 -1.7125212621107998e-16 3.3031043487526458e-16 ;
 createNode camera -s -n "perspShape" -p "persp";
@@ -2235,7 +2348,7 @@ createNode camera -s -n "perspShape" -p "persp";
 	setAttr ".rnd" no;
 	setAttr ".cap" -type "double2" 1.41732 0.94488 ;
 	setAttr ".pze" yes;
-	setAttr ".coi" 65.478288240620614;
+	setAttr ".coi" 55.426174372797675;
 	setAttr ".imn" -type "string" "persp1";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -2299,15 +2412,15 @@ createNode objectSet -n "ik_moduleControlSet";
 	setAttr -s 3 ".dsm";
 	setAttr ".an" -type "string" "gControlSet";
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "EDA2DAF5-4DA5-B605-DE65-20BBA33B1DFA";
+	rename -uid "8EA0DD18-4863-7E47-4426-A6B309EEC734";
 	setAttr -s 25 ".lnk";
 	setAttr -s 25 ".slnk";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "9BAFFBCC-4A7D-C5C2-4D0C-DFA803BD5D80";
+	rename -uid "DC39DEA6-48E0-A6EB-A5AF-DAB32020E987";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "B1DB931A-42AC-3765-6A0C-0E9123FB8239";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "97EEDE2F-4D2E-2724-ACD8-609B7F8A6B7B";
+	rename -uid "544C98B0-4719-C85E-B9E7-0BB6DC422A5C";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "86635CA8-42FC-A04E-4E62-638EF51ABD39";
 	setAttr ".g" yes;
@@ -2440,6 +2553,8 @@ createNode dagPose -n "bindPose5";
 	setAttr -s 8 ".p";
 	setAttr -s 8 ".g[0:7]" yes yes yes no no no no no;
 	setAttr ".bp" yes;
+createNode reverse -n "reverse8";
+	rename -uid "C4C9AC8F-43AA-21EB-B5CB-74A156680DD5";
 createNode multMatrix -n "multMatrix68";
 	rename -uid "959C3EEE-4654-561E-A31F-2A870AE59FCB";
 createNode decomposeMatrix -n "decomposeMatrix88";
@@ -2690,9 +2805,9 @@ createNode multMatrix -n "local_end_outJoint_multMat";
 	rename -uid "D22EB26C-4F6E-69DA-D796-95B2CB71D488";
 	setAttr -s 2 ".i";
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "7A5CF861-425D-43C2-6566-868A4FA2CEF3";
+	rename -uid "2491D820-4656-05E7-5D3D-33802F068396";
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "BCF1517F-4BF1-68EE-D2B7-52888B35297C";
+	rename -uid "37B5CD13-4229-3918-FCBC-CBB280A395A7";
 createNode makeNurbSphere -n "makeNurbSphere1";
 	rename -uid "8DBE1D78-4612-053F-6D5F-088A4D6E19AF";
 	setAttr ".ax" -type "double3" 0 1 0 ;
@@ -2772,6 +2887,9 @@ createNode multMatrix -n "multMatrix82";
 createNode multMatrix -n "multMatrix83";
 	rename -uid "AC21129C-475E-4C3C-80B5-8983C3BA9990";
 	setAttr -s 2 ".i";
+createNode multMatrix -n "multMatrix84";
+	rename -uid "20D28560-45FD-D4CE-E7B4-82A8AFF45DC7";
+	setAttr -s 2 ".i";
 createNode multMatrix -n "multMatrix85";
 	rename -uid "49B5991B-41A6-EA80-7353-CEA98652F5CC";
 	setAttr -s 2 ".i";
@@ -2785,6 +2903,8 @@ createNode blendMatrix -n "blendMatrix2";
 createNode multMatrix -n "multMatrix87";
 	rename -uid "580B7C21-46B6-9202-0573-8D9B3287B9E4";
 	setAttr -s 2 ".i";
+createNode reverse -n "reverse9";
+	rename -uid "2581C3C7-4A13-3E8F-3CEC-5F93976B8F35";
 createNode blendMatrix -n "blendMatrix6";
 	rename -uid "9B8AAAF6-4056-7C6B-5E5E-84A85E875A9E";
 	setAttr ".env" 0.5;
@@ -2863,6 +2983,12 @@ createNode network -n "hyperNode_sessionData";
 	setAttr ".ihi" 0;
 	setAttr ".hyperNodeSessionJSON" -type "string" (
 		"{\"tabs\": [{\"name\": \"Tab 0\", \"nodes\": {\"chest\": {\"x\": -3054.7590043708765, \"y\": -2504.825188366551, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"group2_aimConstraint1\": {\"x\": -1437.9056766864583, \"y\": -2442.7866765478198, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"constraintRotateTranslate\"], \"filter_exempt\": false}, \"reverse9\": {\"x\": -2518.531916157658, \"y\": -2174.878855671998, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"chest_aim_group\": {\"x\": -996.4826581634766, \"y\": -2318.451371356567, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotatePivot\"], \"filter_exempt\": false}, \"chest_loc_aim_static\": {\"x\": -2155.084406094952, \"y\": -2990.972895220134, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"hips_loc_target\": {\"x\": -2325.9340904692463, \"y\": -1938.455217650995, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"multMatrix91\": {\"x\": -2735.663795904261, \"y\": -1862.8788556719978, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"hips\": {\"x\": -2735.663795904261, \"y\": -2018.8788556719978, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"end_poser\": {\"x\": -3092.5063422138655, \"y\": -2863.6991070841555, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotatePivotTranslate\", \"worldInverseMatrix\"], \"filter_exempt\": false}, \"root_poser\": {\"x\": -3085.663795904261, \"y\": -2173.1005040688287, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"end_poserOrient\": {\"x\": -3112.0203942359635, \"y\": -3231.3941608623204, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotatePivot\"], \"filter_exempt\": false}, \"multMatrix93\": {\"x\": -2570.232184221457, \"y\": -3057.4154408412182, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"], \"filter_exempt\": false}, \"composeMatrix1\": {\"x\": -3054.6337772733837, \"y\": -3443.212756986601, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"multMatrix97\": {\"x\": -2505.5614909867127, \"y\": -1450.0833272652267, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"], \"filter_exempt\": false}, \"root_poserOrient\": {\"x\": -2958.8436187409666, \"y\": -1305.4829078060625, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldInverseMatrix\"], \"filter_exempt\": false}, \"hipsStomachMid_aim\": {\"x\": -2094.5627762124773, \"y\": -1203.9073763099605, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}}, \"basket_entry_id\": null, \"notes\": [], \"hyper_sets\": [], \"view\": {\"cx\": -1998.9106569310966, \"cy\": -1349.756476898212, \"scale\": 0.6608599516038978}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 1\", \"nodes\": {\"local_7\": {\"x\": -298.0881266465495, \"y\": -534.1559241121613, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotate\"], \"filter_exempt\": false}, \"blendMatrix6\": {\"x\": -693.2518155529083, \"y\": -277.4648071348279, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"pelvis\": {\"x\": -807.1428571428571, \"y\": -543.4285714285714, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"multMatrix85\": {\"x\": -1104.1246136440882, \"y\": -229.355660256315, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"], \"filter_exempt\": false}, \"end_decomposeMatrix1\": {\"x\": -1157.142857142857, \"y\": -543.4285714285714, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"local_3_poser\": {\"x\": -1567.0338359099849, \"y\": -362.8466641525713, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldMatrix\"], \"filter_exempt\": false}, \"end_poser\": {\"x\": -1510.0883151150108, \"y\": 223.19019978189021, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"end_multMatrix1\": {\"x\": -1507.142857142857, \"y\": -595.4285714285713, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"root_poser\": {\"x\": -1857.142857142857, \"y\": -517.4285714285713, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"mainPoser\": {\"x\": -1857.142857142857, \"y\": -673.4285714285713, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"end_poserOrient\": {\"x\": -1681.7109310466153, \"y\": -111.29101646082052, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}}, \"basket_entry_id\": null, \"notes\": [], \"hyper_sets\": [], \"view\": {\"cx\": -549.3814547843087, \"cy\": -345.4194775589965, \"scale\": 0.6079564519176042}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 2\", \"nodes\": {\"root_poserOrient\": {\"x\": -815.7491188727254, \"y\": -1211.2873480169346, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}}, \"basket_entry_id\": null, \"notes\": [], \"hyper_sets\": [], \"view\": {\"cx\": -686.6666666666667, \"cy\": -1194.0000000000002, \"scale\": 1.4999999999999998}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 3\", \"nodes\": {\"stomach_group_1\": {\"x\": -775.4393267645154, \"y\": -209.64230549442237, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotatePivotTranslate\"], \"filter_exempt\": false}, \"hips\": {\"x\": -2440.9007098516045, \"y\": -168.9441347821052, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"chest\": {\"x\": -2328.318568105766, \"y\": -1095.0672239326277, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotatePivotTranslate\", \"worldMatrix\"], \"filter_exempt\": false}, \"multMatrix94\": {\"x\": -636.1574695434156, \"y\": -1367.1844892962304, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"], \"filter_exempt\": false}, \"chest_to_stomach_loc_group\": {\"x\": -1487.6426325467937, \"y\": -1354.9631190466316, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"hips_to_stomach_loc_group\": {\"x\": -1380.2650630409478, \"y\": 270.44541364890296, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"local_2_poser\": {\"x\": -1140.355305730736, \"y\": -1624.009114789054, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"rotatePivotTranslate\"], \"filter_exempt\": false}, \"end_poser\": {\"x\": -1125.0382597433354, \"y\": -1171.364389041717, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldInverseMatrix\"], \"filter_exempt\": false}, \"pairBlend1\": {\"x\": -1792.4127503536515, \"y\": -1047.9426921007055, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"chest_to_stomach_loc\": {\"x\": -160.03682806602387, \"y\": -1297.9719920568227, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"hips_to_stomach_loc\": {\"x\": -36.750005308461624, \"y\": -784.1467359469648, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"multMatrix95\": {\"x\": -441.79407667003244, \"y\": -744.6265697458107, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"], \"filter_exempt\": false}, \"root_poser\": {\"x\": -1069.1781320064415, \"y\": -674.6327614588093, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"pairBlend2\": {\"x\": -1851.3710491551344, \"y\": 310.72698810374146, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"stomach_group_1_pointConstraint1\": {\"x\": -1401.1866408105918, \"y\": -487.4223693554826, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"hipsStomachMid_loc_group_aimConstraint1\": {\"x\": -1749.6207122429048, \"y\": 2009.9231585681664, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"constraintRotateTranslate\"], \"filter_exempt\": false}, \"hipsStomachMid_loc_group\": {\"x\": -1203.3272438805748, \"y\": 2087.3228219972975, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"hips_loc_1\": {\"x\": -1032.3405324943578, \"y\": 1066.3617414846055, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"multMatrix80\": {\"x\": -1492.7183289354132, \"y\": 1141.84666120336, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"], \"filter_exempt\": false}, \"local_1_poser\": {\"x\": -1917.9967055252837, \"y\": 994.6679233852569, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"root_poserOrient\": {\"x\": -1913.048066641937, \"y\": 1293.0168795635698, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"blendMatrix2\": {\"x\": -394.5027347837155, \"y\": 897.4049582965703, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"blendMatrix7\": {\"x\": -401.5606721381887, \"y\": 1173.389893322617, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"multMatrix84\": {\"x\": -391.6795598419262, \"y\": 645.4170102757333, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"], \"filter_exempt\": false}, \"multMatrix89\": {\"x\": -51.56067213818869, \"y\": 1201.889893322617, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"local_ik_9\": {\"x\": 298.4393278618113, \"y\": 1201.889893322617, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"fk_bone_1_group\": {\"x\": -907.3910539212056, \"y\": 1499.014426811469, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"multMatrix96\": {\"x\": -1454.2856547724116, \"y\": 1503.0953044108262, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"], \"filter_exempt\": false}, \"hipsStomachMid_aim\": {\"x\": -2204.6222626322433, \"y\": 2229.9415323667736, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"chest_local_target\": {\"x\": -2196.2247778474657, \"y\": 1929.9831349730978, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"stomach_group_1_aimConstraint1\": {\"x\": -1508.2624593213009, \"y\": -284.344840225407, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"group4\": {\"x\": -238.16041991952352, \"y\": -1980.877822284359, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"local_3_poser\": {\"x\": -1156.3442776203483, \"y\": -2038.2370943266053, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"worldInverseMatrix\"], \"filter_exempt\": false}, \"multMatrix98\": {\"x\": -621.1832534534759, \"y\": -1763.74538639395, \"width\": 250, \"attr_display_mode\": \"essential\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [\"matrixIn\"], \"filter_exempt\": false}, \"group3\": {\"x\": -257.0132385552997, \"y\": -2493.650653868015, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"unitConversion36\": {\"x\": -707.2424057351438, \"y\": -2201.879754744493, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": true}, \"fk_3\": {\"x\": -1139.1411104017297, \"y\": -2346.98139633546, \"width\": 250, \"attr_display_mode\": \"essential_only\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"unitConversion37\": {\"x\": -727.8386501992098, \"y\": -2401.784480425133, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": true}}, \"basket_entry_id\": null, \"notes\": [], \"hyper_sets\": [], \"view\": {\"cx\": -557.3101443217857, \"cy\": -2215.9135955751003, \"scale\": 0.8253931938737512}, \"group_path\": [], \"group_history\": []}, {\"name\": \"Tab 4\", \"nodes\": {\"fk_1_loc_1\": {\"x\": -3928.0, \"y\": -3484.333333333333, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"multMatrix87\": {\"x\": -4278.0, \"y\": -3484.333333333333, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"blendMatrix2\": {\"x\": -4628.0, \"y\": -3562.333333333333, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"fk_1\": {\"x\": -4628.0, \"y\": -3406.333333333333, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"hips_loc_1\": {\"x\": -4978.0, \"y\": -3562.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"stomach\": {\"x\": -4978.0, \"y\": -3718.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"stomach_loc_2\": {\"x\": -4970.139076802466, \"y\": -3358.04480511991, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"multMatrix80\": {\"x\": -5328.0, \"y\": -3562.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"multMatrix92\": {\"x\": -5328.0, \"y\": -3406.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"local_2_poser\": {\"x\": -5678.0, \"y\": -3328.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"local_1_poser\": {\"x\": -5678.0, \"y\": -3484.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}, \"root_poserOrient\": {\"x\": -5678.0, \"y\": -3640.3333333333335, \"width\": 250, \"attr_display_mode\": \"none\", \"attr_values\": false, \"value_shown_attrs\": [], \"show_pinned\": true, \"expanded_attrs\": [], \"filter_exempt\": false}}, \"basket_entry_id\": null, \"notes\": [], \"hyper_sets\": [], \"view\": {\"cx\": -4595.271103472713, \"cy\": -3457.6832178867257, \"scale\": 0.890480650185713}, \"group_path\": [], \"group_history\": []}], \"active_tab\": 3, \"basket\": []}");
+createNode multMatrix -n "multMatrix93";
+	rename -uid "F81E517E-40C1-67D1-F077-B9BC5F26ACA2";
+	setAttr -s 3 ".i";
+createNode composeMatrix -n "composeMatrix1";
+	rename -uid "77CA875E-4970-DD26-2950-7197BE6006E8";
+	setAttr ".it" -type "double3" 0 -1 0 ;
 createNode multMatrix -n "multMatrix94";
 	rename -uid "E6C687BF-4A6D-DFDD-E4AF-5A99F4A01C06";
 	setAttr -s 2 ".i";
@@ -2872,71 +2998,34 @@ createNode pairBlend -n "pairBlend1";
 createNode multMatrix -n "multMatrix96";
 	rename -uid "2C5ED8F6-4519-266C-4C7D-5EA0BABD94FF";
 	setAttr -s 2 ".i";
+createNode multMatrix -n "multMatrix97";
+	rename -uid "CDB23129-4DC5-6446-8E20-9FBEB2E8886E";
+	setAttr -s 2 ".i";
 createNode multMatrix -n "multMatrix98";
 	rename -uid "23C780BB-4032-0E03-2CF3-0C92312C0938";
 	setAttr -s 2 ".i";
 createNode multMatrix -n "chest_noFk3_rot_multMatrix";
-	rename -uid "341B6C79-4E5A-6D24-62C0-AF804D162699";
 	setAttr -s 3 ".i";
 createNode pickMatrix -n "chest_noFk3_rot_pickMatrix";
-	rename -uid "C80AEB3E-45DB-BF61-A690-BBB6244A362F";
-	setAttr ".tra" no;
+	setAttr ".useTranslate" no;
 createNode pickMatrix -n "chest_noFk3_pos_pickMatrix";
-	rename -uid "B808EDA2-48C5-494B-AABB-ACA3BAD29D3C";
-	setAttr ".sca" no;
-	setAttr ".she" no;
-	setAttr ".rot" no;
+	setAttr ".useRotate" no;
+	setAttr ".useScale" no;
+	setAttr ".useShear" no;
 createNode multMatrix -n "chest_noFk3_multMatrix";
-	rename -uid "F0C19DC9-42EA-EDDC-3417-7CB48AF4D8F3";
-	setAttr -s 6 ".i";
+	setAttr -s 3 ".i";
 createNode multMatrix -n "hips_stomachRest_multMatrix";
-	rename -uid "37A98763-4E26-108A-BC7F-ECACB3348536";
 	setAttr -s 2 ".i";
 createNode pickMatrix -n "hips_stomachRest_pickMatrix";
-	rename -uid "1C311C5A-4D6A-D6B4-EC69-46B2B49B3EE4";
-	setAttr ".sca" no;
-	setAttr ".she" no;
-	setAttr ".rot" no;
+	setAttr ".useRotate" no;
+	setAttr ".useScale" no;
+	setAttr ".useShear" no;
 createNode multMatrix -n "hips_stomachTarget_multMatrix";
-	rename -uid "0235F149-4CB4-98E1-AD04-01A6884F7625";
 	setAttr -s 2 ".i";
-createNode multMatrix -n "chest_aim_hipsTarget_multMatrix";
-	rename -uid "165EFE62-46DF-EF19-76D5-3B9D55F7391C";
-	setAttr -s 3 ".i";
-createNode blendMatrix -n "chest_aim_blendMatrix";
-	rename -uid "B1A60FA4-4E11-10B8-0D08-05A0DBD63206";
-createNode aimMatrix -n "chest_aim_aimMatrix";
-	rename -uid "3CFD178F-4A44-4E37-2B19-E5B1AC2FF59A";
-	setAttr ".pmi" -type "double3" 0 -1 0 ;
-	setAttr ".smi" -type "double3" 1 0 0 ;
-	setAttr ".sm" 2;
-	setAttr ".smiv" -type "double3" 1 0 0 ;
-createNode multMatrix -n "hips_aim_chestTarget_multMatrix";
-	rename -uid "632872FA-417C-2197-A488-31AEB47F2831";
-	setAttr -s 3 ".i";
-createNode blendMatrix -n "hips_aim_blendMatrix";
-	rename -uid "CA923490-46B5-90CA-20E2-0695FAD991EB";
-createNode aimMatrix -n "hips_aim_aimMatrix";
-	rename -uid "35CB71CD-4BAC-79D9-6F37-6E93F16E394E";
-	setAttr ".pmi" -type "double3" 0 1 0 ;
-createNode composeMatrix -n "stomach_pos_composeMatrix";
-	rename -uid "13276467-48DF-1755-CD13-9896AA7B99C5";
-createNode aimMatrix -n "stomach_aim_aimMatrix";
-	rename -uid "623B0CA1-4DB9-2AF0-51DB-ECBAF8762020";
-	setAttr ".pmi" -type "double3" 0 1 0 ;
-createNode multMatrix -n "hips_out_multMatrix";
-	rename -uid "4327211D-42AD-88E3-7666-D38EA4D713F6";
-	setAttr -s 2 ".i";
-createNode pickMatrix -n "hips_out_pickMatrix";
-	rename -uid "F4F79178-49CF-48F1-A721-5BBA6E065923";
-	setAttr ".sca" no;
-	setAttr ".she" no;
-	setAttr ".rot" no;
 createNode plusMinusAverage -n "stomach_side_weights_pma";
-	rename -uid "1AEC0464-4917-0730-B754-75BC3307702A";
 	setAttr ".op" 2;
-	setAttr -s 3 ".i3[0:2]" -type "float3"  1 1 0 1 1 0 -4 -4 0;
-	setAttr -s 2 ".i3";
+	setAttr -s 3 ".i3";
+	setAttr ".i3[2]" -type "float3" -4 -4 0 ;
 createNode unitConversion -n "unitConversion36";
 	rename -uid "BDFA1E2B-4014-7BFA-8BEC-62B48927067F";
 	setAttr ".cf" -1;
@@ -2956,119 +3045,128 @@ createNode animCurveTA -n "fk_3_rotateZ";
 	setAttr ".wgt" no;
 	setAttr ".ktv[0]"  0 0;
 createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
-	rename -uid "AAE9F5EB-4717-7ADA-8A6E-43A675BDBB36";
+	rename -uid "AA459CD1-412D-EAC3-B6EF-8C8AAA02BDA9";
 	setAttr -s 4 ".tgi";
 	setAttr ".tgi[0].tn" -type "string" "Untitled_1";
-	setAttr ".tgi[0].vl" -type "double2" 12758.928064434322 -6841.0711567316857 ;
-	setAttr ".tgi[0].vh" -type "double2" 14283.928003836269 -4668.4521954447582 ;
+	setAttr ".tgi[0].vl" -type "double2" 12757.737588291151 -6839.8806805885142 ;
+	setAttr ".tgi[0].vh" -type "double2" 14282.737527693098 -4667.2617193015876 ;
 	setAttr -s 23 ".tgi[0].ni";
-	setAttr ".tgi[0].ni[0].x" 13687.142578125;
-	setAttr ".tgi[0].ni[0].y" -5402.85693359375;
+	setAttr ".tgi[0].ni[0].x" 12458.5712890625;
+	setAttr ".tgi[0].ni[0].y" -5517.14306640625;
 	setAttr ".tgi[0].ni[0].nvs" 18304;
-	setAttr ".tgi[0].ni[1].x" 12913.23828125;
-	setAttr ".tgi[0].ni[1].y" -5554.22216796875;
-	setAttr ".tgi[0].ni[1].nvs" 18305;
+	setAttr ".tgi[0].ni[1].x" 13687.142578125;
+	setAttr ".tgi[0].ni[1].y" -5504.28564453125;
+	setAttr ".tgi[0].ni[1].nvs" 18304;
 	setAttr ".tgi[0].ni[2].x" 12458.5712890625;
-	setAttr ".tgi[0].ni[2].y" -5010;
+	setAttr ".tgi[0].ni[2].y" -6228.5712890625;
 	setAttr ".tgi[0].ni[2].nvs" 18304;
-	setAttr ".tgi[0].ni[3].x" 12458.5712890625;
-	setAttr ".tgi[0].ni[3].y" -6228.5712890625;
-	setAttr ".tgi[0].ni[3].nvs" 18304;
+	setAttr ".tgi[0].ni[3].x" 13354.7900390625;
+	setAttr ".tgi[0].ni[3].y" -5469.1337890625;
+	setAttr ".tgi[0].ni[3].nvs" 18305;
 	setAttr ".tgi[0].ni[4].x" 13687.142578125;
 	setAttr ".tgi[0].ni[4].y" -5808.5712890625;
 	setAttr ".tgi[0].ni[4].nvs" 18304;
-	setAttr ".tgi[0].ni[5].x" 13355.7236328125;
-	setAttr ".tgi[0].ni[5].y" -5751.15771484375;
-	setAttr ".tgi[0].ni[5].nvs" 18305;
-	setAttr ".tgi[0].ni[6].x" 12458.5712890625;
-	setAttr ".tgi[0].ni[6].y" -5517.14306640625;
+	setAttr ".tgi[0].ni[5].x" 13687.142578125;
+	setAttr ".tgi[0].ni[5].y" -5402.85693359375;
+	setAttr ".tgi[0].ni[5].nvs" 18304;
+	setAttr ".tgi[0].ni[6].x" 13687.142578125;
+	setAttr ".tgi[0].ni[6].y" -5605.71435546875;
 	setAttr ".tgi[0].ni[6].nvs" 18304;
 	setAttr ".tgi[0].ni[7].x" 12458.5712890625;
-	setAttr ".tgi[0].ni[7].y" -6330;
+	setAttr ".tgi[0].ni[7].y" -5618.5712890625;
 	setAttr ".tgi[0].ni[7].nvs" 18304;
 	setAttr ".tgi[0].ni[8].x" 12458.5712890625;
-	setAttr ".tgi[0].ni[8].y" -5415.71435546875;
+	setAttr ".tgi[0].ni[8].y" -5111.4287109375;
 	setAttr ".tgi[0].ni[8].nvs" 18304;
-	setAttr ".tgi[0].ni[9].x" 13687.142578125;
-	setAttr ".tgi[0].ni[9].y" -5910;
+	setAttr ".tgi[0].ni[9].x" 12458.5712890625;
+	setAttr ".tgi[0].ni[9].y" -6330;
 	setAttr ".tgi[0].ni[9].nvs" 18304;
-	setAttr ".tgi[0].ni[10].x" 12458.5712890625;
-	setAttr ".tgi[0].ni[10].y" -5212.85693359375;
-	setAttr ".tgi[0].ni[10].nvs" 18304;
+	setAttr ".tgi[0].ni[10].x" 13355.7236328125;
+	setAttr ".tgi[0].ni[10].y" -5751.15771484375;
+	setAttr ".tgi[0].ni[10].nvs" 18305;
 	setAttr ".tgi[0].ni[11].x" 12458.5712890625;
-	setAttr ".tgi[0].ni[11].y" -5111.4287109375;
+	setAttr ".tgi[0].ni[11].y" -5924.28564453125;
 	setAttr ".tgi[0].ni[11].nvs" 18304;
-	setAttr ".tgi[0].ni[12].x" 13687.142578125;
-	setAttr ".tgi[0].ni[12].y" -5605.71435546875;
+	setAttr ".tgi[0].ni[12].x" 12458.5712890625;
+	setAttr ".tgi[0].ni[12].y" -6127.14306640625;
 	setAttr ".tgi[0].ni[12].nvs" 18304;
-	setAttr ".tgi[0].ni[13].x" 13354.7900390625;
-	setAttr ".tgi[0].ni[13].y" -5469.1337890625;
-	setAttr ".tgi[0].ni[13].nvs" 18305;
-	setAttr ".tgi[0].ni[14].x" 13687.142578125;
-	setAttr ".tgi[0].ni[14].y" -5707.14306640625;
+	setAttr ".tgi[0].ni[13].x" 12458.5712890625;
+	setAttr ".tgi[0].ni[13].y" -5822.85693359375;
+	setAttr ".tgi[0].ni[13].nvs" 18304;
+	setAttr ".tgi[0].ni[14].x" 12458.5712890625;
+	setAttr ".tgi[0].ni[14].y" -5721.4287109375;
 	setAttr ".tgi[0].ni[14].nvs" 18304;
-	setAttr ".tgi[0].ni[15].x" 12458.5712890625;
-	setAttr ".tgi[0].ni[15].y" -5721.4287109375;
+	setAttr ".tgi[0].ni[15].x" 13687.142578125;
+	setAttr ".tgi[0].ni[15].y" -5910;
 	setAttr ".tgi[0].ni[15].nvs" 18304;
-	setAttr ".tgi[0].ni[16].x" 12458.5712890625;
-	setAttr ".tgi[0].ni[16].y" -6025.71435546875;
-	setAttr ".tgi[0].ni[16].nvs" 18304;
+	setAttr ".tgi[0].ni[16].x" 12913.23828125;
+	setAttr ".tgi[0].ni[16].y" -5554.22216796875;
+	setAttr ".tgi[0].ni[16].nvs" 18305;
 	setAttr ".tgi[0].ni[17].x" 12458.5712890625;
-	setAttr ".tgi[0].ni[17].y" -5618.5712890625;
+	setAttr ".tgi[0].ni[17].y" -6025.71435546875;
 	setAttr ".tgi[0].ni[17].nvs" 18304;
 	setAttr ".tgi[0].ni[18].x" 12458.5712890625;
 	setAttr ".tgi[0].ni[18].y" -5314.28564453125;
 	setAttr ".tgi[0].ni[18].nvs" 18304;
 	setAttr ".tgi[0].ni[19].x" 12458.5712890625;
-	setAttr ".tgi[0].ni[19].y" -5924.28564453125;
+	setAttr ".tgi[0].ni[19].y" -5415.71435546875;
 	setAttr ".tgi[0].ni[19].nvs" 18304;
-	setAttr ".tgi[0].ni[20].x" 13687.142578125;
-	setAttr ".tgi[0].ni[20].y" -5504.28564453125;
+	setAttr ".tgi[0].ni[20].x" 12458.5712890625;
+	setAttr ".tgi[0].ni[20].y" -5010;
 	setAttr ".tgi[0].ni[20].nvs" 18304;
 	setAttr ".tgi[0].ni[21].x" 12458.5712890625;
-	setAttr ".tgi[0].ni[21].y" -5822.85693359375;
+	setAttr ".tgi[0].ni[21].y" -5212.85693359375;
 	setAttr ".tgi[0].ni[21].nvs" 18304;
-	setAttr ".tgi[0].ni[22].x" 12458.5712890625;
-	setAttr ".tgi[0].ni[22].y" -6127.14306640625;
+	setAttr ".tgi[0].ni[22].x" 13687.142578125;
+	setAttr ".tgi[0].ni[22].y" -5707.14306640625;
 	setAttr ".tgi[0].ni[22].nvs" 18304;
 	setAttr ".tgi[1].tn" -type "string" "Untitled_2";
-	setAttr ".tgi[1].vl" -type "double2" 8908.3329793479879 -7414.5126416958083 ;
-	setAttr ".tgi[1].vh" -type "double2" 10229.761498267708 -5531.9154152879319 ;
+	setAttr ".tgi[1].vl" -type "double2" 8908.3150406663754 -7413.0949435253106 ;
+	setAttr ".tgi[1].vh" -type "double2" 10228.588960806142 -5532.1426373152599 ;
 	setAttr ".tgi[2].tn" -type "string" "Untitled_3";
-	setAttr ".tgi[2].vl" -type "double2" 4511.9045826177826 -7327.8676319422375 ;
-	setAttr ".tgi[2].vh" -type "double2" 5613.0950150508816 -5759.0366099356743 ;
+	setAttr ".tgi[2].vl" -type "double2" 4511.9045826177817 -7326.4243771019983 ;
+	setAttr ".tgi[2].vh" -type "double2" 5611.90453890771 -5759.2893886327402 ;
 	setAttr -s 5 ".tgi[2].ni";
-	setAttr ".tgi[2].ni[0].x" 4655.71435546875;
-	setAttr ".tgi[2].ni[0].y" -6398.5712890625;
+	setAttr ".tgi[2].ni[0].x" 5270;
+	setAttr ".tgi[2].ni[0].y" -6448.5712890625;
 	setAttr ".tgi[2].ni[0].nvs" 18304;
-	setAttr ".tgi[2].ni[1].x" 4962.85693359375;
-	setAttr ".tgi[2].ni[1].y" -6448.5712890625;
+	setAttr ".tgi[2].ni[1].x" 4655.71435546875;
+	setAttr ".tgi[2].ni[1].y" -6500;
 	setAttr ".tgi[2].ni[1].nvs" 18304;
 	setAttr ".tgi[2].ni[2].x" 4655.71435546875;
-	setAttr ".tgi[2].ni[2].y" -6500;
+	setAttr ".tgi[2].ni[2].y" -6398.5712890625;
 	setAttr ".tgi[2].ni[2].nvs" 18304;
 	setAttr ".tgi[2].ni[3].x" 5270;
-	setAttr ".tgi[2].ni[3].y" -6448.5712890625;
+	setAttr ".tgi[2].ni[3].y" -6630;
 	setAttr ".tgi[2].ni[3].nvs" 18304;
-	setAttr ".tgi[2].ni[4].x" 5270;
-	setAttr ".tgi[2].ni[4].y" -6630;
+	setAttr ".tgi[2].ni[4].x" 4962.85693359375;
+	setAttr ".tgi[2].ni[4].y" -6448.5712890625;
 	setAttr ".tgi[2].ni[4].nvs" 18304;
 	setAttr ".tgi[3].tn" -type "string" "Untitled_4";
-	setAttr ".tgi[3].vl" -type "double2" 2818.9268286251809 -4513.0950587609541 ;
-	setAttr ".tgi[3].vh" -type "double2" 4214.4062252286058 -2524.999899665519 ;
-	setAttr -s 4 ".tgi[3].ni";
-	setAttr ".tgi[3].ni[0].x" 3691.93994140625;
-	setAttr ".tgi[3].ni[0].y" -3438.612548828125;
-	setAttr ".tgi[3].ni[0].nvs" 18305;
-	setAttr ".tgi[3].ni[1].x" 2644.28564453125;
-	setAttr ".tgi[3].ni[1].y" -3215.71435546875;
+	setAttr ".tgi[3].vl" -type "double2" 2818.8800019316964 -4511.747313937678 ;
+	setAttr ".tgi[3].vh" -type "double2" 4213.3744018358411 -2525.0554483443402 ;
+	setAttr -s 7 ".tgi[3].ni";
+	setAttr ".tgi[3].ni[0].x" 2644.28564453125;
+	setAttr ".tgi[3].ni[0].y" -3215.71435546875;
+	setAttr ".tgi[3].ni[0].nvs" 18304;
+	setAttr ".tgi[3].ni[1].x" 3002.857177734375;
+	setAttr ".tgi[3].ni[1].y" -3062.857177734375;
 	setAttr ".tgi[3].ni[1].nvs" 18304;
-	setAttr ".tgi[3].ni[2].x" 3002.857177734375;
-	setAttr ".tgi[3].ni[2].y" -3477.142822265625;
-	setAttr ".tgi[3].ni[2].nvs" 18304;
+	setAttr ".tgi[3].ni[2].x" 3691.93994140625;
+	setAttr ".tgi[3].ni[2].y" -3438.612548828125;
+	setAttr ".tgi[3].ni[2].nvs" 18305;
 	setAttr ".tgi[3].ni[3].x" 3002.857177734375;
-	setAttr ".tgi[3].ni[3].y" -3062.857177734375;
+	setAttr ".tgi[3].ni[3].y" -3477.142822265625;
 	setAttr ".tgi[3].ni[3].nvs" 18304;
+	setAttr ".tgi[3].ni[4].x" 2337.142822265625;
+	setAttr ".tgi[3].ni[4].y" -3265.71435546875;
+	setAttr ".tgi[3].ni[4].nvs" 18304;
+	setAttr ".tgi[3].ni[5].x" 3310;
+	setAttr ".tgi[3].ni[5].y" -3278.571533203125;
+	setAttr ".tgi[3].ni[5].nvs" 18304;
+	setAttr ".tgi[3].ni[6].x" 2337.142822265625;
+	setAttr ".tgi[3].ni[6].y" -3164.28564453125;
+	setAttr ".tgi[3].ni[6].nvs" 18304;
 select -ne :time1;
 	setAttr -av -k on ".cch";
 	setAttr -k on ".fzn";
@@ -3175,7 +3273,7 @@ select -ne :defaultRenderUtilityList1;
 	setAttr -cb on ".ihi";
 	setAttr -av -k on ".nds";
 	setAttr -cb on ".bnm";
-	setAttr -s 40 ".u";
+	setAttr -s 43 ".u";
 select -ne :defaultRenderingList1;
 	setAttr -av -k on ".cch";
 	setAttr -k on ".ihi";
@@ -3711,10 +3809,33 @@ connectAttr "fk_3_rotateY.o" "fk_3.ry";
 connectAttr "fk_3_rotateZ.o" "fk_3.rz";
 connectAttr "multMatrix83.o" "chest_group.opm";
 connectAttr "pelvis.localControls" "local_ik_6.v";
-connectAttr "chest_aim_aimMatrix.tmat" "chest_aim_group.opm";
+connectAttr "group2_aimConstraint1.crx" "chest_aim_group.rx";
+connectAttr "group2_aimConstraint1.cry" "chest_aim_group.ry";
+connectAttr "group2_aimConstraint1.crz" "chest_aim_group.rz";
 connectAttr "pelvis.localControls" "local_7.v";
 connectAttr "blendMatrix6.omat" "local_7.opm";
 connectAttr "multMatrix85.o" "chest_stomach_target.opm";
+connectAttr "chest.weight" "group2_aimConstraint1.w1";
+connectAttr "reverse9.ox" "group2_aimConstraint1.w2";
+connectAttr "chest_aim_group.pim" "group2_aimConstraint1.cpim";
+connectAttr "chest_aim_group.t" "group2_aimConstraint1.ct";
+connectAttr "chest_aim_group.rp" "group2_aimConstraint1.crp";
+connectAttr "chest_aim_group.rpt" "group2_aimConstraint1.crt";
+connectAttr "chest_aim_group.ro" "group2_aimConstraint1.cro";
+connectAttr "chest_loc_aim_static.t" "group2_aimConstraint1.tg[1].tt";
+connectAttr "chest_loc_aim_static.rp" "group2_aimConstraint1.tg[1].trp";
+connectAttr "chest_loc_aim_static.rpt" "group2_aimConstraint1.tg[1].trt";
+connectAttr "chest_loc_aim_static.pm" "group2_aimConstraint1.tg[1].tpm";
+connectAttr "group2_aimConstraint1.w1" "group2_aimConstraint1.tg[1].tw";
+connectAttr "hips_loc_target.t" "group2_aimConstraint1.tg[2].tt";
+connectAttr "hips_loc_target.rp" "group2_aimConstraint1.tg[2].trp";
+connectAttr "hips_loc_target.rpt" "group2_aimConstraint1.tg[2].trt";
+connectAttr "hips_loc_target.pm" "group2_aimConstraint1.tg[2].tpm";
+connectAttr "group2_aimConstraint1.w2" "group2_aimConstraint1.tg[2].tw";
+connectAttr "chest.wm" "group2_aimConstraint1.wum";
+connectAttr "multMatrix93.o" "chest_loc_aim_static.opm";
+connectAttr "hips.t" "hips_loc_target.t";
+connectAttr "multMatrix91.o" "hips_loc_target.opm";
 connectAttr "chest.t" "chest_to_stomach_loc_group.t";
 connectAttr "pairBlend1.or" "chest_to_stomach_loc_group.r";
 connectAttr "multMatrix98.o" "group4.opm";
@@ -3722,12 +3843,17 @@ connectAttr "unitConversion36.o" "group4.r";
 connectAttr "multMatrix94.o" "chest_to_stomach_loc.opm";
 connectAttr "multMatrix86.o" "fk_3_loc_1.opm";
 connectAttr "pelvis.localControls" "local_ik_4.v";
-connectAttr "stomach_aim_aimMatrix.tmat" "stomach_group_1.opm";
+connectAttr "stomach_group_1_pointConstraint1.cty" "stomach_group_1.ty";
+connectAttr "stomach_group_1_aimConstraint1.crx" "stomach_group_1.rx";
+connectAttr "stomach_group_1_aimConstraint1.cry" "stomach_group_1.ry";
+connectAttr "stomach_group_1_aimConstraint1.crz" "stomach_group_1.rz";
 connectAttr "pelvis.localControls" "local_ik_3.v";
 connectAttr "multMatrix82.o" "stomach_loc_1.opm";
 connectAttr "inverseMatrix2.omat" "group3.opm";
 connectAttr "multMatrix92.o" "stomach_loc_2.opm";
-connectAttr "stomach_group.wim" "stomach_group_1_pointConstraint1.cpim";
+connectAttr "stomach_group_1.pim" "stomach_group_1_pointConstraint1.cpim";
+connectAttr "stomach_group_1.rp" "stomach_group_1_pointConstraint1.crp";
+connectAttr "stomach_group_1.rpt" "stomach_group_1_pointConstraint1.crt";
 connectAttr "chest_to_stomach_loc.t" "stomach_group_1_pointConstraint1.tg[0].tt"
 		;
 connectAttr "chest_to_stomach_loc.rp" "stomach_group_1_pointConstraint1.tg[0].trp"
@@ -3740,40 +3866,119 @@ connectAttr "stomach_group_1_pointConstraint1.w0" "stomach_group_1_pointConstrai
 		;
 connectAttr "stomach_group_1_pointConstraint1.w1" "stomach_group_1_pointConstraint1.tg[1].tw"
 		;
+connectAttr "stomach_group_1.pim" "stomach_group_1_aimConstraint1.cpim";
+connectAttr "stomach_group_1.t" "stomach_group_1_aimConstraint1.ct";
+connectAttr "stomach_group_1.rp" "stomach_group_1_aimConstraint1.crp";
+connectAttr "stomach_group_1.rpt" "stomach_group_1_aimConstraint1.crt";
+connectAttr "stomach_group_1.ro" "stomach_group_1_aimConstraint1.cro";
+connectAttr "chest.t" "stomach_group_1_aimConstraint1.tg[0].tt";
+connectAttr "chest.rp" "stomach_group_1_aimConstraint1.tg[0].trp";
+connectAttr "chest.rpt" "stomach_group_1_aimConstraint1.tg[0].trt";
+connectAttr "chest.pm" "stomach_group_1_aimConstraint1.tg[0].tpm";
+connectAttr "stomach_group_1_aimConstraint1.w0" "stomach_group_1_aimConstraint1.tg[0].tw"
+		;
+connectAttr "chest.t" "stomach_group_1_aimConstraint1.tg[1].tt";
+connectAttr "chest.rp" "stomach_group_1_aimConstraint1.tg[1].trp";
+connectAttr "chest.rpt" "stomach_group_1_aimConstraint1.tg[1].trt";
+connectAttr "chest_noFk3_multMatrix.o" "stomach_group_1_aimConstraint1.tg[1].tpm";
+connectAttr "stomach_group_1_aimConstraint1.w1" "stomach_group_1_aimConstraint1.tg[1].tw"
+		;
+connectAttr "chest_group.m" "chest_noFk3_rot_multMatrix.i[0]";
+connectAttr "multMatrix83.o" "chest_noFk3_rot_multMatrix.i[1]";
+connectAttr "fk_3.m" "chest_noFk3_rot_multMatrix.i[2]";
+connectAttr "chest_noFk3_rot_multMatrix.o" "chest_noFk3_rot_pickMatrix.imat";
+connectAttr "multMatrix83.o" "chest_noFk3_pos_pickMatrix.imat";
+connectAttr "chest_noFk3_rot_pickMatrix.tmat" "chest_noFk3_multMatrix.i[0]";
+connectAttr "chest_noFk3_pos_pickMatrix.tmat" "chest_noFk3_multMatrix.i[1]";
+connectAttr "fk_3.pm" "chest_noFk3_multMatrix.i[2]";
 connectAttr "hips.t" "stomach_group_1_pointConstraint1.tg[1].tt";
-connectAttr "hips_stomachTarget_multMatrix.o" "stomach_group_1_pointConstraint1.tg[1].tpm"
-		;
-connectAttr "stomach_side_weights_pma.o3x" "stomach_group_1_sidePointConstraint.w0"
-		;
-connectAttr "stomach_side_weights_pma.o3y" "stomach_group_1_sidePointConstraint.w1"
-		;
-connectAttr "stomach_group.wim" "stomach_group_1_sidePointConstraint.cpim";
-connectAttr "chest_to_stomach_loc.t" "stomach_group_1_sidePointConstraint.tg[0].tt"
-		;
-connectAttr "chest_to_stomach_loc.rp" "stomach_group_1_sidePointConstraint.tg[0].trp"
-		;
-connectAttr "chest_to_stomach_loc.rpt" "stomach_group_1_sidePointConstraint.tg[0].trt"
-		;
-connectAttr "chest_to_stomach_loc.pm" "stomach_group_1_sidePointConstraint.tg[0].tpm"
-		;
-connectAttr "stomach_group_1_sidePointConstraint.w0" "stomach_group_1_sidePointConstraint.tg[0].tw"
-		;
+connectAttr "hips_stomachTarget_multMatrix.o" "stomach_group_1_pointConstraint1.tg[1].tpm";
+connectAttr "stomach_group.wm" "hips_stomachRest_multMatrix.i[0]";
+connectAttr "ik_controls.wim" "hips_stomachRest_multMatrix.i[1]";
+connectAttr "hips_stomachRest_multMatrix.o" "hips_stomachRest_pickMatrix.imat";
+connectAttr "hips_stomachRest_pickMatrix.tmat" "hips_stomachTarget_multMatrix.i[0]";
+connectAttr "ik_controls.wm" "hips_stomachTarget_multMatrix.i[1]";
+connectAttr "chest.weight" "stomach_side_weights_pma.i3[0].i3x";
+connectAttr "hips.weight" "stomach_side_weights_pma.i3[0].i3y";
+connectAttr "hips.weight" "stomach_side_weights_pma.i3[1].i3x";
+connectAttr "chest.weight" "stomach_side_weights_pma.i3[1].i3y";
+connectAttr "stomach_side_weights_pma.o3x" "stomach_group_1_sidePointConstraint.w0";
+connectAttr "stomach_side_weights_pma.o3y" "stomach_group_1_sidePointConstraint.w1";
+connectAttr "stomach_group_1_sidePointConstraint.ctx" "stomach_group_1.tx";
+connectAttr "stomach_group_1_sidePointConstraint.ctz" "stomach_group_1.tz";
+connectAttr "stomach_group_1.pim" "stomach_group_1_sidePointConstraint.cpim";
+connectAttr "stomach_group_1.rp" "stomach_group_1_sidePointConstraint.crp";
+connectAttr "stomach_group_1.rpt" "stomach_group_1_sidePointConstraint.crt";
+connectAttr "chest_to_stomach_loc.t" "stomach_group_1_sidePointConstraint.tg[0].tt";
+connectAttr "chest_to_stomach_loc.rp" "stomach_group_1_sidePointConstraint.tg[0].trp";
+connectAttr "chest_to_stomach_loc.rpt" "stomach_group_1_sidePointConstraint.tg[0].trt";
+connectAttr "chest_to_stomach_loc.pm" "stomach_group_1_sidePointConstraint.tg[0].tpm";
+connectAttr "stomach_group_1_sidePointConstraint.w0" "stomach_group_1_sidePointConstraint.tg[0].tw";
 connectAttr "hips.t" "stomach_group_1_sidePointConstraint.tg[1].tt";
-connectAttr "hips_stomachTarget_multMatrix.o" "stomach_group_1_sidePointConstraint.tg[1].tpm"
-		;
-connectAttr "stomach_group_1_sidePointConstraint.w1" "stomach_group_1_sidePointConstraint.tg[1].tw"
-		;
+connectAttr "hips_stomachTarget_multMatrix.o" "stomach_group_1_sidePointConstraint.tg[1].tpm";
+connectAttr "stomach_group_1_sidePointConstraint.w1" "stomach_group_1_sidePointConstraint.tg[1].tw";
+connectAttr "pelvis.wm" "stomach_group_1_aimConstraint1.wum";
 connectAttr "multMatrix87.o" "fk_1_loc_1.opm";
 connectAttr "pelvis.localControls" "local_ik_2.v";
-connectAttr "hips_out_pickMatrix.tmat" "hips_out.opm";
+connectAttr "hips_out_pointConstraint1.ctx" "hips_out.tx";
+connectAttr "hips_out_pointConstraint1.cty" "hips_out.ty";
+connectAttr "hips_out_pointConstraint1.ctz" "hips_out.tz";
 connectAttr "fk_hips.r" "hips_out.r";
-connectAttr "hips_aim_aimMatrix.tmat" "hipsStomachMid_loc_group.opm";
+connectAttr "hips_out.pim" "hips_out_pointConstraint1.cpim";
+connectAttr "hips_out.rp" "hips_out_pointConstraint1.crp";
+connectAttr "hips_out.rpt" "hips_out_pointConstraint1.crt";
+connectAttr "bendJoint_1_out.t" "hips_out_pointConstraint1.tg[0].tt";
+connectAttr "bendJoint_1_out.rp" "hips_out_pointConstraint1.tg[0].trp";
+connectAttr "bendJoint_1_out.rpt" "hips_out_pointConstraint1.tg[0].trt";
+connectAttr "bendJoint_1_out.pm" "hips_out_pointConstraint1.tg[0].tpm";
+connectAttr "hips_out_pointConstraint1.w0" "hips_out_pointConstraint1.tg[0].tw";
+connectAttr "root_poserOrient.wm" "hipsStomachMid_aim.opm";
+connectAttr "hipsStomachMid_loc_group_aimConstraint1.crx" "hipsStomachMid_loc_group.rx"
+		;
+connectAttr "hipsStomachMid_loc_group_aimConstraint1.cry" "hipsStomachMid_loc_group.ry"
+		;
+connectAttr "hipsStomachMid_loc_group_aimConstraint1.crz" "hipsStomachMid_loc_group.rz"
+		;
+connectAttr "hips.weight" "hipsStomachMid_loc_group_aimConstraint1.w0";
+connectAttr "reverse8.ox" "hipsStomachMid_loc_group_aimConstraint1.w4";
+connectAttr "hipsStomachMid_loc_group.pim" "hipsStomachMid_loc_group_aimConstraint1.cpim"
+		;
+connectAttr "hipsStomachMid_loc_group.t" "hipsStomachMid_loc_group_aimConstraint1.ct"
+		;
+connectAttr "hipsStomachMid_loc_group.rp" "hipsStomachMid_loc_group_aimConstraint1.crp"
+		;
+connectAttr "hipsStomachMid_loc_group.rpt" "hipsStomachMid_loc_group_aimConstraint1.crt"
+		;
+connectAttr "hipsStomachMid_loc_group.ro" "hipsStomachMid_loc_group_aimConstraint1.cro"
+		;
+connectAttr "hipsStomachMid_aim.t" "hipsStomachMid_loc_group_aimConstraint1.tg[0].tt"
+		;
+connectAttr "hipsStomachMid_aim.rp" "hipsStomachMid_loc_group_aimConstraint1.tg[0].trp"
+		;
+connectAttr "hipsStomachMid_aim.rpt" "hipsStomachMid_loc_group_aimConstraint1.tg[0].trt"
+		;
+connectAttr "hipsStomachMid_aim.pm" "hipsStomachMid_loc_group_aimConstraint1.tg[0].tpm"
+		;
+connectAttr "hipsStomachMid_loc_group_aimConstraint1.w0" "hipsStomachMid_loc_group_aimConstraint1.tg[0].tw"
+		;
+connectAttr "chest_local_target.t" "hipsStomachMid_loc_group_aimConstraint1.tg[4].tt"
+		;
+connectAttr "chest_local_target.rp" "hipsStomachMid_loc_group_aimConstraint1.tg[4].trp"
+		;
+connectAttr "chest_local_target.rpt" "hipsStomachMid_loc_group_aimConstraint1.tg[4].trt"
+		;
+connectAttr "chest_local_target.pm" "hipsStomachMid_loc_group_aimConstraint1.tg[4].tpm"
+		;
+connectAttr "hipsStomachMid_loc_group_aimConstraint1.w4" "hipsStomachMid_loc_group_aimConstraint1.tg[4].tw"
+		;
 connectAttr "multMatrix80.o" "hips_loc_1.opm";
 connectAttr "inverseMatrix1.omat" "bendJoint_1_out.opm";
 connectAttr "pelvis.localControls" "local_ik_8.v";
 connectAttr "inverseMatrix1.omat" "local_ik_8.opm";
 connectAttr "pelvis.localControls" "local_ik_9.v";
 connectAttr "multMatrix89.o" "local_ik_9.opm";
+connectAttr "chest.t" "chest_local_target.t";
+connectAttr "multMatrix90.o" "chest_local_target.opm";
 connectAttr "uvPin.omat[0]" "surf_1_jnt.opm";
 connectAttr "uvPin.omat[1]" "surf_2_jnt.opm";
 connectAttr "uvPin.omat[2]" "surf_3_jnt.opm";
@@ -3956,6 +4161,7 @@ connectAttr "bindPose5.m[3]" "bindPose5.p[4]";
 connectAttr "bindPose5.m[4]" "bindPose5.p[5]";
 connectAttr "bindPose5.m[5]" "bindPose5.p[6]";
 connectAttr "bindPose5.m[6]" "bindPose5.p[7]";
+connectAttr "hips.weight" "reverse8.ix";
 connectAttr "spineRoot.wim" "multMatrix68.i[1]";
 connectAttr "multMatrix68.o" "decomposeMatrix88.imat";
 connectAttr "decomposeMatrix88.orx" "unitConversion32.i";
@@ -4065,6 +4271,8 @@ connectAttr "local_3_poser.wm" "multMatrix82.i[0]";
 connectAttr "local_2_poser.wim" "multMatrix82.i[1]";
 connectAttr "end_poser.wm" "multMatrix83.i[0]";
 connectAttr "local_3_poser.wim" "multMatrix83.i[1]";
+connectAttr "hips_loc_1.wm" "multMatrix84.i[0]";
+connectAttr "stomach_group_1.wim" "multMatrix84.i[1]";
 connectAttr "local_3_poser.wm" "multMatrix85.i[0]";
 connectAttr "end_poserOrient.wim" "multMatrix85.i[1]";
 connectAttr "chest_stomach_target.wm" "blendMatrix1.imat";
@@ -4077,6 +4285,7 @@ connectAttr "stomach_loc_2.wm" "blendMatrix2.tgt[0].tmat";
 connectAttr "stomach.weight" "blendMatrix2.env";
 connectAttr "blendMatrix2.omat" "multMatrix87.i[0]";
 connectAttr "fk_1.wim" "multMatrix87.i[1]";
+connectAttr "chest.weight" "reverse9.ix";
 connectAttr "multMatrix85.o" "blendMatrix6.tgt[0].tmat";
 connectAttr "bendJoint_1_out.wm" "blendMatrix7.imat";
 connectAttr "hips_loc_1.wm" "blendMatrix7.tgt[0].tmat";
@@ -4113,113 +4322,75 @@ connectAttr "init_surfCurveShape.ws" "curveInfo2.ic";
 connectAttr "local_1_poser.wm" "multMatrix92.i[0]";
 connectAttr "local_2_poser.wim" "multMatrix92.i[1]";
 connectAttr "fk_2.m" "inverseMatrix2.imat";
+connectAttr "composeMatrix1.omat" "multMatrix93.i[0]";
+connectAttr "end_poserOrient.wm" "multMatrix93.i[1]";
+connectAttr "end_poser.wim" "multMatrix93.i[2]";
 connectAttr "local_2_poser.wm" "multMatrix94.i[0]";
 connectAttr "local_3_poser.wim" "multMatrix94.i[1]";
 connectAttr "chest.r" "pairBlend1.ir2";
 connectAttr "local_1_poser.wm" "multMatrix96.i[0]";
 connectAttr "root_poser.wim" "multMatrix96.i[1]";
+connectAttr "composeMatrix1.omat" "multMatrix97.i[0]";
+connectAttr "root_poserOrient.wim" "multMatrix97.i[1]";
 connectAttr "local_3_poser.wm" "multMatrix98.i[0]";
 connectAttr "end_poser.wim" "multMatrix98.i[1]";
-connectAttr "chest_group.m" "chest_noFk3_rot_multMatrix.i[0]";
-connectAttr "multMatrix83.o" "chest_noFk3_rot_multMatrix.i[1]";
-connectAttr "fk_3.m" "chest_noFk3_rot_multMatrix.i[2]";
-connectAttr "chest_noFk3_rot_multMatrix.o" "chest_noFk3_rot_pickMatrix.imat";
-connectAttr "multMatrix83.o" "chest_noFk3_pos_pickMatrix.imat";
-connectAttr "chest.m" "chest_noFk3_multMatrix.i[0]";
-connectAttr "chest_noFk3_rot_pickMatrix.tmat" "chest_noFk3_multMatrix.i[1]";
-connectAttr "chest_noFk3_pos_pickMatrix.tmat" "chest_noFk3_multMatrix.i[2]";
-connectAttr "fk_bone_3_group.m" "chest_noFk3_multMatrix.i[3]";
-connectAttr "multMatrix82.o" "chest_noFk3_multMatrix.i[4]";
-connectAttr "stomach_group.im" "chest_noFk3_multMatrix.i[5]";
-connectAttr "stomach_group.wm" "hips_stomachRest_multMatrix.i[0]";
-connectAttr "ik_controls.wim" "hips_stomachRest_multMatrix.i[1]";
-connectAttr "hips_stomachRest_multMatrix.o" "hips_stomachRest_pickMatrix.imat";
-connectAttr "hips_stomachRest_pickMatrix.tmat" "hips_stomachTarget_multMatrix.i[0]"
-		;
-connectAttr "ik_controls.wm" "hips_stomachTarget_multMatrix.i[1]";
-connectAttr "hips.m" "chest_aim_hipsTarget_multMatrix.i[0]";
-connectAttr "multMatrix91.o" "chest_aim_hipsTarget_multMatrix.i[1]";
-connectAttr "chest.im" "chest_aim_hipsTarget_multMatrix.i[2]";
-connectAttr "chest_aim_hipsTarget_multMatrix.o" "chest_aim_blendMatrix.imat";
-connectAttr "multMatrix91.o" "chest_aim_blendMatrix.tgt[0].tmat";
-connectAttr "chest.weight" "chest_aim_blendMatrix.env";
-connectAttr "chest_aim_blendMatrix.omat" "chest_aim_aimMatrix.pmat";
-connectAttr "chest.m" "hips_aim_chestTarget_multMatrix.i[0]";
-connectAttr "multMatrix90.o" "hips_aim_chestTarget_multMatrix.i[1]";
-connectAttr "hips.im" "hips_aim_chestTarget_multMatrix.i[2]";
-connectAttr "hips_aim_chestTarget_multMatrix.o" "hips_aim_blendMatrix.imat";
-connectAttr "multMatrix90.o" "hips_aim_blendMatrix.tgt[0].tmat";
-connectAttr "hips.weight" "hips_aim_blendMatrix.env";
-connectAttr "hips_aim_blendMatrix.omat" "hips_aim_aimMatrix.pmat";
-connectAttr "stomach_group_1_sidePointConstraint.ctx" "stomach_pos_composeMatrix.itx"
-		;
-connectAttr "stomach_group_1_pointConstraint1.cty" "stomach_pos_composeMatrix.ity"
-		;
-connectAttr "stomach_group_1_sidePointConstraint.ctz" "stomach_pos_composeMatrix.itz"
-		;
-connectAttr "stomach_pos_composeMatrix.omat" "stomach_aim_aimMatrix.imat";
-connectAttr "chest_noFk3_multMatrix.o" "stomach_aim_aimMatrix.pmat";
-connectAttr "bendJoint_1_out.wm" "hips_out_multMatrix.i[0]";
-connectAttr "hips.wim" "hips_out_multMatrix.i[1]";
-connectAttr "hips_out_multMatrix.o" "hips_out_pickMatrix.imat";
-connectAttr "chest.weight" "stomach_side_weights_pma.i3[0].i3x";
-connectAttr "hips.weight" "stomach_side_weights_pma.i3[0].i3y";
-connectAttr "hips.weight" "stomach_side_weights_pma.i3[1].i3x";
-connectAttr "chest.weight" "stomach_side_weights_pma.i3[1].i3y";
 connectAttr "fk_3.r" "unitConversion36.i";
-connectAttr "local_5_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn";
-connectAttr "init_surfShapeOrig.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
+connectAttr "init_surfLoc_3Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn"
 		;
-connectAttr "init_surfLoc_1Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn"
+connectAttr "local_3_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn";
+connectAttr "init_surfLoc_11Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn"
 		;
-connectAttr "init_surfLoc_11Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn"
-		;
+connectAttr "init_uvPin.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn";
 connectAttr "init_surfCurveShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[4].dn"
 		;
-connectAttr "curveFromSurfaceIso2.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn"
+connectAttr "local_5_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn";
+connectAttr "local_2_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[6].dn";
+connectAttr "init_surfLoc_12Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[7].dn"
 		;
-connectAttr "init_surfLoc_3Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[6].dn"
+connectAttr "init_surfLoc_9Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[8].dn"
 		;
-connectAttr "init_surfLoc_2Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[7].dn"
+connectAttr "init_surfLoc_2Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[9].dn"
 		;
-connectAttr "init_surfLoc_0Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[8].dn"
+connectAttr "curveFromSurfaceIso2.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[10].dn"
 		;
-connectAttr "local_4_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[9].dn";
-connectAttr "init_surfLoc_10Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[10].dn"
+connectAttr "init_surfLoc_8Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[11].dn"
 		;
-connectAttr "init_surfLoc_9Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[11].dn"
+connectAttr "init_surfLoc_5Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[12].dn"
 		;
-connectAttr "local_2_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[12].dn"
+connectAttr "init_surfLoc_13Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[13].dn"
 		;
-connectAttr "init_uvPin.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[13].dn";
-connectAttr "local_1_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[14].dn"
+connectAttr "init_surfLoc_6Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[14].dn"
 		;
-connectAttr "init_surfLoc_6Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[15].dn"
+connectAttr "local_4_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[15].dn"
 		;
-connectAttr "init_surfLoc_4Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[16].dn"
+connectAttr "init_surfShapeOrig.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[16].dn"
 		;
-connectAttr "init_surfLoc_12Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[17].dn"
+connectAttr "init_surfLoc_4Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[17].dn"
 		;
 connectAttr "init_surfLoc_7Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[18].dn"
 		;
-connectAttr "init_surfLoc_8Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[19].dn"
+connectAttr "init_surfLoc_0Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[19].dn"
 		;
-connectAttr "local_3_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[20].dn"
+connectAttr "init_surfLoc_1Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[20].dn"
 		;
-connectAttr "init_surfLoc_13Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[21].dn"
+connectAttr "init_surfLoc_10Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[21].dn"
 		;
-connectAttr "init_surfLoc_5Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[22].dn"
+connectAttr "local_1_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[22].dn"
 		;
-connectAttr "local_1_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn";
-connectAttr "multMatrix80.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn";
-connectAttr "root_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn";
-connectAttr "hips_loc_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn";
-connectAttr "hips_loc_1Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[4].dn";
-connectAttr "stomach_group_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[0].dn";
-connectAttr "stomach_group_1_pointConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[1].dn"
+connectAttr "hips_loc_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn";
+connectAttr "root_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn";
+connectAttr "local_1_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn";
+connectAttr "hips_loc_1Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn";
+connectAttr "multMatrix80.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[4].dn";
+connectAttr "stomach_group_1_pointConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[0].dn"
 		;
-connectAttr "chest.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[2].dn";
-connectAttr "pelvis.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[3].dn";
+connectAttr "pelvis.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[1].dn";
+connectAttr "stomach_group_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[2].dn";
+connectAttr "chest.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[3].dn";
+connectAttr "stomach_group_1_aimConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[5].dn"
+		;
+connectAttr "chest_to_stomach_loc.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[6].dn"
+		;
 connectAttr "red_rsSG.pa" ":renderPartition.st" -na;
 connectAttr "green_rsSG.pa" ":renderPartition.st" -na;
 connectAttr "blue_rsSG.pa" ":renderPartition.st" -na;
@@ -4247,6 +4418,7 @@ connectAttr "condition1.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "condition3.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "squash_blendTwoAttr.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multiplyDivide1853.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "reverse8.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "decomposeMatrix88.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "decomposeMatrix89.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "addDoubleLinear1.msg" ":defaultRenderUtilityList1.u" -na;
@@ -4269,9 +4441,11 @@ connectAttr "multMatrix80.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix81.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix82.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix83.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "multMatrix84.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix85.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix86.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix87.msg" ":defaultRenderUtilityList1.u" -na;
+connectAttr "reverse9.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix89.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "inverseMatrix1.msg" ":defaultRenderUtilityList1.u" -na;
 connectAttr "multMatrix90.msg" ":defaultRenderUtilityList1.u" -na;

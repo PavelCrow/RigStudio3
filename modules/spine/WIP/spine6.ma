@@ -1,6 +1,6 @@
 //Maya ASCII 2022 scene
-//Name: spine.ma
-//Last modified: Mon, Sep 21, 2026 10:12:39 AM
+//Name: spine6.ma
+//Last modified: Mon, Sep 21, 2026 06:42:19 AM
 //Codeset: 1251
 requires maya "2022";
 requires -nodeType "inverseMatrix" "matrixNodes" "1.0";
@@ -13,7 +13,7 @@ fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202110272215-ad32f8f1e6";
 fileInfo "osv" "Windows 10 Pro v2009 (Build: 26200)";
-fileInfo "UUID" "3C115CF6-43AC-4C64-4D3A-0CA3CEA3C3F4";
+fileInfo "UUID" "66EFA426-4350-B540-CE3D-428D12C436CF";
 createNode transform -n "mod";
 	rename -uid "C55DD497-492A-4EC0-E01E-33B4860B4331";
 	addAttr -ci true -sn "version" -ln "version" -dt "string";
@@ -302,7 +302,6 @@ createNode nurbsSurface -n "local_1_poserShape" -p "local_1_poser";
 	setAttr ".nvfa" 4.5;
 createNode transform -n "local_1_poserOrient" -p "local_1_poser";
 	rename -uid "43778514-4C48-FD5D-93D7-BB9D82B49211";
-	setAttr ".v" no;
 createNode locator -n "local_1_poserOrientShape" -p "local_1_poserOrient";
 	rename -uid "790E75B7-4A49-2D6F-102A-5D8C2974175F";
 	setAttr -k off ".v" no;
@@ -325,7 +324,6 @@ createNode locator -n "init_surfLoc_5Shape" -p "init_surfLoc_5";
 	setAttr -k off ".v";
 createNode transform -n "fk_hips_initLoc" -p "local_1_poser";
 	rename -uid "CE2D08D0-423C-0CD6-E4E9-B09F917C14FE";
-	setAttr ".v" no;
 createNode locator -n "fk_hips_initLocShape" -p "fk_hips_initLoc";
 	rename -uid "93EB5877-4BD8-15CF-24A4-BFA6ECB32CCB";
 	setAttr -k off ".v";
@@ -978,8 +976,8 @@ createNode transform -n "pelvis" -p "pelvis_group";
 	setAttr -l on -k off ".sy";
 	setAttr -l on -k off ".sz";
 	setAttr ".rotateZMirror" yes;
-	setAttr -k on ".squash";
-	setAttr -cb on ".localControls";
+	setAttr -k on ".squash" 1;
+	setAttr -cb on ".localControls" yes;
 createNode nurbsCurve -n "pelvisShape" -p "pelvis";
 	rename -uid "8C14EE6D-48F2-978C-9F87-07AB406F1FFE";
 	addAttr -ci true -sn "ocellarisSurfaceShaderAttrs" -ln "ocellarisSurfaceShaderAttrs" 
@@ -1329,7 +1327,6 @@ createNode transform -n "group4" -p "chest_to_stomach_loc_group";
 	setAttr ".ro" 5;
 createNode transform -n "chest_to_stomach_loc" -p "group4";
 	rename -uid "89221593-4BBE-91B3-8258-AAA773339F64";
-	setAttr ".v" no;
 	setAttr ".t" -type "double3" 0 -1.7763568394002505e-15 0 ;
 createNode locator -n "chest_to_stomach_locShape" -p "chest_to_stomach_loc";
 	rename -uid "4EB3AA85-4FCB-B2C8-EA8B-D2877940E280";
@@ -1341,7 +1338,6 @@ createNode locator -n "fk_3_loc_1Shape" -p "fk_3_loc_1";
 	setAttr -k off ".v" no;
 createNode transform -n "local_4_group_2" -p "fk_3_loc_1";
 	rename -uid "C74082DA-40BC-09B2-411B-F89FE54F824F";
-	setAttr ".v" no;
 createNode transform -n "local_ik_4" -p "local_4_group_2";
 	rename -uid "AFD8C8DA-45B8-C11D-2CF7-D3AFBA207CBC";
 	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
@@ -1492,8 +1488,10 @@ createNode locator -n "stomach_loc_2Shape" -p "stomach_loc_2";
 	setAttr ".los" -type "double3" 0.5 0.5 0.5 ;
 createNode pointConstraint -n "stomach_group_1_pointConstraint1" -p "stomach_group";
 	rename -uid "6F8F5D47-4C8F-9FE8-2912-F3B8C9BBDA78";
-	addAttr -dcb 0 -ci true -k true -sn "w0" -ln "chestW0" -dv 1 -min 0 -at "double";
-	addAttr -dcb 0 -ci true -k true -sn "w1" -ln "hipsW1" -dv 1 -min 0 -at "double";
+	addAttr -dcb 0 -ci true -k true -sn "w0" -ln "chestW0" -dv 1 -min 
+		0 -at "double";
+	addAttr -dcb 0 -ci true -k true -sn "w1" -ln "hipsW1" -dv 1 -min 
+		0 -at "double";
 	setAttr -k on ".nds";
 	setAttr -k off ".v";
 	setAttr -k off ".tx";
@@ -1511,7 +1509,6 @@ createNode pointConstraint -n "stomach_group_1_pointConstraint1" -p "stomach_gro
 	setAttr -k on ".w0";
 	setAttr -k on ".w1";
 createNode pointConstraint -n "stomach_group_1_sidePointConstraint" -p "stomach_group";
-	rename -uid "92AC1BA5-4072-54A3-4545-5AA873F8C413";
 	addAttr -dcb 0 -ci true -k true -sn "w0" -ln "chestW0" -dv 1 -min 0 -at "double";
 	addAttr -dcb 0 -ci true -k true -sn "w1" -ln "hipsW1" -dv 1 -min 0 -at "double";
 	setAttr -k on ".nds";
@@ -1594,6 +1591,7 @@ createNode transform -n "hips" -p "ik_controls";
 	addAttr -ci true -sn "internalName" -ln "internalName" -dt "string";
 	addAttr -ci true -sn "weight" -ln "weight" -dv 1 -min 0 -max 1 -at "double";
 	setAttr -l on -k off ".v";
+	setAttr -s 2 ".iog";
 	setAttr ".uoc" 1;
 	setAttr ".oc" 3;
 	setAttr -k on ".t";
@@ -1869,16 +1867,16 @@ createNode nurbsSurface -n "surfShape" -p "surf";
 		2 0 1
 		
 		14
-		0 -8.8817841970012523e-16 1.0000000000000007
-		0 -8.8817841970012523e-16 -0.99999999999999978
-		0 2.8167376113159297 1.0000000000000007
-		0 2.8167376113159297 -0.99999999999999978
-		0 5.6334752226318612 1.0000000000000002
-		0 5.6334752226318612 -0.99999999999999978
-		0 10.260170773249513 1
-		0 10.260170713063468 -1
-		0 15.383901764278649 0.99999999999999944
-		0 15.383901764278649 -0.99999999999999878
+		0 0 0.99999999999999889
+		0 0 -1.0000000000000007
+		0 2.8167376113159293 0.99999999999999889
+		0 2.8167376113159293 -1.0000000000000007
+		0 5.6334752226318585 0.99999999999999944
+		0 5.6334752226318585 -1
+		0 10.260170773249509 1.0000000000000002
+		0 10.260170713063465 -0.99999999999999978
+		0 15.383901764278646 0.99999999999999956
+		0 15.383901764278646 -0.99999999999999867
 		0 17.691950882139324 0.99999999999999978
 		0 17.691950882139324 -0.99999999999999978
 		0 20.000336109213126 1
@@ -2225,8 +2223,8 @@ createNode mesh -n "pCubeShape7" -p "pCube7";
 createNode transform -s -n "persp";
 	rename -uid "742B74BF-4D6B-9A22-954F-B78DD4DB06E5";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" -54.973437622992996 17.590687830872806 12.151299405783737 ;
-	setAttr ".r" -type "double3" -10.200000000043248 -1157.9999999993202 -3.8244057714794811e-15 ;
+	setAttr ".t" -type "double3" -46.673547201092994 12.106887248138792 1.210944644934778 ;
+	setAttr ".r" -type "double3" -1.1999999999919084 -1161.9999999993511 -7.1416339150368419e-16 ;
 	setAttr ".rp" -type "double3" -3.3306690738754696e-16 -4.4408920985006262e-16 -1.7763568394002505e-15 ;
 	setAttr ".rpt" -type "double3" -6.7928001781737458e-16 -1.7125212621107998e-16 3.3031043487526458e-16 ;
 createNode camera -s -n "perspShape" -p "persp";
@@ -2235,7 +2233,7 @@ createNode camera -s -n "perspShape" -p "persp";
 	setAttr ".rnd" no;
 	setAttr ".cap" -type "double2" 1.41732 0.94488 ;
 	setAttr ".pze" yes;
-	setAttr ".coi" 65.478288240620614;
+	setAttr ".coi" 55.426174372797675;
 	setAttr ".imn" -type "string" "persp1";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -2299,15 +2297,15 @@ createNode objectSet -n "ik_moduleControlSet";
 	setAttr -s 3 ".dsm";
 	setAttr ".an" -type "string" "gControlSet";
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "EDA2DAF5-4DA5-B605-DE65-20BBA33B1DFA";
+	rename -uid "8EA0DD18-4863-7E47-4426-A6B309EEC734";
 	setAttr -s 25 ".lnk";
 	setAttr -s 25 ".slnk";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "9BAFFBCC-4A7D-C5C2-4D0C-DFA803BD5D80";
+	rename -uid "DC39DEA6-48E0-A6EB-A5AF-DAB32020E987";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "B1DB931A-42AC-3765-6A0C-0E9123FB8239";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "97EEDE2F-4D2E-2724-ACD8-609B7F8A6B7B";
+	rename -uid "544C98B0-4719-C85E-B9E7-0BB6DC422A5C";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "86635CA8-42FC-A04E-4E62-638EF51ABD39";
 	setAttr ".g" yes;
@@ -2690,9 +2688,9 @@ createNode multMatrix -n "local_end_outJoint_multMat";
 	rename -uid "D22EB26C-4F6E-69DA-D796-95B2CB71D488";
 	setAttr -s 2 ".i";
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "7A5CF861-425D-43C2-6566-868A4FA2CEF3";
+	rename -uid "2491D820-4656-05E7-5D3D-33802F068396";
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "BCF1517F-4BF1-68EE-D2B7-52888B35297C";
+	rename -uid "37B5CD13-4229-3918-FCBC-CBB280A395A7";
 createNode makeNurbSphere -n "makeNurbSphere1";
 	rename -uid "8DBE1D78-4612-053F-6D5F-088A4D6E19AF";
 	setAttr ".ax" -type "double3" 0 1 0 ;
@@ -2876,67 +2874,51 @@ createNode multMatrix -n "multMatrix98";
 	rename -uid "23C780BB-4032-0E03-2CF3-0C92312C0938";
 	setAttr -s 2 ".i";
 createNode multMatrix -n "chest_noFk3_rot_multMatrix";
-	rename -uid "341B6C79-4E5A-6D24-62C0-AF804D162699";
 	setAttr -s 3 ".i";
 createNode pickMatrix -n "chest_noFk3_rot_pickMatrix";
-	rename -uid "C80AEB3E-45DB-BF61-A690-BBB6244A362F";
-	setAttr ".tra" no;
+	setAttr ".useTranslate" no;
 createNode pickMatrix -n "chest_noFk3_pos_pickMatrix";
-	rename -uid "B808EDA2-48C5-494B-AABB-ACA3BAD29D3C";
-	setAttr ".sca" no;
-	setAttr ".she" no;
-	setAttr ".rot" no;
+	setAttr ".useRotate" no;
+	setAttr ".useScale" no;
+	setAttr ".useShear" no;
 createNode multMatrix -n "chest_noFk3_multMatrix";
-	rename -uid "F0C19DC9-42EA-EDDC-3417-7CB48AF4D8F3";
 	setAttr -s 6 ".i";
 createNode multMatrix -n "hips_stomachRest_multMatrix";
-	rename -uid "37A98763-4E26-108A-BC7F-ECACB3348536";
 	setAttr -s 2 ".i";
 createNode pickMatrix -n "hips_stomachRest_pickMatrix";
-	rename -uid "1C311C5A-4D6A-D6B4-EC69-46B2B49B3EE4";
-	setAttr ".sca" no;
-	setAttr ".she" no;
-	setAttr ".rot" no;
+	setAttr ".useRotate" no;
+	setAttr ".useScale" no;
+	setAttr ".useShear" no;
 createNode multMatrix -n "hips_stomachTarget_multMatrix";
-	rename -uid "0235F149-4CB4-98E1-AD04-01A6884F7625";
 	setAttr -s 2 ".i";
 createNode multMatrix -n "chest_aim_hipsTarget_multMatrix";
-	rename -uid "165EFE62-46DF-EF19-76D5-3B9D55F7391C";
 	setAttr -s 3 ".i";
 createNode blendMatrix -n "chest_aim_blendMatrix";
-	rename -uid "B1A60FA4-4E11-10B8-0D08-05A0DBD63206";
 createNode aimMatrix -n "chest_aim_aimMatrix";
-	rename -uid "3CFD178F-4A44-4E37-2B19-E5B1AC2FF59A";
-	setAttr ".pmi" -type "double3" 0 -1 0 ;
-	setAttr ".smi" -type "double3" 1 0 0 ;
-	setAttr ".sm" 2;
-	setAttr ".smiv" -type "double3" 1 0 0 ;
+	setAttr ".primaryInputAxis" -type "double3" 0 -1 0 ;
+	setAttr ".secondaryInputAxis" -type "double3" 1 0 0 ;
+	setAttr ".secondaryMode" 2;
+	setAttr ".secondaryTargetVector" -type "double3" 1 0 0 ;
 createNode multMatrix -n "hips_aim_chestTarget_multMatrix";
-	rename -uid "632872FA-417C-2197-A488-31AEB47F2831";
 	setAttr -s 3 ".i";
 createNode blendMatrix -n "hips_aim_blendMatrix";
-	rename -uid "CA923490-46B5-90CA-20E2-0695FAD991EB";
 createNode aimMatrix -n "hips_aim_aimMatrix";
-	rename -uid "35CB71CD-4BAC-79D9-6F37-6E93F16E394E";
-	setAttr ".pmi" -type "double3" 0 1 0 ;
+	setAttr ".primaryInputAxis" -type "double3" 0 1 0 ;
+	setAttr ".secondaryMode" 0;
 createNode composeMatrix -n "stomach_pos_composeMatrix";
-	rename -uid "13276467-48DF-1755-CD13-9896AA7B99C5";
 createNode aimMatrix -n "stomach_aim_aimMatrix";
-	rename -uid "623B0CA1-4DB9-2AF0-51DB-ECBAF8762020";
-	setAttr ".pmi" -type "double3" 0 1 0 ;
+	setAttr ".primaryInputAxis" -type "double3" 0 1 0 ;
+	setAttr ".secondaryMode" 0;
 createNode multMatrix -n "hips_out_multMatrix";
-	rename -uid "4327211D-42AD-88E3-7666-D38EA4D713F6";
 	setAttr -s 2 ".i";
 createNode pickMatrix -n "hips_out_pickMatrix";
-	rename -uid "F4F79178-49CF-48F1-A721-5BBA6E065923";
-	setAttr ".sca" no;
-	setAttr ".she" no;
-	setAttr ".rot" no;
+	setAttr ".useRotate" no;
+	setAttr ".useScale" no;
+	setAttr ".useShear" no;
 createNode plusMinusAverage -n "stomach_side_weights_pma";
-	rename -uid "1AEC0464-4917-0730-B754-75BC3307702A";
 	setAttr ".op" 2;
-	setAttr -s 3 ".i3[0:2]" -type "float3"  1 1 0 1 1 0 -4 -4 0;
-	setAttr -s 2 ".i3";
+	setAttr -s 3 ".i3";
+	setAttr ".i3[2]" -type "float3" -4 -4 0 ;
 createNode unitConversion -n "unitConversion36";
 	rename -uid "BDFA1E2B-4014-7BFA-8BEC-62B48927067F";
 	setAttr ".cf" -1;
@@ -2956,119 +2938,128 @@ createNode animCurveTA -n "fk_3_rotateZ";
 	setAttr ".wgt" no;
 	setAttr ".ktv[0]"  0 0;
 createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
-	rename -uid "AAE9F5EB-4717-7ADA-8A6E-43A675BDBB36";
+	rename -uid "AA459CD1-412D-EAC3-B6EF-8C8AAA02BDA9";
 	setAttr -s 4 ".tgi";
 	setAttr ".tgi[0].tn" -type "string" "Untitled_1";
-	setAttr ".tgi[0].vl" -type "double2" 12758.928064434322 -6841.0711567316857 ;
-	setAttr ".tgi[0].vh" -type "double2" 14283.928003836269 -4668.4521954447582 ;
+	setAttr ".tgi[0].vl" -type "double2" 12757.737588291151 -6839.8806805885142 ;
+	setAttr ".tgi[0].vh" -type "double2" 14282.737527693098 -4667.2617193015876 ;
 	setAttr -s 23 ".tgi[0].ni";
-	setAttr ".tgi[0].ni[0].x" 13687.142578125;
-	setAttr ".tgi[0].ni[0].y" -5402.85693359375;
+	setAttr ".tgi[0].ni[0].x" 12458.5712890625;
+	setAttr ".tgi[0].ni[0].y" -5517.14306640625;
 	setAttr ".tgi[0].ni[0].nvs" 18304;
-	setAttr ".tgi[0].ni[1].x" 12913.23828125;
-	setAttr ".tgi[0].ni[1].y" -5554.22216796875;
-	setAttr ".tgi[0].ni[1].nvs" 18305;
+	setAttr ".tgi[0].ni[1].x" 13687.142578125;
+	setAttr ".tgi[0].ni[1].y" -5504.28564453125;
+	setAttr ".tgi[0].ni[1].nvs" 18304;
 	setAttr ".tgi[0].ni[2].x" 12458.5712890625;
-	setAttr ".tgi[0].ni[2].y" -5010;
+	setAttr ".tgi[0].ni[2].y" -6228.5712890625;
 	setAttr ".tgi[0].ni[2].nvs" 18304;
-	setAttr ".tgi[0].ni[3].x" 12458.5712890625;
-	setAttr ".tgi[0].ni[3].y" -6228.5712890625;
-	setAttr ".tgi[0].ni[3].nvs" 18304;
+	setAttr ".tgi[0].ni[3].x" 13354.7900390625;
+	setAttr ".tgi[0].ni[3].y" -5469.1337890625;
+	setAttr ".tgi[0].ni[3].nvs" 18305;
 	setAttr ".tgi[0].ni[4].x" 13687.142578125;
 	setAttr ".tgi[0].ni[4].y" -5808.5712890625;
 	setAttr ".tgi[0].ni[4].nvs" 18304;
-	setAttr ".tgi[0].ni[5].x" 13355.7236328125;
-	setAttr ".tgi[0].ni[5].y" -5751.15771484375;
-	setAttr ".tgi[0].ni[5].nvs" 18305;
-	setAttr ".tgi[0].ni[6].x" 12458.5712890625;
-	setAttr ".tgi[0].ni[6].y" -5517.14306640625;
+	setAttr ".tgi[0].ni[5].x" 13687.142578125;
+	setAttr ".tgi[0].ni[5].y" -5402.85693359375;
+	setAttr ".tgi[0].ni[5].nvs" 18304;
+	setAttr ".tgi[0].ni[6].x" 13687.142578125;
+	setAttr ".tgi[0].ni[6].y" -5605.71435546875;
 	setAttr ".tgi[0].ni[6].nvs" 18304;
 	setAttr ".tgi[0].ni[7].x" 12458.5712890625;
-	setAttr ".tgi[0].ni[7].y" -6330;
+	setAttr ".tgi[0].ni[7].y" -5618.5712890625;
 	setAttr ".tgi[0].ni[7].nvs" 18304;
 	setAttr ".tgi[0].ni[8].x" 12458.5712890625;
-	setAttr ".tgi[0].ni[8].y" -5415.71435546875;
+	setAttr ".tgi[0].ni[8].y" -5111.4287109375;
 	setAttr ".tgi[0].ni[8].nvs" 18304;
-	setAttr ".tgi[0].ni[9].x" 13687.142578125;
-	setAttr ".tgi[0].ni[9].y" -5910;
+	setAttr ".tgi[0].ni[9].x" 12458.5712890625;
+	setAttr ".tgi[0].ni[9].y" -6330;
 	setAttr ".tgi[0].ni[9].nvs" 18304;
-	setAttr ".tgi[0].ni[10].x" 12458.5712890625;
-	setAttr ".tgi[0].ni[10].y" -5212.85693359375;
-	setAttr ".tgi[0].ni[10].nvs" 18304;
+	setAttr ".tgi[0].ni[10].x" 13355.7236328125;
+	setAttr ".tgi[0].ni[10].y" -5751.15771484375;
+	setAttr ".tgi[0].ni[10].nvs" 18305;
 	setAttr ".tgi[0].ni[11].x" 12458.5712890625;
-	setAttr ".tgi[0].ni[11].y" -5111.4287109375;
+	setAttr ".tgi[0].ni[11].y" -5924.28564453125;
 	setAttr ".tgi[0].ni[11].nvs" 18304;
-	setAttr ".tgi[0].ni[12].x" 13687.142578125;
-	setAttr ".tgi[0].ni[12].y" -5605.71435546875;
+	setAttr ".tgi[0].ni[12].x" 12458.5712890625;
+	setAttr ".tgi[0].ni[12].y" -6127.14306640625;
 	setAttr ".tgi[0].ni[12].nvs" 18304;
-	setAttr ".tgi[0].ni[13].x" 13354.7900390625;
-	setAttr ".tgi[0].ni[13].y" -5469.1337890625;
-	setAttr ".tgi[0].ni[13].nvs" 18305;
-	setAttr ".tgi[0].ni[14].x" 13687.142578125;
-	setAttr ".tgi[0].ni[14].y" -5707.14306640625;
+	setAttr ".tgi[0].ni[13].x" 12458.5712890625;
+	setAttr ".tgi[0].ni[13].y" -5822.85693359375;
+	setAttr ".tgi[0].ni[13].nvs" 18304;
+	setAttr ".tgi[0].ni[14].x" 12458.5712890625;
+	setAttr ".tgi[0].ni[14].y" -5721.4287109375;
 	setAttr ".tgi[0].ni[14].nvs" 18304;
-	setAttr ".tgi[0].ni[15].x" 12458.5712890625;
-	setAttr ".tgi[0].ni[15].y" -5721.4287109375;
+	setAttr ".tgi[0].ni[15].x" 13687.142578125;
+	setAttr ".tgi[0].ni[15].y" -5910;
 	setAttr ".tgi[0].ni[15].nvs" 18304;
-	setAttr ".tgi[0].ni[16].x" 12458.5712890625;
-	setAttr ".tgi[0].ni[16].y" -6025.71435546875;
-	setAttr ".tgi[0].ni[16].nvs" 18304;
+	setAttr ".tgi[0].ni[16].x" 12913.23828125;
+	setAttr ".tgi[0].ni[16].y" -5554.22216796875;
+	setAttr ".tgi[0].ni[16].nvs" 18305;
 	setAttr ".tgi[0].ni[17].x" 12458.5712890625;
-	setAttr ".tgi[0].ni[17].y" -5618.5712890625;
+	setAttr ".tgi[0].ni[17].y" -6025.71435546875;
 	setAttr ".tgi[0].ni[17].nvs" 18304;
 	setAttr ".tgi[0].ni[18].x" 12458.5712890625;
 	setAttr ".tgi[0].ni[18].y" -5314.28564453125;
 	setAttr ".tgi[0].ni[18].nvs" 18304;
 	setAttr ".tgi[0].ni[19].x" 12458.5712890625;
-	setAttr ".tgi[0].ni[19].y" -5924.28564453125;
+	setAttr ".tgi[0].ni[19].y" -5415.71435546875;
 	setAttr ".tgi[0].ni[19].nvs" 18304;
-	setAttr ".tgi[0].ni[20].x" 13687.142578125;
-	setAttr ".tgi[0].ni[20].y" -5504.28564453125;
+	setAttr ".tgi[0].ni[20].x" 12458.5712890625;
+	setAttr ".tgi[0].ni[20].y" -5010;
 	setAttr ".tgi[0].ni[20].nvs" 18304;
 	setAttr ".tgi[0].ni[21].x" 12458.5712890625;
-	setAttr ".tgi[0].ni[21].y" -5822.85693359375;
+	setAttr ".tgi[0].ni[21].y" -5212.85693359375;
 	setAttr ".tgi[0].ni[21].nvs" 18304;
-	setAttr ".tgi[0].ni[22].x" 12458.5712890625;
-	setAttr ".tgi[0].ni[22].y" -6127.14306640625;
+	setAttr ".tgi[0].ni[22].x" 13687.142578125;
+	setAttr ".tgi[0].ni[22].y" -5707.14306640625;
 	setAttr ".tgi[0].ni[22].nvs" 18304;
 	setAttr ".tgi[1].tn" -type "string" "Untitled_2";
-	setAttr ".tgi[1].vl" -type "double2" 8908.3329793479879 -7414.5126416958083 ;
-	setAttr ".tgi[1].vh" -type "double2" 10229.761498267708 -5531.9154152879319 ;
+	setAttr ".tgi[1].vl" -type "double2" 8908.3150406663754 -7413.0949435253106 ;
+	setAttr ".tgi[1].vh" -type "double2" 10228.588960806142 -5532.1426373152599 ;
 	setAttr ".tgi[2].tn" -type "string" "Untitled_3";
-	setAttr ".tgi[2].vl" -type "double2" 4511.9045826177826 -7327.8676319422375 ;
-	setAttr ".tgi[2].vh" -type "double2" 5613.0950150508816 -5759.0366099356743 ;
+	setAttr ".tgi[2].vl" -type "double2" 4511.9045826177817 -7326.4243771019983 ;
+	setAttr ".tgi[2].vh" -type "double2" 5611.90453890771 -5759.2893886327402 ;
 	setAttr -s 5 ".tgi[2].ni";
-	setAttr ".tgi[2].ni[0].x" 4655.71435546875;
-	setAttr ".tgi[2].ni[0].y" -6398.5712890625;
+	setAttr ".tgi[2].ni[0].x" 5270;
+	setAttr ".tgi[2].ni[0].y" -6448.5712890625;
 	setAttr ".tgi[2].ni[0].nvs" 18304;
-	setAttr ".tgi[2].ni[1].x" 4962.85693359375;
-	setAttr ".tgi[2].ni[1].y" -6448.5712890625;
+	setAttr ".tgi[2].ni[1].x" 4655.71435546875;
+	setAttr ".tgi[2].ni[1].y" -6500;
 	setAttr ".tgi[2].ni[1].nvs" 18304;
 	setAttr ".tgi[2].ni[2].x" 4655.71435546875;
-	setAttr ".tgi[2].ni[2].y" -6500;
+	setAttr ".tgi[2].ni[2].y" -6398.5712890625;
 	setAttr ".tgi[2].ni[2].nvs" 18304;
 	setAttr ".tgi[2].ni[3].x" 5270;
-	setAttr ".tgi[2].ni[3].y" -6448.5712890625;
+	setAttr ".tgi[2].ni[3].y" -6630;
 	setAttr ".tgi[2].ni[3].nvs" 18304;
-	setAttr ".tgi[2].ni[4].x" 5270;
-	setAttr ".tgi[2].ni[4].y" -6630;
+	setAttr ".tgi[2].ni[4].x" 4962.85693359375;
+	setAttr ".tgi[2].ni[4].y" -6448.5712890625;
 	setAttr ".tgi[2].ni[4].nvs" 18304;
 	setAttr ".tgi[3].tn" -type "string" "Untitled_4";
-	setAttr ".tgi[3].vl" -type "double2" 2818.9268286251809 -4513.0950587609541 ;
-	setAttr ".tgi[3].vh" -type "double2" 4214.4062252286058 -2524.999899665519 ;
-	setAttr -s 4 ".tgi[3].ni";
-	setAttr ".tgi[3].ni[0].x" 3691.93994140625;
-	setAttr ".tgi[3].ni[0].y" -3438.612548828125;
-	setAttr ".tgi[3].ni[0].nvs" 18305;
-	setAttr ".tgi[3].ni[1].x" 2644.28564453125;
-	setAttr ".tgi[3].ni[1].y" -3215.71435546875;
+	setAttr ".tgi[3].vl" -type "double2" 2818.8800019316964 -4511.747313937678 ;
+	setAttr ".tgi[3].vh" -type "double2" 4213.3744018358411 -2525.0554483443402 ;
+	setAttr -s 7 ".tgi[3].ni";
+	setAttr ".tgi[3].ni[0].x" 2644.28564453125;
+	setAttr ".tgi[3].ni[0].y" -3215.71435546875;
+	setAttr ".tgi[3].ni[0].nvs" 18304;
+	setAttr ".tgi[3].ni[1].x" 3002.857177734375;
+	setAttr ".tgi[3].ni[1].y" -3062.857177734375;
 	setAttr ".tgi[3].ni[1].nvs" 18304;
-	setAttr ".tgi[3].ni[2].x" 3002.857177734375;
-	setAttr ".tgi[3].ni[2].y" -3477.142822265625;
-	setAttr ".tgi[3].ni[2].nvs" 18304;
+	setAttr ".tgi[3].ni[2].x" 3691.93994140625;
+	setAttr ".tgi[3].ni[2].y" -3438.612548828125;
+	setAttr ".tgi[3].ni[2].nvs" 18305;
 	setAttr ".tgi[3].ni[3].x" 3002.857177734375;
-	setAttr ".tgi[3].ni[3].y" -3062.857177734375;
+	setAttr ".tgi[3].ni[3].y" -3477.142822265625;
 	setAttr ".tgi[3].ni[3].nvs" 18304;
+	setAttr ".tgi[3].ni[4].x" 2337.142822265625;
+	setAttr ".tgi[3].ni[4].y" -3265.71435546875;
+	setAttr ".tgi[3].ni[4].nvs" 18304;
+	setAttr ".tgi[3].ni[5].x" 3310;
+	setAttr ".tgi[3].ni[5].y" -3278.571533203125;
+	setAttr ".tgi[3].ni[5].nvs" 18304;
+	setAttr ".tgi[3].ni[6].x" 2337.142822265625;
+	setAttr ".tgi[3].ni[6].y" -3164.28564453125;
+	setAttr ".tgi[3].ni[6].nvs" 18304;
 select -ne :time1;
 	setAttr -av -k on ".cch";
 	setAttr -k on ".fzn";
@@ -3175,7 +3166,7 @@ select -ne :defaultRenderUtilityList1;
 	setAttr -cb on ".ihi";
 	setAttr -av -k on ".nds";
 	setAttr -cb on ".bnm";
-	setAttr -s 40 ".u";
+	setAttr -s 43 ".u";
 select -ne :defaultRenderingList1;
 	setAttr -av -k on ".cch";
 	setAttr -k on ".ihi";
@@ -3711,7 +3702,6 @@ connectAttr "fk_3_rotateY.o" "fk_3.ry";
 connectAttr "fk_3_rotateZ.o" "fk_3.rz";
 connectAttr "multMatrix83.o" "chest_group.opm";
 connectAttr "pelvis.localControls" "local_ik_6.v";
-connectAttr "chest_aim_aimMatrix.tmat" "chest_aim_group.opm";
 connectAttr "pelvis.localControls" "local_7.v";
 connectAttr "blendMatrix6.omat" "local_7.opm";
 connectAttr "multMatrix85.o" "chest_stomach_target.opm";
@@ -3722,7 +3712,6 @@ connectAttr "unitConversion36.o" "group4.r";
 connectAttr "multMatrix94.o" "chest_to_stomach_loc.opm";
 connectAttr "multMatrix86.o" "fk_3_loc_1.opm";
 connectAttr "pelvis.localControls" "local_ik_4.v";
-connectAttr "stomach_aim_aimMatrix.tmat" "stomach_group_1.opm";
 connectAttr "pelvis.localControls" "local_ik_3.v";
 connectAttr "multMatrix82.o" "stomach_loc_1.opm";
 connectAttr "inverseMatrix2.omat" "group3.opm";
@@ -3740,34 +3729,68 @@ connectAttr "stomach_group_1_pointConstraint1.w0" "stomach_group_1_pointConstrai
 		;
 connectAttr "stomach_group_1_pointConstraint1.w1" "stomach_group_1_pointConstraint1.tg[1].tw"
 		;
+connectAttr "chest_group.m" "chest_noFk3_rot_multMatrix.i[0]";
+connectAttr "multMatrix83.o" "chest_noFk3_rot_multMatrix.i[1]";
+connectAttr "fk_3.m" "chest_noFk3_rot_multMatrix.i[2]";
+connectAttr "chest.m" "chest_noFk3_multMatrix.i[0]";
+connectAttr "chest_noFk3_rot_pickMatrix.tmat" "chest_noFk3_multMatrix.i[1]";
+connectAttr "chest_noFk3_pos_pickMatrix.tmat" "chest_noFk3_multMatrix.i[2]";
+connectAttr "fk_bone_3_group.m" "chest_noFk3_multMatrix.i[3]";
+connectAttr "multMatrix82.o" "chest_noFk3_multMatrix.i[4]";
+connectAttr "stomach_group.im" "chest_noFk3_multMatrix.i[5]";
+connectAttr "hips.m" "chest_aim_hipsTarget_multMatrix.i[0]";
+connectAttr "multMatrix91.o" "chest_aim_hipsTarget_multMatrix.i[1]";
+connectAttr "chest.im" "chest_aim_hipsTarget_multMatrix.i[2]";
+connectAttr "chest_aim_hipsTarget_multMatrix.o" "chest_aim_blendMatrix.imat";
+connectAttr "multMatrix91.o" "chest_aim_blendMatrix.tgt[0].tmat";
+connectAttr "chest.weight" "chest_aim_blendMatrix.env";
+connectAttr "chest_aim_blendMatrix.omat" "chest_aim_aimMatrix.primaryTargetMatrix";
+connectAttr "chest_aim_aimMatrix.outputMatrix" "chest_aim_group.opm";
+connectAttr "chest.m" "hips_aim_chestTarget_multMatrix.i[0]";
+connectAttr "multMatrix90.o" "hips_aim_chestTarget_multMatrix.i[1]";
+connectAttr "hips.im" "hips_aim_chestTarget_multMatrix.i[2]";
+connectAttr "hips_aim_chestTarget_multMatrix.o" "hips_aim_blendMatrix.imat";
+connectAttr "multMatrix90.o" "hips_aim_blendMatrix.tgt[0].tmat";
+connectAttr "hips.weight" "hips_aim_blendMatrix.env";
+connectAttr "hips_aim_blendMatrix.omat" "hips_aim_aimMatrix.primaryTargetMatrix";
+connectAttr "hips_aim_aimMatrix.outputMatrix" "hipsStomachMid_loc_group.opm";
+connectAttr "stomach_group_1_sidePointConstraint.ctx" "stomach_pos_composeMatrix.inputTranslateX";
+connectAttr "stomach_group_1_pointConstraint1.cty" "stomach_pos_composeMatrix.inputTranslateY";
+connectAttr "stomach_group_1_sidePointConstraint.ctz" "stomach_pos_composeMatrix.inputTranslateZ";
+connectAttr "stomach_pos_composeMatrix.outputMatrix" "stomach_aim_aimMatrix.inputMatrix";
+connectAttr "chest_noFk3_multMatrix.o" "stomach_aim_aimMatrix.primaryTargetMatrix";
+connectAttr "stomach_aim_aimMatrix.outputMatrix" "stomach_group_1.opm";
+connectAttr "bendJoint_1_out.wm" "hips_out_multMatrix.i[0]";
+connectAttr "hips.wim" "hips_out_multMatrix.i[1]";
+connectAttr "hips_out_multMatrix.o" "hips_out_pickMatrix.imat";
+connectAttr "hips_out_pickMatrix.tmat" "hips_out.opm";
+connectAttr "chest_noFk3_rot_multMatrix.o" "chest_noFk3_rot_pickMatrix.imat";
+connectAttr "multMatrix83.o" "chest_noFk3_pos_pickMatrix.imat";
 connectAttr "hips.t" "stomach_group_1_pointConstraint1.tg[1].tt";
-connectAttr "hips_stomachTarget_multMatrix.o" "stomach_group_1_pointConstraint1.tg[1].tpm"
-		;
-connectAttr "stomach_side_weights_pma.o3x" "stomach_group_1_sidePointConstraint.w0"
-		;
-connectAttr "stomach_side_weights_pma.o3y" "stomach_group_1_sidePointConstraint.w1"
-		;
+connectAttr "hips_stomachTarget_multMatrix.o" "stomach_group_1_pointConstraint1.tg[1].tpm";
+connectAttr "stomach_group.wm" "hips_stomachRest_multMatrix.i[0]";
+connectAttr "ik_controls.wim" "hips_stomachRest_multMatrix.i[1]";
+connectAttr "hips_stomachRest_multMatrix.o" "hips_stomachRest_pickMatrix.imat";
+connectAttr "hips_stomachRest_pickMatrix.tmat" "hips_stomachTarget_multMatrix.i[0]";
+connectAttr "ik_controls.wm" "hips_stomachTarget_multMatrix.i[1]";
+connectAttr "chest.weight" "stomach_side_weights_pma.i3[0].i3x";
+connectAttr "hips.weight" "stomach_side_weights_pma.i3[0].i3y";
+connectAttr "hips.weight" "stomach_side_weights_pma.i3[1].i3x";
+connectAttr "chest.weight" "stomach_side_weights_pma.i3[1].i3y";
+connectAttr "stomach_side_weights_pma.o3x" "stomach_group_1_sidePointConstraint.w0";
+connectAttr "stomach_side_weights_pma.o3y" "stomach_group_1_sidePointConstraint.w1";
 connectAttr "stomach_group.wim" "stomach_group_1_sidePointConstraint.cpim";
-connectAttr "chest_to_stomach_loc.t" "stomach_group_1_sidePointConstraint.tg[0].tt"
-		;
-connectAttr "chest_to_stomach_loc.rp" "stomach_group_1_sidePointConstraint.tg[0].trp"
-		;
-connectAttr "chest_to_stomach_loc.rpt" "stomach_group_1_sidePointConstraint.tg[0].trt"
-		;
-connectAttr "chest_to_stomach_loc.pm" "stomach_group_1_sidePointConstraint.tg[0].tpm"
-		;
-connectAttr "stomach_group_1_sidePointConstraint.w0" "stomach_group_1_sidePointConstraint.tg[0].tw"
-		;
+connectAttr "chest_to_stomach_loc.t" "stomach_group_1_sidePointConstraint.tg[0].tt";
+connectAttr "chest_to_stomach_loc.rp" "stomach_group_1_sidePointConstraint.tg[0].trp";
+connectAttr "chest_to_stomach_loc.rpt" "stomach_group_1_sidePointConstraint.tg[0].trt";
+connectAttr "chest_to_stomach_loc.pm" "stomach_group_1_sidePointConstraint.tg[0].tpm";
+connectAttr "stomach_group_1_sidePointConstraint.w0" "stomach_group_1_sidePointConstraint.tg[0].tw";
 connectAttr "hips.t" "stomach_group_1_sidePointConstraint.tg[1].tt";
-connectAttr "hips_stomachTarget_multMatrix.o" "stomach_group_1_sidePointConstraint.tg[1].tpm"
-		;
-connectAttr "stomach_group_1_sidePointConstraint.w1" "stomach_group_1_sidePointConstraint.tg[1].tw"
-		;
+connectAttr "hips_stomachTarget_multMatrix.o" "stomach_group_1_sidePointConstraint.tg[1].tpm";
+connectAttr "stomach_group_1_sidePointConstraint.w1" "stomach_group_1_sidePointConstraint.tg[1].tw";
 connectAttr "multMatrix87.o" "fk_1_loc_1.opm";
 connectAttr "pelvis.localControls" "local_ik_2.v";
-connectAttr "hips_out_pickMatrix.tmat" "hips_out.opm";
 connectAttr "fk_hips.r" "hips_out.r";
-connectAttr "hips_aim_aimMatrix.tmat" "hipsStomachMid_loc_group.opm";
 connectAttr "multMatrix80.o" "hips_loc_1.opm";
 connectAttr "inverseMatrix1.omat" "bendJoint_1_out.opm";
 connectAttr "pelvis.localControls" "local_ik_8.v";
@@ -4120,106 +4143,61 @@ connectAttr "local_1_poser.wm" "multMatrix96.i[0]";
 connectAttr "root_poser.wim" "multMatrix96.i[1]";
 connectAttr "local_3_poser.wm" "multMatrix98.i[0]";
 connectAttr "end_poser.wim" "multMatrix98.i[1]";
-connectAttr "chest_group.m" "chest_noFk3_rot_multMatrix.i[0]";
-connectAttr "multMatrix83.o" "chest_noFk3_rot_multMatrix.i[1]";
-connectAttr "fk_3.m" "chest_noFk3_rot_multMatrix.i[2]";
-connectAttr "chest_noFk3_rot_multMatrix.o" "chest_noFk3_rot_pickMatrix.imat";
-connectAttr "multMatrix83.o" "chest_noFk3_pos_pickMatrix.imat";
-connectAttr "chest.m" "chest_noFk3_multMatrix.i[0]";
-connectAttr "chest_noFk3_rot_pickMatrix.tmat" "chest_noFk3_multMatrix.i[1]";
-connectAttr "chest_noFk3_pos_pickMatrix.tmat" "chest_noFk3_multMatrix.i[2]";
-connectAttr "fk_bone_3_group.m" "chest_noFk3_multMatrix.i[3]";
-connectAttr "multMatrix82.o" "chest_noFk3_multMatrix.i[4]";
-connectAttr "stomach_group.im" "chest_noFk3_multMatrix.i[5]";
-connectAttr "stomach_group.wm" "hips_stomachRest_multMatrix.i[0]";
-connectAttr "ik_controls.wim" "hips_stomachRest_multMatrix.i[1]";
-connectAttr "hips_stomachRest_multMatrix.o" "hips_stomachRest_pickMatrix.imat";
-connectAttr "hips_stomachRest_pickMatrix.tmat" "hips_stomachTarget_multMatrix.i[0]"
-		;
-connectAttr "ik_controls.wm" "hips_stomachTarget_multMatrix.i[1]";
-connectAttr "hips.m" "chest_aim_hipsTarget_multMatrix.i[0]";
-connectAttr "multMatrix91.o" "chest_aim_hipsTarget_multMatrix.i[1]";
-connectAttr "chest.im" "chest_aim_hipsTarget_multMatrix.i[2]";
-connectAttr "chest_aim_hipsTarget_multMatrix.o" "chest_aim_blendMatrix.imat";
-connectAttr "multMatrix91.o" "chest_aim_blendMatrix.tgt[0].tmat";
-connectAttr "chest.weight" "chest_aim_blendMatrix.env";
-connectAttr "chest_aim_blendMatrix.omat" "chest_aim_aimMatrix.pmat";
-connectAttr "chest.m" "hips_aim_chestTarget_multMatrix.i[0]";
-connectAttr "multMatrix90.o" "hips_aim_chestTarget_multMatrix.i[1]";
-connectAttr "hips.im" "hips_aim_chestTarget_multMatrix.i[2]";
-connectAttr "hips_aim_chestTarget_multMatrix.o" "hips_aim_blendMatrix.imat";
-connectAttr "multMatrix90.o" "hips_aim_blendMatrix.tgt[0].tmat";
-connectAttr "hips.weight" "hips_aim_blendMatrix.env";
-connectAttr "hips_aim_blendMatrix.omat" "hips_aim_aimMatrix.pmat";
-connectAttr "stomach_group_1_sidePointConstraint.ctx" "stomach_pos_composeMatrix.itx"
-		;
-connectAttr "stomach_group_1_pointConstraint1.cty" "stomach_pos_composeMatrix.ity"
-		;
-connectAttr "stomach_group_1_sidePointConstraint.ctz" "stomach_pos_composeMatrix.itz"
-		;
-connectAttr "stomach_pos_composeMatrix.omat" "stomach_aim_aimMatrix.imat";
-connectAttr "chest_noFk3_multMatrix.o" "stomach_aim_aimMatrix.pmat";
-connectAttr "bendJoint_1_out.wm" "hips_out_multMatrix.i[0]";
-connectAttr "hips.wim" "hips_out_multMatrix.i[1]";
-connectAttr "hips_out_multMatrix.o" "hips_out_pickMatrix.imat";
-connectAttr "chest.weight" "stomach_side_weights_pma.i3[0].i3x";
-connectAttr "hips.weight" "stomach_side_weights_pma.i3[0].i3y";
-connectAttr "hips.weight" "stomach_side_weights_pma.i3[1].i3x";
-connectAttr "chest.weight" "stomach_side_weights_pma.i3[1].i3y";
 connectAttr "fk_3.r" "unitConversion36.i";
-connectAttr "local_5_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn";
-connectAttr "init_surfShapeOrig.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn"
+connectAttr "init_surfLoc_3Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[0].dn"
 		;
-connectAttr "init_surfLoc_1Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn"
+connectAttr "local_3_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[1].dn";
+connectAttr "init_surfLoc_11Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[2].dn"
 		;
-connectAttr "init_surfLoc_11Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn"
-		;
+connectAttr "init_uvPin.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[3].dn";
 connectAttr "init_surfCurveShape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[4].dn"
 		;
-connectAttr "curveFromSurfaceIso2.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn"
+connectAttr "local_5_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[5].dn";
+connectAttr "local_2_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[6].dn";
+connectAttr "init_surfLoc_12Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[7].dn"
 		;
-connectAttr "init_surfLoc_3Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[6].dn"
+connectAttr "init_surfLoc_9Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[8].dn"
 		;
-connectAttr "init_surfLoc_2Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[7].dn"
+connectAttr "init_surfLoc_2Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[9].dn"
 		;
-connectAttr "init_surfLoc_0Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[8].dn"
+connectAttr "curveFromSurfaceIso2.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[10].dn"
 		;
-connectAttr "local_4_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[9].dn";
-connectAttr "init_surfLoc_10Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[10].dn"
+connectAttr "init_surfLoc_8Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[11].dn"
 		;
-connectAttr "init_surfLoc_9Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[11].dn"
+connectAttr "init_surfLoc_5Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[12].dn"
 		;
-connectAttr "local_2_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[12].dn"
+connectAttr "init_surfLoc_13Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[13].dn"
 		;
-connectAttr "init_uvPin.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[13].dn";
-connectAttr "local_1_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[14].dn"
+connectAttr "init_surfLoc_6Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[14].dn"
 		;
-connectAttr "init_surfLoc_6Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[15].dn"
+connectAttr "local_4_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[15].dn"
 		;
-connectAttr "init_surfLoc_4Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[16].dn"
+connectAttr "init_surfShapeOrig.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[16].dn"
 		;
-connectAttr "init_surfLoc_12Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[17].dn"
+connectAttr "init_surfLoc_4Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[17].dn"
 		;
 connectAttr "init_surfLoc_7Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[18].dn"
 		;
-connectAttr "init_surfLoc_8Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[19].dn"
+connectAttr "init_surfLoc_0Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[19].dn"
 		;
-connectAttr "local_3_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[20].dn"
+connectAttr "init_surfLoc_1Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[20].dn"
 		;
-connectAttr "init_surfLoc_13Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[21].dn"
+connectAttr "init_surfLoc_10Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[21].dn"
 		;
-connectAttr "init_surfLoc_5Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[22].dn"
+connectAttr "local_1_initLoc.msg" "MayaNodeEditorSavedTabsInfo.tgi[0].ni[22].dn"
 		;
-connectAttr "local_1_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn";
-connectAttr "multMatrix80.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn";
-connectAttr "root_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn";
-connectAttr "hips_loc_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn";
-connectAttr "hips_loc_1Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[4].dn";
-connectAttr "stomach_group_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[0].dn";
-connectAttr "stomach_group_1_pointConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[1].dn"
+connectAttr "hips_loc_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[0].dn";
+connectAttr "root_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[1].dn";
+connectAttr "local_1_poser.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[2].dn";
+connectAttr "hips_loc_1Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[3].dn";
+connectAttr "multMatrix80.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[4].dn";
+connectAttr "stomach_group_1_pointConstraint1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[0].dn"
 		;
-connectAttr "chest.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[2].dn";
-connectAttr "pelvis.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[3].dn";
+connectAttr "pelvis.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[1].dn";
+connectAttr "stomach_group_1.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[2].dn";
+connectAttr "chest.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[3].dn";
+connectAttr "chest_to_stomach_loc.msg" "MayaNodeEditorSavedTabsInfo.tgi[3].ni[6].dn"
+		;
 connectAttr "red_rsSG.pa" ":renderPartition.st" -na;
 connectAttr "green_rsSG.pa" ":renderPartition.st" -na;
 connectAttr "blue_rsSG.pa" ":renderPartition.st" -na;
