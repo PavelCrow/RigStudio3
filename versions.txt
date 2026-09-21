@@ -1093,3 +1093,8 @@ spine: aim-констрейны chest_aim_group, hipsStomachMid_loc_group, stoma
 ---Version 3.28.11
 spine: pos на скин-джоинтах работает - он ведёт pos у outJoint (раньше скин-джоинт получал от дубликата неподключённую копию атрибута, а двигал кость только pos на скрытом outJoint). Связь ставится в addSkinJoints и после rebuildJoints
 spine: значения pos пишутся в темплейт (posData) и восстанавливаются при загрузке, после пересборки на нужное количество костей; старые темплейты без posData загружаются как раньше
+
+---Version 3.28.12
+browsCurved: скиновые кости и кости модуля на кривой паренятся relative - Maya больше не вставляет между ними в skeleton группы transform. Она компенсировала скейл родителя, хотя значения этих костей тут же перезаписываются связями (connectByMatrix, connectTrandform). Локатор под root_outJoint оставлен с компенсацией: его мировой поворот должен быть единичным, jointOrient кости берётся из мирового поворота motionPath
+browsCurved: сцена модуля - группа posers видна, у posers_curve_1 и его sweepMesh выключен inheritsTransform; раскладка нод в нодэдиторе
+browsCurved: опции модуля - картинка-подсказка перенесена, отступы

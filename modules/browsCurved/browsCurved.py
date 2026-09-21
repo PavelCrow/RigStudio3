@@ -551,7 +551,7 @@ class BrowsCurved(module.Module) :
 
 				# --- Основной джоинт, внутри локатора ---
 				jnt1 = cmds.joint(name=f"{side}_{self.name}_curveJnt_{i:02d}")
-				cmds.parent(jnt1, loc)
+				cmds.parent(jnt1, loc, relative=True)
 				cmds.setAttr(f"{jnt1}.translate", 0, 0, 0)
 				main_joints.append(jnt1)
 
@@ -670,7 +670,7 @@ class BrowsCurved(module.Module) :
 
 				# --- Второй джоинт: ребёнок jnt1 ---
 				jnt2 = cmds.joint(name=f"{side}_{self.name}_curveJnt_{i:02d}_end")
-				cmds.parent(jnt2, jnt1)
+				cmds.parent(jnt2, jnt1, relative=True)
 				cmds.setAttr(f"{jnt2}.jointOrient", 0, 0, 0)
 				cmds.setAttr(f"{jnt2}.translate", 0.05, 0, 0)
 
@@ -750,7 +750,9 @@ class BrowsCurved(module.Module) :
 		# --- под кем root_skin_joint окажется после connect()/disconnect() (skeleton или self.parent) ---
 		cmds.select(clear=True)
 		cmds.joint(name=root_skin_joint)
-		cmds.parent(root_skin_joint, 'skeleton')
+		# relative везде: значения костей тут же перезаписываются связями, а без него Maya
+		# компенсирует скейл родителя и вставляет между костями группы transform
+		cmds.parent(root_skin_joint, 'skeleton', relative=True)
 		cmds.setAttr(f"{root_skin_joint}.jointOrient", 0, 0, 0)
 		cmds.setAttr(f"{root_skin_joint}.segmentScaleCompensate", 0)
 		cmds.setAttr(f"{root_skin_joint}.radius", cmds.getAttr(root_out_joint+".radius")*jointsSize)
@@ -770,7 +772,7 @@ class BrowsCurved(module.Module) :
 			center_skin_joint = center_out_joint.replace("outJoint", "skinJoint")
 			cmds.select(clear=True)
 			cmds.joint(name=center_skin_joint)
-			cmds.parent(center_skin_joint, root_skin_joint)
+			cmds.parent(center_skin_joint, root_skin_joint, relative=True)
 			cmds.setAttr(f"{center_skin_joint}.jointOrient", *cmds.getAttr(center_out_joint+".jointOrient")[0])
 			cmds.setAttr(f"{center_skin_joint}.segmentScaleCompensate", 0)
 			cmds.setAttr(f"{center_skin_joint}.radius", cmds.getAttr(center_out_joint+".radius")*jointsSize)
@@ -788,7 +790,7 @@ class BrowsCurved(module.Module) :
 				skin_jnt1 = f"{jnt1}_skinJoint"
 				cmds.select(clear=True)
 				cmds.joint(name=skin_jnt1)
-				cmds.parent(skin_jnt1, root_skin_joint)
+				cmds.parent(skin_jnt1, root_skin_joint, relative=True)
 				cmds.setAttr(f"{skin_jnt1}.jointOrient", 0, 0, 0)
 				cmds.setAttr(f"{skin_jnt1}.segmentScaleCompensate", 0)
 				cmds.setAttr(f"{skin_jnt1}.radius", cmds.getAttr(jnt1+".radius")*jointsSize)
@@ -809,7 +811,7 @@ class BrowsCurved(module.Module) :
 					skin_jnt2 = f"{jnt2}_skinJoint"
 					cmds.select(clear=True)
 					cmds.joint(name=skin_jnt2)
-					cmds.parent(skin_jnt2, skin_jnt1)
+					cmds.parent(skin_jnt2, skin_jnt1, relative=True)
 					cmds.setAttr(f"{skin_jnt2}.jointOrient", *cmds.getAttr(jnt2+".jointOrient")[0])
 					cmds.setAttr(f"{skin_jnt2}.segmentScaleCompensate", 0)
 					cmds.setAttr(f"{skin_jnt2}.radius", cmds.getAttr(jnt2+".radius")*jointsSize/2)
