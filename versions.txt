@@ -1098,3 +1098,6 @@ spine: значения pos пишутся в темплейт (posData) и во
 browsCurved: скиновые кости и кости модуля на кривой паренятся relative - Maya больше не вставляет между ними в skeleton группы transform. Она компенсировала скейл родителя, хотя значения этих костей тут же перезаписываются связями (connectByMatrix, connectTrandform). Локатор под root_outJoint оставлен с компенсацией: его мировой поворот должен быть единичным, jointOrient кости берётся из мирового поворота motionPath
 browsCurved: сцена модуля - группа posers видна, у posers_curve_1 и его sweepMesh выключен inheritsTransform; раскладка нод в нодэдиторе
 browsCurved: опции модуля - картинка-подсказка перенесена, отступы
+
+---Version 3.28.13
+repo: папки WIP исключены из гита везде (шаблон WIP/ в .gitignore вместо одной modules/browsCurved/WIP/). Промежуточные сцены spine/WIP сняты с учёта, на диске они остались
