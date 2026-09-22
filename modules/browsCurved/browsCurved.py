@@ -199,6 +199,62 @@ class BrowsCurved(module.Module) :
 				controls.append(extra)
 		return controls
 
+	def linkProxy(self, proxy, local):
+		"""Прокси ведёт настоящий контрол: тот же атрибут в тот же атрибут.
+
+		Не только keyable каналы, но и все пользовательские атрибуты - и те, что видны
+		в channel box без ключей (настройки вроде upLimit, lift/side), и скрытые:
+		модуль читает их с настоящего контрола, а правят их на прокси.
+		"""
+		attrs = set(cmds.listAttr(local, keyable=1) or []) | set(cmds.listAttr(local, userDefined=1) or [])
+		for attr in sorted(attrs):
+			src_, dst = f"{proxy}.{attr}", f"{local}.{attr}"
+			if "." in attr or not cmds.objExists(src_) or not cmds.objExists(dst):
+				continue
+			# компаунд целиком не трогаем - его дети идут в этом же списке отдельно
+			if cmds.attributeQuery(attr, node=local, listChildren=True):
+				continue
+			if cmds.getAttr(dst, lock=True):
+				continue
+			if cmds.listConnections(dst, source=1, destination=0):
+				continue
+			try:
+				cmds.connectAttr(src_, dst, force=True)
+			except Exception as e:
+				cmds.warning(f"Cannot link {src_} -> {dst} ({e})")
+
+		# связи контрола с самим собой (limits -> ограничения translate и т.п.) повторяем
+		# на прокси, иначе у него самого эти настройки не работали бы
+		pairs = cmds.listConnections(local, source=1, destination=0, plugs=1, connections=1) or []
+		for dst, src_ in zip(pairs[0::2], pairs[1::2]):
+			if src_.split(".")[0] != local:
+				continue
+			p_src = proxy + "." + src_.split(".", 1)[1]
+			p_dst = proxy + "." + dst.split(".", 1)[1]
+			if cmds.objExists(p_src) and cmds.objExists(p_dst):
+				try:
+					cmds.connectAttr(p_src, p_dst, force=True)
+				except Exception:
+					pass
+
+	def unlinkProxy(self, proxy, local):
+		"""Снять связи прокси с контрола, оставив на нём текущие значения."""
+		pairs = cmds.listConnections(local, source=1, destination=0, plugs=1, connections=1) or []
+		for dst, src_ in zip(pairs[0::2], pairs[1::2]):
+			if src_.split(".")[0] != proxy:
+				continue
+			cmds.disconnectAttr(src_, dst)
+			try:
+				value = cmds.getAttr(src_)
+				if cmds.getAttr(src_, type=True) == "string":
+					cmds.setAttr(dst, value or "", type="string")
+				elif isinstance(value, list):
+					cmds.setAttr(dst, *value[0])
+				else:
+					cmds.setAttr(dst, value)
+			except Exception:
+				pass
+
 	def makeLocal(self):
 		if self.isLocal():
 			cmds.warning(f"{self.name}: module is local already")
@@ -282,13 +338,7 @@ class BrowsCurved(module.Module) :
 					cmds.connectAttr(vis, new + ".visibility", force=True)
 				cmds.setAttr(shape + ".lodVisibility", 0)
 
-			# --- прокси ведёт контрол: тот же канал в тот же канал ---
-			for attr in cmds.listAttr(local, keyable=1, unlocked=1) or []:
-				if not cmds.objExists(f"{proxy}.{attr}"):
-					continue
-				if cmds.listConnections(f"{local}.{attr}", source=1, destination=0):
-					continue
-				cmds.connectAttr(f"{proxy}.{attr}", f"{local}.{attr}", force=True)
+			self.linkProxy(proxy, local)
 
 			for s_ in control_sets:
 				cmds.sets(proxy, e=1, forceElement=s_)
@@ -321,15 +371,7 @@ class BrowsCurved(module.Module) :
 				continue
 			control_sets = [s for s in cmds.listSets(o=proxy) or [] if s.endswith("moduleControlSet")]
 
-			for attr in cmds.listAttr(local, keyable=1, unlocked=1) or []:
-				plug = f"{local}.{attr}"
-				for c in cmds.listConnections(plug, source=1, destination=0, plugs=1) or []:
-					if c.split(".")[0] == proxy:
-						cmds.disconnectAttr(c, plug)
-						try:
-							cmds.setAttr(plug, cmds.getAttr(c))
-						except Exception:
-							pass
+			self.unlinkProxy(proxy, local)
 
 			for shape in cmds.listRelatives(local, shapes=1, fullPath=1) or []:
 				cmds.setAttr(shape + ".lodVisibility", 1)
