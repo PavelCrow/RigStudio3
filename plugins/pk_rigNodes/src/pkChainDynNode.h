@@ -31,6 +31,55 @@
 //
 // Gravity is in units per second squared.
 //
+// stretch lets the chain give a little when it is pulled hard and gather up
+// when it is shoved, and it does none of that in the simulation: the solve
+// stays rigid, and only the finished points are slid along the chain
+// afterwards. Directions are untouched, so every rotation the chain had it
+// still has - what was tuned stays tuned - and only the distances change.
+//
+// What it goes by is the very thing lengthKeep lets through: how hard the
+// segment is being pulled apart. The pull piles up while it lasts and lets go
+// when it ends, in its own time - stretchRelease, in frames - and that time
+// is what decides how much the give carries past its rest on the way back.
+// Let go slowly and the chain merely follows the pull home; let go at once
+// and whatever speed it had takes it straight past. Short is the whip, long
+// is the rubber band.
+//
+// The give itself is a spring, not a fading memory, which is what lets it
+// arrive at its length, carry on past it and swing back. stretchSpeed is how
+// fast that swing is, stretchDamping how much of it there is at all.
+// stretchSpread hands the give around the chain: a chain dragged by its root
+// is pulled almost entirely at the root and one swung around at the tip, and
+// at 1 every segment gives the same share of its own length instead.
+//
+// Three of these work themselves out when left at 0, which is where they
+// start: stretchSpeed takes the chain's own frequency, held between three and
+// eight frames; stretchRelease takes a frame; stretchLimit takes whatever
+// stretch could ask for, so it only ever catches the wild ones.
+//
+// maxBend is how far a bone may turn away from where the goals put it against
+// the one before it. The first bone is measured against its control rather
+// than against nothing, so a chain whose root is yanked away cannot answer by
+// folding that bone back onto the rest. bendSoftness is how the limit is met:
+// at 0 it is a wall, which shows as a corner at one joint, and turned up it
+// starts pushing back before it is reached, so the corner becomes a tight but
+// smooth arc. The limit itself is never passed either way.
+//
+// bendStiffness is a spring on the angle between one bone and the next,
+// measured against the angle the goals have there. Unlike the pull towards
+// the goals, which moves each point on its own, this one is felt by the bone
+// after it too, so the motion travels along the chain - what makes a chain
+// crack rather than merely lag.
+//
+// dampingEven is what keeps the ramp from doing two jobs at once. A point the
+// ramp made soft swings slower, and a slower swing takes longer to die down
+// at the same ratio - so a soft tip not only trails further, which is wanted,
+// but also keeps going long after the root is still, which is not, and the
+// two cannot be told apart from one slider. At 1 the ratio of each point is
+// raised by exactly as much as the ramp slowed it, so every point settles in
+// the time damping asks for and the ramp is left to do nothing but shape the
+// trail. At 0 the ratio is the same everywhere, as it used to be.
+//
 // damping is the damping ratio, not a fraction of the velocity per frame: it
 // is measured against the frequency of the spring, w. A stiff chain swings
 // faster, so it has to lose more per frame to settle the same way, and that
@@ -61,10 +110,16 @@
 //
 // --- space ------------------------------------------------------------------
 //
-// followSpace takes the motion of spaceMatrix into the simulated points: at 0
-// the chain lags behind everything (world, the way nucleus does it), at 1 it
-// lags only behind what happens inside the space - a character carried across
-// the scene by its root does not make its tail fly.
+// followTranslate and followRotate take the motion of spaceMatrix into the
+// simulated points, so the chain rides along with it instead of lagging
+// behind it. They are apart because a chain answers the two quite
+// differently: turn the root and every bone is moved across itself, which is
+// what a chain lags behind freely; move the root along the chain and the
+// lengths let nothing lag at all, so the whole answer arrives at once when
+// the move stops. One number could never suit both. At 0 the chain lags
+// behind everything, the way nucleus does it; at 1 that part of the motion is
+// carried and leaves no wake at all. followSpace is what the two grew out of,
+// kept so older scenes still open: whichever is the larger applies.
 //
 // --- more points than controls ----------------------------------------------
 //
@@ -112,13 +167,25 @@ public:
     static MObject aStiffness;        // the whole chain, 0..1
     static MObject aStiffnessRamp;    // curve along the chain, root to tip
     static MObject aDamping;          // damping ratio, 1 - critical
+    static MObject aDampingEven;      // 1 - every point settles in the same time
     static MObject aGravity;          // units / s^2
     static MObject aGravityDirection;
     static MObject aGravityDirectionX, aGravityDirectionY, aGravityDirectionZ;
     static MObject aLengthKeep;       // 1 - the segments keep their length exactly
+    static MObject aStretch;          // how much the chain gives under a pull
+    static MObject aStretchLimit;     // and how far it may ever give
+    static MObject aStretchSpeed;     // how fast the give comes back
+    static MObject aStretchDamping;   // 1 - it comes back without overshooting
+    static MObject aStretchSpread;    // 1 - every segment gives the same share
+    static MObject aStretchRelease;   // frames the pull takes to let go
+    static MObject aMaxBend;          // how far one bone may turn from the one before it
+    static MObject aBendSoftness;     // 0 - a wall at that angle, 1 - resistance all the way
     static MObject aSubsteps;         // steps per frame
     static MObject aSpaceMatrix;
-    static MObject aFollowSpace;
+    static MObject aFollowSpace;      // what the two below grew out of, kept for old scenes
+    static MObject aFollowTranslate;  // how much of the space's move the chain just rides
+    static MObject aFollowRotate;     // the same for the space turning
+    static MObject aBendStiffness;    // the spring on the angle between bones
     static MObject aGoalMatrix;       // multi, root first
     static MObject aOutputCount;      // 0 - one point per goal
     static MObject aAimAxis;          // which axis of a control runs down the chain
@@ -132,6 +199,9 @@ private:
         std::vector<MPoint>  pos;
         std::vector<MVector> vel;     // per frame
         std::vector<MPoint>  goal;    // the goals this state was stepped to
+        std::vector<double>  slack;   // how far each segment is giving right now
+        std::vector<double>  slackVel;// and how fast that is changing
+        std::vector<double>  pull;    // and how much it is being asked to give
         MMatrix              space;
     };
 
@@ -150,9 +220,18 @@ private:
     {
         std::vector<double> k;        // spring per point, 1 / frame^2
         std::vector<double> w;        // its frequency, sqrt(k)
-        double damping, lengthKeep, followSpace;
+        std::vector<double> zeta;     // damping ratio per point
+
+        // Everything starts at nothing: a field read before it is filled in
+        // is a bug that hides until the memory under it happens to change,
+        // and one of those cost an afternoon.
+        double damping = 0.0, lengthKeep = 1.0, maxBend = 3.15, bendSoftness = 0.0;
+        double followTranslate = 0.0, followRotate = 0.0, bendStiffness = 0.0;
+        double stretch = 0.0, stretchLimit = 0.0, stretchSpeed = 0.0;
+        double stretchDamping = 0.0, stretchSpread = 0.0, stretchRelease = 0.0;
+        double stiffW = 0.0;          // the chain's own frequency, for the auto settings
         MVector gravity;              // units / frame^2
-        int substeps;
+        int substeps = 1;
     };
 
     // The goals of the simulated points: the controls themselves, or the

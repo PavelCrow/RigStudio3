@@ -1,5 +1,6 @@
 #include "pkChainDynNode.h"
 
+#include <maya/MAngle.h>
 #include <maya/MArrayDataBuilder.h>
 #include <maya/MEvaluationNode.h>
 #include <maya/MFileIO.h>
@@ -27,13 +28,25 @@ MObject PkChainDynNode::aWeight;
 MObject PkChainDynNode::aStiffness;
 MObject PkChainDynNode::aStiffnessRamp;
 MObject PkChainDynNode::aDamping;
+MObject PkChainDynNode::aDampingEven;
 MObject PkChainDynNode::aGravity;
 MObject PkChainDynNode::aGravityDirection;
 MObject PkChainDynNode::aGravityDirectionX, PkChainDynNode::aGravityDirectionY, PkChainDynNode::aGravityDirectionZ;
 MObject PkChainDynNode::aLengthKeep;
+MObject PkChainDynNode::aStretch;
+MObject PkChainDynNode::aStretchLimit;
+MObject PkChainDynNode::aStretchSpeed;
+MObject PkChainDynNode::aStretchDamping;
+MObject PkChainDynNode::aStretchSpread;
+MObject PkChainDynNode::aStretchRelease;
+MObject PkChainDynNode::aMaxBend;
+MObject PkChainDynNode::aBendSoftness;
 MObject PkChainDynNode::aSubsteps;
 MObject PkChainDynNode::aSpaceMatrix;
 MObject PkChainDynNode::aFollowSpace;
+MObject PkChainDynNode::aFollowTranslate;
+MObject PkChainDynNode::aFollowRotate;
+MObject PkChainDynNode::aBendStiffness;
 MObject PkChainDynNode::aGoalMatrix;
 MObject PkChainDynNode::aOutputCount;
 MObject PkChainDynNode::aAimAxis;
@@ -42,6 +55,7 @@ MObject PkChainDynNode::aOutMatrix;
 namespace
 {
     const double kEps = 1.0e-9;
+    const double kPi  = 3.14159265358979323846;
 
     // more than this many frames forward at once is not simulated through -
     // it is a jump across the timeline, not playback
@@ -58,6 +72,15 @@ namespace
     // against, and would keep swinging for ever. This is the frequency it is
     // damped by instead - stiffness 0.02 worth of it.
     const double kMinW = 0.09;
+
+    // the angle spring at bendStiffness 1, per frame squared
+    const double kMaxBendK = 8.0;
+
+    // How long the give of the lengths takes to come back, in frames. The
+    // same thing lengthKeep does by leaving part of the error in the chain
+    // every step: it piles up while the chain is being pulled and runs out
+    // once it is not.
+    const double kStretchTau = 5.0;
 
     MPoint lerp(const MPoint& a, const MPoint& b, double t)
     {
@@ -103,6 +126,11 @@ MStatus PkChainDynNode::initialize()
     nAttr.setMax(1.0);
     nAttr.setKeyable(true);
 
+    aDampingEven = nAttr.create("dampingEven", "dme", MFnNumericData::kDouble, 1.0);
+    nAttr.setMin(0.0);
+    nAttr.setMax(1.0);
+    nAttr.setKeyable(true);
+
     aGravity = nAttr.create("gravity", "gr", MFnNumericData::kDouble, 0.0);
     nAttr.setKeyable(true);
 
@@ -118,6 +146,48 @@ MStatus PkChainDynNode::initialize()
     nAttr.setMax(1.0);
     nAttr.setKeyable(true);
 
+    // no ceiling on either of these: 1 is where the chain gives as much as
+    // it wants to, and past that is a matter of taste rather than of physics
+    aStretch = nAttr.create("stretch", "stc", MFnNumericData::kDouble, 0.0);
+    nAttr.setMin(0.0);
+    nAttr.setSoftMax(5.0);
+    nAttr.setKeyable(true);
+
+    aStretchLimit = nAttr.create("stretchLimit", "stl", MFnNumericData::kDouble, 0.0);
+    nAttr.setMin(0.0);
+    nAttr.setSoftMax(3.0);
+    nAttr.setKeyable(true);
+
+    aStretchSpeed = nAttr.create("stretchSpeed", "sts", MFnNumericData::kDouble, 0.0);
+    nAttr.setMin(0.0);
+    nAttr.setMax(1.0);
+    nAttr.setKeyable(true);
+
+    aStretchDamping = nAttr.create("stretchDamping", "std", MFnNumericData::kDouble, 0.2);
+    nAttr.setMin(0.0);
+    nAttr.setMax(1.0);
+    nAttr.setKeyable(true);
+
+    aStretchSpread = nAttr.create("stretchSpread", "stsp", MFnNumericData::kDouble, 1.0);
+    nAttr.setMin(0.0);
+    nAttr.setMax(1.0);
+    nAttr.setKeyable(true);
+
+    aStretchRelease = nAttr.create("stretchRelease", "stre", MFnNumericData::kDouble, 0.0);
+    nAttr.setMin(0.0);
+    nAttr.setSoftMax(8.0);
+    nAttr.setKeyable(true);
+
+    aMaxBend = uAttr.create("maxBend", "mb", MFnUnitAttribute::kAngle, 45.0 * kPi / 180.0);
+    uAttr.setMin(0.0);
+    uAttr.setMax(kPi);
+    uAttr.setKeyable(true);
+
+    aBendSoftness = nAttr.create("bendSoftness", "bsf", MFnNumericData::kDouble, 0.5);
+    nAttr.setMin(0.0);
+    nAttr.setMax(1.0);
+    nAttr.setKeyable(true);
+
     aSubsteps = nAttr.create("substeps", "ss", MFnNumericData::kInt, 2);
     nAttr.setMin(1);
     nAttr.setSoftMax(10);
@@ -125,7 +195,26 @@ MStatus PkChainDynNode::initialize()
 
     aSpaceMatrix = mAttr.create("spaceMatrix", "spm");
 
+    aFollowTranslate = nAttr.create("followTranslate", "ft", MFnNumericData::kDouble, 0.0);
+    nAttr.setMin(0.0);
+    nAttr.setMax(1.0);
+    nAttr.setKeyable(true);
+
+    aFollowRotate = nAttr.create("followRotate", "fr", MFnNumericData::kDouble, 0.0);
+    nAttr.setMin(0.0);
+    nAttr.setMax(1.0);
+    nAttr.setKeyable(true);
+
+    // What followTranslate and followRotate grew out of. Kept so scenes that
+    // were saved with it still open, and still doing what it did: whichever
+    // is the larger, it or the one that replaced it, is what applies.
     aFollowSpace = nAttr.create("followSpace", "fs", MFnNumericData::kDouble, 0.0);
+    nAttr.setMin(0.0);
+    nAttr.setMax(1.0);
+    nAttr.setKeyable(false);
+    nAttr.setHidden(true);
+
+    aBendStiffness = nAttr.create("bendStiffness", "bs", MFnNumericData::kDouble, 0.0);
     nAttr.setMin(0.0);
     nAttr.setMax(1.0);
     nAttr.setKeyable(true);
@@ -155,9 +244,13 @@ MStatus PkChainDynNode::initialize()
     mAttr.setStorable(false);
 
     const MObject ins[] = {
-        aTime, aStartFrame, aEnable, aWeight, aStiffness, aStiffnessRamp, aDamping,
-        aGravity, aGravityDirection, aLengthKeep, aSubsteps, aSpaceMatrix,
-        aFollowSpace, aGoalMatrix, aOutputCount, aAimAxis,
+        aTime, aStartFrame, aEnable, aWeight, aStiffness, aStiffnessRamp,
+        aDamping, aDampingEven,
+        aGravity, aGravityDirection, aLengthKeep, aStretch, aStretchLimit,
+        aStretchSpeed, aStretchDamping, aStretchSpread, aStretchRelease,
+        aMaxBend, aBendSoftness, aSubsteps, aSpaceMatrix,
+        aFollowSpace, aFollowTranslate, aFollowRotate, aBendStiffness,
+        aGoalMatrix, aOutputCount, aAimAxis,
     };
     for (const MObject& in : ins)
         addAttribute(in);
@@ -369,6 +462,9 @@ void PkChainDynNode::reset(const std::vector<MPoint>& goals, const MMatrix& spac
 {
     mCur.pos   = goals;
     mCur.vel.assign(goals.size(), MVector::zero);
+    mCur.slack.assign(goals.size(), 0.0);
+    mCur.slackVel.assign(goals.size(), 0.0);
+    mCur.pull.assign(goals.size(), 0.0);
     mCur.goal  = goals;
     mCur.space = space;
     mBase      = mCur;
@@ -381,17 +477,29 @@ void PkChainDynNode::simulate(State& s, const std::vector<MPoint>& goals,
 {
     const size_t n = goals.size();
 
-    // what the space did since the last frame, taken into the points - both
-    // of them, so the velocity is carried along and not created
-    if (p.followSpace > kEps)
+    // What the space did since the last frame, carried into the points: as
+    // much of the turn as followRotate says, as much of the move as
+    // followTranslate. Taken apart around the space's own origin, so the turn
+    // is a turn about the space and not about the middle of the scene.
+    if (p.followTranslate > kEps || p.followRotate > kEps)
     {
-        const MMatrix delta = s.space.inverse() * space;
+        const MPoint from(s.space[3][0], s.space[3][1], s.space[3][2]);
+        const MPoint to(space[3][0], space[3][1], space[3][2]);
+
+        MMatrix wasRot = s.space, nowRot = space;
+        wasRot[3][0] = wasRot[3][1] = wasRot[3][2] = 0.0;
+        nowRot[3][0] = nowRot[3][1] = nowRot[3][2] = 0.0;
+
+        const MQuaternion turn = MTransformationMatrix(wasRot.inverse() * nowRot).rotation();
+        const MQuaternion part = slerp(MQuaternion::identity, turn, p.followRotate);
+        const MVector     move = (to - from) * p.followTranslate;
+
         for (size_t i = 0; i < n; ++i)
         {
-            s.pos[i] = lerp(s.pos[i], s.pos[i] * delta, p.followSpace);
-            // a velocity is a direction, so only the rotation of the space
-            // reaches it - not where the space moved to
-            s.vel[i] += (s.vel[i] * delta - s.vel[i]) * p.followSpace;
+            s.pos[i] = from + MVector(s.pos[i] - from).rotateBy(part) + move;
+            // a velocity is a direction: it turns with the space, and where
+            // the space moved to is nothing to it
+            s.vel[i] = s.vel[i].rotateBy(part);
         }
     }
 
@@ -406,7 +514,18 @@ void PkChainDynNode::simulate(State& s, const std::vector<MPoint>& goals,
     // big the step is, and the decay is the damping and nothing else.
     std::vector<Step> step(n);
     for (size_t i = 0; i < n; ++i)
-        step[i] = solveStep(p.w[i], p.damping, h);
+        step[i] = solveStep(p.w[i], p.zeta[i], h);
+
+    const double bend = p.maxBend;
+
+    // The give of the lengths has a spring of its own, solved the same way.
+    // Left at 0 it takes the chain's own frequency, doubled so the stretch
+    // reads as the quicker of the two, and is held to a period between three
+    // and eight frames - slower than that and it answers after the motion is
+    // over, quicker and the whole of it happens between two frames.
+    const double wAuto = std::min(2.0 * kPi / 3.0, std::max(2.0 * kPi / 8.0, 2.0 * p.stiffW));
+    const double wGive = (p.stretchSpeed > kEps) ? std::sqrt(kMaxK) * p.stretchSpeed : wAuto;
+    const Step give = solveStep(wGive, p.stretchDamping, h);
 
     std::vector<MPoint> g(n);
     for (int k = 1; k <= steps; ++k)
@@ -418,7 +537,7 @@ void PkChainDynNode::simulate(State& s, const std::vector<MPoint>& goals,
         for (size_t i = 1; i < n; ++i)
         {
             const MVector d = s.pos[i] - g[i];   // where it is against its goal
-            MVector       v = s.vel[i] + accel;
+            const MVector v = s.vel[i] + accel;
 
             s.pos[i] = g[i] + d * step[i].dd + v * step[i].dv;
             s.vel[i] = d * step[i].vd + v * step[i].vv;
@@ -427,21 +546,167 @@ void PkChainDynNode::simulate(State& s, const std::vector<MPoint>& goals,
         s.pos[0] = g[0];
         s.vel[0] = MVector::zero;
 
-        // the lengths the goals have now - an animated stretch goes through
-        if (lenK > kEps)
+        // What the lengths are about to take away: the same thing lengthKeep
+        // lets through, kept for the output to give back as much of as
+        // stretch asks.
+        if (s.slack.size() != n)
         {
-            for (size_t i = 1; i < n; ++i)
+            s.slack.assign(n, 0.0);
+            s.slackVel.assign(n, 0.0);
+            s.pull.assign(n, 0.0);
+        }
+
+        // How much the chain wants to give, and how much it actually does.
+        //
+        // The wanting is what the lengths are about to take away, piling up
+        // while the pull lasts and running out when it stops - the same thing
+        // lengthKeep leaves in the chain, and just as smooth.
+        //
+        // The giving is a spring towards it, with a mass of its own. That is
+        // what makes the bone arrive at its length, carry on past it and
+        // swing back, instead of merely fading home.
+        const double load = std::exp(-h / kStretchTau);
+        const double release = (p.stretchRelease > kEps) ? p.stretchRelease : 1.0;
+        const double free_ = std::exp(-h / std::max(release, 0.05));
+        for (size_t i = 1; i < n; ++i)
+        {
+            const double rest = (g[i] - g[i - 1]).length();
+            const double now  = (s.pos[i] - s.pos[i - 1]).length() - rest;
+
+            // still being pulled the way it already is, or let go of
+            const bool loading = (now * s.pull[i] > 0.0) || std::fabs(s.pull[i]) < kEps;
+            s.pull[i] = s.pull[i] * (loading ? load : free_) + now;
+            const double want = p.stretch * s.pull[i];
+
+            const double d = s.slack[i] - want;
+            const double v = s.slackVel[i];
+            s.slack[i]    = want + d * give.dd + v * give.dv;
+            s.slackVel[i] = d * give.vd + v * give.vv;
+        }
+
+        // The lengths the goals have now - an animated stretch goes through -
+        // and, in the same walk down the chain, how far a bone may turn away
+        // from where the goals put it against the one before it.
+        //
+        // Both are done to one point at a time, from the root out: a point is
+        // put at the right distance from the one before it and, if it is over
+        // the limit, turned back around that same point. Turning around it
+        // keeps the distance, so neither undoes the other, and the points
+        // after it are dealt with in their turn rather than being swung along
+        // as one piece - a chain whose root bone is straightened does not
+        // throw its tail across the sky.
+        //
+        // The limit is measured against the bend the goals have at that
+        // joint, not against a straight line, so a chain built curled keeps
+        // its curl and only what the simulation adds on top of it is limited.
+        for (size_t i = 1; i < n; ++i)
+        {
+            MVector dir = s.pos[i] - s.pos[i - 1];
+            if (dir.length() <= kEps)
+                continue;
+
+            // Both the spring on the angle and the limit on it need bones
+            // to work with, and bones are what lengthKeep makes: with the
+            // lengths let go, turning a point around one that is itself
+            // adrift throws it wherever, so both fade out with it.
+            if (lenK > kEps && (bend < kPi - kEps || p.bendStiffness > kEps))
             {
-                MVector dir = s.pos[i] - s.pos[i - 1];
-                const double len = dir.length();
-                if (len <= kEps)
-                    continue;
+                // where this bone would lie with no bend of its own: the one
+                // before it, turned the way the goals turn here
+                MVector ref = (i == 1) ? (g[1] - g[0]) : (s.pos[i - 1] - s.pos[i - 2]);
+                if (i > 1)
+                {
+                    const MVector a = g[i - 1] - g[i - 2];
+                    const MVector b = g[i] - g[i - 1];
+                    if (a.length() > kEps && b.length() > kEps)
+                        ref = ref.rotateBy(MQuaternion(a, b));
+                }
 
+                const double angle = (ref.length() > kEps) ? ref.angle(dir) : 0.0;
+
+                // Where the limit starts pushing back, and how much of the
+                // angle is left after it has. Below the knee nothing happens;
+                // past it what is left over is squeezed into what room there
+                // is, so the limit is approached and never crossed.
+                double allowed = angle;
+                if (bend < kPi - kEps && angle > kEps)
+                {
+                    const double knee = bend * (1.0 - p.bendSoftness);
+                    if (angle > knee)
+                    {
+                        const double room = std::max(bend - knee, kEps);
+                        allowed = knee + room * (1.0 - std::exp(-(angle - knee) / room));
+                    }
+                }
+
+                // The spring on the angle: it does not move the bone, it
+                // gives it the speed to come back by itself, so the bone
+                // after it feels the swing too and the motion travels down
+                // the chain. Never more speed than would take it home within
+                // the step - past that it would wind itself up.
+                //
+                // It is scaled by lengthKeep, and the arm it turns is capped
+                // at the length the goals give: with the lengths let go there
+                // are no bones to turn, and a bone that has drifted long
+                // would be handed a speed to match, which runs away.
+                const double bendK = kMaxBendK * p.bendStiffness * p.bendStiffness * lenK;
+                if (bendK > kEps && angle > kEps)
+                {
+                    MVector axis = dir ^ ref;
+                    if (axis.length() > kEps)
+                    {
+                        axis.normalize();
+
+                        const double rest = (g[i] - g[i - 1]).length();
+                        MVector arm = dir;
+                        if (arm.length() > rest && rest > kEps)
+                            arm = arm * (rest / arm.length());
+
+                        const double dw = std::min(bendK * angle * h, angle / h);
+                        s.vel[i] += (axis ^ arm) * dw;
+                    }
+                }
+
+                if (allowed < angle - kEps)
+                {
+                    MVector axis = ref ^ dir;
+                    if (axis.length() <= kEps)
+                    {
+                        // turned right around: no one axis brings it back, so
+                        // any across it will do - without this the chain can
+                        // sit folded back on itself for good
+                        const MVector any = (std::fabs(ref.x) < 0.9) ? MVector::xAxis
+                                                                     : MVector::yAxis;
+                        axis = ref ^ any;
+                    }
+
+                    if (axis.length() > kEps)
+                    {
+                        axis.normalize();
+                        const MQuaternion back(-(angle - allowed) * lenK, axis);
+
+                        // A turn is a turn: the velocity goes round with the
+                        // bone instead of being handed the distance it moved.
+                        // Counting that distance as new velocity is division
+                        // by the step, and with nothing holding the lengths
+                        // there is nothing to stop it either - the chain blew
+                        // up at lengthKeep below a half.
+                        dir = dir.rotateBy(back);
+                        s.vel[i] = s.vel[i].rotateBy(back);
+                    }
+                }
+            }
+
+            s.pos[i] = s.pos[i - 1] + dir;
+
+            // the lengths, on the other hand, move the point - and that is
+            // motion like any other
+            if (lenK > kEps)
+            {
                 const double rest = (g[i] - g[i - 1]).length();
-                const MPoint target = s.pos[i - 1] + dir * (rest / len);
-                const MPoint moved  = lerp(s.pos[i], target, lenK);
+                const MPoint pulled = s.pos[i - 1] + dir * (rest / dir.length());
+                const MPoint moved  = lerp(s.pos[i], pulled, lenK);
 
-                // what the constraint did is motion like any other
                 s.vel[i] += (moved - s.pos[i]) / h;
                 s.pos[i] = moved;
             }
@@ -508,8 +773,10 @@ MStatus PkChainDynNode::compute(const MPlug& plug, MDataBlock& data)
         gDir.normalize();
 
     Params p;
+    p.damping = data.inputValue(aDamping).asDouble();
     {
         const double stiffness = data.inputValue(aStiffness).asDouble();
+        p.stiffW = std::sqrt(kMaxK) * stiffness;
         MRampAttribute ramp(thisMObject(), aStiffnessRamp);
         p.k.resize(n);
         p.w.resize(n);
@@ -522,10 +789,35 @@ MStatus PkChainDynNode::compute(const MPlug& plug, MDataBlock& data)
             p.k[i] = kMaxK * sr * sr;
             p.w[i] = std::sqrt(p.k[i]);
         }
+
+        // A point the ramp made soft swings slower and would ring on long
+        // after the rest; dampingEven gives it back exactly what the ramp
+        // took, so what damping asks for is a time to settle rather than a
+        // ratio, and the ramp is left to shape the trail and nothing else.
+        const double even = data.inputValue(aDampingEven).asDouble();
+        const double wRef = *std::max_element(p.w.begin(), p.w.end());
+
+        p.zeta.resize(n);
+        for (size_t i = 0; i < n; ++i)
+        {
+            const double w = std::max(p.w[i], kMinW);
+            const double lift = (wRef > kEps) ? std::pow(wRef / w, even) : 1.0;
+            p.zeta[i] = std::min(4.0, p.damping * lift);
+        }
     }
-    p.damping      = data.inputValue(aDamping).asDouble();
     p.lengthKeep   = data.inputValue(aLengthKeep).asDouble();
-    p.followSpace  = data.inputValue(aFollowSpace).asDouble();
+    p.maxBend      = data.inputValue(aMaxBend).asAngle().asRadians();
+    p.bendSoftness = data.inputValue(aBendSoftness).asDouble();
+    p.stretch      = data.inputValue(aStretch).asDouble();
+    p.stretchLimit = data.inputValue(aStretchLimit).asDouble();
+    p.stretchSpeed = data.inputValue(aStretchSpeed).asDouble();
+    p.stretchDamping = data.inputValue(aStretchDamping).asDouble();
+    p.stretchSpread  = data.inputValue(aStretchSpread).asDouble();
+    p.stretchRelease = data.inputValue(aStretchRelease).asDouble();
+    const double legacyFollow = data.inputValue(aFollowSpace).asDouble();
+    p.followTranslate = std::max(legacyFollow, data.inputValue(aFollowTranslate).asDouble());
+    p.followRotate    = std::max(legacyFollow, data.inputValue(aFollowRotate).asDouble());
+    p.bendStiffness   = data.inputValue(aBendStiffness).asDouble();
     p.substeps     = std::max(1, data.inputValue(aSubsteps).asInt());
     p.gravity      = gDir * (data.inputValue(aGravity).asDouble() / (fps * fps));
 
@@ -572,6 +864,61 @@ MStatus PkChainDynNode::compute(const MPlug& plug, MDataBlock& data)
 
         for (size_t i = 0; i < n; ++i)
             sim[i] = lerp(goals[i], mCur.pos[i], weight);
+
+        // Give under the pull - afterwards, along the chain as it already
+        // lies. The directions are the ones the solve produced, so nothing
+        // that was tuned moves; only how far apart the points sit.
+        if (p.stretch > kEps)
+        {
+            // Each segment's share of the give, handed around the chain as
+            // much as stretchSpread asks: what one segment is under, or the
+            // same for all of them, or anywhere between.
+            std::vector<double> give(n, 0.0);
+            double totalGive = 0.0, totalRest = 0.0;
+            for (size_t i = 1; i < n; ++i)
+            {
+                give[i]    = (i < mCur.slack.size()) ? mCur.slack[i] * weight : 0.0;
+                totalGive += give[i];
+                totalRest += (goals[i] - goals[i - 1]).length();
+            }
+
+            const double even = (totalRest > kEps) ? totalGive / totalRest : 0.0;
+            for (size_t i = 1; i < n; ++i)
+            {
+                const double rest = (goals[i] - goals[i - 1]).length();
+                const double own  = (rest > kEps) ? give[i] / rest : 0.0;
+                give[i] = (own + (even - own) * p.stretchSpread) * rest;
+            }
+
+            std::vector<MPoint> out(n);
+            out[0] = sim[0];
+
+            for (size_t i = 1; i < n; ++i)
+            {
+                MVector dir = sim[i] - sim[i - 1];
+                const double len = dir.length();
+                if (len <= kEps)
+                {
+                    out[i] = out[i - 1];
+                    continue;
+                }
+                dir /= len;
+
+                const double rest = (goals[i] - goals[i - 1]).length();
+
+                // left at 0 the limit sits out of the way of whatever stretch
+                // could ask for, and only catches what runs away
+                const double cap = (p.stretchLimit > kEps) ? p.stretchLimit
+                                                           : std::max(1.0, 3.0 * p.stretch);
+                double want = len + give[i];
+                const double most = rest * cap;
+                want = std::min(len + most, std::max(len - most, want));
+
+                out[i] = out[i - 1] + dir * std::max(want, rest * 0.01);
+            }
+
+            sim.swap(out);
+        }
     }
 
     // --- output --------------------------------------------------------------

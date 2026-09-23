@@ -29,13 +29,30 @@ global proc AEpk_chainDynamicsTemplate(string $nodeName)
 
     editorTemplate -beginLayout "Motion" -collapse 0;
         editorTemplate -addControl "damping";
+        editorTemplate -addControl "dampingEven";
         editorTemplate -addControl "gravity";
         editorTemplate -addControl "gravityDirection";
-        editorTemplate -addControl "followSpace";
+        editorTemplate -addControl "followTranslate";
+        editorTemplate -addControl "followRotate";
+    editorTemplate -endLayout;
+
+    editorTemplate -beginLayout "Stretch" -collapse 0;
+        editorTemplate -addControl "stretch";
+        editorTemplate -addControl "stretchDamping";
+        editorTemplate -addControl "stretchSpread";
+
+        editorTemplate -beginLayout "By hand" -collapse 1;
+            editorTemplate -addControl "stretchLimit";
+            editorTemplate -addControl "stretchSpeed";
+            editorTemplate -addControl "stretchRelease";
+        editorTemplate -endLayout;
     editorTemplate -endLayout;
 
     editorTemplate -beginLayout "Solver" -collapse 0;
         editorTemplate -addControl "lengthKeep";
+        editorTemplate -addControl "bendStiffness";
+        editorTemplate -addControl "maxBend";
+        editorTemplate -addControl "bendSoftness";
         editorTemplate -addControl "substeps";
         editorTemplate -addControl "outputCount";
         editorTemplate -addControl "aimAxis";
