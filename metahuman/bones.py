@@ -450,5 +450,8 @@ DRIVER_BINDS = {
     "spine_01": ("spine", "local_1"),
     "spine_02": ("spine", "local_2"),
     "spine_03": ("spine", "local_3"),
-    "spine_04": "chest",
+    # a control, not a skin joint: found by the module's type and the
+    # control's internalName, never by its scene name - the controls get
+    # renamed ('chest' became 'chest_ctrl'), internalName does not
+    "spine_04": {"control": ("spine", "chest")},
 }

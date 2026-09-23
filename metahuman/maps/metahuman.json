@@ -2,12 +2,12 @@
   "fit": {
     "from": 64,
     "offset": [
-      -0.005,
-      37.813,
-      16.0647
+      -0.0035,
+      0.1145,
+      0.008
     ],
-    "scale": 0.41873,
-    "worstResidual": 10.4188
+    "scale": 0.99954,
+    "worstResidual": 1.6316
   },
   "modules": {
     "head": "head",
@@ -374,13 +374,13 @@
       "match": "t",
       "order": 42
     },
-    "neck_2_addPoser": {
+    "neck_2_ctrl_addPoser": {
       "bone": "neck_02",
       "how": "rule",
       "match": "t",
       "order": 6
     },
-    "neck_addPoser": {
+    "neck_ctrl_addPoser": {
       "bone": "neck_01",
       "how": "rule",
       "match": "t",

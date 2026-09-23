@@ -13,6 +13,23 @@ from rigStudio3 import utils
 
 POSER_SUFFIXES = ("poser", "mainPoser", "addPoser")
 
+# The suffix every control of the rig carries. A control from a module's
+# own scene has an internalName with no suffix - 'chest_ctrl' is 'chest'
+# - but one made with Add Controls has no name of its own inside a
+# module, so its internalName is simply its scene name and the suffix
+# comes with it: 'neck_ctrl' is 'neck_ctrl'. internalName is not to be
+# changed, so the suffix comes off where it is read instead.
+CONTROL_SUFFIX = "_ctrl"
+
+
+def stripSuffix(name):  #
+    """'neck_ctrl' -> 'neck'. Anything without the suffix is left alone."""
+    if name and name.endswith(CONTROL_SUFFIX):
+        return name[:-len(CONTROL_SUFFIX)]
+
+    return name
+
+
 # The bone every MetaHuman skeleton starts from, in order of preference:
 # 'root' is the real top, but a skeleton imported without it still has
 # 'pelvis'.
@@ -72,7 +89,9 @@ def poserLeaf(poserName, moduleName):  #
     if moduleName and name.startswith(moduleName + "_"):
         name = name[len(moduleName) + 1:]
 
-    return name
+    # an added control's poser is named after the control, suffix and
+    # all: 'neck_ctrl_addPoser' is the 'neck' slot
+    return stripSuffix(name)
 
 
 def posers(moduleName=None):  #

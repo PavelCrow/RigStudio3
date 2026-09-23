@@ -258,10 +258,24 @@ def slotKey(module, rigNs=""):  #
     return "limb@leg"
 
 
-def internalName(control):  #
-    plug = control + ".internalName"
+# The suffix every control of the rig carries. A control from a module's
+# own scene has an internalName with no suffix - 'chest_ctrl' is 'chest'
+# - but one made with Add Controls has no name of its own inside a
+# module, so its internalName is simply its scene name and the suffix
+# comes with it. internalName is not to be changed, so the suffix comes
+# off here, where it is read. The same rule as in metahuman/scene.py -
+# written out again, because this file travels on its own.
+CONTROL_SUFFIX = "_ctrl"
 
-    return cmds.getAttr(plug) if cmds.objExists(plug) else ""
+
+def internalName(control):  #
+    """The control's internalName, with CONTROL_SUFFIX taken off."""
+    plug = control + ".internalName"
+    name = cmds.getAttr(plug) if cmds.objExists(plug) else ""
+    if name.endswith(CONTROL_SUFFIX):
+        name = name[:-len(CONTROL_SUFFIX)]
+
+    return name
 
 
 def sided(slot, side):  #
@@ -948,7 +962,12 @@ def boundControls(rigNs=""):  #
             continue
 
         table = CONTROL_BINDS.get(slotKey(module, rigNs), {})
-        leaf = internalName(control) or short(control)
+        leaf = internalName(control)
+        if not leaf:
+            # no internalName at all: the scene name, suffix off the same
+            leaf = short(control)
+            if leaf.endswith(CONTROL_SUFFIX):
+                leaf = leaf[:-len(CONTROL_SUFFIX)]
         slot = table.get(leaf)
         if slot:
             out.append((control, leaf, slot, sideOf(module)))
@@ -1469,6 +1488,219 @@ def _printList(title, lines):  #
 
 
 # --------------------------------------------------------------------
+# the face, which is a different job entirely
+
+
+def faceSources(namespace):  #
+    """{name without the namespace: node} for every node of a take.
+
+    Everything the file holds, animated or not: a control that stood
+    still for the whole shot is still that control's answer, and
+    leaving it out would keep whatever the rig had there before.
+    """
+    out = {}
+    for node in cmds.ls(namespace + "*", type="transform", long=True) or []:
+        if namespaceOf(node) != namespace:
+            continue
+
+        out[short(node).split(":")[-1]] = node
+
+    return out
+
+
+def faceTarget(name, rigNs="", takeNamespace=""):  #
+    """The rig's node of this name: (node, "") or ("", why).
+
+    By name in the scene rather than through controlSet, which is where
+    the body half looks. The face controls are the MetaHuman's own
+    control board - CTRL_C_jaw and its hundred and seventy neighbours -
+    and none of them is a rigStudio control, so controlSet has never
+    heard of them. What makes this safe is that the take is an export
+    of that same board, so the names are its names.
+
+    The take itself is in the scene while this runs and answers to the
+    same names under its own namespace, so it is kept out.
+    """
+    spellings = [name]
+    if name.endswith(CONTROL_SUFFIX):
+        spellings.append(name[:-len(CONTROL_SUFFIX)])
+    else:
+        spellings.append(name + CONTROL_SUFFIX)
+
+    for spelling in spellings:
+        found = []
+        for node in cmds.ls(rigNs + spelling, type="transform",
+                            long=True) or []:
+            if takeNamespace and namespaceOf(node) == takeNamespace:
+                continue
+            found.append(node)
+
+        if len(found) == 1:
+            return found[0], ""
+        if len(found) > 1:
+            return "", ("%s names %s nodes" % (spelling, len(found)))
+
+    return "", "no node of that name"
+
+
+def animatedAttrs(node):  #
+    """Keyable attributes of a node that an animation curve drives."""
+    found = []
+    for attr in cmds.listAttr(node, keyable=True) or []:
+        plug = "%s.%s" % (node, attr)
+        if not cmds.objExists(plug):
+            continue
+        if cmds.listConnections(plug, source=True, destination=False,
+                                type="animCurve"):
+            found.append(attr)
+
+    return found
+
+
+def clearControlAnimation(control):  #
+    """Take every curve of this scene off a control. Returns how many.
+
+    A face take is one whole performance replacing another, so what was
+    there goes - all of it, and not only the channels this take happens
+    to write. Half of one performance under half of another is not
+    something anyone would want to find later.
+
+    Curves that came in with the rig's own reference are left alone:
+    they are not this tool's to delete.
+    """
+    gone = []
+    for attr in cmds.listAttr(control, keyable=True) or []:
+        plug = "%s.%s" % (control, attr)
+        if not cmds.objExists(plug):
+            continue
+
+        for curve in cmds.listConnections(plug, source=True,
+                                          destination=False,
+                                          type="animCurve") or []:
+            if curve in gone:
+                continue
+            if cmds.referenceQuery(curve, isNodeReferenced=True):
+                continue
+            gone.append(curve)
+
+    if gone:
+        cmds.delete(gone)
+
+    return len(gone)
+
+
+def copyAnimation(source, target, attrs):  #
+    """Copy the curves of these attributes across. Returns what moved.
+
+    Copied rather than baked: the take drives its nodes with curves of
+    its own, the control takes the same curves, and the keys arrive on
+    the frames they were authored on rather than one per frame.
+    """
+    moved = []
+    for attr in attrs:
+        plug = "%s.%s" % (target, attr)
+        if not cmds.objExists(plug):
+            continue
+        if cmds.getAttr(plug, lock=True):
+            continue
+
+        # a channel held by something that is not a curve - a constraint,
+        # a direct connection - cannot take keys, and pasting onto it
+        # either fails or does nothing
+        held = False
+        for other in cmds.listConnections(plug, source=True,
+                                          destination=False) or []:
+            if not cmds.objectType(other).startswith("animCurve"):
+                held = True
+                break
+        if held:
+            continue
+
+        # the old curve goes first: pasteKey replaces the range it
+        # covers, and a longer take from last time would keep its tail
+        for curve in cmds.listConnections(plug, source=True,
+                                          destination=False,
+                                          type="animCurve") or []:
+            if not cmds.referenceQuery(curve, isNodeReferenced=True):
+                cmds.delete(curve)
+
+        try:
+            if not cmds.copyKey(source, attribute=attr):
+                continue
+            cmds.pasteKey(target, attribute=attr, option="replaceCompletely")
+        except Exception:
+            continue
+
+        moved.append(attr)
+
+    return moved
+
+
+def transferFace(path, namespace=None, rigNs="", progress=None):  #
+    """Put a face take's animation onto the rig's controls.
+
+    The take is an export of the same face, so its nodes and the rig's
+    controls share their names - which makes this a different job from
+    the body: nothing is posed, nothing is constrained and nothing is
+    baked. The take comes in, its curves are copied onto the controls
+    of the same name, and it goes back out.
+    """
+    _say(progress, 0.1, "Referencing the face take")
+    namespace = reference(path, namespace)
+    if not namespace:
+        return {}
+
+    sources = faceSources(namespace)
+    if not sources:
+        cmds.warning("mocap: nothing animated under '%s'" % namespace)
+        unload(path, namespace)
+        return {}
+
+    _say(progress, 0.4, "Copying %s curves" % len(sources))
+    autoKey = _autoKeyOff()
+    layers = _layersAside()
+    cmds.undoInfo(openChunk=True, chunkName="mocap: face")
+    moved, missing, empty = [], [], []
+    cleared = 0
+    try:
+        for name in sorted(sources):
+            control, why = faceTarget(name, rigNs, namespace)
+            if not control:
+                missing.append("%s (%s)" % (name, why))
+                continue
+
+            cleared += clearControlAnimation(control)
+            attrs = copyAnimation(sources[name], control,
+                                  animatedAttrs(sources[name]))
+            if attrs:
+                moved.append("%-28s -> %-28s %s"
+                             % (name, short(control), ", ".join(attrs)))
+            else:
+                empty.append("%s -> %s" % (name, short(control)))
+
+        _say(progress, 0.9, "Taking the face take back out")
+        removed = unload(path, namespace)
+    finally:
+        cmds.undoInfo(closeChunk=True)
+        _layersBack(layers)
+        _autoKeyBack(autoKey)
+
+    print("\n--- mocap: face ---")
+    print("file      : %s" % path)
+    print("controls  : %s of %s nodes, %s old curves removed"
+          % (len(moved), len(sources), cleared))
+    print("take      : %s" % (("removed (%s)" % removed) if removed
+                              else "nothing to remove"))
+    _printList("copied", moved)
+    _printList("no control for it", missing)
+    _printList("nothing writable", empty)
+    print("---\n")
+
+    return {"moved": moved, "missing": missing, "empty": empty,
+            "cleared": cleared, "namespace": namespace}
+
+
+# --------------------------------------------------------------------
 # the window
 
 
@@ -1491,26 +1723,31 @@ TUTORIAL_URL = "https://disk.yandex.ru/i/WrlSbtqInk8brQ"
 # list to still be there tomorrow, and Maya carries optionVars across
 # sessions on its own.
 RECENT_VAR = "metahumanMocapRecent"
+
+# The face takes are kept apart from the body ones: different files
+# from a different folder, and one list holding both would mean picking
+# the right kind out of it every time.
+FACE_RECENT_VAR = "metahumanFaceMocapRecent"
 RECENT_MAX = 10
 
 
-def recentFiles():  #
+def recentFiles(var=RECENT_VAR):  #
     """The takes used before, newest first."""
-    found = cmds.optionVar(q=RECENT_VAR)
+    found = cmds.optionVar(q=var)
 
     return [f for f in found if f] if isinstance(found, list) else []
 
 
-def rememberFile(path):  #
+def rememberFile(path, var=RECENT_VAR):  #
     """Put a take at the top of the list, keeping it to RECENT_MAX."""
     path = path.replace("\\", "/")
 
-    keep = [path] + [f for f in recentFiles() if f != path]
+    keep = [path] + [f for f in recentFiles(var) if f != path]
     keep = keep[:RECENT_MAX]
 
-    cmds.optionVar(clearArray=RECENT_VAR)
+    cmds.optionVar(clearArray=var)
     for f in keep:
-        cmds.optionVar(stringValueAppend=(RECENT_VAR, f))
+        cmds.optionVar(stringValueAppend=(var, f))
 
     return keep
 
@@ -1527,7 +1764,7 @@ class MocapWindow(QtWidgets.QDialog):  #
         # handle in a module variable does not survive the module being
         # reloaded, and the window is left standing.
         self.setObjectName(OBJECT_NAME)
-        self.setWindowTitle("MetaHuman mocap")
+        self.setWindowTitle("MetaHuman Mocap")
         self.setMinimumWidth(460)
 
         form = QtWidgets.QFormLayout(self)
@@ -1542,7 +1779,7 @@ class MocapWindow(QtWidgets.QDialog):  #
         self.pathEdit.addItems(recentFiles())
         self.pathEdit.setCurrentText("")
         self.pathEdit.lineEdit().setPlaceholderText(
-            "path to the mocap file")
+            "path to the body mocap file")
 
         browse = QtWidgets.QPushButton("...")
         browse.setFixedWidth(28)
@@ -1551,7 +1788,7 @@ class MocapWindow(QtWidgets.QDialog):  #
         row = QtWidgets.QHBoxLayout()
         row.addWidget(self.pathEdit)
         row.addWidget(browse)
-        form.addRow("Mocap file", row)
+        form.addRow("Body Mocap", row)
 
         # Two widgets in one place, only ever one of them showing: a
         # plain line while there is nothing to report, and the bar with
@@ -1579,7 +1816,7 @@ class MocapWindow(QtWidgets.QDialog):  #
         # is only visible once the controls are hanging off the take,
         # and by the time a single button reaches the bake it is too
         # late to correct any of it.
-        self.attachButton = QtWidgets.QPushButton("Attach Mocap")
+        self.attachButton = QtWidgets.QPushButton("Attach Body Mocap")
         self.attachButton.setToolTip(
             "Reference the take and hang the controls off it")
         self.attachButton.clicked.connect(self.onAttach)
@@ -1607,6 +1844,36 @@ class MocapWindow(QtWidgets.QDialog):  #
         buttons.addWidget(self.tutorialButton)
         form.addRow(buttons)
 
+        form.addRow(self._line())
+
+        # The face is its own file and its own single press: nothing is
+        # posed, constrained or baked - the take's curves are copied
+        # onto the controls of the same name and the take goes back out.
+        # So it gets a row of its own rather than a second meaning for
+        # the one above.
+        self.facePathEdit = QtWidgets.QComboBox()
+        self.facePathEdit.setEditable(True)
+        self.facePathEdit.addItems(recentFiles(FACE_RECENT_VAR))
+        self.facePathEdit.setCurrentText("")
+        self.facePathEdit.lineEdit().setPlaceholderText(
+            "path to the face mocap file")
+
+        faceBrowse = QtWidgets.QPushButton("...")
+        faceBrowse.setFixedWidth(28)
+        faceBrowse.clicked.connect(self.browseFace)
+
+        faceRow = QtWidgets.QHBoxLayout()
+        faceRow.addWidget(self.facePathEdit)
+        faceRow.addWidget(faceBrowse)
+        form.addRow("Face Mocap", faceRow)
+
+        self.faceButton = QtWidgets.QPushButton("Transfer Face Mocap")
+        self.faceButton.setToolTip(
+            "Copy the take's animation onto the controls of the same "
+            "name, replacing what the face had, and remove the take")
+        self.faceButton.clicked.connect(self.onFace)
+        form.addRow(self.faceButton)
+
         self.sync()
 
     def sync(self):  #
@@ -1626,25 +1893,38 @@ class MocapWindow(QtWidgets.QDialog):  #
         else:
             self.idle()
 
-    def browse(self):  #
+    def _line(self):  #
+        rule = QtWidgets.QFrame()
+        rule.setFrameShape(QtWidgets.QFrame.HLine)
+        rule.setFrameShadow(QtWidgets.QFrame.Sunken)
+
+        return rule
+
+    def _pick(self, edit, title):  #
         # Qt's dialog rather than cmds.fileDialog2, which draws Maya's
         # own: on Windows this is the Explorer window everyone knows.
-        start = os.path.dirname(self.pathEdit.currentText()) or \
-            cmds.workspace(q=True, rootDirectory=True)
+        start = (os.path.dirname(edit.currentText())
+                 or cmds.workspace(q=True, rootDirectory=True))
 
         found, _ = QtWidgets.QFileDialog.getOpenFileName(
-            self, "Mocap file", start,
+            self, title, start,
             "Scenes (*.ma *.mb *.fbx);;All files (*.*)")
 
         if found:
-            self.pathEdit.setCurrentText(found.replace("\\", "/"))
+            edit.setCurrentText(found.replace("\\", "/"))
 
-    def _refresh(self, recent):  #
-        """Redraw the dropdown with the take just used at the top."""
-        current = self.pathEdit.currentText()
-        self.pathEdit.clear()
-        self.pathEdit.addItems(recent)
-        self.pathEdit.setCurrentText(current)
+    def browse(self):  #
+        self._pick(self.pathEdit, "Mocap file")
+
+    def browseFace(self):  #
+        self._pick(self.facePathEdit, "Face mocap file")
+
+    def _refresh(self, edit, recent):  #
+        """Redraw a dropdown with the take just used at the top."""
+        current = edit.currentText()
+        edit.clear()
+        edit.addItems(recent)
+        edit.setCurrentText(current)
 
     def idle(self, message=None):  #
         """Back to a line of text with no bar under it."""
@@ -1701,7 +1981,7 @@ class MocapWindow(QtWidgets.QDialog):  #
             loaded = load(path, rigNs=rigNs, progress=self.report)
         finally:
             self._busy(False)
-            self._refresh(rememberFile(path))
+            self._refresh(self.pathEdit, rememberFile(path))
             self.sync()
 
         # left selected so it can be dragged straight away: it is the
@@ -1710,6 +1990,32 @@ class MocapWindow(QtWidgets.QDialog):  #
         group = (loaded or {}).get("group")
         if group and cmds.objExists(group):
             cmds.select(group)
+
+    def onFace(self):  #
+        path = self.facePathEdit.currentText().strip()
+        if not path:
+            cmds.warning("mocap: no face mocap file given")
+            self.idle("No face mocap file given")
+            return
+
+        # the rig is answered by the selection here too
+        if not cmds.ls(sl=True):
+            cmds.warning("mocap: select any control of the rig first")
+            self.idle()
+            return
+
+        rigNs = rigNamespace()
+
+        self._busy(True)
+        self.faceButton.setEnabled(False)
+        try:
+            transferFace(path, rigNs=rigNs, progress=self.report)
+        finally:
+            self._busy(False)
+            self.faceButton.setEnabled(True)
+            self._refresh(self.facePathEdit,
+                          rememberFile(path, FACE_RECENT_VAR))
+            self.sync()
 
     def onBake(self):  #
         rigNs = attachedRig()

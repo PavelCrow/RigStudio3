@@ -124,16 +124,20 @@ def _namedDriver(bone):  #
     if not entry:
         return ""
 
-    # a plain name is a node, taken as it stands: the chest control is
-    # not a skin joint and has no module prefix to build a name from
-    if not isinstance(entry, tuple):
-        return entry if cmds.objExists(entry) else ""
+    # a control rather than a skin joint - see bones.DRIVER_BINDS
+    control = entry.get("control") if isinstance(entry, dict) else None
+    wantType, leaf = control or entry
 
-    wantType, leaf = entry
     for module, mType in scene.modules().items():
         if scene.slotKey(module, mType) != wantType:
             continue
         if utils.getObjectSide(module) != side:
+            continue
+
+        if control:
+            found, _ = _controlByInternal(module, leaf)
+            if found:
+                return found
             continue
 
         joint = "%s_%s_skinJoint" % (module, leaf)
@@ -299,6 +303,39 @@ def report(matched, missed):  #
     print("--- %s bones driven ---\n" % len(matched))
 
 
+def _controlByInternal(module, internal):  #
+    """A module's control by its internalName: (control, "") or ("", why).
+
+    internalName is the rig's rename-proof name for a control, so this
+    keeps working when the controls themselves are renamed.
+    """
+    controlSet = module + "_moduleControlSet"
+    if not cmds.objExists(controlSet):
+        return "", "%s is not in the scene" % controlSet
+
+    # read here rather than through utils.getControlNameFromInternal,
+    # which reads internalName off every member unguarded and falls over
+    # on the first one that has none
+    found = []
+    for node in utils.getSetObjects(controlSet):
+        plug = node + ".internalName"
+        if not cmds.objExists(plug):
+            continue
+        # see scene.CONTROL_SUFFIX: an added control's internalName
+        # carries the suffix
+        if scene.stripSuffix(cmds.getAttr(plug)) == internal:
+            found.append(node)
+
+    if not found:
+        return "", ("no control with internalName '%s' in %s"
+                    % (internal, controlSet))
+    if len(found) > 1:
+        return "", ("more than one control with internalName '%s': %s"
+                    % (internal, ", ".join(found)))
+
+    return found[0], ""
+
+
 def _rootControl():  #
     """The rig's root control, and "" with the reason when there is none.
 
@@ -317,26 +354,7 @@ def _rootControl():  #
     if len(roots) > 1:
         return "", "more than one root module: %s" % ", ".join(roots)
 
-    controlSet = roots[0] + "_moduleControlSet"
-    if not cmds.objExists(controlSet):
-        return "", "%s is not in the scene" % controlSet
-
-    # read here rather than through utils.getControlNameFromInternal,
-    # which reads internalName off every member unguarded and falls over
-    # on the first one that has none
-    found = []
-    for node in utils.getSetObjects(controlSet):
-        plug = node + ".internalName"
-        if cmds.objExists(plug) and cmds.getAttr(plug) == "root":
-            found.append(node)
-
-    if not found:
-        return "", "no control with internalName 'root' in %s" % controlSet
-    if len(found) > 1:
-        return "", ("more than one control with internalName 'root': %s"
-                    % ", ".join(found))
-
-    return found[0], ""
+    return _controlByInternal(roots[0], "root")
 
 
 def run(skeletonRoot=None, dryRun=False, scaleToo=False,
