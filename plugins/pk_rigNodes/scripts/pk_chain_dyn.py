@@ -6,6 +6,8 @@
     fromSelection("tail")               - на выделенных трансформах, по порядку
     demo("tail")                        - ключи на корень, чтобы было на что смотреть
     setJoints("tail", 20)               - поменять число костей у готовой цепочки
+    rebuild("tail")                     - перецепить ноду на текущие контролы,
+                                          когда их добавили или убрали
     testAnim("tail")                    - прогонная анимация: все случаи подряд
     editRamp("tail")                    - окно с кривой жёсткости вдоль цепочки
     editWeights("tail")                 - кривая веса динамики по костям
@@ -23,8 +25,9 @@
 динамику уже на них - каждая кость отстаёт сама по себе.
 
 Настройки динамики выведены на первый контрол (или на корень выделения).
-followTranslate и followRotate говорят, насколько цепочка просто едет за
-корневым контролом, не отставая: порознь для переноса и для поворота.
+localTranslate и localRotate говорят, насколько цепочка работает в системе
+корневого контрола, а не в мире: при 1 она просто едет за ним, не отставая.
+Порознь для переноса и для поворота.
 Кривые - веса динамики и жёсткости - и всё остальное на самой ноде: это
 настройка цепочки, а не то, что анимируют.
 """
@@ -44,13 +47,13 @@ SETTINGS = [
     ("dynamic",      "enable",       1,   0,    1),
     ("dynamicWeight", "weight",      1.0, 0.0,  1.0),
     ("startFrame",   "startFrame",   1.0, None, None),
-    ("stiffness",    "stiffness",    0.3, 0.0,  1.0),
-    ("damping",      "damping",      0.15, 0.0, 1.0),
+    ("stiffness",    "stiffness",    0.15, 0.0, 1.0),
+    ("damping",      "damping",      0.5,  0.0, 1.0),
     ("gravity",      "gravity",      0.0, None, None),
-    ("stretch",      "stretch",      0.0, 0.0, None),
-    ("stretchDamping", "stretchDamping", 0.2, 0.0, 1.0),
-    ("followTranslate", "followTranslate", 0.0, 0.0, 1.0),
-    ("followRotate", "followRotate", 0.0, 0.0, 1.0),
+    ("stretch",      "stretch",      0.6, 0.0, None),
+    ("stretchDamping", "stretchDamping", 0.5, 0.0, 1.0),
+    ("localTranslate", "localTranslate", 0.0, 0.0, 1.0),
+    ("localRotate",   "localRotate",   0.0, 0.0, 1.0),
 ]
 
 
@@ -97,7 +100,7 @@ def _addSettings(host, node):
 
 
 def _makeNode(name, goals, space):
-    """space - относительно чего работают followTranslate/followRotate. По
+    """space - относительно чего работают localTranslate/localRotate. По
     умолчанию сам корневой контрол: его движение тогда можно снимать этими
     двумя ручками, не трогая остальную анимацию."""
     node = cmds.createNode("pk_chainDynamics", n=_names(name)["node"])
@@ -210,6 +213,64 @@ def setJoints(name="chain", count=0):
     return bones
 
 
+def rebuild(name="chain", joints=None, walk=True):
+    """Перецепить ноду на те контролы, что есть в цепочке сейчас - после того,
+    как контролы добавили, убрали или переставили.
+
+    Нода остаётся та же, поэтому сохраняется всё, что на ней настроено: обе
+    кривые, maxBend, bendSoftness, всё прочее. Полная пересборка через
+    delete + build это потеряла бы.
+
+    Цепочка берётся заново вниз по иерархии от корневого контрола (walk).
+    С walk=False список остаётся прежним - это способ просто пересчитать
+    кости под изменившееся outputCount. joints - сколько сделать костей,
+    по умолчанию как было."""
+    node = _names(name)["node"]
+    if not cmds.objExists(node):
+        cmds.error("%s not found" % node)
+
+    was = _inputs(node + ".goalMatrix")
+    if not was:
+        cmds.error("%s: nothing is connected to goalMatrix" % node)
+
+    root = was[min(was)]
+    goals = chainFromRoot(root) if walk else [was[i] for i in sorted(was)]
+    if len(goals) < 2:
+        cmds.error("%s: the chain from %s is shorter than two controls" % (name, root))
+
+    # цели отключаются, и элементы массива уходят следом - у goalMatrix
+    # disconnectBehavior kDelete
+    for i in sorted(was):
+        plug = "%s.goalMatrix[%d]" % (node, i)
+        src = cmds.listConnections(plug, p=True, s=True, d=False) or []
+        if src:
+            cmds.disconnectAttr(src[0], plug)
+    for i in cmds.getAttr(node + ".goalMatrix", mi=True) or []:
+        cmds.removeMultiInstance("%s.goalMatrix[%d]" % (node, i), b=True)
+
+    for i, g in enumerate(goals):
+        cmds.connectAttr(g + ".worldMatrix[0]", "%s.goalMatrix[%d]" % (node, i), f=True)
+
+    count = int(joints) if joints else (cmds.getAttr(node + ".outputCount") or len(goals))
+    if count <= len(goals):
+        count = len(goals)
+        cmds.setAttr(node + ".outputCount", 0)
+    else:
+        cmds.setAttr(node + ".outputCount", count)
+
+    bones = _joints(name, node, count)
+    _addSettings(goals[0], node)
+    cmds.select(goals[0])
+
+    added = [g for g in goals if g not in was.values()]
+    gone = [g for g in was.values() if g not in goals]
+    print("pk_chainDynamics: %s, %d controls, %d joints%s%s"
+          % (node, len(goals), len(bones),
+             (", added: " + ", ".join(added)) if added else "",
+             (", dropped: " + ", ".join(gone)) if gone else ""))
+    return {"node": node, "ctrls": goals, "joints": bones}
+
+
 def build(name="chain", count=6, length=10.0, axis="x", radius=None, joints=0):
     """Цепочка FK-контролов с нуля, от начала координат вдоль axis. joints -
     число костей, если их нужно больше, чем контролов."""
@@ -242,7 +303,7 @@ def build(name="chain", count=6, length=10.0, axis="x", radius=None, joints=0):
         ctrls.append(ctrl)
         parent = ctrl
 
-    # пространство - корневой контрол: followTranslate и followRotate
+    # пространство - корневой контрол: localTranslate и localRotate
     # решают, насколько цепочка просто едет за ним
     node, bones = _rig(name, ctrls, ctrls[0], ctrls[0], joints)
     print("pk_chainDynamics: %s, %d controls, %d joints" % (node, count, len(bones)))
@@ -295,9 +356,9 @@ def fromSelection(name="chain", space=None, joints=0, walk=None):
     динамика уходит на новые джоинты.
 
     Выделить можно либо все контролы по порядку, корень первым, либо только
-    корень - тогда цепочка соберётся вниз по иерархии (walk). space - от чего
-    отсчитывается followSpace, по умолчанию родитель корня. joints - сколько
-    сделать костей, если их нужно больше, чем контролов."""
+    корень - тогда цепочка соберётся вниз по иерархии (walk). space - система,
+    в которой считают localTranslate и localRotate, по умолчанию сам корень.
+    joints - сколько сделать костей, если их нужно больше, чем контролов."""
     if not loadPlugin():
         return None
 
@@ -451,7 +512,8 @@ def editWeights(name="chain"):
 
 
 # что было на контроле в первой версии, а теперь живёт на ноде или ушло
-_OLD_HOST_ATTRS = ("stiffnessTip", "lengthKeep", "substeps", "followSpace", "bendStiffness")
+_OLD_HOST_ATTRS = ("stiffnessTip", "lengthKeep", "substeps", "followSpace", "bendStiffness",
+                   "followTranslate", "followRotate")
 
 
 def _inputs(plug):
@@ -550,15 +612,21 @@ def upgrade(name="chain", keepLook=True):
         return default
 
     outputCount = value("outputCount", 0)
-    follow = value("followSpace", None)
     maxBend = value("maxBend", None)
     aimAxis = value("aimAxis", 0)
-    ramp = []
-    if cmds.objExists(node):
-        for i in cmds.getAttr(node + ".stiffnessRamp", mi=True) or []:
-            ramp.append((cmds.getAttr("%s.stiffnessRamp[%d].stiffnessRamp_Position" % (node, i)),
-                         cmds.getAttr("%s.stiffnessRamp[%d].stiffnessRamp_FloatValue" % (node, i)),
-                         cmds.getAttr("%s.stiffnessRamp[%d].stiffnessRamp_Interp" % (node, i))))
+
+    def readRamp(attr):
+        out = []
+        if not cmds.objExists(node):
+            return out
+        for i in cmds.getAttr("%s.%s" % (node, attr), mi=True) or []:
+            out.append((cmds.getAttr("%s.%s[%d].%s_Position" % (node, attr, i, attr)),
+                        cmds.getAttr("%s.%s[%d].%s_FloatValue" % (node, attr, i, attr)),
+                        cmds.getAttr("%s.%s[%d].%s_Interp" % (node, attr, i, attr))))
+        return out
+
+    ramp = readRamp("stiffnessRamp")
+    weightRamp = readRamp("weightRamp")
     stiffness = value("stiffness", 0.3)
     damping   = value("damping", 0.1)
     tip       = value("stiffnessTip", None)
@@ -580,18 +648,18 @@ def upgrade(name="chain", keepLook=True):
     cmds.setAttr(node + ".aimAxis", int(aimAxis))
     if maxBend is not None:
         cmds.setAttr(node + ".maxBend", maxBend)
-    if ramp:
-        for i in cmds.getAttr(node + ".stiffnessRamp", mi=True) or []:
-            cmds.removeMultiInstance("%s.stiffnessRamp[%d]" % (node, i), b=True)
-        for i, (pos, val, interp) in enumerate(ramp):
-            cmds.setAttr("%s.stiffnessRamp[%d].stiffnessRamp_Position" % (node, i), pos)
-            cmds.setAttr("%s.stiffnessRamp[%d].stiffnessRamp_FloatValue" % (node, i), val)
-            cmds.setAttr("%s.stiffnessRamp[%d].stiffnessRamp_Interp" % (node, i), interp)
-    if follow is not None:
-        # прежний followSpace снимал и перенос, и поворот разом
-        for attr in ("followTranslate", "followRotate"):
-            if cmds.attributeQuery(attr, node=host, exists=True):
-                cmds.setAttr(host + "." + attr, follow)
+    def writeRamp(attr, points):
+        if not points:
+            return
+        for i in cmds.getAttr("%s.%s" % (node, attr), mi=True) or []:
+            cmds.removeMultiInstance("%s.%s[%d]" % (node, attr, i), b=True)
+        for i, (pos, val, interp) in enumerate(points):
+            cmds.setAttr("%s.%s[%d].%s_Position" % (node, attr, i, attr), pos)
+            cmds.setAttr("%s.%s[%d].%s_FloatValue" % (node, attr, i, attr), val)
+            cmds.setAttr("%s.%s[%d].%s_Interp" % (node, attr, i, attr), interp)
+
+    writeRamp("stiffnessRamp", ramp)
+    writeRamp("weightRamp", weightRamp)
     cmds.setAttr(node + ".substeps", max(1, int(round(substeps))))
 
     # --- значения ------------------------------------------------------------

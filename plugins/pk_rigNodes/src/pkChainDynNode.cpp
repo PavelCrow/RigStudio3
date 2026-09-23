@@ -43,9 +43,8 @@ MObject PkChainDynNode::aMaxBend;
 MObject PkChainDynNode::aBendSoftness;
 MObject PkChainDynNode::aSubsteps;
 MObject PkChainDynNode::aSpaceMatrix;
-MObject PkChainDynNode::aFollowSpace;
-MObject PkChainDynNode::aFollowTranslate;
-MObject PkChainDynNode::aFollowRotate;
+MObject PkChainDynNode::aLocalTranslate;
+MObject PkChainDynNode::aLocalRotate;
 MObject PkChainDynNode::aGoalMatrix;
 MObject PkChainDynNode::aOutputCount;
 MObject PkChainDynNode::aAimAxis;
@@ -110,14 +109,14 @@ MStatus PkChainDynNode::initialize()
 
     aWeightRamp = MRampAttribute::createCurveRamp("weightRamp", "wr");
 
-    aStiffness = nAttr.create("stiffness", "st", MFnNumericData::kDouble, 0.3);
+    aStiffness = nAttr.create("stiffness", "st", MFnNumericData::kDouble, 0.15);
     nAttr.setMin(0.0);
     nAttr.setMax(1.0);
     nAttr.setKeyable(true);
 
     aStiffnessRamp = MRampAttribute::createCurveRamp("stiffnessRamp", "str");
 
-    aDamping = nAttr.create("damping", "dmp", MFnNumericData::kDouble, 0.15);
+    aDamping = nAttr.create("damping", "dmp", MFnNumericData::kDouble, 0.5);
     nAttr.setMin(0.0);
     nAttr.setMax(1.0);
     nAttr.setKeyable(true);
@@ -139,7 +138,7 @@ MStatus PkChainDynNode::initialize()
 
     // no ceiling on either of these: 1 is where the chain gives as much as
     // it wants to, and past that is a matter of taste rather than of physics
-    aStretch = nAttr.create("stretch", "stc", MFnNumericData::kDouble, 0.0);
+    aStretch = nAttr.create("stretch", "stc", MFnNumericData::kDouble, 0.6);
     nAttr.setMin(0.0);
     nAttr.setSoftMax(5.0);
     nAttr.setKeyable(true);
@@ -154,7 +153,7 @@ MStatus PkChainDynNode::initialize()
     nAttr.setMax(1.0);
     nAttr.setKeyable(true);
 
-    aStretchDamping = nAttr.create("stretchDamping", "std", MFnNumericData::kDouble, 0.2);
+    aStretchDamping = nAttr.create("stretchDamping", "std", MFnNumericData::kDouble, 0.5);
     nAttr.setMin(0.0);
     nAttr.setMax(1.0);
     nAttr.setKeyable(true);
@@ -164,7 +163,7 @@ MStatus PkChainDynNode::initialize()
     nAttr.setSoftMax(8.0);
     nAttr.setKeyable(true);
 
-    aMaxBend = uAttr.create("maxBend", "mb", MFnUnitAttribute::kAngle, 45.0 * kPi / 180.0);
+    aMaxBend = uAttr.create("maxBend", "mb", MFnUnitAttribute::kAngle, kPi);
     uAttr.setMin(0.0);
     uAttr.setMax(kPi);
     uAttr.setKeyable(true);
@@ -174,31 +173,22 @@ MStatus PkChainDynNode::initialize()
     nAttr.setMax(1.0);
     nAttr.setKeyable(true);
 
-    aSubsteps = nAttr.create("substeps", "ss", MFnNumericData::kInt, 2);
+    aSubsteps = nAttr.create("substeps", "ss", MFnNumericData::kInt, 1);
     nAttr.setMin(1);
     nAttr.setSoftMax(10);
     nAttr.setKeyable(true);
 
     aSpaceMatrix = mAttr.create("spaceMatrix", "spm");
 
-    aFollowTranslate = nAttr.create("followTranslate", "ft", MFnNumericData::kDouble, 0.0);
+    aLocalTranslate = nAttr.create("localTranslate", "lt", MFnNumericData::kDouble, 0.0);
     nAttr.setMin(0.0);
     nAttr.setMax(1.0);
     nAttr.setKeyable(true);
 
-    aFollowRotate = nAttr.create("followRotate", "fr", MFnNumericData::kDouble, 0.0);
+    aLocalRotate = nAttr.create("localRotate", "lr", MFnNumericData::kDouble, 0.0);
     nAttr.setMin(0.0);
     nAttr.setMax(1.0);
     nAttr.setKeyable(true);
-
-    // What followTranslate and followRotate grew out of. Kept so scenes that
-    // were saved with it still open, and still doing what it did: whichever
-    // is the larger, it or the one that replaced it, is what applies.
-    aFollowSpace = nAttr.create("followSpace", "fs", MFnNumericData::kDouble, 0.0);
-    nAttr.setMin(0.0);
-    nAttr.setMax(1.0);
-    nAttr.setKeyable(false);
-    nAttr.setHidden(true);
 
     aOutputCount = nAttr.create("outputCount", "oc", MFnNumericData::kInt, 0);
     nAttr.setMin(0);
@@ -230,7 +220,7 @@ MStatus PkChainDynNode::initialize()
         aGravity, aGravityDirection, aStretch, aStretchLimit,
         aStretchSpeed, aStretchDamping, aStretchRelease,
         aMaxBend, aBendSoftness, aSubsteps, aSpaceMatrix,
-        aFollowSpace, aFollowTranslate, aFollowRotate,
+        aLocalTranslate, aLocalRotate,
         aGoalMatrix, aOutputCount, aAimAxis,
     };
     for (const MObject& in : ins)
@@ -247,25 +237,32 @@ void PkChainDynNode::postConstructor()
 {
     MPxNode::postConstructor();
 
-    // A new node gets the stock curve: all of the stiffness at the root, a
-    // third of it at the tip. Not while a file is read - the scene brings its
-    // own entries, and these would be left over among them.
+    // The curves a new node starts with. Not while a file is read - the
+    // scene brings its own entries, and these would be left over among them.
     if (MFileIO::isReadingFile())
         return;
 
+    // Stiffness even along the chain: uneven, it gives every point a beat of
+    // its own and they settle out of step with each other. The shape of the
+    // swing is drawn on the other curve instead.
     MRampAttribute ramp(thisMObject(), aStiffnessRamp);
     MFloatArray values, positions;
     MIntArray   interps;
-    values.append(1.0f);   positions.append(0.0f); interps.append(MRampAttribute::kSmooth);
-    values.append(0.33f);  positions.append(1.0f); interps.append(MRampAttribute::kSmooth);
+    values.append(1.0f); positions.append(0.0f); interps.append(MRampAttribute::kSmooth);
+    values.append(1.0f); positions.append(1.0f); interps.append(MRampAttribute::kSmooth);
     ramp.setRamp(values, positions, interps);
 
-    // and all of the simulation everywhere until someone draws otherwise
+    // And the swing itself: nothing at the root, everything at the tip, with
+    // the rise held back at first. The root is pinned to its control, so if
+    // the point after it were given the whole of the motion at once, the
+    // whole of the lag would land on that one bone and it alone would bend.
     MRampAttribute weights(thisMObject(), aWeightRamp);
     MFloatArray wv, wp;
     MIntArray   wi;
-    wv.append(1.0f); wp.append(0.0f); wi.append(MRampAttribute::kSmooth);
-    wv.append(1.0f); wp.append(1.0f); wi.append(MRampAttribute::kSmooth);
+    wv.append(0.00f); wp.append(0.00f); wi.append(MRampAttribute::kSpline);
+    wv.append(0.16f); wp.append(0.30f); wi.append(MRampAttribute::kSpline);
+    wv.append(0.55f); wp.append(0.69f); wi.append(MRampAttribute::kSpline);
+    wv.append(1.00f); wp.append(1.00f); wi.append(MRampAttribute::kSmooth);
     weights.setRamp(wv, wp, wi);
 }
 
@@ -544,10 +541,10 @@ void PkChainDynNode::simulate(State& s, const std::vector<MPoint>& goals,
     const size_t n = goals.size();
 
     // What the space did since the last frame, carried into the points: as
-    // much of the turn as followRotate says, as much of the move as
-    // followTranslate. Taken apart around the space's own origin, so the turn
+    // much of the turn as localRotate says, as much of the move as
+    // localTranslate. Taken apart around the space's own origin, so the turn
     // is a turn about the space and not about the middle of the scene.
-    if (p.followTranslate > kEps || p.followRotate > kEps)
+    if (p.localTranslate > kEps || p.localRotate > kEps)
     {
         const MPoint from(s.space[3][0], s.space[3][1], s.space[3][2]);
         const MPoint to(space[3][0], space[3][1], space[3][2]);
@@ -557,8 +554,8 @@ void PkChainDynNode::simulate(State& s, const std::vector<MPoint>& goals,
         nowRot[3][0] = nowRot[3][1] = nowRot[3][2] = 0.0;
 
         const MQuaternion turn = MTransformationMatrix(wasRot.inverse() * nowRot).rotation();
-        const MQuaternion part = slerp(MQuaternion::identity, turn, p.followRotate);
-        const MVector     move = (to - from) * p.followTranslate;
+        const MQuaternion part = slerp(MQuaternion::identity, turn, p.localRotate);
+        const MVector     move = (to - from) * p.localTranslate;
 
         for (size_t i = 0; i < n; ++i)
         {
@@ -833,9 +830,8 @@ MStatus PkChainDynNode::compute(const MPlug& plug, MDataBlock& data)
     p.stretchSpeed = data.inputValue(aStretchSpeed).asDouble();
     p.stretchDamping = data.inputValue(aStretchDamping).asDouble();
     p.stretchRelease = data.inputValue(aStretchRelease).asDouble();
-    const double legacyFollow = data.inputValue(aFollowSpace).asDouble();
-    p.followTranslate = std::max(legacyFollow, data.inputValue(aFollowTranslate).asDouble());
-    p.followRotate    = std::max(legacyFollow, data.inputValue(aFollowRotate).asDouble());
+    p.localTranslate = data.inputValue(aLocalTranslate).asDouble();
+    p.localRotate    = data.inputValue(aLocalRotate).asDouble();
     p.substeps     = std::max(1, data.inputValue(aSubsteps).asInt());
     p.gravity      = gDir * (data.inputValue(aGravity).asDouble() / (fps * fps));
 

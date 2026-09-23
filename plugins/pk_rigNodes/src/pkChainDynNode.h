@@ -108,16 +108,17 @@
 //
 // --- space ------------------------------------------------------------------
 //
-// followTranslate and followRotate take the motion of spaceMatrix into the
-// simulated points, so the chain rides along with it instead of lagging
-// behind it. They are apart because a chain answers the two quite
-// differently: turn the root and every bone is moved across itself, which is
-// what a chain lags behind freely; move the root along the chain and the
-// lengths let nothing lag at all, so the whole answer arrives at once when
-// the move stops. One number could never suit both. At 0 the chain lags
-// behind everything, the way nucleus does it; at 1 that part of the motion is
-// carried and leaves no wake at all. followSpace is what the two grew out of,
-// kept so older scenes still open: whichever is the larger applies.
+// localTranslate and localRotate say how much of the chain's work happens in
+// the space of spaceMatrix rather than in the world. What the space did since
+// the last frame is carried into the simulated points, so the chain rides
+// along with it instead of lagging behind it.
+//
+// They are apart because a chain answers the two quite differently: turn the
+// root and every bone is moved across itself, which is what a chain lags
+// behind freely; move the root along the chain and the lengths let nothing
+// lag at all, so the whole answer arrives at once when the move stops. One
+// number could never suit both. At 0 the chain lags behind everything, in the
+// world, the way nucleus does it.
 //
 // --- more points than controls ----------------------------------------------
 //
@@ -179,9 +180,8 @@ public:
     static MObject aBendSoftness;     // 0 - a wall at that angle, 1 - resistance all the way
     static MObject aSubsteps;         // steps per frame
     static MObject aSpaceMatrix;
-    static MObject aFollowSpace;      // what the two below grew out of, kept for old scenes
-    static MObject aFollowTranslate;  // how much of the space's move the chain just rides
-    static MObject aFollowRotate;     // the same for the space turning
+    static MObject aLocalTranslate;   // how much of the space's move the chain just rides
+    static MObject aLocalRotate;      // the same for the space turning
     static MObject aGoalMatrix;       // multi, root first
     static MObject aOutputCount;      // 0 - one point per goal
     static MObject aAimAxis;          // which axis of a control runs down the chain
@@ -222,7 +222,7 @@ private:
         // is a bug that hides until the memory under it happens to change,
         // and one of those cost an afternoon.
         double damping = 0.0, maxBend = 3.15, bendSoftness = 0.0;
-        double followTranslate = 0.0, followRotate = 0.0;
+        double localTranslate = 0.0, localRotate = 0.0;
         double stretch = 0.0, stretchLimit = 0.0, stretchSpeed = 0.0;
         double stretchDamping = 0.0, stretchRelease = 0.0;
         double stiffW = 0.0;          // the chain's own frequency, for the auto settings

@@ -34,9 +34,9 @@ global proc AEpk_chainDynamicsTemplate(string $nodeName)
         editorTemplate -addControl "gravity";
         editorTemplate -addControl "gravityDirection";
 
-        editorTemplate -beginLayout "Riding along" -collapse 1;
-            editorTemplate -addControl "followTranslate";
-            editorTemplate -addControl "followRotate";
+        editorTemplate -beginLayout "Local space" -collapse 1;
+            editorTemplate -addControl "localTranslate";
+            editorTemplate -addControl "localRotate";
         editorTemplate -endLayout;
     editorTemplate -endLayout;
 
@@ -61,7 +61,6 @@ global proc AEpk_chainDynamicsTemplate(string $nodeName)
     editorTemplate -endLayout;
 
     editorTemplate -suppress "time";
-    editorTemplate -suppress "followSpace";
     editorTemplate -suppress "spaceMatrix";
     editorTemplate -suppress "goalMatrix";
     editorTemplate -suppress "outMatrix";
