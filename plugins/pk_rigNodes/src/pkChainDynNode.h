@@ -240,9 +240,27 @@ private:
     static void resample(const std::vector<MMatrix>& ctrl, size_t count,
                          const MVector& aim, std::vector<MMatrix>& out);
 
+    // Both curves, sampled at the points the chain has now.
+    void readCurves(MDataBlock& data, size_t n);
+
     void reset(const std::vector<MPoint>& goals, const MMatrix& space);
     static void simulate(State& s, const std::vector<MPoint>& goals,
                          const MMatrix& space, double dt, const Params& p);
+
+    // Asking a ramp for a value goes through the graph, and it is asked once
+    // per point per evaluation - more than all the arithmetic it feeds. The
+    // curves are drawn once and then stand still, so they are sampled once
+    // and kept here.
+    //
+    // What tells us they changed is the points themselves, read out of the
+    // data block, which is cheap and never missed. Being told instead - by
+    // the dirty callback - is not reliable here: the node is dirty every
+    // frame from time alone, and Maya has no reason to walk the same dirt
+    // again to mention the curve.
+    std::vector<double> mStiffCurve;
+    std::vector<double> mWeightCurve;
+    std::vector<double> mCurveMark;   // the ramps as they were when sampled
+    size_t mCurveCount = 0;
 
     State  mBase;                     // what the last frame started from
     State  mCur;

@@ -5,6 +5,7 @@
 #include <maya/MEvaluationNode.h>
 #include <maya/MFileIO.h>
 #include <maya/MFloatArray.h>
+#include <maya/MFnCompoundAttribute.h>
 #include <maya/MFnEnumAttribute.h>
 #include <maya/MFnMatrixAttribute.h>
 #include <maya/MFnNumericAttribute.h>
@@ -452,6 +453,83 @@ PkChainDynNode::Step PkChainDynNode::solveStep(double w, double zeta, double h)
     return st;
 }
 
+namespace
+{
+    // The points of a ramp - position, value and interpolation of each -
+    // taken straight from the data block.
+    void markRamp(MDataBlock& data, const MObject& attr, std::vector<double>& out)
+    {
+        MFnCompoundAttribute fn(attr);
+        if (fn.numChildren() < 3)
+            return;
+
+        const MObject cPos = fn.child(0);
+        const MObject cVal = fn.child(1);
+        const MObject cInt = fn.child(2);
+
+        MStatus status;
+        MArrayDataHandle h = data.inputArrayValue(attr, &status);
+        if (!status)
+            return;
+
+        const unsigned count = h.elementCount();
+        out.push_back(double(count));
+
+        for (unsigned i = 0; i < count; ++i)
+        {
+            if (!h.jumpToArrayElement(i))
+                break;
+
+            MDataHandle e = h.inputValue();
+            out.push_back(e.child(cPos).asFloat());
+            out.push_back(e.child(cVal).asFloat());
+            out.push_back(double(e.child(cInt).asShort()));
+        }
+    }
+}
+
+void PkChainDynNode::readCurves(MDataBlock& data, size_t n)
+{
+    std::vector<double> mark;
+    mark.reserve(32);
+    markRamp(data, aStiffnessRamp, mark);
+    markRamp(data, aWeightRamp, mark);
+
+    if (mark == mCurveMark && mCurveCount == n
+        && mStiffCurve.size() == n && mWeightCurve.size() == n)
+        return;
+
+    mCurveMark  = mark;
+    mCurveCount = n;
+
+    mStiffCurve.assign(n, 1.0);
+    mWeightCurve.assign(n, 1.0);
+
+    MRampAttribute stiff(thisMObject(), aStiffnessRamp);
+    MRampAttribute weights(thisMObject(), aWeightRamp);
+
+    // A scene saved before the weight curve existed has nothing in it, and a
+    // curve of one point cannot be a shape - either way the chain gets all of
+    // the simulation, the way it did before.
+    const bool drawn = weights.getNumEntries() > 1;
+
+    for (size_t i = 0; i < n; ++i)
+    {
+        const float u = (n > 1) ? float(i) / float(n - 1) : 0.0f;
+
+        float r = 1.0f;
+        stiff.getValueAtPosition(u, r);
+        mStiffCurve[i] = std::max(0.0f, r);
+
+        if (drawn)
+        {
+            float v = 1.0f;
+            weights.getValueAtPosition(u, v);
+            mWeightCurve[i] = std::min(1.0f, std::max(0.0f, v));
+        }
+    }
+}
+
 void PkChainDynNode::reset(const std::vector<MPoint>& goals, const MMatrix& space)
 {
     mCur.pos   = goals;
@@ -728,15 +806,13 @@ MStatus PkChainDynNode::compute(const MPlug& plug, MDataBlock& data)
     {
         const double stiffness = data.inputValue(aStiffness).asDouble();
         p.stiffW = std::sqrt(kMaxK) * stiffness;
-        MRampAttribute ramp(thisMObject(), aStiffnessRamp);
+        readCurves(data, n);
+
         p.k.resize(n);
         p.w.resize(n);
         for (size_t i = 0; i < n; ++i)
         {
-            const float u = (n > 1) ? float(i) / float(n - 1) : 0.0f;
-            float r = 1.0f;
-            ramp.getValueAtPosition(u, r);
-            const double sr = stiffness * std::max(0.0f, r);
+            const double sr = stiffness * mStiffCurve[i];
             p.k[i] = kMaxK * sr * sr;
             p.w[i] = std::sqrt(p.k[i]);
         }
@@ -811,24 +887,10 @@ MStatus PkChainDynNode::compute(const MPlug& plug, MDataBlock& data)
             mLastDt   = dt;
         }
 
-        // A scene saved before this curve existed has nothing in it, and a
-        // curve with one point in it cannot be a shape - either way the
-        // chain gets all of the simulation, the way it did before.
-        MRampAttribute weights(thisMObject(), aWeightRamp);
-        const bool drawn = weights.getNumEntries() > 1;
-
         std::vector<double> share(n, weight);
         for (size_t i = 0; i < n; ++i)
         {
-            double w = 1.0;
-            if (drawn)
-            {
-                const float u = (n > 1) ? float(i) / float(n - 1) : 0.0f;
-                float v = 1.0f;
-                weights.getValueAtPosition(u, v);
-                w = std::min(1.0f, std::max(0.0f, v));
-            }
-            share[i] = weight * w;
+            share[i] = weight * mWeightCurve[i];
             sim[i] = lerp(goals[i], mCur.pos[i], share[i]);
         }
 
