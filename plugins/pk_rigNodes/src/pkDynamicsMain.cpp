@@ -33,8 +33,11 @@ global proc AEpk_chainDynamicsTemplate(string $nodeName)
         editorTemplate -addControl "dampingEven";
         editorTemplate -addControl "gravity";
         editorTemplate -addControl "gravityDirection";
-        editorTemplate -addControl "followTranslate";
-        editorTemplate -addControl "followRotate";
+
+        editorTemplate -beginLayout "Riding along" -collapse 1;
+            editorTemplate -addControl "followTranslate";
+            editorTemplate -addControl "followRotate";
+        editorTemplate -endLayout;
     editorTemplate -endLayout;
 
     editorTemplate -beginLayout "Stretch" -collapse 0;
@@ -50,16 +53,16 @@ global proc AEpk_chainDynamicsTemplate(string $nodeName)
     editorTemplate -endLayout;
 
     editorTemplate -beginLayout "Solver" -collapse 0;
-        editorTemplate -addControl "lengthKeep";
-        editorTemplate -addControl "bendStiffness";
         editorTemplate -addControl "maxBend";
         editorTemplate -addControl "bendSoftness";
-        editorTemplate -addControl "substeps";
         editorTemplate -addControl "outputCount";
         editorTemplate -addControl "aimAxis";
+
+        editorTemplate -addControl "substeps";
     editorTemplate -endLayout;
 
     editorTemplate -suppress "time";
+    editorTemplate -suppress "followSpace";
     editorTemplate -suppress "spaceMatrix";
     editorTemplate -suppress "goalMatrix";
     editorTemplate -suppress "outMatrix";

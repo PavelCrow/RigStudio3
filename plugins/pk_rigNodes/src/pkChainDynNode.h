@@ -37,8 +37,7 @@
 // afterwards. Directions are untouched, so every rotation the chain had it
 // still has - what was tuned stays tuned - and only the distances change.
 //
-// What it goes by is the very thing lengthKeep lets through: how hard the
-// segment is being pulled apart. The pull piles up while it lasts and lets go
+// What it goes by is how hard the segment is being pulled apart. The pull piles up while it lasts and lets go
 // when it ends, in its own time - stretchRelease, in frames - and that time
 // is what decides how much the give carries past its rest on the way back.
 // Let go slowly and the chain merely follows the pull home; let go at once
@@ -64,12 +63,6 @@
 // at 0 it is a wall, which shows as a corner at one joint, and turned up it
 // starts pushing back before it is reached, so the corner becomes a tight but
 // smooth arc. The limit itself is never passed either way.
-//
-// bendStiffness is a spring on the angle between one bone and the next,
-// measured against the angle the goals have there. Unlike the pull towards
-// the goals, which moves each point on its own, this one is felt by the bone
-// after it too, so the motion travels along the chain - what makes a chain
-// crack rather than merely lag.
 //
 // dampingEven is what keeps the ramp from doing two jobs at once. A point the
 // ramp made soft swings slower, and a slower swing takes longer to die down
@@ -181,7 +174,6 @@ public:
     static MObject aGravity;          // units / s^2
     static MObject aGravityDirection;
     static MObject aGravityDirectionX, aGravityDirectionY, aGravityDirectionZ;
-    static MObject aLengthKeep;       // 1 - the segments keep their length exactly
     static MObject aStretch;          // how much the chain gives under a pull
     static MObject aStretchLimit;     // and how far it may ever give
     static MObject aStretchSpeed;     // how fast the give comes back
@@ -195,7 +187,6 @@ public:
     static MObject aFollowSpace;      // what the two below grew out of, kept for old scenes
     static MObject aFollowTranslate;  // how much of the space's move the chain just rides
     static MObject aFollowRotate;     // the same for the space turning
-    static MObject aBendStiffness;    // the spring on the angle between bones
     static MObject aGoalMatrix;       // multi, root first
     static MObject aOutputCount;      // 0 - one point per goal
     static MObject aAimAxis;          // which axis of a control runs down the chain
@@ -235,8 +226,8 @@ private:
         // Everything starts at nothing: a field read before it is filled in
         // is a bug that hides until the memory under it happens to change,
         // and one of those cost an afternoon.
-        double damping = 0.0, lengthKeep = 1.0, maxBend = 3.15, bendSoftness = 0.0;
-        double followTranslate = 0.0, followRotate = 0.0, bendStiffness = 0.0;
+        double damping = 0.0, maxBend = 3.15, bendSoftness = 0.0;
+        double followTranslate = 0.0, followRotate = 0.0;
         double stretch = 0.0, stretchLimit = 0.0, stretchSpeed = 0.0;
         double stretchDamping = 0.0, stretchSpread = 0.0, stretchRelease = 0.0;
         double stiffW = 0.0;          // the chain's own frequency, for the auto settings

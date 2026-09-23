@@ -25,8 +25,8 @@
 Настройки динамики выведены на первый контрол (или на корень выделения).
 followTranslate и followRotate говорят, насколько цепочка просто едет за
 корневым контролом, не отставая: порознь для переноса и для поворота.
-Кривая жёсткости, lengthKeep и substeps - на самой ноде: это настройка
-цепочки, а не то, что анимируют.
+Кривые - веса динамики и жёсткости - и всё остальное на самой ноде: это
+настройка цепочки, а не то, что анимируют.
 """
 import math
 import os
@@ -49,7 +49,6 @@ SETTINGS = [
     ("gravity",      "gravity",      0.0, None, None),
     ("stretch",      "stretch",      0.0, 0.0, None),
     ("stretchDamping", "stretchDamping", 0.2, 0.0, 1.0),
-    ("bendStiffness", "bendStiffness", 0.0, 0.0, 1.0),
     ("followTranslate", "followTranslate", 0.0, 0.0, 1.0),
     ("followRotate", "followRotate", 0.0, 0.0, 1.0),
 ]
@@ -452,7 +451,7 @@ def editWeights(name="chain"):
 
 
 # что было на контроле в первой версии, а теперь живёт на ноде или ушло
-_OLD_HOST_ATTRS = ("stiffnessTip", "lengthKeep", "substeps", "followSpace")
+_OLD_HOST_ATTRS = ("stiffnessTip", "lengthKeep", "substeps", "followSpace", "bendStiffness")
 
 
 def _inputs(plug):
@@ -563,7 +562,6 @@ def upgrade(name="chain", keepLook=True):
     stiffness = value("stiffness", 0.3)
     damping   = value("damping", 0.1)
     tip       = value("stiffnessTip", None)
-    lengthKeep = value("lengthKeep", 1.0)
     substeps  = value("substeps", 2)
 
     # --- замена ---------------------------------------------------------------
@@ -594,7 +592,6 @@ def upgrade(name="chain", keepLook=True):
         for attr in ("followTranslate", "followRotate"):
             if cmds.attributeQuery(attr, node=host, exists=True):
                 cmds.setAttr(host + "." + attr, follow)
-    cmds.setAttr(node + ".lengthKeep", lengthKeep)
     cmds.setAttr(node + ".substeps", max(1, int(round(substeps))))
 
     # --- значения ------------------------------------------------------------
