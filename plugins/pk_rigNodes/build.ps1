@@ -10,13 +10,15 @@
     ever get installed and a strictly official build is wanted.
 
     The results go to plugins\plug-ins\<MayaVersion>\ - pk_rigNodes.mll
-    (pk_ibtw, pk_twist) and pk_wings.mll (pk_wing).
+    (pk_ibtw, pk_twist), pk_wings.mll (pk_wing) and pk_dynamics.mll
+    (pk_chainDynamics).
 #>
 param(
     [string]$MayaVersion = "2022",
     [string]$Config = "Release",
     [string]$Toolset = "v143",
-    [string]$OutputDir = ""
+    [string]$OutputDir = "",
+    [string]$Target = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -40,14 +42,18 @@ $cmakeArgs += "-DPK_OUTPUT_DIR=$OutputDir"
 & $cmake @cmakeArgs
 if ($LASTEXITCODE -ne 0) { throw "configure failed" }
 
-& $cmake --build $buildDir --config $Config
+$buildArgs = @("--build", $buildDir, "--config", $Config)
+if ($Target -ne "") { $buildArgs += @("--target", $Target) }
+& $cmake @buildArgs
 if ($LASTEXITCODE -ne 0) {
     # LNK1104 on the .mll almost always means Maya still has the plugin loaded
     Write-Host "`nIf the linker could not write the .mll, unload it in Maya first:" -ForegroundColor Yellow
-    Write-Host '    cmds.unloadPlugin("pk_rigNodes.mll"); cmds.unloadPlugin("pk_wings.mll")' -ForegroundColor Yellow
-    Write-Host "or build elsewhere: .uild.ps1 -OutputDir C:\some\dir" -ForegroundColor Yellow
+    Write-Host '    cmds.unloadPlugin("pk_rigNodes.mll"); cmds.unloadPlugin("pk_wings.mll"); cmds.unloadPlugin("pk_dynamics.mll")' -ForegroundColor Yellow
+    Write-Host "or build elsewhere: .\build.ps1 -OutputDir C:\some\dir" -ForegroundColor Yellow
     throw "build failed"
 }
 
-Write-Host "`nBuilt: $OutputDir\pk_wings.mll"
-Write-Host "Built: $OutputDir\pk_rigNodes.mll"
+$built = @("pk_wings", "pk_rigNodes", "pk_dynamics")
+if ($Target -ne "") { $built = @($Target) }
+Write-Host ""
+foreach ($b in $built) { Write-Host "Built: $OutputDir\$b.mll" }

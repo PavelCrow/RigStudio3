@@ -4,8 +4,10 @@
 #   pk_rigNodes.mll - pk_ibtw (local inbetweens), pk_twist (twist chains) and
 #                     pk_limbIk (two bone IK)
 #   pk_wings.mll    - pk_wing, the replacement for the bifrost graphs
+#   pk_dynamics.mll - pk_chainDynamics, simple dynamics of a chain
 # They are kept apart on purpose: a rig that only needs correctives and twists
-# should not have to load the wing node, which is still work in progress.
+# should not have to load the wing node, which is still work in progress, and
+# a node that keeps state between frames is loaded only where it is used.
 #
 # Build (see build.ps1):
 #   cmake -B build/2026 -G "Visual Studio 17 2022" -T v143 -A x64 -DMAYA_VERSION=2026
@@ -44,7 +46,12 @@ add_library(pk_wings SHARED
     src/pkMath.cpp
 )
 
-foreach(pk_target pk_rigNodes pk_wings)
+add_library(pk_dynamics SHARED
+    src/pkDynamicsMain.cpp
+    src/pkChainDynNode.cpp
+)
+
+foreach(pk_target pk_rigNodes pk_wings pk_dynamics)
     target_include_directories(${pk_target} PRIVATE "${MAYA_LOCATION}/include")
     target_link_directories(${pk_target} PRIVATE "${MAYA_LOCATION}/lib")
     target_link_libraries(${pk_target} PRIVATE Foundation OpenMaya OpenMayaAnim)

@@ -19,7 +19,7 @@
 
 ```python
 import sys
-sys.path.append(r"f:\Maya_ProjectsigStudio3\plugins\pk_rigNodes\scripts")
+sys.path.append(r"f:\Maya_Projects\rigStudio3\plugins\pk_rigNodes\scripts")
 import pk_wing_debug as d
 
 d.load_plugin()              # загрузить (или перезагрузить) плагин
@@ -52,3 +52,24 @@ n = cmds.createNode("pk_wing")
 cmds.setAttr(n + ".layers_count", 3)
 print(cmds.getAttr(n + ".out_joints_out_matrixes[0]"))
 ```
+
+## pk_dynamics
+
+Отдельный плагин `pk_dynamics.mll`, нода `pk_chainDynamics` — простая динамика
+цепочки без nucleus: на входе мировые матрицы целей (анимированная поза), на
+выходе мировые матрицы после симуляции. Математика и поведение по времени — в
+шапке [pkChainDynNode.h](pk_rigNodes/src/pkChainDynNode.h).
+
+```python
+import sys
+sys.path.append(r"f:\Maya_Projects\rigStudio3\plugins\pk_rigNodes\scripts")
+import pk_chain_dyn as dyn
+
+dyn.build("tail", count=6, length=10)   # цепочка контролов + нода + джоинты
+dyn.build("tail", count=3, joints=10)   # контролов 3, костей 10
+dyn.demo("tail")                        # ключи на корень для проверки
+dyn.fromSelection("tail")               # или на выделенных трансформах
+dyn.editRamp("tail")                    # кривая жёсткости вдоль цепочки
+```
+
+Собрать только его: `.\build.ps1 -MayaVersion 2026 -Target pk_dynamics`.
