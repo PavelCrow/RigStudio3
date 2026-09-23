@@ -25,6 +25,7 @@ MObject PkChainDynNode::aTime;
 MObject PkChainDynNode::aStartFrame;
 MObject PkChainDynNode::aEnable;
 MObject PkChainDynNode::aWeight;
+MObject PkChainDynNode::aWeightRamp;
 MObject PkChainDynNode::aStiffness;
 MObject PkChainDynNode::aStiffnessRamp;
 MObject PkChainDynNode::aDamping;
@@ -113,6 +114,8 @@ MStatus PkChainDynNode::initialize()
     nAttr.setMin(0.0);
     nAttr.setMax(1.0);
     nAttr.setKeyable(true);
+
+    aWeightRamp = MRampAttribute::createCurveRamp("weightRamp", "wr");
 
     aStiffness = nAttr.create("stiffness", "st", MFnNumericData::kDouble, 0.3);
     nAttr.setMin(0.0);
@@ -244,7 +247,7 @@ MStatus PkChainDynNode::initialize()
     mAttr.setStorable(false);
 
     const MObject ins[] = {
-        aTime, aStartFrame, aEnable, aWeight, aStiffness, aStiffnessRamp,
+        aTime, aStartFrame, aEnable, aWeight, aWeightRamp, aStiffness, aStiffnessRamp,
         aDamping, aDampingEven,
         aGravity, aGravityDirection, aLengthKeep, aStretch, aStretchLimit,
         aStretchSpeed, aStretchDamping, aStretchSpread, aStretchRelease,
@@ -278,6 +281,14 @@ void PkChainDynNode::postConstructor()
     values.append(1.0f);   positions.append(0.0f); interps.append(MRampAttribute::kSmooth);
     values.append(0.33f);  positions.append(1.0f); interps.append(MRampAttribute::kSmooth);
     ramp.setRamp(values, positions, interps);
+
+    // and all of the simulation everywhere until someone draws otherwise
+    MRampAttribute weights(thisMObject(), aWeightRamp);
+    MFloatArray wv, wp;
+    MIntArray   wi;
+    wv.append(1.0f); wp.append(0.0f); wi.append(MRampAttribute::kSmooth);
+    wv.append(1.0f); wp.append(1.0f); wi.append(MRampAttribute::kSmooth);
+    weights.setRamp(wv, wp, wi);
 }
 
 void PkChainDynNode::getCacheSetup(const MEvaluationNode& evalNode,
@@ -862,8 +873,26 @@ MStatus PkChainDynNode::compute(const MPlug& plug, MDataBlock& data)
             mLastDt   = dt;
         }
 
+        // A scene saved before this curve existed has nothing in it, and a
+        // curve with one point in it cannot be a shape - either way the
+        // chain gets all of the simulation, the way it did before.
+        MRampAttribute weights(thisMObject(), aWeightRamp);
+        const bool drawn = weights.getNumEntries() > 1;
+
+        std::vector<double> share(n, weight);
         for (size_t i = 0; i < n; ++i)
-            sim[i] = lerp(goals[i], mCur.pos[i], weight);
+        {
+            double w = 1.0;
+            if (drawn)
+            {
+                const float u = (n > 1) ? float(i) / float(n - 1) : 0.0f;
+                float v = 1.0f;
+                weights.getValueAtPosition(u, v);
+                w = std::min(1.0f, std::max(0.0f, v));
+            }
+            share[i] = weight * w;
+            sim[i] = lerp(goals[i], mCur.pos[i], share[i]);
+        }
 
         // Give under the pull - afterwards, along the chain as it already
         // lies. The directions are the ones the solve produced, so nothing
@@ -877,7 +906,7 @@ MStatus PkChainDynNode::compute(const MPlug& plug, MDataBlock& data)
             double totalGive = 0.0, totalRest = 0.0;
             for (size_t i = 1; i < n; ++i)
             {
-                give[i]    = (i < mCur.slack.size()) ? mCur.slack[i] * weight : 0.0;
+                give[i]    = (i < mCur.slack.size()) ? mCur.slack[i] * share[i] : 0.0;
                 totalGive += give[i];
                 totalRest += (goals[i] - goals[i - 1]).length();
             }

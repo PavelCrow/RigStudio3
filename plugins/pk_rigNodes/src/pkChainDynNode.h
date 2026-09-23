@@ -96,6 +96,15 @@
 // Within a frame the goals are interpolated between the last frame and this
 // one, so the substeps see the motion, not just its end.
 //
+// weightRamp is how much of the simulation each point along the chain is
+// given: at 0 the point sits on its control and is not simulated at all, at 1
+// it is where the solve put it. It is drawn along the chain the way the
+// stiffness ramp is, and it is what shapes how far each bone swings - which
+// the stiffness ramp also did, but could not do without giving every point a
+// frequency of its own and setting them all swinging out of step. With the
+// shape drawn here instead, the stiffness can be left even, every point keeps
+// the same beat, and the chain settles as one piece.
+//
 // --- time -------------------------------------------------------------------
 //
 // At startFrame and before it, when time goes back, and when enable is off,
@@ -164,6 +173,7 @@ public:
     static MObject aStartFrame;
     static MObject aEnable;
     static MObject aWeight;           // 0 - the goals as they are, 1 - the simulation
+    static MObject aWeightRamp;       // and how much of that each point along the chain gets
     static MObject aStiffness;        // the whole chain, 0..1
     static MObject aStiffnessRamp;    // curve along the chain, root to tip
     static MObject aDamping;          // damping ratio, 1 - critical

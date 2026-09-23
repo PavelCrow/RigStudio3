@@ -20,6 +20,7 @@ global proc AEpk_chainDynamicsTemplate(string $nodeName)
         editorTemplate -addControl "enable";
         editorTemplate -addControl "weight";
         editorTemplate -addControl "startFrame";
+        AEaddRampControl ($nodeName + ".weightRamp");
     editorTemplate -endLayout;
 
     editorTemplate -beginLayout "Stiffness" -collapse 0;

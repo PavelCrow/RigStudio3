@@ -8,6 +8,7 @@
     setJoints("tail", 20)               - поменять число костей у готовой цепочки
     testAnim("tail")                    - прогонная анимация: все случаи подряд
     editRamp("tail")                    - окно с кривой жёсткости вдоль цепочки
+    editWeights("tail")                 - кривая веса динамики по костям
     upgrade("tail")                     - цепочку прошлой версии на новую ноду,
                                           контролы и джоинты те же
     delete("tail")                      - убрать всё, что собрал build/fromSelection
@@ -419,23 +420,35 @@ def testAnim(name="chain", root=None, size=None, hold=20):
     return f
 
 
-def editRamp(name="chain"):
-    """Кривая жёсткости вдоль цепочки: слева корень, справа кончик, по
-    вертикали - какая доля stiffness достаётся точке."""
+def _rampWindow(name, attr, title, size):
     node = _names(name)["node"]
     if not cmds.objExists(node):
         cmds.error("%s not found" % node)
 
-    win = name + "_stiffnessRamp_win"
+    win = "%s_%s_win" % (name, attr)
     if cmds.window(win, exists=True):
         cmds.deleteUI(win)
 
-    cmds.window(win, t="%s - stiffness along the chain" % name, wh=(420, 230))
+    cmds.window(win, t="%s - %s" % (name, title), wh=size)
     form = cmds.formLayout()
-    grad = cmds.gradientControl(at=node + ".stiffnessRamp", h=160)
+    grad = cmds.gradientControl(at=node + "." + attr, h=160)
     cmds.formLayout(form, e=True,
                     af=[(grad, "top", 6), (grad, "left", 6), (grad, "right", 6), (grad, "bottom", 6)])
     cmds.showWindow(win)
+
+
+def editRamp(name="chain"):
+    """Кривая жёсткости вдоль цепочки: слева корень, справа кончик, по
+    вертикали - какая доля stiffness достаётся точке."""
+    _rampWindow(name, "stiffnessRamp", "stiffness along the chain", (420, 230))
+
+
+def editWeights(name="chain"):
+    """Кривая веса динамики: сколько её достаётся каждой кости. 0 - кость
+    сидит на своём контроле, 1 - живёт полностью. Профиль размаха лучше
+    рисовать здесь, а кривую жёсткости держать ровной: тогда все кости
+    качаются в такт."""
+    _rampWindow(name, "weightRamp", "how much dynamics along the chain", (420, 230))
 
 
 # что было на контроле в первой версии, а теперь живёт на ноде или ушло
