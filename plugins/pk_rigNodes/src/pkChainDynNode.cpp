@@ -906,7 +906,12 @@ MStatus PkChainDynNode::compute(const MPlug& plug, MDataBlock& data)
             double totalGive = 0.0, totalRest = 0.0;
             for (size_t i = 1; i < n; ++i)
             {
-                give[i]    = (i < mCur.slack.size()) ? mCur.slack[i] * share[i] : 0.0;
+                // by stretch alone, not by the weight curve: that curve says
+                // how much of the swinging a point takes, and a point held
+                // still by it is still pulled at - the root most of all, and
+                // scaling the give by it threw away exactly where the chain
+                // is under the most tension
+                give[i]    = (i < mCur.slack.size()) ? mCur.slack[i] * weight : 0.0;
                 totalGive += give[i];
                 totalRest += (goals[i] - goals[i - 1]).length();
             }
