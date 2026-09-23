@@ -38,7 +38,6 @@ MObject PkChainDynNode::aStretch;
 MObject PkChainDynNode::aStretchLimit;
 MObject PkChainDynNode::aStretchSpeed;
 MObject PkChainDynNode::aStretchDamping;
-MObject PkChainDynNode::aStretchSpread;
 MObject PkChainDynNode::aStretchRelease;
 MObject PkChainDynNode::aMaxBend;
 MObject PkChainDynNode::aBendSoftness;
@@ -160,11 +159,6 @@ MStatus PkChainDynNode::initialize()
     nAttr.setMax(1.0);
     nAttr.setKeyable(true);
 
-    aStretchSpread = nAttr.create("stretchSpread", "stsp", MFnNumericData::kDouble, 1.0);
-    nAttr.setMin(0.0);
-    nAttr.setMax(1.0);
-    nAttr.setKeyable(true);
-
     aStretchRelease = nAttr.create("stretchRelease", "stre", MFnNumericData::kDouble, 0.0);
     nAttr.setMin(0.0);
     nAttr.setSoftMax(8.0);
@@ -234,7 +228,7 @@ MStatus PkChainDynNode::initialize()
         aTime, aStartFrame, aEnable, aWeight, aWeightRamp, aStiffness, aStiffnessRamp,
         aDamping, aDampingEven,
         aGravity, aGravityDirection, aStretch, aStretchLimit,
-        aStretchSpeed, aStretchDamping, aStretchSpread, aStretchRelease,
+        aStretchSpeed, aStretchDamping, aStretchRelease,
         aMaxBend, aBendSoftness, aSubsteps, aSpaceMatrix,
         aFollowSpace, aFollowTranslate, aFollowRotate,
         aGoalMatrix, aOutputCount, aAimAxis,
@@ -838,7 +832,6 @@ MStatus PkChainDynNode::compute(const MPlug& plug, MDataBlock& data)
     p.stretchLimit = data.inputValue(aStretchLimit).asDouble();
     p.stretchSpeed = data.inputValue(aStretchSpeed).asDouble();
     p.stretchDamping = data.inputValue(aStretchDamping).asDouble();
-    p.stretchSpread  = data.inputValue(aStretchSpread).asDouble();
     p.stretchRelease = data.inputValue(aStretchRelease).asDouble();
     const double legacyFollow = data.inputValue(aFollowSpace).asDouble();
     p.followTranslate = std::max(legacyFollow, data.inputValue(aFollowTranslate).asDouble());
@@ -899,9 +892,12 @@ MStatus PkChainDynNode::compute(const MPlug& plug, MDataBlock& data)
         // that was tuned moves; only how far apart the points sit.
         if (p.stretch > kEps)
         {
-            // Each segment's share of the give, handed around the chain as
-            // much as stretchSpread asks: what one segment is under, or the
-            // same for all of them, or anywhere between.
+            // The give is shared out evenly, every segment taking the same
+            // part of its own length. A chain dragged by its root is pulled
+            // almost entirely at the root, and one swung around at the tip,
+            // and letting each segment give only what it is under tore the
+            // chain unevenly for no gain: what a shape needs from a stretch
+            // is the whole of it giving together.
             std::vector<double> give(n, 0.0);
             double totalGive = 0.0, totalRest = 0.0;
             for (size_t i = 1; i < n; ++i)
@@ -918,11 +914,7 @@ MStatus PkChainDynNode::compute(const MPlug& plug, MDataBlock& data)
 
             const double even = (totalRest > kEps) ? totalGive / totalRest : 0.0;
             for (size_t i = 1; i < n; ++i)
-            {
-                const double rest = (goals[i] - goals[i - 1]).length();
-                const double own  = (rest > kEps) ? give[i] / rest : 0.0;
-                give[i] = (own + (even - own) * p.stretchSpread) * rest;
-            }
+                give[i] = even * (goals[i] - goals[i - 1]).length();
 
             std::vector<MPoint> out(n);
             out[0] = sim[0];

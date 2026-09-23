@@ -43,7 +43,6 @@ global proc AEpk_chainDynamicsTemplate(string $nodeName)
     editorTemplate -beginLayout "Stretch" -collapse 0;
         editorTemplate -addControl "stretch";
         editorTemplate -addControl "stretchDamping";
-        editorTemplate -addControl "stretchSpread";
 
         editorTemplate -beginLayout "By hand" -collapse 1;
             editorTemplate -addControl "stretchLimit";

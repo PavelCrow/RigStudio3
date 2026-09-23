@@ -47,10 +47,6 @@
 // The give itself is a spring, not a fading memory, which is what lets it
 // arrive at its length, carry on past it and swing back. stretchSpeed is how
 // fast that swing is, stretchDamping how much of it there is at all.
-// stretchSpread hands the give around the chain: a chain dragged by its root
-// is pulled almost entirely at the root and one swung around at the tip, and
-// at 1 every segment gives the same share of its own length instead.
-//
 // Three of these work themselves out when left at 0, which is where they
 // start: stretchSpeed takes the chain's own frequency, held between three and
 // eight frames; stretchRelease takes a frame; stretchLimit takes whatever
@@ -178,7 +174,6 @@ public:
     static MObject aStretchLimit;     // and how far it may ever give
     static MObject aStretchSpeed;     // how fast the give comes back
     static MObject aStretchDamping;   // 1 - it comes back without overshooting
-    static MObject aStretchSpread;    // 1 - every segment gives the same share
     static MObject aStretchRelease;   // frames the pull takes to let go
     static MObject aMaxBend;          // how far one bone may turn from the one before it
     static MObject aBendSoftness;     // 0 - a wall at that angle, 1 - resistance all the way
@@ -229,7 +224,7 @@ private:
         double damping = 0.0, maxBend = 3.15, bendSoftness = 0.0;
         double followTranslate = 0.0, followRotate = 0.0;
         double stretch = 0.0, stretchLimit = 0.0, stretchSpeed = 0.0;
-        double stretchDamping = 0.0, stretchSpread = 0.0, stretchRelease = 0.0;
+        double stretchDamping = 0.0, stretchRelease = 0.0;
         double stiffW = 0.0;          // the chain's own frequency, for the auto settings
         MVector gravity;              // units / frame^2
         int substeps = 1;
