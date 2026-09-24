@@ -23,7 +23,7 @@
 //
 // Every point is a mass on a spring towards its goal:
 //
-//     w  = sqrt(kMaxK) * stiffness * ramp(u)    the frequency of the spring
+//     w  = sqrt(kMaxK) * stiffness              the frequency of the spring
 //     x'' = -w^2 * (x - goal) - 2 * damping * w * x'
 //
 // which is solved exactly over the step - the closed form of the damped
@@ -56,6 +56,23 @@
 // eight frames; stretchRelease takes a frame; stretchLimit takes whatever
 // stretch could ask for, so it only ever catches the wild ones.
 //
+// Every point gets the same spring, and that is the whole of it. A curve of
+// stiffness along the chain was tried and thrown out: a point made soft by it
+// swings at a frequency of its own, so the chain no longer settles as one piece.
+// Measured on twelve points with a sloped curve, the tip was still moving at
+// frame 39 while the base was done at 12, and in the middle the points spent
+// between a third and two thirds of the time moving against the tip. With one
+// spring for all of them every point is in step with every other, all of them
+// settle on the same frame, and the shape of the trail is drawn by weightRamp
+// instead - which does it without touching anybody's frequency.
+//
+// dampingEven went with it. It existed to give a point back the damping the
+// stiffness curve took away, so it only ever did anything while that curve had
+// a slope - with the flat curve the output was the same to the ninth digit
+// either way. And where it did act it did not deliver what it promised: raising
+// the ratio made the tip creep home instead of swinging home, and it settled at
+// frame 113 rather than 39.
+//
 // maxBend is how far a bone may turn away from where the goals put it against
 // the one before it. The first bone is measured against its control rather
 // than against nothing, so a chain whose root is yanked away cannot answer by
@@ -63,15 +80,6 @@
 // at 0 it is a wall, which shows as a corner at one joint, and turned up it
 // starts pushing back before it is reached, so the corner becomes a tight but
 // smooth arc. The limit itself is never passed either way.
-//
-// dampingEven is what keeps the ramp from doing two jobs at once. A point the
-// ramp made soft swings slower, and a slower swing takes longer to die down
-// at the same ratio - so a soft tip not only trails further, which is wanted,
-// but also keeps going long after the root is still, which is not, and the
-// two cannot be told apart from one slider. At 1 the ratio of each point is
-// raised by exactly as much as the ramp slowed it, so every point settles in
-// the time damping asks for and the ramp is left to do nothing but shape the
-// trail. At 0 the ratio is the same everywhere, as it used to be.
 //
 // damping is the damping ratio, not a fraction of the velocity per frame: it
 // is measured against the frequency of the spring, w. A stiff chain swings
@@ -83,20 +91,17 @@
 // stiffness goes through a square so the soft end of the slider is not
 // squeezed into its first tenth: at 1 the chain follows almost rigidly, at
 // 0.1 it swings for a couple of seconds, at 0 only the lengths hold it.
-// ramp(u) is a curve along the chain, 0 at the root and 1 at the tip - how
-// much of the stiffness each point gets.
 //
 // Within a frame the goals are interpolated between the last frame and this
 // one, so the substeps see the motion, not just its end.
 //
 // weightRamp is how much of the simulation each point along the chain is
 // given: at 0 the point sits on its control and is not simulated at all, at 1
-// it is where the solve put it. It is drawn along the chain the way the
-// stiffness ramp is, and it is what shapes how far each bone swings - which
-// the stiffness ramp also did, but could not do without giving every point a
-// frequency of its own and setting them all swinging out of step. With the
-// shape drawn here instead, the stiffness can be left even, every point keeps
-// the same beat, and the chain settles as one piece.
+// it is where the solve put it. It is what shapes how far each bone swings,
+// and it does that without giving anybody a frequency of their own: every
+// point keeps the same beat and the chain settles as one piece. How much
+// swinging there is at all is the stiffness, how it is shared out along the
+// chain is this curve.
 //
 // --- collision --------------------------------------------------------------
 //
@@ -211,9 +216,7 @@ public:
     static MObject aWeight;           // 0 - the goals as they are, 1 - the simulation
     static MObject aWeightRamp;       // and how much of that each point along the chain gets
     static MObject aStiffness;        // the whole chain, 0..1
-    static MObject aStiffnessRamp;    // curve along the chain, root to tip
     static MObject aDamping;          // damping ratio, 1 - critical
-    static MObject aDampingEven;      // 1 - every point settles in the same time
     static MObject aGravity;          // units / s^2
     static MObject aGravityDirection;
     static MObject aGravityDirectionX, aGravityDirectionY, aGravityDirectionZ;
@@ -282,9 +285,11 @@ private:
 
     struct Params
     {
-        std::vector<double> k;        // spring per point, 1 / frame^2
-        std::vector<double> w;        // its frequency, sqrt(k)
-        std::vector<double> zeta;     // damping ratio per point
+        // one spring for the whole chain: every point has the same frequency,
+        // so they stay in step and the step itself is worked out once
+        double k = 0.0;               // spring, 1 / frame^2
+        double w = 0.0;               // its frequency, sqrt(k)
+        double zeta = 0.0;            // damping ratio
 
         // Everything starts at nothing: a field read before it is filled in
         // is a bug that hides until the memory under it happens to change,
@@ -293,7 +298,6 @@ private:
         double localTranslate = 0.0, localRotate = 0.0;
         double stretch = 0.0, stretchLimit = 0.0, stretchSpeed = 0.0;
         double stretchDamping = 0.0, stretchRelease = 0.0;
-        double stiffW = 0.0;          // the chain's own frequency, for the auto settings
         double collide = 0.0, bounce = 0.0, friction = 0.0;
         std::vector<double>   pad;     // thickness per point, along the chain
         std::vector<Collider> colliders;
@@ -307,7 +311,7 @@ private:
                          const std::vector<double>& along,
                          const MVector& aim, std::vector<MMatrix>& out);
 
-    // Both curves, sampled at the points the chain has now.
+    // The curves, sampled at the points the chain has now.
     void readCurves(MDataBlock& data, size_t n);
 
     // How deep the point is inside this collider, and which way is out.
@@ -334,7 +338,6 @@ private:
     // the dirty callback - is not reliable here: the node is dirty every
     // frame from time alone, and Maya has no reason to walk the same dirt
     // again to mention the curve.
-    std::vector<double> mStiffCurve;
     std::vector<double> mWeightCurve;
     std::vector<double> mThickCurve;
     std::vector<double> mCurveMark;   // the ramps as they were when sampled

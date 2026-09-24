@@ -28,9 +28,7 @@ MObject PkChainDyn2Node::aEnable;
 MObject PkChainDyn2Node::aWeight;
 MObject PkChainDyn2Node::aWeightRamp;
 MObject PkChainDyn2Node::aStiffness;
-MObject PkChainDyn2Node::aStiffnessRamp;
 MObject PkChainDyn2Node::aDamping;
-MObject PkChainDyn2Node::aDampingEven;
 MObject PkChainDyn2Node::aGravity;
 MObject PkChainDyn2Node::aGravityDirection;
 MObject PkChainDyn2Node::aGravityDirectionX, PkChainDyn2Node::aGravityDirectionY, PkChainDyn2Node::aGravityDirectionZ;
@@ -130,14 +128,7 @@ MStatus PkChainDyn2Node::initialize()
     nAttr.setMax(1.0);
     nAttr.setKeyable(true);
 
-    aStiffnessRamp = MRampAttribute::createCurveRamp("stiffnessRamp", "str");
-
     aDamping = nAttr.create("damping", "dmp", MFnNumericData::kDouble, 0.5);
-    nAttr.setMin(0.0);
-    nAttr.setMax(1.0);
-    nAttr.setKeyable(true);
-
-    aDampingEven = nAttr.create("dampingEven", "dme", MFnNumericData::kDouble, 1.0);
     nAttr.setMin(0.0);
     nAttr.setMax(1.0);
     nAttr.setKeyable(true);
@@ -298,8 +289,7 @@ MStatus PkChainDyn2Node::initialize()
     nAttr.setStorable(false);
 
     const MObject ins[] = {
-        aTime, aStartFrame, aEnable, aWeight, aWeightRamp, aStiffness, aStiffnessRamp,
-        aDamping, aDampingEven,
+        aTime, aStartFrame, aEnable, aWeight, aWeightRamp, aStiffness, aDamping,
         aGravity, aGravityDirection, aStretch, aStretchLimit,
         aStretchSpeed, aStretchDamping, aStretchRelease,
         aMaxBend, aBendSoftness, aSubsteps, aSpaceMatrix,
@@ -329,16 +319,6 @@ void PkChainDyn2Node::postConstructor()
     // scene brings its own entries, and these would be left over among them.
     if (MFileIO::isReadingFile())
         return;
-
-    // Stiffness even along the chain: uneven, it gives every point a beat of
-    // its own and they settle out of step with each other. The shape of the
-    // swing is drawn on the other curve instead.
-    MRampAttribute ramp(thisMObject(), aStiffnessRamp);
-    MFloatArray values, positions;
-    MIntArray   interps;
-    values.append(1.0f); positions.append(0.0f); interps.append(MRampAttribute::kSmooth);
-    values.append(1.0f); positions.append(1.0f); interps.append(MRampAttribute::kSmooth);
-    ramp.setRamp(values, positions, interps);
 
     // Толщина ровная по всей цепочке: сужение рисуется по месту, когда оно
     // и правда нужно.
@@ -582,23 +562,19 @@ void PkChainDyn2Node::readCurves(MDataBlock& data, size_t n)
 {
     std::vector<double> mark;
     mark.reserve(32);
-    markRamp(data, aStiffnessRamp, mark);
     markRamp(data, aWeightRamp, mark);
     markRamp(data, aThicknessRamp, mark);
 
     if (mark == mCurveMark && mCurveCount == n
-        && mStiffCurve.size() == n && mWeightCurve.size() == n
-        && mThickCurve.size() == n)
+        && mWeightCurve.size() == n && mThickCurve.size() == n)
         return;
 
     mCurveMark  = mark;
     mCurveCount = n;
 
-    mStiffCurve.assign(n, 1.0);
     mWeightCurve.assign(n, 1.0);
     mThickCurve.assign(n, 1.0);
 
-    MRampAttribute stiff(thisMObject(), aStiffnessRamp);
     MRampAttribute weights(thisMObject(), aWeightRamp);
     MRampAttribute thick(thisMObject(), aThicknessRamp);
 
@@ -611,10 +587,6 @@ void PkChainDyn2Node::readCurves(MDataBlock& data, size_t n)
     for (size_t i = 0; i < n; ++i)
     {
         const float u = (n > 1) ? float(i) / float(n - 1) : 0.0f;
-
-        float r = 1.0f;
-        stiff.getValueAtPosition(u, r);
-        mStiffCurve[i] = std::max(0.0f, r);
 
         if (drawn)
         {
@@ -779,9 +751,7 @@ void PkChainDyn2Node::simulate(State& s, const std::vector<MPoint>& goals,
     // The spring is solved exactly over the step, so the step itself neither
     // adds energy nor eats it: at damping 0 the chain keeps swinging however
     // big the step is, and the decay is the damping and nothing else.
-    std::vector<Step> step(n);
-    for (size_t i = 0; i < n; ++i)
-        step[i] = solveStep(p.w[i], p.zeta[i], h);
+    const Step step = solveStep(p.w, p.zeta, h);
 
     const double bend = p.maxBend;
 
@@ -790,7 +760,7 @@ void PkChainDyn2Node::simulate(State& s, const std::vector<MPoint>& goals,
     // reads as the quicker of the two, and is held to a period between three
     // and eight frames - slower than that and it answers after the motion is
     // over, quicker and the whole of it happens between two frames.
-    const double wAuto = std::min(2.0 * kPi / 3.0, std::max(2.0 * kPi / 8.0, 2.0 * p.stiffW));
+    const double wAuto = std::min(2.0 * kPi / 3.0, std::max(2.0 * kPi / 8.0, 2.0 * p.w));
     const double wGive = (p.stretchSpeed > kEps) ? std::sqrt(kMaxK) * p.stretchSpeed : wAuto;
     const Step give = solveStep(wGive, p.stretchDamping, h);
 
@@ -806,8 +776,8 @@ void PkChainDyn2Node::simulate(State& s, const std::vector<MPoint>& goals,
             const MVector d = s.pos[i] - g[i];   // where it is against its goal
             const MVector v = s.vel[i] + accel;
 
-            s.pos[i] = g[i] + d * step[i].dd + v * step[i].dv;
-            s.vel[i] = d * step[i].vd + v * step[i].vv;
+            s.pos[i] = g[i] + d * step.dd + v * step.dv;
+            s.vel[i] = d * step.vd + v * step.vv;
         }
 
         s.pos[0] = g[0];
@@ -1025,33 +995,13 @@ MStatus PkChainDyn2Node::compute(const MPlug& plug, MDataBlock& data)
     Params p;
     p.damping = data.inputValue(aDamping).asDouble();
     {
+        // one spring for every point: same frequency, same beat, and the shape
+        // of the trail comes from the weight curve instead
         const double stiffness = data.inputValue(aStiffness).asDouble();
-        p.stiffW = std::sqrt(kMaxK) * stiffness;
+        p.k    = kMaxK * stiffness * stiffness;
+        p.w    = std::sqrt(p.k);
+        p.zeta = p.damping;
         readCurves(data, n);
-
-        p.k.resize(n);
-        p.w.resize(n);
-        for (size_t i = 0; i < n; ++i)
-        {
-            const double sr = stiffness * mStiffCurve[i];
-            p.k[i] = kMaxK * sr * sr;
-            p.w[i] = std::sqrt(p.k[i]);
-        }
-
-        // A point the ramp made soft swings slower and would ring on long
-        // after the rest; dampingEven gives it back exactly what the ramp
-        // took, so what damping asks for is a time to settle rather than a
-        // ratio, and the ramp is left to shape the trail and nothing else.
-        const double even = data.inputValue(aDampingEven).asDouble();
-        const double wRef = *std::max_element(p.w.begin(), p.w.end());
-
-        p.zeta.resize(n);
-        for (size_t i = 0; i < n; ++i)
-        {
-            const double w = std::max(p.w[i], kMinW);
-            const double lift = (wRef > kEps) ? std::pow(wRef / w, even) : 1.0;
-            p.zeta[i] = std::min(4.0, p.damping * lift);
-        }
     }
     p.maxBend      = data.inputValue(aMaxBend).asAngle().asRadians();
     p.bendSoftness = data.inputValue(aBendSoftness).asDouble();

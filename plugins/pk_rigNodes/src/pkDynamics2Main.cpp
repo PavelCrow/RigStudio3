@@ -23,14 +23,9 @@ global proc AEpk_chainDynamics2Template(string $nodeName)
         AEaddRampControl ($nodeName + ".weightRamp");
     editorTemplate -endLayout;
 
-    editorTemplate -beginLayout "Stiffness" -collapse 0;
-        editorTemplate -addControl "stiffness";
-        AEaddRampControl ($nodeName + ".stiffnessRamp");
-    editorTemplate -endLayout;
-
     editorTemplate -beginLayout "Motion" -collapse 0;
+        editorTemplate -addControl "stiffness";
         editorTemplate -addControl "damping";
-        editorTemplate -addControl "dampingEven";
         editorTemplate -addControl "gravity";
         editorTemplate -addControl "gravityDirection";
 

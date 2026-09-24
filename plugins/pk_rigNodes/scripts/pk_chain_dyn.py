@@ -13,7 +13,6 @@
                                           когда их добавили или убрали
     testAnim("tail")                    - прогонная анимация: все случаи подряд
     cylinder("tail")                    - цилиндр по костям, заскиненный на них
-    editRamp("tail")                    - окно с кривой жёсткости вдоль цепочки
     editWeights("tail")                 - кривая веса динамики по костям
     upgrade("tail")                     - цепочку прошлой версии на новую ноду,
                                           контролы и джоинты те же
@@ -698,16 +697,10 @@ def _rampWindow(name, attr, title, size):
     cmds.showWindow(win)
 
 
-def editRamp(name="chain"):
-    """Кривая жёсткости вдоль цепочки: слева корень, справа кончик, по
-    вертикали - какая доля stiffness достаётся точке."""
-    _rampWindow(name, "stiffnessRamp", "stiffness along the chain", (420, 230))
-
-
 def editWeights(name="chain"):
     """Кривая веса динамики: сколько её достаётся каждой кости. 0 - кость
-    сидит на своём контроле, 1 - живёт полностью. Профиль размаха лучше
-    рисовать здесь, а кривую жёсткости держать ровной: тогда все кости
+    сидит на своём контроле, 1 - живёт полностью. Профиль размаха рисуется
+    здесь, и только здесь: жёсткость у всей цепочки одна, поэтому все кости
     качаются в такт."""
     _rampWindow(name, "weightRamp", "how much dynamics along the chain", (420, 230))
 
@@ -826,7 +819,6 @@ def upgrade(name="chain", keepLook=True):
                         cmds.getAttr("%s.%s[%d].%s_Interp" % (node, attr, i, attr))))
         return out
 
-    ramp = readRamp("stiffnessRamp")
     weightRamp = readRamp("weightRamp")
     stiffness = value("stiffness", 0.3)
     damping   = value("damping", 0.1)
@@ -859,28 +851,22 @@ def upgrade(name="chain", keepLook=True):
             cmds.setAttr("%s.%s[%d].%s_FloatValue" % (node, attr, i, attr), val)
             cmds.setAttr("%s.%s[%d].%s_Interp" % (node, attr, i, attr), interp)
 
-    writeRamp("stiffnessRamp", ramp)
     writeRamp("weightRamp", weightRamp)
     cmds.setAttr(node + ".substeps", max(1, int(round(substeps))))
 
     # --- значения ------------------------------------------------------------
     # stiffnessTip на контроле - признак первой версии: только у неё старая
     # шкала, уже обновлённую цепочку пересчитывать нельзя
-    ramp = node + ".stiffnessRamp"
     if keepLook and tip is not None:
         root = _oldToNew(stiffness, substeps)
         cmds.setAttr(host + ".stiffness", root)
         cmds.setAttr(host + ".damping", _oldDampToRatio(damping, root))
 
-        tipNew = _oldToNew(tip, substeps)
-        ratio = min(1.0, tipNew / root) if root > 1e-6 else 1.0
-        # старая нода вела жёсткость линейно - так и ставим
-        for i in cmds.getAttr(ramp, mi=True) or []:
-            cmds.removeMultiInstance("%s[%d]" % (ramp, i), b=True)
-        for i, (pos, val) in enumerate(((0.0, 1.0), (1.0, ratio))):
-            cmds.setAttr("%s[%d].stiffnessRamp_Position" % (ramp, i), pos)
-            cmds.setAttr("%s[%d].stiffnessRamp_FloatValue" % (ramp, i), val)
-            cmds.setAttr("%s[%d].stiffnessRamp_Interp" % (ramp, i), 1)
+        # своей жёсткости у кончика больше нет: у цепочки одна жёсткость, а
+        # профиль размаха рисуется кривой веса - editWeights
+        if tip is not None and abs(tip - stiffness) > 1e-6:
+            cmds.warning("%s: tip stiffness %.3f is not carried over - draw the "
+                         "profile with editWeights instead" % (name, tip))
 
     print("pk_chainDynamics: %s upgraded, %d points, stiffness %.3f -> %.3f"
           % (name, len(goals), stiffness, cmds.getAttr(host + ".stiffness")))

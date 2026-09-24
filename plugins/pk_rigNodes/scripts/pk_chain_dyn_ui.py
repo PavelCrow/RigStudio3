@@ -36,7 +36,7 @@ SLIDERS = [
 ]
 
 # то, что настраивают редко - на самой ноде, обычными полями
-NODE_ATTRS = ["maxBend", "bendSoftness", "dampingEven", "outputCount", "aimAxis",
+NODE_ATTRS = ["maxBend", "bendSoftness", "outputCount", "aimAxis",
               "substeps", "stretchLimit", "stretchSpeed", "stretchRelease"]
 
 # атрибут контрола -> атрибут ноды, чтобы найти, кто его ведёт
@@ -233,10 +233,6 @@ def _fill():
 
     cmds.frameLayout(l=u"Вес динамики по цепочке", cll=True, cl=False, mw=4, mh=4)
     cmds.gradientControl(at=node + ".weightRamp", h=110)
-    cmds.setParent("..")
-
-    cmds.frameLayout(l=u"Жёсткость по цепочке", cll=True, cl=True, mw=4, mh=4)
-    cmds.gradientControl(at=node + ".stiffnessRamp", h=110)
     cmds.setParent("..")
 
     # коллизия есть только у экспериментальной ноды - у рабочей этого раздела
