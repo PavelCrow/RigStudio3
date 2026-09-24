@@ -47,6 +47,7 @@ MObject PkChainDynNode::aLocalTranslate;
 MObject PkChainDynNode::aLocalRotate;
 MObject PkChainDynNode::aGoalMatrix;
 MObject PkChainDynNode::aOutputCount;
+MObject PkChainDynNode::aPosition;
 MObject PkChainDynNode::aAimAxis;
 MObject PkChainDynNode::aOutMatrix;
 
@@ -204,6 +205,13 @@ MStatus PkChainDynNode::initialize()
     eAttr.addField("-z", 5);
     eAttr.setKeyable(false);
 
+    aPosition = nAttr.create("position", "pos", MFnNumericData::kDouble, 0.0);
+    nAttr.setMin(0.0);
+    nAttr.setMax(1.0);
+    nAttr.setKeyable(true);
+    nAttr.setArray(true);
+    nAttr.setUsesArrayDataBuilder(true);
+
     aGoalMatrix = mAttr.create("goalMatrix", "gm");
     mAttr.setArray(true);
     mAttr.setDisconnectBehavior(MFnAttribute::kDelete);
@@ -221,7 +229,7 @@ MStatus PkChainDynNode::initialize()
         aStretchSpeed, aStretchDamping, aStretchRelease,
         aMaxBend, aBendSoftness, aSubsteps, aSpaceMatrix,
         aLocalTranslate, aLocalRotate,
-        aGoalMatrix, aOutputCount, aAimAxis,
+        aGoalMatrix, aOutputCount, aAimAxis, aPosition,
     };
     for (const MObject& in : ins)
         addAttribute(in);
@@ -286,10 +294,12 @@ void PkChainDynNode::getCacheSetup(const MEvaluationNode& evalNode,
 // arrives at the points between them. Then each frame is turned onto the
 // curve, because the curve bends where the straight chords between the
 // controls do not.
-void PkChainDynNode::resample(const std::vector<MMatrix>& ctrl, size_t count,
+void PkChainDynNode::resample(const std::vector<MMatrix>& ctrl,
+                              const std::vector<double>& along,
                               const MVector& aim, std::vector<MMatrix>& out)
 {
     const size_t m = ctrl.size();
+    const size_t count = along.size();
     std::vector<MPoint> p(m);
     for (size_t i = 0; i < m; ++i)
         p[i] = MPoint(ctrl[i][3][0], ctrl[i][3][1], ctrl[i][3][2]);
@@ -336,7 +346,7 @@ void PkChainDynNode::resample(const std::vector<MMatrix>& ctrl, size_t count,
     size_t walk = 0;
     for (size_t i = 0; i < count; ++i)
     {
-        const double want = total * double(i) / double(count - 1);
+        const double want = total * std::min(1.0, std::max(0.0, along[i]));
         while (walk + 2 < dense.size() && denseLen[walk + 1] < want)
             ++walk;
 
@@ -768,8 +778,27 @@ MStatus PkChainDynNode::compute(const MPlug& plug, MDataBlock& data)
         };
         const short axis = data.inputValue(aAimAxis).asShort();
 
+        // where each point sits along the chain: evenly unless told otherwise
+        std::vector<double> along(static_cast<size_t>(wanted));
+        for (size_t i = 0; i < along.size(); ++i)
+            along[i] = double(i) / double(along.size() - 1);
+
+        MArrayDataHandle hPos = data.inputArrayValue(aPosition, &status);
+        if (status)
+        {
+            const unsigned given = hPos.elementCount();
+            for (unsigned i = 0; i < given; ++i)
+            {
+                if (!hPos.jumpToArrayElement(i))
+                    break;
+                const unsigned at = hPos.elementIndex();
+                if (at < along.size())
+                    along[at] = hPos.inputValue().asDouble();
+            }
+        }
+
         std::vector<MMatrix> dense;
-        resample(goalM, size_t(wanted), kAxes[std::min<short>(5, std::max<short>(0, axis))], dense);
+        resample(goalM, along, kAxes[std::min<short>(5, std::max<short>(0, axis))], dense);
         goalM.swap(dense);
     }
 

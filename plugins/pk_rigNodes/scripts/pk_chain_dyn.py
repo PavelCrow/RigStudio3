@@ -9,6 +9,7 @@
     rebuild("tail")                     - перецепить ноду на текущие контролы,
                                           когда их добавили или убрали
     testAnim("tail")                    - прогонная анимация: все случаи подряд
+    cylinder("tail")                    - цилиндр по костям, заскиненный на них
     editRamp("tail")                    - окно с кривой жёсткости вдоль цепочки
     editWeights("tail")                 - кривая веса динамики по костям
     upgrade("tail")                     - цепочку прошлой версии на новую ноду,
@@ -23,6 +24,12 @@
 Костей может быть больше, чем контролов: joints=10 при трёх контролах. Тогда
 нода протягивает через контролы кривую, режет её на равные части и считает
 динамику уже на них - каждая кость отстаёт сама по себе.
+
+У каждой кости есть pos - где она стоит вдоль цепочки, от 0 у корня до 1 на
+кончике, как у джоинтов спайна. По умолчанию они разложены ровно; кость можно
+сдвинуть туда, где нужна геометрия, и больше ничего от этого не поменяется.
+Работает это там, где костей больше, чем контролов - только тогда нода и
+режет кривую.
 
 Настройки динамики выведены на первый контрол (или на корень выделения).
 localTranslate и localRotate говорят, насколько цепочка работает в системе
@@ -119,6 +126,35 @@ def _skinned(joint):
                 cmds.listConnections(joint, type="skinCluster") or [])
 
 
+def _link(src, dst):
+    """Соединить, если ещё не соединено - иначе Maya ругается на каждую кость."""
+    if src not in (cmds.listConnections(dst, p=True, s=True, d=False) or []):
+        cmds.connectAttr(src, dst, f=True)
+
+
+def _count(name):
+    """Сколько костей у цепочки сейчас - по именам, подряд от первой."""
+    i = 0
+    while cmds.objExists("%s_dyn_%d_jnt" % (name, i + 1)):
+        i += 1
+    return i
+
+
+def bones(name="chain"):
+    """Кости цепочки по порядку - те, что нода и правда тянет."""
+    node = _names(name)["node"]
+    if not cmds.objExists(node):
+        cmds.error("%s not found" % node)
+
+    out = []
+    for i in sorted(cmds.getAttr(node + ".outMatrix", mi=True) or []):
+        for j in cmds.listConnections("%s.outMatrix[%d]" % (node, i),
+                                      s=False, d=True) or []:
+            out.append(j)
+            break
+    return out
+
+
 def _joints(name, node, count):
     """Ровно count костей под группой цепочки, подключённых к ноде по порядку.
     Лишние удаляются, недостающие создаются, уже существующие не трогаются -
@@ -131,16 +167,28 @@ def _joints(name, node, count):
             cmds.parent(n["joints"], n["top"])
     cmds.setAttr(n["joints"] + ".inheritsTransform", 0)
 
+    # если число костей меняется, pos раскладываем заново: прежние доли
+    # были долями прежней цепочки
+    spread = _count(name) != count
+
     joints = []
     for i in range(count):
         j = "%s_dyn_%d_jnt" % (name, i + 1)
-        if not cmds.objExists(j):
+        fresh = not cmds.objExists(j)
+        if fresh:
             cmds.select(cl=True)
             cmds.joint(n=j)
             cmds.parent(j, n["joints"])
             for a in ("t", "r", "jo"):
                 cmds.setAttr(j + "." + a, 0, 0, 0)
-        cmds.connectAttr("%s.outMatrix[%d]" % (node, i), j + ".offsetParentMatrix", f=True)
+
+        if not cmds.attributeQuery("pos", node=j, exists=True):
+            cmds.addAttr(j, ln="pos", at="double", min=0, max=1, dv=0, k=1)
+        if fresh or spread:
+            cmds.setAttr(j + ".pos", float(i) / (count - 1) if count > 1 else 0.0)
+        _link(j + ".pos", "%s.position[%d]" % (node, i))
+
+        _link("%s.outMatrix[%d]" % (node, i), j + ".offsetParentMatrix")
         joints.append(j)
 
     # то, что стало лишним
@@ -157,6 +205,8 @@ def _joints(name, node, count):
             src = cmds.listConnections(j + ".offsetParentMatrix", p=True, s=True, d=False) or []
             if src:
                 cmds.disconnectAttr(src[0], j + ".offsetParentMatrix")
+            for dst in cmds.listConnections(j + ".pos", p=True, s=False, d=True) or []:
+                cmds.disconnectAttr(j + ".pos", dst)
             cmds.setAttr(j + ".offsetParentMatrix", m, type="matrix")
             kept.append(j)
         else:
@@ -692,3 +742,79 @@ def delete(name="chain"):
     for k in ("node", "joints", "top"):
         if cmds.objExists(n[k]):
             cmds.delete(n[k])
+
+
+def _axisPair(node):
+    """Две оси кости поперёк цепочки - те, что не aimAxis."""
+    aim = int(cmds.getAttr(node + ".aimAxis")) % 3
+    return [(1, 2), (2, 0), (0, 1)][aim]
+
+
+def _unit(v):
+    n = math.sqrt(sum(c * c for c in v))
+    return [c / n for c in v] if n > 1e-9 else [0.0, 0.0, 0.0]
+
+
+def cylinder(name="chain", radius=0.5, sides=8, splits=None):
+    """Цилиндр по костям цепочки, заскиненный на них. Сплитов по длине -
+    столько же, сколько костей.
+
+    Геометрия кладётся на кости как они стоят сейчас: каждое кольцо садится
+    на своё место вдоль цепочки и разворачивается по кости, так что изогнутая
+    цепочка получает изогнутый цилиндр, а бинд-поза - ровно текущая."""
+    node = _names(name)["node"]
+    joints = bones(name)
+    if len(joints) < 2:
+        cmds.error("%s: fewer than two joints to skin to" % name)
+    if cmds.objExists(name + "_dyn_geo"):
+        cmds.error("%s_dyn_geo already exists - delete it first" % name)
+
+    mats = [cmds.getAttr(j + ".worldMatrix[0]") for j in joints]
+    pos = [m[12:15] for m in mats]
+
+    seg = [math.sqrt(sum((pos[i + 1][c] - pos[i][c]) ** 2 for c in range(3)))
+           for i in range(len(pos) - 1)]
+    total = sum(seg)
+    if total < 1e-6:
+        cmds.error("%s: the chain has no length" % name)
+
+    if radius is None:     # по длине цепочки, если своего нет
+        radius = total / 12.0
+    splits = max(1, int(splits) if splits else len(joints) - 1)
+
+    mesh = cmds.polyCylinder(n=name + "_dyn_geo", r=radius, h=total,
+                             sx=int(sides), sy=splits, sz=1, ax=(0, 1, 0), ch=False)[0]
+
+    # доля вдоль цепочки -> место и поперечные оси там
+    a, b = _axisPair(node)
+
+    def at(t):
+        want = max(0.0, min(1.0, t)) * total
+        i = 0
+        run = 0.0
+        while i < len(seg) - 1 and run + seg[i] < want:
+            run += seg[i]
+            i += 1
+        u = (want - run) / seg[i] if seg[i] > 1e-9 else 0.0
+
+        p = [pos[i][c] + (pos[i + 1][c] - pos[i][c]) * u for c in range(3)]
+        ax = [_unit(mats[i][r * 4:r * 4 + 3]) for r in range(3)]
+        bx = [_unit(mats[i + 1][r * 4:r * 4 + 3]) for r in range(3)]
+        side = _unit([ax[a][c] + (bx[a][c] - ax[a][c]) * u for c in range(3)])
+        up = _unit([ax[b][c] + (bx[b][c] - ax[b][c]) * u for c in range(3)])
+        return p, side, up
+
+    for v in cmds.ls(mesh + ".vtx[*]", fl=True):
+        x, y, z = cmds.xform(v, q=True, os=True, t=True)
+        p, side, up = at(y / total + 0.5)
+        cmds.xform(v, ws=True, t=[p[c] + side[c] * x + up[c] * z for c in range(3)])
+
+    top = _names(name)["top"]
+    if cmds.objExists(top):
+        cmds.parent(mesh, top)
+
+    skin = cmds.skinCluster(joints, mesh, tsb=True, mi=3, dr=4.0,
+                            n=name + "_dyn_skinCluster")[0]
+    cmds.select(mesh)
+    print("pk_chainDynamics: %s on %d joints, %d splits" % (mesh, len(joints), splits))
+    return {"mesh": mesh, "skin": skin}

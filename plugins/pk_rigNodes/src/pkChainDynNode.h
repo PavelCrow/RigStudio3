@@ -123,12 +123,18 @@
 // --- more points than controls ----------------------------------------------
 //
 // outputCount asks for more points than the goals give. A Catmull-Rom curve
-// is laid through the goals and cut into that many pieces of equal length,
-// and each piece gets a frame of its own: the turn from one goal to the next,
-// taken part of the way, so the twist and the scale of the controls are
-// carried along. The simulation then runs on those points, not on the
-// controls - ten bones on three controls can each lag on their own instead of
-// repeating three motions.
+// is laid through the goals, and each point takes its place on it by length,
+// with a frame of its own: the turn from one goal to the next, taken part of
+// the way, so the twist and the scale of the controls are carried along. The
+// simulation then runs on those points, not on the controls - ten bones on
+// three controls can each lag on their own instead of repeating three
+// motions.
+//
+// position says where each of them sits, from 0 at the root to 1 at the tip.
+// Left alone they are spread evenly, which is what the chain is built with;
+// set, they go where they are put, and a bone can be slid to where the
+// geometry needs it without changing anything else. It is the `pos` of the
+// joint in the rig, the same thing the spine has.
 //
 // The frames are then aimed along the curve: aimAxis says which axis of a
 // control runs down the chain, and that axis is turned onto the tangent. So a
@@ -184,6 +190,7 @@ public:
     static MObject aLocalRotate;      // the same for the space turning
     static MObject aGoalMatrix;       // multi, root first
     static MObject aOutputCount;      // 0 - one point per goal
+    static MObject aPosition;         // multi: where along the chain each point sits
     static MObject aAimAxis;          // which axis of a control runs down the chain
 
     // --- outputs -----------------------------------------------------------
@@ -231,8 +238,9 @@ private:
     };
 
     // The goals of the simulated points: the controls themselves, or the
-    // curve through them cut into `count` pieces of equal length.
-    static void resample(const std::vector<MMatrix>& ctrl, size_t count,
+    // curve through them cut at `along` - a place from 0 to 1 for each point.
+    static void resample(const std::vector<MMatrix>& ctrl,
+                         const std::vector<double>& along,
                          const MVector& aim, std::vector<MMatrix>& out);
 
     // Both curves, sampled at the points the chain has now.
