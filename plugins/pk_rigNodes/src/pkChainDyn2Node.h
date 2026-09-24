@@ -127,6 +127,13 @@
 // The root is left alone. It is pinned to its control and belongs to the
 // animator, not to the solver.
 //
+// outThickness is what the standoff of each point came out as - thickness times
+// the curve at that point. It is there so the thing that draws the chain's own
+// volume can take the number from the solver instead of working it out again:
+// one source, so the picture cannot drift from what is really kept off the
+// surfaces, and it follows both the slider and the curve without anything being
+// rebuilt.
+//
 // --- time -------------------------------------------------------------------
 //
 // At startFrame and before it, when time goes back, and when enable is off,
@@ -238,6 +245,7 @@ public:
 
     // --- outputs -----------------------------------------------------------
     static MObject aOutMatrix;        // multi, world
+    static MObject aOutThickness;     // multi: the standoff of each point
 
 private:
     // A collider as the solve wants it: already in the world, already

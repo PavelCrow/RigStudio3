@@ -60,6 +60,7 @@ MObject PkChainDyn2Node::aColliderMatrix;
 MObject PkChainDyn2Node::aColliderRadius;
 MObject PkChainDyn2Node::aColliderLength;
 MObject PkChainDyn2Node::aOutMatrix;
+MObject PkChainDyn2Node::aOutThickness;
 
 namespace
 {
@@ -290,6 +291,12 @@ MStatus PkChainDyn2Node::initialize()
     mAttr.setWritable(false);
     mAttr.setStorable(false);
 
+    aOutThickness = nAttr.create("outThickness", "oth", MFnNumericData::kDouble, 0.0);
+    nAttr.setArray(true);
+    nAttr.setUsesArrayDataBuilder(true);
+    nAttr.setWritable(false);
+    nAttr.setStorable(false);
+
     const MObject ins[] = {
         aTime, aStartFrame, aEnable, aWeight, aWeightRamp, aStiffness, aStiffnessRamp,
         aDamping, aDampingEven,
@@ -303,9 +310,13 @@ MStatus PkChainDyn2Node::initialize()
     for (const MObject& in : ins)
         addAttribute(in);
     addAttribute(aOutMatrix);
+    addAttribute(aOutThickness);
 
     for (const MObject& in : ins)
+    {
         attributeAffects(in, aOutMatrix);
+        attributeAffects(in, aOutThickness);
+    }
 
     return MS::kSuccess;
 }
@@ -938,7 +949,8 @@ void PkChainDyn2Node::simulate(State& s, const std::vector<MPoint>& goals,
 
 MStatus PkChainDyn2Node::compute(const MPlug& plug, MDataBlock& data)
 {
-    if (plug != aOutMatrix && plug.parent() != aOutMatrix)
+    if (plug != aOutMatrix && plug.parent() != aOutMatrix
+        && plug != aOutThickness && plug.parent() != aOutThickness)
         return MS::kUnknownParameter;
 
     MStatus status;
@@ -1222,6 +1234,24 @@ MStatus PkChainDyn2Node::compute(const MPlug& plug, MDataBlock& data)
     }
 
     // --- output --------------------------------------------------------------
+    // the standoff each point ended up with, for whatever draws it
+    {
+        MArrayDataHandle hPad = data.outputArrayValue(aOutThickness, &status);
+        CHECK_MSTATUS_AND_RETURN_IT(status);
+        MArrayDataBuilder pads(&data, aOutThickness, unsigned(n), &status);
+        CHECK_MSTATUS_AND_RETURN_IT(status);
+
+        for (size_t i = 0; i < n; ++i)
+        {
+            MDataHandle el = pads.addElement(unsigned(i), &status);
+            CHECK_MSTATUS_AND_RETURN_IT(status);
+            el.setDouble((i < p.pad.size()) ? p.pad[i] : 0.0);
+        }
+
+        hPad.set(pads);
+        hPad.setAllClean();
+    }
+
     MArrayDataHandle hOut = data.outputArrayValue(aOutMatrix, &status);
     CHECK_MSTATUS_AND_RETURN_IT(status);
     MArrayDataBuilder builder(&data, aOutMatrix, unsigned(n), &status);

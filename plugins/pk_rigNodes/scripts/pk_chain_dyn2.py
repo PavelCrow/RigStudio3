@@ -354,8 +354,9 @@ def thicknessGuide(name="chain", show=True):
     берут прямо с ноды, тем же outMatrix - кости в риге обычно спрятаны, а
     спрятанная кость спрятала бы и то, что под ней.
 
-    Размер живёт связью с thickness, поэтому ползунок видно сразу; кривую
-    поменял - позвать заново. show=False убирает."""
+    Размер берётся с ноды готовым - outThickness, то есть thickness уже
+    помноженный на кривую. Поэтому и ползунок, и кривая доходят до шариков сами,
+    и переставлять их после правок не нужно. show=False убирает."""
     node = _names(name)["node"]
     if not cmds.objExists(node):
         cmds.error("%s not found" % node)
@@ -363,7 +364,7 @@ def thicknessGuide(name="chain", show=True):
     grp = name + "_dynThickness"
     if cmds.objExists(grp):
         cmds.delete(grp)
-    for old in cmds.ls(name + "_dyn_*_thickness*") or []:
+    for old in cmds.ls(name + "_dyn_*_thickness*", name + "_dyn_*_thickness_mul") or []:
         if cmds.objExists(old):
             cmds.delete(old)
 
@@ -394,14 +395,11 @@ def thicknessGuide(name="chain", show=True):
         for shape in cmds.listRelatives(guide, s=True, f=True) or []:
             _look(shape)
 
-        # размер: thickness с ноды, помноженный на то, что даёт кривая здесь
-        mul = cmds.createNode("multiplyDivide", n="%s_dyn_%d_thickness_mul" % (name, i + 1))
-        thickness = cmds.getAttr(node + ".thickness")
-        share = (size / thickness) if thickness > 1e-9 else 1.0
+        # размер берётся с ноды готовым: она сама отдаёт зазор каждой точки,
+        # thickness уже помноженный на кривую. Поэтому и ползунок, и кривая
+        # доходят до шарика сами, и обновлять руками нечего
         for a in "XYZ":
-            cmds.connectAttr(node + ".thickness", "%s.input1%s" % (mul, a))
-            cmds.setAttr("%s.input2%s" % (mul, a), share)
-            cmds.connectAttr("%s.output%s" % (mul, a), "%s.scale%s" % (guide, a))
+            cmds.connectAttr("%s.outThickness[%d]" % (node, i), "%s.scale%s" % (guide, a))
 
         made.append(guide)
 
