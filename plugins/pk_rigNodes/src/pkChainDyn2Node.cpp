@@ -84,6 +84,11 @@ namespace
     // called a day - see pushOut.
     const int kCollideRounds = 8;
 
+    // How much of the ends' slipping apart counts as pull. It is a matter of
+    // taste rather than of physics, and it is set so that stretch 0.6 gives
+    // what it always gave: see the measurements in versions.txt.
+    const double kTension = 0.27;
+
     // How long the give of the lengths takes to come back, in frames: it
     // piles up while the chain is being pulled and runs out once it is not.
     const double kStretchTau = 5.0;
@@ -793,14 +798,41 @@ void PkChainDyn2Node::simulate(State& s, const std::vector<MPoint>& goals,
         const double load = std::exp(-h / kStretchTau);
         const double release = (p.stretchRelease > kEps) ? p.stretchRelease : 1.0;
         const double free_ = std::exp(-h / std::max(release, 0.05));
+
+        // How hard a segment is being pulled apart has to be a state of the
+        // chain, not something accumulated between two length passes. It used
+        // to be the elongation left over after a step, and that made the whole
+        // stretch depend on substeps: the lengths are put back every substep,
+        // so in a shorter one a segment gets less far, and adding those up the
+        // pull came out proportional to the step. Measured on one motion, the
+        // chain gained 1.3% of length at one substep and 0.2% at eight - the
+        // stretch quietly halved every time substeps doubled.
+        //
+        // Dividing the step out instead was worse: on a control that jumps in
+        // one frame the force really is enormous, and the chain grew by 180%.
+        //
+        // What is used now is how far the two ends of a segment have fallen
+        // behind their goals, one against the other, along the segment: that is
+        // exactly the elongation the lengths are about to take away, it is
+        // there whether the step is long or short, and it can never be more
+        // than the motion itself. The gain is written so that at one substep
+        // the arithmetic is the same as ever.
+        const double loadFrame = std::exp(-1.0 / kStretchTau);
+        const double gain = (1.0 - load) / (1.0 - loadFrame);
+
         for (size_t i = 1; i < n; ++i)
         {
-            const double rest = (g[i] - g[i - 1]).length();
-            const double now  = (s.pos[i] - s.pos[i - 1]).length() - rest;
+            MVector seg = s.pos[i] - s.pos[i - 1];
+            const double len = seg.length();
+            if (len > kEps)
+                seg /= len;
+
+            const MVector slip = (s.pos[i] - g[i]) - (s.pos[i - 1] - g[i - 1]);
+            const double now = kTension * (slip * seg);
 
             // still being pulled the way it already is, or let go of
             const bool loading = (now * s.pull[i] > 0.0) || std::fabs(s.pull[i]) < kEps;
-            s.pull[i] = s.pull[i] * (loading ? load : free_) + now;
+            s.pull[i] = s.pull[i] * (loading ? load : free_) + now * gain;
             const double want = p.stretch * s.pull[i];
 
             const double d = s.slack[i] - want;
