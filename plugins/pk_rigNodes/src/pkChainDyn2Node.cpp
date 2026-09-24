@@ -1127,11 +1127,48 @@ MStatus PkChainDyn2Node::compute(const MPlug& plug, MDataBlock& data)
             mLastDt   = dt;
         }
 
+        // How much of the simulation each point is given - and given as a
+        // direction, not as a place.
+        //
+        // Dragging a point part of the way back to its control along a straight
+        // line looks right for that one point and eats the chain: the line cuts
+        // across the arc, so the whole thing comes up short exactly when it
+        // swings, which is when it shows. On the tail this was 30% of its length
+        // gone at the peak of a whip - with stretch turned off entirely, so it
+        // was never the stretch.
+        //
+        // What is blended instead is the turn each segment has taken away from
+        // its goal, and the chain is then laid out again from the root with the
+        // lengths the goals have. Half the weight is half the angle rather than
+        // half the distance, the length is exactly right at any weight, and at
+        // weight 1 it comes out where the solve put it - the segments are
+        // already at those lengths, so nothing moves.
         std::vector<double> share(n, weight);
         for (size_t i = 0; i < n; ++i)
-        {
             share[i] = weight * mWeightCurve[i];
-            sim[i] = lerp(goals[i], mCur.pos[i], share[i]);
+
+        sim[0] = lerp(goals[0], mCur.pos[0], share[0]);
+        for (size_t i = 1; i < n; ++i)
+        {
+            const MVector goalSeg = goals[i] - goals[i - 1];
+            const double  rest    = goalSeg.length();
+            if (rest <= kEps)
+            {
+                sim[i] = sim[i - 1];
+                continue;
+            }
+
+            MVector dir = goalSeg / rest;
+
+            const MVector simSeg = mCur.pos[i] - mCur.pos[i - 1];
+            const double  simLen = simSeg.length();
+            if (simLen > kEps && share[i] > kEps)
+            {
+                const MQuaternion turn(dir, simSeg / simLen);
+                dir = dir.rotateBy(slerp(MQuaternion::identity, turn, share[i]));
+            }
+
+            sim[i] = sim[i - 1] + dir * rest;
         }
 
         // Give under the pull - afterwards, along the chain as it already
