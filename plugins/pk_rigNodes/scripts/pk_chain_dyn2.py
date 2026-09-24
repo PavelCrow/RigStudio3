@@ -34,8 +34,14 @@ globals().update({k: v for k, v in vars(_twin).items()
 TYPES = {"plane": 0, "sphere": 1, "capsule": 2}
 KINDS = dict((v, k) for k, v in TYPES.items())
 
-# цвет каркаса, чтобы коллайдер не путался с контролами
-COLORS = {"plane": 17, "sphere": 18, "capsule": 14}
+# цвет каркаса, чтобы коллайдер не путался с контролами - один на все формы
+COLOR = 14
+
+# плоскость сеткой, а не одним квадратом - по ней видно, куда она наклонена;
+# у капсулы шапки в четыре доли, иначе они читаются гранёными
+SUBDIV = {"polyPlane": (("subdivisionsWidth", 5), ("subdivisionsHeight", 5)),
+          "polyCylinder": (("subdivisionsCaps", 4),),
+          "polySphere": ()}
 
 
 def _shape(loc, kind):
@@ -51,14 +57,14 @@ def _shape(loc, kind):
     ради которой он и стоит. Хочется плотный - выключить оверрайд на шейпе. И
     не рендерятся: это оснастка, а не геометрия."""
     if kind == "plane":
-        made = cmds.polyPlane(w=1.0, h=1.0, sx=1, sy=1, ax=(0, 1, 0), ch=True)
+        made = cmds.polyPlane(w=1.0, h=1.0, sx=5, sy=5, ax=(0, 1, 0), ch=True)
         cmds.connectAttr(loc + ".size", made[1] + ".width")
         cmds.connectAttr(loc + ".size", made[1] + ".height")
     elif kind == "sphere":
         made = cmds.polySphere(r=1.0, sx=16, sy=10, ch=True)
         cmds.connectAttr(loc + ".radius", made[1] + ".radius")
     else:
-        made = cmds.polyCylinder(r=1.0, h=1.0, sx=16, sy=1, sz=1, rcp=True,
+        made = cmds.polyCylinder(r=1.0, h=1.0, sx=16, sy=1, sz=4, rcp=True,
                                  ax=(0, 1, 0), ch=True)
         cmds.connectAttr(loc + ".radius", made[1] + ".radius")
         cmds.connectAttr(loc + ".length", made[1] + ".height")
@@ -68,13 +74,25 @@ def _shape(loc, kind):
     cmds.delete(made[0])
     shape = cmds.rename(shape, loc + "Shape")
 
+    _look(shape)
+    return shape
+
+
+def _look(shape):
+    """Вид коллайдера: зелёный каркас, в рендер не идёт, доли примитива такие,
+    по которым форму видно. Отдельно от сборки, чтобы тем же кодом привести к
+    этому виду и те коллайдеры, что стоят в сцене с прошлых версий."""
     cmds.setAttr(shape + ".overrideEnabled", 1)
     cmds.setAttr(shape + ".overrideShading", 0)
-    cmds.setAttr(shape + ".overrideColor", COLORS[kind])
+    cmds.setAttr(shape + ".overrideColor", COLOR)
     for a in ("castsShadows", "receiveShadows", "primaryVisibility",
               "visibleInReflections", "visibleInRefractions"):
         cmds.setAttr(shape + "." + a, 0)
 
+    for made in cmds.listConnections(shape + ".inMesh", s=True, d=False) or []:
+        for attr, value in SUBDIV.get(cmds.nodeType(made), ()):
+            if cmds.attributeQuery(attr, node=made, exists=True):
+                cmds.setAttr(made + "." + attr, value)
     return shape
 
 
@@ -149,8 +167,11 @@ def collider(name="chain", kind="plane", size=1.0, length=4.0, at=None):
 
 def reshape(name="chain"):
     """Дать форму коллайдерам, собранным прежней версией - они были локаторами.
-    Размеры снимаются с ноды и переезжают на сам коллайдер. У кого форма уже
-    есть, того не трогаем, так что звать можно сколько угодно."""
+    Размеры снимаются с ноды и переезжают на сам коллайдер.
+
+    У кого форма уже есть, тому обновляется вид - цвет и доли примитива, если
+    они с тех пор менялись. Ничего не пересобирается, так что звать можно
+    сколько угодно."""
     node = _names(name)["node"]
     if not cmds.objExists(node):
         cmds.error("%s not found" % node)
@@ -159,10 +180,16 @@ def reshape(name="chain"):
     for i in cmds.getAttr(node + ".collider", mi=True) or []:
         plug = "%s.collider[%d]" % (node, i)
         src = cmds.listConnections(plug + ".colliderMatrix", s=True, d=False) or []
-        if not src or _hasShape(src[0]):
+        if not src:
             continue
 
         loc = src[0]
+        if _hasShape(loc):
+            # форма есть - просто привести к нынешнему виду
+            for shape in cmds.listRelatives(loc, ad=True, type="mesh", f=True) or []:
+                _look(shape)
+            continue
+
         kind = KINDS.get(cmds.getAttr(plug + ".colliderType"), "plane")
         size = cmds.getAttr(plug + ".colliderRadius")
         length = cmds.getAttr(plug + ".colliderLength")
@@ -180,6 +207,6 @@ def reshape(name="chain"):
 
         done.append(loc)
 
-    print("pk_chainDynamics2: %d colliders reshaped%s"
+    print("pk_chainDynamics2: %d colliders got a shape, the rest brought up to date%s"
           % (len(done), (": " + ", ".join(done)) if done else ""))
     return done
