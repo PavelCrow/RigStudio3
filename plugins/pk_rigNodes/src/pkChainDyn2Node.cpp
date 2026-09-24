@@ -252,6 +252,10 @@ MStatus PkChainDyn2Node::initialize()
     eAttr.setKeyable(false);
 
     aColliderMatrix = mAttr.create("colliderMatrix", "clm");
+    // коллайдер удалили - элемент списка уходит с ним. Иначе матрица осталась бы
+    // единичной, и на месте пола, которого больше нет, продолжала бы стоять
+    // плоскость в начале координат
+    mAttr.setDisconnectBehavior(MFnAttribute::kDelete);
 
     aColliderRadius = nAttr.create("colliderRadius", "clr", MFnNumericData::kDouble, 1.0);
     nAttr.setMin(0.0);

@@ -261,6 +261,15 @@ def _fill():
                                u"длина только у капсулы")
         cmds.button(l=u"Добавить коллайдер", h=26, c=lambda *a: _collider(),
                     ann=u"Появится у середины цепочки - оттуда его и двигать")
+        cmds.button(l=u"Отдать коллайдеры выделенным цепочкам", h=26,
+                    c=lambda *a: _shareColliders(),
+                    ann=u"Выдели контролы или кости других цепочек - все коллайдеры "
+                        u"этой станут и их. Коллайдер при этом один на всех")
+        cmds.button(l=u"Снять выделенные коллайдеры", h=26,
+                    c=lambda *a: _dropColliders(),
+                    ann=u"Выдели коллайдеры - уйдут из списка этой цепочки, но "
+                        u"останутся в сцене и на других. Выключить всю коллизию, "
+                        u"ничего не отцепляя - ползунок Collide в ноль")
         cmds.setParent("..")
         cmds.setParent("..")
 
@@ -419,6 +428,54 @@ def _collider():
         at = cmds.xform(bones[len(bones) // 2], q=True, ws=True, t=True)
 
     dyn.collider(name, kind, size=size, length=length, at=at)
+    _fill()
+
+
+def _otherChains(name):
+    """Цепочки выделенных объектов, кроме той, с которой окно работает."""
+    out = []
+    for obj in cmds.ls(sl=True, o=True) or []:
+        node = solverFrom(obj)
+        if not node:
+            continue
+        other = nameOf(node)
+        if other != name and other not in out:
+            out.append(other)
+    return out
+
+
+def _shareColliders():
+    name = _need()
+    if not name or not hasattr(dyn, "shareColliders"):
+        return
+
+    if not dyn.colliders(name):
+        cmds.warning(u"pk chain: у %s нет коллайдеров, отдавать нечего" % name)
+        return
+
+    others = _otherChains(name)
+    if not others:
+        cmds.warning(u"pk chain: выдели контролы или кости тех цепочек, "
+                     u"которым отдать коллайдеры")
+        return
+
+    dyn.shareColliders(name, *others)
+    _fill()
+
+
+def _dropColliders():
+    name = _need()
+    if not name or not hasattr(dyn, "removeCollider"):
+        return
+
+    mine = dyn.colliders(name)
+    picked = [o for o in cmds.ls(sl=True, o=True) or [] if o in mine]
+    if not picked:
+        cmds.warning(u"pk chain: выдели коллайдеры этой цепочки - снимать нечего")
+        return
+
+    for obj in picked:
+        dyn.removeCollider(name, obj)
     _fill()
 
 

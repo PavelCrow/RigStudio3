@@ -9,6 +9,8 @@ pk_dynamics2 - там пробуется коллизия, а рабочий pk_
     dyn2.reshape("test")                  - дать форму коллайдерам-локаторам
     dyn2.addCollider("other", floor)      - тот же коллайдер другой цепочке
     dyn2.shareColliders("test", "a", "b") - все коллайдеры цепочки - остальным
+    dyn2.removeCollider("test", floor)    - снять коллайдер с цепочки
+    dyn2.clearColliders("test")           - снять все
 
     import pk_chain_dyn_ui as ui
     ui.use(dyn2)                          - окно на экспериментальную ноду
@@ -246,6 +248,66 @@ def shareColliders(source, *names):
     print("pk_chainDynamics2: %d colliders of %s shared with %s"
           % (len(objs), source, ", ".join(names)))
     return objs
+
+
+def colliders(name="chain"):
+    """Коллайдеры цепочки по порядку элементов."""
+    node = _names(name)["node"]
+    if not cmds.objExists(node):
+        cmds.error("%s not found" % node)
+
+    out = []
+    for i in cmds.getAttr(node + ".collider", mi=True) or []:
+        src = cmds.listConnections("%s.collider[%d].colliderMatrix" % (node, i),
+                                   s=True, d=False) or []
+        if src:
+            out.append(src[0])
+    return out
+
+
+def removeCollider(name, obj):
+    """Снять коллайдер с цепочки. Сам он остаётся в сцене и на других цепочках -
+    уходит только элемент списка у этой.
+
+    Удалить коллайдер целиком можно и просто удалив объект: элемент уходит за
+    ним следом, у colliderMatrix для этого стоит kDelete. А выключить всю
+    коллизию цепочки, ничего не отцепляя, это collide 0."""
+    node = _names(name)["node"]
+    if not cmds.objExists(node):
+        cmds.error("%s not found" % node)
+
+    gone = []
+    for i in cmds.getAttr(node + ".collider", mi=True) or []:
+        plug = "%s.collider[%d]" % (node, i)
+        src = cmds.listConnections(plug + ".colliderMatrix", s=True, d=False) or []
+        if not src or src[0] != obj:
+            continue
+
+        for child in ("colliderMatrix", "colliderRadius", "colliderLength"):
+            for source in cmds.listConnections(plug + "." + child, p=True,
+                                               s=True, d=False) or []:
+                cmds.disconnectAttr(source, plug + "." + child)
+        # у colliderMatrix стоит kDelete, поэтому элемент обычно уходит сам
+        if i in (cmds.getAttr(node + ".collider", mi=True) or []):
+            cmds.removeMultiInstance(plug, b=True)
+        gone.append(i)
+
+    if not gone:
+        cmds.warning("%s: %s is not a collider of this chain" % (name, obj))
+    else:
+        print("pk_chainDynamics2: %s taken off %s (element %s)"
+              % (obj, node, ", ".join(str(i) for i in gone)))
+    return gone
+
+
+def clearColliders(name="chain"):
+    """Снять с цепочки все коллайдеры. Сами они остаются в сцене."""
+    gone = []
+    for obj in colliders(name):
+        gone += removeCollider(name, obj)
+    print("pk_chainDynamics2: %s has no colliders now, %d taken off"
+          % (_names(name)["node"], len(gone)))
+    return gone
 
 
 def reshape(name="chain"):
