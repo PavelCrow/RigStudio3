@@ -6,6 +6,7 @@
     fromSelection("tail")               - на выделенных трансформах, по порядку
     moveSettings(ctrl, other)           - ручки динамики на другой контрол
     linkSettings(master, other)         - настройки одной цепочки ведут другую
+    unlinkSettings(ctrl)                - и обратно, ручки снова свои
     demo("tail")                        - ключи на корень, чтобы было на что смотреть
     setJoints("tail", 20)               - поменять число костей у готовой цепочки
     rebuild("tail")                     - перецепить ноду на текущие контролы,
@@ -193,7 +194,11 @@ def linkSettings(master, other):
     Связывается контрол с контролом, а не с нодой: у каждой цепочки её ручки
     остаются на месте и связь на любой из них можно разорвать, подстроив эту
     одну цепочку отдельно. Кривые - веса и жёсткости - живут на самих нодах и
-    здесь не затрагиваются: это форма цепочки, а не то, чем управляют."""
+    здесь не затрагиваются: это форма цепочки, а не то, чем управляют.
+
+    Ручки ведомого убираются из канал бокса: менять их всё равно нельзя, а
+    путать аниматора двумя наборами одних и тех же настроек незачем. Вернуть их
+    туда - unlinkSettings."""
     if not hasSettings(master):
         cmds.error("%s has no dynamic settings on it" % master)
     if master == other:
@@ -204,11 +209,48 @@ def linkSettings(master, other):
         if not cmds.attributeQuery(attr, node=master, exists=True):
             continue
         _addOne(other, attr, dv, mn, mx)
-        cmds.connectAttr("%s.%s" % (master, attr), "%s.%s" % (other, attr), f=True)
+        plug = "%s.%s" % (other, attr)
+        cmds.connectAttr("%s.%s" % (master, attr), plug, f=True)
+
+        # ведётся мастером - в канал боксе ведомого ей делать нечего
+        cmds.setAttr(plug, k=False, cb=False)
         linked.append(attr)
 
-    print("pk_chainDynamics: %d settings %s -> %s" % (len(linked), master, other))
+    if cmds.attributeQuery("dynamicSettings", node=other, exists=True):
+        cmds.setAttr(other + ".dynamicSettings", cb=False)
+
+    print("pk_chainDynamics: %d settings %s -> %s, hidden on %s"
+          % (len(linked), master, other, other))
     return linked
+
+
+def unlinkSettings(ctrl):
+    """Снять связь с мастера: настройки остаются со своими значениями, снова
+    видны в канал боксе и снова свои. Обратное для linkSettings."""
+    if not hasSettings(ctrl):
+        cmds.error("%s has no dynamic settings on it" % ctrl)
+
+    free = []
+    for attr, nodeAttr, dv, mn, mx in SETTINGS:
+        plug = "%s.%s" % (ctrl, attr)
+        if not cmds.attributeQuery(attr, node=ctrl, exists=True):
+            continue
+
+        for src in cmds.listConnections(plug, p=True, s=True, d=False) or []:
+            # значение остаётся тем, каким его вёл мастер
+            was = cmds.getAttr(plug)
+            cmds.disconnectAttr(src, plug)
+            cmds.setAttr(plug, was)
+            free.append(attr)
+
+        cmds.setAttr(plug, k=True)
+
+    if cmds.attributeQuery("dynamicSettings", node=ctrl, exists=True):
+        cmds.setAttr(ctrl + ".dynamicSettings", channelBox=True)
+
+    print("pk_chainDynamics: %s is on its own again, %d settings freed"
+          % (ctrl, len(free)))
+    return free
 
 
 def _makeNode(name, goals, space):
