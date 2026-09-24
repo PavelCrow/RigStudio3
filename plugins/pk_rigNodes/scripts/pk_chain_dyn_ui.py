@@ -45,6 +45,18 @@ _state = {"name": None, "playback": None}
 LIVE_FRAMES = 100000
 
 
+def use(module=None):
+    """Переключить окно на другой сборщик - например pk_chain_dyn2 с
+    экспериментальной нодой. Без аргумента просто возвращает текущий."""
+    global dyn
+    if module is not None:
+        dyn = module
+        _state["name"] = None
+        if cmds.window(WIN, exists=True):
+            _fill()
+    return dyn
+
+
 # --- поиск цепочки ----------------------------------------------------------
 
 def solverFrom(obj):
@@ -64,7 +76,7 @@ def solverFrom(obj):
             continue
         seen.add(current)
 
-        found = cmds.listConnections(current, type="pk_chainDynamics") or []
+        found = cmds.listConnections(current, type=dyn.NODE) or []
         if found:
             return found[0]
 

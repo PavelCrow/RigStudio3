@@ -46,6 +46,11 @@ import maya.cmds as cmds
 
 PLUGIN = "pk_dynamics"
 
+# Тип ноды - переменной, а не строкой по месту: рядом живёт второй плагин с
+# такой же нодой, где пробуется новое (см. pk_chain_dyn2.py), и весь скрипт
+# работает с ним тем же кодом.
+NODE = "pk_chainDynamics"
+
 AXES = {"x": (1, 0, 0), "y": (0, 1, 0), "z": (0, 0, 1),
         "-x": (-1, 0, 0), "-y": (0, -1, 0), "-z": (0, 0, -1)}
 
@@ -110,7 +115,7 @@ def _makeNode(name, goals, space):
     """space - относительно чего работают localTranslate/localRotate. По
     умолчанию сам корневой контрол: его движение тогда можно снимать этими
     двумя ручками, не трогая остальную анимацию."""
-    node = cmds.createNode("pk_chainDynamics", n=_names(name)["node"])
+    node = cmds.createNode(NODE, n=_names(name)["node"])
     cmds.connectAttr("time1.outTime", node + ".time")
     if space:
         cmds.connectAttr(space + ".worldMatrix[0]", node + ".spaceMatrix")
