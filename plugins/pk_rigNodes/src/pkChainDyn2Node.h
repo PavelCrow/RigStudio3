@@ -181,11 +181,14 @@
 // geometry needs it without changing anything else. It is the `pos` of the
 // joint in the rig, the same thing the spine has.
 //
-// The frames are then aimed along the curve: aimAxis says which axis of a
-// control runs down the chain, and that axis is turned onto the tangent. So a
+// The frames are then aimed along the curve: the X axis of a control is the
+// one that runs down the chain, and it is turned onto the tangent. So a
 // control that is moved and not turned still bends the bones with it, while
 // the twist stays whatever the controls have. With one point per control
 // nothing of this happens - there the control's own matrix is the frame.
+//
+// X and not a choice of axis: the rig builds its chains along X, and the
+// attribute that used to offer the other five was never set by anything.
 //
 // --- output -----------------------------------------------------------------
 //
@@ -234,7 +237,6 @@ public:
     static MObject aGoalMatrix;       // multi, root first
     static MObject aOutputCount;      // 0 - one point per goal
     static MObject aPosition;         // multi: where along the chain each point sits
-    static MObject aAimAxis;          // which axis of a control runs down the chain
     static MObject aCollide;          // 0 - off, 1 - the points stay out of the colliders
     static MObject aThickness;        // the chain's own radius
     static MObject aThicknessRamp;    // and how much of it each point along it has
@@ -309,7 +311,7 @@ private:
     // curve through them cut at `along` - a place from 0 to 1 for each point.
     static void resample(const std::vector<MMatrix>& ctrl,
                          const std::vector<double>& along,
-                         const MVector& aim, std::vector<MMatrix>& out);
+                         std::vector<MMatrix>& out);
 
     // The curves, sampled at the points the chain has now.
     void readCurves(MDataBlock& data, size_t n);

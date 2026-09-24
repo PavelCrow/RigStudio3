@@ -46,7 +46,6 @@ MObject PkChainDyn2Node::aLocalRotate;
 MObject PkChainDyn2Node::aGoalMatrix;
 MObject PkChainDyn2Node::aOutputCount;
 MObject PkChainDyn2Node::aPosition;
-MObject PkChainDyn2Node::aAimAxis;
 MObject PkChainDyn2Node::aCollide;
 MObject PkChainDyn2Node::aThickness;
 MObject PkChainDyn2Node::aThicknessRamp;
@@ -202,15 +201,6 @@ MStatus PkChainDyn2Node::initialize()
     nAttr.setSoftMax(40);
     nAttr.setKeyable(false);
 
-    aAimAxis = eAttr.create("aimAxis", "aa", 0);
-    eAttr.addField("x", 0);
-    eAttr.addField("y", 1);
-    eAttr.addField("z", 2);
-    eAttr.addField("-x", 3);
-    eAttr.addField("-y", 4);
-    eAttr.addField("-z", 5);
-    eAttr.setKeyable(false);
-
     aPosition = nAttr.create("position", "pos", MFnNumericData::kDouble, 0.0);
     nAttr.setMin(0.0);
     nAttr.setMax(1.0);
@@ -294,7 +284,7 @@ MStatus PkChainDyn2Node::initialize()
         aStretchSpeed, aStretchDamping, aStretchRelease,
         aMaxBend, aBendSoftness, aSubsteps, aSpaceMatrix,
         aLocalTranslate, aLocalRotate,
-        aGoalMatrix, aOutputCount, aAimAxis, aPosition,
+        aGoalMatrix, aOutputCount, aPosition,
         aCollide, aThickness, aThicknessRamp, aBounce, aFriction, aCollider,
     };
     for (const MObject& in : ins)
@@ -365,7 +355,7 @@ void PkChainDyn2Node::getCacheSetup(const MEvaluationNode& evalNode,
 // controls do not.
 void PkChainDyn2Node::resample(const std::vector<MMatrix>& ctrl,
                               const std::vector<double>& along,
-                              const MVector& aim, std::vector<MMatrix>& out)
+                              std::vector<MMatrix>& out)
 {
     const size_t m = ctrl.size();
     const size_t count = along.size();
@@ -436,7 +426,7 @@ void PkChainDyn2Node::resample(const std::vector<MMatrix>& ctrl,
         // where the bone of this frame points, in the world
         MMatrix frameRot = frame;
         frameRot[3][0] = frameRot[3][1] = frameRot[3][2] = 0.0;
-        chord[i] = MPoint(aim * frameRot);
+        chord[i] = MPoint(MVector::xAxis * frameRot);
 
         frame[3][0] = dense[walk].x + (dense[walk + 1].x - dense[walk].x) * f;
         frame[3][1] = dense[walk].y + (dense[walk + 1].y - dense[walk].y) * f;
@@ -943,12 +933,6 @@ MStatus PkChainDyn2Node::compute(const MPlug& plug, MDataBlock& data)
     const int wanted = data.inputValue(aOutputCount).asInt();
     if (goalM.size() >= 2 && wanted > int(goalM.size()))
     {
-        static const MVector kAxes[6] = {
-            MVector::xAxis, MVector::yAxis, MVector::zAxis,
-            -MVector::xAxis, -MVector::yAxis, -MVector::zAxis,
-        };
-        const short axis = data.inputValue(aAimAxis).asShort();
-
         // where each point sits along the chain: evenly unless told otherwise
         std::vector<double> along(static_cast<size_t>(wanted));
         for (size_t i = 0; i < along.size(); ++i)
@@ -969,7 +953,7 @@ MStatus PkChainDyn2Node::compute(const MPlug& plug, MDataBlock& data)
         }
 
         std::vector<MMatrix> dense;
-        resample(goalM, along, kAxes[std::min<short>(5, std::max<short>(0, axis))], dense);
+        resample(goalM, along, dense);
         goalM.swap(dense);
     }
 

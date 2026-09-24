@@ -807,7 +807,6 @@ def upgrade(name="chain", keepLook=True):
 
     outputCount = value("outputCount", 0)
     maxBend = value("maxBend", None)
-    aimAxis = value("aimAxis", 0)
 
     def readRamp(attr):
         out = []
@@ -838,7 +837,6 @@ def upgrade(name="chain", keepLook=True):
     _addSettings(host, node)
 
     cmds.setAttr(node + ".outputCount", outputCount)
-    cmds.setAttr(node + ".aimAxis", int(aimAxis))
     if maxBend is not None:
         cmds.setAttr(node + ".maxBend", maxBend)
     def writeRamp(attr, points):
@@ -882,9 +880,8 @@ def delete(name="chain"):
 
 
 def _axisPair(node):
-    """Две оси кости поперёк цепочки - те, что не aimAxis."""
-    aim = int(cmds.getAttr(node + ".aimAxis")) % 3
-    return [(1, 2), (2, 0), (0, 1)][aim]
+    """Две оси кости поперёк цепочки. Вдоль цепочки всегда X, поперёк - Y и Z."""
+    return (1, 2)
 
 
 def _unit(v):

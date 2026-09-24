@@ -39,11 +39,7 @@ global proc AEpk_chainDynamics2Template(string $nodeName)
         editorTemplate -addControl "stretch";
         editorTemplate -addControl "stretchDamping";
 
-        editorTemplate -beginLayout "By hand" -collapse 1;
-            editorTemplate -addControl "stretchLimit";
-            editorTemplate -addControl "stretchSpeed";
-            editorTemplate -addControl "stretchRelease";
-        editorTemplate -endLayout;
+        editorTemplate -addControl "stretchLimit";
     editorTemplate -endLayout;
 
     editorTemplate -beginLayout "Collision" -collapse 0;
@@ -57,8 +53,6 @@ global proc AEpk_chainDynamics2Template(string $nodeName)
     editorTemplate -beginLayout "Solver" -collapse 0;
         editorTemplate -addControl "maxBend";
         editorTemplate -addControl "bendSoftness";
-        editorTemplate -addControl "outputCount";
-        editorTemplate -addControl "aimAxis";
 
         editorTemplate -addControl "substeps";
     editorTemplate -endLayout;
@@ -68,6 +62,14 @@ global proc AEpk_chainDynamics2Template(string $nodeName)
     editorTemplate -suppress "goalMatrix";
     editorTemplate -suppress "outMatrix";
     editorTemplate -suppress "collider";
+    // сколько точек считать - дело сборщика: он ставит это вместе с числом
+    // костей, и врозь их менять нечего
+    editorTemplate -suppress "outputCount";
+    // ноль у обоих значит "само", и это подходит всему, что мы пробовали:
+    // скорость возврата берётся от частоты цепочки, отпускание - за кадр
+    editorTemplate -suppress "stretchSpeed";
+    editorTemplate -suppress "stretchRelease";
+    editorTemplate -suppress "position";
 
     AEdependNodeTemplate $nodeName;
     editorTemplate -addExtraControls;

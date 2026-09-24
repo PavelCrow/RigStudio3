@@ -35,9 +35,10 @@ SLIDERS = [
     ("localRotate",    u"Local rotate",    0.0, 1.0,   0.0, 1.0),
 ]
 
-# то, что настраивают редко - на самой ноде, обычными полями
-NODE_ATTRS = ["maxBend", "bendSoftness", "outputCount", "aimAxis",
-              "substeps", "stretchLimit", "stretchSpeed", "stretchRelease"]
+# то, что настраивают редко - на самой ноде, обычными полями. outputCount тут
+# нет нарочно: число точек ставит сборщик вместе с числом костей, и менять его
+# врозь незачем - для этого есть поле "Костей"
+NODE_ATTRS = ["maxBend", "bendSoftness", "substeps", "stretchLimit"]
 
 # атрибут контрола -> атрибут ноды, чтобы найти, кто его ведёт
 NODE_OF = dict((attr, nodeAttr) for attr, nodeAttr, _dv, _mn, _mx in dyn.SETTINGS)
