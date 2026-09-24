@@ -4,6 +4,8 @@
     build("tail", count=6, length=10)   - собрать цепочку с нуля
     build("tail", count=3, joints=10)   - контролов меньше, чем костей
     fromSelection("tail")               - на выделенных трансформах, по порядку
+    moveSettings(ctrl, other)           - ручки динамики на другой контрол
+    linkSettings(master, other)         - настройки одной цепочки ведут другую
     demo("tail")                        - ключи на корень, чтобы было на что смотреть
     setJoints("tail", 20)               - поменять число костей у готовой цепочки
     rebuild("tail")                     - перецепить ноду на текущие контролы,
@@ -109,6 +111,104 @@ def _addSettings(host, node):
                 kw["max"] = mx
             cmds.addAttr(host, **kw)
         cmds.connectAttr(host + "." + attr, node + "." + nodeAttr, f=True)
+
+
+def hasSettings(obj):
+    """Есть ли на объекте настройки динамики."""
+    return bool(obj) and cmds.objExists(obj) and \
+        cmds.attributeQuery(SETTINGS[0][0], node=obj, exists=True)
+
+
+def _addOne(host, attr, dv, mn, mx):
+    if cmds.attributeQuery(attr, node=host, exists=True):
+        return
+    kw = {"ln": attr, "k": True, "dv": dv}
+    kw["at"] = "bool" if attr == "dynamic" else "double"
+    if mn is not None and attr != "dynamic":
+        kw["min"] = mn
+    if mx is not None and attr != "dynamic":
+        kw["max"] = mx
+    cmds.addAttr(host, **kw)
+
+
+def moveSettings(src, dst):
+    """Перенести настройки динамики с одного контрола на другой: значения, то
+    что их ведёт, и все связи с нодами. На src их после этого не остаётся.
+
+    Это для кастомного контрола: цепочка собирается как обычно, а ручки потом
+    уезжают туда, где аниматору удобно. Ведущих нод может быть сколько угодно -
+    если на src сидело несколько цепочек, все они переедут вместе."""
+    if not hasSettings(src):
+        cmds.error("%s has no dynamic settings on it" % src)
+    if not cmds.objExists(dst):
+        cmds.error("%s not found" % dst)
+    if src == dst:
+        cmds.error("moveSettings: it is the same control")
+
+    if not cmds.attributeQuery("dynamicSettings", node=dst, exists=True):
+        cmds.addAttr(dst, ln="dynamicSettings", at="enum", en="Dynamic:", k=0)
+        cmds.setAttr(dst + ".dynamicSettings", channelBox=True)
+
+    moved = []
+    for attr, nodeAttr, dv, mn, mx in SETTINGS:
+        if not cmds.attributeQuery(attr, node=src, exists=True):
+            continue
+
+        sPlug = "%s.%s" % (src, attr)
+        dPlug = "%s.%s" % (dst, attr)
+        value = cmds.getAttr(sPlug)
+        _addOne(dst, attr, dv, mn, mx)
+
+        # то, что ведёт настройку - анимация, другой контрол - уезжает тоже
+        into = cmds.listConnections(sPlug, p=True, s=True, d=False) or []
+
+        # а вниз - все ноды, сколько бы их ни висело
+        outs = cmds.listConnections(sPlug, p=True, s=False, d=True) or []
+        for plug in outs:
+            cmds.disconnectAttr(sPlug, plug)
+        if into:
+            cmds.disconnectAttr(into[0], sPlug)
+
+        cmds.setAttr(dPlug, value)
+        if into:
+            cmds.connectAttr(into[0], dPlug, f=True)
+        for plug in outs:
+            cmds.connectAttr(dPlug, plug, f=True)
+
+        cmds.deleteAttr(src, at=attr)
+        moved.append(attr)
+
+    if cmds.attributeQuery("dynamicSettings", node=src, exists=True):
+        cmds.deleteAttr(src, at="dynamicSettings")
+
+    cmds.select(dst)
+    print("pk_chainDynamics: %d settings moved %s -> %s" % (len(moved), src, dst))
+    return moved
+
+
+def linkSettings(master, other):
+    """Настройки other ведутся настройками master - так несколько цепочек
+    собираются под одним управлением.
+
+    Связывается контрол с контролом, а не с нодой: у каждой цепочки её ручки
+    остаются на месте и связь на любой из них можно разорвать, подстроив эту
+    одну цепочку отдельно. Кривые - веса и жёсткости - живут на самих нодах и
+    здесь не затрагиваются: это форма цепочки, а не то, чем управляют."""
+    if not hasSettings(master):
+        cmds.error("%s has no dynamic settings on it" % master)
+    if master == other:
+        cmds.error("linkSettings: it is the same control")
+
+    linked = []
+    for attr, nodeAttr, dv, mn, mx in SETTINGS:
+        if not cmds.attributeQuery(attr, node=master, exists=True):
+            continue
+        _addOne(other, attr, dv, mn, mx)
+        cmds.connectAttr("%s.%s" % (master, attr), "%s.%s" % (other, attr), f=True)
+        linked.append(attr)
+
+    print("pk_chainDynamics: %d settings %s -> %s" % (len(linked), master, other))
+    return linked
 
 
 def _makeNode(name, goals, space):

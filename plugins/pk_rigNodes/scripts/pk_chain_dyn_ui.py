@@ -39,6 +39,9 @@ SLIDERS = [
 NODE_ATTRS = ["maxBend", "bendSoftness", "dampingEven", "outputCount", "aimAxis",
               "substeps", "stretchLimit", "stretchSpeed", "stretchRelease"]
 
+# атрибут контрола -> атрибут ноды, чтобы найти, кто его ведёт
+NODE_OF = dict((attr, nodeAttr) for attr, nodeAttr, _dv, _mn, _mx in dyn.SETTINGS)
+
 _state = {"name": None, "playback": None}
 
 # на сколько кадров вперёд уводится диапазон в живом просмотре
@@ -87,6 +90,24 @@ def solverFrom(obj):
     return None
 
 
+def _driver(node, nodeAttr):
+    """Плаг контрола, который правда ведёт эту настройку этой ноды. Настройки
+    могли перенести на кастомный контрол, связать с общим, а на одной из них
+    связь разорвать - слайдер должен менять того, кого он и меняет."""
+    src = cmds.listConnections("%s.%s" % (node, nodeAttr), s=True, d=False, p=True) or []
+    if not src:
+        return None
+
+    plug = src[0]
+    for _ in range(8):
+        up = cmds.listConnections(plug, s=True, d=False, p=True) or []
+        # выше может быть и анимация - у неё настроек нет, и мы остаёмся здесь
+        if not up or not dyn.hasSettings(up[0].split(".")[0]):
+            break
+        plug = up[0]
+    return plug
+
+
 def nameOf(node):
     """Имя цепочки по имени ноды - его ждут функции скрипта."""
     if node and node.endswith(SUFFIX):
@@ -116,13 +137,42 @@ def attach(name):
         _fill()
 
 
+def _root(name):
+    """Корневой контрол цепочки - первая цель ноды."""
+    node = dyn._names(name)["node"]
+    src = cmds.listConnections(node + ".goalMatrix[0]", s=True, d=False) or []
+    return src[0] if src else None
+
+
 def _host(name):
-    """Корневой контрол - на нём живут настройки."""
+    """Контрол, на котором живут настройки. Это не обязательно корень цепочки:
+    ручки могли перенести на кастомный контрол, а могли и связать с общим -
+    тогда идём по связям до того, кто их правда ведёт, чтобы слайдеры в окне
+    были рабочими, а не заблокированными."""
     node = dyn._names(name)["node"]
     if not cmds.objExists(node):
         return None
-    src = cmds.listConnections(node + ".goalMatrix[0]", s=True, d=False) or []
-    return src[0] if src else None
+
+    first = dyn.SETTINGS[0][0]
+    src = cmds.listConnections(node + "." + dyn.SETTINGS[0][1],
+                               s=True, d=False, p=True) or []
+    host = src[0].split(".")[0] if src else None
+    if not host:
+        root = cmds.listConnections(node + ".goalMatrix[0]", s=True, d=False) or []
+        return root[0] if root else None
+
+    for _ in range(8):
+        up = cmds.listConnections("%s.%s" % (host, first), s=True, d=False, p=True) or []
+        if not up:
+            break
+        above = up[0].split(".")[0]
+        # выше может оказаться анимация или что-то ещё, что настройкой не
+        # является - тогда остаёмся здесь
+        if not dyn.hasSettings(above):
+            break
+        host = above
+
+    return host
 
 
 def _fill():
@@ -147,17 +197,37 @@ def _fill():
 
     goals = len(cmds.getAttr(node + ".goalMatrix", mi=True) or [])
     bones = len(cmds.listConnections(node + ".outMatrix", s=False, d=True) or [])
-    cmds.text(l=u"   %s: контролов %d, костей %d" % (name, goals, bones), al="left", h=26)
+    where = u"" if host == _root(name) else (u", настройки на %s" % host)
+    cmds.text(l=u"   %s: контролов %d, костей %d%s" % (name, goals, bones, where),
+              al="left", h=26)
 
     cmds.frameLayout(l=u"Настройки", cll=True, cl=False, mw=4, mh=4)
     cmds.columnLayout(adj=True)
-    cmds.attrControlGrp(a=host + ".dynamic", l=u"Dynamic")
-    cmds.attrControlGrp(a=host + ".startFrame", l=u"Start frame")
+    def plugOf(attr):
+        got = _driver(node, NODE_OF.get(attr, attr))
+        if got:
+            return got
+        return (host + "." + attr) if cmds.attributeQuery(attr, node=host,
+                                                          exists=True) else None
+
+    for attr, label in ((u"dynamic", u"Dynamic"), (u"startFrame", u"Start frame")):
+        plug = plugOf(attr)
+        if plug:
+            cmds.attrControlGrp(a=plug, l=label)
+
     for attr, label, lo, hi, flo, fhi in SLIDERS:
-        if not cmds.attributeQuery(attr, node=host, exists=True):
+        plug = plugOf(attr)
+        if not plug:
             continue
-        cmds.attrFieldSliderGrp(at=host + "." + attr, l=label, min=lo, max=hi,
+        cmds.attrFieldSliderGrp(at=plug, l=label, min=lo, max=hi,
                                 fmn=flo, fmx=fhi, pre=3, cw3=(110, 60, 180))
+    cmds.button(l=u"Перенести настройки на выделенный контрол", h=26,
+                c=lambda *a: _moveSettings(),
+                ann=u"Выдели контрол с настройками и тот, на который их перенести")
+    cmds.button(l=u"Связать настройки: первый ведёт второго", h=26,
+                c=lambda *a: _linkSettings(),
+                ann=u"Выдели два контрола с настройками - второй пойдёт за первым. "
+                    u"Так несколько цепочек собираются под одним управлением")
     cmds.setParent("..")
     cmds.setParent("..")
 
@@ -259,6 +329,48 @@ def _setJoints():
     if name:
         dyn.setJoints(name, cmds.intFieldGrp(WIN + "_bones", q=True, v1=True))
         _fill()
+
+
+def _twoSelected(what):
+    sel = cmds.ls(sl=True, o=True) or []
+    if len(sel) != 2:
+        cmds.warning(u"pk chain: выдели ровно два контрола - %s" % what)
+        return None, None
+    return sel[0], sel[1]
+
+
+def _moveSettings():
+    """Настройки уезжают на второй выделенный. Порядок можно не соблюдать:
+    источник тот, на котором они есть."""
+    a, b = _twoSelected(u"откуда и куда")
+    if not a:
+        return
+
+    if not dyn.hasSettings(a) and dyn.hasSettings(b):
+        a, b = b, a
+    if not dyn.hasSettings(a):
+        cmds.warning(u"pk chain: ни на одном из выделенных нет настроек динамики")
+        return
+    if dyn.hasSettings(b):
+        cmds.warning(u"pk chain: на %s настройки уже есть - для двух мастеров "
+                     u"есть вторая кнопка, связать" % b)
+        return
+
+    dyn.moveSettings(a, b)
+    _fill()
+
+
+def _linkSettings():
+    """Второй выделенный идёт за первым."""
+    a, b = _twoSelected(u"ведущий и ведомый")
+    if not a:
+        return
+    if not dyn.hasSettings(a):
+        cmds.warning(u"pk chain: на %s нет настроек динамики" % a)
+        return
+
+    dyn.linkSettings(a, b)
+    _fill()
 
 
 def _rebuild():
