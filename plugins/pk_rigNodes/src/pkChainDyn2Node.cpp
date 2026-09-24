@@ -1127,48 +1127,39 @@ MStatus PkChainDyn2Node::compute(const MPlug& plug, MDataBlock& data)
             mLastDt   = dt;
         }
 
-        // How much of the simulation each point is given - and given as a
-        // direction, not as a place.
+        // How much of the simulation each point is given, and then the lengths
+        // put back.
         //
-        // Dragging a point part of the way back to its control along a straight
-        // line looks right for that one point and eats the chain: the line cuts
-        // across the arc, so the whole thing comes up short exactly when it
-        // swings, which is when it shows. On the tail this was 30% of its length
-        // gone at the peak of a whip - with stretch turned off entirely, so it
-        // was never the stretch.
+        // The blend itself is what it always was: each point drawn part of the
+        // way from its control towards where the solve put it. That is what the
+        // curve has always meant and what the chain was tuned by, and it is
+        // left alone - blending the turns instead was tried and it changed the
+        // motion itself, which is not what was asked for.
         //
-        // What is blended instead is the turn each segment has taken away from
-        // its goal, and the chain is then laid out again from the root with the
-        // lengths the goals have. Half the weight is half the angle rather than
-        // half the distance, the length is exactly right at any weight, and at
-        // weight 1 it comes out where the solve put it - the segments are
-        // already at those lengths, so nothing moves.
+        // What it does badly is length: the straight line to the control cuts
+        // across the arc, so the chain comes up short exactly when it swings.
+        // Measured on a whipping tail, 30% of its length gone at the peak -
+        // with the stretch off entirely, so the stretch was never the cause.
+        // So the directions the blend produced are kept, and each segment is
+        // put back to the length its goals have. The shape is the blend's, the
+        // length is right, and at weight 1 nothing moves at all: the solve
+        // already holds those lengths.
         std::vector<double> share(n, weight);
+        std::vector<MPoint> blend(n);
         for (size_t i = 0; i < n; ++i)
+        {
             share[i] = weight * mWeightCurve[i];
+            blend[i] = lerp(goals[i], mCur.pos[i], share[i]);
+        }
 
-        sim[0] = lerp(goals[0], mCur.pos[0], share[0]);
+        sim[0] = blend[0];
         for (size_t i = 1; i < n; ++i)
         {
-            const MVector goalSeg = goals[i] - goals[i - 1];
-            const double  rest    = goalSeg.length();
-            if (rest <= kEps)
-            {
-                sim[i] = sim[i - 1];
-                continue;
-            }
+            const MVector seg  = blend[i] - blend[i - 1];
+            const double  len  = seg.length();
+            const double  rest = (goals[i] - goals[i - 1]).length();
 
-            MVector dir = goalSeg / rest;
-
-            const MVector simSeg = mCur.pos[i] - mCur.pos[i - 1];
-            const double  simLen = simSeg.length();
-            if (simLen > kEps && share[i] > kEps)
-            {
-                const MQuaternion turn(dir, simSeg / simLen);
-                dir = dir.rotateBy(slerp(MQuaternion::identity, turn, share[i]));
-            }
-
-            sim[i] = sim[i - 1] + dir * rest;
+            sim[i] = (len > kEps) ? (sim[i - 1] + seg * (rest / len)) : sim[i - 1];
         }
 
         // Give under the pull - afterwards, along the chain as it already
