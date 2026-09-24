@@ -288,17 +288,21 @@ def _count(name):
 
 
 def bones(name="chain"):
-    """Кости цепочки по порядку - те, что нода и правда тянет."""
+    """Кости цепочки по порядку - те, что нода и правда тянет.
+
+    Ищем именно джоинты: на тот же outMatrix могут сидеть и другие трансформы -
+    например шарики, показывающие толщину, - и брать первое, что подключено,
+    значит рано или поздно принять за кость что-то другое."""
     node = _names(name)["node"]
     if not cmds.objExists(node):
         cmds.error("%s not found" % node)
 
     out = []
     for i in sorted(cmds.getAttr(node + ".outMatrix", mi=True) or []):
-        for j in cmds.listConnections("%s.outMatrix[%d]" % (node, i),
-                                      s=False, d=True) or []:
-            out.append(j)
-            break
+        plug = "%s.outMatrix[%d]" % (node, i)
+        got = cmds.listConnections(plug, s=False, d=True, type="joint") or []
+        if got:
+            out.append(got[0])
     return out
 
 

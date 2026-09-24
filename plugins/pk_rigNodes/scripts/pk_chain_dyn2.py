@@ -345,48 +345,59 @@ def thicknessAt(name="chain"):
 def thicknessGuide(name="chain", show=True):
     """Показать во вьюпорте, какой толщины цепочка для коллизии.
 
-    Зазор держится у каждой точки свой, и держится он во все стороны - то есть
-    настоящая форма это шарик вокруг каждой кости. Его и рисуем: три круга на
-    кость, каркасом, в рендер не идут. Размер живёт связью с thickness, поэтому
-    ползунок видно сразу; кривую поменял - позвать заново.
+    Зазор держится у каждой точки свой и во все стороны, то есть настоящая форма
+    это шарик вокруг каждой кости. Его и рисуем.
 
-    show=False убирает."""
-    made, gone = [], []
-    for i, joint in enumerate(bones(name)):
-        guide = joint + "_thickness"
-        if cmds.objExists(guide):
-            cmds.delete(guide)
-            gone.append(guide)
-        for extra in cmds.ls(joint + "_thickness_mul") or []:
-            cmds.delete(extra)
+    Шарики - меши, как и коллайдеры, и видны при тех же настройках вьюпорта:
+    кривые в анимационном окне часто выключены, и каркас из кругов было бы
+    просто не видно. И висят они не под костями, а в своей группе, а матрицу
+    берут прямо с ноды, тем же outMatrix - кости в риге обычно спрятаны, а
+    спрятанная кость спрятала бы и то, что под ней.
+
+    Размер живёт связью с thickness, поэтому ползунок видно сразу; кривую
+    поменял - позвать заново. show=False убирает."""
+    node = _names(name)["node"]
+    if not cmds.objExists(node):
+        cmds.error("%s not found" % node)
+
+    grp = name + "_dynThickness"
+    if cmds.objExists(grp):
+        cmds.delete(grp)
+    for old in cmds.ls(name + "_dyn_*_thickness*") or []:
+        if cmds.objExists(old):
+            cmds.delete(old)
 
     if not show:
-        print("pk_chainDynamics2: %d thickness guides removed" % len(gone))
+        print("pk_chainDynamics2: thickness guides of %s removed" % name)
         return []
 
-    node = _names(name)["node"]
     sizes = thicknessAt(name)
+    if not sizes:
+        cmds.error("%s: no joints to show the thickness on" % name)
+    if cmds.getAttr(node + ".thickness") <= 0.0:
+        cmds.warning(u"%s: thickness = 0, цепочка ничего не отодвигает - "
+                     u"шарики будут нулевого размера" % name)
 
-    for i, joint in enumerate(bones(name)):
-        guide = cmds.createNode("transform", n=joint + "_thickness", p=joint)
-        for a in ("tx", "ty", "tz", "rx", "ry", "rz"):
-            cmds.setAttr(guide + "." + a, 0)
-            cmds.setAttr(guide + "." + a, lock=True)
+    cmds.createNode("transform", n=grp)
+    cmds.setAttr(grp + ".inheritsTransform", 0)
+    top = _names(name)["top"]
+    if cmds.objExists(top):
+        cmds.parent(grp, top)
 
-        rings = [cmds.circle(n=guide + "_r%d" % k, nr=nr, r=1.0, ch=False)[0]
-                 for k, nr in enumerate(((0, 1, 0), (1, 0, 0), (0, 0, 1)))]
-        for ring in rings:
-            for shape in cmds.listRelatives(ring, s=True, f=True) or []:
-                shape = cmds.parent(shape, guide, r=True, s=True)[0]
-                cmds.setAttr(shape + ".overrideEnabled", 1)
-                cmds.setAttr(shape + ".overrideShading", 0)
-                cmds.setAttr(shape + ".overrideColor", COLOR)
-            cmds.delete(ring)
+    made = []
+    for i, size in enumerate(sizes):
+        ball = cmds.polySphere(n="%s_dyn_%d_thickness" % (name, i + 1),
+                              r=1.0, sx=12, sy=8, ch=True)
+        guide = cmds.parent(ball[0], grp)[0]
+        cmds.connectAttr("%s.outMatrix[%d]" % (node, i), guide + ".offsetParentMatrix")
+
+        for shape in cmds.listRelatives(guide, s=True, f=True) or []:
+            _look(shape)
 
         # размер: thickness с ноды, помноженный на то, что даёт кривая здесь
-        mul = cmds.createNode("multiplyDivide", n=joint + "_thickness_mul")
-        share = (sizes[i] / cmds.getAttr(node + ".thickness")) \
-            if cmds.getAttr(node + ".thickness") > 1e-9 else 1.0
+        mul = cmds.createNode("multiplyDivide", n="%s_dyn_%d_thickness_mul" % (name, i + 1))
+        thickness = cmds.getAttr(node + ".thickness")
+        share = (size / thickness) if thickness > 1e-9 else 1.0
         for a in "XYZ":
             cmds.connectAttr(node + ".thickness", "%s.input1%s" % (mul, a))
             cmds.setAttr("%s.input2%s" % (mul, a), share)
@@ -400,7 +411,7 @@ def thicknessGuide(name="chain", show=True):
 
 
 def hasGuides(name="chain"):
-    return any(cmds.objExists(j + "_thickness") for j in bones(name))
+    return cmds.objExists(name + "_dynThickness")
 
 
 def reshape(name="chain"):
