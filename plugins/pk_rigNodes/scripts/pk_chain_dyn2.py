@@ -4,8 +4,9 @@ pk_dynamics2 - там пробуется коллизия, а рабочий pk_
 
     import pk_chain_dyn2 as dyn2
     dyn2.build("test", count=4, joints=10)
-    dyn2.collider("test", "plane")        - пол под цепочкой
+    dyn2.collider("test", "plane")        - пол под цепочкой, с формой
     dyn2.collider("test", "sphere", size=2.0)
+    dyn2.reshape("test")                  - дать форму коллайдерам-локаторам
 
     import pk_chain_dyn_ui as ui
     ui.use(dyn2)                          - окно на экспериментальную ноду
@@ -31,12 +32,81 @@ globals().update({k: v for k, v in vars(_twin).items()
                   if not (k.startswith("__") and k.endswith("__"))})
 
 TYPES = {"plane": 0, "sphere": 1, "capsule": 2}
+KINDS = dict((v, k) for k, v in TYPES.items())
+
+# цвет каркаса, чтобы коллайдер не путался с контролами
+COLORS = {"plane": 17, "sphere": 18, "capsule": 14}
+
+
+def _shape(loc, kind):
+    """Форма коллайдера - примитив под самим коллайдером, а размеры приходят
+    связями в его construction history.
+
+    Примитивы выбраны так, чтобы картинка была ровно тем, что считает солвер, а
+    не похожим на него: polySphere radius это тот же радиус, а polyCylinder с
+    круглыми шапками это и есть капсула - отрезок длиной height, обтянутый
+    радиусом, и в габарит он даёт length + 2 * radius. Проверено замером.
+
+    Рисуются они каркасом (overrideShading 0): сквозь коллайдер видно цепочку,
+    ради которой он и стоит. Хочется плотный - выключить оверрайд на шейпе. И
+    не рендерятся: это оснастка, а не геометрия."""
+    if kind == "plane":
+        made = cmds.polyPlane(w=1.0, h=1.0, sx=1, sy=1, ax=(0, 1, 0), ch=True)
+        cmds.connectAttr(loc + ".size", made[1] + ".width")
+        cmds.connectAttr(loc + ".size", made[1] + ".height")
+    elif kind == "sphere":
+        made = cmds.polySphere(r=1.0, sx=16, sy=10, ch=True)
+        cmds.connectAttr(loc + ".radius", made[1] + ".radius")
+    else:
+        made = cmds.polyCylinder(r=1.0, h=1.0, sx=16, sy=1, sz=1, rcp=True,
+                                 ax=(0, 1, 0), ch=True)
+        cmds.connectAttr(loc + ".radius", made[1] + ".radius")
+        cmds.connectAttr(loc + ".length", made[1] + ".height")
+
+    shape = cmds.listRelatives(made[0], s=True, f=True)[0]
+    shape = cmds.parent(shape, loc, r=True, s=True)[0]
+    cmds.delete(made[0])
+    shape = cmds.rename(shape, loc + "Shape")
+
+    cmds.setAttr(shape + ".overrideEnabled", 1)
+    cmds.setAttr(shape + ".overrideShading", 0)
+    cmds.setAttr(shape + ".overrideColor", COLORS[kind])
+    for a in ("castsShadows", "receiveShadows", "primaryVisibility",
+              "visibleInReflections", "visibleInRefractions"):
+        cmds.setAttr(shape + "." + a, 0)
+
+    return shape
+
+
+def _attrs(loc, kind, size, length):
+    """Размеры живут на самом коллайдере: их видно в канал боксе, они же идут
+    в ноду и они же задают форму."""
+    if kind == "plane":
+        if not cmds.attributeQuery("size", node=loc, exists=True):
+            cmds.addAttr(loc, ln="size", at="double", min=0.01, dv=float(size), k=True)
+        return
+
+    if not cmds.attributeQuery("radius", node=loc, exists=True):
+        cmds.addAttr(loc, ln="radius", at="double", min=0.0, dv=float(size), k=True)
+    if kind == "capsule" and not cmds.attributeQuery("length", node=loc, exists=True):
+        cmds.addAttr(loc, ln="length", at="double", min=0.0, dv=float(length), k=True)
+
+
+def _hasShape(loc):
+    return bool(cmds.listRelatives(loc, ad=True, type="mesh") or
+                cmds.listRelatives(loc, ad=True, type="nurbsCurve") or [])
 
 
 def collider(name="chain", kind="plane", size=1.0, length=4.0, at=None):
-    """Коллайдер цепочке: локатор, чей worldMatrix идёт в очередной элемент
-    collider. Плоскость смотрит своим Y, сфера и капсула берут size радиусом,
-    капсула вытягивается по своему Y на length. at - куда поставить."""
+    """Коллайдер цепочке - трансформ с формой, чей worldMatrix идёт в очередной
+    элемент collider.
+
+    Плоскость смотрит своим Y и считается бесконечной, квадрат нарисован только
+    чтобы её было видно; sphere берёт radius, capsule ещё и length по своему Y.
+    Размеры стоят атрибутами на самом коллайдере: они же идут в ноду, они же
+    задают форму - картинка и расчёт это одно число. Масштаб коллайдера солвер
+    читает из матрицы, поэтому увеличенный трансформ это и правда больший
+    коллайдер, а не только большая картинка."""
     if kind not in TYPES:
         cmds.error("collider: kind is one of %s" % ", ".join(sorted(TYPES)))
 
@@ -47,17 +117,27 @@ def collider(name="chain", kind="plane", size=1.0, length=4.0, at=None):
     used = cmds.getAttr(node + ".collider", mi=True) or []
     i = (max(used) + 1) if used else 0
 
-    loc = cmds.spaceLocator(n="%s_%s_%d_collider" % (name, kind, i + 1))[0]
+    loc = cmds.createNode("transform", n="%s_%s_%d_collider" % (name, kind, i + 1))
     if at:
         cmds.xform(loc, ws=True, t=at)
+    if kind == "plane" and size <= 1.0:
+        size = 10.0                      # пол размером в пол, а не в кулак
+
+    _attrs(loc, kind, size, length)
+    _shape(loc, kind)
+
     top = _names(name)["top"]
     if cmds.objExists(top):
         cmds.parent(loc, top)
 
     cmds.connectAttr(loc + ".worldMatrix[0]", "%s.collider[%d].colliderMatrix" % (node, i))
     cmds.setAttr("%s.collider[%d].colliderType" % (node, i), TYPES[kind])
-    cmds.setAttr("%s.collider[%d].colliderRadius" % (node, i), float(size))
-    cmds.setAttr("%s.collider[%d].colliderLength" % (node, i), float(length))
+    if kind == "plane":
+        cmds.setAttr("%s.collider[%d].colliderRadius" % (node, i), 0.0)
+    else:
+        cmds.connectAttr(loc + ".radius", "%s.collider[%d].colliderRadius" % (node, i))
+        if kind == "capsule":
+            cmds.connectAttr(loc + ".length", "%s.collider[%d].colliderLength" % (node, i))
 
     if cmds.getAttr(node + ".collide") <= 0.0:
         cmds.setAttr(node + ".collide", 1.0)
@@ -65,3 +145,41 @@ def collider(name="chain", kind="plane", size=1.0, length=4.0, at=None):
     cmds.select(loc)
     print("pk_chainDynamics2: %s collider[%d] = %s" % (kind, i, loc))
     return loc
+
+
+def reshape(name="chain"):
+    """Дать форму коллайдерам, собранным прежней версией - они были локаторами.
+    Размеры снимаются с ноды и переезжают на сам коллайдер. У кого форма уже
+    есть, того не трогаем, так что звать можно сколько угодно."""
+    node = _names(name)["node"]
+    if not cmds.objExists(node):
+        cmds.error("%s not found" % node)
+
+    done = []
+    for i in cmds.getAttr(node + ".collider", mi=True) or []:
+        plug = "%s.collider[%d]" % (node, i)
+        src = cmds.listConnections(plug + ".colliderMatrix", s=True, d=False) or []
+        if not src or _hasShape(src[0]):
+            continue
+
+        loc = src[0]
+        kind = KINDS.get(cmds.getAttr(plug + ".colliderType"), "plane")
+        size = cmds.getAttr(plug + ".colliderRadius")
+        length = cmds.getAttr(plug + ".colliderLength")
+
+        for shape in cmds.listRelatives(loc, s=True, type="locator") or []:
+            cmds.delete(shape)
+
+        _attrs(loc, kind, size if size > 0.0 else 10.0, length if length > 0.0 else 4.0)
+        _shape(loc, kind)
+
+        if kind != "plane":
+            cmds.connectAttr(loc + ".radius", plug + ".colliderRadius", f=True)
+            if kind == "capsule":
+                cmds.connectAttr(loc + ".length", plug + ".colliderLength", f=True)
+
+        done.append(loc)
+
+    print("pk_chainDynamics2: %d colliders reshaped%s"
+          % (len(done), (": " + ", ".join(done)) if done else ""))
+    return done
