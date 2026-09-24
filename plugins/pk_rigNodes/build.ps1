@@ -48,12 +48,12 @@ if ($Target -ne "") { $buildArgs += @("--target", $Target) }
 if ($LASTEXITCODE -ne 0) {
     # LNK1104 on the .mll almost always means Maya still has the plugin loaded
     Write-Host "`nIf the linker could not write the .mll, unload it in Maya first:" -ForegroundColor Yellow
-    Write-Host '    cmds.unloadPlugin("pk_rigNodes.mll"); cmds.unloadPlugin("pk_wings.mll"); cmds.unloadPlugin("pk_dynamics.mll"); cmds.unloadPlugin("pk_dynamics2.mll")' -ForegroundColor Yellow
+    Write-Host '    cmds.unloadPlugin("pk_rigNodes.mll"); cmds.unloadPlugin("pk_wings.mll"); cmds.unloadPlugin("pk_dynamics.mll")' -ForegroundColor Yellow
     Write-Host "or build elsewhere: .\build.ps1 -OutputDir C:\some\dir" -ForegroundColor Yellow
     throw "build failed"
 }
 
-$built = @("pk_wings", "pk_rigNodes", "pk_dynamics", "pk_dynamics2")
+$built = @("pk_wings", "pk_rigNodes", "pk_dynamics")
 if ($Target -ne "") { $built = @($Target) }
 Write-Host ""
 foreach ($b in $built) { Write-Host "Built: $OutputDir\$b.mll" }

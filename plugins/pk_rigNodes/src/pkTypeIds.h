@@ -9,5 +9,4 @@ namespace pk {
     const MTypeId kTwistNodeId(0x00073003);
     const MTypeId kLimbIkNodeId(0x00073004);
     const MTypeId kChainDynNodeId(0x00073005);
-    const MTypeId kChainDyn2NodeId(0x00073006);
 }

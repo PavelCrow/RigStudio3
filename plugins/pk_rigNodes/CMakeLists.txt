@@ -4,9 +4,7 @@
 #   pk_rigNodes.mll - pk_ibtw (local inbetweens), pk_twist (twist chains) and
 #                     pk_limbIk (two bone IK)
 #   pk_wings.mll    - pk_wing, the replacement for the bifrost graphs
-#   pk_dynamics.mll - pk_chainDynamics, simple dynamics of a chain
-#   pk_dynamics2.mll - pk_chainDynamics2, the same node where collision is
-#                     being tried out, so the working one stays untouched
+#   pk_dynamics.mll - pk_chainDynamics, dynamics of a chain with collision
 # They are kept apart on purpose: a rig that only needs correctives and twists
 # should not have to load the wing node, which is still work in progress, and
 # a node that keeps state between frames is loaded only where it is used.
@@ -53,14 +51,7 @@ add_library(pk_dynamics SHARED
     src/pkChainDynNode.cpp
 )
 
-# Проба коллизии идёт отдельным плагином, чтобы рабочий pk_dynamics можно было
-# не выгружать: нода в нём называется pk_chainDynamics2 и живёт одновременно.
-add_library(pk_dynamics2 SHARED
-    src/pkDynamics2Main.cpp
-    src/pkChainDyn2Node.cpp
-)
-
-foreach(pk_target pk_rigNodes pk_wings pk_dynamics pk_dynamics2)
+foreach(pk_target pk_rigNodes pk_wings pk_dynamics)
     target_include_directories(${pk_target} PRIVATE "${MAYA_LOCATION}/include")
     target_link_directories(${pk_target} PRIVATE "${MAYA_LOCATION}/lib")
     target_link_libraries(${pk_target} PRIVATE Foundation OpenMaya OpenMayaAnim)

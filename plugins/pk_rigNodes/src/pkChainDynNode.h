@@ -19,7 +19,7 @@
 //
 // Every point is a mass on a spring towards its goal:
 //
-//     w  = sqrt(kMaxK) * stiffness * ramp(u)    the frequency of the spring
+//     w  = sqrt(kMaxK) * stiffness              the frequency of the spring
 //     x'' = -w^2 * (x - goal) - 2 * damping * w * x'
 //
 // which is solved exactly over the step - the closed form of the damped
@@ -52,6 +52,23 @@
 // eight frames; stretchRelease takes a frame; stretchLimit takes whatever
 // stretch could ask for, so it only ever catches the wild ones.
 //
+// Every point gets the same spring, and that is the whole of it. A curve of
+// stiffness along the chain was tried and thrown out: a point made soft by it
+// swings at a frequency of its own, so the chain no longer settles as one piece.
+// Measured on twelve points with a sloped curve, the tip was still moving at
+// frame 39 while the base was done at 12, and in the middle the points spent
+// between a third and two thirds of the time moving against the tip. With one
+// spring for all of them every point is in step with every other, all of them
+// settle on the same frame, and the shape of the trail is drawn by weightRamp
+// instead - which does it without touching anybody's frequency.
+//
+// dampingEven went with it. It existed to give a point back the damping the
+// stiffness curve took away, so it only ever did anything while that curve had
+// a slope - with the flat curve the output was the same to the ninth digit
+// either way. And where it did act it did not deliver what it promised: raising
+// the ratio made the tip creep home instead of swinging home, and it settled at
+// frame 113 rather than 39.
+//
 // maxBend is how far a bone may turn away from where the goals put it against
 // the one before it. The first bone is measured against its control rather
 // than against nothing, so a chain whose root is yanked away cannot answer by
@@ -59,15 +76,6 @@
 // at 0 it is a wall, which shows as a corner at one joint, and turned up it
 // starts pushing back before it is reached, so the corner becomes a tight but
 // smooth arc. The limit itself is never passed either way.
-//
-// dampingEven is what keeps the ramp from doing two jobs at once. A point the
-// ramp made soft swings slower, and a slower swing takes longer to die down
-// at the same ratio - so a soft tip not only trails further, which is wanted,
-// but also keeps going long after the root is still, which is not, and the
-// two cannot be told apart from one slider. At 1 the ratio of each point is
-// raised by exactly as much as the ramp slowed it, so every point settles in
-// the time damping asks for and the ramp is left to do nothing but shape the
-// trail. At 0 the ratio is the same everywhere, as it used to be.
 //
 // damping is the damping ratio, not a fraction of the velocity per frame: it
 // is measured against the frequency of the spring, w. A stiff chain swings
@@ -79,20 +87,53 @@
 // stiffness goes through a square so the soft end of the slider is not
 // squeezed into its first tenth: at 1 the chain follows almost rigidly, at
 // 0.1 it swings for a couple of seconds, at 0 only the lengths hold it.
-// ramp(u) is a curve along the chain, 0 at the root and 1 at the tip - how
-// much of the stiffness each point gets.
 //
 // Within a frame the goals are interpolated between the last frame and this
 // one, so the substeps see the motion, not just its end.
 //
 // weightRamp is how much of the simulation each point along the chain is
 // given: at 0 the point sits on its control and is not simulated at all, at 1
-// it is where the solve put it. It is drawn along the chain the way the
-// stiffness ramp is, and it is what shapes how far each bone swings - which
-// the stiffness ramp also did, but could not do without giving every point a
-// frequency of its own and setting them all swinging out of step. With the
-// shape drawn here instead, the stiffness can be left even, every point keeps
-// the same beat, and the chain settles as one piece.
+// it is where the solve put it. It is what shapes how far each bone swings,
+// and it does that without giving anybody a frequency of their own: every
+// point keeps the same beat and the chain settles as one piece. How much
+// swinging there is at all is the stiffness, how it is shared out along the
+// chain is this curve.
+//
+// --- collision --------------------------------------------------------------
+//
+// collider is a list, so a shape too awkward for one primitive is built out of
+// several: the floor as a plane, the head as a sphere, a thigh as a capsule.
+// Each takes a matrix, so every one of them can be parented and animated for
+// nothing, and a radius of its own.
+//
+// A point that has gone inside is pushed out the shortest way, and its velocity
+// loses what was going in - bounce says how much of that comes back instead,
+// friction how much of the sliding along is taken away. thickness is the
+// chain's own radius: the points are kept that far off every surface, and
+// thicknessRamp is how much of it each point along the chain has - a tail that
+// tapers touches the floor with its tip long after its base would.
+//
+// The pushing happens twice over: a point squeezed between two colliders is put
+// back inside the first by the second, and one round would leave it there. It
+// also happens twice in the frame, and for two different reasons. Inside the
+// substep, right after the lengths, so the collision is part of the simulation
+// - the chain carries on with the velocity it should have, and the next substep
+// puts the lengths back. And once at the very end, after the weight curve and
+// the stretch, because both of those move finished points and would otherwise
+// put them straight back through the surface: the weight curve pulls a point
+// towards its control, and the control can be anywhere. So the surface wins
+// over the weight curve - which is what is wanted of a floor, and worth knowing
+// before wondering why a point with weight 0.2 still will not go through it.
+//
+// The root is left alone. It is pinned to its control and belongs to the
+// animator, not to the solver.
+//
+// outThickness is what the standoff of each point came out as - thickness times
+// the curve at that point. It is there so the thing that draws the chain's own
+// volume can take the number from the solver instead of working it out again:
+// one source, so the picture cannot drift from what is really kept off the
+// surfaces, and it follows both the slider and the curve without anything being
+// rebuilt.
 //
 // --- time -------------------------------------------------------------------
 //
@@ -136,11 +177,14 @@
 // geometry needs it without changing anything else. It is the `pos` of the
 // joint in the rig, the same thing the spine has.
 //
-// The frames are then aimed along the curve: aimAxis says which axis of a
-// control runs down the chain, and that axis is turned onto the tangent. So a
+// The frames are then aimed along the curve: the X axis of a control is the
+// one that runs down the chain, and it is turned onto the tangent. So a
 // control that is moved and not turned still bends the bones with it, while
 // the twist stays whatever the controls have. With one point per control
 // nothing of this happens - there the control's own matrix is the frame.
+//
+// X and not a choice of axis: the rig builds its chains along X, and the
+// attribute that used to offer the other five was never set by anything.
 //
 // --- output -----------------------------------------------------------------
 //
@@ -171,9 +215,7 @@ public:
     static MObject aWeight;           // 0 - the goals as they are, 1 - the simulation
     static MObject aWeightRamp;       // and how much of that each point along the chain gets
     static MObject aStiffness;        // the whole chain, 0..1
-    static MObject aStiffnessRamp;    // curve along the chain, root to tip
     static MObject aDamping;          // damping ratio, 1 - critical
-    static MObject aDampingEven;      // 1 - every point settles in the same time
     static MObject aGravity;          // units / s^2
     static MObject aGravityDirection;
     static MObject aGravityDirectionX, aGravityDirectionY, aGravityDirectionZ;
@@ -191,12 +233,32 @@ public:
     static MObject aGoalMatrix;       // multi, root first
     static MObject aOutputCount;      // 0 - one point per goal
     static MObject aPosition;         // multi: where along the chain each point sits
-    static MObject aAimAxis;          // which axis of a control runs down the chain
+    static MObject aCollide;          // 0 - off, 1 - the points stay out of the colliders
+    static MObject aThickness;        // the chain's own radius
+    static MObject aThicknessRamp;    // and how much of it each point along it has
+    static MObject aBounce;           // 0 - the surface takes the speed, 1 - hands it back
+    static MObject aFriction;         // how much of the sliding along is taken away
+    static MObject aCollider;         // multi compound, one per collider
+    static MObject aColliderType;     // plane / sphere / capsule
+    static MObject aColliderMatrix;   // where it sits; a plane faces its own Y
+    static MObject aColliderRadius;
+    static MObject aColliderLength;   // capsule only, along its Y
 
     // --- outputs -----------------------------------------------------------
     static MObject aOutMatrix;        // multi, world
+    static MObject aOutThickness;     // multi: the standoff of each point
 
 private:
+    // A collider as the solve wants it: already in the world, already
+    // measured, nothing left to work out per point per substep.
+    struct Collider
+    {
+        short   type = 0;             // 0 plane, 1 sphere, 2 capsule
+        MPoint  o;                    // where it is
+        MVector n;                    // plane: the way out; capsule: half its axis
+        double  radius = 0.0;
+    };
+
     struct State
     {
         std::vector<MPoint>  pos;
@@ -221,9 +283,11 @@ private:
 
     struct Params
     {
-        std::vector<double> k;        // spring per point, 1 / frame^2
-        std::vector<double> w;        // its frequency, sqrt(k)
-        std::vector<double> zeta;     // damping ratio per point
+        // one spring for the whole chain: every point has the same frequency,
+        // so they stay in step and the step itself is worked out once
+        double k = 0.0;               // spring, 1 / frame^2
+        double w = 0.0;               // its frequency, sqrt(k)
+        double zeta = 0.0;            // damping ratio
 
         // Everything starts at nothing: a field read before it is filled in
         // is a bug that hides until the memory under it happens to change,
@@ -232,7 +296,9 @@ private:
         double localTranslate = 0.0, localRotate = 0.0;
         double stretch = 0.0, stretchLimit = 0.0, stretchSpeed = 0.0;
         double stretchDamping = 0.0, stretchRelease = 0.0;
-        double stiffW = 0.0;          // the chain's own frequency, for the auto settings
+        double collide = 0.0, bounce = 0.0, friction = 0.0;
+        std::vector<double>   pad;     // thickness per point, along the chain
+        std::vector<Collider> colliders;
         MVector gravity;              // units / frame^2
         int substeps = 1;
     };
@@ -241,10 +307,20 @@ private:
     // curve through them cut at `along` - a place from 0 to 1 for each point.
     static void resample(const std::vector<MMatrix>& ctrl,
                          const std::vector<double>& along,
-                         const MVector& aim, std::vector<MMatrix>& out);
+                         std::vector<MMatrix>& out);
 
-    // Both curves, sampled at the points the chain has now.
+    // The curves, sampled at the points the chain has now.
     void readCurves(MDataBlock& data, size_t n);
+
+    // How deep the point is inside this collider, and which way is out.
+    static bool depthOf(const Collider& c, const MPoint& p, double pad,
+                        MVector& dir, double& depth);
+
+    // Every point out of every collider. vel is given inside the simulation,
+    // where the collision is to be felt, and left out at the end of the frame,
+    // where it only has to hold.
+    static void pushOut(std::vector<MPoint>& pos, std::vector<MVector>* vel,
+                        const Params& p);
 
     void reset(const std::vector<MPoint>& goals, const MMatrix& space);
     static void simulate(State& s, const std::vector<MPoint>& goals,
@@ -260,8 +336,8 @@ private:
     // the dirty callback - is not reliable here: the node is dirty every
     // frame from time alone, and Maya has no reason to walk the same dirt
     // again to mention the curve.
-    std::vector<double> mStiffCurve;
     std::vector<double> mWeightCurve;
+    std::vector<double> mThickCurve;
     std::vector<double> mCurveMark;   // the ramps as they were when sampled
     size_t mCurveCount = 0;
 

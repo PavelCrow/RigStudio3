@@ -49,18 +49,6 @@ _state = {"name": None, "playback": None}
 LIVE_FRAMES = 100000
 
 
-def use(module=None):
-    """Переключить окно на другой сборщик - например pk_chain_dyn2 с
-    экспериментальной нодой. Без аргумента просто возвращает текущий."""
-    global dyn
-    if module is not None:
-        dyn = module
-        _state["name"] = None
-        if cmds.window(WIN, exists=True):
-            _fill()
-    return dyn
-
-
 # --- поиск цепочки ----------------------------------------------------------
 
 def solverFrom(obj):
@@ -236,9 +224,8 @@ def _fill():
     cmds.gradientControl(at=node + ".weightRamp", h=110)
     cmds.setParent("..")
 
-    # коллизия есть только у экспериментальной ноды - у рабочей этого раздела
-    # просто нет, и окно одинаково годится для обеих
-    if hasattr(dyn, "collider") and cmds.attributeQuery("collide", node=node, exists=True):
+    # раздела нет, если плагин старой сборки, без коллизии
+    if cmds.attributeQuery("collide", node=node, exists=True):
         made = len(cmds.getAttr(node + ".collider", mi=True) or [])
         cmds.frameLayout(l=u"Коллизия%s" % (u": %d" % made if made else u""),
                          cll=True, cl=False, mw=4, mh=4)
@@ -252,7 +239,7 @@ def _fill():
         if cmds.attributeQuery("thicknessRamp", node=node, exists=True):
             cmds.text(l=u"   толщина вдоль цепочки", al="left", h=18)
             cmds.gradientControl(at=node + ".thicknessRamp", h=90)
-        if hasattr(dyn, "thicknessGuide"):
+        if True:
             cmds.checkBox(WIN + "_guide", l=u"Показать толщину во вьюпорте",
                           v=dyn.hasGuides(name),
                           cc=lambda on: _guide(on),
@@ -421,7 +408,7 @@ def _later(fn):
 
 def _guide(on):
     name = _need()
-    if not name or not hasattr(dyn, "thicknessGuide"):
+    if not name:
         return
     dyn.thicknessGuide(name, bool(on))
 
@@ -430,11 +417,6 @@ def _collider():
     name = _need()
     if not name:
         return
-    if not hasattr(dyn, "collider"):
-        cmds.warning(u"pk chain: коллайдеры есть только у экспериментальной ноды - "
-                     u"переключи окно через ui.use(pk_chain_dyn2)")
-        return
-
     kind = cmds.optionMenu(WIN + "_colliderKind", q=True, v=True)
     size = cmds.floatFieldGrp(WIN + "_colliderSize", q=True, v1=True)
     length = cmds.floatFieldGrp(WIN + "_colliderSize", q=True, v2=True)
@@ -465,7 +447,7 @@ def _otherChains(name):
 
 def _shareColliders():
     name = _need()
-    if not name or not hasattr(dyn, "shareColliders"):
+    if not name:
         return
 
     if not dyn.colliders(name):
@@ -484,7 +466,7 @@ def _shareColliders():
 
 def _dropColliders():
     name = _need()
-    if not name or not hasattr(dyn, "removeCollider"):
+    if not name:
         return
 
     mine = dyn.colliders(name)
