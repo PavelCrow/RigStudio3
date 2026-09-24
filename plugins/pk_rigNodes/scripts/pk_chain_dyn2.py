@@ -7,6 +7,8 @@ pk_dynamics2 - там пробуется коллизия, а рабочий pk_
     dyn2.collider("test", "plane")        - пол под цепочкой, с формой
     dyn2.collider("test", "sphere", size=2.0)
     dyn2.reshape("test")                  - дать форму коллайдерам-локаторам
+    dyn2.addCollider("other", floor)      - тот же коллайдер другой цепочке
+    dyn2.shareColliders("test", "a", "b") - все коллайдеры цепочки - остальным
 
     import pk_chain_dyn_ui as ui
     ui.use(dyn2)                          - окно на экспериментальную ноду
@@ -163,6 +165,87 @@ def collider(name="chain", kind="plane", size=1.0, length=4.0, at=None):
     cmds.select(loc)
     print("pk_chainDynamics2: %s collider[%d] = %s" % (kind, i, loc))
     return loc
+
+
+def _free(node):
+    """Следующий свободный элемент списка коллайдеров ноды."""
+    used = cmds.getAttr(node + ".collider", mi=True) or []
+    return (max(used) + 1) if used else 0
+
+
+def kindOf(obj):
+    """Какой это коллайдер - по той цепочке, где он уже стоит."""
+    for plug in cmds.listConnections(obj + ".worldMatrix[0]", p=True,
+                                     s=False, d=True) or []:
+        if plug.endswith(".colliderMatrix"):
+            return KINDS.get(cmds.getAttr(plug.replace(".colliderMatrix",
+                                                       ".colliderType")))
+    return None
+
+
+def addCollider(name, obj, kind=None):
+    """Тот же коллайдер ещё одной цепочке.
+
+    Список коллайдеров живёт на ноде, то есть у каждой цепочки свой. Сам
+    коллайдер при этом один: его worldMatrix уходит во все цепочки, которые
+    должны о него биться. Пол так и делается - одна плоскость на весь риг, а не
+    по своей на каждый хвост."""
+    node = _names(name)["node"]
+    if not cmds.objExists(node):
+        cmds.error("%s not found" % node)
+    if not cmds.objExists(obj):
+        cmds.error("%s not found" % obj)
+
+    for plug in cmds.listConnections(obj + ".worldMatrix[0]", p=True,
+                                     s=False, d=True) or []:
+        if plug.startswith(node + "."):
+            print("pk_chainDynamics2: %s is already on %s" % (obj, node))
+            return plug.split("[")[1].split("]")[0]
+
+    kind = kind or kindOf(obj)
+    if kind not in TYPES:
+        cmds.error("addCollider: %s is on no chain yet - say which kind it is" % obj)
+
+    i = _free(node)
+    plug = "%s.collider[%d]" % (node, i)
+    cmds.connectAttr(obj + ".worldMatrix[0]", plug + ".colliderMatrix")
+    cmds.setAttr(plug + ".colliderType", TYPES[kind])
+
+    # размеры берутся с самого коллайдера, поэтому у всех цепочек они те же
+    if cmds.attributeQuery("radius", node=obj, exists=True):
+        cmds.connectAttr(obj + ".radius", plug + ".colliderRadius", f=True)
+    if kind == "capsule" and cmds.attributeQuery("length", node=obj, exists=True):
+        cmds.connectAttr(obj + ".length", plug + ".colliderLength", f=True)
+
+    if cmds.getAttr(node + ".collide") <= 0.0:
+        cmds.setAttr(node + ".collide", 1.0)
+
+    print("pk_chainDynamics2: %s (%s) added to %s as collider[%d]"
+          % (obj, kind, node, i))
+    return i
+
+
+def shareColliders(source, *names):
+    """Все коллайдеры одной цепочки - остальным названным. Удобно, когда риг
+    собран и надо, чтобы весь он знал про пол и про голову."""
+    node = _names(source)["node"]
+    if not cmds.objExists(node):
+        cmds.error("%s not found" % node)
+
+    objs = []
+    for i in cmds.getAttr(node + ".collider", mi=True) or []:
+        src = cmds.listConnections("%s.collider[%d].colliderMatrix" % (node, i),
+                                   s=True, d=False) or []
+        if src:
+            objs.append(src[0])
+
+    for name in names:
+        for obj in objs:
+            addCollider(name, obj)
+
+    print("pk_chainDynamics2: %d colliders of %s shared with %s"
+          % (len(objs), source, ", ".join(names)))
+    return objs
 
 
 def reshape(name="chain"):
