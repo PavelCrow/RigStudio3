@@ -407,6 +407,12 @@ def _linkSettings():
     _fill()
 
 
+def _later(fn):
+    """Перестроить окно не из коллбэка кнопки, а следующим делом: иначе кнопка
+    сносит те самые контролы, из которых её и нажали."""
+    cmds.evalDeferred(fn, lowestPriority=True)
+
+
 def _collider():
     name = _need()
     if not name:
@@ -428,7 +434,7 @@ def _collider():
         at = cmds.xform(bones[len(bones) // 2], q=True, ws=True, t=True)
 
     dyn.collider(name, kind, size=size, length=length, at=at)
-    _fill()
+    _later(_fill)
 
 
 def _otherChains(name):
@@ -460,7 +466,7 @@ def _shareColliders():
         return
 
     dyn.shareColliders(name, *others)
-    _fill()
+    _later(_fill)
 
 
 def _dropColliders():
@@ -474,9 +480,13 @@ def _dropColliders():
         cmds.warning(u"pk chain: выдели коллайдеры этой цепочки - снимать нечего")
         return
 
-    for obj in picked:
-        dyn.removeCollider(name, obj)
-    _fill()
+    cmds.undoInfo(openChunk=True, chunkName="pk chain: drop colliders")
+    try:
+        for obj in picked:
+            dyn.removeCollider(name, obj)
+    finally:
+        cmds.undoInfo(closeChunk=True)
+    _later(_fill)
 
 
 def _rebuild():

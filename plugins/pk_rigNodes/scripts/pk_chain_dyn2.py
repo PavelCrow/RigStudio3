@@ -271,7 +271,11 @@ def removeCollider(name, obj):
 
     Удалить коллайдер целиком можно и просто удалив объект: элемент уходит за
     ним следом, у colliderMatrix для этого стоит kDelete. А выключить всю
-    коллизию цепочки, ничего не отцепляя, это collide 0."""
+    коллизию цепочки, ничего не отцепляя, это collide 0.
+
+    Отмена этого не возвращает: элемент массива уходит вместе со связью, и undo
+    восстанавливает связь, а не элемент - проверено. Если коллайдер нужен назад,
+    подключить его заново, addCollider."""
     node = _names(name)["node"]
     if not cmds.objExists(node):
         cmds.error("%s not found" % node)
@@ -283,13 +287,13 @@ def removeCollider(name, obj):
         if not src or src[0] != obj:
             continue
 
+        # хватает отключить: у colliderMatrix стоит kDelete, и элемент уходит
+        # сам. removeMultiInstance тут стоял зря - лишняя правка структуры
+        # массива на живой ноде, к тому же неотменяемая
         for child in ("colliderMatrix", "colliderRadius", "colliderLength"):
             for source in cmds.listConnections(plug + "." + child, p=True,
                                                s=True, d=False) or []:
                 cmds.disconnectAttr(source, plug + "." + child)
-        # у colliderMatrix стоит kDelete, поэтому элемент обычно уходит сам
-        if i in (cmds.getAttr(node + ".collider", mi=True) or []):
-            cmds.removeMultiInstance(plug, b=True)
         gone.append(i)
 
     if not gone:
