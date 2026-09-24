@@ -51,6 +51,7 @@ MObject PkChainDyn2Node::aPosition;
 MObject PkChainDyn2Node::aAimAxis;
 MObject PkChainDyn2Node::aCollide;
 MObject PkChainDyn2Node::aThickness;
+MObject PkChainDyn2Node::aThicknessRamp;
 MObject PkChainDyn2Node::aBounce;
 MObject PkChainDyn2Node::aFriction;
 MObject PkChainDyn2Node::aCollider;
@@ -235,6 +236,8 @@ MStatus PkChainDyn2Node::initialize()
     nAttr.setSoftMax(5.0);
     nAttr.setKeyable(true);
 
+    aThicknessRamp = MRampAttribute::createCurveRamp("thicknessRamp", "thr");
+
     aBounce = nAttr.create("bounce", "bnc", MFnNumericData::kDouble, 0.0);
     nAttr.setMin(0.0);
     nAttr.setMax(1.0);
@@ -295,7 +298,7 @@ MStatus PkChainDyn2Node::initialize()
         aMaxBend, aBendSoftness, aSubsteps, aSpaceMatrix,
         aLocalTranslate, aLocalRotate,
         aGoalMatrix, aOutputCount, aAimAxis, aPosition,
-        aCollide, aThickness, aBounce, aFriction, aCollider,
+        aCollide, aThickness, aThicknessRamp, aBounce, aFriction, aCollider,
     };
     for (const MObject& in : ins)
         addAttribute(in);
@@ -325,6 +328,15 @@ void PkChainDyn2Node::postConstructor()
     values.append(1.0f); positions.append(0.0f); interps.append(MRampAttribute::kSmooth);
     values.append(1.0f); positions.append(1.0f); interps.append(MRampAttribute::kSmooth);
     ramp.setRamp(values, positions, interps);
+
+    // Толщина ровная по всей цепочке: сужение рисуется по месту, когда оно
+    // и правда нужно.
+    MRampAttribute thick(thisMObject(), aThicknessRamp);
+    MFloatArray tv, tp;
+    MIntArray   ti;
+    tv.append(1.0f); tp.append(0.0f); ti.append(MRampAttribute::kSmooth);
+    tv.append(1.0f); tp.append(1.0f); ti.append(MRampAttribute::kSmooth);
+    thick.setRamp(tv, tp, ti);
 
     // And the swing itself: nothing at the root, everything at the tip, with
     // the rise held back at first. The root is pinned to its control, so if
@@ -561,9 +573,11 @@ void PkChainDyn2Node::readCurves(MDataBlock& data, size_t n)
     mark.reserve(32);
     markRamp(data, aStiffnessRamp, mark);
     markRamp(data, aWeightRamp, mark);
+    markRamp(data, aThicknessRamp, mark);
 
     if (mark == mCurveMark && mCurveCount == n
-        && mStiffCurve.size() == n && mWeightCurve.size() == n)
+        && mStiffCurve.size() == n && mWeightCurve.size() == n
+        && mThickCurve.size() == n)
         return;
 
     mCurveMark  = mark;
@@ -571,14 +585,17 @@ void PkChainDyn2Node::readCurves(MDataBlock& data, size_t n)
 
     mStiffCurve.assign(n, 1.0);
     mWeightCurve.assign(n, 1.0);
+    mThickCurve.assign(n, 1.0);
 
     MRampAttribute stiff(thisMObject(), aStiffnessRamp);
     MRampAttribute weights(thisMObject(), aWeightRamp);
+    MRampAttribute thick(thisMObject(), aThicknessRamp);
 
     // A scene saved before the weight curve existed has nothing in it, and a
     // curve of one point cannot be a shape - either way the chain gets all of
     // the simulation, the way it did before.
     const bool drawn = weights.getNumEntries() > 1;
+    const bool tapered = thick.getNumEntries() > 1;
 
     for (size_t i = 0; i < n; ++i)
     {
@@ -593,6 +610,13 @@ void PkChainDyn2Node::readCurves(MDataBlock& data, size_t n)
             float v = 1.0f;
             weights.getValueAtPosition(u, v);
             mWeightCurve[i] = std::min(1.0f, std::max(0.0f, v));
+        }
+
+        if (tapered)
+        {
+            float t = 1.0f;
+            thick.getValueAtPosition(u, t);
+            mThickCurve[i] = std::max(0.0f, t);
         }
     }
 }
@@ -677,7 +701,8 @@ void PkChainDyn2Node::pushOut(std::vector<MPoint>& pos, std::vector<MVector>* ve
             {
                 MVector dir;
                 double  depth;
-                if (!depthOf(c, pos[i], p.thickness, dir, depth))
+                const double pad = (i < p.pad.size()) ? p.pad[i] : 0.0;
+                if (!depthOf(c, pos[i], pad, dir, depth))
                     continue;
 
                 moved = true;
@@ -1029,9 +1054,15 @@ MStatus PkChainDyn2Node::compute(const MPlug& plug, MDataBlock& data)
     p.gravity      = gDir * (data.inputValue(aGravity).asDouble() / (fps * fps));
 
     p.collide   = data.inputValue(aCollide).asDouble();
-    p.thickness = data.inputValue(aThickness).asDouble();
     p.bounce    = data.inputValue(aBounce).asDouble();
     p.friction  = data.inputValue(aFriction).asDouble();
+
+    // толщина у каждой точки своя: кончик тоньше основания, и пол он
+    // трогает позже
+    const double thickness = data.inputValue(aThickness).asDouble();
+    p.pad.assign(n, thickness);
+    for (size_t i = 0; i < n && i < mThickCurve.size(); ++i)
+        p.pad[i] = thickness * mThickCurve[i];
 
     if (p.collide > kEps)
     {

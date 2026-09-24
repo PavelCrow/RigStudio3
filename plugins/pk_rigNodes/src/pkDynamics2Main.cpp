@@ -54,6 +54,7 @@ global proc AEpk_chainDynamics2Template(string $nodeName)
     editorTemplate -beginLayout "Collision" -collapse 0;
         editorTemplate -addControl "collide";
         editorTemplate -addControl "thickness";
+        AEaddRampControl ($nodeName + ".thicknessRamp");
         editorTemplate -addControl "bounce";
         editorTemplate -addControl "friction";
     editorTemplate -endLayout;

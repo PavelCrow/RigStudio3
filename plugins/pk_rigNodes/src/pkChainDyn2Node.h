@@ -108,7 +108,9 @@
 // A point that has gone inside is pushed out the shortest way, and its velocity
 // loses what was going in - bounce says how much of that comes back instead,
 // friction how much of the sliding along is taken away. thickness is the
-// chain's own radius: the points are kept that far off every surface.
+// chain's own radius: the points are kept that far off every surface, and
+// thicknessRamp is how much of it each point along the chain has - a tail that
+// tapers touches the floor with its tip long after its base would.
 //
 // The pushing happens twice over: a point squeezed between two colliders is put
 // back inside the first by the second, and one round would leave it there. It
@@ -225,6 +227,7 @@ public:
     static MObject aAimAxis;          // which axis of a control runs down the chain
     static MObject aCollide;          // 0 - off, 1 - the points stay out of the colliders
     static MObject aThickness;        // the chain's own radius
+    static MObject aThicknessRamp;    // and how much of it each point along it has
     static MObject aBounce;           // 0 - the surface takes the speed, 1 - hands it back
     static MObject aFriction;         // how much of the sliding along is taken away
     static MObject aCollider;         // multi compound, one per collider
@@ -283,7 +286,8 @@ private:
         double stretch = 0.0, stretchLimit = 0.0, stretchSpeed = 0.0;
         double stretchDamping = 0.0, stretchRelease = 0.0;
         double stiffW = 0.0;          // the chain's own frequency, for the auto settings
-        double collide = 0.0, thickness = 0.0, bounce = 0.0, friction = 0.0;
+        double collide = 0.0, bounce = 0.0, friction = 0.0;
+        std::vector<double>   pad;     // thickness per point, along the chain
         std::vector<Collider> colliders;
         MVector gravity;              // units / frame^2
         int substeps = 1;
@@ -324,6 +328,7 @@ private:
     // again to mention the curve.
     std::vector<double> mStiffCurve;
     std::vector<double> mWeightCurve;
+    std::vector<double> mThickCurve;
     std::vector<double> mCurveMark;   // the ramps as they were when sampled
     size_t mCurveCount = 0;
 

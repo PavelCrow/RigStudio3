@@ -252,6 +252,15 @@ def _fill():
                                 (u"friction", u"Friction", 1.0)):
             cmds.attrFieldSliderGrp(at=node + "." + attr, l=label, min=0.0, max=hi,
                                     fmn=0.0, fmx=1000.0, pre=3, cw3=(110, 60, 180))
+        if cmds.attributeQuery("thicknessRamp", node=node, exists=True):
+            cmds.text(l=u"   толщина вдоль цепочки", al="left", h=18)
+            cmds.gradientControl(at=node + ".thicknessRamp", h=90)
+        if hasattr(dyn, "thicknessGuide"):
+            cmds.checkBox(WIN + "_guide", l=u"Показать толщину во вьюпорте",
+                          v=dyn.hasGuides(name),
+                          cc=lambda on: _guide(on),
+                          ann=u"Шарик вокруг каждой кости - такой зазор цепочка "
+                              u"и держит. Поменял кривую - переключи заново")
         cmds.optionMenu(WIN + "_colliderKind", l=u"Форма")
         for kind in ("plane", "sphere", "capsule"):
             cmds.menuItem(l=kind)
@@ -411,6 +420,13 @@ def _later(fn):
     """Перестроить окно не из коллбэка кнопки, а следующим делом: иначе кнопка
     сносит те самые контролы, из которых её и нажали."""
     cmds.evalDeferred(fn, lowestPriority=True)
+
+
+def _guide(on):
+    name = _need()
+    if not name or not hasattr(dyn, "thicknessGuide"):
+        return
+    dyn.thicknessGuide(name, bool(on))
 
 
 def _collider():

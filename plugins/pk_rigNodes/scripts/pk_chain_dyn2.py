@@ -11,6 +11,8 @@ pk_dynamics2 - там пробуется коллизия, а рабочий pk_
     dyn2.shareColliders("test", "a", "b") - все коллайдеры цепочки - остальным
     dyn2.removeCollider("test", floor)    - снять коллайдер с цепочки
     dyn2.clearColliders("test")           - снять все
+    dyn2.thicknessGuide("test")           - показать толщину цепочки
+    dyn2.thicknessGuide("test", False)    - убрать
 
     import pk_chain_dyn_ui as ui
     ui.use(dyn2)                          - окно на экспериментальную ноду
@@ -312,6 +314,93 @@ def clearColliders(name="chain"):
     print("pk_chainDynamics2: %s has no colliders now, %d taken off"
           % (_names(name)["node"], len(gone)))
     return gone
+
+
+def thicknessAt(name="chain"):
+    """Толщина у каждой кости: thickness, помноженный на кривую вдоль цепочки.
+    Кривая читается той же MRampAttribute, что и в ноде, поэтому числа здесь и
+    в расчёте одни и те же."""
+    import maya.api.OpenMaya as om
+
+    node = _names(name)["node"]
+    if not cmds.objExists(node):
+        cmds.error("%s not found" % node)
+
+    count = len(bones(name)) or len(cmds.getAttr(node + ".goalMatrix", mi=True) or [])
+    if count < 1:
+        return []
+
+    thickness = cmds.getAttr(node + ".thickness")
+    sel = om.MSelectionList()
+    sel.add(node + ".thicknessRamp")
+    ramp = om.MRampAttribute(sel.getPlug(0))
+
+    out = []
+    for i in range(count):
+        u = (float(i) / (count - 1)) if count > 1 else 0.0
+        out.append(thickness * max(0.0, ramp.getValueAtPosition(u)))
+    return out
+
+
+def thicknessGuide(name="chain", show=True):
+    """Показать во вьюпорте, какой толщины цепочка для коллизии.
+
+    Зазор держится у каждой точки свой, и держится он во все стороны - то есть
+    настоящая форма это шарик вокруг каждой кости. Его и рисуем: три круга на
+    кость, каркасом, в рендер не идут. Размер живёт связью с thickness, поэтому
+    ползунок видно сразу; кривую поменял - позвать заново.
+
+    show=False убирает."""
+    made, gone = [], []
+    for i, joint in enumerate(bones(name)):
+        guide = joint + "_thickness"
+        if cmds.objExists(guide):
+            cmds.delete(guide)
+            gone.append(guide)
+        for extra in cmds.ls(joint + "_thickness_mul") or []:
+            cmds.delete(extra)
+
+    if not show:
+        print("pk_chainDynamics2: %d thickness guides removed" % len(gone))
+        return []
+
+    node = _names(name)["node"]
+    sizes = thicknessAt(name)
+
+    for i, joint in enumerate(bones(name)):
+        guide = cmds.createNode("transform", n=joint + "_thickness", p=joint)
+        for a in ("tx", "ty", "tz", "rx", "ry", "rz"):
+            cmds.setAttr(guide + "." + a, 0)
+            cmds.setAttr(guide + "." + a, lock=True)
+
+        rings = [cmds.circle(n=guide + "_r%d" % k, nr=nr, r=1.0, ch=False)[0]
+                 for k, nr in enumerate(((0, 1, 0), (1, 0, 0), (0, 0, 1)))]
+        for ring in rings:
+            for shape in cmds.listRelatives(ring, s=True, f=True) or []:
+                shape = cmds.parent(shape, guide, r=True, s=True)[0]
+                cmds.setAttr(shape + ".overrideEnabled", 1)
+                cmds.setAttr(shape + ".overrideShading", 0)
+                cmds.setAttr(shape + ".overrideColor", COLOR)
+            cmds.delete(ring)
+
+        # размер: thickness с ноды, помноженный на то, что даёт кривая здесь
+        mul = cmds.createNode("multiplyDivide", n=joint + "_thickness_mul")
+        share = (sizes[i] / cmds.getAttr(node + ".thickness")) \
+            if cmds.getAttr(node + ".thickness") > 1e-9 else 1.0
+        for a in "XYZ":
+            cmds.connectAttr(node + ".thickness", "%s.input1%s" % (mul, a))
+            cmds.setAttr("%s.input2%s" % (mul, a), share)
+            cmds.connectAttr("%s.output%s" % (mul, a), "%s.scale%s" % (guide, a))
+
+        made.append(guide)
+
+    print("pk_chainDynamics2: %d thickness guides on %s, radii %s"
+          % (len(made), name, " ".join("%.2f" % v for v in sizes)))
+    return made
+
+
+def hasGuides(name="chain"):
+    return any(cmds.objExists(j + "_thickness") for j in bones(name))
 
 
 def reshape(name="chain"):
