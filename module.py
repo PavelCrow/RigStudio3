@@ -184,9 +184,9 @@ class Module(object):
 
             cmds.setAttr(j+".segmentScaleCompensate", 0)
         
-        if not cmds.objExists('skinJointsSet'):
-            cmds.sets(n='skinJointsSet')	
-            cmds.sets('skinJointsSet', e=1, forceElement='sets' )
+        # штатной функцией: Maya удаляет сет, оставшийся без членов, и вместе с пустым
+        # skinJointsSet исчезает sets - тогда forceElement='sets' упал бы
+        utils.create_default_sets()
 
         for j in joints:
             if not pm.objExists(j):

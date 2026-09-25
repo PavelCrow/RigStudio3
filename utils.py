@@ -1322,15 +1322,13 @@ def create_space_group(ctrl=None, sources=[], names=[]):
 def create_default_sets():
 	if not cmds.objExists('sets'):
 		cmds.sets(n='sets')
-	if not cmds.objExists('controlSet'):
-		cmds.sets(n='controlSet')
-		cmds.sets('controlSet', e=1, forceElement='sets')	
-	if not cmds.objExists('skinJointsSet'):
-		cmds.sets(n='skinJointsSet')
-		cmds.sets('skinJointsSet', e=1, forceElement='sets')
-	if not cmds.objExists('modules_sets'):
-		cmds.sets(n='modules_sets')
-		cmds.sets('modules_sets', e=1, forceElement='sets')
+	for name in ('controlSet', 'skinJointsSet', 'modules_sets'):
+		if not cmds.objExists(name):
+			cmds.sets(n=name)
+		# членство проверяется отдельно: сет, оставшийся без членов, Maya удаляет, и
+		# пересозданный кем-то по дороге мог остаться снаружи sets
+		if name not in (cmds.sets('sets', q=1) or []):
+			cmds.sets(name, e=1, forceElement='sets')
 
 def nameIsOk(name): #
 	if name == "" or " " in name or "-" in name or name[0].isdigit():

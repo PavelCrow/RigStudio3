@@ -300,7 +300,10 @@ class BrowsCurved(module.Module) :
 
 		for control in self.getModuleControls():
 			parent_grp = (cmds.listRelatives(control, parent=1) or [None])[0]
-			control_sets = [s for s in cmds.listSets(o=control) or [] if s.endswith("moduleControlSet")]
+			# оба дерева наборов: свой moduleControlSet и его копия controlSet, которую
+			# module.build кладёт в общий controlSet - иначе в анимационном дереве
+			# оставались бы настоящие контролы с префиксом
+			control_sets = [s for s in cmds.listSets(o=control) or [] if s.endswith("controlSet")]
 
 			local = cmds.rename(control, self.localControlName(control))
 
@@ -348,10 +351,23 @@ class BrowsCurved(module.Module) :
 					pass
 			utils.addToModuleSet(proxy, self.name)
 
+		# остатки от прежних включений: настоящих контролов в наборах быть не должно
+		for set_ in cmds.ls(type="objectSet") or []:
+			if not set_.endswith("controlSet"):
+				continue
+			for member in cmds.sets(set_, q=1) or []:
+				if member.startswith(self.localPrefix):
+					try:
+						cmds.sets(member, e=1, remove=set_)
+					except Exception:
+						pass
+
 		# --- скиновых костей в скелете нет: локальную геометрию скинят кости модуля ---
 		root_skin_joint = f"{self.name}_root_skinJoint"
 		if cmds.objExists(root_skin_joint):
 			cmds.delete(root_skin_joint)
+			# с последним членом Maya удаляет и сам сет, а за пустым skinJointsSet - sets
+			utils.create_default_sets()
 
 		# в локальном режиме эти кости - видимые: скиновых в скелете больше нет
 		self.setOutputVisible(True)
@@ -369,7 +385,7 @@ class BrowsCurved(module.Module) :
 			local = self.localControlName(proxy)
 			if not cmds.objExists(local) or not cmds.objExists(proxy):
 				continue
-			control_sets = [s for s in cmds.listSets(o=proxy) or [] if s.endswith("moduleControlSet")]
+			control_sets = [s for s in cmds.listSets(o=proxy) or [] if s.endswith("controlSet")]
 
 			self.unlinkProxy(proxy, local)
 
@@ -801,8 +817,10 @@ class BrowsCurved(module.Module) :
 		utils.connectByMatrix(root_skin_joint, [root_out_joint, root_skin_joint],
 							   ['worldMatrix[0]', 'parentInverseMatrix[0]'], module_name=m_name)
 		utils.addToModuleSet(root_skin_joint, m_name)
-		if not cmds.objExists('skinJointsSet'):
-			cmds.sets(n='skinJointsSet')
+		# Maya удаляет сет, когда из него убрали последнего члена, а вслед за пустым
+		# skinJointsSet исчезает и sets - поэтому создаём их штатной функцией, иначе
+		# пересозданный здесь skinJointsSet оставался бы сам по себе, вне sets
+		utils.create_default_sets()
 		cmds.sets(root_skin_joint, e=1, forceElement='skinJointsSet')
 
 		cmds.setAttr(f"{root_skin_joint}.drawStyle", 2)
