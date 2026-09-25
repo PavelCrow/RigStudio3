@@ -12,9 +12,9 @@
 рядом с ней, под тем же родителем. Он и едет по ригу.
 
 Настройки живут на контроле (или на самой кости, если контрол не указан):
-jiggle, jiggleWeight, stiffness, damping, gravity, jiggleTranslate,
-jiggleRotate. Остальное - axisScale, limit, substeps - на самой ноде: это
-настройка, а не то, что анимируют.
+jiggle, jiggleWeight, jiggleStiffness, jiggleDamping, jiggleGravity,
+jiggleTranslate, jiggleRotate. Остальное - axisScale, limit, substeps - на самой
+ноде: это настройка, а не то, что анимируют.
 """
 import os
 
@@ -25,12 +25,17 @@ PLUGIN = "pk_dynamics"
 NODE = "pk_jiggle"
 
 # атрибут на контроле -> атрибут ноды, значение по умолчанию, min, max
+#
+# Все с приставкой jiggle, и не ради красоты: у джоинта есть свой встроенный
+# stiffness (double3, для IK-солвера), и настройки часто вешают прямо на кость.
+# А ещё на одном контроле может сидеть и цепочка со своими stiffness и damping -
+# разойтись им негде, если имена те же.
 SETTINGS = [
     ("jiggle",          "enable",    1,    0,    1),
     ("jiggleWeight",    "weight",    1.0,  0.0,  1.0),
-    ("stiffness",       "stiffness", 0.25, 0.0,  1.0),
-    ("damping",         "damping",   0.35, 0.0,  1.0),
-    ("gravity",         "gravity",   0.0,  None, None),
+    ("jiggleStiffness", "stiffness", 0.25, 0.0,  1.0),
+    ("jiggleDamping",   "damping",   0.35, 0.0,  1.0),
+    ("jiggleGravity",   "gravity",   0.0,  None, None),
     ("jiggleTranslate", "translate", 1.0,  0.0,  1.0),
     ("jiggleRotate",    "rotate",    0.0,  0.0,  1.0),
 ]
@@ -61,7 +66,13 @@ def _addSettings(host, node):
         cmds.setAttr(host + ".jiggleSettings", channelBox=True)
 
     for attr, nodeAttr, dv, mn, mx in SETTINGS:
-        if not cmds.attributeQuery(attr, node=host, exists=True):
+        if cmds.attributeQuery(attr, node=host, exists=True):
+            # чужой атрибут с тем же именем: лучше сказать прямо, чем получить
+            # невнятную ошибку на коннекте
+            if cmds.attributeQuery(attr, node=host, numberOfChildren=True):
+                cmds.error("%s.%s is somebody else's attribute - put the jiggle "
+                           "settings on another control" % (host, attr))
+        else:
             kw = {"ln": attr, "k": True, "dv": dv}
             kw["at"] = "bool" if attr == "jiggle" else "double"
             if mn is not None and attr != "jiggle":
