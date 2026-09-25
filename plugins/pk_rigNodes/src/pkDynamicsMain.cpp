@@ -1,5 +1,6 @@
 #include "pkTypeIds.h"
 #include "pkChainDynNode.h"
+#include "pkJiggleNode.h"
 
 #include <maya/MFnPlugin.h>
 #include <maya/MGlobal.h>
@@ -76,6 +77,43 @@ global proc AEpk_chainDynamicsTemplate(string $nodeName)
     editorTemplate -endScrollLayout;
 }
 )MEL";
+    // Тряска одной косточки - живот, щека, челюсть.
+    const char* kJiggleTemplate = R"MEL(
+global proc AEpk_jiggleTemplate(string $nodeName)
+{
+    editorTemplate -beginScrollLayout;
+
+    editorTemplate -beginLayout "Jiggle" -collapse 0;
+        editorTemplate -addControl "enable";
+        editorTemplate -addControl "weight";
+        editorTemplate -addControl "startFrame";
+        editorTemplate -addControl "stiffness";
+        editorTemplate -addControl "damping";
+    editorTemplate -endLayout;
+
+    editorTemplate -beginLayout "What shakes" -collapse 0;
+        editorTemplate -addControl "translate";
+        editorTemplate -addControl "rotate";
+        editorTemplate -addControl "axisScale";
+    editorTemplate -endLayout;
+
+    editorTemplate -beginLayout "Motion" -collapse 0;
+        editorTemplate -addControl "gravity";
+        editorTemplate -addControl "gravityDirection";
+        editorTemplate -addControl "limit";
+        editorTemplate -addControl "substeps";
+    editorTemplate -endLayout;
+
+    editorTemplate -suppress "time";
+    editorTemplate -suppress "inMatrix";
+    editorTemplate -suppress "parentInverseMatrix";
+    editorTemplate -suppress "outMatrix";
+
+    AEdependNodeTemplate $nodeName;
+    editorTemplate -addExtraControls;
+    editorTemplate -endScrollLayout;
+}
+)MEL";
 }
 
 PK_EXPORT MStatus initializePlugin(MObject obj)
@@ -90,9 +128,20 @@ PK_EXPORT MStatus initializePlugin(MObject obj)
         return status;
     }
 
+    status = plugin.registerNode("pk_jiggle", pk::kJiggleNodeId,
+                                PkJiggleNode::creator, PkJiggleNode::initialize);
+    if (!status)
+    {
+        status.perror("registerNode pk_jiggle");
+        return status;
+    }
+
     // no UI in batch - there is nothing to show a template in
     if (MGlobal::mayaState() == MGlobal::kInteractive)
+    {
         MGlobal::executeCommand(kAETemplate);
+        MGlobal::executeCommand(kJiggleTemplate);
+    }
 
     return MS::kSuccess;
 }
@@ -105,6 +154,13 @@ PK_EXPORT MStatus uninitializePlugin(MObject obj)
     if (!status)
     {
         status.perror("deregisterNode pk_chainDynamics");
+        return status;
+    }
+
+    status = plugin.deregisterNode(pk::kJiggleNodeId);
+    if (!status)
+    {
+        status.perror("deregisterNode pk_jiggle");
         return status;
     }
 

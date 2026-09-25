@@ -4,7 +4,8 @@
 #   pk_rigNodes.mll - pk_ibtw (local inbetweens), pk_twist (twist chains) and
 #                     pk_limbIk (two bone IK)
 #   pk_wings.mll    - pk_wing, the replacement for the bifrost graphs
-#   pk_dynamics.mll - pk_chainDynamics, dynamics of a chain with collision
+#   pk_dynamics.mll - pk_chainDynamics, dynamics of a chain with collision, and
+#                     pk_jiggle, jiggle of one bone
 # They are kept apart on purpose: a rig that only needs correctives and twists
 # should not have to load the wing node, which is still work in progress, and
 # a node that keeps state between frames is loaded only where it is used.
@@ -49,6 +50,7 @@ add_library(pk_wings SHARED
 add_library(pk_dynamics SHARED
     src/pkDynamicsMain.cpp
     src/pkChainDynNode.cpp
+    src/pkJiggleNode.cpp
 )
 
 foreach(pk_target pk_rigNodes pk_wings pk_dynamics)
