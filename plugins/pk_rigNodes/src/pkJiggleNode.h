@@ -114,6 +114,13 @@ private:
 
     static Step solveStep(double w, double zeta, double h);
 
+    // Поворот как вектор - ось, умноженная на угол. В нём пружина для поворота
+    // это ровно та же арифметика, что и для места, покомпонентно; в осях с
+    // углами порознь ось почти единичного кватерниона это шум, и знак скорости
+    // на ней теряется.
+    static MVector     logOf(const MQuaternion& q);
+    static MQuaternion expOf(const MVector& v);
+
     struct State
     {
         MPoint      pos;

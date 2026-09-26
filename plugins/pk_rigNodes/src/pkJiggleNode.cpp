@@ -211,6 +211,35 @@ PkJiggleNode::Step PkJiggleNode::solveStep(double w, double zeta, double h)
     return st;
 }
 
+MVector PkJiggleNode::logOf(const MQuaternion& q)
+{
+    MQuaternion n = q;
+    n.normalizeIt();
+
+    // -q это тот же поворот, но длинным путём - берём короткий
+    if (n.w < 0.0)
+        n = MQuaternion(-n.x, -n.y, -n.z, -n.w);
+
+    const double s = std::sqrt(std::max(0.0, 1.0 - n.w * n.w));
+    if (s < 1.0e-8)
+        return MVector(n.x, n.y, n.z) * 2.0;      // почти ничего: линейно
+
+    const double angle = 2.0 * std::acos(std::min(1.0, std::max(-1.0, n.w)));
+    return MVector(n.x, n.y, n.z) * (angle / s);
+}
+
+MQuaternion PkJiggleNode::expOf(const MVector& v)
+{
+    const double len = v.length();
+    if (len < 1.0e-8)
+    {
+        MQuaternion q(v.x * 0.5, v.y * 0.5, v.z * 0.5, 1.0);
+        q.normalizeIt();
+        return q;
+    }
+    return MQuaternion(len, v / len);
+}
+
 void PkJiggleNode::reset(const MPoint& goal, const MQuaternion& spin)
 {
     mCur.pos      = goal;
@@ -319,6 +348,12 @@ MStatus PkJiggleNode::compute(const MPlug& plug, MDataBlock& data)
                 const MVector speed = MVector(goal - wasGoal) / step;   // per frame
                 const MVector behind = (w > kEps) ? speed * (2.0 * zeta / w) : MVector::zero;
 
+                // то же для поворота: цель крутится с какой-то угловой
+                // скоростью, и пружина висит на постоянном угле позади неё
+                const MVector spinSpeed = logOf(wasSpin.inverse() * goalSpin) / step;
+                const MVector spinBehind = (w > kEps) ? spinSpeed * (2.0 * zeta / w)
+                                                      : MVector::zero;
+
                 for (int k = 1; k <= steps; ++k)
                 {
                     const double a = double(k) / steps;
@@ -331,24 +366,28 @@ MStatus PkJiggleNode::compute(const MPlug& plug, MDataBlock& data)
                     mCur.pos = g - behind + (d * sp.dd + v * sp.dv);
                     mCur.vel = (d * sp.vd + v * sp.vv) + speed;
 
-                    // The orientation on the same spring: how far it is from
-                    // where the rig turned it, taken as an axis and an angle,
-                    // and the angle put through the step. The axis is held
-                    // still for the length of one step, which is what makes it
-                    // arithmetic instead of a solver.
-                    const MQuaternion off = mCur.spin * gs * mCur.goalSpin.inverse() * gs.inverse();
-                    MVector axis;
-                    double  angle = 0.0;
-                    MQuaternion(off).getAxisAngle(axis, angle);
-                    if (angle > 3.14159265358979323846)
-                        angle -= 2.0 * 3.14159265358979323846;
-
-                    const double av = mCur.spinVel * axis;
-                    const double na = angle * sp.dd + av * sp.dv;
-                    const double nv = angle * sp.vd + av * sp.vv;
-
-                    mCur.spin    = MQuaternion(na, axis);
-                    mCur.spinVel = axis * nv;
+                    // The orientation, on the same spring and in the same
+                    // arithmetic, once the turn is written as a vector - an axis
+                    // multiplied by an angle. Taking an axis and an angle apart
+                    // instead does not work: for a turn close to nothing the
+                    // axis a quaternion reports is noise, the velocity projected
+                    // onto it changes sign at random, and the spring feeds itself
+                    // - the bone ends up spinning like a top.
+                    //
+                    // The offset is the variable itself here, and its own
+                    // equation already knows the goal is turning away: what that
+                    // does is hold the offset at a steady angle behind, the same
+                    // 2 * zeta / w times the speed as for the position. Take that
+                    // out, step what is left, put it back - and nothing else is
+                    // needed. Carrying the offset across the goal's turn on top of
+                    // that was counting the same motion twice: the bone trailed
+                    // four times further than it should, 20 degrees on a spin
+                    // where the arithmetic says 4.8.
+                    const MVector e  = logOf(mCur.spin) + spinBehind;
+                    const MVector ev = mCur.spinVel;
+                    const MVector e1 = e * sp.dd + ev * sp.dv;
+                    mCur.spinVel = e * sp.vd + ev * sp.vv;
+                    mCur.spin = expOf(e1 - spinBehind);
 
                     mCur.goal     = g;
                     mCur.goalSpin = gs;
