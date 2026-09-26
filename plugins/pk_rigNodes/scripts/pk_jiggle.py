@@ -396,6 +396,9 @@ def build(joint, host=None):
     cmds.xform(driver, ws=True, m=cmds.xform(joint, q=True, ws=True, m=True))
 
     node = cmds.createNode(NODE, n=n["node"])
+    # считать с начала анимации сцены, а не с жёсткого первого кадра: иначе в
+    # сцене с нулевого кадра сброс съедает первый шаг движения
+    cmds.setAttr(node + ".startFrame", _chain.sceneStart())
     cmds.connectAttr("time1.outTime", node + ".time")
     cmds.connectAttr(driver + ".worldMatrix[0]", node + ".inMatrix")
     if parent:

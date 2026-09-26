@@ -107,7 +107,7 @@ def _addSettings(host, node):
 
     for attr, nodeAttr, dv, mn, mx in SETTINGS:
         if not cmds.attributeQuery(attr, node=host, exists=True):
-            kw = {"ln": attr, "k": True, "dv": dv}
+            kw = {"ln": attr, "k": True, "dv": _default(attr, dv)}
             kw["at"] = "bool" if attr == "dynamic" else "double"
             if mn is not None and attr != "dynamic":
                 kw["min"] = mn
@@ -123,10 +123,31 @@ def hasSettings(obj):
         cmds.attributeQuery(SETTINGS[0][0], node=obj, exists=True)
 
 
+def sceneStart():
+    """С какого кадра считать динамику: начало анимации сцены.
+
+    Нода сбрасывается на своём startFrame и на всём, что раньше него, - там она
+    просто сидит на цели. Пока это было жёсткой единицей, сцена с нулевого кадра
+    теряла первый шаг движения целиком: замерено, при анимации с кадра 0 и
+    startFrame 1 отставание шло 0.0000 0.0000 0.3347 вместо 0.0000 0.3347 0.4219,
+    то есть кадр 0->1 съедал сброс. А в сценах, которые начинаются с сотого, так
+    съедалось бы всё до него.
+
+    Берём именно animationStartTime, а не начало видимого диапазона: диапазон
+    аниматор двигает по ходу работы, а это внешняя граница, раньше которой кадров
+    не бывает."""
+    return cmds.playbackOptions(q=True, ast=True)
+
+
+def _default(attr, dv):
+    """startFrame - из сцены, остальное из таблицы."""
+    return sceneStart() if attr == "startFrame" else dv
+
+
 def _addOne(host, attr, dv, mn, mx):
     if cmds.attributeQuery(attr, node=host, exists=True):
         return
-    kw = {"ln": attr, "k": True, "dv": dv}
+    kw = {"ln": attr, "k": True, "dv": _default(attr, dv)}
     kw["at"] = "bool" if attr == "dynamic" else "double"
     if mn is not None and attr != "dynamic":
         kw["min"] = mn
