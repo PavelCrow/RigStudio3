@@ -682,6 +682,18 @@ def _jiggleBuild():
         _later(_jfill)
 
 
+def _jiggleControl():
+    """Кубик с костью: если что-то выделено - на его месте и под ним."""
+    sel = cmds.ls(sl=True, o=True, type="transform") or []
+    where = sel[0] if sel else None
+    size = cmds.floatFieldGrp(WIN + "_jsize", q=True, v1=True)
+
+    made = jig.buildControl(size=size, at=where, parent=where)
+    if made:
+        attachJiggle(made["node"])
+        _later(_jfill)
+
+
 def _jiggleRemove():
     """Снять тряску с выделенных костей - или с той, что взята в окне."""
     picked = []
@@ -783,6 +795,13 @@ def show():
     cmds.button(l=u"Jiggle on the selected bones", h=28, c=lambda *a: _jiggleBuild(),
                 ann=u"A belly, a cheek, a jaw of fat: the bone follows the rig with "
                     u"weight of its own. It stays where it is in the skeleton")
+    cmds.rowLayout(nc=2, adj=1, cw2=(240, 120))
+    cmds.floatFieldGrp(WIN + "_jsize", l=u"Size", v1=1.0, cw2=(80, 60), pre=2)
+    cmds.setParent("..")
+    cmds.button(l=u"Control with a bone", h=28, c=lambda *a: _jiggleControl(),
+                ann=u"A cube control, a bone under it and the jiggle on that bone - "
+                    u"something to try it on. Select a transform first and it lands "
+                    u"there, under it, so it rides the rig")
     cmds.setParent("..")
     cmds.setParent("..")
     cmds.columnLayout(WIN + "_jbody", adj=True, rs=2)

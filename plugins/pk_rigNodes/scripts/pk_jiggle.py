@@ -3,6 +3,7 @@
 
     fromSelection()                 - на выделенных костях, настройки на них же
     fromSelection(host="body_ctrl") - настройки собрать на одном контроле
+    buildControl()                  - кубик-контрол с костью и тряской, с нуля
     nodeFrom(obj)                   - тряска выделенного: кость, водитель, контрол
     build("belly_jnt")              - на одной кости
     delete("belly_jnt")             - убрать, кость вернуть как была
@@ -143,6 +144,63 @@ def nodeFrom(obj):
         return got[0]
 
     return None
+
+
+# каркас кубика одной кривой: обход всех рёбер, не отрывая карандаша
+CUBE = [(-1, -1, -1), (1, -1, -1), (1, -1, 1), (-1, -1, 1), (-1, -1, -1),
+        (-1, 1, -1), (1, 1, -1), (1, -1, -1), (1, 1, -1), (1, 1, 1),
+        (1, -1, 1), (1, 1, 1), (-1, 1, 1), (-1, -1, 1), (-1, 1, 1), (-1, 1, -1)]
+
+# цвет кубика - чтобы он не путался с контролами рига
+COLOR = 17
+
+
+def _free(base):
+    """Свободное имя: jiggle, потом jiggle1, jiggle2..."""
+    if not cmds.objExists(base + "_ctrl") and not cmds.objExists(base + "_jnt"):
+        return base
+    for i in range(1, 1000):
+        if not cmds.objExists("%s%d_ctrl" % (base, i)) \
+                and not cmds.objExists("%s%d_jnt" % (base, i)):
+            return "%s%d" % (base, i)
+    cmds.error("no free name left for %s" % base)
+
+
+def buildControl(name="jiggle", size=1.0, at=None, parent=None):
+    """Кубик-контрол, кость под ним и тряска на этой кости - всё разом, чтобы
+    было чем попробовать.
+
+    at - куда поставить: имя трансформа или три числа. parent - под кого
+    подложить, обычно контрол рига: тогда кубик едет вместе с ним, а кость
+    отстаёт от кубика. Настройки садятся на сам кубик."""
+    if not loadPlugin():
+        return None
+
+    name = _free(name)
+    half = max(1e-4, float(size)) * 0.5
+
+    ctrl = cmds.curve(n=name + "_ctrl", d=1,
+                      p=[(x * half, y * half, z * half) for x, y, z in CUBE])
+    for shape in cmds.listRelatives(ctrl, s=True, f=True) or []:
+        cmds.setAttr(shape + ".overrideEnabled", 1)
+        cmds.setAttr(shape + ".overrideColor", COLOR)
+
+    if at:
+        if isinstance(at, (list, tuple)):
+            cmds.xform(ctrl, ws=True, t=at)
+        elif cmds.objExists(at):
+            cmds.xform(ctrl, ws=True, m=cmds.xform(at, q=True, ws=True, m=True))
+    if parent and cmds.objExists(parent):
+        cmds.parent(ctrl, parent)
+
+    joint = cmds.createNode("joint", n=name + "_jnt", p=ctrl)
+
+    made = build(joint, host=ctrl)
+    cmds.select(ctrl)
+    print("pk_jiggle: %s and %s, settings on %s" % (ctrl, joint, ctrl))
+    if made:
+        made["control"] = ctrl
+    return made
 
 
 def build(joint, host=None):
