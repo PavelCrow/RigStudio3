@@ -1,4 +1,5 @@
 #include "pkChainDynNode.h"
+#include "pkCollide.h"
 
 #include <maya/MAngle.h>
 #include <maya/MArrayDataBuilder.h>
@@ -46,19 +47,8 @@ MObject PkChainDynNode::aLocalRotate;
 MObject PkChainDynNode::aGoalMatrix;
 MObject PkChainDynNode::aOutputCount;
 MObject PkChainDynNode::aPosition;
-MObject PkChainDynNode::aCollide;
-MObject PkChainDynNode::aThickness;
+pk::Attrs PkChainDynNode::aHit;
 MObject PkChainDynNode::aThicknessRamp;
-MObject PkChainDynNode::aBounce;
-MObject PkChainDynNode::aFriction;
-MObject PkChainDynNode::aCollider;
-MObject PkChainDynNode::aColliderType;
-MObject PkChainDynNode::aColliderInfinite;
-MObject PkChainDynNode::aColliderSize;
-MObject PkChainDynNode::aColliderSizeX, PkChainDynNode::aColliderSizeY, PkChainDynNode::aColliderSizeZ;
-MObject PkChainDynNode::aColliderMatrix;
-MObject PkChainDynNode::aColliderRadius;
-MObject PkChainDynNode::aColliderLength;
 MObject PkChainDynNode::aOutMatrix;
 MObject PkChainDynNode::aOutThickness;
 
@@ -82,10 +72,6 @@ namespace
     // against, and would keep swinging for ever. This is the frequency it is
     // damped by instead - stiffness 0.02 worth of it.
     const double kMinW = 0.09;
-
-    // How many times the points are put back out of the colliders before it is
-    // called a day - see pushOut.
-    const int kCollideRounds = 8;
 
     // How much of the ends' slipping apart counts as pull. It is a matter of
     // taste rather than of physics, and it is set so that stretch 0.6 gives
@@ -216,73 +202,9 @@ MStatus PkChainDynNode::initialize()
     nAttr.setArray(true);
     nAttr.setUsesArrayDataBuilder(true);
 
-    aCollide = nAttr.create("collide", "cld", MFnNumericData::kDouble, 0.0);
-    nAttr.setMin(0.0);
-    nAttr.setMax(1.0);
-    nAttr.setKeyable(true);
-
-    aThickness = nAttr.create("thickness", "thk", MFnNumericData::kDouble, 0.0);
-    nAttr.setMin(0.0);
-    nAttr.setSoftMax(5.0);
-    nAttr.setKeyable(true);
+    pk::make(aHit);
 
     aThicknessRamp = MRampAttribute::createCurveRamp("thicknessRamp", "thr");
-
-    aBounce = nAttr.create("bounce", "bnc", MFnNumericData::kDouble, 0.0);
-    nAttr.setMin(0.0);
-    nAttr.setMax(1.0);
-    nAttr.setKeyable(true);
-
-    aFriction = nAttr.create("friction", "frc", MFnNumericData::kDouble, 0.0);
-    nAttr.setMin(0.0);
-    nAttr.setMax(1.0);
-    nAttr.setKeyable(true);
-
-    aColliderType = eAttr.create("colliderType", "clt", 0);
-    eAttr.addField("plane", 0);
-    eAttr.addField("sphere", 1);
-    eAttr.addField("capsule", 2);
-    eAttr.addField("box", 3);
-    eAttr.setKeyable(false);
-
-    aColliderInfinite = nAttr.create("colliderInfinite", "cli",
-                                     MFnNumericData::kBoolean, true);
-    nAttr.setKeyable(true);
-
-    aColliderSizeX = nAttr.create("colliderSizeX", "clsx", MFnNumericData::kDouble, 1.0);
-    aColliderSizeY = nAttr.create("colliderSizeY", "clsy", MFnNumericData::kDouble, 1.0);
-    aColliderSizeZ = nAttr.create("colliderSizeZ", "clsz", MFnNumericData::kDouble, 1.0);
-    aColliderSize = nAttr.create("colliderSize", "cls",
-                                 aColliderSizeX, aColliderSizeY, aColliderSizeZ);
-    nAttr.setKeyable(true);
-
-    aColliderMatrix = mAttr.create("colliderMatrix", "clm");
-    // коллайдер удалили - элемент списка уходит с ним. Иначе матрица осталась бы
-    // единичной, и на месте пола, которого больше нет, продолжала бы стоять
-    // плоскость в начале координат
-    mAttr.setDisconnectBehavior(MFnAttribute::kDelete);
-
-    aColliderRadius = nAttr.create("colliderRadius", "clr", MFnNumericData::kDouble, 1.0);
-    nAttr.setMin(0.0);
-    nAttr.setSoftMax(20.0);
-    nAttr.setKeyable(true);
-
-    aColliderLength = nAttr.create("colliderLength", "cll", MFnNumericData::kDouble, 0.0);
-    nAttr.setMin(0.0);
-    nAttr.setSoftMax(20.0);
-    nAttr.setKeyable(true);
-
-    // один элемент - один коллайдер: пол плоскостью, голова сферой, бедро
-    // капсулой, и всё это одновременно
-    MFnCompoundAttribute cAttr;
-    aCollider = cAttr.create("collider", "cl");
-    cAttr.addChild(aColliderType);
-    cAttr.addChild(aColliderInfinite);
-    cAttr.addChild(aColliderSize);
-    cAttr.addChild(aColliderMatrix);
-    cAttr.addChild(aColliderRadius);
-    cAttr.addChild(aColliderLength);
-    cAttr.setArray(true);
 
     aGoalMatrix = mAttr.create("goalMatrix", "gm");
     mAttr.setArray(true);
@@ -307,14 +229,18 @@ MStatus PkChainDynNode::initialize()
         aMaxBend, aBendSoftness, aSubsteps, aSpaceMatrix,
         aLocalTranslate, aLocalRotate,
         aGoalMatrix, aOutputCount, aPosition,
-        aCollide, aThickness, aThicknessRamp, aBounce, aFriction, aCollider,
+        aThicknessRamp,
     };
-    for (const MObject& in : ins)
+
+    std::vector<MObject> every(ins, ins + sizeof(ins) / sizeof(ins[0]));
+    pk::list(aHit, every);
+
+    for (const MObject& in : every)
         addAttribute(in);
     addAttribute(aOutMatrix);
     addAttribute(aOutThickness);
 
-    for (const MObject& in : ins)
+    for (const MObject& in : every)
     {
         attributeAffects(in, aOutMatrix);
         attributeAffects(in, aOutThickness);
@@ -630,169 +556,22 @@ void PkChainDynNode::reset(const std::vector<MPoint>& goals, const MMatrix& spac
     mInit      = true;
 }
 
-bool PkChainDynNode::depthOf(const Collider& c, const MPoint& p, double pad,
-                              MVector& dir, double& depth)
-{
-    if (c.type == 0)
-    {
-        const double d = MVector(p - c.o) * c.n - pad;
-
-        // бесконечная - всё, что выше её Y, снаружи
-        if (c.infinite)
-        {
-            if (d >= 0.0)
-                return false;
-
-            dir   = c.n;
-            depth = -d;
-            return true;
-        }
-
-        // конечная: внутри своего квадрата она пол, а за краем - сам край,
-        // обтянутый толщиной цепочки. Иначе кость, сходящая с пола, цеплялась
-        // бы за угол или проваливалась ровно на его границе
-        const MPoint lp = p * c.inv;
-        if (std::fabs(lp.x) <= c.half.x && std::fabs(lp.z) <= c.half.z)
-        {
-            if (d >= 0.0)
-                return false;
-
-            dir   = c.n;
-            depth = -d;
-            return true;
-        }
-
-        const MPoint edge(std::min(c.half.x, std::max(-c.half.x, lp.x)), 0.0,
-                          std::min(c.half.z, std::max(-c.half.z, lp.z)));
-        const MVector away = p - (edge * c.xf);
-        const double  len  = away.length();
-        if (len >= pad)
-            return false;
-
-        dir   = (len > kEps) ? (away / len) : c.n;
-        depth = pad - len;
-        return true;
-    }
-
-    if (c.type == 3)
-    {
-        // бокс: в его собственной системе достаточно зажать точку по трём
-        // сторонам - это и есть ближайшее к ней место на нём
-        const MPoint lp = p * c.inv;
-        const bool inside = std::fabs(lp.x) <= c.half.x
-                         && std::fabs(lp.y) <= c.half.y
-                         && std::fabs(lp.z) <= c.half.z;
-
-        if (!inside)
-        {
-            const MPoint near(std::min(c.half.x, std::max(-c.half.x, lp.x)),
-                              std::min(c.half.y, std::max(-c.half.y, lp.y)),
-                              std::min(c.half.z, std::max(-c.half.z, lp.z)));
-            const MVector away = p - (near * c.xf);
-            const double  len  = away.length();
-            if (len >= pad)
-                return false;
-
-            dir   = (len > kEps) ? (away / len) : MVector::yAxis;
-            depth = pad - len;
-            return true;
-        }
-
-        // Внутри - наружу через ближайшую грань. Выпускать назад, откуда
-        // пришли, я попробовал и откатил: при почти стоячей точке "против
-        // движения" выбирает далёкую боковую грань, и точку с покоя на крышке
-        // большого бокса швыряло на тридцать единиц в сторону - 60x60x60
-        // держал на -3.868 вместо 0.200. Ближайшая грань хотя бы ограничена
-        // размером самого бокса.
-        const double gap[3] = { c.half.x - std::fabs(lp.x),
-                                c.half.y - std::fabs(lp.y),
-                                c.half.z - std::fabs(lp.z) };
-        int axis = 0;
-        if (gap[1] < gap[axis]) axis = 1;
-        if (gap[2] < gap[axis]) axis = 2;
-
-        MPoint out = lp;
-        out[axis] = (lp[axis] >= 0.0) ? c.half[axis] : -c.half[axis];
-
-        const MVector away = (out * c.xf) - p;
-        const double  len  = away.length();
-        dir   = (len > kEps) ? (away / len) : MVector::yAxis;
-        depth = len + pad;
-        return true;
-    }
-
-    MPoint centre = c.o;
-    if (c.type == 2)
-    {
-        // a capsule is a sphere about the nearest point of its axis
-        const double half = c.n.length();
-        if (half > kEps)
-        {
-            const MVector axis = c.n / half;
-            const double  t    = std::min(half, std::max(-half, MVector(p - c.o) * axis));
-            centre = c.o + axis * t;
-        }
-    }
-
-    const MVector v    = p - centre;
-    const double  len  = v.length();
-    const double  want = c.radius + pad;
-    if (len >= want)
-        return false;
-
-    // dead in the middle there is no shortest way out, so any way will do
-    dir   = (len > kEps) ? (v / len) : MVector::yAxis;
-    depth = want - len;
-    return true;
-}
-
 void PkChainDynNode::pushOut(std::vector<MPoint>& pos, std::vector<MVector>* vel,
-                              const Params& p)
+                             const Params& p)
 {
-    if (p.collide <= kEps || p.colliders.empty())
+    if (!p.hit.any())
         return;
 
-    // Round after round until nothing is inside any more. A point squeezed
-    // between two colliders is put back inside the first by the second, and in
-    // a corner between them that takes a few goes - while the ordinary case,
-    // where nothing touches anything, costs one look and leaves.
-    //
-    // The cap is there for the one case that has no answer at all: colliders
-    // overlapping deeper than the chain is thick leave no room where both are
-    // satisfied, and the point settles between them instead of being thrown
-    // about for ever.
-    for (int round = 0; round < kCollideRounds; ++round)
+    // Круг за кругом, пока внутри кто-то есть, но не больше отведённого: см.
+    // pkCollide.h. Считаем с первой точки - корень сидит на своём контроле.
+    for (int round = 0; round < pk::kRounds; ++round)
     {
         bool moved = false;
-
-        // from 1: the root sits on its control
         for (size_t i = 1; i < pos.size(); ++i)
         {
-            for (const Collider& c : p.colliders)
-            {
-                MVector dir;
-                double  depth;
-                const double pad = (i < p.pad.size()) ? p.pad[i] : 0.0;
-                if (!depthOf(c, pos[i], pad, dir, depth))
-                    continue;
-
+            const double pad = (i < p.pad.size()) ? p.pad[i] : 0.0;
+            if (pk::clear(pos[i], vel ? &(*vel)[i] : 0, p.hit, pad))
                 moved = true;
-
-                pos[i] += dir * (depth * p.collide);
-                if (!vel)
-                    continue;
-
-                MVector&     v    = (*vel)[i];
-                const double into = v * dir;
-                if (into < 0.0)
-                    v -= dir * (into * (1.0 + p.bounce) * p.collide);
-
-                if (p.friction > kEps)
-                {
-                    const MVector along = v - dir * (v * dir);
-                    v -= along * (p.friction * p.collide);
-                }
-            }
         }
 
         if (!moved)
@@ -1124,72 +903,14 @@ MStatus PkChainDynNode::compute(const MPlug& plug, MDataBlock& data)
     p.substeps     = std::max(1, data.inputValue(aSubsteps).asInt());
     p.gravity      = gDir * (data.inputValue(aGravity).asDouble() / (fps * fps));
 
-    p.collide   = data.inputValue(aCollide).asDouble();
-    p.bounce    = data.inputValue(aBounce).asDouble();
-    p.friction  = data.inputValue(aFriction).asDouble();
+    pk::read(data, aHit, p.hit);
 
     // толщина у каждой точки своя: кончик тоньше основания, и пол он
     // трогает позже
-    const double thickness = data.inputValue(aThickness).asDouble();
+    const double thickness = data.inputValue(aHit.thickness).asDouble();
     p.pad.assign(n, thickness);
     for (size_t i = 0; i < n && i < mThickCurve.size(); ++i)
         p.pad[i] = thickness * mThickCurve[i];
-
-    if (p.collide > kEps)
-    {
-        MArrayDataHandle hc = data.inputArrayValue(aCollider, &status);
-        if (status)
-        {
-            const unsigned count = hc.elementCount();
-            p.colliders.reserve(count);
-            for (unsigned i = 0; i < count; ++i)
-            {
-                if (!hc.jumpToArrayElement(i))
-                    break;
-
-                MDataHandle   e = hc.inputValue();
-                const MMatrix m = e.child(aColliderMatrix).asMatrix();
-
-                Collider c;
-                c.type     = e.child(aColliderType).asShort();
-                c.radius   = e.child(aColliderRadius).asDouble();
-                c.o        = MPoint(m[3][0], m[3][1], m[3][2]);
-                c.infinite = e.child(aColliderInfinite).asBool();
-                c.xf       = m;
-                c.inv      = m.inverse();
-
-                const MVector side = e.child(aColliderSize).asDouble3();
-                c.half = MVector(side.x, side.y, side.z) * 0.5;
-
-                // the axes as they are, so scaling the transform scales the
-                // collider - a locator pulled bigger is a bigger sphere
-                const MVector x(m[0][0], m[0][1], m[0][2]);
-                const MVector y(m[1][0], m[1][1], m[1][2]);
-                const MVector z(m[2][0], m[2][1], m[2][2]);
-                const double  up = y.length();
-
-                if (c.type == 0)
-                {
-                    c.n = (up > kEps) ? (y / up) : MVector::yAxis;
-                }
-                else
-                {
-                    c.radius *= (x.length() + up + z.length()) / 3.0;
-                    if (c.type == 2 && up > kEps)
-                        c.n = (y / up) * (e.child(aColliderLength).asDouble() * up * 0.5);
-                }
-
-                // у конечных нужен размер, у круглых радиус
-                const bool sized = (c.half.x > kEps && c.half.z > kEps
-                                    && (c.type != 3 || c.half.y > kEps));
-                const bool ok = (c.type == 0) ? (c.infinite || sized)
-                              : (c.type == 3) ? sized
-                                              : (c.radius > kEps);
-                if (ok)
-                    p.colliders.push_back(c);
-            }
-        }
-    }
 
     // --- time ----------------------------------------------------------------
     std::vector<MPoint> sim = goals;

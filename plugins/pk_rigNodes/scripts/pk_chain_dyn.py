@@ -1059,7 +1059,8 @@ def _hasShape(loc):
                 cmds.listRelatives(loc, ad=True, type="nurbsCurve") or [])
 
 
-def collider(name="chain", kind="plane", size=1.0, length=4.0, at=None):
+def collider(name="chain", kind="plane", size=1.0, length=4.0, at=None,
+             node=None, under=None):
     """Коллайдер цепочке - трансформ с формой, чей worldMatrix идёт в очередной
     элемент collider.
 
@@ -1072,7 +1073,9 @@ def collider(name="chain", kind="plane", size=1.0, length=4.0, at=None):
     if kind not in TYPES:
         cmds.error("collider: kind is one of %s" % ", ".join(sorted(TYPES)))
 
-    node = _names(name)["node"]
+    # node и under - для тряски: у неё своя нода на каждую кость и нет группы
+    # цепочки, а коллайдеры те же самые
+    node = node or _names(name)["node"]
     if not cmds.objExists(node):
         cmds.error("%s not found" % node)
 
@@ -1088,8 +1091,8 @@ def collider(name="chain", kind="plane", size=1.0, length=4.0, at=None):
     _attrs(loc, kind, size, length)
     _shape(loc, kind)
 
-    top = _names(name)["top"]
-    if cmds.objExists(top):
+    top = under if under is not None else _names(name)["top"]
+    if top and cmds.objExists(top):
         cmds.parent(loc, top)
 
     cmds.connectAttr(loc + ".worldMatrix[0]", "%s.collider[%d].colliderMatrix" % (node, i))
@@ -1110,24 +1113,37 @@ def _free(node):
     return (max(used) + 1) if used else 0
 
 
+# примитив, из которого сделан коллайдер -> какой он коллайдер
+OF_PRIM = {"polyPlane": "plane", "polySphere": "sphere",
+           "polyCylinder": "capsule", "polyCube": "box"}
+
+
 def kindOf(obj):
-    """Какой это коллайдер - по той цепочке, где он уже стоит."""
+    """Какой это коллайдер: по той цепочке, где он уже стоит, а если его сняли
+    со всех - по его собственной форме. Иначе снятый коллайдер нельзя было бы
+    подключить обратно."""
     for plug in cmds.listConnections(obj + ".worldMatrix[0]", p=True,
                                      s=False, d=True) or []:
         if plug.endswith(".colliderMatrix"):
             return KINDS.get(cmds.getAttr(plug.replace(".colliderMatrix",
                                                        ".colliderType")))
+
+    for shape in cmds.listRelatives(obj, ad=True, type="mesh", f=True) or []:
+        for made in cmds.listConnections(shape + ".inMesh", s=True, d=False) or []:
+            kind = OF_PRIM.get(cmds.nodeType(made))
+            if kind:
+                return kind
     return None
 
 
-def addCollider(name, obj, kind=None):
+def addCollider(name, obj, kind=None, node=None):
     """Тот же коллайдер ещё одной цепочке.
 
     Список коллайдеров живёт на ноде, то есть у каждой цепочки свой. Сам
     коллайдер при этом один: его worldMatrix уходит во все цепочки, которые
     должны о него биться. Пол так и делается - одна плоскость на весь риг, а не
     по своей на каждый хвост."""
-    node = _names(name)["node"]
+    node = node or _names(name)["node"]
     if not cmds.objExists(node):
         cmds.error("%s not found" % node)
     if not cmds.objExists(obj):
@@ -1182,9 +1198,9 @@ def shareColliders(source, *names):
     return objs
 
 
-def colliders(name="chain"):
+def colliders(name="chain", node=None):
     """Коллайдеры цепочки по порядку элементов."""
-    node = _names(name)["node"]
+    node = node or _names(name)["node"]
     if not cmds.objExists(node):
         cmds.error("%s not found" % node)
 
@@ -1197,7 +1213,7 @@ def colliders(name="chain"):
     return out
 
 
-def removeCollider(name, obj):
+def removeCollider(name, obj, node=None):
     """Снять коллайдер с цепочки. Сам он остаётся в сцене и на других цепочках -
     уходит только элемент списка у этой.
 
@@ -1208,7 +1224,7 @@ def removeCollider(name, obj):
     Отмена этого не возвращает: элемент массива уходит вместе со связью, и undo
     восстанавливает связь, а не элемент - проверено. Если коллайдер нужен назад,
     подключить его заново, addCollider."""
-    node = _names(name)["node"]
+    node = node or _names(name)["node"]
     if not cmds.objExists(node):
         cmds.error("%s not found" % node)
 
@@ -1219,13 +1235,27 @@ def removeCollider(name, obj):
         if not src or src[0] != obj:
             continue
 
-        # хватает отключить: у colliderMatrix стоит kDelete, и элемент уходит
-        # сам. removeMultiInstance тут стоял зря - лишняя правка структуры
-        # массива на живой ноде, к тому же неотменяемая
-        for child in ("colliderMatrix", "colliderRadius", "colliderLength"):
-            for source in cmds.listConnections(plug + "." + child, p=True,
-                                               s=True, d=False) or []:
-                cmds.disconnectAttr(source, plug + "." + child)
+        # Отключаем всех детей, а не только матрицу: пока к элементу идёт хоть
+        # одна связь, он жив, а матрица у него становится единичной - и на месте
+        # пола, которого больше нет, остаётся плоскость в начале координат. У
+        # плоскости кроме матрицы подключены size и infinite, и именно на них я
+        # на этом и попался. Список берём у самой ноды, чтобы новые дети не
+        # завели ту же ошибку заново.
+        #
+        # А удаляет элемент removeMultiInstance, и без него никак: замерено -
+        # ни отключение матрицы, ни отключение всех детей элемент не убирают,
+        # остаётся он с единичной матрицей, то есть плоскостью в начале
+        # координат. kDelete у colliderMatrix срабатывает только когда удаляют
+        # сам объект-коллайдер. В 3.28.33 я решил обратное и вызов убрал -
+        # неверно, померил тогда как раз удаление объекта.
+        for child in (cmds.attributeQuery("collider", node=node,
+                                          listChildren=True) or []):
+            at = "%s.%s" % (plug, child)
+            for source in cmds.listConnections(at, p=True, s=True, d=False) or []:
+                cmds.disconnectAttr(source, at)
+
+        if i in (cmds.getAttr(node + ".collider", mi=True) or []):
+            cmds.removeMultiInstance(plug, b=True)
         gone.append(i)
 
     if not gone:
@@ -1236,13 +1266,13 @@ def removeCollider(name, obj):
     return gone
 
 
-def clearColliders(name="chain"):
+def clearColliders(name="chain", node=None):
     """Снять с цепочки все коллайдеры. Сами они остаются в сцене."""
     gone = []
-    for obj in colliders(name):
-        gone += removeCollider(name, obj)
+    for obj in colliders(name, node):
+        gone += removeCollider(name, obj, node)
     print("pk_chainDynamics: %s has no colliders now, %d taken off"
-          % (_names(name)["node"], len(gone)))
+          % (node or _names(name)["node"], len(gone)))
     return gone
 
 
@@ -1365,14 +1395,14 @@ def _sizes(loc, node, i, kind):
         cmds.connectAttr(loc + ".length", plug + ".colliderLength", f=True)
 
 
-def reshape(name="chain"):
+def reshape(name="chain", node=None):
     """Дать форму коллайдерам, собранным прежней версией - они были локаторами.
     Размеры снимаются с ноды и переезжают на сам коллайдер.
 
     У кого форма уже есть, тому обновляется вид - цвет и доли примитива, если
     они с тех пор менялись. Ничего не пересобирается, так что звать можно
     сколько угодно."""
-    node = _names(name)["node"]
+    node = node or _names(name)["node"]
     if not cmds.objExists(node):
         cmds.error("%s not found" % node)
 

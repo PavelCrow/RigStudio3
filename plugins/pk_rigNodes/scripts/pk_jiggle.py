@@ -4,6 +4,7 @@
     fromSelection()                 - на выделенных костях, настройки на них же
     fromSelection(host="body_ctrl") - настройки собрать на одном контроле
     buildControl()                  - кубик-контрол с костью и тряской, с нуля
+    collider("belly_jnt", "plane")  - коллайдер тряске: plane, sphere, capsule, box
     nodeFrom(obj)                   - тряска выделенного: кость, водитель, контрол
     build("belly_jnt")              - на одной кости
     delete("belly_jnt")             - убрать, кость вернуть как была
@@ -21,6 +22,9 @@ jiggleTranslate, jiggleRotate. Остальное - axisScale, limit, substeps -
 import os
 
 import maya.cmds as cmds
+
+# коллайдеры у тряски и у цепочки одни и те же - и в ноде, и в сцене
+import pk_chain_dyn as _chain
 
 
 PLUGIN = "pk_dynamics"
@@ -83,6 +87,33 @@ def _addSettings(host, node):
                 kw["max"] = mx
             cmds.addAttr(host, **kw)
         cmds.connectAttr(host + "." + attr, node + "." + nodeAttr, f=True)
+
+
+def collider(joint, kind="plane", size=1.0, length=4.0, at=None):
+    """Коллайдер этой тряске: plane, sphere, capsule, box - те же, что у
+    цепочки. Плоскость по умолчанию бесконечная, у неё есть галка infinite."""
+    return _chain.collider(joint, kind, size=size, length=length, at=at,
+                           node=_names(joint)["node"], under="")
+
+
+def colliders(joint):
+    """Коллайдеры этой тряски по порядку."""
+    return _chain.colliders(joint, node=_names(joint)["node"])
+
+
+def addCollider(joint, obj, kind=None):
+    """Тот же коллайдер ещё и этой тряске - объект один на всех."""
+    return _chain.addCollider(joint, obj, kind, node=_names(joint)["node"])
+
+
+def removeCollider(joint, obj):
+    """Снять коллайдер с этой тряски. Сам он остаётся в сцене."""
+    return _chain.removeCollider(joint, obj, node=_names(joint)["node"])
+
+
+def clearColliders(joint):
+    """Снять все."""
+    return _chain.clearColliders(joint, node=_names(joint)["node"])
 
 
 def hasSettings(obj):

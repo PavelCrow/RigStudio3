@@ -4,6 +4,8 @@
 #include <maya/MPoint.h>
 #include <maya/MPxNode.h>
 
+#include "pkCollide.h"
+
 #include <vector>
 
 // Simple dynamics of a chain - what the chainIk module gets out of nucleus
@@ -247,38 +249,16 @@ public:
     static MObject aGoalMatrix;       // multi, root first
     static MObject aOutputCount;      // 0 - one point per goal
     static MObject aPosition;         // multi: where along the chain each point sits
-    static MObject aCollide;          // 0 - off, 1 - the points stay out of the colliders
-    static MObject aThickness;        // the chain's own radius
-    static MObject aThicknessRamp;    // and how much of it each point along it has
-    static MObject aBounce;           // 0 - the surface takes the speed, 1 - hands it back
-    static MObject aFriction;         // how much of the sliding along is taken away
-    static MObject aCollider;         // multi compound, one per collider
-    static MObject aColliderType;     // plane / sphere / capsule / box
-    static MObject aColliderInfinite; // plane: endless, or a quad of its size
-    static MObject aColliderSize;     // box: its sides; finite plane: x and z
-    static MObject aColliderSizeX, aColliderSizeY, aColliderSizeZ;
-    static MObject aColliderMatrix;   // where it sits; a plane faces its own Y
-    static MObject aColliderRadius;
-    static MObject aColliderLength;   // capsule only, along its Y
+    // collide, thickness, bounce, friction and the collider list itself -
+    // the same ones the jiggle node has, made in one place
+    static pk::Attrs aHit;
+    static MObject aThicknessRamp;    // how much of the thickness each point has
 
     // --- outputs -----------------------------------------------------------
     static MObject aOutMatrix;        // multi, world
     static MObject aOutThickness;     // multi: the standoff of each point
 
 private:
-    // A collider as the solve wants it: already in the world, already
-    // measured, nothing left to work out per point per substep.
-    struct Collider
-    {
-        short   type = 0;             // 0 plane, 1 sphere, 2 capsule, 3 box
-        MPoint  o;                    // where it is
-        MVector n;                    // plane: the way out; capsule: half its axis
-        double  radius = 0.0;
-        bool    infinite = true;      // plane only
-        MVector half;                 // half the sides, in its own space
-        MMatrix xf, inv;              // and that space itself
-    };
-
     struct State
     {
         std::vector<MPoint>  pos;
@@ -316,9 +296,8 @@ private:
         double localTranslate = 0.0, localRotate = 0.0;
         double stretch = 0.0, stretchLimit = 0.0, stretchSpeed = 0.0;
         double stretchDamping = 0.0, stretchRelease = 0.0;
-        double collide = 0.0, bounce = 0.0, friction = 0.0;
-        std::vector<double>   pad;     // thickness per point, along the chain
-        std::vector<Collider> colliders;
+        pk::World hit;                // кто стоит на пути и как отдаётся скорость
+        std::vector<double> pad;      // толщина по точкам, вдоль цепочки
         MVector gravity;              // units / frame^2
         int substeps = 1;
     };
@@ -332,13 +311,11 @@ private:
     // The curves, sampled at the points the chain has now.
     void readCurves(MDataBlock& data, size_t n);
 
-    // How deep the point is inside this collider, and which way is out.
-    static bool depthOf(const Collider& c, const MPoint& p, double pad,
-                        MVector& dir, double& depth);
-
-    // Every point out of every collider. vel is given inside the simulation,
-    // where the collision is to be felt, and left out at the end of the frame,
-    // where it only has to hold.
+    // Все точки наружу из всех коллайдеров. Геометрия общая, а своё тут -
+    // толщина у каждой точки своя и корень не толкается вовсе: он приколот к
+    // контролу и принадлежит аниматору. vel даётся внутри симуляции, где
+    // толчок должен чувствоваться, и не даётся в конце кадра, где надо только
+    // удержать.
     static void pushOut(std::vector<MPoint>& pos, std::vector<MVector>* vel,
                         const Params& p);
 

@@ -104,10 +104,18 @@ global proc AEpk_jiggleTemplate(string $nodeName)
         editorTemplate -addControl "substeps";
     editorTemplate -endLayout;
 
+    editorTemplate -beginLayout "Collision" -collapse 0;
+        editorTemplate -addControl "collide";
+        editorTemplate -addControl "thickness";
+        editorTemplate -addControl "bounce";
+        editorTemplate -addControl "friction";
+    editorTemplate -endLayout;
+
     editorTemplate -suppress "time";
     editorTemplate -suppress "inMatrix";
     editorTemplate -suppress "parentInverseMatrix";
     editorTemplate -suppress "outMatrix";
+    editorTemplate -suppress "collider";
 
     AEdependNodeTemplate $nodeName;
     editorTemplate -addExtraControls;

@@ -28,6 +28,7 @@ MObject PkJiggleNode::aGravity;
 MObject PkJiggleNode::aGravityDirection;
 MObject PkJiggleNode::aGravityDirectionX, PkJiggleNode::aGravityDirectionY, PkJiggleNode::aGravityDirectionZ;
 MObject PkJiggleNode::aSubsteps;
+pk::Attrs PkJiggleNode::aHit;
 MObject PkJiggleNode::aInMatrix;
 MObject PkJiggleNode::aParentInverse;
 MObject PkJiggleNode::aOutMatrix;
@@ -126,6 +127,8 @@ MStatus PkJiggleNode::initialize()
     nAttr.setSoftMax(10);
     nAttr.setKeyable(true);
 
+    pk::make(aHit);
+
     aInMatrix = mAttr.create("inMatrix", "im");
     aParentInverse = mAttr.create("parentInverseMatrix", "pim");
 
@@ -138,11 +141,15 @@ MStatus PkJiggleNode::initialize()
         aTranslate, aRotate, aLimit, aAxisScale,
         aGravity, aGravityDirection, aSubsteps, aInMatrix, aParentInverse,
     };
-    for (const MObject& in : ins)
+
+    std::vector<MObject> every(ins, ins + sizeof(ins) / sizeof(ins[0]));
+    pk::list(aHit, every);
+
+    for (const MObject& in : every)
         addAttribute(in);
     addAttribute(aOutMatrix);
 
-    for (const MObject& in : ins)
+    for (const MObject& in : every)
         attributeAffects(in, aOutMatrix);
 
     return MS::kSuccess;
@@ -281,6 +288,10 @@ MStatus PkJiggleNode::compute(const MPlug& plug, MDataBlock& data)
     const MVector axisScale = data.inputValue(aAxisScale).asDouble3();
     const int    substeps  = std::max(1, data.inputValue(aSubsteps).asInt());
 
+    pk::World hit;
+    pk::read(data, aHit, hit);
+    const double pad = data.inputValue(aHit.thickness).asDouble();
+
     MVector gDir = data.inputValue(aGravityDirection).asDouble3();
     if (gDir.length() > kEps)
         gDir.normalize();
@@ -389,6 +400,15 @@ MStatus PkJiggleNode::compute(const MPlug& plug, MDataBlock& data)
                     mCur.spinVel = e * sp.vd + ev * sp.vv;
                     mCur.spin = expOf(e1 - spinBehind);
 
+                    // и наружу из всего, что стоит на пути: здесь толчок
+                    // чувствуется - скорость, идущая в поверхность, гасится
+                    if (hit.any())
+                    {
+                        for (int round = 0; round < pk::kRounds; ++round)
+                            if (!pk::clear(mCur.pos, &mCur.vel, hit, pad))
+                                break;
+                    }
+
                     mCur.goal     = g;
                     mCur.goalSpin = gs;
                 }
@@ -439,6 +459,15 @@ MStatus PkJiggleNode::compute(const MPlug& plug, MDataBlock& data)
 
         pos  = goal + off * (weight * translate);
         spin = slerp(MQuaternion::identity, mCur.spin, weight * rotate);
+
+        // Последнее слово. Вес, translate, axisScale и limit двигают уже готовую
+        // точку, и любой из них может вернуть её внутрь поверхности.
+        if (hit.any())
+        {
+            for (int round = 0; round < pk::kRounds; ++round)
+                if (!pk::clear(pos, 0, hit, pad))
+                    break;
+        }
     }
 
     // --- output -------------------------------------------------------------

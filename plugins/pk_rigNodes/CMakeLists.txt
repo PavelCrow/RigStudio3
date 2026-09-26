@@ -51,6 +51,7 @@ add_library(pk_dynamics SHARED
     src/pkDynamicsMain.cpp
     src/pkChainDynNode.cpp
     src/pkJiggleNode.cpp
+    src/pkCollide.cpp
 )
 
 foreach(pk_target pk_rigNodes pk_wings pk_dynamics)

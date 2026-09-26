@@ -5,6 +5,8 @@
 #include <maya/MPxNode.h>
 #include <maya/MQuaternion.h>
 
+#include "pkCollide.h"
+
 // Jiggle of one bone - a belly, a cheek, a jaw of fat: the bone follows where
 // the rig puts it, but with weight of its own, so it arrives late and settles
 // with a shake.
@@ -60,6 +62,19 @@
 // gravity is in units per second squared, and it is what makes fat hang: with
 // a soft spring the bone sits a little below where the rig holds it.
 //
+// --- what it runs into ------------------------------------------------------
+//
+// The same colliders the chain has, out of the same code: a plane for the floor,
+// a sphere for the head, a capsule for a thigh, a box for a crate, as many as
+// needed. thickness is the bone's own radius, bounce is how much of the speed a
+// surface hands back, friction how much of the sliding along it takes away.
+//
+// The pushing happens twice, and for the same two reasons it does in the chain:
+// inside the substep, so the collision is part of the simulation and the bone
+// carries on with the speed it should have, and once at the very end, after
+// weight, translate, axisScale and limit have had their say - all of those move
+// a finished point, and any of them can put it back through a surface.
+//
 // --- time -------------------------------------------------------------------
 //
 // At startFrame and before it, when time runs back, and when enable is off,
@@ -97,6 +112,11 @@ public:
     static MObject aGravityDirection;
     static MObject aGravityDirectionX, aGravityDirectionY, aGravityDirectionZ;
     static MObject aSubsteps;
+
+    // collide, thickness, bounce, friction и список коллайдеров - те же, что у
+    // цепочки, и сделаны в одном месте
+    static pk::Attrs aHit;
+
     static MObject aInMatrix;
     static MObject aParentInverse;    // if connected, the output is in that space
 

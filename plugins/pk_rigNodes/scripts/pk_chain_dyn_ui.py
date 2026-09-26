@@ -381,6 +381,36 @@ def _jfill():
     cmds.setParent("..")
     cmds.setParent("..")
 
+    # раздела нет, если плагин старой сборки, без коллизии
+    if cmds.attributeQuery("collide", node=node, exists=True):
+        made = len(cmds.getAttr(node + ".collider", mi=True) or [])
+        cmds.frameLayout(l=u"Collision%s" % (u": %d" % made if made else u""),
+                         cll=True, cl=False, mw=4, mh=4)
+        cmds.columnLayout(adj=True)
+        for attr, label, hi in ((u"collide", u"Collide", 1.0),
+                                (u"thickness", u"Thickness", 3.0),
+                                (u"bounce", u"Bounce", 1.0),
+                                (u"friction", u"Friction", 1.0)):
+            cmds.attrFieldSliderGrp(at=node + "." + attr, l=label, min=0.0, max=hi,
+                                    fmn=0.0, fmx=1000.0, pre=3, cw3=(110, 60, 180))
+        cmds.optionMenu(WIN + "_jcolKind", l=u"Shape")
+        for kind in ("plane", "sphere", "capsule", "box"):
+            cmds.menuItem(l=kind)
+        cmds.floatFieldGrp(WIN + "_jcolSize", nf=2, l=u"Radius / length",
+                           v1=1.0, v2=4.0, cw3=(110, 60, 60), pre=2,
+                           ann=u"For a plane and a box the radius is their size; "
+                               u"the length is the capsule's only. A plane is "
+                               u"endless until its infinite is turned off")
+        cmds.button(l=u"Add a collider", h=26, c=lambda *a: _jiggleCollider(),
+                    ann=u"It appears at the bone - drag it where it belongs")
+        cmds.button(l=u"Take the selected colliders off", h=26,
+                    c=lambda *a: _jiggleDropColliders(),
+                    ann=u"They leave this bone's list but stay in the scene and on "
+                        u"whatever else uses them. To switch the whole collision "
+                        u"off without unhooking anything, set Collide to 0")
+        cmds.setParent("..")
+        cmds.setParent("..")
+
     cmds.frameLayout(l=u"This bone", cll=True, cl=False, mw=4, mh=4)
     cmds.columnLayout(adj=True)
     for attr in JNODE_ATTRS:
@@ -719,6 +749,43 @@ def _jiggleRemove():
 
     if _state["jiggle"] in picked:
         _state["jiggle"] = None
+    _later(_jfill)
+
+
+def _jiggleCollider():
+    node = _needJiggle()
+    if not node:
+        return
+
+    kind = cmds.optionMenu(WIN + "_jcolKind", q=True, v=True)
+    size = cmds.floatFieldGrp(WIN + "_jcolSize", q=True, v1=True)
+    length = cmds.floatFieldGrp(WIN + "_jcolSize", q=True, v2=True)
+
+    joint = jig.jointOf(node)
+    at = cmds.xform(joint, q=True, ws=True, t=True) if joint else None
+    jig.collider(joint, kind, size=size, length=length, at=at)
+    _later(_jfill)
+
+
+def _jiggleDropColliders():
+    node = _needJiggle()
+    if not node:
+        return
+
+    joint = jig.jointOf(node)
+    mine = jig.colliders(joint)
+    picked = [o for o in cmds.ls(sl=True, o=True) or [] if o in mine]
+    if not picked:
+        cmds.warning(u"pk jiggle: select colliders of this bone - "
+                     u"there is nothing to take off")
+        return
+
+    cmds.undoInfo(openChunk=True, chunkName="pk jiggle: drop colliders")
+    try:
+        for obj in picked:
+            jig.removeCollider(joint, obj)
+    finally:
+        cmds.undoInfo(closeChunk=True)
     _later(_jfill)
 
 
