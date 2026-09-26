@@ -394,15 +394,31 @@ MStatus PkJiggleNode::compute(const MPlug& plug, MDataBlock& data)
                     // equation already knows the goal is turning away: what that
                     // does is hold the offset at a steady angle behind, the same
                     // 2 * zeta / w times the speed as for the position. Take that
-                    // out, step what is left, put it back - and nothing else is
-                    // needed. Carrying the offset across the goal's turn on top of
-                    // that was counting the same motion twice: the bone trailed
-                    // four times further than it should, 20 degrees on a spin
-                    // where the arithmetic says 4.8.
+                    // out, step what is left, put it back. Carrying the offset
+                    // across the goal's turn on top of that was counting the same
+                    // motion twice: the bone trailed four times further than it
+                    // should, 20 degrees on a spin where the arithmetic says 4.8.
+                    //
+                    // spinVel - это скорость самой кости, а не скорость
+                    // отрыва: разница видна там, где цель меняет свою скорость.
+                    // Пока цель крутится ровно, отрыв стоит на месте и его
+                    // скорость нулевая - потому хранить её было бы всё равно.
+                    // Но контрол останавливают резко, и в этот кадр кость обязана
+                    // продолжать крутиться с той скоростью, что набрала, -
+                    // проехать цель и качнуться назад. Со скоростью отрыва
+                    // получалось наоборот: цель встала, отрыв стоял, и кость
+                    // садилась на контрол в тот же кадр и только потом
+                    // расслаблялась - замерено, шаг копии падал с 4.28 до 0.57
+                    // за кадр и потом подскакивал до 1.42. Это и есть тот
+                    // замирание-с-рывком, который видно глазом. Поэтому скорость
+                    // цели вычитается перед шагом и добавляется после - ровно как
+                    // у перемещения выше. Установившийся отрыв от этого не
+                    // меняется: там скорость кости равна скорости цели, разница
+                    // нулевая, и шаг по-прежнему точен при любом числе подшагов.
                     const MVector e  = logOf(mCur.spin) + spinBehind;
-                    const MVector ev = mCur.spinVel;
+                    const MVector ev = mCur.spinVel - spinSpeed;
                     const MVector e1 = e * sp.dd + ev * sp.dv;
-                    mCur.spinVel = e * sp.vd + ev * sp.vv;
+                    mCur.spinVel = (e * sp.vd + ev * sp.vv) + spinSpeed;
                     mCur.spin = expOf(e1 - spinBehind);
 
                     // и наружу из всего, что стоит на пути: здесь толчок
