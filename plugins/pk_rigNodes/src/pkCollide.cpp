@@ -7,6 +7,7 @@
 #include <maya/MFnEnumAttribute.h>
 #include <maya/MFnMatrixAttribute.h>
 #include <maya/MFnNumericAttribute.h>
+#include <maya/MPlug.h>
 #include <maya/MString.h>
 
 #include <algorithm>
@@ -15,6 +16,18 @@
 namespace
 {
     const double kEps = 1.0e-9;
+
+    // MPlug::child берёт номер, а не атрибут - ищем свой по атрибуту
+    bool connected(const MPlug& el, const MObject& attr)
+    {
+        for (unsigned k = 0; k < el.numChildren(); ++k)
+        {
+            MPlug c = el.child(k);
+            if (c.attribute() == attr)
+                return c.isConnected();
+        }
+        return false;
+    }
 }
 
 namespace pk
@@ -100,7 +113,7 @@ void list(const Attrs& a, std::vector<MObject>& out)
     out.push_back(a.collider);
 }
 
-void read(MDataBlock& data, const Attrs& a, World& w)
+void read(MDataBlock& data, const Attrs& a, const MObject& node, World& w)
 {
     w.collide  = data.inputValue(a.collide).asDouble();
     w.bounce   = data.inputValue(a.bounce).asDouble();
@@ -118,10 +131,20 @@ void read(MDataBlock& data, const Attrs& a, World& w)
     const unsigned count = hc.elementCount();
     w.colliders.reserve(count);
 
+    MPlug all(node, a.collider);
+
     for (unsigned i = 0; i < count; ++i)
     {
         if (!hc.jumpToArrayElement(i))
             break;
+
+        // Коллайдер удалили, а элемент остался: связи у него рвутся по одной, и
+        // та, что рвётся последней, заводит элемент заново - удалиться он уже
+        // не успевает. Матрица у такого элемента единичная, то есть плоскость в
+        // начале координат, и кость упирается в пол, которого нет. Поэтому
+        // спрашиваем у графа: есть ли у матрицы кто-то на входе.
+        if (!connected(all.elementByLogicalIndex(hc.elementIndex()), a.matrix))
+            continue;
 
         MDataHandle   e = hc.inputValue();
         const MMatrix m = e.child(a.matrix).asMatrix();

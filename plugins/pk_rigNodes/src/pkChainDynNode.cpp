@@ -903,7 +903,7 @@ MStatus PkChainDynNode::compute(const MPlug& plug, MDataBlock& data)
     p.substeps     = std::max(1, data.inputValue(aSubsteps).asInt());
     p.gravity      = gDir * (data.inputValue(aGravity).asDouble() / (fps * fps));
 
-    pk::read(data, aHit, p.hit);
+    pk::read(data, aHit, thisMObject(), p.hit);
 
     // толщина у каждой точки своя: кончик тоньше основания, и пол он
     // трогает позже

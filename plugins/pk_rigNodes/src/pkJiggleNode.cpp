@@ -289,7 +289,7 @@ MStatus PkJiggleNode::compute(const MPlug& plug, MDataBlock& data)
     const int    substeps  = std::max(1, data.inputValue(aSubsteps).asInt());
 
     pk::World hit;
-    pk::read(data, aHit, hit);
+    pk::read(data, aHit, thisMObject(), hit);
     const double pad = data.inputValue(aHit.thickness).asDouble();
 
     MVector gDir = data.inputValue(aGravityDirection).asDouble3();

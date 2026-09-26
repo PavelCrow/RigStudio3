@@ -59,7 +59,11 @@ namespace pk
 
     void make(Attrs& a);
     void list(const Attrs& a, std::vector<MObject>& out);
-    void read(MDataBlock& data, const Attrs& a, World& w);
+    // node нужен, чтобы спросить у графа, подключена ли матрица коллайдера:
+    // элемент без связи - это мусор от удалённого коллайдера, и верить ему
+    // нельзя, иначе на месте пола, которого больше нет, остаётся плоскость в
+    // начале координат
+    void read(MDataBlock& data, const Attrs& a, const MObject& node, World& w);
 
     // Насколько глубоко точка внутри и куда её оттуда.
     bool depthOf(const Collider& c, const MPoint& p, double pad,
