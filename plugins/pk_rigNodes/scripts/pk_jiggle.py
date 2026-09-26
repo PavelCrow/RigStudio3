@@ -236,6 +236,34 @@ def _backConnections(copy, ctrl):
     return moved
 
 
+def controlOf(obj):
+    """Контрол, к которому относится этот объект: сам контрол, его динамическая
+    копия, её водитель или её нода - всё ведёт в одно место.
+
+    В аутлайнере копия лежит внутри контрола, ровно там, куда метишь мышкой, и
+    выделить её вместо контрола проще всего. Раньше это значило, что снятие тихо
+    ничего не делало - у копии своей копии нет, - а сборка потом ругалась, что
+    копия уже есть. Теперь обе кнопки понимают, на что показали."""
+    if not obj or not cmds.objExists(obj):
+        return obj
+
+    if cmds.objectType(obj) == NODE:                  # нода тряски
+        obj = jointOf(obj) or obj
+    if obj.endswith("_jiggleDriver"):                 # её водитель
+        obj = obj[:-len("_jiggleDriver")]
+
+    short = obj.split("|")[-1]
+    if short.endswith("_dyn_ctrl") and cmds.objExists(obj):
+        up = (cmds.listRelatives(obj, p=True) or [None])[0]
+        if up:
+            up = up.split("|")[-1]
+            base = up[:-5] if up.endswith("_ctrl") else up
+            # именно копия этого контрола, а не контрол с похожим именем
+            if base + "_dyn_ctrl" == short:
+                return up
+    return obj
+
+
 def rewire(ctrl=None):
     """Перецепить на копию то, что осталось висеть на контроле. Для сцен,
     собранных до того, как локальные выходы стали уводиться тоже: там потребители
@@ -244,6 +272,7 @@ def rewire(ctrl=None):
     месте - снимать и ставить динамику заново не надо.
 
     Без аргумента - все динамические копии сцены, сколько бы их ни было."""
+    ctrl = controlOf(ctrl)
     if ctrl is None:
         done = 0
         for node in nodes():
@@ -302,10 +331,14 @@ def dynamicCopy(ctrl, host=None, selectable=False):
     if not cmds.objExists(ctrl):
         cmds.error("%s not found" % ctrl)
 
+    ctrl = controlOf(ctrl)
     base = ctrl[:-5] if ctrl.endswith("_ctrl") else ctrl
     copy = base + "_dyn_ctrl"
     if cmds.objExists(copy):
-        cmds.error("%s already has a dynamic copy - delete(%r) first" % (ctrl, copy))
+        # именно removeDynamicCopy: delete() снимает с копии тряску, но саму
+        # копию оставляет на месте, и по такому совету не выбраться
+        cmds.error("%s already has a dynamic copy - removeDynamicCopy(%r) first"
+                   % (ctrl, ctrl))
 
     # Формы копируем до того, как заведём саму копию: duplicate тащит за собой
     # всё содержимое контрола, и если копия внутри уже есть, в сцене оказываются
@@ -358,6 +391,7 @@ def removeDynamicCopy(ctrl):
     """Убрать динамику с контрола: дети возвращаются в него, связи тоже, копия и
     её тряска уходят. Контрол остаётся ровно таким, каким был до вызова
     dynamicCopy - иначе всё это было бы дорогой в одну сторону."""
+    ctrl = controlOf(ctrl)
     base = ctrl[:-5] if ctrl.endswith("_ctrl") else ctrl
     copy = base + "_dyn_ctrl"
     if not cmds.objExists(copy):
