@@ -579,7 +579,7 @@ def build(joint, host=None):
     node = cmds.createNode(NODE, n=n["node"])
     # считать с начала анимации сцены, а не с жёсткого первого кадра: иначе в
     # сцене с нулевого кадра сброс съедает первый шаг движения
-    cmds.setAttr(node + ".startFrame", _chain.sceneStart())
+    cmds.setAttr(node + ".startFrame", sceneStart())
     cmds.connectAttr("time1.outTime", node + ".time")
     cmds.connectAttr(driver + ".worldMatrix[0]", node + ".inMatrix")
     if parent:
@@ -618,6 +618,21 @@ def fromSelection(host=None):
     if host:
         cmds.select(host)
     return made
+
+
+def sceneStart():
+    """С какого кадра считать динамику: начало анимации сцены.
+
+    Та же одна строка, что и в pk_chain_dyn, и держать её здесь - нарочно.
+    Модули перезагружают по одному, и свежий pk_jiggle рядом со старым
+    pk_chain_dyn - обычное дело; Павел на этом уже споткнулся, сборка падала на
+    том, что у соседа ещё нет sceneStart. Из-за одной строки такой зависимости
+    быть не должно, а разъехаться ей негде.
+
+    Берём animationStartTime, а не начало видимого диапазона: диапазон аниматор
+    двигает по ходу работы, а это внешняя граница, раньше которой кадров не
+    бывает."""
+    return cmds.playbackOptions(q=True, ast=True)
 
 
 def _dropAttr(host, attr):
