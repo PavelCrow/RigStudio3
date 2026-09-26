@@ -677,7 +677,7 @@ def testAnim(name="chain", root=None, size=None, hold=20):
         cmds.setAttr(root + ".startFrame", 1)
     cmds.currentTime(1)
 
-    print("pk_chainDynamics: прогон на %s, кадры 1-%d" % (root, f))
+    print("pk_chainDynamics: test animation on %s, frames 1-%d" % (root, f))
     for a, b, title in plan:
         if title:
             print("   %3d - %3d  %s" % (a, b, title))
@@ -1297,8 +1297,8 @@ def thicknessGuide(name="chain", show=True):
     if not sizes:
         cmds.error("%s: no joints to show the thickness on" % name)
     if cmds.getAttr(node + ".thickness") <= 0.0:
-        cmds.warning(u"%s: thickness = 0, цепочка ничего не отодвигает - "
-                     u"шарики будут нулевого размера" % name)
+        cmds.warning(u"%s: thickness is 0 - the chain pushes nothing away, "
+                     u"so the balls come out of no size at all" % name)
 
     cmds.createNode("transform", n=grp)
     cmds.setAttr(grp + ".inheritsTransform", 0)

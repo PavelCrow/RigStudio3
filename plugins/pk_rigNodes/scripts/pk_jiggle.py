@@ -3,6 +3,7 @@
 
     fromSelection()                 - на выделенных костях, настройки на них же
     fromSelection(host="body_ctrl") - настройки собрать на одном контроле
+    nodeFrom(obj)                   - тряска выделенного: кость, водитель, контрол
     build("belly_jnt")              - на одной кости
     delete("belly_jnt")             - убрать, кость вернуть как была
 
@@ -83,6 +84,67 @@ def _addSettings(host, node):
         cmds.connectAttr(host + "." + attr, node + "." + nodeAttr, f=True)
 
 
+def hasSettings(obj):
+    """Есть ли на объекте настройки тряски."""
+    return bool(obj) and cmds.objExists(obj) and \
+        cmds.attributeQuery(SETTINGS[0][0], node=obj, exists=True)
+
+
+def jointOf(node):
+    """Кость, которую ведёт нода."""
+    got = cmds.listConnections(node + ".outMatrix", s=False, d=True) or []
+    return got[0] if got else None
+
+
+def hostOf(node):
+    """Контрол, на котором живут её настройки."""
+    got = cmds.listConnections(node + "." + SETTINGS[0][1], s=True, d=False) or []
+    return got[0] if got else None
+
+
+def nodes(host=None):
+    """Все тряски сцены, или те, что ведёт этот контрол."""
+    if host is None:
+        return sorted(cmds.ls(type=NODE) or [])
+    if not hasSettings(host):
+        return []
+    got = cmds.listConnections("%s.%s" % (host, SETTINGS[0][0]),
+                               s=False, d=True, type=NODE) or []
+    out = []
+    for n in got:
+        if n not in out:
+            out.append(n)
+    return out
+
+
+def nodeFrom(obj):
+    """Нода тряски по выделенному: сама нода, кость, её водитель или контрол с
+    настройками. Связи ищутся по типу ноды, а не по именам."""
+    if not obj or not cmds.objExists(obj):
+        return None
+
+    if cmds.nodeType(obj) == NODE:
+        return obj
+
+    # кость: её место приходит из ноды
+    for src in cmds.listConnections(obj + ".offsetParentMatrix", s=True, d=False,
+                                    type=NODE) or []:
+        return src
+
+    # водитель: его матрица уходит в ноду
+    if cmds.attributeQuery("worldMatrix", node=obj, exists=True):
+        for dst in cmds.listConnections(obj + ".worldMatrix[0]", s=False, d=True,
+                                        type=NODE) or []:
+            return dst
+
+    # контрол с настройками: он может вести сразу несколько
+    got = nodes(obj)
+    if got:
+        return got[0]
+
+    return None
+
+
 def build(joint, host=None):
     """Тряска на одну кость. host - где собрать настройки; по умолчанию на самой
     кости."""
@@ -134,7 +196,7 @@ def fromSelection(host=None):
     if host and host in sel:
         sel.remove(host)
     if not sel:
-        cmds.warning(u"pk jiggle: выдели кости, на которых нужна тряска")
+        cmds.warning(u"pk jiggle: select the bones that should jiggle")
         return []
 
     made = []
