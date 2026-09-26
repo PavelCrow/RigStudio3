@@ -4,6 +4,8 @@
     fromSelection()                 - на выделенных костях, настройки на них же
     fromSelection(host="body_ctrl") - настройки собрать на одном контроле
     buildControl()                  - кубик-контрол с костью и тряской, с нуля
+    dynamicCopy("hand_ctrl")        - динамика на готовый контрол: копия внутри
+    removeDynamicCopy("hand_ctrl")  - и обратно, контрол как был
     collider("belly_jnt", "plane")  - коллайдер тряске: plane, sphere, capsule, box
     nodeFrom(obj)                   - тряска выделенного: кость, водитель, контрол
     build("belly_jnt")              - на одной кости
@@ -114,6 +116,144 @@ def removeCollider(joint, obj):
 def clearColliders(joint):
     """Снять все."""
     return _chain.clearColliders(joint, node=_names(joint)["node"])
+
+
+# что у трансформа выдаёт его положение целиком: только это и перецепляем на
+# динамическую копию. translate, rotate и scale не трогаем - у копии они нули,
+# её движение живёт в offsetParentMatrix, и всё, что висело на них, получило бы
+# нули вместо движения
+WHOLE = ("worldMatrix", "matrix")
+
+
+def _moveConnections(src, dst, keep):
+    """Перецепить с src на dst то, что выдаёт его положение целиком. keep - кого
+    не трогать: это водитель тряски и сама копия, они обязаны слушать исходный
+    контрол."""
+    moved = 0
+    for attr in WHOLE:
+        if not cmds.attributeQuery(attr, node=src, exists=True):
+            continue
+
+        # Спрашиваем сами связи, а не индексы массива: у выходного worldMatrix
+        # getAttr -mi отдаёт None даже когда worldMatrix[0] кому-то отдан, и
+        # перецеплять оказывается нечего. С флагом connections listConnections
+        # отдаёт пары - чей выход и куда идёт.
+        pairs = cmds.listConnections("%s.%s" % (src, attr), p=True, s=False, d=True,
+                                     c=True) or []
+        for i in range(0, len(pairs), 2):
+            mine, dest = pairs[i], pairs[i + 1]
+            if dest.split(".")[0].split("|")[-1] in keep:
+                continue
+            cmds.disconnectAttr(mine, dest)
+            cmds.connectAttr("%s.%s" % (dst, mine.split(".", 1)[1]), dest, f=True)
+            moved += 1
+    return moved
+
+
+def dynamicCopy(ctrl, host=None, selectable=False):
+    """Динамика на готовый контрол: внутри него появляется его копия, и всё, что
+    было в контроле, переезжает в неё.
+
+    Аниматор продолжает крутить свой контрол, а копия идёт за ним с отставанием -
+    и с ней идёт всё, что под контролом висело: подконтролы, кости, группы. Тем,
+    что слушало матрицу контрола со стороны, тоже отдаётся копия.
+
+    Сам контрол при этом остаётся нетронутым: и анимация, и его место в
+    иерархии, и настройки тряски, которые садятся на него же. Поэтому и
+    отключить всё это можно одним jiggle 0 - тогда копия стоит ровно на контроле
+    и риг ведёт себя точно как раньше.
+
+    Форма копии повторяет форму контрола, но зелёная и невыбираемая: видно, куда
+    её уводит, а схватить мышкой вместо контрола нельзя. selectable=True - если
+    всё-таки нужно."""
+    if not loadPlugin():
+        return None
+    if not cmds.objExists(ctrl):
+        cmds.error("%s not found" % ctrl)
+
+    base = ctrl[:-5] if ctrl.endswith("_ctrl") else ctrl
+    copy = base + "_dyn_ctrl"
+    if cmds.objExists(copy):
+        cmds.error("%s already has a dynamic copy - delete(%r) first" % (ctrl, copy))
+
+    # Формы копируем до того, как заведём саму копию: duplicate тащит за собой
+    # всё содержимое контрола, и если копия внутри уже есть, в сцене оказываются
+    # два объекта с одним именем.
+    forms, trash = [], []
+    for shape in cmds.listRelatives(ctrl, s=True, f=True) or []:
+        tmp = cmds.duplicate(shape, rr=True)[0]
+        forms.append(cmds.listRelatives(tmp, s=True, f=True)[0])
+        trash.append(tmp)
+
+    # копия внутри контрола и ровно на нём
+    copy = cmds.createNode("transform", n=copy, p=ctrl)
+    for form in forms:
+        made = cmds.parent(form, copy, r=True, s=True)[0]
+        made = cmds.rename(made, copy.split("|")[-1] + "Shape")
+        cmds.setAttr(made + ".overrideEnabled", 1)
+        cmds.setAttr(made + ".overrideColor", COLOR)
+        if not selectable:
+            # reference: видно, но мышкой не схватить - контрол остаётся один
+            cmds.setAttr(made + ".overrideDisplayType", 2)
+    if trash:
+        cmds.delete(trash)
+
+    # всё, что было в контроле, переезжает в копию
+    kids = [k for k in (cmds.listRelatives(ctrl, c=True, type="transform", f=True) or [])
+            if k.split("|")[-1] != copy.split("|")[-1]]
+    if kids:
+        # relative: локальные значения детей не трогаем. Копия стоит ровно на
+        # контроле, так что место у них то же, а вот компенсация, которую Maya
+        # пишет без этого флага, впечатала бы в них то, где копию держит тряска
+        cmds.parent(kids, copy, r=True)
+
+    made = build(copy, host=host or ctrl)
+    if not made:
+        return None
+
+    # и то, что слушало матрицу контрола со стороны
+    keep = set([made["driver"].split("|")[-1], copy.split("|")[-1], made["node"]])
+    moved = _moveConnections(ctrl, copy, keep)
+
+    cmds.select(ctrl)
+    print("pk_jiggle: %s -> %s, %d children moved, %d connections rerouted"
+          % (ctrl, copy, len(kids), moved))
+    made["control"] = ctrl
+    made["copy"] = copy
+    return made
+
+
+def removeDynamicCopy(ctrl):
+    """Убрать динамику с контрола: дети возвращаются в него, связи тоже, копия и
+    её тряска уходят. Контрол остаётся ровно таким, каким был до вызова
+    dynamicCopy - иначе всё это было бы дорогой в одну сторону."""
+    base = ctrl[:-5] if ctrl.endswith("_ctrl") else ctrl
+    copy = base + "_dyn_ctrl"
+    if not cmds.objExists(copy):
+        cmds.warning("%s has no dynamic copy" % ctrl)
+        return
+
+    # дети наружу, пока копию не удалили вместе с ними
+    kids = cmds.listRelatives(copy, c=True, type="transform", f=True) or []
+    if kids:
+        cmds.parent(kids, ctrl, r=True)
+
+    _moveConnections(copy, ctrl, set())
+
+    if cmds.objExists(_names(copy)["node"]):
+        delete(copy)
+    if cmds.objExists(copy):
+        cmds.delete(copy)
+
+    # настройки на контроле, если их больше никто не слушает
+    for attr, nodeAttr, dv, mn, mx in SETTINGS:
+        if cmds.attributeQuery(attr, node=ctrl, exists=True) and                 not (cmds.listConnections(ctrl + "." + attr, s=False, d=True) or []):
+            cmds.deleteAttr(ctrl, at=attr)
+    if cmds.attributeQuery("jiggleSettings", node=ctrl, exists=True) and             not cmds.attributeQuery(SETTINGS[0][0], node=ctrl, exists=True):
+        cmds.deleteAttr(ctrl, at="jiggleSettings")
+
+    cmds.select(ctrl)
+    print("pk_jiggle: dynamic copy removed from %s, %d children back" % (ctrl, len(kids)))
 
 
 def hasSettings(obj):

@@ -725,6 +725,44 @@ def _jiggleControl():
         _later(_jfill)
 
 
+def _jiggleOnControl():
+    """Динамика на выделенные контролы: копия внутри каждого."""
+    sel = [o for o in (cmds.ls(sl=True, o=True, type="transform") or [])]
+    if not sel:
+        cmds.warning(u"pk jiggle: select the controls that should have dynamics")
+        return
+
+    made = None
+    cmds.undoInfo(openChunk=True, chunkName="pk jiggle: dynamics on controls")
+    try:
+        for ctrl in sel:
+            made = jig.dynamicCopy(ctrl) or made
+    finally:
+        cmds.undoInfo(closeChunk=True)
+
+    if made:
+        attachJiggle(made["node"])
+        _later(_jfill)
+
+
+def _jiggleOffControl():
+    """И обратно - всё возвращается в контрол."""
+    sel = [o for o in (cmds.ls(sl=True, o=True, type="transform") or [])]
+    if not sel:
+        cmds.warning(u"pk jiggle: select the controls to take the dynamics off")
+        return
+
+    cmds.undoInfo(openChunk=True, chunkName="pk jiggle: dynamics off controls")
+    try:
+        for ctrl in sel:
+            jig.removeDynamicCopy(ctrl)
+    finally:
+        cmds.undoInfo(closeChunk=True)
+
+    _state["jiggle"] = None
+    _later(_jfill)
+
+
 def _jiggleRemove():
     """Снять тряску с выделенных костей - или с той, что взята в окне."""
     picked = []
@@ -870,6 +908,16 @@ def show():
                 ann=u"A cube control, a bone under it and the jiggle on that bone - "
                     u"something to try it on. Select a transform first and it lands "
                     u"there, under it, so it rides the rig")
+    cmds.button(l=u"Dynamics on the selected controls", h=28,
+                c=lambda *a: _jiggleOnControl(),
+                ann=u"A copy of the control appears inside it and takes everything "
+                    u"the control held - sub-controls, bones, and whatever listened "
+                    u"to its matrix. You keep animating the control; the copy, and "
+                    u"all of that with it, follows late. Jiggle 0 and the rig is "
+                    u"exactly as it was")
+    cmds.button(l=u"Take the dynamics off the selected controls", h=26,
+                c=lambda *a: _jiggleOffControl(),
+                ann=u"Everything goes back into the control and the copy is gone")
     cmds.setParent("..")
     cmds.setParent("..")
     cmds.columnLayout(WIN + "_jbody", adj=True, rs=2)
