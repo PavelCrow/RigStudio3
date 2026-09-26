@@ -752,12 +752,20 @@ def _jiggleOffControl():
         cmds.warning(u"pk jiggle: select the controls to take the dynamics off")
         return
 
+    gone = 0
     cmds.undoInfo(openChunk=True, chunkName="pk jiggle: dynamics off controls")
     try:
         for ctrl in sel:
-            jig.removeDynamicCopy(ctrl)
+            if jig.removeDynamicCopy(ctrl):
+                gone += 1
     finally:
         cmds.undoInfo(closeChunk=True)
+
+    # кнопка, нажатая на том, у чего динамики нет, должна сказать об этом, а не
+    # оставить думать, что она сработала
+    if not gone:
+        cmds.warning(u"pk jiggle: nothing had dynamics on it - select the controls "
+                     u"that do, or their green copies")
 
     _state["jiggle"] = None
     _later(_jfill)

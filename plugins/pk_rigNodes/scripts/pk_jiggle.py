@@ -395,8 +395,11 @@ def removeDynamicCopy(ctrl):
     base = ctrl[:-5] if ctrl.endswith("_ctrl") else ctrl
     copy = base + "_dyn_ctrl"
     if not cmds.objExists(copy):
-        cmds.warning("%s has no dynamic copy" % ctrl)
-        return
+        # имя обязательно назвать: раньше это была единственная дорога, по которой
+        # снятие уходило молча и ничего не делало, и понять было нечего
+        cmds.warning("pk_jiggle: %s has no dynamic copy - looked for %s"
+                     % (ctrl, copy))
+        return False
 
     # дети наружу, пока копию не удалили вместе с ними
     kids = cmds.listRelatives(copy, c=True, type="transform", f=True) or []
@@ -405,20 +408,33 @@ def removeDynamicCopy(ctrl):
 
     _backConnections(copy, ctrl)
 
-    if cmds.objExists(_names(copy)["node"]):
-        delete(copy)
-    if cmds.objExists(copy):
-        cmds.delete(copy)
+    # Тряска снимается с копии со всей аккуратностью - вернуть место, убрать
+    # настройки с контрола, - и любой её шаг может упереться, скажем, в запертый
+    # атрибут. Но копия при этом обязана уйти всё равно: полкопии в риге хуже, чем
+    # оставшийся атрибут, и собрать заново уже не выйдет. Поэтому её удаление
+    # стоит после, в finally, а то, что не получилось, называется вслух.
+    try:
+        if cmds.objExists(_names(copy)["node"]):
+            delete(copy)
+    except Exception as why:
+        cmds.warning("pk_jiggle: jiggle of %s left something behind - %s"
+                     % (copy, why))
+    finally:
+        if cmds.objExists(copy):
+            cmds.delete(copy)
 
     # настройки на контроле, если их больше никто не слушает
     for attr, nodeAttr, dv, mn, mx in SETTINGS:
-        if cmds.attributeQuery(attr, node=ctrl, exists=True) and                 not (cmds.listConnections(ctrl + "." + attr, s=False, d=True) or []):
-            cmds.deleteAttr(ctrl, at=attr)
-    if cmds.attributeQuery("jiggleSettings", node=ctrl, exists=True) and             not cmds.attributeQuery(SETTINGS[0][0], node=ctrl, exists=True):
-        cmds.deleteAttr(ctrl, at="jiggleSettings")
+        if cmds.attributeQuery(attr, node=ctrl, exists=True) and \
+                not (cmds.listConnections(ctrl + "." + attr, s=False, d=True) or []):
+            _dropAttr(ctrl, attr)
+    if cmds.attributeQuery("jiggleSettings", node=ctrl, exists=True) and \
+            not cmds.attributeQuery(SETTINGS[0][0], node=ctrl, exists=True):
+        _dropAttr(ctrl, "jiggleSettings")
 
     cmds.select(ctrl)
     print("pk_jiggle: dynamic copy removed from %s, %d children back" % (ctrl, len(kids)))
+    return True
 
 
 def hasSettings(obj):
@@ -604,6 +620,21 @@ def fromSelection(host=None):
     return made
 
 
+def _dropAttr(host, attr):
+    """Убрать наш атрибут с контрола. Он мог быть заперт - запертые каналы на
+    контролах дело обычное, - а из-за одного такого атрибута снятие динамики
+    валилось целиком, уже после того, как копия удалена."""
+    plug = "%s.%s" % (host, attr)
+    try:
+        if cmds.getAttr(plug, lock=True):
+            cmds.setAttr(plug, lock=False)
+        cmds.deleteAttr(host, at=attr)
+        return True
+    except Exception as why:
+        cmds.warning("pk_jiggle: %s stays on %s - %s" % (attr, host, why))
+        return False
+
+
 def delete(joint):
     """Убрать тряску, кость вернуть как была: место из водителя переезжает ей
     обратно в offsetParentMatrix, чтобы она осталась там же, где стоит."""
@@ -625,10 +656,10 @@ def delete(joint):
                                                            d=True) or [])
                           if c != n["node"]]
                 if not others:
-                    cmds.deleteAttr(host, at=attr)
+                    _dropAttr(host, attr)
         if cmds.attributeQuery("jiggleSettings", node=host, exists=True) and \
                 not cmds.attributeQuery(SETTINGS[0][0], node=host, exists=True):
-            cmds.deleteAttr(host, at="jiggleSettings")
+            _dropAttr(host, "jiggleSettings")
 
     cmds.delete(n["node"])
     if cmds.objExists(n["driver"]):
