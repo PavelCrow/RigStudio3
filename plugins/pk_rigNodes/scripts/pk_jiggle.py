@@ -5,6 +5,7 @@
     fromSelection(host="body_ctrl") - настройки собрать на одном контроле
     buildControl()                  - кубик-контрол с костью и тряской, с нуля
     dynamicCopy("hand_ctrl")        - динамика на готовый контрол: копия внутри
+    rewire()                        - досвязать копии в сцене, собранной раньше
     removeDynamicCopy("hand_ctrl")  - и обратно, контрол как был
     collider("belly_jnt", "plane")  - коллайдер тряске: plane, sphere, capsule, box
     nodeFrom(obj)                   - тряска выделенного: кость, водитель, контрол
@@ -118,35 +119,165 @@ def clearColliders(joint):
     return _chain.clearColliders(joint, node=_names(joint)["node"])
 
 
-# что у трансформа выдаёт его положение целиком: только это и перецепляем на
-# динамическую копию. translate, rotate и scale не трогаем - у копии они нули,
-# её движение живёт в offsetParentMatrix, и всё, что висело на них, получило бы
-# нули вместо движения
-WHOLE = ("worldMatrix", "matrix")
+# Что у трансформа отдаёт его положение - и что с этим делать.
+#
+# Мировую матрицу копия отдаёт сама, её и перецепляем как есть. А локальные
+# выходы - нет: у копии translate, rotate и scale нули, а matrix единичная,
+# потому что её движение целиком живёт в offsetParentMatrix. Замерено:
+# потребитель, перецепленный на copy.matrix, получал нули на всех кадрах, а
+# оставленный на ctrl.translate - жёсткое движение контрола (5.333 там, где копия
+# была на 4.590). Поэтому локальные выходы собираются из мировой матрицы копии,
+# переведённой в пространство родителя контрола: это ровно то, что контрол отдавал
+# бы, если бы двигался динамически сам. Две ноды на контрол, и только если кому-то
+# это и правда нужно.
+#
+# Пивоты и rotateAxis контрола в это не входят - decomposeMatrix их не знает. У
+# контролов rigStudio они нулевые, но если такой попадётся, углы у потребителя
+# rotate уедут на величину rotateAxis.
+WORLD = ("worldMatrix",)
+
+# атрибут контрола -> откуда его брать у копии
+LOCAL = (("matrix",    "matrix", "matrixSum"),
+         ("translate", "parts",  "outputTranslate"),
+         ("rotate",    "parts",  "outputRotate"),
+         ("scale",     "parts",  "outputScale"))
+
+
+def _localOf(ctrl, copy, make=True):
+    """Сеть, которая отдаёт копию так, как контрол отдаёт свои локальные выходы.
+    make=False - только имена, ничего не создавая."""
+    net = {"matrix": copy + "_dynLocalMatrix", "parts": copy + "_dynLocal"}
+    if not make:
+        return net
+
+    if not cmds.objExists(net["matrix"]):
+        cmds.createNode("multMatrix", n=net["matrix"])
+        cmds.connectAttr(copy + ".worldMatrix[0]", net["matrix"] + ".matrixIn[0]")
+        # именно родителя контрола: локальные выходы контрола живут в его
+        # пространстве, а не в своём собственном
+        cmds.connectAttr(ctrl + ".parentInverseMatrix", net["matrix"] + ".matrixIn[1]")
+    if not cmds.objExists(net["parts"]):
+        cmds.createNode("decomposeMatrix", n=net["parts"])
+        cmds.connectAttr(net["matrix"] + ".matrixSum", net["parts"] + ".inputMatrix")
+        # порядок поворотов у контролов разный - без этого углы выйдут не те
+        cmds.connectAttr(ctrl + ".rotateOrder", net["parts"] + ".inputRotateOrder")
+    return net
+
+
+def _eaters(node, attr):
+    """Кто читает этот выход - вместе с детьми: translate и translateX приходят
+    как разные связи, и обе надо поймать. Спрашиваем сами связи, а не индексы
+    массива: у выходного worldMatrix getAttr -mi отдаёт None даже когда
+    worldMatrix[0] кому-то отдан, и перецеплять оказывается нечего."""
+    got, seen = [], set()
+    for tail in ("", "X", "Y", "Z"):
+        if not cmds.attributeQuery(attr + tail, node=node, exists=True):
+            continue
+        pairs = cmds.listConnections("%s.%s%s" % (node, attr, tail),
+                                     p=True, s=False, d=True, c=True) or []
+        for i in range(0, len(pairs), 2):
+            key = (pairs[i], pairs[i + 1])
+            if key not in seen:
+                seen.add(key)
+                got.append(key)
+    return got
 
 
 def _moveConnections(src, dst, keep):
-    """Перецепить с src на dst то, что выдаёт его положение целиком. keep - кого
-    не трогать: это водитель тряски и сама копия, они обязаны слушать исходный
-    контрол."""
+    """Перецепить с контрола на копию всё, что выдаёт его положение. keep - кого
+    не трогать: это водитель тряски, сама копия и её нода - они обязаны слушать
+    исходный контрол."""
     moved = 0
-    for attr in WHOLE:
-        if not cmds.attributeQuery(attr, node=src, exists=True):
-            continue
-
-        # Спрашиваем сами связи, а не индексы массива: у выходного worldMatrix
-        # getAttr -mi отдаёт None даже когда worldMatrix[0] кому-то отдан, и
-        # перецеплять оказывается нечего. С флагом connections listConnections
-        # отдаёт пары - чей выход и куда идёт.
-        pairs = cmds.listConnections("%s.%s" % (src, attr), p=True, s=False, d=True,
-                                     c=True) or []
-        for i in range(0, len(pairs), 2):
-            mine, dest = pairs[i], pairs[i + 1]
+    for attr in WORLD:
+        for mine, dest in _eaters(src, attr):
             if dest.split(".")[0].split("|")[-1] in keep:
                 continue
             cmds.disconnectAttr(mine, dest)
             cmds.connectAttr("%s.%s" % (dst, mine.split(".", 1)[1]), dest, f=True)
             moved += 1
+
+    net = None
+    for attr, which, out in LOCAL:
+        for mine, dest in _eaters(src, attr):
+            if dest.split(".")[0].split("|")[-1] in keep:
+                continue
+            if net is None:
+                net = _localOf(src, dst)
+            tail = mine.split(".", 1)[1][len(attr):]      # "" или "X"
+            cmds.disconnectAttr(mine, dest)
+            cmds.connectAttr("%s.%s%s" % (net[which], out, tail), dest, f=True)
+            moved += 1
+    return moved
+
+
+def _backConnections(copy, ctrl):
+    """Обратно: мировая матрица напрямую, локальные выходы - с сети, а сама сеть
+    удаляется. Без этого removeDynamicCopy оставлял бы висеть две ноды и
+    потребителей на них."""
+    moved = 0
+    for attr in WORLD:
+        for mine, dest in _eaters(copy, attr):
+            cmds.disconnectAttr(mine, dest)
+            cmds.connectAttr("%s.%s" % (ctrl, mine.split(".", 1)[1]), dest, f=True)
+            moved += 1
+
+    net = _localOf(ctrl, copy, make=False)
+    for attr, which, out in LOCAL:
+        if not cmds.objExists(net[which]):
+            continue
+        for mine, dest in _eaters(net[which], out):
+            tail = mine.split(".", 1)[1][len(out):]
+            cmds.disconnectAttr(mine, dest)
+            cmds.connectAttr("%s.%s%s" % (ctrl, attr, tail), dest, f=True)
+            moved += 1
+    for one in net.values():
+        if cmds.objExists(one):
+            cmds.delete(one)
+    return moved
+
+
+def rewire(ctrl=None):
+    """Перецепить на копию то, что осталось висеть на контроле. Для сцен,
+    собранных до того, как локальные выходы стали уводиться тоже: там потребители
+    translate, rotate и scale продолжают читать жёсткий контрол, а те, что
+    достались copy.matrix, читают нули. Настройки и подкрутка при этом остаются на
+    месте - снимать и ставить динамику заново не надо.
+
+    Без аргумента - все динамические копии сцены, сколько бы их ни было."""
+    if ctrl is None:
+        done = 0
+        for node in nodes():
+            copy = jointOf(node)
+            if not copy or not copy.endswith("_dyn_ctrl"):
+                continue          # обычная тряска на кости, а не копия контрола
+            host = (cmds.listRelatives(copy, p=True) or [None])[0]
+            if host:
+                done += rewire(host)
+        print("pk_jiggle: %d connections rerouted in the scene" % done)
+        return done
+
+    if not cmds.objExists(ctrl):
+        cmds.error("%s not found" % ctrl)
+    copy = (ctrl[:-5] if ctrl.endswith("_ctrl") else ctrl) + "_dyn_ctrl"
+    if not cmds.objExists(copy):
+        cmds.error("%s has no dynamic copy" % ctrl)
+
+    n = _names(copy)
+    keep = set([n["driver"].split("|")[-1], copy.split("|")[-1], n["node"]])
+    moved = _moveConnections(ctrl, copy, keep)
+
+    # и те, кому досталась пустая copy.matrix
+    net = None
+    for mine, dest in _eaters(copy, "matrix"):
+        if dest.split(".")[0].split("|")[-1] in keep:
+            continue
+        if net is None:
+            net = _localOf(ctrl, copy)
+        cmds.disconnectAttr(mine, dest)
+        cmds.connectAttr(net["matrix"] + ".matrixSum", dest, f=True)
+        moved += 1
+
+    print("pk_jiggle: %s -> %s, %d connections rerouted" % (ctrl, copy, moved))
     return moved
 
 
@@ -238,7 +369,7 @@ def removeDynamicCopy(ctrl):
     if kids:
         cmds.parent(kids, ctrl, r=True)
 
-    _moveConnections(copy, ctrl, set())
+    _backConnections(copy, ctrl)
 
     if cmds.objExists(_names(copy)["node"]):
         delete(copy)
