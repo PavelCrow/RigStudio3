@@ -13,7 +13,7 @@
                                           когда их добавили или убрали
     testAnim("tail")                    - прогонная анимация: все случаи подряд
     cylinder("tail")                    - цилиндр по костям, заскиненный на них
-    collider("tail", "plane")           - коллайдер цепочке: plane, sphere, capsule
+    collider("tail", "plane")           - коллайдер: plane, sphere, capsule, box
     shareColliders("tail", "ear_L")     - те же коллайдеры другой цепочке
     removeCollider("tail", floor)       - снять коллайдер; clearColliders - все
     thicknessGuide("tail")              - показать толщину цепочки во вьюпорте
@@ -958,7 +958,7 @@ def cylinder(name="chain", radius=0.5, sides=8, splits=None):
     return {"mesh": mesh, "skin": skin}
 
 
-TYPES = {"plane": 0, "sphere": 1, "capsule": 2}
+TYPES = {"plane": 0, "sphere": 1, "capsule": 2, "box": 3}
 KINDS = dict((v, k) for k, v in TYPES.items())
 
 # цвет каркаса, чтобы коллайдер не путался с контролами - один на все формы
@@ -968,7 +968,8 @@ COLOR = 14
 # у капсулы шапки в четыре доли, иначе они читаются гранёными
 SUBDIV = {"polyPlane": (("subdivisionsWidth", 5), ("subdivisionsHeight", 5)),
           "polyCylinder": (("subdivisionsCaps", 4),),
-          "polySphere": ()}
+          "polySphere": (),
+          "polyCube": ()}
 
 
 def _shape(loc, kind):
@@ -990,6 +991,11 @@ def _shape(loc, kind):
     elif kind == "sphere":
         made = cmds.polySphere(r=1.0, sx=16, sy=10, ch=True)
         cmds.connectAttr(loc + ".radius", made[1] + ".radius")
+    elif kind == "box":
+        made = cmds.polyCube(w=1.0, h=1.0, d=1.0, sx=1, sy=1, sz=1, ch=True)
+        cmds.connectAttr(loc + ".sizeX", made[1] + ".width")
+        cmds.connectAttr(loc + ".sizeY", made[1] + ".height")
+        cmds.connectAttr(loc + ".sizeZ", made[1] + ".depth")
     else:
         made = cmds.polyCylinder(r=1.0, h=1.0, sx=16, sy=1, sz=4, rcp=True,
                                  ax=(0, 1, 0), ch=True)
@@ -1029,6 +1035,17 @@ def _attrs(loc, kind, size, length):
     if kind == "plane":
         if not cmds.attributeQuery("size", node=loc, exists=True):
             cmds.addAttr(loc, ln="size", at="double", min=0.01, dv=float(size), k=True)
+        # бесконечная плоскость это пол: у него нет края, и так нужно чаще
+        if not cmds.attributeQuery("infinite", node=loc, exists=True):
+            cmds.addAttr(loc, ln="infinite", at="bool", dv=1, k=True)
+        return
+
+    if kind == "box":
+        if not cmds.attributeQuery("size", node=loc, exists=True):
+            cmds.addAttr(loc, ln="size", at="double3", k=True)
+            for a in "XYZ":
+                cmds.addAttr(loc, ln="size" + a, at="double", p="size",
+                             min=0.0, dv=float(size), k=True)
         return
 
     if not cmds.attributeQuery("radius", node=loc, exists=True):
@@ -1077,12 +1094,7 @@ def collider(name="chain", kind="plane", size=1.0, length=4.0, at=None):
 
     cmds.connectAttr(loc + ".worldMatrix[0]", "%s.collider[%d].colliderMatrix" % (node, i))
     cmds.setAttr("%s.collider[%d].colliderType" % (node, i), TYPES[kind])
-    if kind == "plane":
-        cmds.setAttr("%s.collider[%d].colliderRadius" % (node, i), 0.0)
-    else:
-        cmds.connectAttr(loc + ".radius", "%s.collider[%d].colliderRadius" % (node, i))
-        if kind == "capsule":
-            cmds.connectAttr(loc + ".length", "%s.collider[%d].colliderLength" % (node, i))
+    _sizes(loc, node, i, kind)
 
     if cmds.getAttr(node + ".collide") <= 0.0:
         cmds.setAttr(node + ".collide", 1.0)
@@ -1137,10 +1149,7 @@ def addCollider(name, obj, kind=None):
     cmds.setAttr(plug + ".colliderType", TYPES[kind])
 
     # размеры берутся с самого коллайдера, поэтому у всех цепочек они те же
-    if cmds.attributeQuery("radius", node=obj, exists=True):
-        cmds.connectAttr(obj + ".radius", plug + ".colliderRadius", f=True)
-    if kind == "capsule" and cmds.attributeQuery("length", node=obj, exists=True):
-        cmds.connectAttr(obj + ".length", plug + ".colliderLength", f=True)
+    _sizes(obj, node, i, kind)
 
     if cmds.getAttr(node + ".collide") <= 0.0:
         cmds.setAttr(node + ".collide", 1.0)
@@ -1333,6 +1342,29 @@ def hasGuides(name="chain"):
     return cmds.objExists(name + "_dynThickness")
 
 
+def _sizes(loc, node, i, kind):
+    """Размеры коллайдера - те же числа, что задают его форму: картинка и расчёт
+    не могут разойтись."""
+    plug = "%s.collider[%d]" % (node, i)
+    if kind == "plane":
+        # у плоскости квадрат один на обе стороны, а Y ей не нужен
+        for a in "XZ":
+            cmds.connectAttr(loc + ".size", plug + ".colliderSize" + a, f=True)
+        cmds.connectAttr(loc + ".infinite", plug + ".colliderInfinite", f=True)
+        cmds.setAttr(plug + ".colliderRadius", 0.0)
+        return
+
+    if kind == "box":
+        for a in "XYZ":
+            cmds.connectAttr(loc + ".size" + a, plug + ".colliderSize" + a, f=True)
+        cmds.setAttr(plug + ".colliderRadius", 0.0)
+        return
+
+    cmds.connectAttr(loc + ".radius", plug + ".colliderRadius", f=True)
+    if kind == "capsule":
+        cmds.connectAttr(loc + ".length", plug + ".colliderLength", f=True)
+
+
 def reshape(name="chain"):
     """Дать форму коллайдерам, собранным прежней версией - они были локаторами.
     Размеры снимаются с ноды и переезжают на сам коллайдер.
@@ -1361,6 +1393,8 @@ def reshape(name="chain"):
         kind = KINDS.get(cmds.getAttr(plug + ".colliderType"), "plane")
         size = cmds.getAttr(plug + ".colliderRadius")
         length = cmds.getAttr(plug + ".colliderLength")
+        if kind in ("plane", "box"):
+            size = max(cmds.getAttr(plug + ".colliderSize")[0]) or size
 
         for shape in cmds.listRelatives(loc, s=True, type="locator") or []:
             cmds.delete(shape)
@@ -1368,10 +1402,7 @@ def reshape(name="chain"):
         _attrs(loc, kind, size if size > 0.0 else 10.0, length if length > 0.0 else 4.0)
         _shape(loc, kind)
 
-        if kind != "plane":
-            cmds.connectAttr(loc + ".radius", plug + ".colliderRadius", f=True)
-            if kind == "capsule":
-                cmds.connectAttr(loc + ".length", plug + ".colliderLength", f=True)
+        _sizes(loc, node, i, kind)
 
         done.append(loc)
 

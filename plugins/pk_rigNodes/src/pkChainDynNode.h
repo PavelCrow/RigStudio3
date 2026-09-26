@@ -102,7 +102,21 @@
 // --- collision --------------------------------------------------------------
 //
 // collider is a list, so a shape too awkward for one primitive is built out of
-// several: the floor as a plane, the head as a sphere, a thigh as a capsule.
+// several: the floor as a plane, the head as a sphere, a thigh as a capsule, a
+// crate as a box. A plane is endless unless told otherwise - a floor usually
+// wants to be - and a finite one is a quad of its own size: inside that square
+// it is a floor, and past the edge it is the edge, rounded by the chain's own
+// thickness, so a chain sliding off does not catch on a corner.
+//
+// A word about the box, because it is the one shape with an inside: what is
+// checked is where a point IS, not the line it travelled, so a box thinner than
+// the distance a point covers in one step is jumped clean over. Measured: a
+// chain falling from six units moves three and a half in a frame, and a box four
+// thick lets it through - and substeps do not help, since the point is outside
+// at both ends of every substep. A floor should be a plane, which has no inside
+// to cross; a box is for volumes a chain drifts into, not for walls it slams
+// through. And a point that does end up inside is put out through its nearest
+// face, which is not always the one it came in by.
 // Each takes a matrix, so every one of them can be parented and animated for
 // nothing, and a radius of its own.
 //
@@ -239,7 +253,10 @@ public:
     static MObject aBounce;           // 0 - the surface takes the speed, 1 - hands it back
     static MObject aFriction;         // how much of the sliding along is taken away
     static MObject aCollider;         // multi compound, one per collider
-    static MObject aColliderType;     // plane / sphere / capsule
+    static MObject aColliderType;     // plane / sphere / capsule / box
+    static MObject aColliderInfinite; // plane: endless, or a quad of its size
+    static MObject aColliderSize;     // box: its sides; finite plane: x and z
+    static MObject aColliderSizeX, aColliderSizeY, aColliderSizeZ;
     static MObject aColliderMatrix;   // where it sits; a plane faces its own Y
     static MObject aColliderRadius;
     static MObject aColliderLength;   // capsule only, along its Y
@@ -253,10 +270,13 @@ private:
     // measured, nothing left to work out per point per substep.
     struct Collider
     {
-        short   type = 0;             // 0 plane, 1 sphere, 2 capsule
+        short   type = 0;             // 0 plane, 1 sphere, 2 capsule, 3 box
         MPoint  o;                    // where it is
         MVector n;                    // plane: the way out; capsule: half its axis
         double  radius = 0.0;
+        bool    infinite = true;      // plane only
+        MVector half;                 // half the sides, in its own space
+        MMatrix xf, inv;              // and that space itself
     };
 
     struct State

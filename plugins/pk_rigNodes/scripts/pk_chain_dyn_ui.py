@@ -277,12 +277,13 @@ def _fill():
                       ann=u"A ball around every bone - that is the gap the chain "
                           u"keeps. Changed the curve? Toggle this again")
         cmds.optionMenu(WIN + "_colliderKind", l=u"Shape")
-        for kind in ("plane", "sphere", "capsule"):
+        for kind in ("plane", "sphere", "capsule", "box"):
             cmds.menuItem(l=kind)
         cmds.floatFieldGrp(WIN + "_colliderSize", nf=2, l=u"Radius / length",
                            v1=1.0, v2=4.0, cw3=(110, 60, 60), pre=2,
-                           ann=u"For a plane the radius is the size of its square; "
-                               u"the length is the capsule's only")
+                           ann=u"For a plane and a box the radius is their size; "
+                               u"the length is the capsule's only. A plane is "
+                               u"endless until its infinite is turned off")
         cmds.button(l=u"Add a collider", h=26, c=lambda *a: _collider(),
                     ann=u"It appears at the middle of the chain - drag it from there")
         cmds.button(l=u"Give the colliders to the selected chains", h=26,
