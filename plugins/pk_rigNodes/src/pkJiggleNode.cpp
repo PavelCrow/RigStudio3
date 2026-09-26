@@ -313,7 +313,7 @@ MStatus PkJiggleNode::compute(const MPlug& plug, MDataBlock& data)
         const double dt = t - mLastTime;
         const bool restart = !mInit
                           || t <= startFrame + kEps
-                          || dt < -kEps
+                          || dt < -1.0 - kEps
                           || dt > kMaxJump;
 
         if (restart)
@@ -323,12 +323,17 @@ MStatus PkJiggleNode::compute(const MPlug& plug, MDataBlock& data)
         }
         else
         {
-            // the same frame again is redone from where it started, so asking
-            // twice never pushes the simulation on
-            const double step = (std::fabs(dt) <= kEps) ? mLastDt : dt;
+            // The same frame again is redone from where it started, so asking
+            // twice never pushes the simulation on. A step back of a frame or
+            // less counts as the same frame for that purpose - see the note in
+            // the chain node: Maya asks for the previous frame all the time while
+            // a control is being dragged, and resetting on that lost the whole
+            // simulation.
+            const bool again = dt <= kEps;
+            const double step = again ? mLastDt : dt;
             if (step > kEps)
             {
-                if (std::fabs(dt) <= kEps)
+                if (again)
                     mCur = mBase;
                 else
                     mBase = mCur;
@@ -413,8 +418,17 @@ MStatus PkJiggleNode::compute(const MPlug& plug, MDataBlock& data)
                     mCur.goalSpin = gs;
                 }
 
-                mLastTime = t;
-                mLastDt   = step;
+                // Время симуляции двигаем только когда и правда шагнули
+                // вперёд. На повторе того же кадра - и на шаге назад, который
+                // считается повтором, - оно остаётся там, где стоит симуляция:
+                // иначе следующий кадр посчитается шагом вперёд от того, что мы
+                // только что переиграли, и состояние уедет. Замерено: копия
+                // оказывалась на 8.39 вместо 7.90 и дальше расходилась.
+                if (!again)
+                {
+                    mLastTime = t;
+                    mLastDt   = step;
+                }
             }
             else
             {

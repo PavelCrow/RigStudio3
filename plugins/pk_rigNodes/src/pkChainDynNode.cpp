@@ -924,7 +924,7 @@ MStatus PkChainDynNode::compute(const MPlug& plug, MDataBlock& data)
         const bool restart = !mInit
                           || mCur.pos.size() != n
                           || t <= startFrame + kEps
-                          || dt < -kEps
+                          || dt < -1.0 - kEps
                           || dt > kMaxJump;
 
         if (restart)
@@ -932,8 +932,19 @@ MStatus PkChainDynNode::compute(const MPlug& plug, MDataBlock& data)
             reset(goals, space);
             mLastTime = t;
         }
-        else if (std::fabs(dt) <= kEps)
+        else if (dt <= kEps)
         {
+            // Шаг назад на кадр - это не сцраб, а обычное дело: Maya
+            // пересчитывает предыдущий кадр, когда тянут контрол, когда
+            // обновляется кеш, когда виюпорт возвращается к прошлому кадру.
+            // Сбрасывать на этом симуляцию значит терять её всю: замерено, один
+            // такой шаг посреди движения уводил отставание с 0.19 до 1.11 и
+            // давал рывок, который и видно глазом - кость на кадре остановки
+            // садится на контрол, а потом дёргается. Поэтому мелкий шаг назад
+            // считается за повтор того же кадра: последний шаг переигрывается, а
+            // время симуляции остаётся там, где было. Настоящий сцраб - больше
+            // кадра назад или до startFrame - по-прежнему сбрасывает.
+
             // the same frame again - redo its step with the goals as they are
             if (mLastDt > kEps)
             {
