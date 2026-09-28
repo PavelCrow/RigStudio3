@@ -47,7 +47,7 @@ else:
 
 from functools import partial
 
-from rigStudio3 import utils, parents, twist, inbetweens, rig, tools, template, sets, rigTools
+from rigStudio3 import utils, parents, posers, twist, inbetweens, rig, tools, template, sets, rigTools
 from rigStudio3.ui.action import ActionClass as Action
 from rigStudio3.ui.groupLabel import GroupLabel
 from rigStudio3.animTools import setMirrorAttrs
@@ -117,6 +117,14 @@ def oneStepUndo(func):
 
 class MainWindow:
     def __init__(self):
+        # Линии позеров рисует плагин sweep, а автозагрузка у него в Maya
+        # выключена. Мало того, что без него падала сборка модуля, - готовая
+        # сцена открывалась с "Unknown object type: sweepMeshCreator", и линии в
+        # ней уже не показать: тип нод должен быть известен на момент чтения
+        # файла, позже не поможет. Поэтому грузим здесь, на старте студии, а не
+        # только перед самой отрисовкой линий.
+        posers.sweepReady()
+
         self.rootPath = utils.modulePath
         # load data from file
         with open(os.path.join(self.rootPath, "config.json"), mode='r') as f:
