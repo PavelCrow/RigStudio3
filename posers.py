@@ -103,6 +103,32 @@ def createPoser(name=""):
 	
 	return name+"_poser"
 
+def sweepReady():
+	"""Плагин sweep, которым рисуются линии позеров, на месте и загружен.
+
+	Автозагрузка у него в Maya по умолчанию выключена, и у того, кто им раньше не
+	пользовался, cmds.sweepMeshFromCurve просто не существует - сборка модуля
+	падала на ровном месте с AttributeError, хотя у соседа всё собиралось. Замерено:
+	без плагина нет ни команды, ни типа ноды sweepMeshCreator (отсюда и
+	"Unknown object type: sweepMeshCreator" при открытии готовой сцены), после
+	loadPlugin("sweep") есть и то и другое.
+
+	Если загрузить не вышло, модуль всё равно должен собраться: линии позеров -
+	это подсказка глазу, а не часть рига."""
+	try:
+		if cmds.pluginInfo("sweep", q=True, loaded=True):
+			return True
+		cmds.loadPlugin("sweep", quiet=True)
+		if cmds.pluginInfo("sweep", q=True, loaded=True):
+			return True
+	except Exception as why:
+		cmds.warning(f"posers|sweepReady - {why}")
+
+	cmds.warning("posers|sweepReady - the sweep plugin is not loaded, "
+				 "poser lines are skipped")
+	return False
+
+
 def connectPosers(src=None, tgt=None, name_m=""):
 	# called from a module build with an explicit pair, or from the
 	# moduleBuilder button with whatever is selected
@@ -154,6 +180,11 @@ def connectPosers(src=None, tgt=None, name_m=""):
 	# module ended up in the node of the module built first
 	smcName = name_m + "lines_sweepMeshCreator"
 	cS = cmds.listRelatives(c)[0]
+
+	# дальше всё держится на плагине sweep - и создание ноды, и связи с уже
+	# существующей, которая без плагина осталась бы неизвестным типом
+	if not sweepReady():
+		return
 
 	if cmds.objExists(smcName):
 		smc = smcName
