@@ -115,17 +115,10 @@ def sweepReady():
 
 	Если загрузить не вышло, модуль всё равно должен собраться: линии позеров -
 	это подсказка глазу, а не часть рига."""
-	try:
-		if cmds.pluginInfo("sweep", q=True, loaded=True):
-			return True
-		cmds.loadPlugin("sweep", quiet=True)
-		if cmds.pluginInfo("sweep", q=True, loaded=True):
-			return True
-	except Exception as why:
-		cmds.warning(f"posers|sweepReady - {why}")
+	if utils.ensurePlugin("sweep"):
+		return True
 
-	cmds.warning("posers|sweepReady - the sweep plugin is not loaded, "
-				 "poser lines are skipped")
+	cmds.warning("posers|sweepReady - poser lines are skipped")
 	return False
 
 

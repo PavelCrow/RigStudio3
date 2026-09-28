@@ -11,6 +11,34 @@ modulePath = os.path.normpath(os.path.dirname(__file__))
 
 version = int(cmds.about(v=True).split(" ")[0])
 
+def ensurePlugin(name, quiet=False):
+    """Нужен плагин - загрузить, если он ещё не загружен. Отдаёт, есть он или нет.
+
+    Типы нод Maya подтягивает сама: createNode("quatToEuler") в чистой майке
+    молча загрузит quatNodes. А команды так не работают - пока плагин не
+    загружен, команды в cmds просто нет, и обращение к ней падает с
+    AttributeError. Именно на этом падала сборка chainIk у тех, кто раньше не
+    включал sweep: cmds.sweepMeshFromCurve не существовало. По всей студии таких
+    команд ровно одна, но правило общее - зовёшь команду плагина, сначала сюда.
+
+    Ошибку наружу не бросаем: место вызова само решает, чем заменить то, что не
+    получилось, - падать целиком из-за плагина студия не должна."""
+    try:
+        if cmds.pluginInfo(name, q=True, loaded=True):
+            return True
+        cmds.loadPlugin(name, quiet=True)
+        if cmds.pluginInfo(name, q=True, loaded=True):
+            return True
+    except Exception as why:
+        if not quiet:
+            cmds.warning(f"utils|ensurePlugin - {name}: {why}")
+        return False
+
+    if not quiet:
+        cmds.warning(f"utils|ensurePlugin - {name} is not available")
+    return False
+
+
 def pyToAttr(objAttr, data):
 	"""
 	Write (pickle) Python data to the given Maya obj.attr.  This data can
