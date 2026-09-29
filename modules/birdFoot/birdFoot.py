@@ -15,7 +15,7 @@ class BirdFoot(module.Module) :
 		targetModuleName = utils.getModuleName(target)
 		target_mod_type = cmds.getAttr(targetModuleName+'_mod.moduleType')
 
-		if target_mod_type in ['limb', 'limbQuadrupped', 'limbQuadruppedExtra', 'limbCurved', 'limbQuadruppedExtraMiddle', 'limbQuadrupped2', "limbCurvedQuadrupped"]:
+		if target_mod_type in ['limb', 'limbMll', 'limbQuadrupped', 'limbQuadruppedExtra', 'limbCurved', 'limbQuadruppedExtraMiddle', 'limbQuadrupped2', "limbCurvedQuadrupped"]:
 			target = targetModuleName+"_end_poser"
 		
 		cmds.disconnectAttr(self.name+'_ik_connector_decMat.outputRotate', self.name+'_ik_connector.rotate')
@@ -28,7 +28,7 @@ class BirdFoot(module.Module) :
 		
 		super(self.__class__, self).connect(target, opposite)
 
-		if target_mod_type in ['limb', 'limbQuadrupped', 'limbQuadruppedExtra', 'limbCurved', 'limbQuadruppedExtraMiddle', 'limbQuadrupped2', "limbCurvedQuadrupped"]:
+		if target_mod_type in ['limb', 'limbMll', 'limbQuadrupped', 'limbQuadruppedExtra', 'limbCurved', 'limbQuadruppedExtraMiddle', 'limbQuadrupped2', "limbCurvedQuadrupped"]:
 			# connect ikfk attribute
 			cmds.connectAttr(utils.getControlNameFromInternal(targetModuleName, 'control')+'.ikFk', self.root+'.ikFk')
 
@@ -51,27 +51,30 @@ class BirdFoot(module.Module) :
 			utils.connectByMatrix(self.name+'_root_connector', [targetModuleName+'_ik_out', self.name+'_root_connector'], 
 						          ['worldMatrix[0]', 'parentInverseMatrix[0]'], self.name, attrs=['t', 'r'] )
 
-			cmds.connectAttr(targetModuleName+'_root_connector.s', self.name+'_root_connector.s')
+			utils.connectByMatrix(self.name+'_root_connector', [targetModuleName+'_ik_out', targetModuleName+'_mainPoser'], 
+						          ['worldMatrix[0]', 'worldInverseMatrix[0]'], self.name, attrs=['s'] )
+
+			# cmds.connectAttr(targetModuleName+'_root_connector.s', self.name+'_root_connector.s')
 
 			# make seamless only for not symmetry module or for symmetry but after creating opposite module
 			if not self.opposite and not self.symmetrical:
 				self.makeSeamless(True)
 
 			# fk opposite fix
-			if target_mod_type in ['limb']:
-				if self.opposite:
-					cmds.disconnectAttr(targetModuleName+"_mirror_condition.outColorR", targetModuleName+"_end_initLoc.scaleZ")
-					cmds.setAttr(targetModuleName+"_end_initLoc.sz", 1)
+			# if target_mod_type in ['limb']:
+				# if self.opposite:
+					# cmds.disconnectAttr(targetModuleName+"_mirror_condition.outColorR", targetModuleName+"_end_initLoc.scaleZ")
+					# cmds.setAttr(targetModuleName+"_end_initLoc.sz", 1)
 
 			ik_end = utils.getControlNameFromInternal(targetModuleName, "ik_end")
 			cmds.setAttr(ik_end+"Shape.v", False)
 					
-		# if target_mod_type in ['limbCurved']:
-		# 	con = cmds.listRelatives(targetModuleName+'_twistDown_end_connector', type="parentConstraint")
-		# 	cmds.delete(con)
-		# 	con = cmds.parentConstraint(self.name+"_root_outJoint", targetModuleName+'_twistDown_end_connector', mo=0)[0]
-		# 	cmds.connectAttr(targetModuleName+"_mirror_condition.outColorG", con+".target[0].targetOffsetRotateY")
-		# 	cmds.connectAttr(targetModuleName+"_reverse_condition.outColorR", con+".target[0].targetOffsetRotateX")
+		if target_mod_type in ['limbCurved']:
+			con = cmds.listRelatives(targetModuleName+'_twistDown_end_connector', type="parentConstraint")
+			cmds.delete(con)
+			con = cmds.parentConstraint(self.name+"_root_outJoint", targetModuleName+'_twistDown_end_connector', mo=0)[0]
+			cmds.connectAttr(targetModuleName+"_mirror_condition.outColorG", con+".target[0].targetOffsetRotateY")
+			cmds.connectAttr(targetModuleName+"_reverse_condition.outColorR", con+".target[0].targetOffsetRotateX")
 					
 		# if target_mod_type in ['limbCurvedQuadrupped']:
 		# 	con = cmds.listRelatives(targetModuleName+'_twistDown_end_connector', type="parentConstraint")
@@ -93,7 +96,7 @@ class BirdFoot(module.Module) :
 		if not cmds.objExists(inputNode):
 			return
 		
-		if utils.getModuleTypeFromAttr(inputNode) in ['limb', 'limbQuadrupped', 'limbQuadruppedExtra', 'limbCurved', 'limbQuadruppedExtraMiddle', 'limbQuadrupped2', "limbCurvedQuadrupped"]:
+		if utils.getModuleTypeFromAttr(inputNode) in ['limb', 'limbMll', 'limbQuadrupped', 'limbQuadruppedExtra', 'limbCurved', 'limbQuadruppedExtraMiddle', 'limbQuadrupped2', "limbCurvedQuadrupped"]:
 			cmds.disconnectAttr(utils.getControlNameFromInternal(inputModuleName, 'control')+'.ikFk', self.root+'.ikFk')
 
 			cmds.delete(utils.getInputNode(self.name+'_fk_connector', 'tx'))
@@ -107,7 +110,7 @@ class BirdFoot(module.Module) :
 
 			utils.resetAttrs(self.name+"_root_connector")
 			
-			cmds.disconnectAttr(inputModuleName+'_root_connector.s', self.name+'_root_connector.s')
+			# cmds.disconnectAttr(inputModuleName+'_root_connector.s', self.name+'_root_connector.s')
 			
 			ik_end = utils.getControlNameFromInternal(inputModuleName, "ik_end")
 			cmds.setAttr(ik_end+"Shape.v", True)
@@ -118,7 +121,7 @@ class BirdFoot(module.Module) :
 		if cmds.objExists(connectionNode_name):
 			try:
 				parent_joint = pm.PyNode(connectionNode_name).matrixIn[2].inputs()[0]
-				return parent_joint
+				return parent_joint.name()
 			except: 
 				input_node = pm.PyNode(connectionNode_name).matrixIn[0].inputs()[0]
 				if '_ik_out' in input_node.name():

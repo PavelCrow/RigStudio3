@@ -783,14 +783,19 @@ class Module(object):
                     cmds.setAttr(s+'.overrideColor', data['controlsColorData'][intName])				
 
                 # attributes
+                # Атрибут, которого нет в данных, спрятан пользователем - но только
+                # если данные сняты с модуля того же типа. При замене модуля другим
+                # (foot -> birdFoot) у контрола с тем же внутренним именем есть свои
+                # атрибуты, о которых старые данные ничего не знают, - их не трогаем.
+                same_type = data.get('type', self.type) == self.type
                 default_attrs = utils.getVisibleAttrs(cName)
                 for a in default_attrs:
                     if intName+"."+a in data['controlsAttrData']:
                         try:
                             cmds.setAttr(cName+"."+a, data['controlsAttrData'][intName+"."+a])
-                        except: 
+                        except:
                             cmds.warning(cName+"."+a+" is cannot set data "+str(data['controlsAttrData'][intName+"."+a]))
-                    else:
+                    elif same_type:
                         cmds.setAttr(cName+"."+a, keyable=0, lock=1)
 
                 # except: cmds.warning(cName+" control is not exists in saved data")

@@ -2978,8 +2978,14 @@ class MainWindow:
             self.twistClass.twists_add(twData, self.curModule.name)
 
         # add ibtws
-            for ibtw_data in ibtwsData:
-                self.ibtwClass.add(ibtw_data)
+        # Инбитвины восстанавливаются на тех же костях. У модуля другого типа
+        # (foot -> birdFoot) этих костей может не быть - такие пропускаем.
+        for ibtw_data in ibtwsData:
+            missed = [ibtw_data[k] for k in ("child_j", "parent_j") if not cmds.objExists(ibtw_data[k])]
+            if missed:
+                cmds.warning("Inbetween %s is skipped: no %s in the new module" % (ibtw_data["name"], ", ".join(missed)))
+                continue
+            self.ibtwClass.add(ibtw_data)
 
         # set to old seleted mudule and update ui
         self.curModule = self.rig.modules[self.curModule.name]

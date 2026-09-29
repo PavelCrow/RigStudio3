@@ -1,0 +1,5 @@
+ver=1.0=
+description=Bird tail: fan of FK feathers (middle + 5 pairs, 5 segments each) with a 3-control main FK chain over all feathers, spread and bend attributes.
+section=Bird
+advanced=False
+type=Wip
