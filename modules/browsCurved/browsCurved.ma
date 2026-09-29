@@ -1,19 +1,19 @@
 //Maya ASCII 2022 scene
 //Name: browsCurved.ma
-//Last modified: Fri, Sep 25, 2026 05:16:56 AM
+//Last modified: Tue, Sep 29, 2026 10:40:51 AM
 //Codeset: 1251
 requires maya "2022";
 requires -nodeType "sweepMeshCreator" -dataType "sweepMeshData" -dataType "sweepProfileData"
 		 "sweep" "1.0";
-requires "stereoCamera" "10.0";
 requires -nodeType "ngst2SkinLayerData" -dataType "ngst2SkinLayerDataStorage" "ngSkinTools2" "2.4.0";
+requires "stereoCamera" "10.0";
 currentUnit -l centimeter -a degree -t pal;
 fileInfo "application" "maya";
 fileInfo "product" "Maya 2022";
 fileInfo "version" "2022";
 fileInfo "cutIdentifier" "202110272215-ad32f8f1e6";
 fileInfo "osv" "Windows 10 Pro v2009 (Build: 26200)";
-fileInfo "UUID" "4836F5C8-4F3E-ED72-84AA-79BFB3C2C65F";
+fileInfo "UUID" "033221D8-4582-8A19-435C-E0B936AAC0A2";
 createNode transform -n "mod";
 	rename -uid "A8281E66-4053-4FC7-AA21-27BF6ABE5693";
 	addAttr -ci true -sn "version" -ln "version" -dt "string";
@@ -2684,18 +2684,18 @@ createNode camera -s -n "sideShape" -p "side";
 	setAttr ".hc" -type "string" "viewSet -s %camera";
 	setAttr ".o" yes;
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "019053E0-428E-EAD9-807B-2AB44F316B77";
+	rename -uid "85BE44F7-465B-DC63-982D-BAAD7C994155";
 	setAttr -s 24 ".lnk";
 	setAttr -s 24 ".slnk";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "5C1E7049-49CE-7129-6722-F194883A546A";
+	rename -uid "564AD2F6-424E-221F-ECCE-19AD72241862";
 	setAttr ".cdl" 1;
 	setAttr -s 3 ".dli[1:2]"  3 1;
 	setAttr -s 2 ".dli";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "47598A7F-4076-9A26-4738-16A1F08E3130";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "9347A89B-4C67-C63C-8142-5ABD5762E0C1";
+	rename -uid "4F42B378-4628-922C-30F4-2AB9F5193800";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "50669F66-46C9-894E-CDC6-858734AB76F8";
 	setAttr ".g" yes;
@@ -2784,10 +2784,10 @@ createNode shadingEngine -n "black_rsSG";
 createNode materialInfo -n "materialInfo1";
 	rename -uid "8DB900E0-43C7-80AF-0ADC-A7AE8603C4D0";
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "1C68340A-44D3-76DF-FDDA-40B1C9B3CBA1";
+	rename -uid "75F5F6AF-43EB-0C0F-731C-06ACA9EFD0F0";
 	setAttr ".bsdt[0].bscd" -type "Int32Array" 1 0 ;
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "656255E1-4B9B-1F3B-EB32-35BA658215A0";
+	rename -uid "D7D26869-4D05-073C-2880-868E2BE39DC8";
 createNode multiplyDivide -n "size_multiplyDivide";
 	rename -uid "FC884255-462D-CC24-783E-69B68427DF01";
 createNode makeNurbSphere -n "mid_makeNurbSphere";
@@ -4054,8 +4054,6 @@ createNode multiplyDivide -n "r_brow_local_7_outArc_multiplyDivide";
 	setAttr ".i2" -type "float3" -2.0510001 1.5033 0 ;
 createNode composeMatrix -n "r_brow_local_7_outArc_composeMatrix";
 	rename -uid "55E4585D-4110-6AF7-75AB-368933B7C63D";
-createNode pointMatrixMult -n "local_4_arcHeight_pointMatrixMult";
-	rename -uid "EED85940-42FC-C95D-0745-E9ABA1C1D48F";
 createNode multiplyDivide -n "local_4_outArcHeightRatio_multiplyDivide";
 	rename -uid "8F9BC3A3-4CD3-ECCA-1CB1-FE9D87F32584";
 	setAttr ".op" 2;
@@ -4064,8 +4062,6 @@ createNode condition -n "local_4_outArcHeightRatio_condition";
 createNode multDoubleLinear -n "local_4_outArcHeightRatioNeg_multDoubleLinear";
 	rename -uid "4CAD750D-43C0-30CC-1033-B787BC30228F";
 	setAttr ".i2" -1;
-createNode pointMatrixMult -n "local_5_arcHeight_pointMatrixMult";
-	rename -uid "4B2B55D9-4EF9-6CE6-6EFF-B4A0960F2261";
 createNode multiplyDivide -n "local_5_outArcHeightRatio_multiplyDivide";
 	rename -uid "9DE5B19D-40A1-E56E-E15E-9E8AC19461F5";
 	setAttr ".op" 2;
@@ -4074,8 +4070,6 @@ createNode condition -n "local_5_outArcHeightRatio_condition";
 createNode multDoubleLinear -n "local_5_outArcHeightRatioNeg_multDoubleLinear";
 	rename -uid "5145BC90-45FF-56D9-F035-7FB789D6E479";
 	setAttr ".i2" -1;
-createNode pointMatrixMult -n "local_6_arcHeight_pointMatrixMult";
-	rename -uid "E44FD659-48E6-5829-0AE3-0F887DE5250E";
 createNode multiplyDivide -n "local_6_outArcHeightRatio_multiplyDivide";
 	rename -uid "AF6553B9-41E8-CCB8-050C-33B821FDF44F";
 	setAttr ".op" 2;
@@ -4084,8 +4078,6 @@ createNode condition -n "local_6_outArcHeightRatio_condition";
 createNode multDoubleLinear -n "local_6_outArcHeightRatioNeg_multDoubleLinear";
 	rename -uid "081B24D0-4409-5FBB-B84B-278F57DB965D";
 	setAttr ".i2" -1;
-createNode pointMatrixMult -n "local_7_arcHeight_pointMatrixMult";
-	rename -uid "05A756BC-4D18-8C1F-5DB4-3E95DA868C4E";
 createNode multiplyDivide -n "local_7_outArcHeightRatio_multiplyDivide";
 	rename -uid "3792B4A8-444D-28EC-D4F9-4F8062B3F669";
 	setAttr ".op" 2;
@@ -4097,53 +4089,27 @@ createNode multDoubleLinear -n "local_7_outArcHeightRatioNeg_multDoubleLinear";
 createNode composeMatrix -n "l_brow_local_4_outArc_rotate_composeMatrix";
 	rename -uid "D457ADBC-4810-CE37-8730-C590ED83299F";
 	setAttr ".it" -type "double3" 1 0 0 ;
-createNode pointMatrixMult -n "l_brow_local_4_outArc_pointMatrixMult";
-	rename -uid "17D69CDD-452A-0F2E-85C5-53866463430E";
-	setAttr ".ip" -type "double3" -1 0 0 ;
 createNode composeMatrix -n "l_brow_local_5_outArc_rotate_composeMatrix";
 	rename -uid "16FB936F-4A0A-2FF1-5E1F-9BAB74B884D6";
 	setAttr ".it" -type "double3" 1 -0.31665295362472534 0 ;
-createNode pointMatrixMult -n "l_brow_local_5_outArc_pointMatrixMult";
-	rename -uid "C6E30BBA-49AA-43BF-8459-63851EC46B8D";
-	setAttr ".ip" -type "double3" -1 0.31665295362472534 0 ;
 createNode composeMatrix -n "l_brow_local_6_outArc_rotate_composeMatrix";
 	rename -uid "6EADF20E-41DA-906C-3755-269799BEA3B0";
 	setAttr ".it" -type "double3" 1 0.18014521896839142 0 ;
-createNode pointMatrixMult -n "l_brow_local_6_outArc_pointMatrixMult";
-	rename -uid "A52FDBDE-4ADA-60EF-4863-989B9754EEE1";
-	setAttr ".ip" -type "double3" -1 -0.18014521896839142 0 ;
 createNode composeMatrix -n "l_brow_local_7_outArc_rotate_composeMatrix";
 	rename -uid "A00B84CD-414C-053C-4DDA-8790676A7804";
 	setAttr ".it" -type "double3" 1 0.23444217443466187 0 ;
-createNode pointMatrixMult -n "l_brow_local_7_outArc_pointMatrixMult";
-	rename -uid "B2329176-4C19-EA2A-B132-17A8C72332EB";
-	setAttr ".ip" -type "double3" -1 -0.23444217443466187 0 ;
 createNode composeMatrix -n "r_brow_local_4_outArc_rotate_composeMatrix";
 	rename -uid "956E19A1-4CBB-4204-5FC7-E6AC111AD582";
 	setAttr ".it" -type "double3" 1 0 0 ;
-createNode pointMatrixMult -n "r_brow_local_4_outArc_pointMatrixMult";
-	rename -uid "6E05A29B-49D9-06B6-AB73-A6B8E6517205";
-	setAttr ".ip" -type "double3" -1 0 0 ;
 createNode composeMatrix -n "r_brow_local_5_outArc_rotate_composeMatrix";
 	rename -uid "2012F538-409B-F24B-F05E-56B0EC1766DF";
 	setAttr ".it" -type "double3" 1 -0.31665295362472534 0 ;
-createNode pointMatrixMult -n "r_brow_local_5_outArc_pointMatrixMult";
-	rename -uid "64494F5A-4AF2-5254-7121-63BE90A9DA80";
-	setAttr ".ip" -type "double3" -1 0.31665295362472534 0 ;
 createNode composeMatrix -n "r_brow_local_6_outArc_rotate_composeMatrix";
 	rename -uid "0BF4CE5C-4C60-E637-2593-5E868B563282";
 	setAttr ".it" -type "double3" 1 0.18014521896839142 0 ;
-createNode pointMatrixMult -n "r_brow_local_6_outArc_pointMatrixMult";
-	rename -uid "066D81FE-4531-D4EC-F4A2-32B19F96A630";
-	setAttr ".ip" -type "double3" -1 -0.18014521896839142 0 ;
 createNode composeMatrix -n "r_brow_local_7_outArc_rotate_composeMatrix";
 	rename -uid "9E49ED5A-4E63-7341-5CDE-D496116F6CDE";
 	setAttr ".it" -type "double3" 1 0.23444217443466187 0 ;
-createNode pointMatrixMult -n "r_brow_local_7_outArc_pointMatrixMult";
-	rename -uid "C048A896-4C58-EE7D-DADB-1B9108F53704";
-	setAttr ".ip" -type "double3" -1 -0.23444217443466187 0 ;
-createNode pointMatrixMult -n "local_1_arcHeight_pointMatrixMult";
-	rename -uid "695FD2A6-4E93-765F-D083-9BAD7D7ADC63";
 createNode multiplyDivide -n "local_1_inArcHeightRatio_multiplyDivide";
 	rename -uid "8418D442-4371-607D-7B4B-D484609A5375";
 	setAttr ".op" 2;
@@ -4152,8 +4118,6 @@ createNode condition -n "local_1_inArcHeightRatio_condition";
 createNode multDoubleLinear -n "local_1_inArcHeightRatioNeg_multDoubleLinear";
 	rename -uid "9A2112EC-4B5C-1519-22E4-1E9E3BB8D1EC";
 	setAttr ".i2" -1;
-createNode pointMatrixMult -n "local_2_arcHeight_pointMatrixMult";
-	rename -uid "6BF07194-4422-A95A-2D79-94AA289DA087";
 createNode multiplyDivide -n "local_2_inArcHeightRatio_multiplyDivide";
 	rename -uid "7542DD0C-49A7-C957-D89C-37AA9FA77BBB";
 	setAttr ".op" 2;
@@ -4162,8 +4126,6 @@ createNode condition -n "local_2_inArcHeightRatio_condition";
 createNode multDoubleLinear -n "local_2_inArcHeightRatioNeg_multDoubleLinear";
 	rename -uid "65DB4B0F-471C-1431-41D3-6C842F82F8CE";
 	setAttr ".i2" -1;
-createNode pointMatrixMult -n "local_3_arcHeight_pointMatrixMult";
-	rename -uid "F602689C-47AC-5028-7868-318AF5065E5C";
 createNode multiplyDivide -n "local_3_inArcHeightRatio_multiplyDivide";
 	rename -uid "28478BC4-49A8-C97C-3CDB-B8A083D22650";
 	setAttr ".op" 2;
@@ -4190,9 +4152,6 @@ createNode composeMatrix -n "l_brow_in_tilt_composeMatrix";
 createNode composeMatrix -n "l_brow_local_1_inArc_rotate_composeMatrix";
 	rename -uid "BEFC431B-4596-F071-4974-08B9CB67075F";
 	setAttr ".it" -type "double3" 1 -0.052848398685455322 0 ;
-createNode pointMatrixMult -n "l_brow_local_1_inArc_pointMatrixMult";
-	rename -uid "F4B3C52A-44E7-602D-8E5B-4D929ACBA860";
-	setAttr ".ip" -type "double3" -1 0.052848398685455322 0 ;
 createNode multiplyDivide -n "l_brow_local_1_inArc_multiplyDivide";
 	rename -uid "A392C352-42BE-44F9-140C-E9AB47B04849";
 	setAttr ".i2" -type "float3" 1.7812001 -1.301 0 ;
@@ -4201,9 +4160,6 @@ createNode composeMatrix -n "l_brow_local_1_inArc_composeMatrix";
 createNode composeMatrix -n "l_brow_local_2_inArc_rotate_composeMatrix";
 	rename -uid "C0ACC547-41A9-0D3D-D69B-AA90FFFA30CF";
 	setAttr ".it" -type "double3" 1 0.075624428689479828 0 ;
-createNode pointMatrixMult -n "l_brow_local_2_inArc_pointMatrixMult";
-	rename -uid "C4EBE48F-405B-60CB-1F1B-809AD8ED96F2";
-	setAttr ".ip" -type "double3" -1 -0.075624428689479828 0 ;
 createNode multiplyDivide -n "l_brow_local_2_inArc_multiplyDivide";
 	rename -uid "186954CD-4694-6A38-FDAB-3AA8CC415E3C";
 	setAttr ".i2" -type "float3" 0.25400001 -0.56400001 0 ;
@@ -4212,9 +4168,6 @@ createNode composeMatrix -n "l_brow_local_2_inArc_composeMatrix";
 createNode composeMatrix -n "l_brow_local_3_inArc_rotate_composeMatrix";
 	rename -uid "777A6A2F-4593-591E-76B5-84982F701325";
 	setAttr ".it" -type "double3" 1 -2.6652839183807373 0 ;
-createNode pointMatrixMult -n "l_brow_local_3_inArc_pointMatrixMult";
-	rename -uid "E8D79217-4305-C239-5FE2-0BA5B5EC1272";
-	setAttr ".ip" -type "double3" -1 2.6652839183807373 0 ;
 createNode multiplyDivide -n "l_brow_local_3_inArc_multiplyDivide";
 	rename -uid "4FE65B73-475B-05AD-894A-10B6BDA92CEE";
 	setAttr ".i2" -type "float3" 0 -0.026000001 0 ;
@@ -4223,9 +4176,6 @@ createNode composeMatrix -n "l_brow_local_3_inArc_composeMatrix";
 createNode composeMatrix -n "l_brow_local_4_inArc_rotate_composeMatrix";
 	rename -uid "52206E98-4CFE-23C1-6B47-F1A656952D22";
 	setAttr ".it" -type "double3" 1 0 0 ;
-createNode pointMatrixMult -n "l_brow_local_4_inArc_pointMatrixMult";
-	rename -uid "FBF0E2A1-4A4F-90C0-BC15-CE919FDCBDFA";
-	setAttr ".ip" -type "double3" -1 0 0 ;
 createNode multiplyDivide -n "l_brow_local_4_inArc_multiplyDivide";
 	rename -uid "42EB5412-45EC-A6A4-860A-1B80C4768AC7";
 	setAttr ".i2" -type "float3" 0 0 0 ;
@@ -4241,9 +4191,6 @@ createNode composeMatrix -n "r_brow_in_tilt_composeMatrix";
 createNode composeMatrix -n "r_brow_local_1_inArc_rotate_composeMatrix";
 	rename -uid "3940DC5F-4B4E-3E12-81F9-DCA921264C87";
 	setAttr ".it" -type "double3" 1 -0.052848398685455322 0 ;
-createNode pointMatrixMult -n "r_brow_local_1_inArc_pointMatrixMult";
-	rename -uid "5DBB8276-42C8-6BEA-58BE-41970F9324B2";
-	setAttr ".ip" -type "double3" -1 0.052848398685455322 0 ;
 createNode multiplyDivide -n "r_brow_local_1_inArc_multiplyDivide";
 	rename -uid "DF778FA0-46F0-0878-D88C-EDB01867BE2A";
 	setAttr ".i2" -type "float3" 1.7812001 -1.301 0 ;
@@ -4252,9 +4199,6 @@ createNode composeMatrix -n "r_brow_local_1_inArc_composeMatrix";
 createNode composeMatrix -n "r_brow_local_2_inArc_rotate_composeMatrix";
 	rename -uid "DB2351E1-4484-CB98-EB0F-5D98E10D9060";
 	setAttr ".it" -type "double3" 1 0.075624428689479828 0 ;
-createNode pointMatrixMult -n "r_brow_local_2_inArc_pointMatrixMult";
-	rename -uid "06CFB88D-4785-207C-8623-FCA715478275";
-	setAttr ".ip" -type "double3" -1 -0.075624428689479828 0 ;
 createNode multiplyDivide -n "r_brow_local_2_inArc_multiplyDivide";
 	rename -uid "E6B0DD20-4788-F467-FAA9-80B18C10E1A7";
 	setAttr ".i2" -type "float3" 0.25400001 -0.56400001 0 ;
@@ -4263,9 +4207,6 @@ createNode composeMatrix -n "r_brow_local_2_inArc_composeMatrix";
 createNode composeMatrix -n "r_brow_local_3_inArc_rotate_composeMatrix";
 	rename -uid "54804C86-4BFB-20EC-60D9-47A72D26F0CD";
 	setAttr ".it" -type "double3" 1 -2.6652839183807373 0 ;
-createNode pointMatrixMult -n "r_brow_local_3_inArc_pointMatrixMult";
-	rename -uid "6686EB9C-40D7-2821-6AC6-59B9EB6AA2E4";
-	setAttr ".ip" -type "double3" -1 2.6652839183807373 0 ;
 createNode multiplyDivide -n "r_brow_local_3_inArc_multiplyDivide";
 	rename -uid "25F9854A-416B-B5B4-76B4-7A88F446BC0C";
 	setAttr ".i2" -type "float3" 0 -0.026000001 0 ;
@@ -4274,9 +4215,6 @@ createNode composeMatrix -n "r_brow_local_3_inArc_composeMatrix";
 createNode composeMatrix -n "r_brow_local_4_inArc_rotate_composeMatrix";
 	rename -uid "3D1EFFE2-453B-B5A2-9F83-6D9E28D195DB";
 	setAttr ".it" -type "double3" 1 0 0 ;
-createNode pointMatrixMult -n "r_brow_local_4_inArc_pointMatrixMult";
-	rename -uid "464D2ABD-41AD-566A-DB28-BA853101D088";
-	setAttr ".ip" -type "double3" -1 0 0 ;
 createNode multiplyDivide -n "r_brow_local_4_inArc_multiplyDivide";
 	rename -uid "E97D470F-499D-B6E4-F01F-C2A4F8509D29";
 	setAttr ".i2" -type "float3" 0 0 0 ;
@@ -4292,10 +4230,6 @@ createNode clamp -n "r_brow_limits_split_clamp";
 createNode multMatrix -n "l_brow_in_limits_lift_multMatrix";
 	rename -uid "C6262BE3-4D69-CBCB-304E-6DBFBF52176D";
 	setAttr -s 2 ".i";
-createNode pointMatrixMult -n "l_brow_in_limits_lift_pointMatrixMult";
-	rename -uid "74D5CC6C-4701-F590-71F7-738E319C6EBC";
-	setAttr ".ip" -type "double3" 0 1 0 ;
-	setAttr ".vm" yes;
 createNode multiplyDivide -n "l_brow_in_limits_liftUp_multiplyDivide";
 	rename -uid "D45191EC-4EF7-13D2-033D-3E89451FFC69";
 createNode multiplyDivide -n "l_brow_in_limits_liftDown_multiplyDivide";
@@ -4332,10 +4266,6 @@ createNode multiplyDivide -n "l_brow_in_limits_speed_multiplyDivide";
 createNode multMatrix -n "l_brow_local_1_limits_lift_multMatrix";
 	rename -uid "2020229D-449C-7816-7B7F-72A7971D398A";
 	setAttr -s 2 ".i";
-createNode pointMatrixMult -n "l_brow_local_1_limits_lift_pointMatrixMult";
-	rename -uid "392397BD-4E36-7982-D932-9FBBEEB18DDD";
-	setAttr ".ip" -type "double3" 0 1 0 ;
-	setAttr ".vm" yes;
 createNode multiplyDivide -n "l_brow_local_1_limits_liftUp_multiplyDivide";
 	rename -uid "54B9E69E-4156-4BD0-CBDA-82B013F8D1E2";
 createNode multiplyDivide -n "l_brow_local_1_limits_liftDown_multiplyDivide";
@@ -4372,10 +4302,6 @@ createNode multiplyDivide -n "l_brow_local_1_limits_speed_multiplyDivide";
 createNode multMatrix -n "l_brow_local_2_limits_lift_multMatrix";
 	rename -uid "BF3D6F1C-4D47-14BD-B18F-0BA3F54EFB48";
 	setAttr -s 2 ".i";
-createNode pointMatrixMult -n "l_brow_local_2_limits_lift_pointMatrixMult";
-	rename -uid "3EEC548D-4FD9-717D-64CC-4CA0AA9F7DCE";
-	setAttr ".ip" -type "double3" 0 1 0 ;
-	setAttr ".vm" yes;
 createNode multiplyDivide -n "l_brow_local_2_limits_liftUp_multiplyDivide";
 	rename -uid "BA660CFA-4EEA-459C-20DD-2C8942F39FC1";
 createNode multiplyDivide -n "l_brow_local_2_limits_liftDown_multiplyDivide";
@@ -4412,10 +4338,6 @@ createNode multiplyDivide -n "l_brow_local_2_limits_speed_multiplyDivide";
 createNode multMatrix -n "l_brow_local_3_limits_lift_multMatrix";
 	rename -uid "25382914-4F0E-6632-EDD9-EDAB7D56A481";
 	setAttr -s 2 ".i";
-createNode pointMatrixMult -n "l_brow_local_3_limits_lift_pointMatrixMult";
-	rename -uid "AA6B4E3B-49AF-EF3A-D5F0-05A1DAE87EA9";
-	setAttr ".ip" -type "double3" 0 1 0 ;
-	setAttr ".vm" yes;
 createNode multiplyDivide -n "l_brow_local_3_limits_liftUp_multiplyDivide";
 	rename -uid "32D4D2F4-4031-28ED-54DB-EB95F22464E1";
 createNode multiplyDivide -n "l_brow_local_3_limits_liftDown_multiplyDivide";
@@ -4452,10 +4374,6 @@ createNode multiplyDivide -n "l_brow_local_3_limits_speed_multiplyDivide";
 createNode multMatrix -n "l_brow_local_4_limits_lift_multMatrix";
 	rename -uid "58327A16-4A92-5772-4489-B18B213DADDE";
 	setAttr -s 2 ".i";
-createNode pointMatrixMult -n "l_brow_local_4_limits_lift_pointMatrixMult";
-	rename -uid "25779A97-4C5B-0C9B-88DB-9AA4F81B3A27";
-	setAttr ".ip" -type "double3" 0 1 0 ;
-	setAttr ".vm" yes;
 createNode multiplyDivide -n "l_brow_local_4_limits_liftUp_multiplyDivide";
 	rename -uid "01E7D757-48A3-F0AE-B412-9AB44438228C";
 createNode multiplyDivide -n "l_brow_local_4_limits_liftDown_multiplyDivide";
@@ -4492,10 +4410,6 @@ createNode multiplyDivide -n "l_brow_local_4_limits_speed_multiplyDivide";
 createNode multMatrix -n "l_brow_local_5_limits_lift_multMatrix";
 	rename -uid "B196255D-4527-E8E5-8019-FBBA5CF9FF7D";
 	setAttr -s 2 ".i";
-createNode pointMatrixMult -n "l_brow_local_5_limits_lift_pointMatrixMult";
-	rename -uid "734BCA70-4C75-323B-C54C-EC9D48CEE525";
-	setAttr ".ip" -type "double3" 0 1 0 ;
-	setAttr ".vm" yes;
 createNode multiplyDivide -n "l_brow_local_5_limits_liftUp_multiplyDivide";
 	rename -uid "358B2A2C-4304-F614-CEF3-C5822FABD9AC";
 createNode multiplyDivide -n "l_brow_local_5_limits_liftDown_multiplyDivide";
@@ -4532,10 +4446,6 @@ createNode multiplyDivide -n "l_brow_local_5_limits_speed_multiplyDivide";
 createNode multMatrix -n "l_brow_local_6_limits_lift_multMatrix";
 	rename -uid "21DD42E1-4589-3482-4A14-2093D3BC97F2";
 	setAttr -s 2 ".i";
-createNode pointMatrixMult -n "l_brow_local_6_limits_lift_pointMatrixMult";
-	rename -uid "69F43877-4AA1-B21B-F9C7-82AFA8A2A1DF";
-	setAttr ".ip" -type "double3" 0 1 0 ;
-	setAttr ".vm" yes;
 createNode multiplyDivide -n "l_brow_local_6_limits_liftUp_multiplyDivide";
 	rename -uid "A0328000-4499-E87F-05B1-63A1DC7184B3";
 createNode multiplyDivide -n "l_brow_local_6_limits_liftDown_multiplyDivide";
@@ -4572,10 +4482,6 @@ createNode multiplyDivide -n "l_brow_local_6_limits_speed_multiplyDivide";
 createNode multMatrix -n "l_brow_local_7_limits_lift_multMatrix";
 	rename -uid "14D69895-4309-4411-C641-0D9010DD4AFF";
 	setAttr -s 2 ".i";
-createNode pointMatrixMult -n "l_brow_local_7_limits_lift_pointMatrixMult";
-	rename -uid "F4881138-4057-37EB-EAD9-FC869A91E9EC";
-	setAttr ".ip" -type "double3" 0 1 0 ;
-	setAttr ".vm" yes;
 createNode multiplyDivide -n "l_brow_local_7_limits_liftUp_multiplyDivide";
 	rename -uid "74B81ABF-4CE5-3D90-1093-76BB05B09EB2";
 createNode multiplyDivide -n "l_brow_local_7_limits_liftDown_multiplyDivide";
@@ -4612,10 +4518,6 @@ createNode multiplyDivide -n "l_brow_local_7_limits_speed_multiplyDivide";
 createNode multMatrix -n "l_brow_mid_limits_lift_multMatrix";
 	rename -uid "E6227FE1-4528-1718-57DC-5DA94D60B6A7";
 	setAttr -s 2 ".i";
-createNode pointMatrixMult -n "l_brow_mid_limits_lift_pointMatrixMult";
-	rename -uid "B463CCCD-4A93-6512-39F4-C6ABAE0DB204";
-	setAttr ".ip" -type "double3" 0 1 0 ;
-	setAttr ".vm" yes;
 createNode multiplyDivide -n "l_brow_mid_limits_liftUp_multiplyDivide";
 	rename -uid "C1C45CA6-459F-E1B0-8485-EBAB1A69671B";
 createNode multiplyDivide -n "l_brow_mid_limits_liftDown_multiplyDivide";
@@ -4652,10 +4554,6 @@ createNode multiplyDivide -n "l_brow_mid_limits_speed_multiplyDivide";
 createNode multMatrix -n "l_brow_out_limits_lift_multMatrix";
 	rename -uid "C8F18BFA-4D06-0D0C-39BC-689DC58D01A0";
 	setAttr -s 2 ".i";
-createNode pointMatrixMult -n "l_brow_out_limits_lift_pointMatrixMult";
-	rename -uid "32EE9767-49BD-1B13-A009-64A04BC528C0";
-	setAttr ".ip" -type "double3" 0 1 0 ;
-	setAttr ".vm" yes;
 createNode multiplyDivide -n "l_brow_out_limits_liftUp_multiplyDivide";
 	rename -uid "0CF1263D-427A-FC18-59F9-06BF647393C4";
 createNode multiplyDivide -n "l_brow_out_limits_liftDown_multiplyDivide";
@@ -4700,8 +4598,6 @@ createNode blendMatrix -n "l_brow_local_1_limits_turn_blendMatrix";
 	setAttr -s 2 ".tgt";
 createNode multiplyDivide -n "l_brow_local_1_limits_radialVec_multiplyDivide";
 	rename -uid "5350F57F-4623-6331-29DF-94AED7C69489";
-createNode pointMatrixMult -n "l_brow_local_1_limits_path_pointMatrixMult";
-	rename -uid "FCED7205-422E-5FA7-928E-498B29A5DDDF";
 createNode multiplyDivide -n "l_brow_local_1_limits_liftNow_multiplyDivide";
 	rename -uid "05A7BF75-4DAE-5BF6-585F-31BA80E4BDFE";
 createNode plusMinusAverage -n "l_brow_local_1_limits_offset_plusMinusAverage";
@@ -4720,8 +4616,6 @@ createNode blendMatrix -n "r_brow_local_1_limits_turn_blendMatrix";
 	setAttr -s 2 ".tgt";
 createNode multiplyDivide -n "r_brow_local_1_limits_radialVec_multiplyDivide";
 	rename -uid "FD7AEE2F-4728-FA1D-CD95-46B5744D421E";
-createNode pointMatrixMult -n "r_brow_local_1_limits_path_pointMatrixMult";
-	rename -uid "51A14030-4227-D6FD-E0EB-32AF008E9FBD";
 createNode multiplyDivide -n "r_brow_local_1_limits_liftNow_multiplyDivide";
 	rename -uid "C86D998E-415A-F15E-E4A3-98ACF2E9599B";
 createNode plusMinusAverage -n "r_brow_local_1_limits_offset_plusMinusAverage";
@@ -4740,8 +4634,6 @@ createNode blendMatrix -n "l_brow_local_2_limits_turn_blendMatrix";
 	setAttr -s 2 ".tgt";
 createNode multiplyDivide -n "l_brow_local_2_limits_radialVec_multiplyDivide";
 	rename -uid "7854D96A-4552-3490-85C7-4FB3F8A6C3CA";
-createNode pointMatrixMult -n "l_brow_local_2_limits_path_pointMatrixMult";
-	rename -uid "5273A58D-4AEA-E241-E837-B5A32F2F923A";
 createNode multiplyDivide -n "l_brow_local_2_limits_liftNow_multiplyDivide";
 	rename -uid "EFAA564F-40DF-7EA9-6044-DCB75328AF5A";
 createNode plusMinusAverage -n "l_brow_local_2_limits_offset_plusMinusAverage";
@@ -4760,8 +4652,6 @@ createNode blendMatrix -n "l_brow_local_3_limits_turn_blendMatrix";
 	setAttr -s 2 ".tgt";
 createNode multiplyDivide -n "l_brow_local_3_limits_radialVec_multiplyDivide";
 	rename -uid "C4B83398-41A8-EA44-EC64-03B9DFE3F702";
-createNode pointMatrixMult -n "l_brow_local_3_limits_path_pointMatrixMult";
-	rename -uid "4825B2CC-4979-A5AC-CBA1-EBB9E56F2102";
 createNode multiplyDivide -n "l_brow_local_3_limits_liftNow_multiplyDivide";
 	rename -uid "CF32C2A5-4194-5D7F-DFCD-81AACCE092E0";
 createNode plusMinusAverage -n "l_brow_local_3_limits_offset_plusMinusAverage";
@@ -4780,8 +4670,6 @@ createNode blendMatrix -n "l_brow_local_4_limits_turn_blendMatrix";
 	setAttr -s 2 ".tgt";
 createNode multiplyDivide -n "l_brow_local_4_limits_radialVec_multiplyDivide";
 	rename -uid "8CDE138F-4265-6454-24F0-618D4967608C";
-createNode pointMatrixMult -n "l_brow_local_4_limits_path_pointMatrixMult";
-	rename -uid "F1EDEE08-4282-A764-35FD-2DB8ADC932B7";
 createNode multiplyDivide -n "l_brow_local_4_limits_liftNow_multiplyDivide";
 	rename -uid "2D650286-4813-4EC0-B943-A8A4B383D4B8";
 createNode plusMinusAverage -n "l_brow_local_4_limits_offset_plusMinusAverage";
@@ -4800,8 +4688,6 @@ createNode blendMatrix -n "l_brow_local_5_limits_turn_blendMatrix";
 	setAttr -s 2 ".tgt";
 createNode multiplyDivide -n "l_brow_local_5_limits_radialVec_multiplyDivide";
 	rename -uid "83053E5C-4BAE-9A18-F90E-D9B622DDE536";
-createNode pointMatrixMult -n "l_brow_local_5_limits_path_pointMatrixMult";
-	rename -uid "B37B4302-4101-446A-4199-C193F878BEE0";
 createNode multiplyDivide -n "l_brow_local_5_limits_liftNow_multiplyDivide";
 	rename -uid "CA9247DC-495E-D739-482B-AB89D5D0B6F3";
 createNode plusMinusAverage -n "l_brow_local_5_limits_offset_plusMinusAverage";
@@ -4820,8 +4706,6 @@ createNode blendMatrix -n "l_brow_local_6_limits_turn_blendMatrix";
 	setAttr -s 2 ".tgt";
 createNode multiplyDivide -n "l_brow_local_6_limits_radialVec_multiplyDivide";
 	rename -uid "5314C1A5-44E2-34BD-58D7-328F962242CF";
-createNode pointMatrixMult -n "l_brow_local_6_limits_path_pointMatrixMult";
-	rename -uid "6FE8EDA0-4399-8930-7052-509A4C4F5DED";
 createNode multiplyDivide -n "l_brow_local_6_limits_liftNow_multiplyDivide";
 	rename -uid "0C3EFF76-492A-A6EE-7F63-7D8A3DF2A90C";
 createNode plusMinusAverage -n "l_brow_local_6_limits_offset_plusMinusAverage";
@@ -4840,8 +4724,6 @@ createNode blendMatrix -n "l_brow_local_7_limits_turn_blendMatrix";
 	setAttr -s 2 ".tgt";
 createNode multiplyDivide -n "l_brow_local_7_limits_radialVec_multiplyDivide";
 	rename -uid "18728927-4617-7E0F-ED5A-8B98D10BBB7F";
-createNode pointMatrixMult -n "l_brow_local_7_limits_path_pointMatrixMult";
-	rename -uid "37EB6A09-4675-376C-474A-1FB1A2CC929C";
 createNode multiplyDivide -n "l_brow_local_7_limits_liftNow_multiplyDivide";
 	rename -uid "0353B21B-4A9A-BC31-7F64-DAACF6B085CF";
 createNode plusMinusAverage -n "l_brow_local_7_limits_offset_plusMinusAverage";
@@ -4860,8 +4742,6 @@ createNode blendMatrix -n "r_brow_local_2_limits_turn_blendMatrix";
 	setAttr -s 2 ".tgt";
 createNode multiplyDivide -n "r_brow_local_2_limits_radialVec_multiplyDivide";
 	rename -uid "E6B075FB-4ADD-59CD-C1DD-81985B5F451D";
-createNode pointMatrixMult -n "r_brow_local_2_limits_path_pointMatrixMult";
-	rename -uid "D0C45CEF-44C2-602A-F3B4-E89BFD20C185";
 createNode multiplyDivide -n "r_brow_local_2_limits_liftNow_multiplyDivide";
 	rename -uid "CED11AB4-4C6E-244B-345A-0686CE770B6E";
 createNode plusMinusAverage -n "r_brow_local_2_limits_offset_plusMinusAverage";
@@ -4880,8 +4760,6 @@ createNode blendMatrix -n "r_brow_local_3_limits_turn_blendMatrix";
 	setAttr -s 2 ".tgt";
 createNode multiplyDivide -n "r_brow_local_3_limits_radialVec_multiplyDivide";
 	rename -uid "02AA37C9-489B-BB65-2C4C-8081080D59C9";
-createNode pointMatrixMult -n "r_brow_local_3_limits_path_pointMatrixMult";
-	rename -uid "FB3B311D-4CB5-B946-D950-E4961920EF28";
 createNode multiplyDivide -n "r_brow_local_3_limits_liftNow_multiplyDivide";
 	rename -uid "424BA5AC-4B99-DA3F-BCD1-3BA67818CF69";
 createNode plusMinusAverage -n "r_brow_local_3_limits_offset_plusMinusAverage";
@@ -4900,8 +4778,6 @@ createNode blendMatrix -n "r_brow_local_4_limits_turn_blendMatrix";
 	setAttr -s 2 ".tgt";
 createNode multiplyDivide -n "r_brow_local_4_limits_radialVec_multiplyDivide";
 	rename -uid "DA1BA0D6-4373-9B1A-AB8F-3EA223FD5B6B";
-createNode pointMatrixMult -n "r_brow_local_4_limits_path_pointMatrixMult";
-	rename -uid "AD2BFEBB-4CD8-3F50-46F0-00AC85EB6F64";
 createNode multiplyDivide -n "r_brow_local_4_limits_liftNow_multiplyDivide";
 	rename -uid "12E8ED0D-42FC-94C4-2F4F-BC91B12740F1";
 createNode plusMinusAverage -n "r_brow_local_4_limits_offset_plusMinusAverage";
@@ -4920,8 +4796,6 @@ createNode blendMatrix -n "r_brow_local_5_limits_turn_blendMatrix";
 	setAttr -s 2 ".tgt";
 createNode multiplyDivide -n "r_brow_local_5_limits_radialVec_multiplyDivide";
 	rename -uid "00FB6CF9-4DFF-E408-EE03-5CBD5C6EFF63";
-createNode pointMatrixMult -n "r_brow_local_5_limits_path_pointMatrixMult";
-	rename -uid "7C7C2665-4CDA-3E3A-014A-85B967B65FB4";
 createNode multiplyDivide -n "r_brow_local_5_limits_liftNow_multiplyDivide";
 	rename -uid "CDE1E640-4B9E-1129-7AAD-C68459260C8E";
 createNode plusMinusAverage -n "r_brow_local_5_limits_offset_plusMinusAverage";
@@ -4940,8 +4814,6 @@ createNode blendMatrix -n "r_brow_local_6_limits_turn_blendMatrix";
 	setAttr -s 2 ".tgt";
 createNode multiplyDivide -n "r_brow_local_6_limits_radialVec_multiplyDivide";
 	rename -uid "A24FC293-4554-59C1-3F9F-9D9E8F8B9CC5";
-createNode pointMatrixMult -n "r_brow_local_6_limits_path_pointMatrixMult";
-	rename -uid "54312D90-460B-D121-5FF9-91983EBC0FA9";
 createNode multiplyDivide -n "r_brow_local_6_limits_liftNow_multiplyDivide";
 	rename -uid "49099F3C-49C5-5186-75D7-DA90E358AD47";
 createNode plusMinusAverage -n "r_brow_local_6_limits_offset_plusMinusAverage";
@@ -4960,8 +4832,6 @@ createNode blendMatrix -n "r_brow_local_7_limits_turn_blendMatrix";
 	setAttr -s 2 ".tgt";
 createNode multiplyDivide -n "r_brow_local_7_limits_radialVec_multiplyDivide";
 	rename -uid "D0E7FB46-4C8C-88B2-94C0-40BDFA0F9515";
-createNode pointMatrixMult -n "r_brow_local_7_limits_path_pointMatrixMult";
-	rename -uid "2F3B2791-42FC-EDBB-0210-8E8F7D03346B";
 createNode multiplyDivide -n "r_brow_local_7_limits_liftNow_multiplyDivide";
 	rename -uid "4274C5D5-4734-1745-A0F3-BF8C6A61BE0D";
 createNode plusMinusAverage -n "r_brow_local_7_limits_offset_plusMinusAverage";
@@ -4980,8 +4850,6 @@ createNode blendMatrix -n "l_brow_out_limits_turn_blendMatrix";
 	setAttr -s 2 ".tgt";
 createNode multiplyDivide -n "l_brow_out_limits_radialVec_multiplyDivide";
 	rename -uid "0A8568F9-4E27-9282-C563-8F8983B6D7BF";
-createNode pointMatrixMult -n "l_brow_out_limits_path_pointMatrixMult";
-	rename -uid "0E7DB33B-46B7-E74B-1119-0AA0D331DBF9";
 createNode multiplyDivide -n "l_brow_out_limits_liftNow_multiplyDivide";
 	rename -uid "C50A6673-4EFD-3831-7AA5-A48D500C7BE5";
 createNode plusMinusAverage -n "l_brow_out_limits_offset_plusMinusAverage";
@@ -5008,8 +4876,6 @@ createNode blendMatrix -n "l_brow_mid_limits_turn_blendMatrix";
 	setAttr -s 2 ".tgt";
 createNode multiplyDivide -n "l_brow_mid_limits_radialVec_multiplyDivide";
 	rename -uid "6F5686DA-4571-56E1-38BD-979A1EEE41DB";
-createNode pointMatrixMult -n "l_brow_mid_limits_path_pointMatrixMult";
-	rename -uid "F3A5B4F3-45B7-CC1D-D50D-AD9167E6C99D";
 createNode multiplyDivide -n "l_brow_mid_limits_liftNow_multiplyDivide";
 	rename -uid "21E6325B-42B6-2654-6CB4-938962977868";
 createNode plusMinusAverage -n "l_brow_mid_limits_offset_plusMinusAverage";
@@ -5036,8 +4902,6 @@ createNode blendMatrix -n "l_brow_in_limits_turn_blendMatrix";
 	setAttr -s 2 ".tgt";
 createNode multiplyDivide -n "l_brow_in_limits_radialVec_multiplyDivide";
 	rename -uid "B8B8400D-43BA-ED55-A599-738E339320F2";
-createNode pointMatrixMult -n "l_brow_in_limits_path_pointMatrixMult";
-	rename -uid "2AC3EE98-4DC6-DC73-7B9C-1EB13E85F622";
 createNode multiplyDivide -n "l_brow_in_limits_liftNow_multiplyDivide";
 	rename -uid "E9C7F50D-4D7D-7886-E111-32AF01C09CB2";
 createNode plusMinusAverage -n "l_brow_in_limits_offset_plusMinusAverage";
@@ -5064,8 +4928,6 @@ createNode blendMatrix -n "r_brow_out_limits_turn_blendMatrix";
 	setAttr -s 2 ".tgt";
 createNode multiplyDivide -n "r_brow_out_limits_radialVec_multiplyDivide";
 	rename -uid "F63A9800-4C13-6A9D-08C6-7DABBC743C6D";
-createNode pointMatrixMult -n "r_brow_out_limits_path_pointMatrixMult";
-	rename -uid "9DD99668-4C65-AB0D-CA14-CEB774A97B9E";
 createNode multiplyDivide -n "r_brow_out_limits_liftNow_multiplyDivide";
 	rename -uid "AEDC2A7C-4DF2-4365-B6DE-36A00E5BA8DC";
 createNode plusMinusAverage -n "r_brow_out_limits_offset_plusMinusAverage";
@@ -5086,8 +4948,6 @@ createNode blendMatrix -n "r_brow_mid_limits_turn_blendMatrix";
 	setAttr -s 2 ".tgt";
 createNode multiplyDivide -n "r_brow_mid_limits_radialVec_multiplyDivide";
 	rename -uid "5FB6AA0E-413E-4CA2-C1F1-1C9348FEF4C0";
-createNode pointMatrixMult -n "r_brow_mid_limits_path_pointMatrixMult";
-	rename -uid "1F0218D2-4F9F-6B38-2204-DB8FE4BA06DE";
 createNode multiplyDivide -n "r_brow_mid_limits_liftNow_multiplyDivide";
 	rename -uid "90CBE5EE-4EA8-D759-0E0A-50A43DDB59E4";
 createNode plusMinusAverage -n "r_brow_mid_limits_offset_plusMinusAverage";
@@ -5108,8 +4968,6 @@ createNode blendMatrix -n "r_brow_in_limits_turn_blendMatrix";
 	setAttr -s 2 ".tgt";
 createNode multiplyDivide -n "r_brow_in_limits_radialVec_multiplyDivide";
 	rename -uid "3676DA3C-498B-1708-9900-71A3FB9EE616";
-createNode pointMatrixMult -n "r_brow_in_limits_path_pointMatrixMult";
-	rename -uid "2FFA3E40-4024-DE31-FA07-4BBB66C55399";
 createNode multiplyDivide -n "r_brow_in_limits_liftNow_multiplyDivide";
 	rename -uid "556A9305-4FCE-9906-C092-BD92F570CF6C";
 createNode plusMinusAverage -n "r_brow_in_limits_offset_plusMinusAverage";
@@ -5603,6 +5461,148 @@ createNode nodeGraphEditorInfo -n "MayaNodeEditorSavedTabsInfo";
 	setAttr ".tgi[2].ni[13].x" -24848.572265625;
 	setAttr ".tgi[2].ni[13].y" 25.714284896850586;
 	setAttr ".tgi[2].ni[13].nvs" 18304;
+createNode pointMatrixMult -n "local_4_arcHeight_pointMatrixMult";
+	rename -uid "2AA27BD4-48C6-9EF2-9817-9BA5BE5FA572";
+createNode pointMatrixMult -n "local_5_arcHeight_pointMatrixMult";
+	rename -uid "43E47640-4E15-6E94-34F0-C8A5CB7F0823";
+createNode pointMatrixMult -n "local_6_arcHeight_pointMatrixMult";
+	rename -uid "65F9297E-48FE-4C8A-335F-0AB81EEC86E0";
+createNode pointMatrixMult -n "local_7_arcHeight_pointMatrixMult";
+	rename -uid "BD4DB8F1-4631-EE66-61C3-DF8AED96633B";
+createNode pointMatrixMult -n "l_brow_local_4_outArc_pointMatrixMult";
+	rename -uid "C0153C24-46F2-B36D-7B2C-3C89FFBA24BC";
+	setAttr ".ip" -type "double3" -1 0 0 ;
+createNode pointMatrixMult -n "l_brow_local_5_outArc_pointMatrixMult";
+	rename -uid "27565766-4D2E-6F1F-38FE-E5AC453F38BF";
+	setAttr ".ip" -type "double3" -1 0.31665295362472534 0 ;
+createNode pointMatrixMult -n "l_brow_local_6_outArc_pointMatrixMult";
+	rename -uid "72485643-4C45-6D1D-6D3D-DA810EC47D3A";
+	setAttr ".ip" -type "double3" -1 -0.18014521896839142 0 ;
+createNode pointMatrixMult -n "l_brow_local_7_outArc_pointMatrixMult";
+	rename -uid "8D35EE49-4358-C6DD-2DBC-90A63AA1FB00";
+	setAttr ".ip" -type "double3" -1 -0.23444217443466187 0 ;
+createNode pointMatrixMult -n "r_brow_local_4_outArc_pointMatrixMult";
+	rename -uid "1052E8B9-4202-6156-6074-0B92D4B25577";
+	setAttr ".ip" -type "double3" -1 0 0 ;
+createNode pointMatrixMult -n "r_brow_local_5_outArc_pointMatrixMult";
+	rename -uid "769A74F5-43EA-48AB-4D97-769FF05E1E41";
+	setAttr ".ip" -type "double3" -1 0.31665295362472534 0 ;
+createNode pointMatrixMult -n "r_brow_local_6_outArc_pointMatrixMult";
+	rename -uid "E14E95D9-41D2-A4B6-C105-AEA24EAA2E73";
+	setAttr ".ip" -type "double3" -1 -0.18014521896839142 0 ;
+createNode pointMatrixMult -n "r_brow_local_7_outArc_pointMatrixMult";
+	rename -uid "3E931CE8-4334-66D6-DF98-C986B8D55EC5";
+	setAttr ".ip" -type "double3" -1 -0.23444217443466187 0 ;
+createNode pointMatrixMult -n "local_1_arcHeight_pointMatrixMult";
+	rename -uid "A2F94541-4BD6-6A87-34FB-78A3DAE9C6CF";
+createNode pointMatrixMult -n "local_2_arcHeight_pointMatrixMult";
+	rename -uid "A6A65739-41AE-75C6-8F6C-22A789EF3581";
+createNode pointMatrixMult -n "local_3_arcHeight_pointMatrixMult";
+	rename -uid "C9F2656C-4E70-C553-E412-C695F2E516DA";
+createNode pointMatrixMult -n "l_brow_local_1_inArc_pointMatrixMult";
+	rename -uid "D495C96C-4F0B-08C4-5BC8-EA8904CFCD55";
+	setAttr ".ip" -type "double3" -1 0.052848398685455322 0 ;
+createNode pointMatrixMult -n "l_brow_local_2_inArc_pointMatrixMult";
+	rename -uid "A92A3B73-4E98-3130-582E-698F01824EA8";
+	setAttr ".ip" -type "double3" -1 -0.075624428689479828 0 ;
+createNode pointMatrixMult -n "l_brow_local_3_inArc_pointMatrixMult";
+	rename -uid "0E6EC839-4A37-3B1F-5D5A-5A9F5590F08E";
+	setAttr ".ip" -type "double3" -1 2.6652839183807373 0 ;
+createNode pointMatrixMult -n "l_brow_local_4_inArc_pointMatrixMult";
+	rename -uid "FC350201-4C45-5730-C9B8-3693A828C3F2";
+	setAttr ".ip" -type "double3" -1 0 0 ;
+createNode pointMatrixMult -n "r_brow_local_1_inArc_pointMatrixMult";
+	rename -uid "5DF6FC1A-4528-F3D2-F754-CBA9B41DD216";
+	setAttr ".ip" -type "double3" -1 0.052848398685455322 0 ;
+createNode pointMatrixMult -n "r_brow_local_2_inArc_pointMatrixMult";
+	rename -uid "7C5D4F17-4AD5-6CA7-8E7A-20AD5100EA5C";
+	setAttr ".ip" -type "double3" -1 -0.075624428689479828 0 ;
+createNode pointMatrixMult -n "r_brow_local_3_inArc_pointMatrixMult";
+	rename -uid "D8A0514C-4C0D-61C6-FACC-5B961EB8B038";
+	setAttr ".ip" -type "double3" -1 2.6652839183807373 0 ;
+createNode pointMatrixMult -n "r_brow_local_4_inArc_pointMatrixMult";
+	rename -uid "19451E85-4895-CB1C-530C-7DB294C9B040";
+	setAttr ".ip" -type "double3" -1 0 0 ;
+createNode pointMatrixMult -n "l_brow_in_limits_lift_pointMatrixMult";
+	rename -uid "A6EA5241-433D-5BA7-F415-3AB5C064ECB7";
+	setAttr ".ip" -type "double3" 0 1 0 ;
+	setAttr ".vm" yes;
+createNode pointMatrixMult -n "l_brow_local_1_limits_lift_pointMatrixMult";
+	rename -uid "20C13859-4F79-24E1-4D06-F4A7F2B2900C";
+	setAttr ".ip" -type "double3" 0 1 0 ;
+	setAttr ".vm" yes;
+createNode pointMatrixMult -n "l_brow_local_2_limits_lift_pointMatrixMult";
+	rename -uid "FCE108B1-4343-92B2-DB0F-7A8E162DB036";
+	setAttr ".ip" -type "double3" 0 1 0 ;
+	setAttr ".vm" yes;
+createNode pointMatrixMult -n "l_brow_local_3_limits_lift_pointMatrixMult";
+	rename -uid "3D63E0EB-457F-FB53-E8BF-09B010FD99C8";
+	setAttr ".ip" -type "double3" 0 1 0 ;
+	setAttr ".vm" yes;
+createNode pointMatrixMult -n "l_brow_local_4_limits_lift_pointMatrixMult";
+	rename -uid "3C0AB6EF-47B1-3DAE-6B73-C8BA22C08B64";
+	setAttr ".ip" -type "double3" 0 1 0 ;
+	setAttr ".vm" yes;
+createNode pointMatrixMult -n "l_brow_local_5_limits_lift_pointMatrixMult";
+	rename -uid "CC3BD214-4162-8435-6982-27A1CABF669A";
+	setAttr ".ip" -type "double3" 0 1 0 ;
+	setAttr ".vm" yes;
+createNode pointMatrixMult -n "l_brow_local_6_limits_lift_pointMatrixMult";
+	rename -uid "BB0B8B7E-4EF2-A44D-B5FD-908870C0F71C";
+	setAttr ".ip" -type "double3" 0 1 0 ;
+	setAttr ".vm" yes;
+createNode pointMatrixMult -n "l_brow_local_7_limits_lift_pointMatrixMult";
+	rename -uid "C07324A2-415F-41B9-1282-C4B2E5AE5799";
+	setAttr ".ip" -type "double3" 0 1 0 ;
+	setAttr ".vm" yes;
+createNode pointMatrixMult -n "l_brow_mid_limits_lift_pointMatrixMult";
+	rename -uid "B9C1717D-436B-1D25-281C-28BF13DCDC35";
+	setAttr ".ip" -type "double3" 0 1 0 ;
+	setAttr ".vm" yes;
+createNode pointMatrixMult -n "l_brow_out_limits_lift_pointMatrixMult";
+	rename -uid "DED357C5-4823-B846-C60D-F9B5A552ED30";
+	setAttr ".ip" -type "double3" 0 1 0 ;
+	setAttr ".vm" yes;
+createNode pointMatrixMult -n "l_brow_local_1_limits_path_pointMatrixMult";
+	rename -uid "FC32EAAC-420D-EDA5-8DB5-2B86E503E6DD";
+createNode pointMatrixMult -n "r_brow_local_1_limits_path_pointMatrixMult";
+	rename -uid "EA55E36E-44D1-7A3D-F222-B1A600FBECCC";
+createNode pointMatrixMult -n "l_brow_local_2_limits_path_pointMatrixMult";
+	rename -uid "B2DD3CEE-4745-8295-F0DE-7A8C47C84847";
+createNode pointMatrixMult -n "l_brow_local_3_limits_path_pointMatrixMult";
+	rename -uid "4407FEF2-4A84-0264-F18C-B9A026356381";
+createNode pointMatrixMult -n "l_brow_local_4_limits_path_pointMatrixMult";
+	rename -uid "8668DAD8-4E75-DAF3-65FA-FDB51148C430";
+createNode pointMatrixMult -n "l_brow_local_5_limits_path_pointMatrixMult";
+	rename -uid "7C7B812C-4AE6-D4BD-A2AC-FBAD4C00F97C";
+createNode pointMatrixMult -n "l_brow_local_6_limits_path_pointMatrixMult";
+	rename -uid "312B8C65-4B90-29BF-A3CD-3C86B97DE555";
+createNode pointMatrixMult -n "l_brow_local_7_limits_path_pointMatrixMult";
+	rename -uid "19F3F10D-49D1-40FD-D7F0-0CB8CA222C1A";
+createNode pointMatrixMult -n "r_brow_local_2_limits_path_pointMatrixMult";
+	rename -uid "EF12200B-4035-7C29-C7B1-5B823D3F1C26";
+createNode pointMatrixMult -n "r_brow_local_3_limits_path_pointMatrixMult";
+	rename -uid "015B3B7B-4175-31C8-3586-01943592482D";
+createNode pointMatrixMult -n "r_brow_local_4_limits_path_pointMatrixMult";
+	rename -uid "5F6886B9-4EE6-35E2-098C-CBA8307A0044";
+createNode pointMatrixMult -n "r_brow_local_5_limits_path_pointMatrixMult";
+	rename -uid "A4DAFC24-4556-19FD-FDFA-7DA3CA5CB08C";
+createNode pointMatrixMult -n "r_brow_local_6_limits_path_pointMatrixMult";
+	rename -uid "44B7F6E1-47ED-6FC0-961D-349AADCDAB02";
+createNode pointMatrixMult -n "r_brow_local_7_limits_path_pointMatrixMult";
+	rename -uid "35764261-47BA-9456-D3A0-FAB5916A480C";
+createNode pointMatrixMult -n "l_brow_out_limits_path_pointMatrixMult";
+	rename -uid "07BAE9BD-46E6-AB86-6DAD-48AB0420222E";
+createNode pointMatrixMult -n "l_brow_mid_limits_path_pointMatrixMult";
+	rename -uid "183FDFA1-4A3D-C174-16FB-E29276A3BAD8";
+createNode pointMatrixMult -n "l_brow_in_limits_path_pointMatrixMult";
+	rename -uid "914267B9-4B75-0392-C788-6CA8830F6D45";
+createNode pointMatrixMult -n "r_brow_out_limits_path_pointMatrixMult";
+	rename -uid "C98D150B-4977-198D-DF63-0F9DAAD48DD0";
+createNode pointMatrixMult -n "r_brow_mid_limits_path_pointMatrixMult";
+	rename -uid "D75BEB41-409F-DF4E-3C05-03AFF912ED5E";
+createNode pointMatrixMult -n "r_brow_in_limits_path_pointMatrixMult";
+	rename -uid "D1BEA518-4F74-B1EF-8C92-2DA3C954D5D3";
 select -ne :time1;
 	setAttr -av -k on ".cch";
 	setAttr -k on ".fzn";
@@ -6984,8 +6984,6 @@ connectAttr "l_brow_out.local7_side" "r_brow_local_7_outArc_multiplyDivide.i2x";
 connectAttr "l_brow_out.local7_lift" "r_brow_local_7_outArc_multiplyDivide.i2y";
 connectAttr "r_brow_local_7_outArc_multiplyDivide.o" "r_brow_local_7_outArc_composeMatrix.it"
 		;
-connectAttr "local_4_initLocShape.wp" "local_4_arcHeight_pointMatrixMult.ip";
-connectAttr "mid_mainPoser.wim" "local_4_arcHeight_pointMatrixMult.im";
 connectAttr "local_4_arcHeight_pointMatrixMult.oy" "local_4_outArcHeightRatio_multiplyDivide.i1x"
 		;
 connectAttr "l_brow_out.local4_lift" "local_4_outArcHeightRatio_multiplyDivide.i2x"
@@ -6995,8 +6993,6 @@ connectAttr "local_4_outArcHeightRatio_multiplyDivide.ox" "local_4_outArcHeightR
 		;
 connectAttr "local_4_outArcHeightRatio_condition.ocr" "local_4_outArcHeightRatioNeg_multDoubleLinear.i1"
 		;
-connectAttr "local_5_initLocShape.wp" "local_5_arcHeight_pointMatrixMult.ip";
-connectAttr "out_mainPoser.wim" "local_5_arcHeight_pointMatrixMult.im";
 connectAttr "local_5_arcHeight_pointMatrixMult.oy" "local_5_outArcHeightRatio_multiplyDivide.i1x"
 		;
 connectAttr "l_brow_out.local5_lift" "local_5_outArcHeightRatio_multiplyDivide.i2x"
@@ -7006,8 +7002,6 @@ connectAttr "local_5_outArcHeightRatio_multiplyDivide.ox" "local_5_outArcHeightR
 		;
 connectAttr "local_5_outArcHeightRatio_condition.ocr" "local_5_outArcHeightRatioNeg_multDoubleLinear.i1"
 		;
-connectAttr "local_6_initLocShape.wp" "local_6_arcHeight_pointMatrixMult.ip";
-connectAttr "out_mainPoser.wim" "local_6_arcHeight_pointMatrixMult.im";
 connectAttr "local_6_arcHeight_pointMatrixMult.oy" "local_6_outArcHeightRatio_multiplyDivide.i1x"
 		;
 connectAttr "l_brow_out.local6_lift" "local_6_outArcHeightRatio_multiplyDivide.i2x"
@@ -7017,8 +7011,6 @@ connectAttr "local_6_outArcHeightRatio_multiplyDivide.ox" "local_6_outArcHeightR
 		;
 connectAttr "local_6_outArcHeightRatio_condition.ocr" "local_6_outArcHeightRatioNeg_multDoubleLinear.i1"
 		;
-connectAttr "local_7_initLocShape.wp" "local_7_arcHeight_pointMatrixMult.ip";
-connectAttr "out_mainPoser.wim" "local_7_arcHeight_pointMatrixMult.im";
 connectAttr "local_7_arcHeight_pointMatrixMult.oy" "local_7_outArcHeightRatio_multiplyDivide.i1x"
 		;
 connectAttr "l_brow_out.local7_lift" "local_7_outArcHeightRatio_multiplyDivide.i2x"
@@ -7032,68 +7024,34 @@ connectAttr "unitConversion22.o" "l_brow_local_4_outArc_rotate_composeMatrix.irz
 		;
 connectAttr "local_4_outArcHeightRatioNeg_multDoubleLinear.o" "l_brow_local_4_outArc_rotate_composeMatrix.ity"
 		;
-connectAttr "l_brow_local_4_outArc_rotate_composeMatrix.omat" "l_brow_local_4_outArc_pointMatrixMult.im"
-		;
-connectAttr "local_4_outArcHeightRatio_condition.ocr" "l_brow_local_4_outArc_pointMatrixMult.ipy"
-		;
 connectAttr "unitConversion22.o" "l_brow_local_5_outArc_rotate_composeMatrix.irz"
 		;
 connectAttr "local_5_outArcHeightRatioNeg_multDoubleLinear.o" "l_brow_local_5_outArc_rotate_composeMatrix.ity"
-		;
-connectAttr "l_brow_local_5_outArc_rotate_composeMatrix.omat" "l_brow_local_5_outArc_pointMatrixMult.im"
-		;
-connectAttr "local_5_outArcHeightRatio_condition.ocr" "l_brow_local_5_outArc_pointMatrixMult.ipy"
 		;
 connectAttr "unitConversion22.o" "l_brow_local_6_outArc_rotate_composeMatrix.irz"
 		;
 connectAttr "local_6_outArcHeightRatioNeg_multDoubleLinear.o" "l_brow_local_6_outArc_rotate_composeMatrix.ity"
 		;
-connectAttr "l_brow_local_6_outArc_rotate_composeMatrix.omat" "l_brow_local_6_outArc_pointMatrixMult.im"
-		;
-connectAttr "local_6_outArcHeightRatio_condition.ocr" "l_brow_local_6_outArc_pointMatrixMult.ipy"
-		;
 connectAttr "unitConversion22.o" "l_brow_local_7_outArc_rotate_composeMatrix.irz"
 		;
 connectAttr "local_7_outArcHeightRatioNeg_multDoubleLinear.o" "l_brow_local_7_outArc_rotate_composeMatrix.ity"
-		;
-connectAttr "l_brow_local_7_outArc_rotate_composeMatrix.omat" "l_brow_local_7_outArc_pointMatrixMult.im"
-		;
-connectAttr "local_7_outArcHeightRatio_condition.ocr" "l_brow_local_7_outArc_pointMatrixMult.ipy"
 		;
 connectAttr "unitConversion86.o" "r_brow_local_4_outArc_rotate_composeMatrix.irz"
 		;
 connectAttr "local_4_outArcHeightRatioNeg_multDoubleLinear.o" "r_brow_local_4_outArc_rotate_composeMatrix.ity"
 		;
-connectAttr "r_brow_local_4_outArc_rotate_composeMatrix.omat" "r_brow_local_4_outArc_pointMatrixMult.im"
-		;
-connectAttr "local_4_outArcHeightRatio_condition.ocr" "r_brow_local_4_outArc_pointMatrixMult.ipy"
-		;
 connectAttr "unitConversion86.o" "r_brow_local_5_outArc_rotate_composeMatrix.irz"
 		;
 connectAttr "local_5_outArcHeightRatioNeg_multDoubleLinear.o" "r_brow_local_5_outArc_rotate_composeMatrix.ity"
-		;
-connectAttr "r_brow_local_5_outArc_rotate_composeMatrix.omat" "r_brow_local_5_outArc_pointMatrixMult.im"
-		;
-connectAttr "local_5_outArcHeightRatio_condition.ocr" "r_brow_local_5_outArc_pointMatrixMult.ipy"
 		;
 connectAttr "unitConversion86.o" "r_brow_local_6_outArc_rotate_composeMatrix.irz"
 		;
 connectAttr "local_6_outArcHeightRatioNeg_multDoubleLinear.o" "r_brow_local_6_outArc_rotate_composeMatrix.ity"
 		;
-connectAttr "r_brow_local_6_outArc_rotate_composeMatrix.omat" "r_brow_local_6_outArc_pointMatrixMult.im"
-		;
-connectAttr "local_6_outArcHeightRatio_condition.ocr" "r_brow_local_6_outArc_pointMatrixMult.ipy"
-		;
 connectAttr "unitConversion86.o" "r_brow_local_7_outArc_rotate_composeMatrix.irz"
 		;
 connectAttr "local_7_outArcHeightRatioNeg_multDoubleLinear.o" "r_brow_local_7_outArc_rotate_composeMatrix.ity"
 		;
-connectAttr "r_brow_local_7_outArc_rotate_composeMatrix.omat" "r_brow_local_7_outArc_pointMatrixMult.im"
-		;
-connectAttr "local_7_outArcHeightRatio_condition.ocr" "r_brow_local_7_outArc_pointMatrixMult.ipy"
-		;
-connectAttr "local_1_initLocShape.wp" "local_1_arcHeight_pointMatrixMult.ip";
-connectAttr "in_mainPoser.wim" "local_1_arcHeight_pointMatrixMult.im";
 connectAttr "local_1_arcHeight_pointMatrixMult.oy" "local_1_inArcHeightRatio_multiplyDivide.i1x"
 		;
 connectAttr "l_brow_in.local1_lift" "local_1_inArcHeightRatio_multiplyDivide.i2x"
@@ -7103,8 +7061,6 @@ connectAttr "local_1_inArcHeightRatio_multiplyDivide.ox" "local_1_inArcHeightRat
 		;
 connectAttr "local_1_inArcHeightRatio_condition.ocr" "local_1_inArcHeightRatioNeg_multDoubleLinear.i1"
 		;
-connectAttr "local_2_initLocShape.wp" "local_2_arcHeight_pointMatrixMult.ip";
-connectAttr "in_mainPoser.wim" "local_2_arcHeight_pointMatrixMult.im";
 connectAttr "local_2_arcHeight_pointMatrixMult.oy" "local_2_inArcHeightRatio_multiplyDivide.i1x"
 		;
 connectAttr "l_brow_in.local2_lift" "local_2_inArcHeightRatio_multiplyDivide.i2x"
@@ -7114,8 +7070,6 @@ connectAttr "local_2_inArcHeightRatio_multiplyDivide.ox" "local_2_inArcHeightRat
 		;
 connectAttr "local_2_inArcHeightRatio_condition.ocr" "local_2_inArcHeightRatioNeg_multDoubleLinear.i1"
 		;
-connectAttr "local_3_initLocShape.wp" "local_3_arcHeight_pointMatrixMult.ip";
-connectAttr "mid_mainPoser.wim" "local_3_arcHeight_pointMatrixMult.im";
 connectAttr "local_3_arcHeight_pointMatrixMult.oy" "local_3_inArcHeightRatio_multiplyDivide.i1x"
 		;
 connectAttr "l_brow_in.local3_lift" "local_3_inArcHeightRatio_multiplyDivide.i2x"
@@ -7142,10 +7096,6 @@ connectAttr "l_brow_in_negRz_unitConversion.o" "l_brow_local_1_inArc_rotate_comp
 		;
 connectAttr "local_1_inArcHeightRatioNeg_multDoubleLinear.o" "l_brow_local_1_inArc_rotate_composeMatrix.ity"
 		;
-connectAttr "l_brow_local_1_inArc_rotate_composeMatrix.omat" "l_brow_local_1_inArc_pointMatrixMult.im"
-		;
-connectAttr "local_1_inArcHeightRatio_condition.ocr" "l_brow_local_1_inArc_pointMatrixMult.ipy"
-		;
 connectAttr "l_brow_local_1_inArc_pointMatrixMult.o" "l_brow_local_1_inArc_multiplyDivide.i1"
 		;
 connectAttr "l_brow_in.local1_side" "l_brow_local_1_inArc_multiplyDivide.i2x";
@@ -7155,10 +7105,6 @@ connectAttr "l_brow_local_1_inArc_multiplyDivide.o" "l_brow_local_1_inArc_compos
 connectAttr "l_brow_in_negRz_unitConversion.o" "l_brow_local_2_inArc_rotate_composeMatrix.irz"
 		;
 connectAttr "local_2_inArcHeightRatioNeg_multDoubleLinear.o" "l_brow_local_2_inArc_rotate_composeMatrix.ity"
-		;
-connectAttr "l_brow_local_2_inArc_rotate_composeMatrix.omat" "l_brow_local_2_inArc_pointMatrixMult.im"
-		;
-connectAttr "local_2_inArcHeightRatio_condition.ocr" "l_brow_local_2_inArc_pointMatrixMult.ipy"
 		;
 connectAttr "l_brow_local_2_inArc_pointMatrixMult.o" "l_brow_local_2_inArc_multiplyDivide.i1"
 		;
@@ -7170,10 +7116,6 @@ connectAttr "l_brow_in_negRz_unitConversion.o" "l_brow_local_3_inArc_rotate_comp
 		;
 connectAttr "local_3_inArcHeightRatioNeg_multDoubleLinear.o" "l_brow_local_3_inArc_rotate_composeMatrix.ity"
 		;
-connectAttr "l_brow_local_3_inArc_rotate_composeMatrix.omat" "l_brow_local_3_inArc_pointMatrixMult.im"
-		;
-connectAttr "local_3_inArcHeightRatio_condition.ocr" "l_brow_local_3_inArc_pointMatrixMult.ipy"
-		;
 connectAttr "l_brow_local_3_inArc_pointMatrixMult.o" "l_brow_local_3_inArc_multiplyDivide.i1"
 		;
 connectAttr "l_brow_in.local3_side" "l_brow_local_3_inArc_multiplyDivide.i2x";
@@ -7183,10 +7125,6 @@ connectAttr "l_brow_local_3_inArc_multiplyDivide.o" "l_brow_local_3_inArc_compos
 connectAttr "l_brow_in_negRz_unitConversion.o" "l_brow_local_4_inArc_rotate_composeMatrix.irz"
 		;
 connectAttr "local_4_inArcHeightRatioNeg_multDoubleLinear.o" "l_brow_local_4_inArc_rotate_composeMatrix.ity"
-		;
-connectAttr "l_brow_local_4_inArc_rotate_composeMatrix.omat" "l_brow_local_4_inArc_pointMatrixMult.im"
-		;
-connectAttr "local_4_inArcHeightRatio_condition.ocr" "l_brow_local_4_inArc_pointMatrixMult.ipy"
 		;
 connectAttr "l_brow_local_4_inArc_pointMatrixMult.o" "l_brow_local_4_inArc_multiplyDivide.i1"
 		;
@@ -7202,10 +7140,6 @@ connectAttr "r_brow_in_negRz_unitConversion.o" "r_brow_local_1_inArc_rotate_comp
 		;
 connectAttr "local_1_inArcHeightRatioNeg_multDoubleLinear.o" "r_brow_local_1_inArc_rotate_composeMatrix.ity"
 		;
-connectAttr "r_brow_local_1_inArc_rotate_composeMatrix.omat" "r_brow_local_1_inArc_pointMatrixMult.im"
-		;
-connectAttr "local_1_inArcHeightRatio_condition.ocr" "r_brow_local_1_inArc_pointMatrixMult.ipy"
-		;
 connectAttr "r_brow_local_1_inArc_pointMatrixMult.o" "r_brow_local_1_inArc_multiplyDivide.i1"
 		;
 connectAttr "l_brow_in.local1_side" "r_brow_local_1_inArc_multiplyDivide.i2x";
@@ -7215,10 +7149,6 @@ connectAttr "r_brow_local_1_inArc_multiplyDivide.o" "r_brow_local_1_inArc_compos
 connectAttr "r_brow_in_negRz_unitConversion.o" "r_brow_local_2_inArc_rotate_composeMatrix.irz"
 		;
 connectAttr "local_2_inArcHeightRatioNeg_multDoubleLinear.o" "r_brow_local_2_inArc_rotate_composeMatrix.ity"
-		;
-connectAttr "r_brow_local_2_inArc_rotate_composeMatrix.omat" "r_brow_local_2_inArc_pointMatrixMult.im"
-		;
-connectAttr "local_2_inArcHeightRatio_condition.ocr" "r_brow_local_2_inArc_pointMatrixMult.ipy"
 		;
 connectAttr "r_brow_local_2_inArc_pointMatrixMult.o" "r_brow_local_2_inArc_multiplyDivide.i1"
 		;
@@ -7230,10 +7160,6 @@ connectAttr "r_brow_in_negRz_unitConversion.o" "r_brow_local_3_inArc_rotate_comp
 		;
 connectAttr "local_3_inArcHeightRatioNeg_multDoubleLinear.o" "r_brow_local_3_inArc_rotate_composeMatrix.ity"
 		;
-connectAttr "r_brow_local_3_inArc_rotate_composeMatrix.omat" "r_brow_local_3_inArc_pointMatrixMult.im"
-		;
-connectAttr "local_3_inArcHeightRatio_condition.ocr" "r_brow_local_3_inArc_pointMatrixMult.ipy"
-		;
 connectAttr "r_brow_local_3_inArc_pointMatrixMult.o" "r_brow_local_3_inArc_multiplyDivide.i1"
 		;
 connectAttr "l_brow_in.local3_side" "r_brow_local_3_inArc_multiplyDivide.i2x";
@@ -7243,10 +7169,6 @@ connectAttr "r_brow_local_3_inArc_multiplyDivide.o" "r_brow_local_3_inArc_compos
 connectAttr "r_brow_in_negRz_unitConversion.o" "r_brow_local_4_inArc_rotate_composeMatrix.irz"
 		;
 connectAttr "local_4_inArcHeightRatioNeg_multDoubleLinear.o" "r_brow_local_4_inArc_rotate_composeMatrix.ity"
-		;
-connectAttr "r_brow_local_4_inArc_rotate_composeMatrix.omat" "r_brow_local_4_inArc_pointMatrixMult.im"
-		;
-connectAttr "local_4_inArcHeightRatio_condition.ocr" "r_brow_local_4_inArc_pointMatrixMult.ipy"
 		;
 connectAttr "r_brow_local_4_inArc_pointMatrixMult.o" "r_brow_local_4_inArc_multiplyDivide.i1"
 		;
@@ -7265,8 +7187,6 @@ connectAttr "l_brow.upLimit" "r_brow_limits_split_clamp.mxr";
 connectAttr "l_brow.downLimit" "r_brow_limits_split_clamp.mng";
 connectAttr "l_brow.pm" "l_brow_in_limits_lift_multMatrix.i[0]";
 connectAttr "l_brow_in_group.wim" "l_brow_in_limits_lift_multMatrix.i[1]";
-connectAttr "l_brow_in_limits_lift_multMatrix.o" "l_brow_in_limits_lift_pointMatrixMult.im"
-		;
 connectAttr "l_brow_in_limits_lift_pointMatrixMult.o" "l_brow_in_limits_liftUp_multiplyDivide.i1"
 		;
 connectAttr "l_brow.upLimit" "l_brow_in_limits_liftUp_multiplyDivide.i2x";
@@ -7319,8 +7239,6 @@ connectAttr "l_brow_in_limits_speedDen_multiplyDivide.oy" "l_brow_in_limits_spee
 		;
 connectAttr "l_brow.pm" "l_brow_local_1_limits_lift_multMatrix.i[0]";
 connectAttr "l_brow_local_1_top.wim" "l_brow_local_1_limits_lift_multMatrix.i[1]"
-		;
-connectAttr "l_brow_local_1_limits_lift_multMatrix.o" "l_brow_local_1_limits_lift_pointMatrixMult.im"
 		;
 connectAttr "l_brow_local_1_limits_lift_pointMatrixMult.o" "l_brow_local_1_limits_liftUp_multiplyDivide.i1"
 		;
@@ -7380,8 +7298,6 @@ connectAttr "l_brow_local_1_limits_speedDen_multiplyDivide.oy" "l_brow_local_1_l
 connectAttr "l_brow.pm" "l_brow_local_2_limits_lift_multMatrix.i[0]";
 connectAttr "l_brow_local_2_top.wim" "l_brow_local_2_limits_lift_multMatrix.i[1]"
 		;
-connectAttr "l_brow_local_2_limits_lift_multMatrix.o" "l_brow_local_2_limits_lift_pointMatrixMult.im"
-		;
 connectAttr "l_brow_local_2_limits_lift_pointMatrixMult.o" "l_brow_local_2_limits_liftUp_multiplyDivide.i1"
 		;
 connectAttr "l_brow.upLimit" "l_brow_local_2_limits_liftUp_multiplyDivide.i2x";
@@ -7439,8 +7355,6 @@ connectAttr "l_brow_local_2_limits_speedDen_multiplyDivide.oy" "l_brow_local_2_l
 		;
 connectAttr "l_brow.pm" "l_brow_local_3_limits_lift_multMatrix.i[0]";
 connectAttr "l_brow_local_3_top.wim" "l_brow_local_3_limits_lift_multMatrix.i[1]"
-		;
-connectAttr "l_brow_local_3_limits_lift_multMatrix.o" "l_brow_local_3_limits_lift_pointMatrixMult.im"
 		;
 connectAttr "l_brow_local_3_limits_lift_pointMatrixMult.o" "l_brow_local_3_limits_liftUp_multiplyDivide.i1"
 		;
@@ -7500,8 +7414,6 @@ connectAttr "l_brow_local_3_limits_speedDen_multiplyDivide.oy" "l_brow_local_3_l
 connectAttr "l_brow.pm" "l_brow_local_4_limits_lift_multMatrix.i[0]";
 connectAttr "l_brow_local_4_top.wim" "l_brow_local_4_limits_lift_multMatrix.i[1]"
 		;
-connectAttr "l_brow_local_4_limits_lift_multMatrix.o" "l_brow_local_4_limits_lift_pointMatrixMult.im"
-		;
 connectAttr "l_brow_local_4_limits_lift_pointMatrixMult.o" "l_brow_local_4_limits_liftUp_multiplyDivide.i1"
 		;
 connectAttr "l_brow.upLimit" "l_brow_local_4_limits_liftUp_multiplyDivide.i2x";
@@ -7559,8 +7471,6 @@ connectAttr "l_brow_local_4_limits_speedDen_multiplyDivide.oy" "l_brow_local_4_l
 		;
 connectAttr "l_brow.pm" "l_brow_local_5_limits_lift_multMatrix.i[0]";
 connectAttr "l_brow_local_5_top.wim" "l_brow_local_5_limits_lift_multMatrix.i[1]"
-		;
-connectAttr "l_brow_local_5_limits_lift_multMatrix.o" "l_brow_local_5_limits_lift_pointMatrixMult.im"
 		;
 connectAttr "l_brow_local_5_limits_lift_pointMatrixMult.o" "l_brow_local_5_limits_liftUp_multiplyDivide.i1"
 		;
@@ -7620,8 +7530,6 @@ connectAttr "l_brow_local_5_limits_speedDen_multiplyDivide.oy" "l_brow_local_5_l
 connectAttr "l_brow.pm" "l_brow_local_6_limits_lift_multMatrix.i[0]";
 connectAttr "l_brow_local_6_top.wim" "l_brow_local_6_limits_lift_multMatrix.i[1]"
 		;
-connectAttr "l_brow_local_6_limits_lift_multMatrix.o" "l_brow_local_6_limits_lift_pointMatrixMult.im"
-		;
 connectAttr "l_brow_local_6_limits_lift_pointMatrixMult.o" "l_brow_local_6_limits_liftUp_multiplyDivide.i1"
 		;
 connectAttr "l_brow.upLimit" "l_brow_local_6_limits_liftUp_multiplyDivide.i2x";
@@ -7680,8 +7588,6 @@ connectAttr "l_brow_local_6_limits_speedDen_multiplyDivide.oy" "l_brow_local_6_l
 connectAttr "l_brow.pm" "l_brow_local_7_limits_lift_multMatrix.i[0]";
 connectAttr "l_brow_local_7_top.wim" "l_brow_local_7_limits_lift_multMatrix.i[1]"
 		;
-connectAttr "l_brow_local_7_limits_lift_multMatrix.o" "l_brow_local_7_limits_lift_pointMatrixMult.im"
-		;
 connectAttr "l_brow_local_7_limits_lift_pointMatrixMult.o" "l_brow_local_7_limits_liftUp_multiplyDivide.i1"
 		;
 connectAttr "l_brow.upLimit" "l_brow_local_7_limits_liftUp_multiplyDivide.i2x";
@@ -7739,8 +7645,6 @@ connectAttr "l_brow_local_7_limits_speedDen_multiplyDivide.oy" "l_brow_local_7_l
 		;
 connectAttr "l_brow.pm" "l_brow_mid_limits_lift_multMatrix.i[0]";
 connectAttr "l_brow_mid_group.wim" "l_brow_mid_limits_lift_multMatrix.i[1]";
-connectAttr "l_brow_mid_limits_lift_multMatrix.o" "l_brow_mid_limits_lift_pointMatrixMult.im"
-		;
 connectAttr "l_brow_mid_limits_lift_pointMatrixMult.o" "l_brow_mid_limits_liftUp_multiplyDivide.i1"
 		;
 connectAttr "l_brow.upLimit" "l_brow_mid_limits_liftUp_multiplyDivide.i2x";
@@ -7794,8 +7698,6 @@ connectAttr "l_brow_mid_limits_speedDen_multiplyDivide.oy" "l_brow_mid_limits_sp
 		;
 connectAttr "l_brow.pm" "l_brow_out_limits_lift_multMatrix.i[0]";
 connectAttr "l_brow_out_group.wim" "l_brow_out_limits_lift_multMatrix.i[1]";
-connectAttr "l_brow_out_limits_lift_multMatrix.o" "l_brow_out_limits_lift_pointMatrixMult.im"
-		;
 connectAttr "l_brow_out_limits_lift_pointMatrixMult.o" "l_brow_out_limits_liftUp_multiplyDivide.i1"
 		;
 connectAttr "l_brow.upLimit" "l_brow_out_limits_liftUp_multiplyDivide.i2x";
@@ -7875,10 +7777,6 @@ connectAttr "l_brow_local_1_limits_radial_plusMinusAverage.o1" "l_brow_local_1_l
 		;
 connectAttr "l_brow_local_1_limits_radial_plusMinusAverage.o1" "l_brow_local_1_limits_radialVec_multiplyDivide.i2z"
 		;
-connectAttr "l_brow_local_1_limits_radialVec_multiplyDivide.o" "l_brow_local_1_limits_path_pointMatrixMult.ip"
-		;
-connectAttr "l_brow_local_1_limits_turn_blendMatrix.omat" "l_brow_local_1_limits_path_pointMatrixMult.im"
-		;
 connectAttr "l_brow_local_1_limits_lift_pointMatrixMult.o" "l_brow_local_1_limits_liftNow_multiplyDivide.i1"
 		;
 connectAttr "l_brow.ty" "l_brow_local_1_limits_liftNow_multiplyDivide.i2x";
@@ -7915,10 +7813,6 @@ connectAttr "r_brow_local_1_limits_radial_plusMinusAverage.o1" "r_brow_local_1_l
 connectAttr "r_brow_local_1_limits_radial_plusMinusAverage.o1" "r_brow_local_1_limits_radialVec_multiplyDivide.i2y"
 		;
 connectAttr "r_brow_local_1_limits_radial_plusMinusAverage.o1" "r_brow_local_1_limits_radialVec_multiplyDivide.i2z"
-		;
-connectAttr "r_brow_local_1_limits_radialVec_multiplyDivide.o" "r_brow_local_1_limits_path_pointMatrixMult.ip"
-		;
-connectAttr "r_brow_local_1_limits_turn_blendMatrix.omat" "r_brow_local_1_limits_path_pointMatrixMult.im"
 		;
 connectAttr "l_brow_local_1_limits_lift_pointMatrixMult.o" "r_brow_local_1_limits_liftNow_multiplyDivide.i1"
 		;
@@ -7957,10 +7851,6 @@ connectAttr "l_brow_local_2_limits_radial_plusMinusAverage.o1" "l_brow_local_2_l
 		;
 connectAttr "l_brow_local_2_limits_radial_plusMinusAverage.o1" "l_brow_local_2_limits_radialVec_multiplyDivide.i2z"
 		;
-connectAttr "l_brow_local_2_limits_radialVec_multiplyDivide.o" "l_brow_local_2_limits_path_pointMatrixMult.ip"
-		;
-connectAttr "l_brow_local_2_limits_turn_blendMatrix.omat" "l_brow_local_2_limits_path_pointMatrixMult.im"
-		;
 connectAttr "l_brow_local_2_limits_lift_pointMatrixMult.o" "l_brow_local_2_limits_liftNow_multiplyDivide.i1"
 		;
 connectAttr "l_brow.ty" "l_brow_local_2_limits_liftNow_multiplyDivide.i2x";
@@ -7997,10 +7887,6 @@ connectAttr "l_brow_local_3_limits_radial_plusMinusAverage.o1" "l_brow_local_3_l
 connectAttr "l_brow_local_3_limits_radial_plusMinusAverage.o1" "l_brow_local_3_limits_radialVec_multiplyDivide.i2y"
 		;
 connectAttr "l_brow_local_3_limits_radial_plusMinusAverage.o1" "l_brow_local_3_limits_radialVec_multiplyDivide.i2z"
-		;
-connectAttr "l_brow_local_3_limits_radialVec_multiplyDivide.o" "l_brow_local_3_limits_path_pointMatrixMult.ip"
-		;
-connectAttr "l_brow_local_3_limits_turn_blendMatrix.omat" "l_brow_local_3_limits_path_pointMatrixMult.im"
 		;
 connectAttr "l_brow_local_3_limits_lift_pointMatrixMult.o" "l_brow_local_3_limits_liftNow_multiplyDivide.i1"
 		;
@@ -8039,10 +7925,6 @@ connectAttr "l_brow_local_4_limits_radial_plusMinusAverage.o1" "l_brow_local_4_l
 		;
 connectAttr "l_brow_local_4_limits_radial_plusMinusAverage.o1" "l_brow_local_4_limits_radialVec_multiplyDivide.i2z"
 		;
-connectAttr "l_brow_local_4_limits_radialVec_multiplyDivide.o" "l_brow_local_4_limits_path_pointMatrixMult.ip"
-		;
-connectAttr "l_brow_local_4_limits_turn_blendMatrix.omat" "l_brow_local_4_limits_path_pointMatrixMult.im"
-		;
 connectAttr "l_brow_local_4_limits_lift_pointMatrixMult.o" "l_brow_local_4_limits_liftNow_multiplyDivide.i1"
 		;
 connectAttr "l_brow.ty" "l_brow_local_4_limits_liftNow_multiplyDivide.i2x";
@@ -8079,10 +7961,6 @@ connectAttr "l_brow_local_5_limits_radial_plusMinusAverage.o1" "l_brow_local_5_l
 connectAttr "l_brow_local_5_limits_radial_plusMinusAverage.o1" "l_brow_local_5_limits_radialVec_multiplyDivide.i2y"
 		;
 connectAttr "l_brow_local_5_limits_radial_plusMinusAverage.o1" "l_brow_local_5_limits_radialVec_multiplyDivide.i2z"
-		;
-connectAttr "l_brow_local_5_limits_radialVec_multiplyDivide.o" "l_brow_local_5_limits_path_pointMatrixMult.ip"
-		;
-connectAttr "l_brow_local_5_limits_turn_blendMatrix.omat" "l_brow_local_5_limits_path_pointMatrixMult.im"
 		;
 connectAttr "l_brow_local_5_limits_lift_pointMatrixMult.o" "l_brow_local_5_limits_liftNow_multiplyDivide.i1"
 		;
@@ -8121,10 +7999,6 @@ connectAttr "l_brow_local_6_limits_radial_plusMinusAverage.o1" "l_brow_local_6_l
 		;
 connectAttr "l_brow_local_6_limits_radial_plusMinusAverage.o1" "l_brow_local_6_limits_radialVec_multiplyDivide.i2z"
 		;
-connectAttr "l_brow_local_6_limits_radialVec_multiplyDivide.o" "l_brow_local_6_limits_path_pointMatrixMult.ip"
-		;
-connectAttr "l_brow_local_6_limits_turn_blendMatrix.omat" "l_brow_local_6_limits_path_pointMatrixMult.im"
-		;
 connectAttr "l_brow_local_6_limits_lift_pointMatrixMult.o" "l_brow_local_6_limits_liftNow_multiplyDivide.i1"
 		;
 connectAttr "l_brow.ty" "l_brow_local_6_limits_liftNow_multiplyDivide.i2x";
@@ -8161,10 +8035,6 @@ connectAttr "l_brow_local_7_limits_radial_plusMinusAverage.o1" "l_brow_local_7_l
 connectAttr "l_brow_local_7_limits_radial_plusMinusAverage.o1" "l_brow_local_7_limits_radialVec_multiplyDivide.i2y"
 		;
 connectAttr "l_brow_local_7_limits_radial_plusMinusAverage.o1" "l_brow_local_7_limits_radialVec_multiplyDivide.i2z"
-		;
-connectAttr "l_brow_local_7_limits_radialVec_multiplyDivide.o" "l_brow_local_7_limits_path_pointMatrixMult.ip"
-		;
-connectAttr "l_brow_local_7_limits_turn_blendMatrix.omat" "l_brow_local_7_limits_path_pointMatrixMult.im"
 		;
 connectAttr "l_brow_local_7_limits_lift_pointMatrixMult.o" "l_brow_local_7_limits_liftNow_multiplyDivide.i1"
 		;
@@ -8203,10 +8073,6 @@ connectAttr "r_brow_local_2_limits_radial_plusMinusAverage.o1" "r_brow_local_2_l
 		;
 connectAttr "r_brow_local_2_limits_radial_plusMinusAverage.o1" "r_brow_local_2_limits_radialVec_multiplyDivide.i2z"
 		;
-connectAttr "r_brow_local_2_limits_radialVec_multiplyDivide.o" "r_brow_local_2_limits_path_pointMatrixMult.ip"
-		;
-connectAttr "r_brow_local_2_limits_turn_blendMatrix.omat" "r_brow_local_2_limits_path_pointMatrixMult.im"
-		;
 connectAttr "l_brow_local_2_limits_lift_pointMatrixMult.o" "r_brow_local_2_limits_liftNow_multiplyDivide.i1"
 		;
 connectAttr "r_brow.ty" "r_brow_local_2_limits_liftNow_multiplyDivide.i2x";
@@ -8243,10 +8109,6 @@ connectAttr "r_brow_local_3_limits_radial_plusMinusAverage.o1" "r_brow_local_3_l
 connectAttr "r_brow_local_3_limits_radial_plusMinusAverage.o1" "r_brow_local_3_limits_radialVec_multiplyDivide.i2y"
 		;
 connectAttr "r_brow_local_3_limits_radial_plusMinusAverage.o1" "r_brow_local_3_limits_radialVec_multiplyDivide.i2z"
-		;
-connectAttr "r_brow_local_3_limits_radialVec_multiplyDivide.o" "r_brow_local_3_limits_path_pointMatrixMult.ip"
-		;
-connectAttr "r_brow_local_3_limits_turn_blendMatrix.omat" "r_brow_local_3_limits_path_pointMatrixMult.im"
 		;
 connectAttr "l_brow_local_3_limits_lift_pointMatrixMult.o" "r_brow_local_3_limits_liftNow_multiplyDivide.i1"
 		;
@@ -8285,10 +8147,6 @@ connectAttr "r_brow_local_4_limits_radial_plusMinusAverage.o1" "r_brow_local_4_l
 		;
 connectAttr "r_brow_local_4_limits_radial_plusMinusAverage.o1" "r_brow_local_4_limits_radialVec_multiplyDivide.i2z"
 		;
-connectAttr "r_brow_local_4_limits_radialVec_multiplyDivide.o" "r_brow_local_4_limits_path_pointMatrixMult.ip"
-		;
-connectAttr "r_brow_local_4_limits_turn_blendMatrix.omat" "r_brow_local_4_limits_path_pointMatrixMult.im"
-		;
 connectAttr "l_brow_local_4_limits_lift_pointMatrixMult.o" "r_brow_local_4_limits_liftNow_multiplyDivide.i1"
 		;
 connectAttr "r_brow.ty" "r_brow_local_4_limits_liftNow_multiplyDivide.i2x";
@@ -8325,10 +8183,6 @@ connectAttr "r_brow_local_5_limits_radial_plusMinusAverage.o1" "r_brow_local_5_l
 connectAttr "r_brow_local_5_limits_radial_plusMinusAverage.o1" "r_brow_local_5_limits_radialVec_multiplyDivide.i2y"
 		;
 connectAttr "r_brow_local_5_limits_radial_plusMinusAverage.o1" "r_brow_local_5_limits_radialVec_multiplyDivide.i2z"
-		;
-connectAttr "r_brow_local_5_limits_radialVec_multiplyDivide.o" "r_brow_local_5_limits_path_pointMatrixMult.ip"
-		;
-connectAttr "r_brow_local_5_limits_turn_blendMatrix.omat" "r_brow_local_5_limits_path_pointMatrixMult.im"
 		;
 connectAttr "l_brow_local_5_limits_lift_pointMatrixMult.o" "r_brow_local_5_limits_liftNow_multiplyDivide.i1"
 		;
@@ -8367,10 +8221,6 @@ connectAttr "r_brow_local_6_limits_radial_plusMinusAverage.o1" "r_brow_local_6_l
 		;
 connectAttr "r_brow_local_6_limits_radial_plusMinusAverage.o1" "r_brow_local_6_limits_radialVec_multiplyDivide.i2z"
 		;
-connectAttr "r_brow_local_6_limits_radialVec_multiplyDivide.o" "r_brow_local_6_limits_path_pointMatrixMult.ip"
-		;
-connectAttr "r_brow_local_6_limits_turn_blendMatrix.omat" "r_brow_local_6_limits_path_pointMatrixMult.im"
-		;
 connectAttr "l_brow_local_6_limits_lift_pointMatrixMult.o" "r_brow_local_6_limits_liftNow_multiplyDivide.i1"
 		;
 connectAttr "r_brow.ty" "r_brow_local_6_limits_liftNow_multiplyDivide.i2x";
@@ -8408,10 +8258,6 @@ connectAttr "r_brow_local_7_limits_radial_plusMinusAverage.o1" "r_brow_local_7_l
 		;
 connectAttr "r_brow_local_7_limits_radial_plusMinusAverage.o1" "r_brow_local_7_limits_radialVec_multiplyDivide.i2z"
 		;
-connectAttr "r_brow_local_7_limits_radialVec_multiplyDivide.o" "r_brow_local_7_limits_path_pointMatrixMult.ip"
-		;
-connectAttr "r_brow_local_7_limits_turn_blendMatrix.omat" "r_brow_local_7_limits_path_pointMatrixMult.im"
-		;
 connectAttr "l_brow_local_7_limits_lift_pointMatrixMult.o" "r_brow_local_7_limits_liftNow_multiplyDivide.i1"
 		;
 connectAttr "r_brow.ty" "r_brow_local_7_limits_liftNow_multiplyDivide.i2x";
@@ -8448,10 +8294,6 @@ connectAttr "l_brow_out_limits_radial_plusMinusAverage.o1" "l_brow_out_limits_ra
 connectAttr "l_brow_out_limits_radial_plusMinusAverage.o1" "l_brow_out_limits_radialVec_multiplyDivide.i2y"
 		;
 connectAttr "l_brow_out_limits_radial_plusMinusAverage.o1" "l_brow_out_limits_radialVec_multiplyDivide.i2z"
-		;
-connectAttr "l_brow_out_limits_radialVec_multiplyDivide.o" "l_brow_out_limits_path_pointMatrixMult.ip"
-		;
-connectAttr "l_brow_out_limits_turn_blendMatrix.omat" "l_brow_out_limits_path_pointMatrixMult.im"
 		;
 connectAttr "l_brow_out_limits_lift_pointMatrixMult.o" "l_brow_out_limits_liftNow_multiplyDivide.i1"
 		;
@@ -8494,10 +8336,6 @@ connectAttr "l_brow_mid_limits_radial_plusMinusAverage.o1" "l_brow_mid_limits_ra
 		;
 connectAttr "l_brow_mid_limits_radial_plusMinusAverage.o1" "l_brow_mid_limits_radialVec_multiplyDivide.i2z"
 		;
-connectAttr "l_brow_mid_limits_radialVec_multiplyDivide.o" "l_brow_mid_limits_path_pointMatrixMult.ip"
-		;
-connectAttr "l_brow_mid_limits_turn_blendMatrix.omat" "l_brow_mid_limits_path_pointMatrixMult.im"
-		;
 connectAttr "l_brow_mid_limits_lift_pointMatrixMult.o" "l_brow_mid_limits_liftNow_multiplyDivide.i1"
 		;
 connectAttr "l_brow.ty" "l_brow_mid_limits_liftNow_multiplyDivide.i2x";
@@ -8538,10 +8376,6 @@ connectAttr "l_brow_in_limits_radial_plusMinusAverage.o1" "l_brow_in_limits_radi
 connectAttr "l_brow_in_limits_radial_plusMinusAverage.o1" "l_brow_in_limits_radialVec_multiplyDivide.i2y"
 		;
 connectAttr "l_brow_in_limits_radial_plusMinusAverage.o1" "l_brow_in_limits_radialVec_multiplyDivide.i2z"
-		;
-connectAttr "l_brow_in_limits_radialVec_multiplyDivide.o" "l_brow_in_limits_path_pointMatrixMult.ip"
-		;
-connectAttr "l_brow_in_limits_turn_blendMatrix.omat" "l_brow_in_limits_path_pointMatrixMult.im"
 		;
 connectAttr "l_brow_in_limits_lift_pointMatrixMult.o" "l_brow_in_limits_liftNow_multiplyDivide.i1"
 		;
@@ -8584,10 +8418,6 @@ connectAttr "r_brow_out_limits_radial_plusMinusAverage.o1" "r_brow_out_limits_ra
 		;
 connectAttr "r_brow_out_limits_radial_plusMinusAverage.o1" "r_brow_out_limits_radialVec_multiplyDivide.i2z"
 		;
-connectAttr "r_brow_out_limits_radialVec_multiplyDivide.o" "r_brow_out_limits_path_pointMatrixMult.ip"
-		;
-connectAttr "r_brow_out_limits_turn_blendMatrix.omat" "r_brow_out_limits_path_pointMatrixMult.im"
-		;
 connectAttr "l_brow_out_limits_lift_pointMatrixMult.o" "r_brow_out_limits_liftNow_multiplyDivide.i1"
 		;
 connectAttr "r_brow.ty" "r_brow_out_limits_liftNow_multiplyDivide.i2x";
@@ -8627,10 +8457,6 @@ connectAttr "r_brow_mid_limits_radial_plusMinusAverage.o1" "r_brow_mid_limits_ra
 		;
 connectAttr "r_brow_mid_limits_radial_plusMinusAverage.o1" "r_brow_mid_limits_radialVec_multiplyDivide.i2z"
 		;
-connectAttr "r_brow_mid_limits_radialVec_multiplyDivide.o" "r_brow_mid_limits_path_pointMatrixMult.ip"
-		;
-connectAttr "r_brow_mid_limits_turn_blendMatrix.omat" "r_brow_mid_limits_path_pointMatrixMult.im"
-		;
 connectAttr "l_brow_mid_limits_lift_pointMatrixMult.o" "r_brow_mid_limits_liftNow_multiplyDivide.i1"
 		;
 connectAttr "r_brow.ty" "r_brow_mid_limits_liftNow_multiplyDivide.i2x";
@@ -8669,10 +8495,6 @@ connectAttr "r_brow_in_limits_radial_plusMinusAverage.o1" "r_brow_in_limits_radi
 connectAttr "r_brow_in_limits_radial_plusMinusAverage.o1" "r_brow_in_limits_radialVec_multiplyDivide.i2y"
 		;
 connectAttr "r_brow_in_limits_radial_plusMinusAverage.o1" "r_brow_in_limits_radialVec_multiplyDivide.i2z"
-		;
-connectAttr "r_brow_in_limits_radialVec_multiplyDivide.o" "r_brow_in_limits_path_pointMatrixMult.ip"
-		;
-connectAttr "r_brow_in_limits_turn_blendMatrix.omat" "r_brow_in_limits_path_pointMatrixMult.im"
 		;
 connectAttr "l_brow_in_limits_lift_pointMatrixMult.o" "r_brow_in_limits_liftNow_multiplyDivide.i1"
 		;
@@ -9544,6 +9366,184 @@ connectAttr "l_curve_loc_01Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[11]
 connectAttr "r_curve_loc_03Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[12].dn"
 		;
 connectAttr "r_curve_loc_07Shape.msg" "MayaNodeEditorSavedTabsInfo.tgi[2].ni[13].dn"
+		;
+connectAttr "local_4_initLocShape.wp" "local_4_arcHeight_pointMatrixMult.ip";
+connectAttr "mid_mainPoser.wim" "local_4_arcHeight_pointMatrixMult.im";
+connectAttr "local_5_initLocShape.wp" "local_5_arcHeight_pointMatrixMult.ip";
+connectAttr "out_mainPoser.wim" "local_5_arcHeight_pointMatrixMult.im";
+connectAttr "local_6_initLocShape.wp" "local_6_arcHeight_pointMatrixMult.ip";
+connectAttr "out_mainPoser.wim" "local_6_arcHeight_pointMatrixMult.im";
+connectAttr "local_7_initLocShape.wp" "local_7_arcHeight_pointMatrixMult.ip";
+connectAttr "out_mainPoser.wim" "local_7_arcHeight_pointMatrixMult.im";
+connectAttr "l_brow_local_4_outArc_rotate_composeMatrix.omat" "l_brow_local_4_outArc_pointMatrixMult.im"
+		;
+connectAttr "local_4_outArcHeightRatio_condition.ocr" "l_brow_local_4_outArc_pointMatrixMult.ipy"
+		;
+connectAttr "l_brow_local_5_outArc_rotate_composeMatrix.omat" "l_brow_local_5_outArc_pointMatrixMult.im"
+		;
+connectAttr "local_5_outArcHeightRatio_condition.ocr" "l_brow_local_5_outArc_pointMatrixMult.ipy"
+		;
+connectAttr "l_brow_local_6_outArc_rotate_composeMatrix.omat" "l_brow_local_6_outArc_pointMatrixMult.im"
+		;
+connectAttr "local_6_outArcHeightRatio_condition.ocr" "l_brow_local_6_outArc_pointMatrixMult.ipy"
+		;
+connectAttr "l_brow_local_7_outArc_rotate_composeMatrix.omat" "l_brow_local_7_outArc_pointMatrixMult.im"
+		;
+connectAttr "local_7_outArcHeightRatio_condition.ocr" "l_brow_local_7_outArc_pointMatrixMult.ipy"
+		;
+connectAttr "r_brow_local_4_outArc_rotate_composeMatrix.omat" "r_brow_local_4_outArc_pointMatrixMult.im"
+		;
+connectAttr "local_4_outArcHeightRatio_condition.ocr" "r_brow_local_4_outArc_pointMatrixMult.ipy"
+		;
+connectAttr "r_brow_local_5_outArc_rotate_composeMatrix.omat" "r_brow_local_5_outArc_pointMatrixMult.im"
+		;
+connectAttr "local_5_outArcHeightRatio_condition.ocr" "r_brow_local_5_outArc_pointMatrixMult.ipy"
+		;
+connectAttr "r_brow_local_6_outArc_rotate_composeMatrix.omat" "r_brow_local_6_outArc_pointMatrixMult.im"
+		;
+connectAttr "local_6_outArcHeightRatio_condition.ocr" "r_brow_local_6_outArc_pointMatrixMult.ipy"
+		;
+connectAttr "r_brow_local_7_outArc_rotate_composeMatrix.omat" "r_brow_local_7_outArc_pointMatrixMult.im"
+		;
+connectAttr "local_7_outArcHeightRatio_condition.ocr" "r_brow_local_7_outArc_pointMatrixMult.ipy"
+		;
+connectAttr "local_1_initLocShape.wp" "local_1_arcHeight_pointMatrixMult.ip";
+connectAttr "in_mainPoser.wim" "local_1_arcHeight_pointMatrixMult.im";
+connectAttr "local_2_initLocShape.wp" "local_2_arcHeight_pointMatrixMult.ip";
+connectAttr "in_mainPoser.wim" "local_2_arcHeight_pointMatrixMult.im";
+connectAttr "local_3_initLocShape.wp" "local_3_arcHeight_pointMatrixMult.ip";
+connectAttr "mid_mainPoser.wim" "local_3_arcHeight_pointMatrixMult.im";
+connectAttr "l_brow_local_1_inArc_rotate_composeMatrix.omat" "l_brow_local_1_inArc_pointMatrixMult.im"
+		;
+connectAttr "local_1_inArcHeightRatio_condition.ocr" "l_brow_local_1_inArc_pointMatrixMult.ipy"
+		;
+connectAttr "l_brow_local_2_inArc_rotate_composeMatrix.omat" "l_brow_local_2_inArc_pointMatrixMult.im"
+		;
+connectAttr "local_2_inArcHeightRatio_condition.ocr" "l_brow_local_2_inArc_pointMatrixMult.ipy"
+		;
+connectAttr "l_brow_local_3_inArc_rotate_composeMatrix.omat" "l_brow_local_3_inArc_pointMatrixMult.im"
+		;
+connectAttr "local_3_inArcHeightRatio_condition.ocr" "l_brow_local_3_inArc_pointMatrixMult.ipy"
+		;
+connectAttr "l_brow_local_4_inArc_rotate_composeMatrix.omat" "l_brow_local_4_inArc_pointMatrixMult.im"
+		;
+connectAttr "local_4_inArcHeightRatio_condition.ocr" "l_brow_local_4_inArc_pointMatrixMult.ipy"
+		;
+connectAttr "r_brow_local_1_inArc_rotate_composeMatrix.omat" "r_brow_local_1_inArc_pointMatrixMult.im"
+		;
+connectAttr "local_1_inArcHeightRatio_condition.ocr" "r_brow_local_1_inArc_pointMatrixMult.ipy"
+		;
+connectAttr "r_brow_local_2_inArc_rotate_composeMatrix.omat" "r_brow_local_2_inArc_pointMatrixMult.im"
+		;
+connectAttr "local_2_inArcHeightRatio_condition.ocr" "r_brow_local_2_inArc_pointMatrixMult.ipy"
+		;
+connectAttr "r_brow_local_3_inArc_rotate_composeMatrix.omat" "r_brow_local_3_inArc_pointMatrixMult.im"
+		;
+connectAttr "local_3_inArcHeightRatio_condition.ocr" "r_brow_local_3_inArc_pointMatrixMult.ipy"
+		;
+connectAttr "r_brow_local_4_inArc_rotate_composeMatrix.omat" "r_brow_local_4_inArc_pointMatrixMult.im"
+		;
+connectAttr "local_4_inArcHeightRatio_condition.ocr" "r_brow_local_4_inArc_pointMatrixMult.ipy"
+		;
+connectAttr "l_brow_in_limits_lift_multMatrix.o" "l_brow_in_limits_lift_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_1_limits_lift_multMatrix.o" "l_brow_local_1_limits_lift_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_2_limits_lift_multMatrix.o" "l_brow_local_2_limits_lift_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_3_limits_lift_multMatrix.o" "l_brow_local_3_limits_lift_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_4_limits_lift_multMatrix.o" "l_brow_local_4_limits_lift_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_5_limits_lift_multMatrix.o" "l_brow_local_5_limits_lift_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_6_limits_lift_multMatrix.o" "l_brow_local_6_limits_lift_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_7_limits_lift_multMatrix.o" "l_brow_local_7_limits_lift_pointMatrixMult.im"
+		;
+connectAttr "l_brow_mid_limits_lift_multMatrix.o" "l_brow_mid_limits_lift_pointMatrixMult.im"
+		;
+connectAttr "l_brow_out_limits_lift_multMatrix.o" "l_brow_out_limits_lift_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_1_limits_radialVec_multiplyDivide.o" "l_brow_local_1_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "l_brow_local_1_limits_turn_blendMatrix.omat" "l_brow_local_1_limits_path_pointMatrixMult.im"
+		;
+connectAttr "r_brow_local_1_limits_radialVec_multiplyDivide.o" "r_brow_local_1_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "r_brow_local_1_limits_turn_blendMatrix.omat" "r_brow_local_1_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_2_limits_radialVec_multiplyDivide.o" "l_brow_local_2_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "l_brow_local_2_limits_turn_blendMatrix.omat" "l_brow_local_2_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_3_limits_radialVec_multiplyDivide.o" "l_brow_local_3_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "l_brow_local_3_limits_turn_blendMatrix.omat" "l_brow_local_3_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_4_limits_radialVec_multiplyDivide.o" "l_brow_local_4_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "l_brow_local_4_limits_turn_blendMatrix.omat" "l_brow_local_4_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_5_limits_radialVec_multiplyDivide.o" "l_brow_local_5_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "l_brow_local_5_limits_turn_blendMatrix.omat" "l_brow_local_5_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_6_limits_radialVec_multiplyDivide.o" "l_brow_local_6_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "l_brow_local_6_limits_turn_blendMatrix.omat" "l_brow_local_6_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_local_7_limits_radialVec_multiplyDivide.o" "l_brow_local_7_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "l_brow_local_7_limits_turn_blendMatrix.omat" "l_brow_local_7_limits_path_pointMatrixMult.im"
+		;
+connectAttr "r_brow_local_2_limits_radialVec_multiplyDivide.o" "r_brow_local_2_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "r_brow_local_2_limits_turn_blendMatrix.omat" "r_brow_local_2_limits_path_pointMatrixMult.im"
+		;
+connectAttr "r_brow_local_3_limits_radialVec_multiplyDivide.o" "r_brow_local_3_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "r_brow_local_3_limits_turn_blendMatrix.omat" "r_brow_local_3_limits_path_pointMatrixMult.im"
+		;
+connectAttr "r_brow_local_4_limits_radialVec_multiplyDivide.o" "r_brow_local_4_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "r_brow_local_4_limits_turn_blendMatrix.omat" "r_brow_local_4_limits_path_pointMatrixMult.im"
+		;
+connectAttr "r_brow_local_5_limits_radialVec_multiplyDivide.o" "r_brow_local_5_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "r_brow_local_5_limits_turn_blendMatrix.omat" "r_brow_local_5_limits_path_pointMatrixMult.im"
+		;
+connectAttr "r_brow_local_6_limits_radialVec_multiplyDivide.o" "r_brow_local_6_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "r_brow_local_6_limits_turn_blendMatrix.omat" "r_brow_local_6_limits_path_pointMatrixMult.im"
+		;
+connectAttr "r_brow_local_7_limits_radialVec_multiplyDivide.o" "r_brow_local_7_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "r_brow_local_7_limits_turn_blendMatrix.omat" "r_brow_local_7_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_out_limits_radialVec_multiplyDivide.o" "l_brow_out_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "l_brow_out_limits_turn_blendMatrix.omat" "l_brow_out_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_mid_limits_radialVec_multiplyDivide.o" "l_brow_mid_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "l_brow_mid_limits_turn_blendMatrix.omat" "l_brow_mid_limits_path_pointMatrixMult.im"
+		;
+connectAttr "l_brow_in_limits_radialVec_multiplyDivide.o" "l_brow_in_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "l_brow_in_limits_turn_blendMatrix.omat" "l_brow_in_limits_path_pointMatrixMult.im"
+		;
+connectAttr "r_brow_out_limits_radialVec_multiplyDivide.o" "r_brow_out_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "r_brow_out_limits_turn_blendMatrix.omat" "r_brow_out_limits_path_pointMatrixMult.im"
+		;
+connectAttr "r_brow_mid_limits_radialVec_multiplyDivide.o" "r_brow_mid_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "r_brow_mid_limits_turn_blendMatrix.omat" "r_brow_mid_limits_path_pointMatrixMult.im"
+		;
+connectAttr "r_brow_in_limits_radialVec_multiplyDivide.o" "r_brow_in_limits_path_pointMatrixMult.ip"
+		;
+connectAttr "r_brow_in_limits_turn_blendMatrix.omat" "r_brow_in_limits_path_pointMatrixMult.im"
 		;
 connectAttr "black_rsSG.pa" ":renderPartition.st" -na;
 connectAttr "green_rsSG.pa" ":renderPartition.st" -na;

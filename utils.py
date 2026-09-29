@@ -1477,10 +1477,35 @@ def get_version():
 	lastVestion = versions[-1].split('---')[1]
 	return lastVestion
 
+# Типы, переименованные в Maya 2026: там, где новое имя - не просто старое с суффиксом DL
+_dl_node_types = {
+	"multDoubleLinear": "multDL",
+	"addDoubleLinear": "addDL",
+}
+_node_type_names = {}
+
+def nodeTypeName(type): #
+	"""Имя типа ноды для ЭТОЙ Maya.
+
+	В 2026 часть старых типов переименована (pointMatrixMult -> pointMatrixMultDL и
+	прочее DL-семейство). Смотрим не на номер версии, а на то, какой тип в этой Maya
+	есть: тогда и будущие переименования подхватятся сами.
+	"""
+	if type in _node_type_names:
+		return _node_type_names[type]
+
+	available = set(cmds.allNodeTypes() or [])
+	name = type
+	if type not in available:
+		for candidate in (_dl_node_types.get(type), type + "DL"):
+			if candidate and candidate in available:
+				name = candidate
+				break
+	_node_type_names[type] = name
+	return name
+
 def createNode(type, name=None, n=None, pymel=False):
-	if version >= 2026:
-		if type == "multDoubleLinear": type = "multDL"
-		if type == "addDoubleLinear": type = "addDL"
+	type = nodeTypeName(type)
 
 	if n: name = n
 	if not name: name = type

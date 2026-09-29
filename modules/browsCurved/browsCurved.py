@@ -287,7 +287,7 @@ class BrowsCurved(module.Module) :
 		# --- Ей двигаются прокси, остальное уже сидит в матрицах самих контролов.
 		delta = f"{self.name}_localRigDelta_multMatrix"
 		if not cmds.objExists(delta):
-			delta = cmds.createNode("multMatrix", n=delta)
+			delta = utils.createNode("multMatrix", n=delta)
 		for i, m in enumerate((mod + ".worldInverseMatrix[0]", root_poser + ".worldInverseMatrix[0]",
 							   connector + ".worldMatrix[0]", mod + ".worldMatrix[0]")):
 			cmds.connectAttr(m, f"{delta}.matrixIn[{i}]", force=True)
@@ -323,7 +323,7 @@ class BrowsCurved(module.Module) :
 
 			# место группы = место контрола в локальном риге плюс анимация родителя
 			if parent_grp:
-				mm = cmds.createNode("multMatrix", n=f"{control}_proxy_multMatrix")
+				mm = utils.createNode("multMatrix", n=f"{control}_proxy_multMatrix")
 				cmds.connectAttr(parent_grp + ".worldMatrix[0]", mm + ".matrixIn[0]")
 				cmds.connectAttr(delta + ".matrixSum", mm + ".matrixIn[1]")
 				cmds.connectAttr(proxy_grp + ".worldInverseMatrix[0]", mm + ".matrixIn[2]")
@@ -550,7 +550,7 @@ class BrowsCurved(module.Module) :
 				pos = cmds.pointPosition(v, world=True)
 				if side == "r":
 					pos = (-pos[0], pos[1], pos[2])
-				npoc = cmds.createNode("nearestPointOnCurve", name="temp_npoc")
+				npoc = utils.createNode("nearestPointOnCurve", name="temp_npoc")
 				cmds.connectAttr(f"{curve}.worldSpace[0]", f"{npoc}.inputCurve", force=True)
 				cmds.setAttr(f"{npoc}.inPosition", *pos, type="double3")
 
@@ -590,7 +590,7 @@ class BrowsCurved(module.Module) :
 				cmds.hide(loc+"Shape")
 				
 				# --- Motion Path ---
-				mp = cmds.createNode("motionPath", name=f"{loc}_motionPath")
+				mp = utils.createNode("motionPath", name=f"{loc}_motionPath")
 				cmds.connectAttr(f"{curve}.worldSpace[0]", f"{mp}.geometryPath", force=True)
 
 				cmds.setAttr(f"{mp}.fractionMode", 0)
@@ -601,8 +601,10 @@ class BrowsCurved(module.Module) :
 				cmds.setAttr(f"{mp}.worldUpType", 2)          # Object Rotation Up
 				cmds.connectAttr(self.spaceMatrixPlug(), f"{mp}.worldUpMatrix", force=True)
 
-				# allCoordinates — мировые координаты, переводим их в пространство родителя (root_out_joint)
-				pmm = cmds.createNode("pointMatrixMult", name=f"{loc}_pointMatrixMult")
+				# allCoordinates — мировые координаты, переводим их в пространство родителя (root_out_joint).
+				# Через utils.createNode: в Maya 2026 этот тип называется pointMatrixMultDL,
+				# атрибуты у него те же
+				pmm = utils.createNode("pointMatrixMult", n=f"{loc}_pointMatrixMult")
 				cmds.connectAttr(f"{mp}.allCoordinates", f"{pmm}.inPoint", force=True)
 				cmds.connectAttr(f"{loc}.parentInverseMatrix[0]", f"{pmm}.inMatrix", force=True)
 				cmds.connectAttr(f"{pmm}.output", f"{loc}.translate", force=True)
@@ -644,20 +646,20 @@ class BrowsCurved(module.Module) :
 
 				# Твист = rotateX ближайших контролов, смешанный по тем же весам.
 				# Локальный угол, а не мировой up-вектор - вырождаться нечему
-				tw1 = cmds.createNode("multDoubleLinear", name=f"{jnt1}_twistNear_multDoubleLinear")
+				tw1 = utils.createNode("multDoubleLinear", name=f"{jnt1}_twistNear_multDoubleLinear")
 				cmds.connectAttr(f"{ctrl1}.rotateX", f"{tw1}.input1", force=True)
 				cmds.setAttr(f"{tw1}.input2", weight1)
 
-				tw2 = cmds.createNode("multDoubleLinear", name=f"{jnt1}_twistFar_multDoubleLinear")
+				tw2 = utils.createNode("multDoubleLinear", name=f"{jnt1}_twistFar_multDoubleLinear")
 				cmds.connectAttr(f"{ctrl2}.rotateX", f"{tw2}.input1", force=True)
 				cmds.setAttr(f"{tw2}.input2", weight2)
 
-				twist = cmds.createNode("addDoubleLinear", name=f"{jnt1}_twist_addDoubleLinear")
+				twist = utils.createNode("addDoubleLinear", name=f"{jnt1}_twist_addDoubleLinear")
 				cmds.connectAttr(f"{tw1}.output", f"{twist}.input1", force=True)
 				cmds.connectAttr(f"{tw2}.output", f"{twist}.input2", force=True)
 
 				# правая сторона зеркальна - твист тоже инвертируем (тот же rotYSign)
-				twistSigned = cmds.createNode("multDoubleLinear", name=f"{jnt1}_twistSigned_multDoubleLinear")
+				twistSigned = utils.createNode("multDoubleLinear", name=f"{jnt1}_twistSigned_multDoubleLinear")
 				cmds.connectAttr(f"{twist}.output", f"{twistSigned}.input1", force=True)
 				cmds.setAttr(f"{twistSigned}.input2", rotYSign)
 
@@ -683,42 +685,42 @@ class BrowsCurved(module.Module) :
 				# --- upRotateJoints/downRotateJoints берутся с l_brow, но у каждого джоинта свой вес ---
 				ty0 = cmds.getAttr(f"{loc}.translateY")
 
-				deltaY = cmds.createNode("plusMinusAverage", name=f"{jnt1}_locDeltaY_plusMinusAverage")
+				deltaY = utils.createNode("plusMinusAverage", name=f"{jnt1}_locDeltaY_plusMinusAverage")
 				cmds.setAttr(f"{deltaY}.operation", 2)  # subtract
 				cmds.connectAttr(f"{loc}.translateY", f"{deltaY}.input1D[0]")
 				cmds.setAttr(f"{deltaY}.input1D[1]", ty0)
 
-				mdUp = cmds.createNode("multiplyDivide", name=f"{jnt1}_upWeight_multiplyDivide")
+				mdUp = utils.createNode("multiplyDivide", name=f"{jnt1}_upWeight_multiplyDivide")
 				cmds.setAttr(f"{mdUp}.operation", 2)  # divide
 				cmds.connectAttr(f"{deltaY}.output1D", f"{mdUp}.input1X")
 				cmds.connectAttr(f"{brow_ctrl}.upLimit", f"{mdUp}.input2X")
-				clampUp = cmds.createNode("clamp", name=f"{jnt1}_upWeight_clamp")
+				clampUp = utils.createNode("clamp", name=f"{jnt1}_upWeight_clamp")
 				cmds.setAttr(f"{clampUp}.minR", 0)
 				cmds.setAttr(f"{clampUp}.maxR", 1)
 				cmds.connectAttr(f"{mdUp}.outputX", f"{clampUp}.inputR")
 
-				mdDown = cmds.createNode("multiplyDivide", name=f"{jnt1}_downWeight_multiplyDivide")
+				mdDown = utils.createNode("multiplyDivide", name=f"{jnt1}_downWeight_multiplyDivide")
 				cmds.setAttr(f"{mdDown}.operation", 2)  # divide
 				cmds.connectAttr(f"{deltaY}.output1D", f"{mdDown}.input1X")
 				cmds.connectAttr(f"{brow_ctrl}.downLimit", f"{mdDown}.input2X")
-				clampDown = cmds.createNode("clamp", name=f"{jnt1}_downWeight_clamp")
+				clampDown = utils.createNode("clamp", name=f"{jnt1}_downWeight_clamp")
 				cmds.setAttr(f"{clampDown}.minR", 0)
 				cmds.setAttr(f"{clampDown}.maxR", 1)
 				cmds.connectAttr(f"{mdDown}.outputX", f"{clampDown}.inputR")
 
-				mulUp = cmds.createNode("multDoubleLinear", name=f"{jnt1}_upRotate_multDoubleLinear")
+				mulUp = utils.createNode("multDoubleLinear", name=f"{jnt1}_upRotate_multDoubleLinear")
 				cmds.connectAttr(f"{clampUp}.outputR", f"{mulUp}.input1")
 				cmds.connectAttr(f"{brow_ctrl}.upRotateJoints", f"{mulUp}.input2")
 
-				mulDown = cmds.createNode("multDoubleLinear", name=f"{jnt1}_downRotate_multDoubleLinear")
+				mulDown = utils.createNode("multDoubleLinear", name=f"{jnt1}_downRotate_multDoubleLinear")
 				cmds.connectAttr(f"{clampDown}.outputR", f"{mulDown}.input1")
 				cmds.connectAttr(f"{brow_ctrl}.downRotateJoints", f"{mulDown}.input2")
 
-				rotYOffset = cmds.createNode("addDoubleLinear", name=f"{jnt1}_rotYOffset_addDoubleLinear")
+				rotYOffset = utils.createNode("addDoubleLinear", name=f"{jnt1}_rotYOffset_addDoubleLinear")
 				cmds.connectAttr(f"{mulUp}.output", f"{rotYOffset}.input1")
 				cmds.connectAttr(f"{mulDown}.output", f"{rotYOffset}.input2")
 
-				rotYOffsetSigned = cmds.createNode("multDoubleLinear", name=f"{jnt1}_rotYOffsetSigned_multDoubleLinear")
+				rotYOffsetSigned = utils.createNode("multDoubleLinear", name=f"{jnt1}_rotYOffsetSigned_multDoubleLinear")
 				cmds.connectAttr(f"{rotYOffset}.output", f"{rotYOffsetSigned}.input1")
 				cmds.setAttr(f"{rotYOffsetSigned}.input2", rotYSign)
 
@@ -733,29 +735,29 @@ class BrowsCurved(module.Module) :
 				cmds.setAttr(f"{jnt2}.translate", 0.05, 0, 0)
 
 				# --- Матрица офсета по Y (тот же rotYOffsetSigned, что и у jnt1) ---
-				offsetMat = cmds.createNode("composeMatrix", name=f"{jnt2}_rotYOffsetMat_composeMatrix")
+				offsetMat = utils.createNode("composeMatrix", name=f"{jnt2}_rotYOffsetMat_composeMatrix")
 				cmds.connectAttr(f"{rotYOffsetSigned}.output", f"{offsetMat}.inputRotateY", force=True)
 
 				# --- Вращение родителя БЕЗ scale: parentInverseMatrix несёт ещё и scale (у зеркальной
 				# --- стороны отрицательный), из-за него цепочка перестаёт быть чистым поворотом,
 				# --- decomposeMatrix даёт неточный Эйлер и флипает около 180 ---
-				parentRot = cmds.createNode("pickMatrix", name=f"{jnt2}_parentRot_pickMatrix")
+				parentRot = utils.createNode("pickMatrix", name=f"{jnt2}_parentRot_pickMatrix")
 				cmds.connectAttr(f"{jnt1}.worldMatrix[0]", f"{parentRot}.inputMatrix", force=True)
 				cmds.setAttr(f"{parentRot}.useTranslate", 0)
 				cmds.setAttr(f"{parentRot}.useScale", 0)
 				cmds.setAttr(f"{parentRot}.useShear", 0)
-				parentRotInv = cmds.createNode("inverseMatrix", name=f"{jnt2}_parentRotInv_inverseMatrix")
+				parentRotInv = utils.createNode("inverseMatrix", name=f"{jnt2}_parentRotInv_inverseMatrix")
 				cmds.connectAttr(f"{parentRot}.outputMatrix", f"{parentRotInv}.inputMatrix", force=True)
 
 				# --- rotate = офсет + mp.rotate, погашенный вращением родителя (root_connector) ---
 				# --- вся цепочка - чистые повороты, разлагаем один раз ---
-				mpRotMat = cmds.createNode("composeMatrix", name=f"{jnt2}_mpRot_composeMatrix")
+				mpRotMat = utils.createNode("composeMatrix", name=f"{jnt2}_mpRot_composeMatrix")
 				cmds.connectAttr(f"{mp}.rotate", f"{mpRotMat}.inputRotate", force=True)
-				mm2 = cmds.createNode("multMatrix", name=f"{jnt2}_rot_multMatrix")
+				mm2 = utils.createNode("multMatrix", name=f"{jnt2}_rot_multMatrix")
 				cmds.connectAttr(f"{offsetMat}.outputMatrix", f"{mm2}.matrixIn[0]", force=True)
 				cmds.connectAttr(f"{mpRotMat}.outputMatrix", f"{mm2}.matrixIn[1]", force=True)
 				cmds.connectAttr(f"{parentRotInv}.outputMatrix", f"{mm2}.matrixIn[2]", force=True)
-				dm2 = cmds.createNode("decomposeMatrix", name=f"{jnt2}_rot_decomposeMatrix")
+				dm2 = utils.createNode("decomposeMatrix", name=f"{jnt2}_rot_decomposeMatrix")
 				cmds.connectAttr(f"{mm2}.matrixSum", f"{dm2}.inputMatrix", force=True)
 				cmds.connectAttr(f"{dm2}.outputRotate", f"{jnt2}.rotate", force=True)
 				end_joints.append(jnt2)

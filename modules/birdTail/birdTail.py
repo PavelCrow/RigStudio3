@@ -410,7 +410,8 @@ class _Builder(object):
 									width=(max(w, 0.3) + 0.35) if stretch else None)
 			main_of_seg[seg] = "main_%d" % k
 
-		# контрол атрибутов - на последнем главном
+		# контрол атрибутов - на последнем главном. Относительно: смещение от
+		# главного - собственные translate/rotate группы из сцены
 		cmds.parent(self.n("feathers_group"), self.n("main_%d" % len(self.mains_segs)), r=1)
 
 		# ------------------------------------------------ feathers
@@ -454,17 +455,24 @@ class _Builder(object):
 					self.connect(feather_rot[i]+".outputZ", nm+"_bendGroup.rotateZ")
 					chain.append(nm+"_bendGroup")
 				if j in main_of_seg:
-					# главный крутит перья жёстко - вокруг своей оси и точки, как будто
-					# они к нему прикреплены (вокруг собственной кости перо отставало бы,
-					# а локальные оси правой стороны на отрицательном скейле давали
-					# зеркальное качание): L = F * Mpre^-1 * R * Mpre * F^-1, F - мировая
-					# матрица родителя группы, Mpre - группы главного, R - main.matrix
+					# главный крутит перо вокруг его собственной кости, но на свой угол
+					# и в своих осях: L = A * R * A^-1, A - поворот (без переноса)
+					# родителя группы относительно группы главного, R - main.matrix.
+					# С переносом в A поворот шёл бы вокруг точки главного и тянул кость
+					# к прошлому звену; в локальных осях пера правая сторона на
+					# отрицательном скейле качалась бы зеркально. Перенос главного
+					# остаётся переносом (в его осях)
 					parent = chain[-1]
 					mc = main_of_seg[j]
 					self.group(nm+"_mainGroup", parent)
-					self.mult_matrix(nm+"_mainGroup_multMat", [parent+".worldMatrix[0]", mc+"_group.worldInverseMatrix[0]",
-															   mc+".matrix",
-															   mc+"_group.worldMatrix[0]", parent+".worldInverseMatrix[0]"])
+					self.mult_matrix(nm+"_mainAxes_multMat", [parent+".worldMatrix[0]", mc+"_group.worldInverseMatrix[0]"])
+					pick = cmds.createNode("pickMatrix", n=self.n(nm+"_mainAxes_pickMatrix"))
+					cmds.setAttr(pick+".useTranslate", 0)
+					self.connect(nm+"_mainAxes_multMat.matrixSum", nm+"_mainAxes_pickMatrix.inputMatrix")
+					inv = cmds.createNode("inverseMatrix", n=self.n(nm+"_mainAxes_inverseMatrix"))
+					self.connect(nm+"_mainAxes_pickMatrix.outputMatrix", nm+"_mainAxes_inverseMatrix.inputMatrix")
+					self.mult_matrix(nm+"_mainGroup_multMat", [nm+"_mainAxes_pickMatrix.outputMatrix", mc+".matrix",
+															   nm+"_mainAxes_inverseMatrix.outputMatrix"])
 					self.connect(nm+"_mainGroup_multMat.matrixSum", nm+"_mainGroup.offsetParentMatrix")
 					chain.append(nm+"_mainGroup")
 				# крен пера: от веерной системы к ориентации пера (initLoc)
@@ -527,10 +535,6 @@ class _Builder(object):
 				plugs += m_local(j, True)
 			self.mult_matrix("main_%d_group_multMat" % k, plugs)
 			self.connect("main_%d_group_multMat.matrixSum" % k, "main_%d_group.offsetParentMatrix" % k)
-
-		self.mult_matrix("feathers_group_multMat", ["m_feather_end_initLoc.worldMatrix[0]",
-													"main_%d_initLoc.worldInverseMatrix[0]" % len(self.mains_segs)])
-		self.connect("feathers_group_multMat.matrixSum", "feathers_group.offsetParentMatrix")
 
 		# ------------------------------------------------ sets
 		cmds.sets([mains[k] for k in sorted(mains)], e=1, forceElement=self.n("main_moduleControlSet"))
@@ -692,10 +696,24 @@ class BirdTail(module.Module) :
 				for j in range(1, S+1):
 					protos("feather", side, i, j)
 
-		# контрол атрибутов висит на последнем главном - уносим его до удаления
+		# контрол атрибутов висит на последнем главном - уносим его до удаления.
+		# Относительно: его смещение от главного - собственные значения группы
 		cmds.parent(P+"feathers_group", P+"main_controls", r=1)
 		gen = P+"generated_nodesSet"
 		short = set(cmds.sets(gen, q=1) or [])
+		# своё, что висит под перестраиваемым (контрол, группа), не удаляем: переносим
+		# на ближайшего неперестраиваемого родителя, положение в мире сохраняется
+		for n in list(short):
+			if not cmds.objExists(n) or not cmds.objectType(n, isAType="transform"):
+				continue
+			for c in cmds.listRelatives(n, c=1, type="transform", path=1) or []:
+				if c.split("|")[-1] in short:
+					continue
+				up = n
+				while up and up.split("|")[-1] in short:
+					up = (cmds.listRelatives(up, p=1, path=1) or [None])[0]
+				moved = cmds.parent(c, up)[0] if up else cmds.parent(c, w=1)[0]
+				cmds.warning("birdTail - %s висел под перестраиваемым %s, перенесён под %s" % (moved, n, up))
 		# Maya удаляет вместе с нодой и её историю - входные ноды, которые больше
 		# никуда не ведут. Без этого ушла бы сеть spread/bend из сцены, поэтому
 		# связи из неперестраиваемой части сначала отключаем
