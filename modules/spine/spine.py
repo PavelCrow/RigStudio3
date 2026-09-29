@@ -33,8 +33,18 @@ class Spine(module.Module) :
 		
 		widget.jointsCount_spinBox.setValue(self.jointsCount)
 
+	def countJoints(self):
+		# в старых ригах группы surf_joints нет - считаем по local_N_outJoint
+		group = self.name+'_surf_joints'
+		if cmds.objExists(group):
+			return len(cmds.listRelatives(group) or [])
+		count = 0
+		while cmds.objExists(f"{self.name}_local_{count+1}_outJoint"):
+			count += 1
+		return count
+
 	def getOptions(self): #
-		self.jointsCount = len(cmds.listRelatives(self.name+'_surf_joints'))
+		self.jointsCount = self.countJoints()
 
 		optionsData = {}
 		optionsData['jointsCount'] = self.jointsCount
@@ -69,8 +79,12 @@ class Spine(module.Module) :
 		return f"{self.name}_local_{i}_outJoint.pos"
 
 	def getPosData(self):
-		count = len(cmds.listRelatives(self.name+'_surf_joints'))
-		return [cmds.getAttr(self.posPlug(i+1)) for i in range(count)]
+		count = self.countJoints()
+		plugs = [self.posPlug(i+1) for i in range(count)]
+		# в старых ригах атрибута pos нет - позиции не сохраняем (как в старых темплейтах)
+		if not all(cmds.objExists(p) for p in plugs):
+			return []
+		return [cmds.getAttr(p) for p in plugs]
 
 	def setPosData(self, posData):
 		for i, value in enumerate(posData):
@@ -80,7 +94,7 @@ class Spine(module.Module) :
 
 	def connectPos(self):
 		"""pos переезжает на скин-джоинт: им и управляют, outJoint в сцене скрыт и просто следует."""
-		count = len(cmds.listRelatives(self.name+'_surf_joints'))
+		count = self.countJoints()
 		for i in range(1, count+1):
 			oj = f"{self.name}_local_{i}_outJoint"
 			sj = f"{self.name}_local_{i}_skinJoint"

@@ -1136,6 +1136,7 @@ class Module(object):
         
         # add not mirrored addCtrls 
         addControls = []
+        skipped = set()
         for cData in mData['additionalControlsData']:
             if not cData['opposite']:
                 m = self.main.rig.modules[m_name]
@@ -1143,8 +1144,19 @@ class Module(object):
                 # print(121, m_name, cData['parent'], mData['name'])
                 par = utils.getRealNameFromTemplated(m_name, cData["parent"], mData['name'])
                 # print(122, cData['name'], par)
+                # у старых шаблонов parent может быть пустым или указывать на несуществующую кость
+                if utils.getModuleName((par or "").replace("outJoint", "skinJoint")) is None:
+                    cmds.warning("Additional control %s skipped: parent '%s' not found" % (cData['name'], cData['parent']))
+                    skipped.add(cData['name'])
+                    continue
                 c = m.addAdditionalControl(cData['name'], parent=par, shape='circle', updateData=False)
                 addControls.append(c)
+
+        if skipped:
+            mData = dict(mData)
+            mData['additionalControlsData'] = [
+                d for d in mData['additionalControlsData']
+                if d['name'] not in skipped and utils.getOpposite(d['name']) not in skipped]
         
         # # parent add control to control from data
         # for cData in mData['additionalControlsData']:

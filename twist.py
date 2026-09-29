@@ -463,7 +463,18 @@ class Twist(object):
         cmds.connectAttr(root_initLoc+".worldMatrix[0]", db+".inMatrix2")
         cmds.connectAttr(db+".distance", t_name+"_length_multDoubleLinear.input2")
 
-        cmds.connectAttr(moduleName+"_mainPoser_decomposeMatrix.outputScaleX", t_name+"_global_scale_multiplyDivide.input2X")
+        # Скейл главного позера не должен попадать ни в длину, ни в скейл твист-джоинтов:
+        # - длина (distanceBetween по initLoc) и arcLength кривой обе мировые и растут со скейлом
+        #   одинаково, отношение от него не зависит. Лишний множитель root_connector.sx и деление
+        #   на скейл позера давали stretchVolume = скейл^n, и джоинты сплющивались по Y/Z;
+        # - twJoint не лежит под root_connector, множитель root_connector.scale просто
+        #   переносил скейл позера на скейл джоинта. Остаётся только растяжение по Y/Z.
+        for src, dst in (("_root_connector.s", "_scale_multiplyDivide.i1"), ("_root_connector.sx", "_length_multDoubleLinear.i1")):
+            if cmds.isConnected(t_name+src, t_name+dst):
+                cmds.disconnectAttr(t_name+src, t_name+dst)
+        cmds.setAttr(t_name+"_scale_multiplyDivide.input1", 1, 1, 1)
+        cmds.setAttr(t_name+"_length_multDoubleLinear.input1", 1)
+        cmds.setAttr(t_name+"_global_scale_multiplyDivide.input2X", 1)
 
         # save data
         utils.setUserAttr(t_name+"_mod", "endTarget", end_outJoint)

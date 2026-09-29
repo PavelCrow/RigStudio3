@@ -44,6 +44,7 @@ class Mouth(module.Module) :
 		self.type = __name__.split('.')[-1]
 		self.unic = False
 		self.jointsCount = 0
+		self.controlsCount = 0
 		self.widget = None
 		self.topEdges = ''
 		self.bottomEdges = ''	
@@ -89,8 +90,13 @@ class Mouth(module.Module) :
 		widget.bottomEdges_lineEdit.setText(self.bottomEdges)
 
 	def getOptions(self): #
-		self.jointsCount = int ( ( len(cmds.listRelatives(self.name+'_lipsExtra_controls')) - 2 ) / 4 )
-		self.controlsCount = int ( len(cmds.listRelatives(self.name+'_sec_controls_group')) / 4 )
+		# в старых ригах этих групп может не быть - тогда оставляем прежние значения
+		extra = self.name+'_lipsExtra_controls'
+		if cmds.objExists(extra):
+			self.jointsCount = int ( ( len(cmds.listRelatives(extra) or []) - 2 ) / 4 )
+		sec = self.name+'_sec_controls_group'
+		if cmds.objExists(sec):
+			self.controlsCount = int ( len(cmds.listRelatives(sec) or []) / 4 )
 
 		if cmds.objExists(self.root+'.options'):
 			optionsData = utils.attrToPy(self.root+'.options')

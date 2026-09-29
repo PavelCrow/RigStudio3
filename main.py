@@ -2646,7 +2646,10 @@ class MainWindow:
                         cmds.connectAttr(utils.getOpposite(s) + '.worldSpace[0]', s + '.create', f=1)
 
             for s in shapes:
-                v = cmds.getAttr("l" + s[1:] + '.v')
+                opp_v = utils.getOpposite(s) + '.v'
+                if not cmds.objExists(opp_v):
+                    continue
+                v = cmds.getAttr(opp_v)
                 try:
                     cmds.setAttr(s + '.v', v)
                 except:

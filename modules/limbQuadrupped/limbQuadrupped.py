@@ -32,7 +32,9 @@ class LimbQuadrupped(module.Module) :
 	def getOptions(self):
 		optionsData = {}
 		optionsData['aimDistance'] = cmds.getAttr(self.name+"_mod.aim_offset")
-		optionsData['ikSymmetry'] = cmds.getAttr(self.name+"_mod.ikSymmetryBehaviour")
+		# rigs built before ikSymmetryBehaviour was added don't have the attribute
+		sym_attr = self.name+"_mod.ikSymmetryBehaviour"
+		optionsData['ikSymmetry'] = cmds.getAttr(sym_attr) if cmds.objExists(sym_attr) else False
 		return optionsData
 
 	def setOptions(self, optionsData):

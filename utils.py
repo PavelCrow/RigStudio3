@@ -292,6 +292,9 @@ def objectIsControl(ctrl):
 	return False
 
 def objectIsAdditionalControl(ctrl):
+	# у старых доп. контролов parent может быть пустым или уже несуществующим
+	if not ctrl or not cmds.objExists(ctrl):
+		return False
 	if cmds.attributeQuery('type', n=ctrl, exists=True ):
 		if cmds.getAttr(ctrl+'.type') == 'additionalControl':
 			return True
