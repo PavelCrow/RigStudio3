@@ -23,6 +23,14 @@ MObject PkIbtwNode::aDriverRotateOrder;
 MObject PkIbtwNode::aChildMatrix;
 MObject PkIbtwNode::aParentInverseMatrix;
 MObject PkIbtwNode::aRestMatrix;
+MObject PkIbtwNode::aRestMode;
+MObject PkIbtwNode::aRestChildMatrix;
+MObject PkIbtwNode::aRestChildEndMatrix;
+MObject PkIbtwNode::aRestChildPosition;
+MObject PkIbtwNode::aRestParentMatrix;
+MObject PkIbtwNode::aRestParentEndMatrix;
+MObject PkIbtwNode::aRestParentPosition;
+MObject PkIbtwNode::aOutRestMatrix;
 MObject PkIbtwNode::aOffsetRotate;
 MObject PkIbtwNode::aOffsetRotateX, PkIbtwNode::aOffsetRotateY, PkIbtwNode::aOffsetRotateZ;
 MObject PkIbtwNode::aScale;
@@ -35,6 +43,7 @@ MObject PkIbtwNode::aAngleMin, PkIbtwNode::aAngleMax;
 MObject PkIbtwNode::aPosMin,   PkIbtwNode::aPosMax;
 MObject PkIbtwNode::aSwingMin, PkIbtwNode::aSwingMax;
 MObject PkIbtwNode::aReverse;
+MObject PkIbtwNode::aMirrorOf;
 MObject PkIbtwNode::aOutBendY, PkIbtwNode::aOutBendZ;
 MObject PkIbtwNode::aOut;
 MObject PkIbtwNode::aOutTranslate;
@@ -83,6 +92,41 @@ namespace
     // Rotation scaled by t - slerp from identity. Scaling euler channels
     // instead breaks down on compound rotations, which is what the DG version
     // did.
+    // Кадр из initLoc позера. Оси нормализуются и ортогонализируются, и
+    // отражение при этом снимается само: Z строится из X и Y, так что тройка
+    // всегда правая. На зеркальной стороне initLoc несёт минус в скейле, и без
+    // этого отражение попадало в нейтраль - у правой ключицы, например, Z
+    // смотрит против кости.
+    //
+    // Позиция сдвигается вдоль кости на `u`: косточка твистовой цепочки стоит
+    // не в начале кости, а в своей доле её длины, и длина живая - она меняется
+    // вместе с позерами. 0 - сама кость, 1 - её дальний конец, то есть initLoc
+    // ребёнка. При u 0 второй кадр не читается вовсе.
+    MMatrix restFrame(const MMatrix& m, const MMatrix& end, double u)
+    {
+        MVector x(m(0, 0), m(0, 1), m(0, 2));
+        MVector y(m(1, 0), m(1, 1), m(1, 2));
+        MVector p(m(3, 0), m(3, 1), m(3, 2));
+
+        x.normalize();
+        const MVector z = (x ^ y).normal();
+        y = z ^ x;
+
+        if (u > kEps)
+        {
+            const MVector e(end(3, 0), end(3, 1), end(3, 2));
+            p += (e - p) * u;
+        }
+
+        const double out[4][4] = {
+            { x.x, x.y, x.z, 0.0 },
+            { y.x, y.y, y.z, 0.0 },
+            { z.x, z.y, z.z, 0.0 },
+            { p.x, p.y, p.z, 1.0 }
+        };
+        return MMatrix(out);
+    }
+
     MQuaternion scaledRotation(const MQuaternion& q, double t)
     {
         if (t <= kEps)
@@ -153,6 +197,50 @@ MStatus PkIbtwNode::initialize()
     mAttr.setStorable(true);
     addAttribute(aRestMatrix);
 
+    // Откуда берётся нейтраль. "matrix" - из restMatrix выше, "posers" - из
+    // initLoc позеров: тот несёт кадр, с которым кость построена, то есть
+    // дефолтную позу, и для этого риг не надо в неё ставить. Инбитвин можно
+    // делать в любой позе, а двинутый потом позер уводит нейтраль за собой.
+    aRestMode = eAttr.create("restMode", "rmo", 0);
+    eAttr.addField("matrix", 0);
+    eAttr.addField("posers", 1);
+    eAttr.setKeyable(false);
+    addAttribute(aRestMode);
+
+    // Мировые матрицы initLoc драйвера и родителя, и доля вдоль кости: косточка
+    // твистовой цепочки стоит не в начале кости, поэтому позиция сдвигается от
+    // initLoc кости к initLoc её ребёнка - 0 это сама кость, 1 её дальний конец.
+    //
+    // Обычные сторимые атрибуты: запекут позеры, связи оборвутся вместе с ними -
+    // последние пришедшие значения останутся на ноде, и нейтраль не поедет.
+    aRestChildMatrix = mAttr.create("restChildMatrix", "rcm");
+    mAttr.setStorable(true);
+    addAttribute(aRestChildMatrix);
+
+    aRestChildEndMatrix = mAttr.create("restChildEndMatrix", "rcem");
+    mAttr.setStorable(true);
+    addAttribute(aRestChildEndMatrix);
+
+    aRestChildPosition = nAttr.create("restChildPosition", "rcp", MFnNumericData::kDouble, 0.0);
+    nAttr.setMin(0.0);
+    nAttr.setMax(1.0);
+    nAttr.setStorable(true);
+    addAttribute(aRestChildPosition);
+
+    aRestParentMatrix = mAttr.create("restParentMatrix", "rpm");
+    mAttr.setStorable(true);
+    addAttribute(aRestParentMatrix);
+
+    aRestParentEndMatrix = mAttr.create("restParentEndMatrix", "rpem");
+    mAttr.setStorable(true);
+    addAttribute(aRestParentEndMatrix);
+
+    aRestParentPosition = nAttr.create("restParentPosition", "rpp", MFnNumericData::kDouble, 0.0);
+    nAttr.setMin(0.0);
+    nAttr.setMax(1.0);
+    nAttr.setStorable(true);
+    addAttribute(aRestParentPosition);
+
     aOffsetRotateX = uAttr.create("offsetRotateX", "ofrx", MFnUnitAttribute::kAngle, 0.0);
     aOffsetRotateY = uAttr.create("offsetRotateY", "ofry", MFnUnitAttribute::kAngle, 0.0);
     aOffsetRotateZ = uAttr.create("offsetRotateZ", "ofrz", MFnUnitAttribute::kAngle, 0.0);
@@ -213,6 +301,19 @@ MStatus PkIbtwNode::initialize()
     cAttr.setUsesArrayDataBuilder(true);
     addAttribute(aJoint);
 
+    // Какую косточку зеркалит эта: её углы, позиции и свинг читаются с обратным
+    // знаком, -1 - свои. Индексы те же, что у joint.
+    //
+    // Отдельным массивом, а не ребёнком joint: элементы того компаунда maya
+    // пишет в сцену одним плоским списком значений, и стоит компаунду получить
+    // нового ребёнка, как все уже сохранённые сцены читаются вкривь - значения
+    // съезжают в соседние поля. В joint больше ничего добавлять нельзя.
+    aMirrorOf = nAttr.create("mirrorOf", "mof", MFnNumericData::kInt, -1);
+    nAttr.setMin(-1);
+    nAttr.setKeyable(false);
+    nAttr.setArray(true);
+    addAttribute(aMirrorOf);
+
     // --- outputs -----------------------------------------------------------
     aOutBendY = uAttr.create("outBendY", "oby", MFnUnitAttribute::kAngle, 0.0);
     uAttr.setWritable(false);
@@ -238,6 +339,13 @@ MStatus PkIbtwNode::initialize()
     nAttr.setWritable(false);
     nAttr.setStorable(false);
 
+    // что нода посчитала нейтралью: запекание переложит это в restMatrix и
+    // вернёт restMode в 0, не повторяя математику
+    aOutRestMatrix = mAttr.create("outRestMatrix", "orsm");
+    mAttr.setWritable(false);
+    mAttr.setStorable(false);
+    addAttribute(aOutRestMatrix);
+
     aOutDriverAngle = uAttr.create("outDriverAngle", "oda", MFnUnitAttribute::kAngle, 0.0);
     uAttr.setWritable(false);
     uAttr.setStorable(false);
@@ -262,13 +370,16 @@ MStatus PkIbtwNode::initialize()
         aDriverRotate, aDriverRotateX, aDriverRotateY, aDriverRotateZ,
         aDriverRotateOrder,
         aChildMatrix, aParentInverseMatrix, aRestMatrix,
+        aRestMode,
+        aRestChildMatrix, aRestChildEndMatrix, aRestChildPosition,
+        aRestParentMatrix, aRestParentEndMatrix, aRestParentPosition,
         aOffsetRotate, aOffsetRotateX, aOffsetRotateY, aOffsetRotateZ,
         aScale,
         aMirrorAxis, aMirrorAxisX, aMirrorAxisY, aMirrorAxisZ,
         aJoint, aAxis, aBind, aAngleMin, aAngleMax, aPosMin, aPosMax,
-        aSwingMin, aSwingMax, aReverse
+        aSwingMin, aSwingMax, aReverse, aMirrorOf
     };
-    const MObject outputs[] = { aOutBendY, aOutBendZ, aOut };
+    const MObject outputs[] = { aOutBendY, aOutBendZ, aOut, aOutRestMatrix };
 
     for (const MObject& in : inputs)
         for (const MObject& out : outputs)
@@ -281,7 +392,7 @@ MStatus PkIbtwNode::compute(const MPlug& plug, MDataBlock& data)
 {
     const MObject attr = plug.attribute();
     const bool wanted = (attr == aOutBendY || attr == aOutBendZ ||
-                         attr == aOut || attr == aOutTranslate ||
+                         attr == aOut || attr == aOutRestMatrix || attr == aOutTranslate ||
                          attr == aOutTranslateX || attr == aOutTranslateY ||
                          attr == aOutTranslateZ || attr == aOutRotate ||
                          attr == aOutRotateX || attr == aOutRotateY ||
@@ -314,7 +425,34 @@ MStatus PkIbtwNode::compute(const MPlug& plug, MDataBlock& data)
     {
         const MMatrix child     = data.inputValue(aChildMatrix, &status).asMatrix();
         const MMatrix parentInv = data.inputValue(aParentInverseMatrix, &status).asMatrix();
-        const MMatrix rest      = data.inputValue(aRestMatrix, &status).asMatrix();
+
+        // Нейтраль - либо готовой матрицей, либо из позеров. Во втором случае
+        // поза рига при создании ни при чём: initLoc стоит там, где кость
+        // построена, и двинутый позер уводит нейтраль за собой.
+        MMatrix rest;
+        if (data.inputValue(aRestMode, &status).asShort() == 1)
+        {
+            const MMatrix c = restFrame(data.inputValue(aRestChildMatrix, &status).asMatrix(),
+                                        data.inputValue(aRestChildEndMatrix, &status).asMatrix(),
+                                        data.inputValue(aRestChildPosition, &status).asDouble());
+            const MMatrix p = restFrame(data.inputValue(aRestParentMatrix, &status).asMatrix(),
+                                        data.inputValue(aRestParentEndMatrix, &status).asMatrix(),
+                                        data.inputValue(aRestParentPosition, &status).asDouble());
+            rest = c * p.inverse();
+        }
+        else
+        {
+            rest = data.inputValue(aRestMatrix, &status).asMatrix();
+        }
+
+        // наружу - для запекания позеров: его дело переложить это в restMatrix
+        // и вернуть restMode в 0
+        MDataHandle hRest = data.outputValue(aOutRestMatrix, &status);
+        if (status)
+        {
+            hRest.setMMatrix(rest);
+            hRest.setClean();
+        }
 
         // the child stated in the space of the parent, and then only what
         // changed since the rest pose. In maya's row vector order that states
@@ -327,6 +465,14 @@ MStatus PkIbtwNode::compute(const MPlug& plug, MDataBlock& data)
     else
     {
         qDriver = MEulerRotation(dr[0], dr[1], dr[2], ro).asQuaternion();
+
+        // нейтраль локальному режиму не нужна, но спросить её могут
+        MDataHandle hRest = data.outputValue(aOutRestMatrix, &status);
+        if (status)
+        {
+            hRest.setMMatrix(MMatrix::identity);
+            hRest.setClean();
+        }
     }
 
     MQuaternion qOffset = MEulerRotation(ofr[0], ofr[1], ofr[2], ro).asQuaternion();
@@ -354,8 +500,17 @@ MStatus PkIbtwNode::compute(const MPlug& plug, MDataBlock& data)
     // moves towards that axis. `sy`/`sz` read them back into the frame the
     // parameters are stated in, so the same angleMax picks out the mirrored
     // pose however this side happens to be oriented.
-    const double bendY = swAngle * swAxis.z * sy;
-    const double bendZ = -swAngle * swAxis.y * sz;
+    //
+    // `sx` belongs here as well: the tip of the bone sits at sx along X, so on a
+    // side whose X runs backwards the same rotation carries it the other way.
+    // It is the same thing the axis of a rotation does under a reflection - the
+    // map between the two frames is one whenever the signs multiply to -1, and
+    // then an axis keeps its angle but gains that sign. Without it a mirrored
+    // pose came out with the bend negated on the mirrored side, so the
+    // corrective of the opposite direction fired: the bulge appeared on the
+    // wrong side of the bone.
+    const double bendY = swAngle * swAxis.z * sy * sx;
+    const double bendZ = -swAngle * swAxis.y * sz * sx;
 
     MDataHandle hBendY = data.outputValue(aOutBendY, &status);
     if (status) { hBendY.setMAngle(MAngle(bendY, MAngle::kRadians)); hBendY.setClean(); }
@@ -371,25 +526,98 @@ MStatus PkIbtwNode::compute(const MPlug& plug, MDataBlock& data)
     MArrayDataBuilder builder = hOuts.builder(&status);
     if (!status) return status;
 
+    // --- 1. параметры всех косточек ------------------------------------------
+    // Читаются до счёта: косточка, которая зеркалит другую, должна в неё
+    // заглянуть, а прыгать хэндлом по массиву посреди прохода незачем.
+    std::vector<Param>& params = mParams;
+    params.clear();
+    params.reserve(hJoints.elementCount());
+
     const unsigned int count = hJoints.elementCount();
     for (unsigned int i = 0; i < count; ++i)
     {
         if (!hJoints.jumpToArrayElement(i))
             continue;
 
-        const unsigned int index = hJoints.elementIndex();
         MDataHandle hJoint = hJoints.inputValue(&status);
         if (!status) continue;
 
-        const short  axis     = hJoint.child(aAxis).asShort();
-        const double bind     = hJoint.child(aBind).asDouble();
-        const double angleMin = hJoint.child(aAngleMin).asAngle().asRadians();
-        const double angleMax = hJoint.child(aAngleMax).asAngle().asRadians();
-        const double posMin   = hJoint.child(aPosMin).asDouble();
-        const double posMax   = hJoint.child(aPosMax).asDouble();
-        const double swingMin = hJoint.child(aSwingMin).asAngle().asRadians();
-        const double swingMax = hJoint.child(aSwingMax).asAngle().asRadians();
-        const bool   reverse  = hJoint.child(aReverse).asBool();
+        Param pr;
+        pr.index    = hJoints.elementIndex();
+        pr.axis     = hJoint.child(aAxis).asShort();
+        pr.bind     = hJoint.child(aBind).asDouble();
+        pr.angleMin = hJoint.child(aAngleMin).asAngle().asRadians();
+        pr.angleMax = hJoint.child(aAngleMax).asAngle().asRadians();
+        pr.posMin   = hJoint.child(aPosMin).asDouble();
+        pr.posMax   = hJoint.child(aPosMax).asDouble();
+        pr.swingMin = hJoint.child(aSwingMin).asAngle().asRadians();
+        pr.swingMax = hJoint.child(aSwingMax).asAngle().asRadians();
+        pr.reverse  = hJoint.child(aReverse).asBool();
+        pr.mirrorOf = -1;
+
+        params.push_back(pr);
+    }
+
+    // зеркала - своим массивом, по тем же индексам
+    MArrayDataHandle hMirror = data.inputArrayValue(aMirrorOf, &status);
+    if (status)
+    {
+        for (unsigned int i = 0; i < hMirror.elementCount(); ++i)
+        {
+            if (!hMirror.jumpToArrayElement(i))
+                continue;
+
+            const unsigned int index = hMirror.elementIndex();
+            const int value = hMirror.inputValue(&status).asInt();
+            if (!status) continue;
+
+            for (size_t k = 0; k < params.size(); ++k)
+            {
+                if (params[k].index == index)
+                {
+                    params[k].mirrorOf = value;
+                    break;
+                }
+            }
+        }
+    }
+
+    // --- 2. и сам счёт -------------------------------------------------------
+    for (size_t n = 0; n < params.size(); ++n)
+    {
+        const Param& own = params[n];
+
+        // Зеркальная косточка: углы, позиции и свинг берутся у ведущей с
+        // обратным знаком. Это и есть отражение в плоскости, в которой лежат
+        // кость и вторая ось: срабатывает она на изгиб в другую сторону и
+        // выезжает в другую сторону, а вдоль кости уходит так же -
+        // (-r)*sin(-swing) это те же r*sin(swing). `bind` и `reverse` приходят
+        // оттуда же как есть, ось остаётся своя.
+        const Param* src = &own;
+        double flip = 1.0;
+
+        if (own.mirrorOf >= 0 && own.mirrorOf != static_cast<int>(own.index))
+        {
+            for (size_t k = 0; k < params.size(); ++k)
+            {
+                if (static_cast<int>(params[k].index) == own.mirrorOf)
+                {
+                    src = &params[k];
+                    flip = -1.0;
+                    break;
+                }
+            }
+        }
+
+        const short  axis     = own.axis;
+        const double bind     = src->bind;
+        const bool   reverse  = src->reverse;
+        const double angleMin = src->angleMin * flip;
+        const double angleMax = src->angleMax * flip;
+        const double posMin   = src->posMin   * flip;
+        const double posMax   = src->posMax   * flip;
+        const double swingMin = src->swingMin * flip;
+        const double swingMax = src->swingMax * flip;
 
         const double driver = (axis == 0) ? bendY : bendZ;
 
@@ -430,7 +658,7 @@ MStatus PkIbtwNode::compute(const MPlug& plug, MDataBlock& data)
         const MQuaternion qLag = scaledRotation(q, 1.0 - bind).inverse();
         p = p.rotateBy(qLag);
 
-        MDataHandle hOut = builder.addElement(index, &status);
+        MDataHandle hOut = builder.addElement(own.index, &status);
         if (!status) continue;
 
         hOut.child(aOutTranslate).set3Double(p.x, p.y, p.z);

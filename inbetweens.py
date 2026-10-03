@@ -757,6 +757,19 @@ class Inbetweens(object):
 				mod_name = utils.getModuleName(src_j)
 				utils.connectByMatrix(root_s_j, [name+"_ibtw_joints_group", root_s_j], ["worldMatrix[0]", "parentInverseMatrix[0]"], module_name=mod_name)
 
+				# группа костей несёт размер рига (скейл mainPoser, у рук 5.14, у ног 10),
+				# и корень получал его целиком. Делим скейл на X: остаётся 1 и знак
+				# зеркала по Z, а размер переезжает в переносы скиновых костей ниже
+				dMat = cmds.listConnections(root_s_j+".tx", s=1, d=0, type="decomposeMatrix")[0]
+				norm = cmds.createNode('multiplyDivide', n=root_s_j+"_normScale_multiplyDivide")
+				cmds.setAttr(norm+".operation", 2)
+				cmds.sets(norm, e=1, forceElement=set)
+				cmds.connectAttr(dMat+".outputScale", norm+".input1")
+				for a in "XYZ":
+					cmds.connectAttr(dMat+".outputScaleX", norm+".input2"+a)
+					# поосево: составной .s поверх подключённых sx/sy/sz не встаёт
+					cmds.connectAttr(norm+".output"+a, root_s_j+".scale"+a, f=1)
+
 		# add skinJoint
 		s_j = pm.duplicate(j, n=j.replace("outJoint", "skinJoint"))[0]
 		cmds.sets(s_j.name(), e=1, forceElement=set)
@@ -768,7 +781,19 @@ class Inbetweens(object):
 		utils.removeTransformParentJoint(s_j.name())
 		utils.resetAttrs(s_j, jointOrient=True)
 
-		j.t >> s_j.t
+		# корень без размера рига (см. _normScale выше) - переносы домножаем на него;
+		# в корнях из старых ригов этой ноды нет, там переносы идут как были
+		norm = root_s_j+"_normScale_multiplyDivide"
+		if cmds.objExists(norm):
+			t_mult = cmds.createNode('multiplyDivide', n=s_j.name()+"_tScale_multiplyDivide")
+			cmds.sets(t_mult, e=1, forceElement=set)
+			cmds.connectAttr(j.name()+".t", t_mult+".input1")
+			factor = cmds.listConnections(norm+".input2X", s=1, d=0, p=1)[0]
+			for a in "XYZ":
+				cmds.connectAttr(factor, t_mult+".input2"+a)
+			cmds.connectAttr(t_mult+".output", s_j.name()+".t")
+		else:
+			j.t >> s_j.t
 		j.r >> s_j.r
 		
 		if utils.getObjectSide(name+"_ibtw_root") == "l" or utils.getObjectSide(name+"_ibtw_root") == "c":
@@ -909,6 +934,41 @@ class Inbetweens(object):
 	def addMllFromSelection(self): #
 		self.addMll()
 
+	def centerSides(self, driver_j): #
+		"""Какая пара косточек центральной кости стоит по сторонам тела.
+
+		У кости в центре - позвонка, шеи, хвоста - косточки идут по двум осям:
+		одна пара вдоль тела (вверх-вниз или вперёд-назад), другая поперёк, и
+		вот вторая и есть левая с правой. Зеркала между первой парой нет:
+		наклон вперёд и назад - разные движения, и настраивать их надо по
+		отдельности.
+
+		Какая ось поперёк - замеряется, а не предполагается: берётся та, что
+		ближе всех лежит к мировому X, то есть к нормали плоскости симметрии.
+
+		Возвращает (ось, знак позиций ведущей, знак позиций ведомой) - ведущей
+		становится левая, та, что уезжает в мировой +X. Пусто, если поперёк
+		тела не смотрит ни одна ось: тогда симметрии тут нет.
+		"""
+		m = cmds.xform(driver_j, q=1, ws=1, matrix=1)
+
+		dots = {}
+		for side, row in (("y", m[4:7]), ("z", m[8:11])):
+			length = math.sqrt(sum(c * c for c in row)) or 1.0
+			dots[side] = row[0] / length
+
+		side = "y" if abs(dots["y"]) >= abs(dots["z"]) else "z"
+
+		if abs(dots[side]) < 0.9:
+			cmds.warning(" %s: ни одна ось косточек не идёт поперёк тела "
+						 "(y %.2f, z %.2f), левая с правой не связываются"
+						 %(driver_j, dots["y"], dots["z"]))
+			return ()
+
+		# косточка с положительными позициями стоит на плюсе своей оси: если
+		# сама ось смотрит в мировой минус, то левая - та, что с минусом
+		return (side, 1, -1) if dots[side] > 0 else (side, -1, 1)
+
 	def addMll(self, data=None, mirrored=False): #
 		"""Inbetween on the pk_ibtw node: the correctives go straight into the
 		selected joint, one solver node, no groups and no template scene."""
@@ -963,8 +1023,7 @@ class Inbetweens(object):
 			cmds.setAttr(solver+".driverMode", 1)
 			cmds.connectAttr(driver_j+".worldMatrix[0]", solver+".childMatrix")
 			cmds.connectAttr(parent_obj+".worldInverseMatrix[0]", solver+".parentInverseMatrix")
-			self.addMllRestLoc(name, driver_j, parent_obj,
-							   data.get("rest") if data else None)
+			self.connectMllRest(name, driver_j, parent_obj, data)
 		else:
 			cmds.connectAttr(driver_j+".rotate", solver+".driverRotate")
 			cmds.connectAttr(driver_j+".rotateOrder", solver+".driverRotateOrder")
@@ -975,18 +1034,39 @@ class Inbetweens(object):
 			cmds.setAttr(solver+".offsetRotate", offset[0], offset[1], offset[2], type="double3")
 
 			for j_data in data["jointsData"]:
-				self.addJointMll(j_data["side"], name, j_data, mirrored=mirrored)
+				# ведомой косточке своих параметров не заводится, как и всей
+				# зеркальной стороне: их выдаёт нода по mirrorOf
+				follows = int(j_data.get("mirrorOf", -1)) >= 0
+				self.addJointMll(j_data["side"], name, j_data, mirrored=mirrored or follows)
 		else:
 			# the driver is the full bend now, positive towards its own axis,
 			# so 60 here is what -30 used to be on the halved euler channel
 			defaults = (("y", 60, 1, 5), ("y", -60, -1, -5),
 						("z", 60, 1, 5), ("z", -60, -1, -5))
+
+			# у центральной кости одна пара косточек стоит по сторонам тела -
+			# её настраивают в одном месте, левая ведёт правую
+			sides = self.centerSides(driver_j) if utils.getObjectSide(driver_j) == "c" else ()
+
+			created = {}
 			for side, angleMax, posMin, posMax in defaults:
+				follows = bool(sides) and side == sides[0] and (posMin > 0) == (sides[2] > 0)
 				self.addJointMll(side, name, {"angleMin": 0, "angleMax": angleMax,
 											  "posMin": posMin, "posMax": posMax,
 											  "swingMin": 0, "swingMax": 0,
 											  "bind": 0.5, "reverse": False},
-								 mirrored=mirrored, pose=True)
+								 mirrored=mirrored or follows, pose=True)
+				# только что созданный элемент - с наибольшим индексом
+				created[(side, 1 if posMin > 0 else -1)] = \
+					max(cmds.getAttr(solver+".joint", multiIndices=True) or [0])
+
+			if sides:
+				lead = created.get((sides[0], sides[1]))
+				follow = created.get((sides[0], sides[2]))
+				if lead is not None and follow is not None:
+					cmds.setAttr("%s.mirrorOf[%s]" %(solver, follow), lead)
+					print("Inbetween %s: %s side joint[%s] mirrors joint[%s]"
+						  %(name, sides[0], follow, lead))
 
 		# opposite
 		if utils.isSymmetrical(driver_j) and utils.getObjectSide(driver_j) == "l":
@@ -1061,6 +1141,167 @@ class Inbetweens(object):
 
 		return signs, dots
 
+	def initLocOf(self, joint): #
+		"""initLoc позера этой кости - пусто, если его нет.
+
+		initLoc стоит под позером и несёт кадр, с которым кость построена, то
+		есть дефолтную позу. У косточки твистовой цепочки своего позера нет:
+		кадр у неё от кости, на которой цепочка висит.
+		"""
+		base = joint
+		for suffix in ("_skinJoint", "_outJoint", "_twJoint"):
+			if base.endswith(suffix):
+				base = base[:-len(suffix)]
+				break
+
+		if "_twist_" in base:
+			base = base.split("_twist_")[0]
+
+		loc = base + "_initLoc"
+		return loc if cmds.objExists(loc) else ""
+
+	def restSource(self, joint): #
+		"""Чем задать дефолтный кадр кости: (initLoc, initLoc конца, доля).
+
+		Для обычной кости доля ноль и конец не нужен. Косточка твистовой цепочки
+		стоит не в начале кости, а в своей доле её длины, поэтому к кадру кости
+		добавляется initLoc следующей кости и `pos` самой косточки - связью, так
+		что сдвинутая косточка уводит нейтраль за собой.
+
+		Пусто, если initLoc не нашёлся: тогда остаётся прежний путь.
+		"""
+		loc = self.initLocOf(joint)
+		if not loc:
+			return ()
+
+		if not ("_twist_" in joint and joint.endswith("_twJoint")):
+			return (loc, "", 0.0)
+
+		t_name = joint.split("_twist_")[0]
+		solver = t_name + "_twist_solver"
+
+		# дальний конец кости - там, где стоит её ребёнок, а его знает твистовый
+		# солвер: именно его translate он читает как вектор кости
+		child = []
+		if cmds.objExists(solver):
+			child = cmds.listConnections(solver+".boneTranslate", source=1, destination=0) or []
+
+		end = self.initLocOf(child[0]) if child else ""
+		if not end:
+			return ()
+
+		pos = joint + ".pos" if cmds.objExists(joint+".pos") else 0.0
+		return (loc, end, pos)
+
+	def connectMllRest(self, name, driver_j, parent_obj, data=None): #
+		"""Нейтраль инбитвина - от позеров.
+
+		initLoc позера стоит там, где построена кость, поэтому дефолтная поза
+		известна и без того, чтобы ставить в неё риг: инбитвин можно собирать в
+		любой позе, а текущий изгиб пойдёт в angleMin. И это связь, а не снятое
+		однажды значение: двинули позер - нейтраль ушла за ним.
+
+		Значения при этом остаются на самой ноде, поэтому запекание позеров
+		нейтраль не ломает: связи оборвутся, последнее пришедшее останется. А
+		`outRestMatrix` отдаёт посчитанное наружу, чтобы запекание могло
+		переложить его в restMatrix и вернуть restMode в 0.
+
+		Если initLoc нет, остаётся прежний путь - локатор с текущей позы.
+		"""
+		solver = name + "_ibtw_solver"
+
+		child = self.restSource(driver_j)
+		parent = self.restSource(parent_obj)
+
+		if not child or not parent:
+			cmds.warning(" %s: у %s нет позера с initLoc, нейтраль снимается с "
+						 "текущей позы - собирай в дефолтной"
+						 %(name, driver_j if not child else parent_obj))
+			return self.addMllRestLoc(name, driver_j, parent_obj,
+									  data.get("rest") if data else None)
+
+		cmds.setAttr(solver+".restMode", 1)
+
+		for side, (loc, end, pos) in (("Child", child), ("Parent", parent)):
+			cmds.connectAttr(loc+".worldMatrix[0]", "%s.rest%sMatrix" %(solver, side), f=1)
+			if end:
+				cmds.connectAttr(end+".worldMatrix[0]", "%s.rest%sEndMatrix" %(solver, side), f=1)
+			if isinstance(pos, str):
+				cmds.connectAttr(pos, "%s.rest%sPosition" %(solver, side), f=1)
+			else:
+				cmds.setAttr("%s.rest%sPosition" %(solver, side), pos)
+
+		return solver
+
+	@utils.oneStepUndo
+	def restToPosers(self, name="", *args): #
+		"""Переводит нейтраль уже собранных инбитвинов на позеры.
+
+		Собранные раньше держат нейтраль в локаторе, снятом с той позы, в
+		которой их делали: если поза была не дефолтной, в дефолте коррективы
+		уже выехали, и это приходилось компенсировать руками через offsetRotate.
+		Здесь нейтраль переводится на initLoc позеров, а локатор удаляется.
+
+		Печатает, насколько нейтраль сдвинулась и у кого остался ручной
+		offsetRotate - его после этого скорее всего надо обнулить.
+
+		name пустое - все плагинные инбитвины сцены.
+		"""
+		names = []
+		if name:
+			names = [name]
+		else:
+			for solver in sorted(cmds.ls("*_ibtw_solver") or []):
+				names.append(solver.replace("_ibtw_solver", ""))
+
+		done = 0
+		for n in names:
+			solver = n + "_ibtw_solver"
+			if not cmds.objExists(solver):
+				continue
+			if not self.isMllWorld(n):
+				print("%s: локальный режим, нейтрали у него нет" %n)
+				continue
+			if cmds.getAttr(solver+".restMode") == 1:
+				print("%s: уже от позеров" %n)
+				continue
+
+			driver_j = self.getMllDriver(n)
+			parent_obj = self.getMllParent(n)
+			if not driver_j or not parent_obj:
+				cmds.warning(" %s: драйвер или родитель не найден" %n)
+				continue
+
+			loc = n + "_ibtw_restLoc"
+			old_m = cmds.getAttr(loc+".matrix") if cmds.objExists(loc) else None
+
+			if not self.connectMllRest(n, driver_j, parent_obj):
+				continue
+			if cmds.getAttr(solver+".restMode") != 1:
+				# позеров не нашлось, connectMllRest вернулся к локатору
+				continue
+
+			new_m = cmds.getAttr(solver+".outRestMatrix")
+			if old_m:
+				shift = math.sqrt(sum((new_m[12+i] - old_m[12+i])**2 for i in range(3)))
+				axes = max(abs(new_m[i] - old_m[i]) for i in range(12))
+				print("%s: нейтраль сдвинулась на %.3f единиц, оси на %.4f" %(n, shift, axes))
+
+			# локатор больше не при чём: restMode 1 читает матрицы позеров
+			if cmds.objExists(loc):
+				cmds.delete(loc)
+
+			offset = cmds.getAttr(solver+".offsetRotate")[0]
+			if max(abs(v) for v in offset) > 1e-4:
+				print("   у %s остался ручной offsetRotate %s - проверь, не "
+					  "компенсировал ли он как раз сбитую нейтраль"
+					  %(solver, [round(v, 3) for v in offset]))
+			done += 1
+
+		print("Нейтраль от позеров: переведено %d" %done)
+		self.updateList()
+		return done
+
 	def addMllRestLoc(self, name, driver_j, parent_obj, rest=None): #
 		"""The rest pose of the world mode, as a locator under the parent.
 
@@ -1126,6 +1367,13 @@ class Inbetweens(object):
 			if not cmds.listConnections(opp_element, source=1, destination=0):
 				cmds.connectAttr(element, opp_element)
 
+			# зеркала внутри солвера - своим массивом рядом: структура та же,
+			# и ведомая косточка остаётся ведомой на обеих сторонах
+			mirror = "%s.mirrorOf[%s]" %(solver, i)
+			opp_mirror = "%s.mirrorOf[%s]" %(opp_solver, i)
+			if not cmds.listConnections(opp_mirror, source=1, destination=0):
+				cmds.connectAttr(mirror, opp_mirror)
+
 	def addJointMll(self, side, name=None, data=None, mirrored=False, pose=False): #
 		if not name:
 			name = self.curIbName
@@ -1169,6 +1417,11 @@ class Inbetweens(object):
 		# the array exist, and without it multiIndices stays empty and every
 		# joint of that side ends up reading out[0]
 		cmds.setAttr(element+".axis", 0 if side == "y" else 1)
+
+		# косточка-зеркало: параметры ей выдаёт нода, снимая их с ведущей с
+		# обратным знаком. mirrorOf живёт своим массивом, не внутри joint[]
+		if data and int(data.get("mirrorOf", -1)) >= 0:
+			cmds.setAttr("%s.mirrorOf[%s]" %(solver, index), int(data["mirrorOf"]))
 
 		# on the mirrored side the whole element of the array comes from the
 		# left solver, so the joint carries no parameters of its own
@@ -1294,9 +1547,21 @@ class Inbetweens(object):
 		if world:
 			# both sides: only the left one gets saved, and the rest locator is
 			# deliberately not connected across, so the right one would be lost
+			#
+			# у нейтрали от позеров локатора нет вовсе, и писать нечего - она
+			# пересобирается связями. Посчитанное всё равно сохраняется запасом:
+			# если позеров уже нет (запекли), при загрузке возьмётся оно
 			for key, n in (("rest", name), ("oppRest", utils.getOpposite(name))):
 				loc = n + "_ibtw_restLoc"
-				data[key] = cmds.getAttr(loc+".matrix") if cmds.objExists(loc) else None
+				opp_solver = n + "_ibtw_solver"
+				if cmds.objExists(loc):
+					data[key] = cmds.getAttr(loc+".matrix")
+				elif cmds.objExists(opp_solver):
+					data[key] = cmds.getAttr(opp_solver+".outRestMatrix")
+				else:
+					data[key] = None
+
+			data["restMode"] = cmds.getAttr(solver+".restMode")
 		data["scale"] = cmds.getAttr(solver+".scale")
 		data["offset"] = cmds.getAttr(solver+".offsetRotate")
 
@@ -1312,6 +1577,9 @@ class Inbetweens(object):
 			jData["side"] = "y" if cmds.getAttr(element+".axis") == 0 else "z"
 			for attr in ("angleMin", "angleMax", "posMin", "posMax", "swingMin", "swingMax", "bind", "reverse"):
 				jData[attr] = cmds.getAttr(element+"."+attr)
+			# ведомая косточка центральной кости: свои значения у неё пустые,
+			# в счёт идут значения ведущей с обратным знаком
+			jData["mirrorOf"] = cmds.getAttr("%s.mirrorOf[%s]" %(solver, i))
 			jointsData.append(jData)
 
 		data["jointsData"] = jointsData

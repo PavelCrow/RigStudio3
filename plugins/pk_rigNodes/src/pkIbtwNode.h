@@ -2,6 +2,8 @@
 
 #include <maya/MPxNode.h>
 
+#include <vector>
+
 // Local inbetween solver - replaces the whole DG network of one local
 // inbetween (see modules/_psdLocal.ma and inbetweens.py) with a single node.
 //
@@ -9,6 +11,16 @@
 // directly under it, so they inherit its rotation; the node gives each of them
 // back a rotation of its own (how much it follows the joint is `bind`) and a
 // position.
+//
+// A corrective can be told to mirror another one of the same node: `mirrorOf`
+// holds its index, and then the angles, the positions and the swing are read
+// off that one with their signs flipped - the two end up reflected in the plane
+// the bone and the other axis lie in. It is what the two sides of a centre bone
+// want: the spine answers to the left and to the right the same way, and the
+// pair is tuned in one place. `bind` and `reverse` come from the same place
+// unchanged, and nothing else is needed - no sign node per channel, and on a
+// mirrored side the whole element of the array already arrives by one
+// connection, `mirrorOf` with it.
 //
 // Geometry of one corrective joint, in the frame of the driver:
 //
@@ -77,11 +89,44 @@ public:
     static MObject aChildMatrix;        // <- child .worldMatrix
     static MObject aParentInverseMatrix;// <- parent .worldInverseMatrix
     static MObject aRestMatrix;         // the child in parent space at rest
+
+    // Where the rest comes from: 0 - `restMatrix` above, 1 - worked out of the
+    // posers. The initLoc of a poser carries the frame the bone is built with,
+    // so it states the default pose without the rig having to be put into it -
+    // the inbetween can be made in any pose, and a poser moved afterwards
+    // takes the neutral with it.
+    //
+    // The matrices are the world matrices of those initLocs. A joint of a twist
+    // chain sits a share of the way along its bone, so `position` moves the
+    // point from the initLoc of the bone towards the initLoc of its child -
+    // 0 is the bone itself, 1 its far end. The axes are taken off the first one
+    // and straightened: an initLoc of a mirrored side comes with a reflection
+    // in it, so Z is rebuilt out of X and Y.
+    //
+    // Plain inputs, stored like any other: when the posers are baked away and
+    // the connections go with them, the values that came last stay on the node
+    // and the neutral does not move. `outRestMatrix` hands out what was worked
+    // out, so baking can put it into `restMatrix` and switch `restMode` back to
+    // 0 without repeating any of this.
+    static MObject aRestMode;
+    static MObject aRestChildMatrix;
+    static MObject aRestChildEndMatrix;
+    static MObject aRestChildPosition;
+    static MObject aRestParentMatrix;
+    static MObject aRestParentEndMatrix;
+    static MObject aRestParentPosition;
     static MObject aOffsetRotate;       // shifts the neutral pose
     static MObject aOffsetRotateX, aOffsetRotateY, aOffsetRotateZ;
     static MObject aScale;              // scales every corrective position at once
     static MObject aMirrorAxis;         // per axis sign against the mirror of the left side
     static MObject aMirrorAxisX, aMirrorAxisY, aMirrorAxisZ;
+
+    // Which corrective this one is the mirror of, -1 - none. A parallel array
+    // and not a child of `joint`: maya writes the elements of that compound as
+    // one flat list of values per element, so a scene saved before is read
+    // crooked the moment it gains a child - the values slide over into the
+    // neighbouring fields. Nothing may be added to `joint` any more.
+    static MObject aMirrorOf;           // multi, indices match aJoint
 
     static MObject aJoint;              // multi compound, one per corrective joint
     static MObject aAxis;               //   0 = Y, 1 = Z
@@ -100,4 +145,27 @@ public:
     static MObject aOutRotate;          //   -> .rotate of the corrective joint
     static MObject aOutRotateX, aOutRotateY, aOutRotateZ;
     static MObject aOutDriverAngle;     //   what this joint is driven by
+
+    static MObject aOutRestMatrix;      // the rest it worked out, for baking
+
+private:
+    // Parameters of one corrective, read out of the array before anything is
+    // worked out: one that mirrors another has to look at it, and jumping
+    // around the array handle in the middle of the pass is not worth it.
+    struct Param
+    {
+        unsigned int index;
+        short        axis;
+        double       bind;
+        double       angleMin, angleMax;
+        double       posMin,   posMax;
+        double       swingMin, swingMax;
+        bool         reverse;
+        int          mirrorOf;
+    };
+
+    // kept on the node and only cleared: compute runs on every frame, and a
+    // fresh vector every time is a heap allocation per inbetween per frame for
+    // nothing
+    std::vector<Param> mParams;
 };
