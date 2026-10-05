@@ -138,15 +138,14 @@ namespace
     //
     // Пусто (единичный поворот), если вести не на что: конец совпал с началом
     // или кость идёт ровно поперёк тела.
-    MQuaternion aimFrame(const MMatrix& rest, const MMatrix& end, const MMatrix& reference)
+    MQuaternion aimFrame(const MMatrix& rest, const MVector& aim, const MMatrix& reference)
     {
         const MVector x0(rest(0, 0), rest(0, 1), rest(0, 2));
         const MVector y0(rest(1, 0), rest(1, 1), rest(1, 2));
         const MVector z0(rest(2, 0), rest(2, 1), rest(2, 2));
         const MVector p0(rest(3, 0), rest(3, 1), rest(3, 2));
-        const MVector pe(end(3, 0), end(3, 1), end(3, 2));
 
-        MVector d = pe - p0;
+        MVector d = aim - p0;
         if (d.length() <= kEps)
             return MQuaternion::identity;
         d.normalize();
@@ -313,6 +312,12 @@ MStatus PkIbtwNode::initialize()
     aFrameMode = eAttr.create("frameMode", "frm", 0);
     eAttr.addField("bone", 0);
     eAttr.addField("rest", 1);
+    // а это - кадр по родительской кости: X вдоль неё, то есть четвёрка
+    // косточек становится поперёк родителя. Голове нужен именно он:
+    // косточки сидят у её основания и стоять должны поперёк шеи, а не
+    // поперёк морды. Даёт то же, что дал бы локатор, выровненный по родителю,
+    // и живёт от позеров, как и вся нейтраль.
+    eAttr.addField("parent", 2);
     eAttr.setKeyable(false);
     addAttribute(aFrameMode);
 
@@ -516,6 +521,7 @@ MStatus PkIbtwNode::compute(const MPlug& plug, MDataBlock& data)
     // кадр, если он берётся по кости
     MMatrix restChild;
     MMatrix restChildEnd;
+    MMatrix restParent;
 
     MQuaternion qDriver;
     if (data.inputValue(aDriverMode, &status).asShort() == 1)
@@ -533,10 +539,10 @@ MStatus PkIbtwNode::compute(const MPlug& plug, MDataBlock& data)
             restChild    = restFrame(data.inputValue(aRestChildMatrix, &status).asMatrix(),
                                      restChildEnd,
                                      data.inputValue(aRestChildPosition, &status).asDouble());
-            const MMatrix p = restFrame(data.inputValue(aRestParentMatrix, &status).asMatrix(),
-                                        data.inputValue(aRestParentEndMatrix, &status).asMatrix(),
-                                        data.inputValue(aRestParentPosition, &status).asDouble());
-            rest = restChild * p.inverse();
+            restParent = restFrame(data.inputValue(aRestParentMatrix, &status).asMatrix(),
+                                   data.inputValue(aRestParentEndMatrix, &status).asMatrix(),
+                                   data.inputValue(aRestParentPosition, &status).asDouble());
+            rest = restChild * restParent.inverse();
         }
         else
         {
@@ -573,15 +579,6 @@ MStatus PkIbtwNode::compute(const MPlug& plug, MDataBlock& data)
         }
     }
 
-    MQuaternion qOffset = MEulerRotation(ofr[0], ofr[1], ofr[2], ro).asQuaternion();
-    // the offset comes from the left solver, so it is stated in the left frame
-    qOffset = MQuaternion(det * sx * qOffset.x, det * sy * qOffset.y,
-                          det * sz * qOffset.z, qOffset.w);
-
-    // the offset moves the neutral pose: what is measured is how far the joint
-    // is from the offset, not from its own zero
-    const MQuaternion q = qOffset.inverse() * qDriver;
-
     // Доворот рабочего кадра. Пока он нулевой - а он нулевой у любой кости, у
     // которой X идёт по кости, - не считается ничего, кроме этой проверки.
     const double3& fr = data.inputValue(aFrameRotate, &status).asDouble3();
@@ -608,14 +605,43 @@ MStatus PkIbtwNode::compute(const MPlug& plug, MDataBlock& data)
     // пришли. Он от позеров и живой: повернули позер, и кадр с ним. Строится в
     // осях своей стороны, поэтому знаками не сопрягается; ручной доворот
     // применяется поверх него.
-    if (data.inputValue(aFrameMode, &status).asShort() == 1)
+    const short frameMode = data.inputValue(aFrameMode, &status).asShort();
+    if (frameMode != 0)
     {
-        const MQuaternion qAim = aimFrame(restChild, restChildEnd,
+        // по своей кости - на её конец; по родительской - вдоль неё, то есть
+        // из её начала сквозь нашу кость и дальше
+        const MVector pc(restChild(3, 0), restChild(3, 1), restChild(3, 2));
+        MVector aim(restChildEnd(3, 0), restChildEnd(3, 1), restChildEnd(3, 2));
+        if (frameMode == 2)
+        {
+            const MVector pp(restParent(3, 0), restParent(3, 1), restParent(3, 2));
+            aim = pc + (pc - pp);
+        }
+
+        const MQuaternion qAim = aimFrame(restChild, aim,
                                           data.inputValue(aFrameReference, &status).asMatrix());
         qFrame     = framed ? (qFrame * qAim) : qAim;
         qFrameSide = framed ? (qFrameSide * qAim) : qAim;
         framed     = true;
     }
+
+    // Сдвиг нейтрали задан в рабочем кадре - том же, в котором
+    // меряется изгиб. Иначе крен вокруг оси кости, стоит ей разойтись с
+    // кадром, становится для изгиба поворотом поперёк кости и проваливается
+    // в него целиком: на голове медведя доворот в 124° давал в покое изгиб 130°,
+    // косточки съезжали с номинального радиуса и ломалась симметрия.
+    MQuaternion qOffset = MEulerRotation(ofr[0], ofr[1], ofr[2], ro).asQuaternion();
+    // the offset comes from the left solver, so it is stated in the left frame
+    qOffset = MQuaternion(det * sx * qOffset.x, det * sy * qOffset.y,
+                          det * sz * qOffset.z, qOffset.w);
+    // из рабочего кадра в кадр кости: `q` ниже живёт в осях кости, по
+    // нему считается отставание самой косточки
+    if (framed)
+        qOffset = qFrameSide.inverse() * qOffset * qFrameSide;
+
+    // the offset moves the neutral pose: what is measured is how far the joint
+    // is from the offset, not from its own zero
+    const MQuaternion q = qOffset.inverse() * qDriver;
 
     // Изгиб меряется в рабочем кадре, а `q` остаётся в кадре кости: по нему
     // считается отставание qLag, то есть локальный поворот самой косточки.

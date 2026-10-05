@@ -1036,9 +1036,14 @@ class Inbetweens(object):
 			frame = (data.get("frame") or [(0.0, 0.0, 0.0)])[0]
 			cmds.setAttr(solver+".frameRotate", frame[0], frame[1], frame[2], type="double3")
 
-			# кадр по кости: ноде нужен конец кости, иначе вести X не на что
-			if int(data.get("frameMode", 0)) == 1 and self.connectRestEnd(name, driver_j):
+			# кадр по кости: ноде нужен конец кости, иначе вести X не на что.
+			# По родительской кости конца не надо - она уже на входе нейтрали
+			frameMode = int(data.get("frameMode", 0))
+			if frameMode == 1 and self.connectRestEnd(name, driver_j):
 				cmds.setAttr(solver+".frameMode", 1)
+			elif frameMode == 2:
+				self.connectFrameReference(solver, driver_j)
+				cmds.setAttr(solver+".frameMode", 2)
 
 			for j_data in data["jointsData"]:
 				# ведомой косточке своих параметров не заводится, как и всей
@@ -1057,17 +1062,25 @@ class Inbetweens(object):
 			if utils.getObjectSide(driver_j) == "c":
 				sides = self.centerSides(driver_j, warn=False)
 				if not sides:
-					# Оси кости не те: нода строит себе рабочий кадр - X по
-					# кости, поперёк тела в Z, - и пара лево-право появляется по
-					# оси z сама.
+					# Оси кости не те: нода строит себе рабочий кадр - X
+					# вдоль родительской кости, поперёк тела в Z, - и пара
+					# лево-право появляется по оси z сама.
+					#
+					# По родительской, а не по своей: косточки сидят у
+					# основания кости, и стоять им поперёк родителя. У головы
+					# четвероногого это поперёк шеи; поперёк своей кости они
+					# встали бы поперёк морды, и это приходилось выправлять
+					# руками через offsetRotate - а он меняет не кадр, а
+					# нейтраль, и ломал всё остальное.
 					#
 					# Кадр считает нода из матриц нейтрали, то есть от позеров:
 					# повернули позер, и кадр повернулся. Запечённые углы -
 					# только запас на случай, когда позеров нет.
-					if cmds.getAttr(solver+".restMode") == 1 							and self.connectRestEnd(name, driver_j):
-						cmds.setAttr(solver+".frameMode", 1)
-						print("Inbetween %s: рабочий кадр строится по кости от позеров - "
-							  "X по кости, лево-право по оси z" %name)
+					if cmds.getAttr(solver+".restMode") == 1:
+						self.connectFrameReference(solver, driver_j)
+						cmds.setAttr(solver+".frameMode", 2)
+						print("Inbetween %s: рабочий кадр строится по родительской "
+							  "кости от позеров - X вдоль неё, лево-право по оси z" %name)
 						sides = ("z", 1, -1)
 					else:
 						frame = self.frameForBone(driver_j)
@@ -1195,13 +1208,42 @@ class Inbetweens(object):
 
 		cmds.connectAttr(end+".worldMatrix[0]", plug, f=1)
 
-		# Поперечное направление тела нода берёт из пространства позеров, а не
-		# из мира: иначе поворот всего персонажа увёл бы кадр относительно тела.
-		ref = solver + ".frameReferenceMatrix"
-		if cmds.objExists("mainPoser") and not cmds.listConnections(ref, source=1, destination=0):
-			cmds.connectAttr("mainPoser.worldMatrix[0]", ref, f=1)
+		return self.connectFrameReference(solver, driver_j, end)
 
+	def connectFrameReference(self, solver, driver_j, fallback=""): #
+		"""Пространство, из которого нода берёт поперечное направление тела.
+
+		Иначе оно падает на мировой X: пока персонаж стоит по мировым осям, это
+		сходится, но поворот всего рига увёл бы кадр относительно тела.
+		"""
+		ref = solver + ".frameReferenceMatrix"
+		if cmds.listConnections(ref, source=1, destination=0):
+			return True
+
+		poser = self.mainPoserOf(self.initLocOf(driver_j) or fallback)
+		if not poser:
+			return True
+
+		cmds.connectAttr(poser+".worldMatrix[0]", ref, f=1)
 		return True
+
+	def mainPoserOf(self, node): #
+		"""mainPoser модуля, под которым лежит этот позерный узел.
+
+		Подъёмом по иерархии, а не по имени: mainPoser у каждого модуля свой
+		(head_mainPoser), а ноды с голым именем mainPoser в риге нет вовсе -
+		её тут и искали, поэтому поперечное направление тела молча оставалось
+		мировым.
+		"""
+		cur = node
+		while cur:
+			parents = cmds.listRelatives(cur, parent=True, fullPath=True) or []
+			if not parents:
+				return ""
+			cur = parents[0]
+			if cur.split("|")[-1].endswith("_mainPoser"):
+				return cur
+		return ""
 
 	def frameForBone(self, driver_j): #
 		"""Доворот рабочего кадра ноды для кости, у которой оси не те.
@@ -1508,6 +1550,70 @@ class Inbetweens(object):
 			done += 1
 
 		print("Нейтраль от позеров: переведено %d" %done)
+		self.updateList()
+		return done
+
+	@utils.oneStepUndo
+	def setFrameMode(self, mode=2, name="", *args): #
+		"""Чем задан рабочий кадр уже собранного инбитвина.
+
+		0 - осями самой кости, 1 - её собственной костью (X на её конец),
+		2 - родительской костью (X вдоль неё). При 2 четвёрка косточек встаёт
+		поперёк родителя: голове нужен как раз он - косточки сидят у её
+		основания и стоять должны поперёк шеи, а не поперёк морды.
+
+		Кадр нода считает из матриц нейтрали, то есть от позеров, и живёт с
+		ними. Заодно досоединяется поперечное направление тела, если его не
+		было.
+
+		Драйвер в новом кадре меряется иначе, поэтому angleMin пересъёмывается
+		с текущей позы - тем же способом, что и при создании косточки.
+		Ведомым косточкам ничего не трогается, их угол приходит от ведущей.
+
+		name пустое - все плагинные инбитвины сцены.
+		"""
+		names = [name] if name else [so.replace("_ibtw_solver", "")
+									 for so in sorted(cmds.ls("*_ibtw_solver") or [])]
+
+		done = 0
+		for n in names:
+			solver = n + "_ibtw_solver"
+			if not cmds.objExists(solver):
+				continue
+			if mode and cmds.getAttr(solver+".restMode") != 1:
+				print("%s: нейтраль не от позеров, кадр строить не из чего - "
+					  "сначала restToPosers()" %n)
+				continue
+
+			driver_j = self.getMllDriver(n)
+			if mode == 1 and not self.connectRestEnd(n, driver_j):
+				print("%s: конца кости нет, X вести не на что" %n)
+				continue
+			if mode:
+				self.connectFrameReference(solver, driver_j)
+
+			cmds.setAttr(solver+".frameMode", mode)
+
+			# angleMin - заново с нового драйвера
+			leads = []
+			for i in cmds.getAttr(solver+".joint", multiIndices=True) or []:
+				if cmds.getAttr("%s.mirrorOf[%s]" %(solver, i)) >= 0:
+					continue
+				j = (cmds.listConnections("%s.out[%s].outTranslate" %(solver, i),
+										  destination=1, source=0) or [""])[0]
+				if not j or not cmds.objExists(j+".angleMin"):
+					continue
+				was = cmds.getAttr(j+".angleMin")
+				cmds.setAttr(j+".angleMin", cmds.getAttr(j+".driverAngle"))
+				leads.append("%s %.2f -> %.2f"
+							 %(j.split("_ibtw_")[-1], was, cmds.getAttr(j+".angleMin")))
+
+			print("%s: кадр %s, angleMin пересняты (%s)"
+				  %(n, ("осями кости", "по своей кости", "по родительской кости")[mode],
+					", ".join(leads) if leads else "нечего"))
+			done += 1
+
+		print("Рабочий кадр: переведено %d" %done)
 		self.updateList()
 		return done
 
