@@ -31,6 +31,8 @@ MObject PkIbtwNode::aRestParentMatrix;
 MObject PkIbtwNode::aRestParentEndMatrix;
 MObject PkIbtwNode::aRestParentPosition;
 MObject PkIbtwNode::aOutRestMatrix;
+MObject PkIbtwNode::aFrameMode;
+MObject PkIbtwNode::aFrameReference;
 MObject PkIbtwNode::aFrameRotate;
 MObject PkIbtwNode::aFrameRotateX, PkIbtwNode::aFrameRotateY, PkIbtwNode::aFrameRotateZ;
 MObject PkIbtwNode::aOffsetRotate;
@@ -127,6 +129,56 @@ namespace
             { p.x, p.y, p.z, 1.0 }
         };
         return MMatrix(out);
+    }
+
+    // Рабочий кадр, построенный по самой кости: X ведётся на её конец, а
+    // поперечное направление тела - мировой X - уходит в Z. Оба кадра приходят
+    // мировыми, а ответ нужен в осях кости, поэтому всё сводится к скалярным
+    // произведениям с её осями.
+    //
+    // Пусто (единичный поворот), если вести не на что: конец совпал с началом
+    // или кость идёт ровно поперёк тела.
+    MQuaternion aimFrame(const MMatrix& rest, const MMatrix& end, const MMatrix& reference)
+    {
+        const MVector x0(rest(0, 0), rest(0, 1), rest(0, 2));
+        const MVector y0(rest(1, 0), rest(1, 1), rest(1, 2));
+        const MVector z0(rest(2, 0), rest(2, 1), rest(2, 2));
+        const MVector p0(rest(3, 0), rest(3, 1), rest(3, 2));
+        const MVector pe(end(3, 0), end(3, 1), end(3, 2));
+
+        MVector d = pe - p0;
+        if (d.length() <= kEps)
+            return MQuaternion::identity;
+        d.normalize();
+
+        // направление на конец и поперечное направление тела, в осях кости
+        MVector x(d * x0, d * y0, d * z0);
+        if (x.length() <= kEps)
+            return MQuaternion::identity;
+        x.normalize();
+
+        // поперёк тела - ось X того пространства, в котором стоят позеры
+        MVector ref(reference(0, 0), reference(0, 1), reference(0, 2));
+        if (ref.length() <= kEps)
+            return MQuaternion::identity;
+        ref.normalize();
+
+        MVector across(ref * x0, ref * y0, ref * z0);
+        const double k = across * x;
+        MVector z = across - x * k;
+        if (z.length() <= kEps)
+            return MQuaternion::identity;
+        z.normalize();
+
+        const MVector y = z ^ x;
+
+        const double m[4][4] = {
+            { x.x, x.y, x.z, 0.0 },
+            { y.x, y.y, y.z, 0.0 },
+            { z.x, z.y, z.z, 0.0 },
+            { 0.0, 0.0, 0.0, 1.0 }
+        };
+        return MTransformationMatrix(MMatrix(m)).rotation();
     }
 
     MQuaternion scaledRotation(const MQuaternion& q, double t)
@@ -250,6 +302,27 @@ MStatus PkIbtwNode::initialize()
     //
     // Читается в порядке XYZ, независимо от rotateOrder драйвера: в мировом
     // режиме тот вообще ни к чему не подключён.
+    // Откуда берётся рабочий кадр. "bone" - оси самой кости, как было всегда.
+    // "rest" - кадр строится из матриц нейтрали: X ведётся на конец кости, а
+    // поперечное направление тела уходит в Z. Второй идёт от позеров и живой:
+    // повернули позер - кадр повернулся, запечённого значения нет.
+    //
+    // Это для центральной кости. На зеркальной паре обе стороны строили бы Z к
+    // мировому плюс X и перестали быть зеркалом друг другу - там путь через
+    // frameRotate, он задан в кадре левой стороны и сопрягается знаками.
+    aFrameMode = eAttr.create("frameMode", "frm", 0);
+    eAttr.addField("bone", 0);
+    eAttr.addField("rest", 1);
+    eAttr.setKeyable(false);
+    addAttribute(aFrameMode);
+
+    // Пространство, из которого берётся поперечное направление тела - его ось
+    // X. В нём живут позеры рига, поэтому поворот всего персонажа кадр
+    // относительно тела не сдвигает. Единичная матрица - это мир.
+    aFrameReference = mAttr.create("frameReferenceMatrix", "frref");
+    mAttr.setStorable(true);
+    addAttribute(aFrameReference);
+
     aFrameRotateX = uAttr.create("frameRotateX", "frrx", MFnUnitAttribute::kAngle, 0.0);
     aFrameRotateY = uAttr.create("frameRotateY", "frry", MFnUnitAttribute::kAngle, 0.0);
     aFrameRotateZ = uAttr.create("frameRotateZ", "frrz", MFnUnitAttribute::kAngle, 0.0);
@@ -390,6 +463,7 @@ MStatus PkIbtwNode::initialize()
         aRestMode,
         aRestChildMatrix, aRestChildEndMatrix, aRestChildPosition,
         aRestParentMatrix, aRestParentEndMatrix, aRestParentPosition,
+        aFrameMode, aFrameReference,
         aFrameRotate, aFrameRotateX, aFrameRotateY, aFrameRotateZ,
         aOffsetRotate, aOffsetRotateX, aOffsetRotateY, aOffsetRotateZ,
         aScale,
@@ -438,6 +512,11 @@ MStatus PkIbtwNode::compute(const MPlug& plug, MDataBlock& data)
 
     const MEulerRotation::RotationOrder ro = orderFromEnum(order);
 
+    // кадр нейтрали драйвера и конца его кости: ниже из них строится рабочий
+    // кадр, если он берётся по кости
+    MMatrix restChild;
+    MMatrix restChildEnd;
+
     MQuaternion qDriver;
     if (data.inputValue(aDriverMode, &status).asShort() == 1)
     {
@@ -450,13 +529,14 @@ MStatus PkIbtwNode::compute(const MPlug& plug, MDataBlock& data)
         MMatrix rest;
         if (data.inputValue(aRestMode, &status).asShort() == 1)
         {
-            const MMatrix c = restFrame(data.inputValue(aRestChildMatrix, &status).asMatrix(),
-                                        data.inputValue(aRestChildEndMatrix, &status).asMatrix(),
-                                        data.inputValue(aRestChildPosition, &status).asDouble());
+            restChildEnd = data.inputValue(aRestChildEndMatrix, &status).asMatrix();
+            restChild    = restFrame(data.inputValue(aRestChildMatrix, &status).asMatrix(),
+                                     restChildEnd,
+                                     data.inputValue(aRestChildPosition, &status).asDouble());
             const MMatrix p = restFrame(data.inputValue(aRestParentMatrix, &status).asMatrix(),
                                         data.inputValue(aRestParentEndMatrix, &status).asMatrix(),
                                         data.inputValue(aRestParentPosition, &status).asDouble());
-            rest = c * p.inverse();
+            rest = restChild * p.inverse();
         }
         else
         {
@@ -505,9 +585,9 @@ MStatus PkIbtwNode::compute(const MPlug& plug, MDataBlock& data)
     // Доворот рабочего кадра. Пока он нулевой - а он нулевой у любой кости, у
     // которой X идёт по кости, - не считается ничего, кроме этой проверки.
     const double3& fr = data.inputValue(aFrameRotate, &status).asDouble3();
-    const bool framed = (std::fabs(fr[0]) > kEps ||
-                         std::fabs(fr[1]) > kEps ||
-                         std::fabs(fr[2]) > kEps);
+    bool framed = (std::fabs(fr[0]) > kEps ||
+                   std::fabs(fr[1]) > kEps ||
+                   std::fabs(fr[2]) > kEps);
 
     // Доворот задан в кадре левой стороны, и двум его применениям нужны разные
     // виды. Изгиб меряется в осях этой стороны, поэтому там кадр сопряжён
@@ -522,6 +602,19 @@ MStatus PkIbtwNode::compute(const MPlug& plug, MDataBlock& data)
         qFrame = MEulerRotation(fr[0], fr[1], fr[2], MEulerRotation::kXYZ).asQuaternion();
         qFrameSide = MQuaternion(det * sx * qFrame.x, det * sy * qFrame.y,
                                  det * sz * qFrame.z, qFrame.w);
+    }
+
+    // Кадр, построенный по самой кости - из тех же матриц нейтрали, что уже
+    // пришли. Он от позеров и живой: повернули позер, и кадр с ним. Строится в
+    // осях своей стороны, поэтому знаками не сопрягается; ручной доворот
+    // применяется поверх него.
+    if (data.inputValue(aFrameMode, &status).asShort() == 1)
+    {
+        const MQuaternion qAim = aimFrame(restChild, restChildEnd,
+                                          data.inputValue(aFrameReference, &status).asMatrix());
+        qFrame     = framed ? (qFrame * qAim) : qAim;
+        qFrameSide = framed ? (qFrameSide * qAim) : qAim;
+        framed     = true;
     }
 
     // Изгиб меряется в рабочем кадре, а `q` остаётся в кадре кости: по нему

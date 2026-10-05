@@ -1036,6 +1036,10 @@ class Inbetweens(object):
 			frame = (data.get("frame") or [(0.0, 0.0, 0.0)])[0]
 			cmds.setAttr(solver+".frameRotate", frame[0], frame[1], frame[2], type="double3")
 
+			# кадр по кости: ноде нужен конец кости, иначе вести X не на что
+			if int(data.get("frameMode", 0)) == 1 and self.connectRestEnd(name, driver_j):
+				cmds.setAttr(solver+".frameMode", 1)
+
 			for j_data in data["jointsData"]:
 				# ведомой косточке своих параметров не заводится, как и всей
 				# зеркальной стороне: их выдаёт нода по mirrorOf
@@ -1053,17 +1057,29 @@ class Inbetweens(object):
 			if utils.getObjectSide(driver_j) == "c":
 				sides = self.centerSides(driver_j, warn=False)
 				if not sides:
-					# оси кости не те: доворачиваем рабочий кадр ноды, и пара
-					# лево-право появляется по оси z сама
-					frame = self.frameForBone(driver_j)
-					if frame:
-						cmds.setAttr(solver+".frameRotate",
-									 frame[0], frame[1], frame[2], type="double3")
-						print("Inbetween %s: рабочий кадр довёрнут на %s - X по кости, "
-							  "лево-право по оси z" %(name, [round(v, 2) for v in frame]))
+					# Оси кости не те: нода строит себе рабочий кадр - X по
+					# кости, поперёк тела в Z, - и пара лево-право появляется по
+					# оси z сама.
+					#
+					# Кадр считает нода из матриц нейтрали, то есть от позеров:
+					# повернули позер, и кадр повернулся. Запечённые углы -
+					# только запас на случай, когда позеров нет.
+					if cmds.getAttr(solver+".restMode") == 1 							and self.connectRestEnd(name, driver_j):
+						cmds.setAttr(solver+".frameMode", 1)
+						print("Inbetween %s: рабочий кадр строится по кости от позеров - "
+							  "X по кости, лево-право по оси z" %name)
 						sides = ("z", 1, -1)
 					else:
-						self.centerSides(driver_j)
+						frame = self.frameForBone(driver_j)
+						if frame:
+							cmds.setAttr(solver+".frameRotate",
+										 frame[0], frame[1], frame[2], type="double3")
+							cmds.warning(" %s: рабочий кадр довёрнут значением %s - "
+										 "позеров нет, и за ними он не пойдёт"
+										 %(name, [round(v, 2) for v in frame]))
+							sides = ("z", 1, -1)
+						else:
+							self.centerSides(driver_j)
 
 			created = {}
 			for side, angleMax, posMin, posMax in defaults:
@@ -1157,6 +1173,35 @@ class Inbetweens(object):
 			signs.append(-1.0 if d < 0 else 1.0)
 
 		return signs, dots
+
+	def connectRestEnd(self, name, driver_j): #
+		"""initLoc конца кости драйвера - по нему нода ведёт X рабочего кадра.
+
+		У косточки твистовой цепочки он уже подключён, там он задаёт и позицию
+		нейтрали. Обычной кости его подключаем здесь: на нейтраль он не влияет,
+		доля вдоль кости у неё ноль.
+		"""
+		solver = name + "_ibtw_solver"
+		plug = solver + ".restChildEndMatrix"
+
+		if cmds.listConnections(plug, source=1, destination=0):
+			return True
+
+		kids = [k for k in (cmds.listRelatives(driver_j, c=1, type="joint") or [])
+				if "_ibtw_" not in k and "_twist_" not in k]
+		end = self.initLocOf(kids[0]) if kids else ""
+		if not end:
+			return False
+
+		cmds.connectAttr(end+".worldMatrix[0]", plug, f=1)
+
+		# Поперечное направление тела нода берёт из пространства позеров, а не
+		# из мира: иначе поворот всего персонажа увёл бы кадр относительно тела.
+		ref = solver + ".frameReferenceMatrix"
+		if cmds.objExists("mainPoser") and not cmds.listConnections(ref, source=1, destination=0):
+			cmds.connectAttr("mainPoser.worldMatrix[0]", ref, f=1)
+
+		return True
 
 	def frameForBone(self, driver_j): #
 		"""Доворот рабочего кадра ноды для кости, у которой оси не те.
@@ -1729,6 +1774,7 @@ class Inbetweens(object):
 		data["scale"] = cmds.getAttr(solver+".scale")
 		data["offset"] = cmds.getAttr(solver+".offsetRotate")
 		data["frame"] = cmds.getAttr(solver+".frameRotate")
+		data["frameMode"] = cmds.getAttr(solver+".frameMode")
 
 		jointsData = []
 		for i in cmds.getAttr(solver+".joint", multiIndices=True) or []:

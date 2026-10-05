@@ -128,6 +128,21 @@ public:
     // mirrored side stated in the frame of the left one, same as offsetRotate.
     //
     // Nothing is computed for it while it is zero - one comparison per compute.
+    // Where the working frame comes from: 0 - the axes of the bone itself,
+    // 1 - built out of the rest matrices, X aimed at the end of the bone and
+    // the across-the-body direction put into Z. The second one follows the
+    // posers: turn one and the frame turns with it, there is nothing baked.
+    // It is meant for a bone in the centre - on a mirrored pair the two sides
+    // would both build Z towards world +X and stop being mirrors of each other,
+    // so there `frameRotate` below is the way.
+    static MObject aFrameMode;
+
+    // The space the across-the-body direction is taken out of - its X axis.
+    // The posers of the rig live in it, so turning the whole character does not
+    // move the frame against the body. Identity, and that is the world, when
+    // nothing is connected.
+    static MObject aFrameReference;
+
     static MObject aFrameRotate;
     static MObject aFrameRotateX, aFrameRotateY, aFrameRotateZ;
 
