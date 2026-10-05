@@ -755,6 +755,7 @@ class MainWindow:
         self.win.actionSets.triggered.connect(self.action_sets)
         self.win.actionHumanIk.triggered.connect(self.action_humanIk)
         self.win.actionMetahuman_Mocap.triggered.connect(self.mhMocapWindow)
+        self.win.actionSwitchIkFkAnimation.triggered.connect(self.switchIkFkAnimationWindow)
         self.win.action_moduleBuilder.triggered.connect(self.action_moduleBuilder)
         self.win.actionPosers.triggered.connect(self.rig.toggleVis_posers)
         self.win.actionControls.triggered.connect(self.rig.toggleVis_controls)
@@ -957,6 +958,13 @@ class MainWindow:
         import webbrowser
         webbrowser.open('https://disk.yandex.ru/i/zh7Dp69NJ40tfg',
                         new=0, autoraise=True)
+
+    def switchIkFkAnimationWindow(self):
+        from rigStudio3.animTools import switchIkFkAnimation
+        if utils.isDebug():
+            import importlib
+            importlib.reload(switchIkFkAnimation)
+        switchIkFkAnimation.window()
 
     def mhMocapWindow(self):
         # Перенос мокапа живёт отдельным самодостаточным файлом в

@@ -10610,6 +10610,7 @@ p, li { white-space: pre-wrap; }
      <string>Animation Tools</string>
     </property>
     <addaction name="actionMetahuman_Mocap"/>
+    <addaction name="actionSwitchIkFkAnimation"/>
    </widget>
    <addaction name="menuRig"/>
    <addaction name="menuDisplay"/>
@@ -10943,6 +10944,11 @@ p, li { white-space: pre-wrap; }
   <action name="actionMetahuman_Mocap">
    <property name="text">
     <string>Metahuman Mocap..</string>
+   </property>
+  </action>
+  <action name="actionSwitchIkFkAnimation">
+   <property name="text">
+    <string>IkFk Animation Switcher..</string>
    </property>
   </action>
  </widget>
