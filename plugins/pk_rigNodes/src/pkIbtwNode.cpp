@@ -31,6 +31,8 @@ MObject PkIbtwNode::aRestParentMatrix;
 MObject PkIbtwNode::aRestParentEndMatrix;
 MObject PkIbtwNode::aRestParentPosition;
 MObject PkIbtwNode::aOutRestMatrix;
+MObject PkIbtwNode::aFrameRotate;
+MObject PkIbtwNode::aFrameRotateX, PkIbtwNode::aFrameRotateY, PkIbtwNode::aFrameRotateZ;
 MObject PkIbtwNode::aOffsetRotate;
 MObject PkIbtwNode::aOffsetRotateX, PkIbtwNode::aOffsetRotateY, PkIbtwNode::aOffsetRotateZ;
 MObject PkIbtwNode::aScale;
@@ -241,6 +243,21 @@ MStatus PkIbtwNode::initialize()
     nAttr.setStorable(true);
     addAttribute(aRestParentPosition);
 
+    // Доворот рабочего кадра: в нём меряется изгиб и по его осям ставятся
+    // коррективы. Ноль у обычной кости, где X идёт по кости. Нужен там, где оси
+    // кости не те - у головы четвероногого кадр совпадает с мировым, X смотрит
+    // в сторону, и пары лево-право среди косточек не оказывается вовсе.
+    //
+    // Читается в порядке XYZ, независимо от rotateOrder драйвера: в мировом
+    // режиме тот вообще ни к чему не подключён.
+    aFrameRotateX = uAttr.create("frameRotateX", "frrx", MFnUnitAttribute::kAngle, 0.0);
+    aFrameRotateY = uAttr.create("frameRotateY", "frry", MFnUnitAttribute::kAngle, 0.0);
+    aFrameRotateZ = uAttr.create("frameRotateZ", "frrz", MFnUnitAttribute::kAngle, 0.0);
+    aFrameRotate  = nAttr.create("frameRotate", "frr", aFrameRotateX, aFrameRotateY, aFrameRotateZ);
+    nAttr.setKeyable(false);
+    nAttr.setStorable(true);
+    addAttribute(aFrameRotate);
+
     aOffsetRotateX = uAttr.create("offsetRotateX", "ofrx", MFnUnitAttribute::kAngle, 0.0);
     aOffsetRotateY = uAttr.create("offsetRotateY", "ofry", MFnUnitAttribute::kAngle, 0.0);
     aOffsetRotateZ = uAttr.create("offsetRotateZ", "ofrz", MFnUnitAttribute::kAngle, 0.0);
@@ -373,6 +390,7 @@ MStatus PkIbtwNode::initialize()
         aRestMode,
         aRestChildMatrix, aRestChildEndMatrix, aRestChildPosition,
         aRestParentMatrix, aRestParentEndMatrix, aRestParentPosition,
+        aFrameRotate, aFrameRotateX, aFrameRotateY, aFrameRotateZ,
         aOffsetRotate, aOffsetRotateX, aOffsetRotateY, aOffsetRotateZ,
         aScale,
         aMirrorAxis, aMirrorAxisX, aMirrorAxisY, aMirrorAxisZ,
@@ -484,10 +502,36 @@ MStatus PkIbtwNode::compute(const MPlug& plug, MDataBlock& data)
     // is from the offset, not from its own zero
     const MQuaternion q = qOffset.inverse() * qDriver;
 
+    // Доворот рабочего кадра. Пока он нулевой - а он нулевой у любой кости, у
+    // которой X идёт по кости, - не считается ничего, кроме этой проверки.
+    const double3& fr = data.inputValue(aFrameRotate, &status).asDouble3();
+    const bool framed = (std::fabs(fr[0]) > kEps ||
+                         std::fabs(fr[1]) > kEps ||
+                         std::fabs(fr[2]) > kEps);
+
+    // Доворот задан в кадре левой стороны, и двум его применениям нужны разные
+    // виды. Изгиб меряется в осях этой стороны, поэтому там кадр сопряжён
+    // знаками зеркала, как и offsetRotate. А позиция косточки строится из
+    // параметров, то есть сразу в кадре левой стороны, и знаки к ней
+    // применяются ниже - там доворот идёт как задан, иначе зеркалится дважды и
+    // косточку перебрасывает на другую сторону кости.
+    MQuaternion qFrame;        // как задан
+    MQuaternion qFrameSide;    // в осях этой стороны
+    if (framed)
+    {
+        qFrame = MEulerRotation(fr[0], fr[1], fr[2], MEulerRotation::kXYZ).asQuaternion();
+        qFrameSide = MQuaternion(det * sx * qFrame.x, det * sy * qFrame.y,
+                                 det * sz * qFrame.z, qFrame.w);
+    }
+
+    // Изгиб меряется в рабочем кадре, а `q` остаётся в кадре кости: по нему
+    // считается отставание qLag, то есть локальный поворот самой косточки.
+    const MQuaternion qBend = framed ? (qFrameSide * q * qFrameSide.inverse()) : q;
+
     // the bend, with the twist around the bone taken out
     MVector swAxis(0.0, 0.0, 1.0);
     double  swAngle = 0.0;
-    swingAboutX(q).getAxisAngle(swAxis, swAngle);
+    swingAboutX(qBend).getAxisAngle(swAxis, swAngle);
 
     // keep the angle in [-pi, pi] so the sign of the bend stays readable
     if (swAngle > kPi)
@@ -640,6 +684,11 @@ MStatus PkIbtwNode::compute(const MPlug& plug, MDataBlock& data)
         const double radial = radius * std::cos(swing);
 
         MVector p(along, (axis == 0) ? radial : 0.0, (axis == 0) ? 0.0 : radial);
+
+        // косточка посчитана в рабочем кадре - возвращаем её в кадр кости, под
+        // которой она висит
+        if (framed)
+            p = p.rotateBy(qFrame);
 
         // the offset is stated in the frame of the left side, this puts it in
         // the frame of this one

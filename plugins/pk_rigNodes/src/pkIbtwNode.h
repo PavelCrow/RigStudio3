@@ -115,6 +115,22 @@ public:
     static MObject aRestParentMatrix;
     static MObject aRestParentEndMatrix;
     static MObject aRestParentPosition;
+    // A constant turn of the frame the node works in: the bend is measured in
+    // it and the correctives are placed along its axes. Zero on an ordinary
+    // bone, where X runs along the bone and Y and Z are the two directions the
+    // correctives want.
+    //
+    // It is for a bone whose axes are not those at all - the head root of a
+    // quadruped is built on the world axes, so its X points sideways while the
+    // bone goes down and forward. Turning the frame puts X along the bone and
+    // the across-the-body direction into Z, and the pair of correctives of that
+    // axis becomes the left and the right one. Read in XYZ order, and on a
+    // mirrored side stated in the frame of the left one, same as offsetRotate.
+    //
+    // Nothing is computed for it while it is zero - one comparison per compute.
+    static MObject aFrameRotate;
+    static MObject aFrameRotateX, aFrameRotateY, aFrameRotateZ;
+
     static MObject aOffsetRotate;       // shifts the neutral pose
     static MObject aOffsetRotateX, aOffsetRotateY, aOffsetRotateZ;
     static MObject aScale;              // scales every corrective position at once

@@ -934,7 +934,7 @@ class Inbetweens(object):
 	def addMllFromSelection(self): #
 		self.addMll()
 
-	def centerSides(self, driver_j): #
+	def centerSides(self, driver_j, warn=True): #
 		"""Какая пара косточек центральной кости стоит по сторонам тела.
 
 		У кости в центре - позвонка, шеи, хвоста - косточки идут по двум осям:
@@ -960,9 +960,10 @@ class Inbetweens(object):
 		side = "y" if abs(dots["y"]) >= abs(dots["z"]) else "z"
 
 		if abs(dots[side]) < 0.9:
-			cmds.warning(" %s: ни одна ось косточек не идёт поперёк тела "
-						 "(y %.2f, z %.2f), левая с правой не связываются"
-						 %(driver_j, dots["y"], dots["z"]))
+			if warn:
+				cmds.warning(" %s: ни одна ось косточек не идёт поперёк тела "
+							 "(y %.2f, z %.2f), левая с правой не связываются"
+							 %(driver_j, dots["y"], dots["z"]))
 			return ()
 
 		# косточка с положительными позициями стоит на плюсе своей оси: если
@@ -1032,6 +1033,8 @@ class Inbetweens(object):
 			cmds.setAttr(solver+".scale", data.get("scale", 1.0))
 			offset = data.get("offset", [(0.0, 0.0, 0.0)])[0]
 			cmds.setAttr(solver+".offsetRotate", offset[0], offset[1], offset[2], type="double3")
+			frame = (data.get("frame") or [(0.0, 0.0, 0.0)])[0]
+			cmds.setAttr(solver+".frameRotate", frame[0], frame[1], frame[2], type="double3")
 
 			for j_data in data["jointsData"]:
 				# ведомой косточке своих параметров не заводится, как и всей
@@ -1046,7 +1049,21 @@ class Inbetweens(object):
 
 			# у центральной кости одна пара косточек стоит по сторонам тела -
 			# её настраивают в одном месте, левая ведёт правую
-			sides = self.centerSides(driver_j) if utils.getObjectSide(driver_j) == "c" else ()
+			sides = ()
+			if utils.getObjectSide(driver_j) == "c":
+				sides = self.centerSides(driver_j, warn=False)
+				if not sides:
+					# оси кости не те: доворачиваем рабочий кадр ноды, и пара
+					# лево-право появляется по оси z сама
+					frame = self.frameForBone(driver_j)
+					if frame:
+						cmds.setAttr(solver+".frameRotate",
+									 frame[0], frame[1], frame[2], type="double3")
+						print("Inbetween %s: рабочий кадр довёрнут на %s - X по кости, "
+							  "лево-право по оси z" %(name, [round(v, 2) for v in frame]))
+						sides = ("z", 1, -1)
+					else:
+						self.centerSides(driver_j)
 
 			created = {}
 			for side, angleMax, posMin, posMax in defaults:
@@ -1141,6 +1158,70 @@ class Inbetweens(object):
 
 		return signs, dots
 
+	def frameForBone(self, driver_j): #
+		"""Доворот рабочего кадра ноды для кости, у которой оси не те.
+
+		У обычной кости X идёт по кости, а Y и Z - те два направления, по
+		которым и нужны коррективы. Бывает иначе: у головы четвероногого кадр
+		совпадает с мировым, X смотрит в сторону, и пары лево-право среди
+		косточек не оказывается вовсе, а поворот вокруг этой оси нода считает
+		твистом и в изгиб не берёт - кивок пропадает целиком.
+
+		Здесь X ведётся на ребёнка, а поперёк тела уходит в Z: тогда пара
+		косточек оси z и есть левая с правой, а кивок попадает в пару оси y.
+		Возвращает углы XYZ или пусто, если вести не на что - ребёнка нет или он
+		стоит ровно поперёк тела.
+		"""
+		kids = [k for k in (cmds.listRelatives(driver_j, c=1, type="joint") or [])
+				if "_ibtw_" not in k and "_twist_" not in k]
+		if not kids:
+			return ()
+
+		m = cmds.xform(driver_j, q=1, ws=1, matrix=1)
+		axes = (m[0:3], m[4:7], m[8:11])
+		pos = m[12:15]
+
+		def dot(a, b):
+			return sum(a[i] * b[i] for i in range(3))
+
+		def norm(v):
+			l = math.sqrt(dot(v, v))
+			return [c / l for c in v] if l > 1e-9 else []
+
+		cp = cmds.xform(kids[0], q=1, ws=1, t=1)
+		d = norm([cp[i] - pos[i] for i in range(3)])
+		if not d:
+			return ()
+
+		# направление на ребёнка и поперечное направление тела - в осях кости
+		x = norm([dot(d, a) for a in axes])
+		across = norm([a[0] for a in axes])
+		if not x or not across:
+			return ()
+
+		# поперечное ортогонализуется к кости: вдоль неё его доля ни при чём
+		k = dot(across, x)
+		z = norm([across[i] - x[i] * k for i in range(3)])
+		if not z:
+			# ребёнок стоит ровно поперёк тела - кадр доворачивать некуда
+			return ()
+
+		y = [z[1] * x[2] - z[2] * x[1],
+			 z[2] * x[0] - z[0] * x[2],
+			 z[0] * x[1] - z[1] * x[0]]
+
+		# углы снимаются с временного трансформа: у нового порядок XYZ, тот же,
+		# в котором нода читает frameRotate
+		tmp = cmds.createNode("transform", n="_ibtw_frameTmp")
+		cmds.xform(tmp, matrix=[x[0], x[1], x[2], 0.0,
+								y[0], y[1], y[2], 0.0,
+								z[0], z[1], z[2], 0.0,
+								0.0, 0.0, 0.0, 1.0])
+		angles = list(cmds.getAttr(tmp+".rotate")[0])
+		cmds.delete(tmp)
+
+		return angles
+
 	def initLocOf(self, joint): #
 		"""initLoc позера этой кости - пусто, если его нет.
 
@@ -1232,6 +1313,89 @@ class Inbetweens(object):
 				cmds.setAttr("%s.rest%sPosition" %(solver, side), pos)
 
 		return solver
+
+	@utils.oneStepUndo
+	def linkCenterSides(self, name="", *args): #
+		"""Связывает левую и правую косточки у уже собранных центральных инбитвинов.
+
+		При создании это делается само, а собранным раньше надо указать. Ведущей
+		становится левая - та, что уезжает в мировой +X, - а у правой свои
+		параметры удаляются: их выдаёт нода по mirrorOf, как и всей зеркальной
+		стороне.
+
+		Если значения пары зеркальными не были, печатается и то и другое: в счёт
+		пойдут значения ведущей, и настройку правой, если она была своя, надо
+		будет повторить на левой.
+
+		name пустое - все плагинные инбитвины сцены.
+		"""
+		PARAMS = ("angleMin", "angleMax", "posMin", "posMax",
+				  "swingMin", "swingMax", "bind", "reverse")
+
+		names = [name] if name else [so.replace("_ibtw_solver", "")
+									 for so in sorted(cmds.ls("*_ibtw_solver") or [])]
+		done = 0
+		for n in names:
+			solver = n + "_ibtw_solver"
+			if not cmds.objExists(solver) or utils.getObjectSide(n) != "c":
+				continue
+
+			driver_j = self.getMllDriver(n)
+			if not driver_j:
+				cmds.warning(" %s: драйвер не найден" %n)
+				continue
+
+			sides = self.centerSides(driver_j)
+			if not sides:
+				continue
+
+			axis = 0 if sides[0] == "y" else 1
+			lead = follow = None
+			for i in cmds.getAttr(solver+".joint", multiIndices=True) or []:
+				element = "%s.joint[%s]" %(solver, i)
+				if cmds.getAttr(element+".axis") != axis:
+					continue
+				sign = 1 if cmds.getAttr(element+".posMin") >= 0 else -1
+				if sign == sides[1]:
+					lead = i
+				elif sign == sides[2]:
+					follow = i
+
+			if lead is None or follow is None:
+				cmds.warning(" %s: пары косточек по оси %s не нашлось" %(n, sides[0]))
+				continue
+
+			if cmds.getAttr("%s.mirrorOf[%s]" %(solver, follow)) == lead:
+				print("%s: уже связано" %n)
+				continue
+
+			# были ли они зеркальны до сих пор
+			diff = []
+			for attr in PARAMS[:6]:
+				a = cmds.getAttr("%s.joint[%s].%s" %(solver, lead, attr))
+				b = cmds.getAttr("%s.joint[%s].%s" %(solver, follow, attr))
+				if abs(a + b) > 1e-4:
+					diff.append("%s ведущая %.3f, ведомая %.3f" %(attr, a, b))
+
+			cmds.setAttr("%s.mirrorOf[%s]" %(solver, follow), lead)
+
+			# у ведомой своих параметров быть не должно: их выдаёт нода
+			j = (cmds.listConnections("%s.out[%s].outTranslate" %(solver, follow),
+									  destination=1, source=0) or [""])[0]
+			if j:
+				for attr in PARAMS:
+					if cmds.attributeQuery(attr, node=j, exists=True):
+						cmds.deleteAttr(j, at=attr)
+
+			print("%s: joint[%s] (%s) зеркалит joint[%s] по оси %s"
+				  %(n, follow, j or "?", lead, sides[0]))
+			for d in diff:
+				print("   значения не были зеркальны: %s - в счёт пошли значения ведущей" %d)
+			done += 1
+
+		print("Симметрия центральных косточек: связано %d" %done)
+		self.updateList()
+		return done
 
 	@utils.oneStepUndo
 	def restToPosers(self, name="", *args): #
@@ -1564,6 +1728,7 @@ class Inbetweens(object):
 			data["restMode"] = cmds.getAttr(solver+".restMode")
 		data["scale"] = cmds.getAttr(solver+".scale")
 		data["offset"] = cmds.getAttr(solver+".offsetRotate")
+		data["frame"] = cmds.getAttr(solver+".frameRotate")
 
 		jointsData = []
 		for i in cmds.getAttr(solver+".joint", multiIndices=True) or []:
