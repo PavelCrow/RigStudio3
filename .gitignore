@@ -5,6 +5,7 @@
 __pycache__/
 .vscode/
 .idea/
+.claude/settings.local.json
 incrementalSave
 rigStudio3.code-workspace
 .mayaSwatches

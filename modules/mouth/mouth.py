@@ -289,6 +289,21 @@ class Mouth(module.Module) :
 
 		cmds.connectAttr(f"{m_name}_c_t_lip_local.pos", f"{bf.name()}.parameter[{center_id}]")
 
+		# скин-джоинты, уже сделанные из прежних outJoint, остались без источника:
+		# вместе с удалёнными костями пропали связи, и они замерзали на залипших
+		# значениях (неединичный scale, чужой rotate). Подключаем к новым.
+		for part in ["t", "b"]:
+			for i in range(1, count+1):
+				for side in ["l", "r"]:
+					out = f"{m_name}_{side}_{part}_lip_{i}_outJoint"
+					skin = f"{m_name}_{side}_{part}_lip_{i}_skinJoint"
+					mult = f"{skin}_invScale_multiplyDivide"
+					if not (cmds.objExists(out) and cmds.objExists(skin) and cmds.objExists(mult)):
+						continue
+					if not cmds.isConnected(f"{out}.t", f"{mult}.input1"):
+						cmds.connectAttr(f"{out}.t", f"{mult}.input1", f=1)
+					utils.connectTrandform(out, skin)
+
 		# cmds.delete(self.name+"_root_skinJoint")
 
 		# self.addSkinJoints()

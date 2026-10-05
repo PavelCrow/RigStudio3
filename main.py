@@ -2446,6 +2446,7 @@ class MainWindow:
             self.updateModulesTree()
             self.selectModuleInList(self.curModule.name)
 
+
     def disconnectModule(self, moduleName=""):
         sel = cmds.ls(sl=1)
 
@@ -4035,4 +4036,3 @@ class MainWindow:
             pass
 
         self.addAttrWin = attributes.AddAttribute(self)
-

@@ -933,13 +933,12 @@ def reskin():
 					out_attr = pm.PyNode(outputs[0])
 					return out_attr
 				else:
-					pm.warning("Found multiple attributes")
-					print (outputs)
 					if targetName:
-						for out in outputs:
-							if targetName in out:
-								out_attr = pm.PyNode(out)
-								return out_attr
+						matches = [out for out in outputs
+							if out.startswith(targetName + ".matrix[")]
+						if len(matches) == 1:
+							return pm.PyNode(matches[0])
+					pm.warning("Cannot identify skinCluster matrix attribute: %s" % outputs)
 					return None
 		elif source:
 			pass
@@ -971,14 +970,16 @@ def reskin():
 		if len(sel) == 1:
 			geo = sel[0]
 			
-			if pm.objectType(geo) == "transform":
-				sh = geo.getShape()
-
-				# get skincluster
-				sc = sh.inMesh.inputs()[0]
-				if pm.objectType(sc) != "skinCluster":
-					cmds.warning("Cannot get skincluster, select skincluster in channelbox")
+			if pm.objectType(geo) == "skinCluster":
+				sc = geo
+			elif pm.objectType(geo) == "transform":
+				# The visible shape may be downstream of other deformers, so its
+				# inMesh input is not necessarily the skinCluster.
+				skin_clusters = pm.ls(pm.listHistory(geo), type="skinCluster")
+				if not skin_clusters:
+					cmds.warning("No skinCluster found in selected geometry history")
 					return
+				sc = skin_clusters[0]
 			else:
 				cmds.warning("Select geometry with skincluster or skincluster")
 				return

@@ -1386,22 +1386,31 @@ def curveShapeToCommand(name): #
 		cmds.parent(temp_crv, world=1)
 	resetAttrs(temp_crv)
 	
-	curveShapes = cmds.listRelatives(temp_crv, children = True, path= True, type = 'nurbsCurve')
-	
+	curveShapes = cmds.listRelatives(temp_crv, children = True, path= True, type = 'nurbsCurve') or []
+
 	# save shapes
 	pyCmds = []
 	for curveShape in curveShapes:
-		# curveInfo    
+		# промежуточные шейпы (Orig от удалённых деформеров) геометрии не несут
+		if cmds.getAttr('%s.intermediateObject' %curveShape):
+			continue
+		# curveInfo
 		infoNode = cmds.createNode('curveInfo')
-		cmds.connectAttr("%s.worldSpace[0]" %curveShape, "%s.inputCurve" %infoNode, force = True)
-
-		# Find the knot values and get the numSpans,degree,form, and CVs
-		knots = list(cmds.getAttr('%s.knots' %infoNode)[0])
+		try:
+			cmds.connectAttr("%s.worldSpace[0]" %curveShape, "%s.inputCurve" %infoNode, force = True)
+			# Find the knot values and get the numSpans,degree,form, and CVs
+			knots = list(cmds.getAttr('%s.knots' %infoNode)[0])
+		except RuntimeError:
+			# битая кривая без валидных данных - пропускаем
+			print("curveShapeToCommand: пропущен невалидный шейп", curveShape, "контрола", name)
+			continue
+		finally:
+			if cmds.objExists(infoNode):
+				cmds.delete(infoNode)
 		numSpans = cmds.getAttr('%s.spans' %curveShape)
 		degree = cmds.getAttr('%s.degree' %curveShape)
 		form = cmds.getAttr('%s.form' %curveShape)
 		nucmdsVs = numSpans + degree
-		cmds.delete(infoNode)
 		
 		if form == 2:
 			nucmdsVs -= degree
@@ -1420,7 +1429,10 @@ def curveShapeToCommand(name): #
 			pyCmd = 'cmds.curve(name = "%s", d= 1,p= %s)' %(name, cvArray)
 		elif degree >=2 and form !=2:     
 			pyCmd = 'cmds.curve(name = "%s", d= %s,p= %s, k = %s)' %(name, degree, cvArray, knots)
-		
+		else:
+			print("curveShapeToCommand: неподдерживаемая кривая", curveShape, "degree", degree)
+			continue
+
 		pyCmds.append(pyCmd)
 	
 	cmds.delete(temp_crv)

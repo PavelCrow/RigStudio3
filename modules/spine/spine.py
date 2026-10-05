@@ -107,6 +107,34 @@ class Spine(module.Module) :
 			cmds.setAttr(sj+".pos", value)
 			cmds.connectAttr(sj+".pos", oj+".pos", f=1)
 
+	def skinScaleInvMatrix(self):
+		"""Матрица, снимающая со скиновых костей размер рига.
+
+		Мировая матрица outJoint несёт скейл mainPoser (размер рига, у root он 10);
+		без снятия скиновая спина получала этот скейл в мире, а корни соседних
+		модулей гасили его своим 0.1. Сквош (sy/sz самих outJoint) остаётся.
+		"""
+		comp = self.name+"_skinScaleInv_composeMatrix"
+		if cmds.objExists(comp):
+			return comp + ".outputMatrix"
+
+		dec = self.name+"_mainPoser_decomposeMatrix"
+		if not cmds.objExists(dec):
+			dec = cmds.createNode('decomposeMatrix', n=dec)
+			cmds.connectAttr(self.name+"_mainPoser.worldMatrix[0]", dec+".inputMatrix")
+			utils.addToModuleSet(dec, self.name)
+
+		inv = cmds.createNode('multiplyDivide', n=self.name+"_skinScaleInv_multiplyDivide")
+		cmds.setAttr(inv+".operation", 2)
+		cmds.setAttr(inv+".input1", 1, 1, 1)
+		cmds.connectAttr(dec+".outputScale", inv+".input2")
+		comp = cmds.createNode('composeMatrix', n=comp)
+		cmds.connectAttr(inv+".output", comp+".inputScale")
+		for n in (inv, comp):
+			utils.addModuleNameAttr(n, self.name)
+			utils.addToModuleSet(n, self.name)
+		return comp + ".outputMatrix"
+
 	def rebuildWithNewOptions(self, mainInstance, widget): #
 		self.rebuildJoints(widget.jointsCount_spinBox.value())
 	
@@ -165,7 +193,8 @@ class Spine(module.Module) :
 		for i in range(count):
 			j = cmds.joint(n=name+'_local_%s_skinJoint' %(i+1))
 			utils.addModuleNameAttr(j, name)
-			utils.connectByMatrix(j, [name+f'_local_{i+1}_outJoint', j], ['worldMatrix[0]', 'parentInverseMatrix[0]'], attrs=['t', 'r', 's', 'shr'], module_name=name)
+			comp, compAttr = self.skinScaleInvMatrix().split(".")
+			utils.connectByMatrix(j, [comp, name+f'_local_{i+1}_outJoint', j], [compAttr, 'worldMatrix[0]', 'parentInverseMatrix[0]'], attrs=['t', 'r', 's', 'shr'], module_name=name)
 			cmds.setAttr(j+".segmentScaleCompensate", 0)
 			cmds.setAttr(j+".radius", r)
 			cmds.setAttr(j+'.drawStyle', 0)
@@ -188,11 +217,12 @@ class Spine(module.Module) :
 		super(self.__class__, self).addSkinJoints()
 		
 		joints = cmds.sets(self.name+'_skinJointsSet', q=1)
-		
-		for oj in joints:		
+		comp, compAttr = self.skinScaleInvMatrix().split(".")
+
+		for oj in joints:
 			sj = oj.replace("outJoint", "skinJoint")
 			cmds.setAttr(sj.replace("outJoint", "skinJoint")+".segmentScaleCompensate", 0)
-			utils.connectByMatrix(sj, [oj, sj], ['worldMatrix[0]', 'parentInverseMatrix[0]'], attrs=['t', 'r', 's', 'shr'], module_name=self.name)
+			utils.connectByMatrix(sj, [comp, oj, sj], [compAttr, 'worldMatrix[0]', 'parentInverseMatrix[0]'], attrs=['t', 'r', 's', 'shr'], module_name=self.name)
 
 		cmds.setAttr(self.name+"_root_skinJoint.segmentScaleCompensate", 0)
 
