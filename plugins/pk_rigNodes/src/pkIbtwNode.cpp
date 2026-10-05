@@ -630,18 +630,24 @@ MStatus PkIbtwNode::compute(const MPlug& plug, MDataBlock& data)
     // кадром, становится для изгиба поворотом поперёк кости и проваливается
     // в него целиком: на голове медведя доворот в 124° давал в покое изгиб 130°,
     // косточки съезжали с номинального радиуса и ломалась симметрия.
-    MQuaternion qOffset = MEulerRotation(ofr[0], ofr[1], ofr[2], ro).asQuaternion();
-    // the offset comes from the left solver, so it is stated in the left frame
-    qOffset = MQuaternion(det * sx * qOffset.x, det * sy * qOffset.y,
-                          det * sz * qOffset.z, qOffset.w);
-    // из рабочего кадра в кадр кости: `q` ниже живёт в осях кости, по
-    // нему считается отставание самой косточки
-    if (framed)
-        qOffset = qFrameSide.inverse() * qOffset * qFrameSide;
+    // Пока сдвиг нулевой - а он нулевой почти всюду, - не считается ничего,
+    // кроме этих трёх сравнений
+    MQuaternion q = qDriver;
+    if (std::fabs(ofr[0]) > kEps || std::fabs(ofr[1]) > kEps || std::fabs(ofr[2]) > kEps)
+    {
+        MQuaternion qOffset = MEulerRotation(ofr[0], ofr[1], ofr[2], ro).asQuaternion();
+        // the offset comes from the left solver, so it is stated in the left frame
+        qOffset = MQuaternion(det * sx * qOffset.x, det * sy * qOffset.y,
+                              det * sz * qOffset.z, qOffset.w);
+        // из рабочего кадра в кадр кости: `q` живёт в осях кости, по нему
+        // считается отставание самой косточки
+        if (framed)
+            qOffset = qFrameSide.inverse() * qOffset * qFrameSide;
 
-    // the offset moves the neutral pose: what is measured is how far the joint
-    // is from the offset, not from its own zero
-    const MQuaternion q = qOffset.inverse() * qDriver;
+        // the offset moves the neutral pose: what is measured is how far the
+        // joint is from the offset, not from its own zero
+        q = qOffset.inverse() * qDriver;
+    }
 
     // Изгиб меряется в рабочем кадре, а `q` остаётся в кадре кости: по нему
     // считается отставание qLag, то есть локальный поворот самой косточки.
