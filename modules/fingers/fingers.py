@@ -133,15 +133,14 @@ class Fingers(module.Module) :
 			return False
 
 		# put the locator into the parent joint and zero it.
-		# the right side is mirrored by the negative scale
-		scale = -1 if utils.getObjectSide(m_name) == "r" else 1
-
+		# the initLoc of the joint stands exactly as the joint, on both sides,
+		# so no side flip here - the rest offset below is taken from that initLoc
 		parent = cmds.listRelatives(nodes['loc'], parent=1) or []
 		if not parent or parent[0] != joint:
 			cmds.parent(nodes['loc'], joint)
 		cmds.setAttr(nodes['loc']+".translate", 0, 0, 0)
 		cmds.setAttr(nodes['loc']+".rotate", 0, 0, 0)
-		cmds.setAttr(nodes['loc']+".scale", scale, scale, scale)
+		cmds.setAttr(nodes['loc']+".scale", 1, 1, 1)
 
 		# the target locator keeps the rest offset of the thumb from the parent joint
 		self.connectIfNeeded(initLoc+".worldInverseMatrix[0]", nodes['targetMat']+".matrixIn[1]")
