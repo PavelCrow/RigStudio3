@@ -13,13 +13,18 @@
     The results go to plugins\plug-ins\<MayaVersion>\ - pk_rigNodes.mll
     (pk_ibtw, pk_twist), pk_wings.mll (pk_wing) and pk_dynamics.mll
     (pk_chainDynamics).
+
+    Собранное на место (без -OutputDir) ещё и копируется в студийную папку
+    плагинов, P:\studiomim\env\maya\mim_scripts\<MayaVersion>\plugins - если
+    она есть. Другую папку задаёт -DeployDir, пустая строка выключает копию.
 #>
 param(
     [string]$MayaVersion = "2022",
     [string]$Config = "Release",
     [string]$Toolset = "v143",
     [string]$OutputDir = "",
-    [string]$Target = ""
+    [string]$Target = "",
+    [string]$DeployDir = "P:\studiomim\env\maya\mim_scripts\$MayaVersion\plugins"
 )
 
 $ErrorActionPreference = "Stop"
@@ -60,7 +65,8 @@ if (Test-Path $cache) {
 $cmakeArgs = @("-B", $buildDir, "-S", $root, "-G", $generator, "-T", $Toolset, "-A", "x64", "-DMAYA_VERSION=$MayaVersion")
 # всегда задаём путь явно: иначе значение остаётся в кэше CMake от прошлой
 # сборки и .mll молча уезжает не туда
-if ($OutputDir -eq "") { $OutputDir = Join-Path $root "..\plug-ins\$MayaVersion" }
+$inPlace = ($OutputDir -eq "")
+if ($inPlace) { $OutputDir = Join-Path $root "..\plug-ins\$MayaVersion" }
 $cmakeArgs += "-DPK_OUTPUT_DIR=$OutputDir"
 
 & $cmake @cmakeArgs
@@ -81,3 +87,23 @@ $built = @("pk_wings", "pk_rigNodes", "pk_dynamics")
 if ($Target -ne "") { $built = @($Target) }
 Write-Host ""
 foreach ($b in $built) { Write-Host "Built: $OutputDir\$b.mll" }
+
+# Копия в студийную папку - только у сборки на место: то, что собрано в другой
+# выход (старая версия для замера, проба), в студию уезжать не должно. Занятый
+# там .mll (Maya с ним загружена) - не повод ронять сборку, она уже удалась.
+if ($inPlace -and $DeployDir -ne "") {
+    if (Test-Path $DeployDir) {
+        foreach ($b in $built) {
+            $src = Join-Path $OutputDir "$b.mll"
+            if (-not (Test-Path $src)) { continue }
+            try {
+                Copy-Item $src -Destination $DeployDir -Force -ErrorAction Stop
+                Write-Host "Copied: $DeployDir\$b.mll"
+            } catch {
+                Write-Host "Not copied to ${DeployDir}: $b.mll is in use there - unload it in Maya and copy by hand" -ForegroundColor Yellow
+            }
+        }
+    } else {
+        Write-Host "Deploy folder not found, nothing copied: $DeployDir" -ForegroundColor Yellow
+    }
+}
