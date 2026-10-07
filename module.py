@@ -1390,5 +1390,14 @@ class Module(object):
     def twistOverride(self, t_name, data):
         pass
 
+    def twistMllOverride(self, t_name, solver, nodes_set):
+        """Плагинный твист собран: модулю - подключить к нему своё.
+
+        Старый twistOverride рассчитан на сценовый твист (aimMatrix,
+        connectorLoc) и к pk_twist не подходит. Возвращает True, если что-то
+        подключил. Всё созданное кладётся в nodes_set - с ним и удалится.
+        """
+        return False
+
     def ibtwOverride(self, ibtw_name):
         pass

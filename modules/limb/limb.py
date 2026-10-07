@@ -271,6 +271,48 @@ class Limb(module.Module) :
 				cmds.setAttr(t_name+'_rootUpLoc.s', 1, 1, -1)
 				cmds.setAttr(t_name+'_end_connectorLoc.s', 1, 1, -1)
 
+	def twistMllOverride(self, t_name, solver, nodes_set):
+		"""Контрол колена (локтя) для плагинного твиста.
+
+		middleOffset стоит на суставе и уводит с него стык двух цепочек: бедро
+		кончается на контроле, голень на нём начинается. Нода берёт и конец, и
+		начало цепочки векторами в осях кости, под которой цепочка висит,
+		поэтому положение контрола переводится в них матрицей - у каждой
+		стороны свой кадр, у правой с отрицательным скейлом.
+		"""
+		c = self.name + "_middleOffset"
+		if not cmds.objExists(c):
+			return False
+
+		if t_name == self.name + "_root":
+			attr = "endTranslate"
+		elif t_name == self.name + "_middle":
+			attr = "rootTranslate"
+		else:
+			return False
+		if not cmds.objExists(solver + "." + attr):
+			return False
+
+		# кость, под которой висит цепочка - она же задаёт её оси
+		bone = (cmds.listRelatives(t_name + "_twist_0_twJoint", p=1) or [""])[0]
+		if not bone:
+			return False
+
+		mult = t_name + "_middleOffset_multMatrix"
+		dec = t_name + "_middleOffset_decomposeMatrix"
+		if not cmds.objExists(mult):
+			cmds.createNode("multMatrix", n=mult)
+			cmds.createNode("decomposeMatrix", n=dec)
+			cmds.connectAttr(c + ".worldMatrix[0]", mult + ".matrixIn[0]")
+			cmds.connectAttr(bone + ".worldInverseMatrix[0]", mult + ".matrixIn[1]")
+			cmds.connectAttr(mult + ".matrixSum", dec + ".inputMatrix")
+			if cmds.objExists(nodes_set):
+				cmds.sets(mult, dec, e=1, forceElement=nodes_set)
+		cmds.connectAttr(dec + ".outputTranslate", solver + "." + attr, f=1)
+
+		cmds.showHidden(c)
+		return True
+
 	def ibtwOverride(self, name):
 		if name == self.name + "_middle_twist_0" :
 			cmds.connectAttr(self.name+"_middleOffset.worldMatrix[0]", self.name+"_middle_twist_0_ibtw_joints_group_multMat.matrixIn[0]", f=1)

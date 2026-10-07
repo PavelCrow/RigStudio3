@@ -18,6 +18,10 @@ MObject PkTwistNode::aCtrlRotateX, PkTwistNode::aCtrlRotateY, PkTwistNode::aCtrl
 MObject PkTwistNode::aCtrlRotateOrder;
 MObject PkTwistNode::aBoneTranslate;
 MObject PkTwistNode::aBoneTranslateX, PkTwistNode::aBoneTranslateY, PkTwistNode::aBoneTranslateZ;
+MObject PkTwistNode::aRootTranslate;
+MObject PkTwistNode::aRootTranslateX, PkTwistNode::aRootTranslateY, PkTwistNode::aRootTranslateZ;
+MObject PkTwistNode::aEndTranslate;
+MObject PkTwistNode::aEndTranslateX, PkTwistNode::aEndTranslateY, PkTwistNode::aEndTranslateZ;
 MObject PkTwistNode::aFalloff;
 MObject PkTwistNode::aDriver;
 MObject PkTwistNode::aDriverRotate;
@@ -173,6 +177,27 @@ MStatus PkTwistNode::initialize()
     aBoneTranslate  = nAttr.create("boneTranslate", "bt", aBoneTranslateX, aBoneTranslateY, aBoneTranslateZ);
     nAttr.setKeyable(true);
     addAttribute(aBoneTranslate);
+
+    // Откуда цепочка начинается, в осях кости. Ноль - из начала самой кости,
+    // и тогда ничего не меняется. Нужно стыку двух цепочек: контрол колена
+    // уводит его с сустава, бедро кончается на контроле (boneTranslate), а
+    // голень на нём начинается - это и есть rootTranslate её цепочки.
+    aRootTranslateX = nAttr.create("rootTranslateX", "rtx", MFnNumericData::kDouble, 0.0);
+    aRootTranslateY = nAttr.create("rootTranslateY", "rty", MFnNumericData::kDouble, 0.0);
+    aRootTranslateZ = nAttr.create("rootTranslateZ", "rtz", MFnNumericData::kDouble, 0.0);
+    aRootTranslate  = nAttr.create("rootTranslate", "rt", aRootTranslateX, aRootTranslateY, aRootTranslateZ);
+    nAttr.setKeyable(true);
+    addAttribute(aRootTranslate);
+
+    // И где кончается. Ноль - на конце кости, то есть на boneTranslate. Сама
+    // кость при этом остаётся костью: по ней ось покоя косточек и драйверы,
+    // а цепочка - отрезок от rootTranslate до endTranslate.
+    aEndTranslateX = nAttr.create("endTranslateX", "etx", MFnNumericData::kDouble, 0.0);
+    aEndTranslateY = nAttr.create("endTranslateY", "ety", MFnNumericData::kDouble, 0.0);
+    aEndTranslateZ = nAttr.create("endTranslateZ", "etz", MFnNumericData::kDouble, 0.0);
+    aEndTranslate  = nAttr.create("endTranslate", "et", aEndTranslateX, aEndTranslateY, aEndTranslateZ);
+    nAttr.setKeyable(true);
+    addAttribute(aEndTranslate);
 
     aFalloff = nAttr.create("falloff", "fo", MFnNumericData::kDouble, 1.0);
     nAttr.setMin(0.01);
@@ -353,6 +378,8 @@ MStatus PkTwistNode::initialize()
         aCtrlRotate, aCtrlRotateX, aCtrlRotateY, aCtrlRotateZ,
         aCtrlRotateOrder,
         aBoneTranslate, aBoneTranslateX, aBoneTranslateY, aBoneTranslateZ,
+        aRootTranslate, aRootTranslateX, aRootTranslateY, aRootTranslateZ,
+        aEndTranslate, aEndTranslateX, aEndTranslateY, aEndTranslateZ,
         aFalloff,
         aDriver,
         aDriverRotate, aDriverRotateX, aDriverRotateY, aDriverRotateZ,
@@ -401,10 +428,18 @@ MStatus PkTwistNode::compute(const MPlug& plug, MDataBlock& data)
     const double3& cr    = data.inputValue(aCtrlRotate, &status).asDouble3();
     const short    order = data.inputValue(aCtrlRotateOrder, &status).asShort();
     const double3& bt    = data.inputValue(aBoneTranslate, &status).asDouble3();
+    const double3& rt    = data.inputValue(aRootTranslate, &status).asDouble3();
+    const double3& et    = data.inputValue(aEndTranslate, &status).asDouble3();
     const double   falloff = data.inputValue(aFalloff, &status).asDouble();
 
-
-    const MVector bone(bt[0], bt[1], bt[2]);
+    // Всё ниже меряется по отрезку цепочки: `bone` - от её начала до её
+    // конца, а не кость целиком. Пока оба в нуле это одно и то же, и ничего
+    // не считается. Нулевой конец - конец кости: цепочка нулевой длины не
+    // нужна никому, так что ноль здесь значит "не задан".
+    const MVector root(rt[0], rt[1], rt[2]);
+    const MVector end  = (MVector(et[0], et[1], et[2]).length() > kEps)
+                       ? MVector(et[0], et[1], et[2]) : MVector(bt[0], bt[1], bt[2]);
+    const MVector bone = end - root;
     const MVector ctrlT(ct[0], ct[1], ct[2]);
 
     const MEulerRotation::RotationOrder ro = orderFromEnum(order);
@@ -416,6 +451,13 @@ MStatus PkTwistNode::compute(const MPlug& plug, MDataBlock& data)
     // lost - (axis x offset) is zero when the two are parallel - and a mixed
     // rotation would leak from one into the other.
     const MVector boneDir = (bone.length() > kEps) ? bone.normal() : MVector::xAxis;
+
+    // the bone itself, where the joints look at rest: with the chain starting
+    // off the bone its span tilts away from it, and the turn handed out below
+    // has to start from the bone, not from the span - or the joints keep the
+    // orientation of the bone and never look along the chain
+    const MVector boneAxis = (MVector(bt[0], bt[1], bt[2]).length() > kEps)
+                           ? MVector(bt[0], bt[1], bt[2]).normal() : boneDir;
 
     const double twistAngle = twistAbout(qCtrl, boneDir);
 
@@ -435,8 +477,10 @@ MStatus PkTwistNode::compute(const MPlug& plug, MDataBlock& data)
 
     // all of it in one place: both chains are given the same
     Frame frame;
+    frame.root       = root;
     frame.bone       = bone;
     frame.boneDir    = boneDir;
+    frame.boneAxis   = boneAxis;
     frame.ctrlT      = ctrlT;
     frame.rotAxis    = rotAxis;
     frame.rotAngle   = rotAngle;
@@ -594,8 +638,9 @@ MStatus PkTwistNode::solveChain(MDataBlock& data, MArrayDataHandle& hJoints,
         items.push_back(it);
     }
 
-    // the bone itself, where the chain hangs from
-    const MVector boneRoot = frame.bone * -kCtrlPosition;
+    // the bone itself, where the chain hangs from: its origin, stated from the
+    // control point - which sits kCtrlPosition along the chain from its start
+    const MVector boneRoot = -(frame.root + frame.bone * kCtrlPosition);
 
     // --- 2. where every joint has to look ------------------------------------
     // What the node hands out is the deformation, not an orientation: the
@@ -616,7 +661,7 @@ MStatus PkTwistNode::solveChain(MDataBlock& data, MArrayDataHandle& hJoints,
         const MVector dir = items[i].tangent;
 
         const MQuaternion qAim = (dir.length() > kEps)
-                               ? MQuaternion(frame.boneDir, dir.normal())
+                               ? MQuaternion(frame.boneAxis, dir.normal())
                                : MQuaternion::identity;
 
         // around the bone, the same axis the twist was measured about - not

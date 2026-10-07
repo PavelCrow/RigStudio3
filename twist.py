@@ -1088,7 +1088,34 @@ class Twist(object):
 
         self.buildMllControl(t_name, start_j, end_j, moduleName, nodes_set)
 
+        # модулю - подключить своё: у конечности это контрол колена или локтя,
+        # который без этого плагинного твиста не видит
+        utils.getModuleInstance(moduleName).twistMllOverride(t_name, solver, nodes_set)
+
         return t_name
+
+    def connectMllOffset(self, name="", *args): #
+        """Подключает контрол стыка к уже собранным плагинным твистам.
+
+        Твисты, собранные раньше, слушали только конец кости: контрол колена
+        (локтя) к ним не подключался, и двигать цепочки он не мог. Делается то
+        же, что при сборке. name пустое - все плагинные твисты сцены.
+        """
+        names = [name] if name else [s.replace("_twist_solver", "")
+                                     for s in sorted(cmds.ls(type="pk_twist") or [])]
+        done = 0
+        for n in names:
+            solver = n + "_twist_solver"
+            root = self.getMllRoot(n)
+            if not cmds.objExists(solver) or not root:
+                continue
+            mod = utils.getModuleInstance(utils.getModuleName(root))
+            if mod.twistMllOverride(n, solver, n + "_twistNodesSet"):
+                print("%s: контрол стыка подключён" %n)
+                done += 1
+
+        print("Контрол стыка: подключено %d" %done)
+        return done
 
     def buildMllJoints(self, t_name, start_j, count, nodes_set, skin, second=False): #
         """Цепочка костей и их связи с солвером.

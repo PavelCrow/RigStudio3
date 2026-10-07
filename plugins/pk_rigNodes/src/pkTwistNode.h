@@ -150,6 +150,10 @@ public:
     static MObject aCtrlRotateOrder;    // <- the control .rotateOrder
     static MObject aBoneTranslate;      // <- .translate of the child of the bone
     static MObject aBoneTranslateX, aBoneTranslateY, aBoneTranslateZ;
+    static MObject aRootTranslate;      // where the chain starts, in the frame of the bone; 0 is the bone itself
+    static MObject aRootTranslateX, aRootTranslateY, aRootTranslateZ;
+    static MObject aEndTranslate;       // where the chain ends, same frame; 0 is the end of the bone
+    static MObject aEndTranslateX, aEndTranslateY, aEndTranslateZ;
     static MObject aFalloff;            // exponent of the bell
 
     // one element per bone that twists the chain, any number of them
@@ -215,8 +219,10 @@ private:
     // they are weighted by.
     struct Frame
     {
-        MVector bone;
-        MVector boneDir;
+        MVector root;        // where the chain starts, from the origin of the bone
+        MVector bone;        // what the chain spans: from its start to its end
+        MVector boneDir;     // along the span: the axis the chain twists about
+        MVector boneAxis;    // along the bone itself: the X the joints were built with
         MVector ctrlT;
         MVector rotAxis;     // the swing, as an axis and an angle
         double  rotAngle;
