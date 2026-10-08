@@ -1,6 +1,6 @@
 import maya.cmds as cmds
 import pymel.core as pm
-import os, sys, math, json, importlib
+import os, sys, math, json, importlib, re
 import pickle as cPickle
 
 from . import controller, additionalControl
@@ -991,14 +991,13 @@ def scaleFromRoot(module_name, target): #
 		cmds.connectAttr(newInputs[i], mMat+".matrixIn[%s]" %(str(i)))
 
 def formatName(string): #
-	newName = ""
-	for n in string:
-		if n.isupper() or n.isdigit():
-			n = ' ' + n
-		if n == '_': n = " "
-		newName += n
-	newName = newName[0].upper()+newName[1:]
-	return newName
+	if not string:
+		return ""
+	name = string.replace('_', ' ')
+	name = re.sub(r'([a-z0-9])([A-Z])', r'\1 \2', name)
+	name = re.sub(r'([A-Z])([A-Z][a-z])', r'\1 \2', name)
+	name = re.sub(r'([A-Za-z])([0-9])', r'\1 \2', name)
+	return name[0].upper() + name[1:]
 
 def lockChannels(ctrlName, channels=['s']):
 

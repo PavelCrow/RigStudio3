@@ -2074,10 +2074,11 @@ class MainWindow:
         m = self.curModule
 
         # update attrs
+        module_label = utils.formatName(m.type)
         if m.opposite:
-            self.win.moduleType_lineEdit.setText(m.type + " (Mirrored)")
+            self.win.moduleType_lineEdit.setText(module_label + " (Mirrored)")
         else:
-            self.win.moduleType_lineEdit.setText(m.type)
+            self.win.moduleType_lineEdit.setText(module_label)
         self.win.moduleName_lineEdit.setText(m.name)
         # the snapshot belongs to the module it was taken on
         self.moduleJointsSizeData = []
