@@ -898,8 +898,17 @@ class Inbetweens(object):
 				return suffix
 		return ""
 
-	def mllJointName(self, name, side, n, suffix): #
-		j = "%s_ibtw_%s_%s" %(name, side, n)
+	def mllJointName(self, name, side, n, suffix, sideName=""): #
+		"""Имя косточки. У пары центральной кости, стоящей по сторонам тела,
+		вместо номера - сторона: l_<имя>_ibtw_y_skinJoint и r_..., чтобы
+		зеркало скина видело в них пару. n тогда идёт в ход, только если такое
+		имя уже занято."""
+		if sideName:
+			j = "%s_%s_ibtw_%s" %(sideName, name, side)
+			if n > 1:
+				j += "_%s" %n
+		else:
+			j = "%s_ibtw_%s_%s" %(name, side, n)
 		return j + "_" + suffix if suffix else j
 
 	def isMllWorld(self, name): #
@@ -1097,11 +1106,15 @@ class Inbetweens(object):
 			created = {}
 			for side, angleMax, posMin, posMax in defaults:
 				follows = bool(sides) and side == sides[0] and (posMin > 0) == (sides[2] > 0)
+				leads = bool(sides) and side == sides[0] and (posMin > 0) == (sides[1] > 0)
+				# пара по сторонам тела зовётся l_ и r_: ведущая - левая, та,
+				# что уезжает в мировой +X; так зеркало скина видит в них пару
+				sideName = "l" if leads else ("r" if follows else "")
 				self.addJointMll(side, name, {"angleMin": 0, "angleMax": angleMax,
 											  "posMin": posMin, "posMax": posMax,
 											  "swingMin": 0, "swingMax": 0,
 											  "bind": 0.5, "reverse": False},
-								 mirrored=mirrored or follows, pose=True)
+								 mirrored=mirrored or follows, pose=True, sideName=sideName)
 				# только что созданный элемент - с наибольшим индексом
 				created[(side, 1 if posMin > 0 else -1)] = \
 					max(cmds.getAttr(solver+".joint", multiIndices=True) or [0])
@@ -1452,6 +1465,17 @@ class Inbetweens(object):
 				cmds.warning(" %s: пары косточек по оси %s не нашлось" %(n, sides[0]))
 				continue
 
+			# имена пары - l_ и r_, чтобы зеркало скина видело в них пару;
+			# собранным раньше достаётся здесь, даже если связь уже есть
+			suffix = self.jointSuffix(driver_j)
+			for i, s in ((lead, "l"), (follow, "r")):
+				j = (cmds.listConnections("%s.out[%s].outTranslate" %(solver, i),
+										  destination=1, source=0) or [""])[0]
+				want = self.mllJointName(n, sides[0], 1, suffix, s)
+				if j and j != want and not cmds.objExists(want):
+					cmds.rename(j, want)
+					print("%s: %s -> %s" %(n, j, want))
+
 			if cmds.getAttr("%s.mirrorOf[%s]" %(solver, follow)) == lead:
 				print("%s: уже связано" %n)
 				continue
@@ -1689,7 +1713,7 @@ class Inbetweens(object):
 			if not cmds.listConnections(opp_mirror, source=1, destination=0):
 				cmds.connectAttr(mirror, opp_mirror)
 
-	def addJointMll(self, side, name=None, data=None, mirrored=False, pose=False): #
+	def addJointMll(self, side, name=None, data=None, mirrored=False, pose=False, sideName=""): #
 		if not name:
 			name = self.curIbName
 
@@ -1705,10 +1729,14 @@ class Inbetweens(object):
 
 		suffix = self.jointSuffix(driver_j)
 
+		# сторона тела у пары центральной кости: из шаблона или от создания
+		if data and data.get("sideName"):
+			sideName = data["sideName"]
+
 		n = 1
-		while cmds.objExists(self.mllJointName(name, side, n, suffix)):
+		while cmds.objExists(self.mllJointName(name, side, n, suffix, sideName)):
 			n += 1
-		j_name = self.mllJointName(name, side, n, suffix)
+		j_name = self.mllJointName(name, side, n, suffix, sideName)
 
 		indices = cmds.getAttr(solver+".joint", multiIndices=True) or []
 		index = max(indices) + 1 if indices else 0
@@ -1833,6 +1861,10 @@ class Inbetweens(object):
 			# mirrored side that is the element of the left solver
 			cmds.removeMultiInstance("%s.joint[%s]" %(solver, index), b=True)
 			cmds.removeMultiInstance("%s.out[%s]" %(solver, index), b=True)
+			# и зеркало: по оставшемуся mirrorOf нода восстановила бы элемент
+			# и считала выход в пустоту
+			if index in [str(k) for k in (cmds.getAttr(solver+".mirrorOf", multiIndices=True) or [])]:
+				cmds.removeMultiInstance("%s.mirrorOf[%s]" %(solver, index), b=True)
 
 	def getDataMll(self, name): #
 		solver = name + "_ibtw_solver"
@@ -1883,14 +1915,29 @@ class Inbetweens(object):
 		data["frameMode"] = cmds.getAttr(solver+".frameMode")
 
 		jointsData = []
-		for i in cmds.getAttr(solver+".joint", multiIndices=True) or []:
+		# Индексы - и из joint[], и из mirrorOf[]: элемент ведомой состоит из
+		# одних дефолтов без связей, и Maya его в файл не пишет; после
+		# переоткрытия в joint[] его нет, а в mirrorOf[] есть - нода по нему
+		# восстанавливает косточку, и шаблон должен тоже
+		indices = set(cmds.getAttr(solver+".joint", multiIndices=True) or [])
+		for i in cmds.getAttr(solver+".mirrorOf", multiIndices=True) or []:
+			if cmds.getAttr("%s.mirrorOf[%s]" %(solver, i)) >= 0:
+				indices.add(i)
+		for i in sorted(indices):
 			element = "%s.joint[%s]" %(solver, i)
 
 			jData = {}
 			# read off the solver, not off the joint: on the mirrored side the
-			# joints carry no parameters at all
-			joints = cmds.listConnections(element+".angleMin", source=1, destination=0) or []
+			# joints carry no parameters at all. Имя - по выходу, он есть и у
+			# ведомой; сторона тела - из префикса имени, чтобы l_/r_ пережили
+			# шаблон
+			joints = cmds.listConnections("%s.out[%s].outTranslate" %(solver, i),
+										  source=0, destination=1) or []
 			jData["name"] = joints[0] if joints else ""
+			jData["sideName"] = ""
+			for s in ("l", "r"):
+				if jData["name"].startswith("%s_%s_ibtw_" %(s, name)):
+					jData["sideName"] = s
 			jData["side"] = "y" if cmds.getAttr(element+".axis") == 0 else "z"
 			for attr in ("angleMin", "angleMax", "posMin", "posMax", "swingMin", "swingMax", "bind", "reverse"):
 				jData[attr] = cmds.getAttr(element+"."+attr)
