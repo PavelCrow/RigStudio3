@@ -97,6 +97,34 @@ class Module(object):
 
         cmds.refresh()
 
+    def skinScaleInvMatrix(self):
+        """Матрица, снимающая со скиновых костей размер рига.
+
+        Мировая матрица outJoint несёт скейл mainPoser (размер рига); без
+        снятия скиновая кость получала бы его в мире. Сквош самих outJoint
+        остаётся. Одна на модуль, создаётся по первому запросу.
+        """
+        comp = self.name+"_skinScaleInv_composeMatrix"
+        if cmds.objExists(comp):
+            return comp + ".outputMatrix"
+
+        dec = self.name+"_mainPoser_decomposeMatrix"
+        if not cmds.objExists(dec):
+            dec = cmds.createNode('decomposeMatrix', n=dec)
+            cmds.connectAttr(self.name+"_mainPoser.worldMatrix[0]", dec+".inputMatrix")
+            utils.addToModuleSet(dec, self.name)
+
+        inv = cmds.createNode('multiplyDivide', n=self.name+"_skinScaleInv_multiplyDivide")
+        cmds.setAttr(inv+".operation", 2)
+        cmds.setAttr(inv+".input1", 1, 1, 1)
+        cmds.connectAttr(dec+".outputScale", inv+".input2")
+        comp = cmds.createNode('composeMatrix', n=comp)
+        cmds.connectAttr(inv+".output", comp+".inputScale")
+        for n in (inv, comp):
+            utils.addModuleNameAttr(n, self.name)
+            utils.addToModuleSet(n, self.name)
+        return comp + ".outputMatrix"
+
     def addSkinJoints(self, m_name=None):
         if not m_name:
             m_name = self.name

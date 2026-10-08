@@ -771,8 +771,9 @@ class ChainIk(module.Module) :
 		group_j = self.name + "_group_joint"
 
 		for i in range(1, self.jointsCount):
-			cmds.setAttr(self.name+"_%s_skinJoint.segmentScaleCompensate" %i, 1)
 			cmds.connectAttr(self.name+"_%s_skinJoint.offset" %i, self.name+"_%s_outJoint.offset" %i)
+
+		self.connectSkinByMatrix()
 
 		for j in cmds.listRelatives(root_j, allDescendents=1):
 			cmds.sets(j, e=1, forceElement=self.name+"_nodesSet")
@@ -780,6 +781,48 @@ class ChainIk(module.Module) :
 		cmds.setAttr(root_j+".drawStyle", 0)
 
 		cmds.sets(root_j, e=1, forceElement=self.name+"_nodesSet")
+
+	def connectSkinByMatrix(self):
+		"""Скиновые кости цепочки идут за outJoint матрицей, как у спины.
+
+		Прямая связь t/r/s работает только пока кадры совпадают. У цепочки
+		каждая outJoint несёт объём (sy/sz от stretchVolume) и считает его с
+		segmentScaleCompensate, а скелет должен жить без него: у скиновой
+		кости родитель сжат, и поворот, снятый с компенсированного кадра
+		модуля, превращается в сдвиг - на медведе 5.5 уже на первой кости,
+		дальше накапливается до 6 единиц, на конце до 17.
+
+		Здесь локальная матрица скиновой кости берётся из мировой матрицы
+		outJoint в кадре её родителя - t, r, s и shear: любой скейл родителя
+		уходит в shear, мировые матрицы совпадают точно при выключенном
+		segmentScaleCompensate. Размер рига снимается skinScaleInvMatrix.
+		Кость, уже связанная матрицей, пропускается - можно звать повторно,
+		чтобы починить собранную раньше цепочку.
+		"""
+		comp, compAttr = self.skinScaleInvMatrix().split(".")
+		done = 0
+		for i in range(1, self.jointsCount):
+			sj = "%s_%s_skinJoint" %(self.name, i)
+			oj = "%s_%s_outJoint" %(self.name, i)
+			if not cmds.objExists(sj) or not cmds.objExists(oj):
+				continue
+			if cmds.objExists(sj+"_decMat"):
+				continue
+
+			for a in ("translate", "rotate", "scale"):
+				for ax in ("", "X", "Y", "Z"):
+					for src in cmds.listConnections(sj+"."+a+ax, source=1, destination=0, plugs=1) or []:
+						cmds.disconnectAttr(src, sj+"."+a+ax)
+			if cmds.objExists(sj+"_invScale_multiplyDivide"):
+				cmds.delete(sj+"_invScale_multiplyDivide")
+
+			# поворот целиком приходит из матрицы, jointOrient ему ни к чему
+			cmds.setAttr(sj+".jointOrient", 0, 0, 0)
+			utils.connectByMatrix(sj, [comp, oj, sj], [compAttr, 'worldMatrix[0]', 'parentInverseMatrix[0]'],
+								  attrs=['t', 'r', 's', 'shr'], module_name=self.name)
+			cmds.setAttr(sj+".segmentScaleCompensate", 0)
+			done += 1
+		return done
 
 	def bake(self):
 		super(self.__class__, self).bake(forceDelete=[self.name+"_initCurve_curveInfo"])
