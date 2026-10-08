@@ -30,6 +30,12 @@
     </layout>
    </item>
    <item>
+    <widget class="QCheckBox" name="useDynamic_checkBox">
+     <property name="text"><string>Use Dynamic</string></property>
+     <property name="checked"><bool>false</bool></property>
+    </widget>
+   </item>
+   <item>
     <widget class="QPushButton" name="rebuild_btn">
      <property name="minimumSize"><size><width>0</width><height>40</height></size></property>
      <property name="text"><string>Rebuild with new options</string></property>

@@ -35,6 +35,7 @@ class ChainFullIKFK(ChainIk):
         controls_count = int(options.get("controlsCount", self.controlsCount))
         joints_count = int(options.get("jointsCount", self.jointsCount))
         boxes_count = int(options.get("ikBoxesCount", self.ikBoxesCount))
+        use_dynamic = bool(options.get("useDynamic", self.useDynamic))
         if controls_count < 4:
             raise ValueError("Chain Full IKFK needs at least four FK controls")
         if joints_count < 3:
@@ -44,10 +45,10 @@ class ChainFullIKFK(ChainIk):
         if cmds.objExists(self.name + "_mod"):
             raise ValueError("Module {} already exists".format(self.name))
 
-        # The tested chain uses its procedural curve and no hair dynamics.
+        # ChainIk builds the original hair-system dynamics when requested.
         build_options = {"controlsCount": controls_count,
                          "jointsCount": joints_count,
-                         "useDynamic": False}
+                         "useDynamic": use_dynamic}
         original_import = utils.importFile
         utils.importFile = lambda path, module_name="": (
             chainIk_ik_controls._import_template_without_editor_managers(
@@ -94,6 +95,7 @@ class ChainFullIKFK(ChainIk):
         widget.jointsCount_spinBox.setValue(self.jointsCount)
         widget.ikBoxesCount_spinBox.setMaximum(self.controlsCount)
         widget.ikBoxesCount_spinBox.setValue(self.ikBoxesCount)
+        widget.useDynamic_checkBox.setChecked(self.useDynamic)
 
     def getOptions(self):
         options = ChainIk.getOptions(self)
@@ -116,6 +118,7 @@ class ChainFullIKFK(ChainIk):
         count_plug = self.name + "_mod.ikBoxesCount"
         if cmds.objExists(count_plug):
             self.ikBoxesCount = int(cmds.getAttr(count_plug))
+        self.useDynamic = cmds.objExists(self.name + "_hairSystem")
         old_boxes = int(data.get("optionsData", {}).get("ikBoxesCount", 3))
         if old_boxes != self.ikBoxesCount:
             data = dict(data)
@@ -149,6 +152,9 @@ class ChainFullIKFK(ChainIk):
                          if self.ikBoxesCount == 3 else
                          tuple("ikBox{}To{}".format(index, index + 1)
                                for index in range(1, self.ikBoxesCount)))
+            elif internal == "control" and self.useDynamic:
+                attrs = ("______________", "dynamic", "startFrame", "dynamicWeight",
+                         "stiffness", "damp")
             else:
                 continue
             for attr in attrs:
@@ -184,10 +190,11 @@ class ChainFullIKFK(ChainIk):
         controls_count = widget.controlsCount_spinBox.value()
         joints_count = widget.jointsCount_spinBox.value()
         boxes_count = widget.ikBoxesCount_spinBox.value()
+        use_dynamic = widget.useDynamic_checkBox.isChecked()
         options = {"controlsCount": controls_count,
                    "jointsCount": joints_count,
                    "ikBoxesCount": boxes_count,
-                   "useDynamic": False}
+                   "useDynamic": use_dynamic}
 
         joints = cmds.sets(self.name + "_skinJointsSet", query=True) or []
         ids = [int(j.split("_")[-2]) for j in joints

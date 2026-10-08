@@ -1,5 +1,5 @@
-ver=1.9=
-description=FK chain with a configurable number of IK box controls under a master control. The master scales the whole joint chain. FK weights are distributed linearly between adjacent boxes and remain editable. Intermediate boxes can follow the end box's translation. All box rotations orient FK controls; the base and end boxes can optionally affect FK positions with rotation.
+ver=2.0=
+description=FK chain with a configurable number of IK box controls under a master control and optional Chain IK hair-system dynamics. The master scales the whole joint chain. FK weights are distributed linearly between adjacent boxes and remain editable. Intermediate boxes can follow the end box's translation. All box rotations orient FK controls; the base and end boxes can optionally affect FK positions with rotation.
 section=Base
 advanced=False
 type=Standart
