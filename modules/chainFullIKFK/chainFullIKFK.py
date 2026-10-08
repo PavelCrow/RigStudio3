@@ -9,6 +9,37 @@ from ... import module, utils
 from ..chainIk.chainIk import ChainIk
 from ..chainIk import chainIk_ik_controls
 from . import variable_boxes
+from . import box_dynamics
+
+
+def _remove_rotation_position_graph(name, controls_count):
+    """Keep box rotation on FK axes without rotating FK positions."""
+    obsolete = []
+    for index in range(1, controls_count + 1):
+        guide = "{}_element_{}_ikGuide".format(name, index)
+        summation = guide + "_sum"
+        if not cmds.objExists(guide) or not cmds.objExists(summation):
+            raise RuntimeError("Missing FK position guide for {}".format(guide))
+        cmds.connectAttr(summation + ".output3D", guide + ".translate",
+                         force=True)
+        obsolete.extend((guide + "_rotationSum",
+                         guide + "_rotationBlend"))
+        for kind in ("base", "end"):
+            prefix = guide + "_rotate_" + kind
+            obsolete.extend(prefix + "_" + suffix for suffix in
+                            ("vector", "rotated", "delta", "weighted"))
+    for kind in ("base", "end"):
+        cube = name + "_ik_" + kind
+        obsolete.extend((cube + "_ikGuide_pivotMatrix",
+                         cube + "_ikGuide_pivot",
+                         cube + "_ikGuide_rotationMatrix"))
+    existing = [node for node in obsolete if cmds.objExists(node)]
+    if existing:
+        cmds.delete(existing)
+    for kind in ("base", "end"):
+        cube = name + "_ik_" + kind
+        if cmds.objExists(cube + ".rotationAffectsPosition"):
+            cmds.deleteAttr(cube, attribute="rotationAffectsPosition")
 
 
 class ChainFullIKFK(ChainIk):
@@ -23,6 +54,7 @@ class ChainFullIKFK(ChainIk):
         self.controlsCount = 5
         self.jointsCount = 10
         self.ikBoxesCount = 3
+        self.useBoxDynamics = False
         self.localControls = True
         self.useDynamic = False
 
@@ -31,11 +63,13 @@ class ChainFullIKFK(ChainIk):
         # Rebuild must use the helper currently on disk in the same Maya session.
         importlib.reload(chainIk_ik_controls)
         importlib.reload(variable_boxes)
+        importlib.reload(box_dynamics)
         options = options or {}
         controls_count = int(options.get("controlsCount", self.controlsCount))
         joints_count = int(options.get("jointsCount", self.jointsCount))
         boxes_count = int(options.get("ikBoxesCount", self.ikBoxesCount))
         use_dynamic = bool(options.get("useDynamic", self.useDynamic))
+        use_box_dynamics = bool(options.get("useBoxDynamics", self.useBoxDynamics))
         if controls_count < 4:
             raise ValueError("Chain Full IKFK needs at least four FK controls")
         if joints_count < 3:
@@ -76,6 +110,11 @@ class ChainFullIKFK(ChainIk):
             chainIk_ik_controls.repair_full_ikfk(self.name)
         else:
             variable_boxes.repair_full_ikfk(self.name)
+        _remove_rotation_position_graph(self.name, controls_count)
+        if use_box_dynamics:
+            box_dynamics.add_to_existing(self.name, controls_count, boxes_count)
+            box_dynamics.verify(self.name, controls_count, boxes_count)
+        self.useBoxDynamics = use_box_dynamics
         self.joints = self.getJoints()
         return self
 
@@ -96,6 +135,7 @@ class ChainFullIKFK(ChainIk):
         widget.ikBoxesCount_spinBox.setMaximum(self.controlsCount)
         widget.ikBoxesCount_spinBox.setValue(self.ikBoxesCount)
         widget.useDynamic_checkBox.setChecked(self.useDynamic)
+        widget.useBoxDynamics_checkBox.setChecked(self.useBoxDynamics)
 
     def getOptions(self):
         options = ChainIk.getOptions(self)
@@ -103,6 +143,8 @@ class ChainFullIKFK(ChainIk):
         self.ikBoxesCount = (int(cmds.getAttr(plug))
                              if cmds.objExists(plug) else 3)
         options["ikBoxesCount"] = self.ikBoxesCount
+        self.useBoxDynamics = cmds.objExists(self.name + "_ik_base_particle")
+        options["useBoxDynamics"] = self.useBoxDynamics
         return options
 
     def getData(self):
@@ -115,19 +157,27 @@ class ChainFullIKFK(ChainIk):
         return data
 
     def setData(self, data, sym=False, namingForce=False, load="all"):
-        count_plug = self.name + "_mod.ikBoxesCount"
-        if cmds.objExists(count_plug):
-            self.ikBoxesCount = int(cmds.getAttr(count_plug))
-        self.useDynamic = cmds.objExists(self.name + "_hairSystem")
+        self.getOptions()
         old_boxes = int(data.get("optionsData", {}).get("ikBoxesCount", 3))
+        original_attrs = data.get("controlsAttrData", {})
+        box_kinds = box_dynamics.kinds(self.controlsCount, self.ikBoxesCount)
+        attrs_to_load = dict(original_attrs)
+        for kind in box_kinds:
+            for axis in "XYZ":
+                old_target = "ik_{}.targetTranslate{}".format(kind, axis)
+                if old_target in original_attrs:
+                    attrs_to_load["ik_{}.translate{}".format(kind, axis)] = (
+                        original_attrs[old_target])
+                attrs_to_load.pop(old_target, None)
         if old_boxes != self.ikBoxesCount:
-            data = dict(data)
-            data["controlsAttrData"] = {
-                key: value for key, value in
-                data.get("controlsAttrData", {}).items()
+            attrs_to_load = {
+                key: value for key, value in attrs_to_load.items()
                 if not (key.startswith("element_") and
                         (".ikBox" in key or ".ikBaseToMiddle" in key or
                          ".ikMiddleToEnd" in key))}
+        if attrs_to_load != original_attrs:
+            data = dict(data)
+            data["controlsAttrData"] = attrs_to_load
         module.Module.setData(self, data, sym=sym,
                               namingForce=namingForce, load=load)
         if load not in ("all", "controlVis"):
@@ -146,17 +196,22 @@ class ChainFullIKFK(ChainIk):
             if internal.startswith("ik_middle"):
                 attrs = ("followEndTranslate",)
             elif internal in ("ik_base", "ik_end"):
-                attrs = ("rotationAffectsPosition",)
+                attrs = ()
             elif internal.startswith("element_"):
                 attrs = (("ikBaseToMiddle", "ikMiddleToEnd")
                          if self.ikBoxesCount == 3 else
                          tuple("ikBox{}To{}".format(index, index + 1)
                                for index in range(1, self.ikBoxesCount)))
-            elif internal == "control" and self.useDynamic:
-                attrs = ("______________", "dynamic", "startFrame", "dynamicWeight",
-                         "stiffness", "damp")
+            elif internal == "control" and (self.useDynamic or self.useBoxDynamics):
+                attrs = (("______________", "dynamic", "startFrame",
+                          "dynamicWeight", "stiffness", "damp")
+                         if self.useDynamic else ("startFrame",))
             else:
                 continue
+            if (self.useBoxDynamics and internal.startswith("ik_")
+                    and internal[3:] in box_kinds):
+                attrs += ("dynamicWeight", "goalWeight", "conserve",
+                          "translateX", "translateY", "translateZ")
             for attr in attrs:
                 plug = control + "." + attr
                 if cmds.objExists(plug) and internal + "." + attr not in saved_attrs:
@@ -185,16 +240,17 @@ class ChainFullIKFK(ChainIk):
             if (data.get("fkWeightProfile") != "linear"
                     and abs(float(saved_attrs[key]) - previous) < 1e-6):
                 cmds.setAttr(control + "." + attr, linear)
-
     def rebuildWithNewOptions(self, mainInstance, widget):
         controls_count = widget.controlsCount_spinBox.value()
         joints_count = widget.jointsCount_spinBox.value()
         boxes_count = widget.ikBoxesCount_spinBox.value()
         use_dynamic = widget.useDynamic_checkBox.isChecked()
+        use_box_dynamics = widget.useBoxDynamics_checkBox.isChecked()
         options = {"controlsCount": controls_count,
                    "jointsCount": joints_count,
                    "ikBoxesCount": boxes_count,
-                   "useDynamic": use_dynamic}
+                   "useDynamic": use_dynamic,
+                   "useBoxDynamics": use_box_dynamics}
 
         joints = cmds.sets(self.name + "_skinJointsSet", query=True) or []
         ids = [int(j.split("_")[-2]) for j in joints

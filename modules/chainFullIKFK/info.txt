@@ -1,5 +1,5 @@
 ver=2.0=
-description=FK chain with a configurable number of IK box controls under a master control and optional Chain IK hair-system dynamics. The master scales the whole joint chain. FK weights are distributed linearly between adjacent boxes and remain editable. Intermediate boxes can follow the end box's translation. All box rotations orient FK controls; the base and end boxes can optionally affect FK positions with rotation.
+description=FK chain with configurable IK boxes, optional curve dynamics and optional per-box particle-goal translation dynamics. The master moves and rotates rigid goal positions; each IK box blends between its rigid goal and a lagging particle. Box rotation orients FK controls without moving their positions. The boxes position FK controls, which drive the joint chain. The master scales the whole joint chain.
 section=Base
 advanced=False
 type=Standart
