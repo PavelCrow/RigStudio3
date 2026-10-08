@@ -58,22 +58,26 @@ class Head(module.Module):
 		которого ни в сумме, ни в up-матрицах нет - вращение головы до шеи не
 		доходило вовсе.
 
-		Здесь голова входит в оба пути. В сумму - крен головы вокруг
-		направления шеи: поворот головы относительно конечного контрола
-		переводится в кадр, у которого X идёт вдоль шеи, а Z поперёк тела, и
-		берётся его X. Брать X самого контрола нельзя: у конечного контрола
-		шеи он может смотреть куда угодно (на медведе - поперёк тела, и кивок
-		шёл в твист). В advanced - worldMatrix головы вместо конечного
-		контрола, а up-вектор конца - Y того же кадра в осях головы, тот же
-		"верх", что у старта цепочки: иначе поворот вбок подтвистывает.
+		Здесь из поворота головы берётся одно: крен вокруг её взгляда (Z
+		контрола головы в покое) - ухом к плечу. Поворот головы относительно
+		конечного контрола переводится в кадр с X вдоль взгляда, и из
+		кватерниона остаётся только X-компонента: ровно вращение вокруг
+		одной оси, кивок и поворот влево-вправо в него не попадают. Вокруг
+		направления шеи считать нельзя: шея четвероногого идёт вперёд-вверх,
+		и поворот головы вокруг вертикали наполовину крен вокруг неё - на
+		медведе поворот на 40 давал 22 твиста.
 
-		"Верх" берётся с самого модуля: up-матрица старта его ikHandle и ось
-		+Y - так chainIk задаёт себя сам. Поперёк тела - произведение
-		направления шеи на этот верх.
+		Этот угол идёт в оба пути модуля. В сумму - как есть. В advanced -
+		через "локатор": голова в покое, едущая за концом шеи, повёрнутая на
+		этот угол вокруг направления шеи, становится конечной up-матрицей,
+		а up-вектор конца - верх кадра шеи в осях головы, тот же, что у
+		старта цепочки. "Верх" берётся с самого модуля: up-матрица старта
+		его ikHandle и ось +Y - так chainIk задаёт себя сам; поперёк тела -
+		произведение оси на этот верх.
 
-		Замер на медведе, по суставам: крен головы на 40 вдоль шеи - 8.0 в
-		сумме, 8.4..7.4 в advanced; кивок вниз, вверх и поворот вбок на 30 -
-		ровно 0 в обоих.
+		Замер на медведе, по суставам, крен ухом к плечу на 40: 8.0 в сумме и
+		7.1..6.6 в advanced; поворот влево-вправо на 40 и кивок на 30 - 0 в
+		обоих; neckTwist 0.5 - вдвое меньше.
 		"""
 		head_control = utils.getControlNameFromInternal(self.name, "control")
 		ikh = chain + "_ikHandle"
@@ -95,69 +99,82 @@ class Head(module.Module):
 			m[12], m[13], m[14] = 0.0, 0.0, 0.0
 			return om.MTransformationMatrix(m).rotation().asMatrix()
 
+		def frameFor(axis_world, up_world, space):
+			"""Кадр с X вдоль оси и Z поперёк тела, в осях space; и его верх."""
+			across = (axis_world ^ up_world).normal()
+			inv = rot3(space).inverse()
+			x = (axis_world * inv).normal()
+			z = (across * inv).normal()
+			z = (z - x * (z * x)).normal()
+			y = z ^ x
+			return om.MMatrix([x.x, x.y, x.z, 0, y.x, y.y, y.z, 0, z.x, z.y, z.z, 0, 0, 0, 0, 1]), y
+
 		p_last = om.MVector(*cmds.xform(last, q=1, ws=1, t=1))
 		p_prev = om.MVector(*cmds.xform(prev, q=1, ws=1, t=1))
-		d_world = (p_last - p_prev).normal()
+		neck_world = (p_last - p_prev).normal()
 		m_up = cmds.xform(up_start, q=1, ws=1, matrix=1)
 		up_world = om.MVector(m_up[4], m_up[5], m_up[6]).normal()
-		across_world = (d_world ^ up_world).normal()
+		m_head = cmds.xform(head_control, q=1, ws=1, matrix=1)
+		look_world = om.MVector(m_head[8], m_head[9], m_head[10]).normal()
 
-		# кадр в осях конечного контрола: X вдоль шеи, Z поперёк, Y - верх
-		end_inv = rot3(end_control).inverse()
-		x = (d_world * end_inv).normal()
-		z = (across_world * end_inv).normal()
-		z = (z - x * (z * x)).normal()
-		y = z ^ x
-		frame = om.MMatrix([x.x, x.y, x.z, 0, y.x, y.y, y.z, 0, z.x, z.y, z.z, 0, 0, 0, 0, 1])
+		frame_look, _ = frameFor(look_world, up_world, end_control)
+		frame_neck, y_neck = frameFor(neck_world, up_world, end_control)
 
-		# Сколько крена головы доходит до шеи. Шея четвероногого идёт
-		# вперёд-вверх, и поворот головы вокруг вертикали - наполовину крен
-		# вокруг неё: на медведе (62 к вертикали) поворот на 40 давал 22 твиста
-		# по шее, и это много. Вес ставит аниматор; 0 - шея на голову не
-		# реагирует, как было до подключения.
+		# Сколько крена головы доходит до шеи; 0 - шея на голову не реагирует,
+		# как было до подключения.
 		if not cmds.objExists(head_control+".neckTwist"):
-			cmds.addAttr(head_control, ln="neckTwist", at="double", min=0, max=1, dv=0.5, k=1)
+			cmds.addAttr(head_control, ln="neckTwist", at="double", min=0, max=1, dv=1, k=1)
+		if not cmds.pluginInfo("quatNodes", q=1, loaded=1):
+			cmds.loadPlugin("quatNodes", quiet=1)
 
 		mult = self.name + "_chainTwist_multMat"
 		dec = self.name + "_chainTwist_decomposeMatrix"
+		qn = self.name + "_chainTwist_quatNormalize"
+		q2e = self.name + "_chainTwist_quatToEuler"
 		weight = self.name + "_chainTwist_weight"
-		follow = self.name + "_chainTwist_follow_multMat"
-		blend = self.name + "_chainTwist_blendMatrix"
+		comp = self.name + "_chainTwist_composeMatrix"
+		loc = self.name + "_chainTwist_locator_multMat"
 		if not cmds.objExists(mult):
 			cmds.createNode("multMatrix", n=mult)
 			cmds.createNode("decomposeMatrix", n=dec)
+			cmds.createNode("quatNormalize", n=qn)
+			cmds.createNode("quatToEuler", n=q2e)
 			cmds.createNode("multiplyDivide", n=weight)
-			cmds.createNode("multMatrix", n=follow)
-			cmds.createNode("blendMatrix", n=blend)
-			# поворот головы относительно конца, сказанный в осях кадра:
-			# frame * rel * frame^-1
+			cmds.createNode("composeMatrix", n=comp)
+			cmds.createNode("multMatrix", n=loc)
+			# поворот головы относительно конца в кадре взгляда:
+			# frame * rel * frame^-1, из кватерниона - только X и W
 			cmds.connectAttr(head_control+".worldMatrix[0]", mult+".matrixIn[1]")
 			cmds.connectAttr(end_control+".worldInverseMatrix[0]", mult+".matrixIn[2]")
 			cmds.connectAttr(mult+".matrixSum", dec+".inputMatrix")
-			cmds.connectAttr(dec+".outputRotateX", weight+".input1X")
+			cmds.connectAttr(dec+".outputQuatX", qn+".inputQuatX")
+			cmds.connectAttr(dec+".outputQuatW", qn+".inputQuatW")
+			cmds.connectAttr(qn+".outputQuat", q2e+".inputQuat")
+			cmds.connectAttr(q2e+".outputRotateX", weight+".input1X")
 			cmds.connectAttr(head_control+".neckTwist", weight+".input2X")
-			# advanced twist: конечная up-матрица - смесь "головы, идущей за
-			# шеей как есть" (её покой на конце шеи) и самой головы, по весу
-			cmds.connectAttr(end_control+".worldMatrix[0]", follow+".matrixIn[1]")
-			cmds.connectAttr(follow+".matrixSum", blend+".inputMatrix")
-			cmds.connectAttr(head_control+".worldMatrix[0]", blend+".target[0].targetMatrix")
-			cmds.connectAttr(head_control+".neckTwist", blend+".target[0].weight")
-			for n in (mult, dec, weight, follow, blend):
+			# локатор: покой головы на конце шеи, повёрнутый на этот угол вокруг
+			# направления шеи - offset * frame^-1 * Rx * frame * end
+			cmds.connectAttr(weight+".outputX", comp+".inputRotateX")
+			cmds.connectAttr(comp+".outputMatrix", loc+".matrixIn[2]")
+			cmds.connectAttr(end_control+".worldMatrix[0]", loc+".matrixIn[4]")
+			for n in (mult, dec, qn, q2e, weight, comp, loc):
 				utils.addModuleNameAttr(n, self.name)
 				if cmds.objExists(self.name+"_nodesSet"):
 					cmds.sets(n, e=1, forceElement=self.name+"_nodesSet")
-		cmds.setAttr(mult+".matrixIn[0]", list(frame), type="matrix")
-		cmds.setAttr(mult+".matrixIn[3]", list(frame.inverse()), type="matrix")
-		cmds.setAttr(follow+".matrixIn[0]", list(rot3(head_control) * rot3(end_control).inverse()), type="matrix")
+		cmds.setAttr(mult+".matrixIn[0]", list(frame_look), type="matrix")
+		cmds.setAttr(mult+".matrixIn[3]", list(frame_look.inverse()), type="matrix")
+		cmds.setAttr(loc+".matrixIn[0]", list(rot3(head_control) * rot3(end_control).inverse()), type="matrix")
+		cmds.setAttr(loc+".matrixIn[1]", list(frame_neck.inverse()), type="matrix")
+		cmds.setAttr(loc+".matrixIn[3]", list(frame_neck), type="matrix")
 
-		if not cmds.listConnections(weight+".outputX", s=0, d=1):
+		if not cmds.listConnections(weight+".outputX", s=0, d=1, type="plusMinusAverage"):
 			index = max(cmds.getAttr(pma+".input1D", multiIndices=True) or [-1]) + 1
 			cmds.connectAttr(weight+".outputX", "%s.input1D[%s]" %(pma, index))
 
-		# up-вектор конца - верх кадра в осях головы
-		y_world = (y * rot3(end_control)).normal()
+		# up-вектор конца - верх кадра шеи в осях головы
+		y_world = (y_neck * rot3(end_control)).normal()
 		up_end = (y_world * rot3(head_control).inverse()).normal()
-		cmds.connectAttr(blend+".outputMatrix", ikh+".dWorldUpMatrixEnd", f=1)
+		cmds.connectAttr(loc+".matrixSum", ikh+".dWorldUpMatrixEnd", f=1)
 		cmds.setAttr(ikh+".dWorldUpVectorEnd", up_end.x, up_end.y, up_end.z)
 
 	def disconnectChainTwist(self, chain, end_control):
@@ -167,8 +184,10 @@ class Head(module.Module):
 		if cmds.objExists(ikh) and cmds.objExists(end_control):
 			cmds.connectAttr(end_control+".worldMatrix[0]", ikh+".dWorldUpMatrixEnd", f=1)
 			cmds.setAttr(ikh+".dWorldUpVectorEnd", 0, 1, 0)
-		for n in ("_chainTwist_blendMatrix", "_chainTwist_follow_multMat", "_chainTwist_weight",
-				  "_chainTwist_decomposeMatrix", "_chainTwist_multMat"):
+		for n in ("_chainTwist_locator_multMat", "_chainTwist_composeMatrix", "_chainTwist_weight",
+				  "_chainTwist_quatToEuler", "_chainTwist_quatNormalize",
+				  "_chainTwist_decomposeMatrix", "_chainTwist_multMat",
+				  "_chainTwist_blendMatrix", "_chainTwist_follow_multMat"):
 			if cmds.objExists(self.name + n):
 				cmds.delete(self.name + n)
 		head_control = utils.getControlNameFromInternal(self.name, "control")
