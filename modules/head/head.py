@@ -1,4 +1,5 @@
 import maya.cmds as cmds
+import maya.api.OpenMaya as om
 
 from ...import utils, module
 
@@ -57,11 +58,22 @@ class Head(module.Module):
 		которого ни в сумме, ни в up-матрицах нет - вращение головы до шеи не
 		доходило вовсе.
 
-		Здесь голова входит в оба пути: в сумму - её поворот относительно
-		конечного контрола, компонентой X, как у самих контролов модуля; в
-		advanced - её worldMatrix вместо конечного контрола. Замер на медведе,
-		крен головы на 40 вдоль шеи: advanced - 7.0/6.8/6.6/6.4/6.4 по
-		суставам, кивок - 0.
+		Здесь голова входит в оба пути. В сумму - крен головы вокруг
+		направления шеи: поворот головы относительно конечного контрола
+		переводится в кадр, у которого X идёт вдоль шеи, а Z поперёк тела, и
+		берётся его X. Брать X самого контрола нельзя: у конечного контрола
+		шеи он может смотреть куда угодно (на медведе - поперёк тела, и кивок
+		шёл в твист). В advanced - worldMatrix головы вместо конечного
+		контрола, а up-вектор конца - Y того же кадра в осях головы, тот же
+		"верх", что у старта цепочки: иначе поворот вбок подтвистывает.
+
+		"Верх" берётся с самого модуля: up-матрица старта его ikHandle и ось
+		+Y - так chainIk задаёт себя сам. Поперёк тела - произведение
+		направления шеи на этот верх.
+
+		Замер на медведе, по суставам: крен головы на 40 вдоль шеи - 8.0 в
+		сумме, 8.4..7.4 в advanced; кивок вниз, вверх и поворот вбок на 30 -
+		ровно 0 в обоих.
 		"""
 		head_control = utils.getControlNameFromInternal(self.name, "control")
 		ikh = chain + "_ikHandle"
@@ -69,31 +81,70 @@ class Head(module.Module):
 		if not cmds.objExists(ikh) or not cmds.objExists(pma):
 			return
 
+		# направление шеи у её конца - по двум последним костям цепочки
+		joints = cmds.listRelatives(chain+"_outJoints", allDescendents=1, type="joint") or []
+		last = "%s_%s_outJoint" %(chain, len(joints)-1)
+		prev = "%s_%s_outJoint" %(chain, len(joints)-2)
+		up_start = (cmds.listConnections(ikh+".dWorldUpMatrix", source=1, destination=0) or [""])[0]
+		if not cmds.objExists(last) or not cmds.objExists(prev) or not up_start:
+			cmds.warning(" %s: chain twist is not connected - no joints or start up matrix on %s" %(self.name, chain))
+			return
+
+		def rot3(node):
+			m = om.MMatrix(cmds.xform(node, q=1, ws=1, matrix=1))
+			m[12], m[13], m[14] = 0.0, 0.0, 0.0
+			return om.MTransformationMatrix(m).rotation().asMatrix()
+
+		p_last = om.MVector(*cmds.xform(last, q=1, ws=1, t=1))
+		p_prev = om.MVector(*cmds.xform(prev, q=1, ws=1, t=1))
+		d_world = (p_last - p_prev).normal()
+		m_up = cmds.xform(up_start, q=1, ws=1, matrix=1)
+		up_world = om.MVector(m_up[4], m_up[5], m_up[6]).normal()
+		across_world = (d_world ^ up_world).normal()
+
+		# кадр в осях конечного контрола: X вдоль шеи, Z поперёк, Y - верх
+		end_inv = rot3(end_control).inverse()
+		x = (d_world * end_inv).normal()
+		z = (across_world * end_inv).normal()
+		z = (z - x * (z * x)).normal()
+		y = z ^ x
+		frame = om.MMatrix([x.x, x.y, x.z, 0, y.x, y.y, y.z, 0, z.x, z.y, z.z, 0, 0, 0, 0, 1])
+
 		mult = self.name + "_chainTwist_multMat"
 		dec = self.name + "_chainTwist_decomposeMatrix"
 		if not cmds.objExists(mult):
 			cmds.createNode("multMatrix", n=mult)
 			cmds.createNode("decomposeMatrix", n=dec)
-			cmds.connectAttr(head_control+".worldMatrix[0]", mult+".matrixIn[0]")
-			cmds.connectAttr(end_control+".worldInverseMatrix[0]", mult+".matrixIn[1]")
+			# поворот головы относительно конца, сказанный в осях кадра:
+			# frame * rel * frame^-1
+			cmds.connectAttr(head_control+".worldMatrix[0]", mult+".matrixIn[1]")
+			cmds.connectAttr(end_control+".worldInverseMatrix[0]", mult+".matrixIn[2]")
 			cmds.connectAttr(mult+".matrixSum", dec+".inputMatrix")
 			for n in (mult, dec):
 				utils.addModuleNameAttr(n, self.name)
 				if cmds.objExists(self.name+"_nodesSet"):
 					cmds.sets(n, e=1, forceElement=self.name+"_nodesSet")
+		cmds.setAttr(mult+".matrixIn[0]", list(frame), type="matrix")
+		cmds.setAttr(mult+".matrixIn[3]", list(frame.inverse()), type="matrix")
 
 		if not cmds.listConnections(dec+".outputRotateX", s=0, d=1):
 			index = max(cmds.getAttr(pma+".input1D", multiIndices=True) or [-1]) + 1
 			cmds.connectAttr(dec+".outputRotateX", "%s.input1D[%s]" %(pma, index))
 
+		# advanced twist: голова - конечная up-матрица, её up-вектор - верх
+		# кадра в осях головы
+		y_world = (y * rot3(end_control)).normal()
+		up_end = (y_world * rot3(head_control).inverse()).normal()
 		cmds.connectAttr(head_control+".worldMatrix[0]", ikh+".dWorldUpMatrixEnd", f=1)
+		cmds.setAttr(ikh+".dWorldUpVectorEnd", up_end.x, up_end.y, up_end.z)
 
 	def disconnectChainTwist(self, chain, end_control):
-		"""Обратно: конечная up-матрица - снова конечный контрол, вход суммы и
-		ноды головы удаляются."""
+		"""Обратно: конечная up-матрица - снова конечный контрол с up-вектором
+		по умолчанию, вход суммы и ноды головы удаляются."""
 		ikh = chain + "_ikHandle"
 		if cmds.objExists(ikh) and cmds.objExists(end_control):
 			cmds.connectAttr(end_control+".worldMatrix[0]", ikh+".dWorldUpMatrixEnd", f=1)
+			cmds.setAttr(ikh+".dWorldUpVectorEnd", 0, 1, 0)
 		for n in (self.name + "_chainTwist_decomposeMatrix", self.name + "_chainTwist_multMat"):
 			if cmds.objExists(n):
 				cmds.delete(n)
