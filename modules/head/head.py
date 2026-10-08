@@ -85,13 +85,25 @@ class Head(module.Module):
 		if not cmds.objExists(ikh) or not cmds.objExists(pma):
 			return
 
-		# направление шеи у её конца - по двум последним костям цепочки
-		joints = cmds.listRelatives(chain+"_outJoints", allDescendents=1, type="joint") or []
-		last = "%s_%s_outJoint" %(chain, len(joints)-1)
-		prev = "%s_%s_outJoint" %(chain, len(joints)-2)
-		up_start = (cmds.listConnections(ikh+".dWorldUpMatrix", source=1, destination=0) or [""])[0]
-		if not cmds.objExists(last) or not cmds.objExists(prev) or not up_start:
-			cmds.warning(" %s: chain twist is not connected - no joints or start up matrix on %s" %(self.name, chain))
+		# Всё, из чего строится кадр, - от позеров, не от живых контролов:
+		# контролы стоят в той позе, в какой голову подключают, и кадр,
+		# снятый с них, запекает эту позу - на медведе голову подключили с
+		# рысканьем в 5 без наклона, и потом в покое крен был 1.8, а кивок
+		# на 85 к оси кадра тёк в твист. Позеры не анимируются.
+		#   взгляд - Z позера корня головы; верх - up-матрица старта
+		#   initIkHandle цепочки, как модуль задаёт себя сам; направление
+		#   шеи у конца - от предпоследнего позера к последнему (up-матрица
+		#   конца того же initIkHandle)
+		init_ikh = chain + "_initIkHandle"
+		head_poser = self.name + "_root_poser"
+		up_start = (cmds.listConnections(init_ikh+".dWorldUpMatrix", source=1, destination=0) or [""])[0]
+		last_poser = (cmds.listConnections(init_ikh+".dWorldUpMatrixEnd", source=1, destination=0) or [""])[0]
+		prev_poser = ""
+		if last_poser.endswith("_poser") and "_element_" in last_poser:
+			n = int(last_poser.split("_element_")[-1][:-len("_poser")])
+			prev_poser = chain + ("_root_poser" if n <= 2 else "_element_%s_poser" %(n-1))
+		if not cmds.objExists(head_poser) or not up_start or not cmds.objExists(prev_poser):
+			cmds.warning(" %s: chain twist is not connected - no posers on %s or %s" %(self.name, chain, self.name))
 			return
 
 		def rot3(node):
@@ -109,13 +121,14 @@ class Head(module.Module):
 			y = z ^ x
 			return om.MMatrix([x.x, x.y, x.z, 0, y.x, y.y, y.z, 0, z.x, z.y, z.z, 0, 0, 0, 0, 1]), y
 
-		p_last = om.MVector(*cmds.xform(last, q=1, ws=1, t=1))
-		p_prev = om.MVector(*cmds.xform(prev, q=1, ws=1, t=1))
+		p_last = om.MVector(*cmds.xform(last_poser, q=1, ws=1, t=1))
+		p_prev = om.MVector(*cmds.xform(prev_poser, q=1, ws=1, t=1))
 		neck_world = (p_last - p_prev).normal()
 		m_up = cmds.xform(up_start, q=1, ws=1, matrix=1)
 		up_world = om.MVector(m_up[4], m_up[5], m_up[6]).normal()
-		m_head = cmds.xform(head_control, q=1, ws=1, matrix=1)
+		m_head = cmds.xform(head_poser, q=1, ws=1, matrix=1)
 		look_world = om.MVector(m_head[8], m_head[9], m_head[10]).normal()
+		head_rest = rot3(head_poser)
 
 		frame_look, _ = frameFor(look_world, up_world, end_control)
 		frame_neck, y_neck = frameFor(neck_world, up_world, end_control)
@@ -163,7 +176,7 @@ class Head(module.Module):
 					cmds.sets(n, e=1, forceElement=self.name+"_nodesSet")
 		cmds.setAttr(mult+".matrixIn[0]", list(frame_look), type="matrix")
 		cmds.setAttr(mult+".matrixIn[3]", list(frame_look.inverse()), type="matrix")
-		cmds.setAttr(loc+".matrixIn[0]", list(rot3(head_control) * rot3(end_control).inverse()), type="matrix")
+		cmds.setAttr(loc+".matrixIn[0]", list(head_rest * rot3(end_control).inverse()), type="matrix")
 		cmds.setAttr(loc+".matrixIn[1]", list(frame_neck.inverse()), type="matrix")
 		cmds.setAttr(loc+".matrixIn[3]", list(frame_neck), type="matrix")
 
@@ -171,9 +184,9 @@ class Head(module.Module):
 			index = max(cmds.getAttr(pma+".input1D", multiIndices=True) or [-1]) + 1
 			cmds.connectAttr(weight+".outputX", "%s.input1D[%s]" %(pma, index))
 
-		# up-вектор конца - верх кадра шеи в осях головы
+		# up-вектор конца - верх кадра шеи в осях покоя головы
 		y_world = (y_neck * rot3(end_control)).normal()
-		up_end = (y_world * rot3(head_control).inverse()).normal()
+		up_end = (y_world * head_rest.inverse()).normal()
 		cmds.connectAttr(loc+".matrixSum", ikh+".dWorldUpMatrixEnd", f=1)
 		cmds.setAttr(ikh+".dWorldUpVectorEnd", up_end.x, up_end.y, up_end.z)
 
