@@ -792,18 +792,31 @@ class ChainIk(module.Module) :
 		модуля, превращается в сдвиг - на медведе 5.5 уже на первой кости,
 		дальше накапливается до 6 единиц, на конце до 17.
 
-		Здесь локальная матрица скиновой кости берётся из мировой матрицы
-		outJoint в кадре её родителя - t, r, s и shear: любой скейл родителя
-		уходит в shear, мировые матрицы совпадают точно при выключенном
-		segmentScaleCompensate. Размер рига снимается skinScaleInvMatrix.
+		Здесь локальная матрица скиновой кости берётся из outJoint - t, r, s и
+		shear: любой скейл родителя уходит в shear, мировые матрицы совпадают
+		точно при выключенном segmentScaleCompensate.
+
+		Кадр родителя - не parentInverseMatrix самой кости, а обратная
+		матрица предыдущей outJoint: родитель скиновой кости по построению
+		стоит ровно там же, а зависимость кости от собственного родителя
+		заставляет параллельный EM считать цепочку последовательно - на
+		медведе это +9% на кадр всего рига, из модуля - в шуме. Размер рига
+		снимается с своей outJoint (skinScaleInvMatrix) и возвращается после
+		обратной предыдущей (skinScaleMatrix). Если кость лежит не под своей
+		предыдущей, остаётся parentInverseMatrix.
+
 		Кость, уже связанная матрицей, пропускается - можно звать повторно,
 		чтобы починить собранную раньше цепочку.
 		"""
-		comp, compAttr = self.skinScaleInvMatrix().split(".")
+		inv, invAttr = self.skinScaleInvMatrix().split(".")
+		size, sizeAttr = self.skinScaleMatrix().split(".")
 		done = 0
 		for i in range(1, self.jointsCount):
 			sj = "%s_%s_skinJoint" %(self.name, i)
 			oj = "%s_%s_outJoint" %(self.name, i)
+			prev = "root" if i == 1 else str(i-1)
+			prev_sj = "%s_%s_skinJoint" %(self.name, prev)
+			prev_oj = "%s_%s_outJoint" %(self.name, prev)
 			if not cmds.objExists(sj) or not cmds.objExists(oj):
 				continue
 			if cmds.objExists(sj+"_decMat"):
@@ -818,8 +831,15 @@ class ChainIk(module.Module) :
 
 			# поворот целиком приходит из матрицы, jointOrient ему ни к чему
 			cmds.setAttr(sj+".jointOrient", 0, 0, 0)
-			utils.connectByMatrix(sj, [comp, oj, sj], [compAttr, 'worldMatrix[0]', 'parentInverseMatrix[0]'],
-								  attrs=['t', 'r', 's', 'shr'], module_name=self.name)
+			parent = (cmds.listRelatives(sj, parent=1) or [""])[0]
+			if parent == prev_sj and cmds.objExists(prev_oj):
+				utils.connectByMatrix(sj, [inv, oj, prev_oj, size],
+									  [invAttr, 'worldMatrix[0]', 'worldInverseMatrix[0]', sizeAttr],
+									  attrs=['t', 'r', 's', 'shr'], module_name=self.name)
+			else:
+				cmds.warning(" %s: parent is %s, not %s - connected through parentInverseMatrix" %(sj, parent, prev_sj))
+				utils.connectByMatrix(sj, [inv, oj, sj], [invAttr, 'worldMatrix[0]', 'parentInverseMatrix[0]'],
+									  attrs=['t', 'r', 's', 'shr'], module_name=self.name)
 			cmds.setAttr(sj+".segmentScaleCompensate", 0)
 			done += 1
 		return done

@@ -125,6 +125,29 @@ class Module(object):
             utils.addToModuleSet(n, self.name)
         return comp + ".outputMatrix"
 
+    def skinScaleMatrix(self):
+        """Обратная к skinScaleInvMatrix: размер рига матрицей, одна на модуль.
+
+        Нужна, когда локальная матрица скиновой кости собирается из двух
+        outJoint - своей и предыдущей: размер снимается с первой и
+        возвращается после обратной второй, иначе он снялся бы дважды.
+        """
+        comp = self.name+"_skinScale_composeMatrix"
+        if cmds.objExists(comp):
+            return comp + ".outputMatrix"
+
+        dec = self.name+"_mainPoser_decomposeMatrix"
+        if not cmds.objExists(dec):
+            dec = cmds.createNode('decomposeMatrix', n=dec)
+            cmds.connectAttr(self.name+"_mainPoser.worldMatrix[0]", dec+".inputMatrix")
+            utils.addToModuleSet(dec, self.name)
+
+        comp = cmds.createNode('composeMatrix', n=comp)
+        cmds.connectAttr(dec+".outputScale", comp+".inputScale")
+        utils.addModuleNameAttr(comp, self.name)
+        utils.addToModuleSet(comp, self.name)
+        return comp + ".outputMatrix"
+
     def addSkinJoints(self, m_name=None):
         if not m_name:
             m_name = self.name
