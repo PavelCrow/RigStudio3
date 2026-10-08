@@ -740,13 +740,37 @@ MStatus PkIbtwNode::compute(const MPlug& plug, MDataBlock& data)
             const int value = hMirror.inputValue(&status).asInt();
             if (!status) continue;
 
+            bool found = false;
             for (size_t k = 0; k < params.size(); ++k)
             {
                 if (params[k].index == index)
                 {
                     params[k].mirrorOf = value;
+                    found = true;
                     break;
                 }
+            }
+
+            // Ведомой косточки может не оказаться в joint[] вовсе: своих
+            // значений у неё нет, связей тоже, и элемент из одних дефолтов Maya
+            // в файл не пишет - после переоткрытия он пропадает, а с ним и
+            // выход, и правая косточка замирает. mirrorOf при этом записан.
+            // Восстанавливаем элемент дефолтами - ровно тем, чем он и был.
+            if (!found && value >= 0)
+            {
+                Param pr;
+                pr.index    = index;
+                pr.axis     = 0;
+                pr.bind     = 0.5;
+                pr.angleMin = 0.0;
+                pr.angleMax = 0.0;
+                pr.posMin   = 0.0;
+                pr.posMax   = 0.0;
+                pr.swingMin = 0.0;
+                pr.swingMax = 0.0;
+                pr.reverse  = false;
+                pr.mirrorOf = value;
+                params.push_back(pr);
             }
         }
     }
