@@ -211,7 +211,12 @@ class Module(object):
         for j in joints_:
             cmds.parent(j, 'skeleton')
             utils.removeTransformParentJoint(j)
-            utils.connectByMatrix(j, [j.replace("skinJoint", "outJoint"), j], ['worldMatrix[0]', 'parentInverseMatrix[0]'], m_name)
+            # shear тоже: корень, подвешенный на цепочку (голова на шее chainIk),
+            # живёт в сжатом и сдвинутом кадре родителя, и без shear его
+            # масштаб не компенсируется - голова тянулась вместе с шеей. У
+            # родителей без сдвига shear ровно ноль, для них это ничего не меняет
+            utils.connectByMatrix(j, [j.replace("skinJoint", "outJoint"), j], ['worldMatrix[0]', 'parentInverseMatrix[0]'], m_name,
+                                  attrs=['t', 'r', 's', 'shr'])
 
             # correct scale joint
             mult = cmds.createNode('multiplyDivide', n=j+"_jointInvScale_multiplyDivide")

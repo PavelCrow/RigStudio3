@@ -842,6 +842,20 @@ class ChainIk(module.Module) :
 									  attrs=['t', 'r', 's', 'shr'], module_name=self.name)
 			cmds.setAttr(sj+".segmentScaleCompensate", 0)
 			done += 1
+
+		# Корни модулей, подвешенных на цепочку (голова на шее), собраны до неё
+		# и shear из своей матрицы не берут - в сжатом и сдвинутом кадре их
+		# масштаб не компенсируется. Новые корни берут его в addSkinJoints,
+		# уже собранным досоединяем здесь.
+		for i in range(1, self.jointsCount):
+			sj = "%s_%s_skinJoint" %(self.name, i)
+			if not cmds.objExists(sj):
+				continue
+			for child in cmds.listRelatives(sj, children=1, type="joint") or []:
+				dec = child + "_decMat"
+				if child.endswith("_root_skinJoint") and cmds.objExists(dec) \
+						and not cmds.listConnections(child+".shear", source=1, destination=0):
+					cmds.connectAttr(dec+".outputShear", child+".shear", f=1)
 		return done
 
 	def bake(self):
