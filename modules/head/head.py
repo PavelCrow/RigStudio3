@@ -110,44 +110,70 @@ class Head(module.Module):
 		y = z ^ x
 		frame = om.MMatrix([x.x, x.y, x.z, 0, y.x, y.y, y.z, 0, z.x, z.y, z.z, 0, 0, 0, 0, 1])
 
+		# Сколько крена головы доходит до шеи. Шея четвероногого идёт
+		# вперёд-вверх, и поворот головы вокруг вертикали - наполовину крен
+		# вокруг неё: на медведе (62 к вертикали) поворот на 40 давал 22 твиста
+		# по шее, и это много. Вес ставит аниматор; 0 - шея на голову не
+		# реагирует, как было до подключения.
+		if not cmds.objExists(head_control+".neckTwist"):
+			cmds.addAttr(head_control, ln="neckTwist", at="double", min=0, max=1, dv=0.5, k=1)
+
 		mult = self.name + "_chainTwist_multMat"
 		dec = self.name + "_chainTwist_decomposeMatrix"
+		weight = self.name + "_chainTwist_weight"
+		follow = self.name + "_chainTwist_follow_multMat"
+		blend = self.name + "_chainTwist_blendMatrix"
 		if not cmds.objExists(mult):
 			cmds.createNode("multMatrix", n=mult)
 			cmds.createNode("decomposeMatrix", n=dec)
+			cmds.createNode("multiplyDivide", n=weight)
+			cmds.createNode("multMatrix", n=follow)
+			cmds.createNode("blendMatrix", n=blend)
 			# поворот головы относительно конца, сказанный в осях кадра:
 			# frame * rel * frame^-1
 			cmds.connectAttr(head_control+".worldMatrix[0]", mult+".matrixIn[1]")
 			cmds.connectAttr(end_control+".worldInverseMatrix[0]", mult+".matrixIn[2]")
 			cmds.connectAttr(mult+".matrixSum", dec+".inputMatrix")
-			for n in (mult, dec):
+			cmds.connectAttr(dec+".outputRotateX", weight+".input1X")
+			cmds.connectAttr(head_control+".neckTwist", weight+".input2X")
+			# advanced twist: конечная up-матрица - смесь "головы, идущей за
+			# шеей как есть" (её покой на конце шеи) и самой головы, по весу
+			cmds.connectAttr(end_control+".worldMatrix[0]", follow+".matrixIn[1]")
+			cmds.connectAttr(follow+".matrixSum", blend+".inputMatrix")
+			cmds.connectAttr(head_control+".worldMatrix[0]", blend+".target[0].targetMatrix")
+			cmds.connectAttr(head_control+".neckTwist", blend+".target[0].weight")
+			for n in (mult, dec, weight, follow, blend):
 				utils.addModuleNameAttr(n, self.name)
 				if cmds.objExists(self.name+"_nodesSet"):
 					cmds.sets(n, e=1, forceElement=self.name+"_nodesSet")
 		cmds.setAttr(mult+".matrixIn[0]", list(frame), type="matrix")
 		cmds.setAttr(mult+".matrixIn[3]", list(frame.inverse()), type="matrix")
+		cmds.setAttr(follow+".matrixIn[0]", list(rot3(head_control) * rot3(end_control).inverse()), type="matrix")
 
-		if not cmds.listConnections(dec+".outputRotateX", s=0, d=1):
+		if not cmds.listConnections(weight+".outputX", s=0, d=1):
 			index = max(cmds.getAttr(pma+".input1D", multiIndices=True) or [-1]) + 1
-			cmds.connectAttr(dec+".outputRotateX", "%s.input1D[%s]" %(pma, index))
+			cmds.connectAttr(weight+".outputX", "%s.input1D[%s]" %(pma, index))
 
-		# advanced twist: голова - конечная up-матрица, её up-вектор - верх
-		# кадра в осях головы
+		# up-вектор конца - верх кадра в осях головы
 		y_world = (y * rot3(end_control)).normal()
 		up_end = (y_world * rot3(head_control).inverse()).normal()
-		cmds.connectAttr(head_control+".worldMatrix[0]", ikh+".dWorldUpMatrixEnd", f=1)
+		cmds.connectAttr(blend+".outputMatrix", ikh+".dWorldUpMatrixEnd", f=1)
 		cmds.setAttr(ikh+".dWorldUpVectorEnd", up_end.x, up_end.y, up_end.z)
 
 	def disconnectChainTwist(self, chain, end_control):
 		"""Обратно: конечная up-матрица - снова конечный контрол с up-вектором
-		по умолчанию, вход суммы и ноды головы удаляются."""
+		по умолчанию, вход суммы, ноды и атрибут головы удаляются."""
 		ikh = chain + "_ikHandle"
 		if cmds.objExists(ikh) and cmds.objExists(end_control):
 			cmds.connectAttr(end_control+".worldMatrix[0]", ikh+".dWorldUpMatrixEnd", f=1)
 			cmds.setAttr(ikh+".dWorldUpVectorEnd", 0, 1, 0)
-		for n in (self.name + "_chainTwist_decomposeMatrix", self.name + "_chainTwist_multMat"):
-			if cmds.objExists(n):
-				cmds.delete(n)
+		for n in ("_chainTwist_blendMatrix", "_chainTwist_follow_multMat", "_chainTwist_weight",
+				  "_chainTwist_decomposeMatrix", "_chainTwist_multMat"):
+			if cmds.objExists(self.name + n):
+				cmds.delete(self.name + n)
+		head_control = utils.getControlNameFromInternal(self.name, "control")
+		if head_control and cmds.objExists(head_control+".neckTwist"):
+			cmds.deleteAttr(head_control+".neckTwist")
 	
 	def disconnect(self):
 		target = self.parent
