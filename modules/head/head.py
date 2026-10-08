@@ -41,9 +41,62 @@ class Head(module.Module):
 
 			cmds.setAttr(target_control+".lodVisibility", 0)
 			cmds.setAttr(target_control_local+".lodVisibility", 0)
-			
+
+			self.connectChainTwist(target_module_name, target_control)
+
 		else:
 			super().connect(target, opposite)
+
+	def connectChainTwist(self, chain, end_control):
+		"""Поворот головы твистит цепочку, к концу которой она подключена.
+
+		Твист chainIk берётся с главных контролов: при autoTwist - сумма их
+		rotateX в ikHandle.twist, без него - advanced twist по up-матрицам
+		первого и последнего. Конечный контрол после подключения головы
+		прячется и больше не анимируется, а голова ведёт только локальный,
+		которого ни в сумме, ни в up-матрицах нет - вращение головы до шеи не
+		доходило вовсе.
+
+		Здесь голова входит в оба пути: в сумму - её поворот относительно
+		конечного контрола, компонентой X, как у самих контролов модуля; в
+		advanced - её worldMatrix вместо конечного контрола. Замер на медведе,
+		крен головы на 40 вдоль шеи: advanced - 7.0/6.8/6.6/6.4/6.4 по
+		суставам, кивок - 0.
+		"""
+		head_control = utils.getControlNameFromInternal(self.name, "control")
+		ikh = chain + "_ikHandle"
+		pma = chain + "_twist_plusMinusAverage"
+		if not cmds.objExists(ikh) or not cmds.objExists(pma):
+			return
+
+		mult = self.name + "_chainTwist_multMat"
+		dec = self.name + "_chainTwist_decomposeMatrix"
+		if not cmds.objExists(mult):
+			cmds.createNode("multMatrix", n=mult)
+			cmds.createNode("decomposeMatrix", n=dec)
+			cmds.connectAttr(head_control+".worldMatrix[0]", mult+".matrixIn[0]")
+			cmds.connectAttr(end_control+".worldInverseMatrix[0]", mult+".matrixIn[1]")
+			cmds.connectAttr(mult+".matrixSum", dec+".inputMatrix")
+			for n in (mult, dec):
+				utils.addModuleNameAttr(n, self.name)
+				if cmds.objExists(self.name+"_nodesSet"):
+					cmds.sets(n, e=1, forceElement=self.name+"_nodesSet")
+
+		if not cmds.listConnections(dec+".outputRotateX", s=0, d=1):
+			index = max(cmds.getAttr(pma+".input1D", multiIndices=True) or [-1]) + 1
+			cmds.connectAttr(dec+".outputRotateX", "%s.input1D[%s]" %(pma, index))
+
+		cmds.connectAttr(head_control+".worldMatrix[0]", ikh+".dWorldUpMatrixEnd", f=1)
+
+	def disconnectChainTwist(self, chain, end_control):
+		"""Обратно: конечная up-матрица - снова конечный контрол, вход суммы и
+		ноды головы удаляются."""
+		ikh = chain + "_ikHandle"
+		if cmds.objExists(ikh) and cmds.objExists(end_control):
+			cmds.connectAttr(end_control+".worldMatrix[0]", ikh+".dWorldUpMatrixEnd", f=1)
+		for n in (self.name + "_chainTwist_decomposeMatrix", self.name + "_chainTwist_multMat"):
+			if cmds.objExists(n):
+				cmds.delete(n)
 	
 	def disconnect(self):
 		target = self.parent
@@ -61,6 +114,8 @@ class Head(module.Module):
 			
 			cmds.setAttr(target_control+".lodVisibility", 1)
 			cmds.setAttr(target_control_local+".lodVisibility", 1)
+
+			self.disconnectChainTwist(target_module_name, target_control)
 
 			cmds.delete(target_control_local+"_multMat")
 
