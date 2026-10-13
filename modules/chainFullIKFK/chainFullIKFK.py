@@ -647,6 +647,16 @@ class ChainFullIKFK(ChainIk):
         self.localControls = True
         self.useDynamic = False
 
+    def rename(self, new_name):
+        # ChainIk gives some IK and hair nodes a moduleName attribute but
+        # omits them from the set used by Module.rename. Include every owned
+        # node so Make Symmetry retains their expected l_* names.
+        for node in cmds.ls(self.name + "_*") or []:
+            if (cmds.objExists(node + ".moduleName") and
+                    cmds.getAttr(node + ".moduleName") == self.name):
+                utils.addToModuleSet(node, self.name)
+        module.Module.rename(self, new_name)
+
     def create2(self):
         # ChainIk.create2 makes both spline curves cubic. Three FK controls
         # provide only three CVs, so use quadratic curves for this case only.
@@ -866,6 +876,17 @@ class ChainFullIKFK(ChainIk):
 
     def getOptions(self):
         options = ChainIk.getOptions(self)
+        # A mirrored chain shares the left hair system; its own hairSystem
+        # node is removed by ChainIk.connectOpposite, but its output curve
+        # remains the reliable indication that FK dynamics was built.
+        system_nodes = cmds.listRelatives(
+            self.name + "_system", allDescendents=True,
+            type="transform") or []
+        self.useDynamic = (cmds.objExists(self.name + "_hairSystem") or
+                           cmds.objExists(self.name + "_outCrv") or
+                           any(node.endswith("_outCrv")
+                               for node in system_nodes))
+        options["useDynamic"] = self.useDynamic
         # ChainIk counts every *_poser descendant, including our IK guides.
         fk_pattern = re.compile(re.escape(self.name) + r"_element_\d+_poser$")
         fk_posers = cmds.listRelatives(self.name + "_posers",

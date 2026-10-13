@@ -13,9 +13,71 @@ class Head(module.Module):
 		self.neckTwistAxis = "Y"
 
 	def load(self):
+		self._repairMirroredChainConnector()
 		module.Module.load(self)
+		self._refreshAttachedChainSkin(self.parent)
 		if cmds.objExists(self.name + "_hairFollow"):
 			self.repairHairFollow()
+
+	@staticmethod
+	def _refreshAttachedChainSkin(end_joint):
+		"""Refresh a Full IKFK end skin joint after seamless reparenting."""
+		if not end_joint or not end_joint.endswith("_outJoint"):
+			return False
+		skin_joint = end_joint[:-len("_outJoint")] + "_skinJoint"
+		matrix_input = skin_joint + "_fullIKFKMatrix.matrixIn[1]"
+		if not cmds.objExists(matrix_input):
+			return False
+		parents = cmds.listRelatives(skin_joint, parent=True) or []
+		if not parents:
+			return False
+		parent = parents[0]
+		cmds.connectAttr(parent + ".worldInverseMatrix[0]",
+					 matrix_input, force=True)
+		cmds.setAttr(skin_joint + ".translate", 0, 0, 0, type="double3")
+		cmds.setAttr(skin_joint + ".rotate", 0, 0, 0, type="double3")
+		cmds.setAttr(skin_joint + ".scale", 1, 1, 1, type="double3")
+		cmds.setAttr(skin_joint + ".shear", 0, 0, 0, type="double3")
+		return True
+
+	def _repairMirroredChainConnector(self):
+		"""Remove the extra end-joint input left by mirrored chain connection."""
+		matrix = self.name + "_root_connector_multMat"
+		last_input = matrix + ".matrixIn[4]"
+		if not cmds.objExists(last_input):
+			return False
+		parent_inverse = cmds.connectionInfo(
+			last_input, sourceFromDestination=True)
+		if not parent_inverse or not parent_inverse.endswith(
+				".worldInverseMatrix[0]"):
+			return False
+		poser_source = cmds.connectionInfo(
+			matrix + ".matrixIn[1]", sourceFromDestination=True)
+		control_source = cmds.connectionInfo(
+			matrix + ".matrixIn[2]", sourceFromDestination=True)
+		if not poser_source or not control_source:
+			return False
+		control_node = control_source.split(".", 1)[0]
+		internal_name = utils.getInternalNameFromControl(control_node)
+		module_name = utils.getModuleName(control_node)
+		if (not internal_name.startswith("element_") or
+				not internal_name[8:].isdigit() or
+				not module_name or
+				not cmds.objExists(module_name + "_mod.moduleType") or
+				cmds.getAttr(module_name + "_mod.moduleType") != "chainFullIKFK" or
+				poser_source.split(".", 1)[0] !=
+				module_name + "_" + internal_name + "_poser"):
+			return False
+		# Module.connect uses five inputs for a mirrored connector. Head.connect
+		# replaces the first target inputs with FK control and poser matrices;
+		# the original end joint at index 3 would then feed back through Head.
+		cmds.connectAttr(parent_inverse, matrix + ".matrixIn[3]",
+					 force=True)
+		cmds.disconnectAttr(parent_inverse, last_input)
+		cmds.setAttr(last_input, 1, 0, 0, 0,
+					 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1,
+					 type="matrix")
+		return True
 
 	def getTwistAxis(self):
 		plug = self.name + "_mod.neckTwistAxis"
@@ -99,12 +161,20 @@ class Head(module.Module):
 				raise RuntimeError('End FK control is incomplete in '+target_module_name)
 
 			super().connect(target, opposite, makeSeamless=True)
+			self._refreshAttachedChainSkin(target)
 
 			cmds.connectAttr(target_control+".worldMatrix[0]", self.name+"_root_connector_multMat.matrixIn[2]", f=1)
 			cmds.connectAttr(target_poser+".worldInverseMatrix[0]", self.name+"_root_connector_multMat.matrixIn[1]", f=1)
+			self._repairMirroredChainConnector()
 
 			control = utils.getControlNameFromInternal(self.name, "root")
-			hair_dynamic = cmds.objExists(target_module_name + "_hairSystem")
+			system_nodes = cmds.listRelatives(
+				target_module_name + "_system", allDescendents=True,
+				type="transform") or []
+			hair_dynamic = (cmds.objExists(target_module_name + "_hairSystem")
+							or cmds.objExists(target_module_name + "_outCrv")
+							or any(node.endswith("_outCrv")
+								   for node in system_nodes))
 			if hair_dynamic:
 				proxy_root, proxy_head, proxy_parent = self._createHairFollowProxies(control)
 			else:
@@ -486,6 +556,7 @@ class Head(module.Module):
 			target_control_local = utils.getControlNameFromInternal(target_module_name, "local_"+int_name)
 		
 		super().disconnect()
+		self._refreshAttachedChainSkin(target)
 
 		if target_module_type in ("chainIk", "chainFullIKFK"):
 			cmds.setAttr(target_control+".lodVisibility", 1)
