@@ -268,6 +268,9 @@ def from_fk_to_ik(control):
 			if heel_ctrl:
 				for a in [".rx", ".ry", ".rz"]:
 					cmds.setAttr(heel_ctrl+a, 0)
+				# footRoll: крен тоже сбрасывается, иначе IK встанет наклонённой
+				if cmds.objExists(heel_ctrl+".bank"):
+					cmds.setAttr(heel_ctrl+".bank", 0)
 		except: pass
 
 		# Bear fix

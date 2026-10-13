@@ -2896,7 +2896,11 @@ class MainWindow:
         curModuleData = self.curModule.getData()
         m_name = self.curModule.name
         twistsData = self.twistClass.getTwistsData([self.curModule.name])
-        ibtwsData = self.ibtwClass.getIbtwsData([self.curModule.name])
+        # Все инбитвины, которые снимет deleteModule: модуль у них - родитель
+        # или ребёнок. Инбитвин плеча лежит в руке, а родитель у него - кость
+        # ключицы; по одному модулю-хозяину он терялся при замене ключицы.
+        ibtwsData = [d for d in self.ibtwClass.getIbtwsData()
+                     if self.curModule.name in (utils.getModuleName(d["child_j"]), utils.getModuleName(d["parent_j"]))]
 
         # get oss data from every module
         connectedParentsData = []
@@ -2948,7 +2952,12 @@ class MainWindow:
         self.deleteModule(updateUI=False)
 
         # create module
-        self.addModule(moduleType, m_name)
+        build_options = {}
+        if moduleType == "chainFullIKFK" and curModuleData['type'] == "chainIk":
+            # Its master and boxes need the old poser layout at build time.
+            build_options = dict(curModuleData['optionsData'])
+            build_options['_restorePosersBeforeIK'] = curModuleData['posersAttrsData']
+        self.addModule(moduleType, m_name, build_options)
 
         # connect module root
         if curModuleData['parent']:

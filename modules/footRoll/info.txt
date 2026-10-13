@@ -1,0 +1,5 @@
+ver=1.0=
+description=Ik/Fk foot rig: roll along the sole profile curve, bank, movable toes.
+section=Body
+advanced=False
+type=Standart

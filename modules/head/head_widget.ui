@@ -15,6 +15,31 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
+    <layout class="QHBoxLayout" name="neckTwistAxis_layout">
+     <item>
+      <widget class="QLabel" name="neckTwistAxis_label">
+       <property name="text">
+        <string>Neck Twist Axis</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="neckTwistAxis_comboBox">
+       <item>
+        <property name="text">
+         <string>Y</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Z</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
     <widget class="QFrame" name="delete_frame">
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>

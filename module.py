@@ -37,6 +37,12 @@ class Module(object):
         template_path = os.path.join(rootPath, "modules", self.type, self.type+'.ma')
         utils.importFile(template_path, self.name)
 
+        self.finishCreate()
+
+    def finishCreate(self):
+        """Всё, что create делает после импорта сцены модуля: наборы, контролы,
+        скиновые кости. Модуль, который достраивает сцену после импорта
+        (shoulderFan - число костей из опций), зовёт его сам."""
         # sets update
         cmds.sets(self.name+'_sets', e=1, forceElement='modules_sets' )
         cmds.sets(self.name+'_nodesSet', e=1, forceElement=self.name+'_sets')
@@ -459,15 +465,26 @@ class Module(object):
         if makeSeamless:
             self.makeSeamless(True)
 
+        # родитель может читать дочерний модуль (shoulder - руку)
+        parent_module = utils.getModuleInstance(target_module_name)
+        if parent_module:
+            parent_module.childConnected(self)
+
         cmds.select(target)
 
     def disconnect(self): #
         target = self.parent
         if not target:
             return
-        
+
         # disconnect
         parentModule = utils.getModuleName(target)
+
+        # пока связи на месте: родитель снимает то, что брал у этого модуля
+        parent_module = utils.getModuleInstance(parentModule)
+        if parent_module:
+            parent_module.childDisconnected(self)
+
         cmds.disconnectAttr(parentModule+'_mainPoser.worldMatrix', self.name+"_posers.offsetParentMatrix")
 
         if cmds.objExists(self.name+'_root_connector_multMat'):
@@ -506,6 +523,14 @@ class Module(object):
                         print ('Attribite %s is locked' %(cName+'.'+attrName))
 
     def updateOptionsPage(self, widget):
+        pass
+
+    def childConnected(self, child):
+        """К модулю подключили дочерний модуль child (вызывает child.connect)."""
+        pass
+
+    def childDisconnected(self, child):
+        """Дочерний модуль child отключается; его связи ещё на месте."""
         pass
 
     def getControls(self):

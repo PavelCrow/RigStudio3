@@ -1,0 +1,5 @@
+ver=1.0=
+description=Shoulder girdle with a fan of joints: clavicle, scapula sliding over the ribcage, fan joints from the ribcage center following chest / clavicle / scapula / arm with pose locators.
+section=Body
+advanced=False
+type=Wip

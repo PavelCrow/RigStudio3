@@ -449,7 +449,7 @@ def limbRole(moduleName):  #
     """
     childTypes = [moduleType(c) for c in moduleChildren(moduleName)]
 
-    if any(t in ("foot", "footSimple", "birdFoot") for t in childTypes):
+    if any(t in ("foot", "footSimple", "footRoll", "birdFoot") for t in childTypes):
         return "leg"
     if any(t in ("fingers", "fingersIK") for t in childTypes):
         return "arm"

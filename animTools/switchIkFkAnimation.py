@@ -250,6 +250,9 @@ def _from_fk_to_ik(control):
             if heel_ctrl:
                 for a in ['.rx', '.ry', '.rz']:
                     cmds.setAttr(heel_ctrl + a, 0)
+                # footRoll: крен тоже сбрасывается, иначе IK встанет наклонённой
+                if cmds.objExists(heel_ctrl + '.bank'):
+                    cmds.setAttr(heel_ctrl + '.bank', 0)
         except:
             pass
         try:
@@ -443,8 +446,8 @@ def _targets(switch, to_ik=True, include_auxiliary=True):
             raise RuntimeError("Missing pose helper: " + helper)
     plugs = []
     for node in nodes:
-        for attr in ("tx", "ty", "tz", "rx", "ry", "rz", "hill"):
-            if attr == "hill" and not include_auxiliary:
+        for attr in ("tx", "ty", "tz", "rx", "ry", "rz", "hill", "bank"):
+            if attr in ("hill", "bank") and not include_auxiliary:
                 continue
             plug = node + "." + attr
             if cmds.objExists(plug) and cmds.getAttr(plug, settable=True):

@@ -781,7 +781,10 @@ class Parents(object):
         #try:	
 
         if attrType == 'attributes':
-            for n in self.niceNames:
+            # имена из данных пространства, а не из окна: окно показывает то
+            # пространство, что выбрано в нём сейчас, а удаляется, может быть,
+            # другое (replaceModule снимает все пространства на модуль разом)
+            for n in niceNames:
                 if cmds.objExists(control+"."+n):
                     cmds.deleteAttr(control, attribute=n)
         else:

@@ -1,5 +1,4 @@
 import maya.cmds as cmds
-import maya.mel as mel
 import maya.api.OpenMaya as om
 import os, math, copy
 from functools import partial
@@ -645,6 +644,11 @@ class BirdTail(module.Module) :
 		elif layout:
 			apply_layout(self.name, layout)
 
+		# набор достроенного нужен только здесь, для перестройки сцены; пересборка
+		# модуля снова импортирует birdTail.ma со своим набором
+		cmds.delete(self.name+"_generated_nodesSet")
+
+		# наборы, контролы, скиновые кости - общий Module.finishCreate
 		self.finishCreate()
 
 	def regenerate(self, old_n, old_s, layout):
@@ -739,51 +743,3 @@ class BirdTail(module.Module) :
 		new = _Builder(self.name, N, S).build(layout, protos)
 		cmds.delete(keep)
 		return new
-
-	def finishCreate(self):
-		# то же, что Module.create делает после импорта своей сцены
-		cmds.sets(self.name+'_sets', e=1, forceElement='modules_sets')
-		cmds.sets(self.name+'_nodesSet', e=1, forceElement=self.name+'_sets')
-
-		def createControlSet(s):
-			new_s = s.replace("moduleC", "c")
-			cmds.select(clear=1)
-			cmds.sets(n=new_s)
-			for o in cmds.sets(s, q=1) or []:
-				if cmds.objectType(o) == 'objectSet':
-					cmds.sets(createControlSet(o), e=1, forceElement=new_s)
-				else:
-					cmds.sets(o, e=1, forceElement=new_s)
-			return new_s
-
-		control_set = createControlSet(self.name+'_moduleControlSet')
-		cmds.sets(control_set, e=1, forceElement='controlSet')
-
-		utils.setUserAttr(self.root, "moduleType", self.type)
-		for c in utils.getSetObjects(control_set):
-			utils.setUserAttr(c, "type", "control")
-			utils.setUserAttr(c, "internalName", c.replace(self.name+"_", ""))
-
-		cmds.select(control_set)
-		mel.eval("TagAsController")
-		cmds.select(clear=1)
-
-		cmds.parent(self.root, 'modules')
-
-		self.addSkinJoints()
-		self.joints = self.getJoints()
-
-		for o in ['_system', '_input']:
-			if cmds.objExists(self.name+o):
-				cmds.hide(self.name+o)
-
-		# кости в output не рисуются - строго после addSkinJoints, см. Module.create
-		out_grp = self.name + "_output"
-		if cmds.objExists(out_grp):
-			for j in cmds.listRelatives(out_grp, allDescendents=1, type="joint") or []:
-				try:
-					cmds.setAttr(j+".drawStyle", 2)
-				except Exception as e:
-					cmds.warning("Cannot hide %s (%s)" % (j, e))
-
-		cmds.refresh()

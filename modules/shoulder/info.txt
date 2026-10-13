@@ -1,0 +1,5 @@
+ver=1.0=
+description=Shoulder girdle: clavicle, scapula sliding over the ribcage, chest and back muscle joints.
+section=Body
+advanced=False
+type=Standart

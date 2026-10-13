@@ -119,6 +119,7 @@ CONTROL_BINDS = {
 }
 
 CONTROL_BINDS["footSimple"] = CONTROL_BINDS["foot"]
+CONTROL_BINDS["footRoll"] = CONTROL_BINDS["foot"]
 
 for _f in ("index", "middle", "ring", "pinky"):
     CONTROL_BINDS["fingers"]["%sFingerRoot" % _f] = "%s_metacarpal" % _f

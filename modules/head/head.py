@@ -10,27 +10,93 @@ class Head(module.Module):
 
 		self.name = name
 		self.type = __name__.split('.')[-1]
+		self.neckTwistAxis = "Y"
 
+	def load(self):
+		module.Module.load(self)
+		if cmds.objExists(self.name + "_hairFollow"):
+			self.repairHairFollow()
 
-	# def create(self, options={}):
-	# 	super(self.__class__, self).create(options)	
-		
-	# 	cmds.setAttr(self.name+"_root_skinJoint.drawStyle", 2)
+	def getTwistAxis(self):
+		plug = self.name + "_mod.neckTwistAxis"
+		if cmds.objExists(plug):
+			return cmds.getAttr(plug, asString=True)
+		return self.neckTwistAxis
+
+	def setTwistAxis(self, axis, update_graph=True):
+		axis = str(axis).upper()
+		if axis not in ("Y", "Z"):
+			raise ValueError("Neck Twist Axis must be Y or Z")
+		self.neckTwistAxis = axis
+		plug = self.name + "_mod.neckTwistAxis"
+		if not cmds.objExists(self.name + "_mod"):
+			return
+		if not cmds.objExists(plug):
+			cmds.addAttr(self.name + "_mod", longName="neckTwistAxis",
+						 attributeType="enum", enumName="Y:Z", defaultValue=0)
+		cmds.setAttr(plug, ("Y", "Z").index(axis))
+		if not update_graph:
+			return
+		end_input = self.name + "_root_connector_multMat.matrixIn[2]"
+		if not cmds.objExists(end_input):
+			return
+		source = cmds.connectionInfo(end_input, sourceFromDestination=True)
+		if not source:
+			return
+		end_control = source.split(".")[0]
+		chain = utils.getModuleName(end_control)
+		if (chain and cmds.objExists(chain + "_ikHandle") and
+				utils.getModuleTypeFromAttr(end_control) in ("chainIk", "chainFullIKFK")):
+			self.connectChainTwist(chain, end_control, head_axis=axis)
+
+	def getOptions(self):
+		return {"neckTwistAxis": self.getTwistAxis()}
+
+	def setOptions(self, options):
+		if isinstance(options, dict) and "neckTwistAxis" in options:
+			self.setTwistAxis(options["neckTwistAxis"])
+
+	def connectSignals(self, mainInstance, widget):
+		widget.neckTwistAxis_comboBox.currentTextChanged.connect(self.setTwistAxis)
+
+	def updateOptionsPage(self, widget):
+		combo = widget.neckTwistAxis_comboBox
+		combo.blockSignals(True)
+		combo.setCurrentIndex(("Y", "Z").index(self.getTwistAxis()))
+		combo.blockSignals(False)
 
 	def connect(self, target, opposite=False):
 		target_module_name = utils.getModuleName(target)
 		target_module_type = utils.getModuleTypeFromAttr(target)
 		
-		if target_module_type == "chainIk":
-			childs = cmds.listRelatives(target_module_name+'_outJoints', allDescendents=1, type='joint' )
-			jointsCount = len(childs)
-			target = "%s_%s_outJoint" %(target_module_name, (jointsCount-1))
+		if target_module_type in ("chainIk", "chainFullIKFK"):
+			# Inbetween joints can also live below _outJoints. Count only the
+			# chain's numbered joints when finding its actual end joint.
+			joints = cmds.listRelatives(
+				target_module_name + '_outJoints', allDescendents=True,
+				type='joint') or []
+			prefix = target_module_name + '_'
+			suffix = '_outJoint'
+			indices = [int(joint[len(prefix):-len(suffix)]) for joint in joints
+					   if joint.startswith(prefix) and joint.endswith(suffix)
+					   and joint[len(prefix):-len(suffix)].isdigit()]
+			if not indices:
+				raise RuntimeError('No numbered output joints found in ' + target_module_name)
+			target = '{}_{}_outJoint'.format(target_module_name, max(indices))
 
-			target_poser = utils.getClosestPoser(target_module_name, target)
-
-			int_name = target_poser[len(target_module_name)+1:-6]
-			target_control = utils.getControlNameFromInternal(target_module_name, int_name)
+			fk_controls = []
+			for control in utils.getSetObjects(target_module_name+'_moduleControlSet'):
+				internal = utils.getInternalNameFromControl(control)
+				if internal.startswith('element_') and internal[8:].isdigit():
+					fk_controls.append((int(internal[8:]), control))
+			if not fk_controls:
+				raise RuntimeError('No FK controls found in '+target_module_name)
+			last_index, target_control = max(fk_controls)
+			int_name = 'element_'+str(last_index)
+			target_poser = target_module_name+'_'+int_name+'_poser'
 			target_control_local = utils.getControlNameFromInternal(target_module_name, "local_"+int_name)
+			if not target_control_local or not cmds.objExists(target_poser):
+				raise RuntimeError('End FK control is incomplete in '+target_module_name)
 
 			super().connect(target, opposite, makeSeamless=True)
 
@@ -38,17 +104,201 @@ class Head(module.Module):
 			cmds.connectAttr(target_poser+".worldInverseMatrix[0]", self.name+"_root_connector_multMat.matrixIn[1]", f=1)
 
 			control = utils.getControlNameFromInternal(self.name, "root")
-			utils.connectToOffsetParentMatrix(target_control_local, [control, target_control], ["worldMatrix[0]", "worldInverseMatrix[0]"])
+			hair_dynamic = cmds.objExists(target_module_name + "_hairSystem")
+			if hair_dynamic:
+				proxy_root, proxy_head, proxy_parent = self._createHairFollowProxies(control)
+			else:
+				proxy_root = control
+				proxy_head = utils.getControlNameFromInternal(self.name, "control")
+			utils.connectToOffsetParentMatrix(target_control_local, [proxy_root, target_control], ["worldMatrix[0]", "worldInverseMatrix[0]"])
 
 			cmds.setAttr(target_control+".lodVisibility", 0)
 			cmds.setAttr(target_control_local+".lodVisibility", 0)
 
-			self.connectChainTwist(target_module_name, target_control)
+			axis = self.getTwistAxis()
+			self.setTwistAxis(axis, update_graph=False)
+			self.connectChainTwist(target_module_name, target_control,
+							   head_axis=axis, head_matrix_control=proxy_head)
+			if hair_dynamic:
+				self._activateHairFollow(target, target_poser,
+										 proxy_parent, proxy_head)
 
 		else:
 			super().connect(target, opposite)
 
-	def connectChainTwist(self, chain, end_control):
+	def _createHairFollowProxies(self, root_control):
+		"""Keep head animation as a static input to the neck simulation."""
+		head_control = utils.getControlNameFromInternal(self.name, "control")
+		controls = self.name + "_controls"
+		path = []
+		node = head_control
+		while node != controls:
+			path.append(node)
+			parent = cmds.listRelatives(node, parent=True)
+			if not parent:
+				raise RuntimeError("Head control is outside " + controls)
+			node = parent[0]
+		path.reverse()
+		# The first node is the orientation group. It stays on the FK end,
+		# while the animated descendants get a second, static copy.
+		orientation_group = path.pop(0)
+		proxy_parent = orientation_group
+		proxy_root = proxy_head = None
+		for index, original in enumerate(path):
+			proxy = cmds.createNode("transform", name=self.name + "_hairInput_%s" % index,
+										  parent=proxy_parent)
+			local = cmds.createNode("multMatrix", name=proxy + "_localMatrix")
+			cmds.connectAttr(original + ".matrix", local + ".matrixIn[0]")
+			cmds.connectAttr(original + ".offsetParentMatrix", local + ".matrixIn[1]")
+			cmds.connectAttr(local + ".matrixSum", proxy + ".offsetParentMatrix")
+			cmds.setAttr(proxy + ".visibility", 0)
+			for created in (proxy, local):
+				utils.addModuleNameAttr(created, self.name)
+				utils.addToModuleSet(created, self.name)
+			if original == root_control:
+				proxy_root = proxy
+			if original == head_control:
+				proxy_head = proxy
+			proxy_parent = proxy
+		if not proxy_root or not proxy_head:
+			raise RuntimeError("Could not copy head controls for hair dynamics")
+		return proxy_root, proxy_head, orientation_group
+
+	def _activateHairFollow(self, end_joint, end_poser,
+							orientation_group, input_head):
+		"""Follow only the neck's change relative to the head's static input."""
+		first_control_group = utils.getControlNameFromInternal(self.name, "root")
+		while True:
+			parent = cmds.listRelatives(first_control_group, parent=True)
+			if not parent:
+				raise RuntimeError("Cannot find the head animation group")
+			if parent[0] == orientation_group:
+				break
+			first_control_group = parent[0]
+		# The rest pose must remain live: rebuild reconnects the head before
+		# restoring its posers, and hair simulation can also be stale then.
+		# Compare the dynamic joint with the static end in the head input's
+		# current frame rather than baking a connection-time point.
+		rest_joint = end_joint.replace("_outJoint", "_initLoc")
+		if not cmds.objExists(rest_joint):
+			rest_joint = end_poser
+		follow = cmds.createNode("transform", name=self.name + "_hairFollow",
+										parent=orientation_group)
+		actual = cmds.createNode("decomposeMatrix", name=follow + "_actual")
+		delta = cmds.createNode("plusMinusAverage", name=follow + "_delta")
+		local = cmds.createNode("vectorProduct", name=follow + "_local")
+		self._connectHairFollowPrediction(rest_joint, end_poser,
+										orientation_group,
+										input_head, follow, delta)
+		cmds.connectAttr(end_joint + ".worldMatrix[0]",
+					 actual + ".inputMatrix")
+		cmds.setAttr(delta + ".operation", 2)
+		cmds.connectAttr(actual + ".outputTranslate", delta + ".input3D[0]")
+		cmds.setAttr(local + ".operation", 3)
+		cmds.connectAttr(delta + ".output3D", local + ".input1")
+		cmds.connectAttr(orientation_group + ".worldInverseMatrix[0]",
+					 local + ".matrix")
+		cmds.connectAttr(local + ".output", follow + ".translate")
+		cmds.parent(first_control_group, follow, relative=True)
+		for created in (follow, actual, delta, local):
+			utils.addModuleNameAttr(created, self.name)
+			utils.addToModuleSet(created, self.name)
+
+	def _connectHairFollowPrediction(self, rest_joint, end_poser,
+									orientation_group, input_head,
+									follow, delta):
+		"""Calculate the static neck end in the current head control frame."""
+		static_end = follow + "_staticEnd"
+		predicted = follow + "_predictedMatrix"
+		predicted_parts = follow + "_predictedParts"
+		for node, node_type in ((static_end, "multMatrix"),
+								(predicted, "multMatrix"),
+								(predicted_parts, "decomposeMatrix")):
+			if not cmds.objExists(node):
+				cmds.createNode(node_type, name=node)
+				utils.addModuleNameAttr(node, self.name)
+				utils.addToModuleSet(node, self.name)
+		# The init locator follows the poser, while the FK end also follows the
+		# IK boxes. Include that FK motion in the static prediction so it is not
+		# added to the head a second time as simulated motion.
+		for source, destination in (
+				(rest_joint + ".worldMatrix[0]", static_end + ".matrixIn[0]"),
+				(end_poser + ".worldInverseMatrix[0]",
+				 static_end + ".matrixIn[1]"),
+				(end_poser[:-len("_poser")] + ".worldMatrix[0]",
+				 static_end + ".matrixIn[2]"),
+				(static_end + ".matrixSum", predicted + ".matrixIn[0]"),
+				(orientation_group + ".worldInverseMatrix[0]",
+				 predicted + ".matrixIn[1]"),
+				(input_head + ".worldMatrix[0]", predicted + ".matrixIn[2]"),
+				(predicted + ".matrixSum", predicted_parts + ".inputMatrix"),
+				(predicted_parts + ".outputTranslate", delta + ".input3D[1]")):
+			if cmds.connectionInfo(destination, sourceFromDestination=True) != source:
+				cmds.connectAttr(source, destination, force=True)
+
+	def repairHairFollow(self):
+		"""Upgrade an existing hair follow without rebuilding the head."""
+		follow = self.name + "_hairFollow"
+		actual = follow + "_actual"
+		delta = follow + "_delta"
+		if not all(cmds.objExists(node) for node in (follow, actual, delta)):
+			return False
+		joint_source = cmds.connectionInfo(actual + ".inputMatrix",
+										 sourceFromDestination=True)
+		old_predicted = follow + "_predicted"
+		input_plug = (old_predicted + ".inMatrix" if cmds.objExists(old_predicted)
+					  else follow + "_predictedMatrix.matrixIn[2]")
+		input_source = cmds.connectionInfo(input_plug,
+										 sourceFromDestination=True)
+		if not joint_source or not input_source:
+			return False
+		end_joint = joint_source.split(".", 1)[0]
+		rest_joint = end_joint.replace("_outJoint", "_initLoc")
+		if not cmds.objExists(rest_joint):
+			cmds.warning("Missing static end joint locator: " + rest_joint)
+			return False
+		input_head = input_source.split(".", 1)[0]
+		poser_source = cmds.connectionInfo(
+			self.name + "_root_connector_multMat.matrixIn[1]",
+			sourceFromDestination=True)
+		if not poser_source:
+			return False
+		end_poser = poser_source.split(".", 1)[0]
+		if not end_poser.endswith("_poser") or not cmds.objExists(
+				end_poser[:-len("_poser")]):
+			return False
+		orientation_group = cmds.listRelatives(follow, parent=True)[0]
+		self._connectHairFollowPrediction(rest_joint, end_poser,
+										orientation_group,
+										input_head, follow, delta)
+		if cmds.objExists(old_predicted):
+			cmds.delete(old_predicted)
+		return True
+
+	def _removeHairFollow(self):
+		follow = self.name + "_hairFollow"
+		if not cmds.objExists(follow):
+			return
+		parent = cmds.listRelatives(follow, parent=True)[0]
+		for child in cmds.listRelatives(follow, children=True, type="transform") or []:
+			cmds.parent(child, parent, relative=True)
+		cmds.delete(follow)
+		for suffix in ("_hairFollow_multMat", "_hairFollow_pickMatrix",
+					   "_hairFollow_staticEnd",
+					   "_hairFollow_predicted", "_hairFollow_predictedMatrix",
+					   "_hairFollow_predictedParts", "_hairFollow_actual",
+					   "_hairFollow_delta", "_hairFollow_local"):
+			if cmds.objExists(self.name + suffix):
+				cmds.delete(self.name + suffix)
+		for proxy in cmds.ls(self.name + "_hairInput_*", type="transform") or []:
+			if cmds.objExists(proxy):
+				cmds.delete(proxy)
+		for local in cmds.ls(self.name + "_hairInput_*_localMatrix", type="multMatrix") or []:
+			if cmds.objExists(local):
+				cmds.delete(local)
+
+	def connectChainTwist(self, chain, end_control, head_axis=None,
+					  head_matrix_control=None):
 		"""Поворот головы твистит цепочку, к концу которой она подключена.
 
 		Твист chainIk берётся с главных контролов: при autoTwist - сумма их
@@ -58,14 +308,12 @@ class Head(module.Module):
 		которого ни в сумме, ни в up-матрицах нет - вращение головы до шеи не
 		доходило вовсе.
 
-		Здесь из поворота головы берётся одно: крен вокруг её взгляда (Z
-		контрола головы в покое) - ухом к плечу. Поворот головы относительно
-		конечного контрола переводится в кадр с X вдоль взгляда, и из
-		кватерниона остаётся только X-компонента: ровно вращение вокруг
-		одной оси, кивок и поворот влево-вправо в него не попадают. Вокруг
-		направления шеи считать нельзя: шея четвероногого идёт вперёд-вверх,
-		и поворот головы вокруг вертикали наполовину крен вокруг неё - на
-		медведе поворот на 40 давал 22 твиста.
+		Для обоих модулей берётся вращение головы вокруг Y в покое.
+		Поворот головы относительно конечного контрола переводится в кадр
+		с X вдоль выбранной оси, и из кватерниона остаётся только
+		X-компонента: вращения вокруг двух других осей не попадают.
+		Ось головы берётся с её позера, поскольку направление шеи может
+		отличаться от неё.
 
 		Этот угол идёт в оба пути модуля. В сумму - как есть. В advanced -
 		через "локатор": голова в покое, едущая за концом шеи, повёрнутая на
@@ -75,11 +323,14 @@ class Head(module.Module):
 		его ikHandle и ось +Y - так chainIk задаёт себя сам; поперёк тела -
 		произведение оси на этот верх.
 
-		Замер на медведе, по суставам, крен ухом к плечу на 40: 8.0 в сумме и
-		7.1..6.6 в advanced; поворот влево-вправо на 40 и кивок на 30 - 0 в
-		обоих; neckTwist 0.5 - вдвое меньше.
+		Атрибут neckTwist задаёт долю передаваемого вращения.
 		"""
+		if head_axis is None:
+			head_axis = self.getTwistAxis()
 		head_control = utils.getControlNameFromInternal(self.name, "control")
+		if head_matrix_control is None:
+			proxies = cmds.ls(self.name + "_hairInput_*", type="transform") or []
+			head_matrix_control = max(proxies, key=lambda node: int(node.rsplit("_", 1)[1])) if proxies else head_control
 		ikh = chain + "_ikHandle"
 		pma = chain + "_twist_plusMinusAverage"
 		if not cmds.objExists(ikh) or not cmds.objExists(pma):
@@ -90,7 +341,7 @@ class Head(module.Module):
 		# снятый с них, запекает эту позу - на медведе голову подключили с
 		# рысканьем в 5 без наклона, и потом в покое крен был 1.8, а кивок
 		# на 85 к оси кадра тёк в твист. Позеры не анимируются.
-		#   взгляд - Z позера корня головы; верх - up-матрица старта
+		#   ось головы - Y или Z позера корня; верх - up-матрица старта
 		#   initIkHandle цепочки, как модуль задаёт себя сам; направление
 		#   шеи у конца - от предпоследнего позера к последнему (up-матрица
 		#   конца того же initIkHandle)
@@ -130,10 +381,16 @@ class Head(module.Module):
 		look_world = om.MVector(m_head[8], m_head[9], m_head[10]).normal()
 		head_rest = rot3(head_poser)
 
-		frame_look, _ = frameFor(look_world, up_world, end_control)
+		if head_axis == "Y":
+			# The head's Y axis may be parallel to the neck's up axis. Its Z
+			# axis is a stable perpendicular reference for the twist frame.
+			twist_axis = om.MVector(m_head[4], m_head[5], m_head[6]).normal()
+			frame_head_axis, _ = frameFor(twist_axis, look_world, end_control)
+		else:
+			frame_head_axis, _ = frameFor(look_world, up_world, end_control)
 		frame_neck, y_neck = frameFor(neck_world, up_world, end_control)
 
-		# Сколько крена головы доходит до шеи; 0 - шея на голову не реагирует,
+		# Сколько поворота головы доходит до шеи; 0 - шея на голову не реагирует,
 		# как было до подключения.
 		if not cmds.objExists(head_control+".neckTwist"):
 			cmds.addAttr(head_control, ln="neckTwist", at="double", min=0, max=1, dv=1, k=1)
@@ -155,9 +412,9 @@ class Head(module.Module):
 			cmds.createNode("multiplyDivide", n=weight)
 			cmds.createNode("composeMatrix", n=comp)
 			cmds.createNode("multMatrix", n=loc)
-			# поворот головы относительно конца в кадре взгляда:
+			# поворот головы относительно конца в кадре выбранной оси:
 			# frame * rel * frame^-1, из кватерниона - только X и W
-			cmds.connectAttr(head_control+".worldMatrix[0]", mult+".matrixIn[1]")
+			cmds.connectAttr(head_matrix_control+".worldMatrix[0]", mult+".matrixIn[1]")
 			cmds.connectAttr(end_control+".worldInverseMatrix[0]", mult+".matrixIn[2]")
 			cmds.connectAttr(mult+".matrixSum", dec+".inputMatrix")
 			cmds.connectAttr(dec+".outputQuatX", qn+".inputQuatX")
@@ -174,8 +431,10 @@ class Head(module.Module):
 				utils.addModuleNameAttr(n, self.name)
 				if cmds.objExists(self.name+"_nodesSet"):
 					cmds.sets(n, e=1, forceElement=self.name+"_nodesSet")
-		cmds.setAttr(mult+".matrixIn[0]", list(frame_look), type="matrix")
-		cmds.setAttr(mult+".matrixIn[3]", list(frame_look.inverse()), type="matrix")
+		if cmds.connectionInfo(mult+".matrixIn[1]", sourceFromDestination=True) != head_matrix_control+".worldMatrix[0]":
+			cmds.connectAttr(head_matrix_control+".worldMatrix[0]", mult+".matrixIn[1]", force=True)
+		cmds.setAttr(mult+".matrixIn[0]", list(frame_head_axis), type="matrix")
+		cmds.setAttr(mult+".matrixIn[3]", list(frame_head_axis.inverse()), type="matrix")
 		cmds.setAttr(loc+".matrixIn[0]", list(head_rest * rot3(end_control).inverse()), type="matrix")
 		cmds.setAttr(loc+".matrixIn[1]", list(frame_neck.inverse()), type="matrix")
 		cmds.setAttr(loc+".matrixIn[3]", list(frame_neck), type="matrix")
@@ -205,6 +464,7 @@ class Head(module.Module):
 				cmds.delete(self.name + n)
 		head_control = utils.getControlNameFromInternal(self.name, "control")
 		if head_control and cmds.objExists(head_control+".neckTwist"):
+			cmds.setAttr(head_control+".neckTwist", lock=False)
 			cmds.deleteAttr(head_control+".neckTwist")
 	
 	def disconnect(self):
@@ -212,21 +472,30 @@ class Head(module.Module):
 		
 		target_module_name = utils.getModuleName(target)
 		target_module_type = utils.getModuleTypeFromAttr(target)
+		if target_module_type in ("chainIk", "chainFullIKFK"):
+			connected_controls = cmds.listConnections(
+				self.name+"_root_connector_multMat.matrixIn[2]", s=1, d=0) or []
+			if connected_controls:
+				target_control = connected_controls[0]
+				int_name = utils.getInternalNameFromControl(target_control)
+				target_poser = target_module_name+"_"+int_name+"_poser"
+			else:
+				target_poser = utils.getClosestPoser(target_module_name, target)
+				int_name = target_poser[len(target_module_name)+1:-6]
+				target_control = utils.getControlNameFromInternal(target_module_name, int_name)
+			target_control_local = utils.getControlNameFromInternal(target_module_name, "local_"+int_name)
 		
 		super().disconnect()
 
-		if target_module_type == "chainIk":
-			target_poser = utils.getClosestPoser(target_module_name, target)
-			int_name = target_poser[len(target_module_name)+1:-6]
-			target_control = utils.getControlNameFromInternal(target_module_name, int_name)
-			target_control_local = utils.getControlNameFromInternal(target_module_name, "local_"+int_name)
-			
+		if target_module_type in ("chainIk", "chainFullIKFK"):
 			cmds.setAttr(target_control+".lodVisibility", 1)
 			cmds.setAttr(target_control_local+".lodVisibility", 1)
 
 			self.disconnectChainTwist(target_module_name, target_control)
 
-			cmds.delete(target_control_local+"_multMat")
+			if cmds.objExists(target_control_local+"_multMat"):
+				cmds.delete(target_control_local+"_multMat")
+			self._removeHairFollow()
 
 			cmds.showHidden(target_poser)
 
@@ -238,7 +507,7 @@ class Head(module.Module):
 			target_module_name = utils.getModuleName(parent)
 			target_module_type = utils.getModuleTypeFromAttr(parent)
 
-			if target_module_type == "chainIk":
+			if target_module_type in ("chainIk", "chainFullIKFK"):
 				if not "outJoint" in parent:
 					parent = utils.getClosestOutJoint(target_module_name, parent)
 		

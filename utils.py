@@ -1156,8 +1156,14 @@ def getClosestPoser(mod_name, src_object):
 	closest_distance = 10000000
 	closest = ""
 	posers = cmds.listRelatives(mod_name+"_posers", allDescendents=1)
+	box_poser_prefix = ""
+	module_type = mod_name + "_mod.moduleType"
+	if cmds.objExists(module_type) and cmds.getAttr(module_type) == "chainFullIKFK":
+		box_poser_prefix = mod_name + "_ik_"
 	for p in posers:
 		if p.split("_")[-1] != "poser":
+			continue
+		if box_poser_prefix and p.startswith(box_poser_prefix):
 			continue
 		pos2 = cmds.xform(p, query=True, translation=True, worldSpace=True)
 		distance = math.sqrt( math.pow((pos1[0]-pos2[0]),2) + math.pow((pos1[1]-pos2[1]),2) + math.pow((pos1[2]-pos2[2]),2))				

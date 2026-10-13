@@ -1,5 +1,5 @@
 ver=2.0=
-description=FK chain with configurable IK boxes, optional curve dynamics and optional per-box particle-goal translation dynamics. The master moves and rotates rigid goal positions; each IK box blends between its rigid goal and a lagging particle. Box rotation orients FK controls without moving their positions. The boxes position FK controls, which drive the joint chain. The master scales the whole joint chain.
+description=FK chain with at least three FK controls and two IK boxes, optional curve dynamics and optional per-box particle-goal translation dynamics. Three FK controls use quadratic spline guides; larger counts use cubic spline guides. Every IK box has its own poser for independent placement and orientation. The master moves and rotates rigid goal positions. Each IK box blends between its rigid goal and a lagging particle. Every FK control has an IK Control Blend between neighboring boxes. Box rotation orients FK controls without moving their positions. The boxes position FK controls, which drive the joint chain. The master scales the whole joint chain.
 section=Base
 advanced=False
 type=Standart

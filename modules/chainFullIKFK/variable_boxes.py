@@ -1,8 +1,8 @@
-"""Build and repair a Chain Full IKFK rig with more than three IK boxes.
+"""Build and repair a Chain Full IKFK rig with two or more IK boxes.
 
-The original three-box helper remains the path for existing modules.  Extra
-boxes divide the FK chain into evenly spaced segments; every segment has an
-editable linear blend on its FK controls.
+The original three-box helper remains the path for existing modules. Other
+box counts divide the FK chain into evenly spaced segments; every segment
+has an editable linear blend on its FK controls.
 """
 
 import maya.cmds as cmds
@@ -11,8 +11,8 @@ from ..chainIk import chainIk_ik_controls as legacy
 
 
 def layout(controls_count, boxes_count):
-    if not 3 <= boxes_count <= controls_count:
-        raise ValueError("IK Boxes Count must be between 3 and Controls Count")
+    if not 2 <= boxes_count <= controls_count:
+        raise ValueError("IK Control Count must be between 2 and FK Controls Count")
     last = controls_count - 1
     anchors = [(last * index * 2 + boxes_count - 1) //
                (2 * (boxes_count - 1)) for index in range(boxes_count)]
@@ -86,7 +86,7 @@ def _attach_rotations(name, controls, anchors, base_rotations=None):
 
 def add_to_existing(name, boxes_count):
     """Attach a master and a configurable number of IK boxes to a chain."""
-    if boxes_count <= 3:
+    if boxes_count == 3:
         raise ValueError("Use the standard three-box builder for this count")
     controls = legacy._fk_controls(name)
     anchors = layout(len(controls), boxes_count)
@@ -99,11 +99,14 @@ def add_to_existing(name, boxes_count):
         if not cmds.objExists(fk + "_group") or cmds.objExists(fk + "_ikOffset"):
             raise ValueError("FK control {} is missing or already has IK offsets".format(fk))
     selection = cmds.ls(selection=True) or []
+    rest_positions = [cmds.xform(fk, query=True, worldSpace=True,
+                                 translation=True) for fk in controls]
     success = False
     cmds.undoInfo(openChunk=True, chunkName="Add Chain Full IKFK boxes")
     try:
         master = legacy._master_control(name, color=4, align_with_fk=True)
         first_group = controls[0] + "_group"
+        legacy._place_master_at_first_fk(name, master, controls[0])
         cmds.parent(first_group, master)
         cubes = []
         for kind, index in anchors:
@@ -133,6 +136,7 @@ def add_to_existing(name, boxes_count):
                              first_group + ".translate" + axis, force=True)
         legacy._compensated_fk_groups(name, controls)
         _attach_rotations(name, controls, anchors)
+        legacy._preserve_fk_rest_positions(name, controls, rest_positions)
         cmds.select([master] + cubes, replace=True)
         success = True
         return [master] + cubes

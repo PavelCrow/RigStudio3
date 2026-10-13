@@ -185,8 +185,11 @@ POSER_SLOTS = {
     },
 }
 
-# footSimple lays its posers out exactly like foot.
+# footSimple lays its posers out exactly like foot. footRoll too; its
+# rollStart/rollEnd are not in the table, so nobody moves them - they
+# stay put relative to the mainPoser, like bankIn/bankOut/heelPoint.
 POSER_SLOTS["footSimple"] = POSER_SLOTS["foot"]
+POSER_SLOTS["footRoll"] = POSER_SLOTS["foot"]
 
 # The four fingers all work the same way: the Root poser takes the
 # metacarpal, the finger's own mainPoser takes the first phalanx and
@@ -304,8 +307,8 @@ UNRANKED = len(PLACE_ORDER)
 
 
 def tableKey(slotKey):  #
-    """footSimple and foot share their table, and their order with it."""
-    return "foot" if slotKey == "footSimple" else slotKey
+    """footSimple, footRoll and foot share their table, and their order with it."""
+    return "foot" if slotKey in ("footSimple", "footRoll") else slotKey
 
 
 def rank(slotKey, leaf):  #

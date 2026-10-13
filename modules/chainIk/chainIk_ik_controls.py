@@ -80,6 +80,49 @@ def _master_control(name, color=22, align_with_fk=False):
     return ctrl
 
 
+def _place_master_at_first_fk(name, master, first_fk):
+    """Place the master at the first FK without applying its rest pose twice."""
+    master_group = master + "_group"
+    cmds.connectAttr(name + "_posers.offsetParentMatrix",
+                     master_group + ".offsetParentMatrix")
+    cmds.xform(master, worldSpace=True,
+               translation=cmds.xform(first_fk, query=True,
+                                      worldSpace=True, translation=True))
+    cmds.xform(master, worldSpace=True,
+               rotation=cmds.xform(first_fk, query=True,
+                                   worldSpace=True, rotation=True))
+    group_dec = first_fk + "_group_decMat"
+    source = cmds.connectionInfo(group_dec + ".inputMatrix",
+                                 sourceFromDestination=True)
+    if not source:
+        raise RuntimeError("Missing root FK matrix driver for " + first_fk)
+    rest_local = cmds.createNode("multMatrix",
+                                 name=first_fk + "_ikMasterRest_multMat")
+    _register(rest_local, name)
+    inverse = cmds.getAttr(master + ".inverseMatrix")
+    cmds.setAttr(rest_local + ".matrixIn[2]", *inverse, type="matrix")
+    cmds.connectAttr(source, rest_local + ".matrixIn[0]")
+    cmds.connectAttr(master_group + ".worldInverseMatrix[0]",
+                     rest_local + ".matrixIn[1]")
+    cmds.connectAttr(rest_local + ".matrixSum",
+                     group_dec + ".inputMatrix", force=True)
+
+
+def _preserve_fk_rest_positions(name, controls, rest_positions):
+    """Keep the FK layout when box interpolation replaces poser spacing."""
+    for fk, desired in zip(controls, rest_positions):
+        current = cmds.xform(fk, query=True, worldSpace=True,
+                             translation=True)
+        delta = [desired[i] - current[i] for i in range(3)]
+        if max(abs(value) for value in delta) < 1e-6:
+            continue
+        offset = fk + "_ikOffset"
+        position = cmds.xform(offset, query=True, worldSpace=True,
+                              translation=True)
+        cmds.xform(offset, worldSpace=True,
+                   translation=[position[i] + delta[i] for i in range(3)])
+
+
 def _middle_follows_end(name, middle, end):
     """Add a weighted end-cube translation to the middle cube's rest position."""
     group = middle + "_group"
@@ -309,8 +352,8 @@ def _fk_controls(name):
     while cmds.objExists("{}_element_{}".format(name, index)):
         controls.append("{}_element_{}".format(name, index))
         index += 1
-    if len(controls) < 4:
-        raise ValueError("At least four FK controls are required for {}".format(name))
+    if len(controls) < 3:
+        raise ValueError("At least three FK controls are required for {}".format(name))
     return controls
 
 
@@ -609,7 +652,7 @@ def verify_ik_controls(name):
     return result
 
 
-def repair_full_ikfk(name):
+def repair_full_ikfk(name, verify=True):
     """Finish both control networks on an already built Full IKFK chain."""
     root = name + "_mod"
     if not cmds.objExists(root) or not cmds.attributeQuery(
@@ -621,7 +664,8 @@ def repair_full_ikfk(name):
         raise ValueError("{} has the previous two-box layout; rebuild the module".format(name))
     repair_position_links(name)
     repair_rotations(name)
-    return verify_ik_controls(name)
+    if verify:
+        return verify_ik_controls(name)
 
 
 def repair_selected_full_ikfk():
@@ -766,8 +810,8 @@ def add_to_existing(name, box_color=None, box_scale=1.0,
     while cmds.objExists("{}_element_{}".format(name, index)):
         controls.append("{}_element_{}".format(name, index))
         index += 1
-    if len(controls) < 4:
-        raise ValueError("chainIk needs at least four FK controls")
+    if len(controls) < 3:
+        raise ValueError("chainIk needs at least three FK controls")
     if not cmds.objExists(name + "_controls"):
         raise ValueError("Missing controls group for {}".format(name))
     for set_name in ("_nodesSet", "_moduleControlSet", "_controlSet"):
@@ -782,12 +826,15 @@ def add_to_existing(name, box_color=None, box_scale=1.0,
     middle = (len(controls) - 1) // 2
     last = len(controls) - 1
     selection = cmds.ls(selection=True) or []
+    rest_positions = [cmds.xform(fk, query=True, worldSpace=True,
+                                 translation=True) for fk in controls]
     success = False
     cmds.undoInfo(openChunk=True, chunkName="Add chainIk box controls")
     try:
         master = _master_control(name, color=master_color,
                                  align_with_fk=align_master_with_fk)
         first_fk_group = controls[0] + "_group"
+        _place_master_at_first_fk(name, master, controls[0])
         cmds.parent(first_fk_group, master)
         base_ctrl, _ = _cube(name, "base", controls[0], master,
                              box_color if box_color is not None else 6,
@@ -821,6 +868,7 @@ def add_to_existing(name, box_color=None, box_scale=1.0,
                              first_fk_group + ".translate" + axis, force=True)
         _compensated_fk_groups(name, controls)
         add_rotations(name)
+        _preserve_fk_rest_positions(name, controls, rest_positions)
         cmds.select(master, base_ctrl, mid_ctrl, end_ctrl)
         success = True
         return master, base_ctrl, mid_ctrl, end_ctrl
