@@ -11,6 +11,40 @@ rootPath = os.path.normpath(os.path.dirname(__file__))
 # fileName = __name__.split('.')[0]
 # rootPath = os.path.abspath(imp.find_module(fileName)[1])
 
+# Динамика цепочки (опция dynamics): none, nucleus - follicle + hairSystem + свой
+# nucleus, как было всегда, pkDynamic - нода pk_chainDynamics из плагина pk_dynamics.
+# Обе дают кривую <name>_dynamicCrv, дальше всё общее: blendShape с dynamicWeight,
+# растяжение, сплайн-IK. Старые шаблоны несут useDynamic: True - это nucleus.
+DYNAMICS = ("none", "nucleus", "pkDynamic")
+PK_PLUGIN = "pk_dynamics"
+# атрибут на контроле -> атрибут pk_chainDynamics, умолчание, min, max (как в pk_dynamics.py)
+PK_SETTINGS = [
+	("stiffness", "stiffness", 0.15, 0.0, 1.0),
+	("damping", "damping", 0.5, 0.0, 1.0),
+	("gravity", "gravity", 0.0, None, None),
+	("stretch", "stretch", 0.6, 0.0, None),
+	("stretchDamping", "stretchDamping", 0.5, 0.0, 1.0),
+]
+
+
+def loadPkPlugin():
+	if cmds.pluginInfo(PK_PLUGIN, q=True, loaded=True):
+		return True
+	path = os.path.join(os.path.dirname(os.path.dirname(rootPath)), "plugins", "plug-ins",
+						cmds.about(version=True), PK_PLUGIN + ".mll")
+	try:
+		cmds.loadPlugin(path if os.path.exists(path) else PK_PLUGIN, quiet=True)
+	except RuntimeError:
+		return False
+	return bool(cmds.pluginInfo(PK_PLUGIN, q=True, loaded=True))
+
+
+def dynamicsFromOptions(options):
+	dyn = options.get('dynamics')
+	if dyn in DYNAMICS:
+		return dyn
+	return "nucleus" if options.get('useDynamic') else "none"
+
 class ChainIk(module.Module) :
 	def __init__(self, name):
 		super(self.__class__, self).__init__()
@@ -21,7 +55,8 @@ class ChainIk(module.Module) :
 		self.controlsCount = 5
 		self.jointsCount = 10
 		self.localControls = True
-		self.useDynamic = False
+		self.dynamics = "none"
+		self.useDynamic = False   # любая динамика: общая часть сети у обеих
 
 	def connectSignals(self, mainInstance, w):
 		module = mainInstance.curModule
@@ -39,12 +74,22 @@ class ChainIk(module.Module) :
 		
 		if options == {}:
 			controlsCount = self.controlsCount
+			# наследник (chainFullIKFK) может не звать __init__ ChainIk
+			self.dynamics = getattr(self, "dynamics", "none")
 		else:
 			controlsCount = options['controlsCount']
 			self.controlsCount = controlsCount
 			self.jointsCount = options['jointsCount']
-			self.useDynamic = options['useDynamic']
-		
+			self.dynamics = dynamicsFromOptions(options)
+		# выбранный режим, а не собранный: на машине без плагина pkDynamic не
+		# соберётся, но при пересборке там, где плагин есть, должен вернуться
+		cmds.addAttr(self.root, ln="dynamicsOption", dt="string")
+		cmds.setAttr(self.root + ".dynamicsOption", self.dynamics, type="string")
+		if self.dynamics == "pkDynamic" and not loadPkPlugin():
+			cmds.warning("chainIk: plugin %s not found, the chain is built without dynamics" % PK_PLUGIN)
+			self.dynamics = "none"
+		self.useDynamic = self.dynamics != "none"
+
 		# create posers
 		cmds.setAttr(self.name+"_root_poser.size", 0.5)
 		for i in range(1, controlsCount):
@@ -408,9 +453,16 @@ class ChainIk(module.Module) :
 			dynCtrl.addAttr('startFrame', at='short', k=1, dv=1)
 			dynCtrl.setAttr('startFrame', channelBox=1, l=0)
 			dynCtrl.addAttr('dynamicWeight', at='float', k=1, min=0, max=1, dv=1)
+
+		if self.dynamics == "pkDynamic":
+			dyn_crv = self.makePkDynamics(crv, numCVs, dynCtrl, system_gr)
+			cmds.rename(crv.name(), self.name+"_crv")
+			utils.addModuleNameAttr(crv.name(), self.name)
+
+		elif self.dynamics == "nucleus":
 			dynCtrl.addAttr('stiffness', at='float', k=1, min=0, max=1, dv=0.5)
 			dynCtrl.addAttr('damp', at='float', k=1, min=0, dv=0.1)
-	
+
 			# create dynamic curve
 			pm.select(crv)
 			mel.eval('makeCurvesDynamic 2 { "1", "0", "1", "1", "0"}')
@@ -449,8 +501,13 @@ class ChainIk(module.Module) :
 			foll.pointLock.set(1)
 			dyn_crv = foll.outCurve.outputs()[0]
 			cmds.rename(dyn_crv.name(), self.name+"_dynamicCrv")
-			utils.addModuleNameAttr(dyn_crv.name(), self.name)		
-	
+			utils.addModuleNameAttr(dyn_crv.name(), self.name)
+
+			pm.parent(nucl, hs, foll.getParent(), system_gr)
+			pm.parent(dyn_crv.getParent(), system_gr)
+			cmds.setAttr(self.name+"_staticCrv_element_1_loc.ty", 0.001)
+
+		if self.useDynamic:
 			# blendshape
 			out_crv = crv.duplicate(crv, n=self.name+'_outCrv')[0]
 			utils.addModuleNameAttr(out_crv.name(), self.name)	
@@ -463,11 +520,7 @@ class ChainIk(module.Module) :
 			pm.connectAttr(self.name+"_outCrvShape.worldSpace[0]", ikh.inCurve, f=1)
 	
 			pm.parent(out_crv, system_gr)
-			pm.parent(nucl, hs, foll.getParent(), system_gr)
-			pm.parent(dyn_crv.getParent(), system_gr)
 
-			cmds.setAttr(self.name+"_staticCrv_element_1_loc.ty", 0.001)
-			
 			stretch_crv = dyn_crv
 		
 		# make stretch
@@ -581,12 +634,47 @@ class ChainIk(module.Module) :
 
 		self.connectOpposite()
 
+	def makePkDynamics(self, crv, numCVs, dynCtrl, system_gr):
+		"""Динамика на ноде pk_chainDynamics вместо nucleus. Цели - те же
+		локаторы под контролами, что ведут CV статичной кривой, выход ноды
+		ставит CV копии этой кривой - <name>_dynamicCrv, как у nucleus (имя
+		носит шейп). Корень прибит к своей цели - как pointLock у follicle.
+		Кривые лежат в system в начале координат, CV - мировые точки."""
+		name = self.name
+		dup = pm.duplicate(crv, n=name+"_dynamicCurve")[0]
+		utils.addModuleNameAttr(dup.name(), name)
+		dyn_crv = pm.rename(dup.getShape(), name+"_dynamicCrv")
+		utils.addModuleNameAttr(dyn_crv.name(), name)
+
+		node = cmds.createNode("pk_chainDynamics", n=name+"_chainDynamics")
+		utils.addModuleNameAttr(node, name)
+		utils.addToModuleSet(node, name)
+		cmds.connectAttr("time1.outTime", node+".time")
+		cmds.connectAttr(dynCtrl.name()+".dynamic", node+".enable")
+		cmds.connectAttr(dynCtrl.name()+".startFrame", node+".startFrame")
+		for i in range(numCVs):
+			loc = "%s_element_%d_loc" % (crv.name(), i+1)
+			cmds.connectAttr(loc+".worldMatrix[0]", "%s.goalMatrix[%d]" % (node, i))
+			dec = cmds.createNode("decomposeMatrix", n="%s_dynamicCrv_%d_decomposeMatrix" % (name, i+1))
+			utils.addModuleNameAttr(dec, name)
+			utils.addToModuleSet(dec, name)
+			cmds.connectAttr("%s.outMatrix[%d]" % (node, i), dec+".inputMatrix")
+			cmds.connectAttr(dec+".outputTranslate", "%s.controlPoints[%d]" % (dyn_crv.name(), i))
+
+		for attr, node_attr, dv, mn, mx in PK_SETTINGS:
+			kw = {}
+			if mn is not None: kw['min'] = mn
+			if mx is not None: kw['max'] = mx
+			dynCtrl.addAttr(attr, at='float', k=1, dv=dv, **kw)
+			cmds.connectAttr(dynCtrl.name()+"."+attr, node+"."+node_attr)
+		return dyn_crv
+
 	def updateOptionsPage(self, widget):
 		self.getOptions()
-		
+
 		widget.controlsCount_spinBox.setValue(self.controlsCount)
 		widget.jointsCount_spinBox.setValue(self.jointsCount)
-		widget.useDynamic_checkBox.setChecked(self.useDynamic)
+		widget.dynamics_comboBox.setCurrentIndex(DYNAMICS.index(self.dynamics))
 
 	def getOptions(self):
 		childs = []
@@ -603,12 +691,25 @@ class ChainIk(module.Module) :
 				posers.append(p)
 		self.controlsCount = len(posers)		
 		
-		self.useDynamic = cmds.objExists(self.name+"_hairSystem")
+		# выбранный режим (на машине без плагина pkDynamic собирается без
+		# динамики); у собранных раньше атрибута нет - по сцене. По follicle, а
+		# не по hairSystem: правая сторона свой hairSystem удаляет
+		attr = self.name+"_mod.dynamicsOption"
+		if cmds.objExists(attr) and cmds.getAttr(attr) in DYNAMICS:
+			self.dynamics = cmds.getAttr(attr)
+		elif cmds.objExists(self.name+"_follicle"):
+			self.dynamics = "nucleus"
+		elif cmds.objExists(self.name+"_chainDynamics"):
+			self.dynamics = "pkDynamic"
+		else:
+			self.dynamics = "none"
+		self.useDynamic = self.dynamics != "none"
 
 		optionsData = {}
 		optionsData['controlsCount'] = self.controlsCount
 		optionsData['jointsCount'] = self.jointsCount
-		optionsData['useDynamic'] = self.useDynamic
+		optionsData['dynamics'] = self.dynamics
+		optionsData['useDynamic'] = self.useDynamic   # для тех, кто читает старый ключ
 
 		return optionsData				
 
@@ -622,13 +723,13 @@ class ChainIk(module.Module) :
 	def rebuildWithNewOptions(self, mainInstance, widget):
 		controlsCount = widget.controlsCount_spinBox.value()
 		jointsCount = widget.jointsCount_spinBox.value()
-		useDynamic = widget.useDynamic_checkBox.isChecked()
+		dynamics = DYNAMICS[widget.dynamics_comboBox.currentIndex()]
 
 		# create data variable
 		options = {}
 		options['controlsCount'] = controlsCount
 		options['jointsCount'] = jointsCount
-		options['useDynamic'] = useDynamic
+		options['dynamics'] = dynamics
 
 		# get children
 		children = {}
@@ -650,20 +751,9 @@ class ChainIk(module.Module) :
 		else:
 			new_target = None
 
-		# rebuild current module
+		# rebuild current module. Атрибуты динамики, включённой сейчас, остаются
+		# видимыми сами: setData прячет только то, что было спрятано при сохранении
 		mainInstance.rebuildModule(options, new_target=new_target)
-		
-		if useDynamic:
-			dynCtrl = pm.PyNode(utils.getControlNameFromInternal(self.name, "control"))
-			dynCtrl.dynamicWeight.unlock()
-			dynCtrl.dynamicWeight.setKeyable(True)
-			dynCtrl.stiffness.unlock()
-			dynCtrl.stiffness.setKeyable(True)
-			dynCtrl.damp.unlock()
-			dynCtrl.damp.setKeyable(True)		
-			dynCtrl.dynamic.unlock()
-			dynCtrl.dynamic.setKeyable(True)
-			dynCtrl.startFrame.unlock()
 
 	def rerootPosersToMainPoser(self):
 		sel = cmds.ls(sl=1)
@@ -724,7 +814,7 @@ class ChainIk(module.Module) :
 		opp_name = utils.getOpposite(self.name)
 		
 		# connect right hairSystem to left
-		if self.useDynamic:
+		if self.dynamics == "nucleus":
 			cmds.select(self.name+"_follicle")
 			mel.eval("assignHairSystem %s_hairSystemShape" %opp_name )
 		
@@ -761,6 +851,15 @@ class ChainIk(module.Module) :
 		
 		if self.useDynamic:
 			l_c.dynamicWeight >> r_c.dynamicWeight
+
+		# у pkDynamic нода своя на каждой стороне, а настройки - с левого
+		# контрола (у nucleus их делит общий hairSystem)
+		if self.dynamics == "pkDynamic":
+			for attr in ["dynamic", "startFrame"] + [s[0] for s in PK_SETTINGS]:
+				if cmds.attributeQuery(attr, node=l_c.name(), exists=True) \
+						and cmds.attributeQuery(attr, node=r_c.name(), exists=True):
+					cmds.setAttr(r_c.name()+"."+attr, l=False)
+					cmds.connectAttr(l_c.name()+"."+attr, r_c.name()+"."+attr, f=True)
 
 		pm.hide(r_c.getParent())
 

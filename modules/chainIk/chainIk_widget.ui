@@ -163,14 +163,37 @@
     </layout>
    </item>
    <item>
-    <widget class="QCheckBox" name="useDynamic_checkBox">
-     <property name="text">
-      <string>Use Dynamic</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="dynamics_layout">
+     <item>
+      <widget class="QLabel" name="dynamics_label">
+       <property name="text">
+        <string> Dynamics</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="dynamics_comboBox">
+       <item>
+        <property name="text">
+         <string>none</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>nucleus</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>pkDynamic</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QPushButton" name="rebuild_btn">

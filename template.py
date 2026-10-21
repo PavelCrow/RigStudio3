@@ -511,7 +511,7 @@ class Template(object):
 				for a in default_attrs:
 					if intName + "." + a in mData['controlsAttrData']:
 						cmds.setAttr(c.name + "." + a, mData['controlsAttrData'][intName + "." + a])
-					else:
+					elif utils.isHiddenInData(mData, intName, a):
 						cmds.setAttr(c.name + "." + a, keyable=0, lock=1)
 
 		def connect_modules(modulesData):

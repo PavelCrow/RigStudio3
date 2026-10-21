@@ -1082,6 +1082,25 @@ def getVisibleAttrs(obj): #
 
 	return attrList
 
+def getHiddenAttrs(obj): #
+	"""Атрибуты, спрятанные пользователем: закрытые и не видимые в channel box
+	(студия прячет именно так - keyable 0 и lock). Пишутся в данные модуля рядом
+	с controlsAttrData, чтобы при загрузке отличить спрятанный атрибут от нового."""
+	visible = set(getVisibleAttrs(obj))
+	return sorted(set(a for a in (cmds.listAttr(obj, locked=True) or []) if a not in visible))
+
+def isHiddenInData(data, intName, attr): #
+	"""Прятать ли атрибут контрола, которого нет в controlsAttrData.
+
+	Прячется только то, что было спрятано при сохранении. Атрибут, которого тогда
+	не было вовсе, - новый (например, динамика, включённая при пересборке модуля),
+	и он остаётся видимым. В данных старых версий списка спрятанных нет - там, как
+	раньше, прячется всё, чего нет в controlsAttrData."""
+	hidden = data.get('controlsHiddenAttrsData')
+	if not isinstance(hidden, dict):
+		return True
+	return attr in (hidden.get(intName) or [])
+
 def isSymmetrical(obj):
 	if obj.split("_")[0] == "l":
 		if cmds.objExists("r"+obj[1:]):

@@ -600,6 +600,7 @@ class Module(object):
     
         def getControlsShapeData():
             controlsAttrData = {}
+            controlsHiddenAttrsData = {}
             controlsNamesData = {}
             controlsVisData = {}
             controlsColorData = {}
@@ -614,6 +615,9 @@ class Module(object):
                 for attr in utils.getVisibleAttrs(cName):
                     attrVar = cmds.getAttr(cName + "." + attr)
                     controlsAttrData[(control + "." + attr)] = attrVar
+                # спрятанные: при загрузке прячутся только они, а атрибут, которого
+                # тогда не было (динамика, включённая при пересборке), остаётся виден
+                controlsHiddenAttrsData[control] = utils.getHiddenAttrs(cName)
                 # visibility
                 shapes = cmds.listRelatives(cName, s=1)
                 if shapes:
@@ -628,7 +632,7 @@ class Module(object):
                     # shape
                     controlsShapeData[control] = utils.curveShapeToCommand(cName)
 
-            return controlsAttrData, controlsNamesData, controlsVisData, controlsColorData, controlsShapeData
+            return controlsAttrData, controlsNamesData, controlsVisData, controlsColorData, controlsShapeData, controlsHiddenAttrsData
 
         def getAddControlsData():
             addCtrlsData = []
@@ -720,6 +724,7 @@ class Module(object):
         data['controlsVisData'] = controlsData[2]
         data['controlsColorData'] = controlsData[3]	
         data['controlsShapeData'] = controlsData[4]	
+        data['controlsHiddenAttrsData'] = controlsData[5]
         data['additionalControlsData'] = getAddControlsData()	
 
         return data
@@ -864,10 +869,11 @@ class Module(object):
                     cmds.setAttr(s+'.overrideColor', data['controlsColorData'][intName])				
 
                 # attributes
-                # Атрибут, которого нет в данных, спрятан пользователем - но только
-                # если данные сняты с модуля того же типа. При замене модуля другим
-                # (foot -> birdFoot) у контрола с тем же внутренним именем есть свои
-                # атрибуты, о которых старые данные ничего не знают, - их не трогаем.
+                # Атрибут, которого нет в данных, прячется, только если он был спрятан
+                # при сохранении (utils.isHiddenInData) и данные сняты с модуля того же
+                # типа. При замене модуля другим (foot -> birdFoot) у контрола с тем же
+                # внутренним именем есть свои атрибуты, о которых старые данные ничего
+                # не знают, - их не трогаем.
                 same_type = data.get('type', self.type) == self.type
                 default_attrs = utils.getVisibleAttrs(cName)
                 for a in default_attrs:
@@ -876,7 +882,7 @@ class Module(object):
                             cmds.setAttr(cName+"."+a, data['controlsAttrData'][intName+"."+a])
                         except:
                             cmds.warning(cName+"."+a+" is cannot set data "+str(data['controlsAttrData'][intName+"."+a]))
-                    elif same_type:
+                    elif same_type and utils.isHiddenInData(data, intName, a):
                         cmds.setAttr(cName+"."+a, keyable=0, lock=1)
 
                 # except: cmds.warning(cName+" control is not exists in saved data")
@@ -1316,7 +1322,7 @@ class Module(object):
             for a in default_attrs:
                 if intName + "." + a in mData['controlsAttrData']:
                     cmds.setAttr(c.name + "." + a, mData['controlsAttrData'][intName + "." + a])
-                else:
+                elif utils.isHiddenInData(mData, intName, a):
                     cmds.setAttr(c.name + "." + a, keyable=0, lock=1)
 
 

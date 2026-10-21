@@ -612,7 +612,7 @@ class Twist(object):
                             cmds.setAttr(cName+"."+a, data['controlsAttrData'][intName+"."+a])
                         except: 
                             cmds.warning(cName+"."+a+" is cannot set data "+str(data['controlsAttrData'][intName+"."+a]))
-                    else:
+                    elif utils.isHiddenInData(data, intName, a):
                         cmds.setAttr(cName+"."+a, keyable=0, lock=1)
 
         
@@ -1964,6 +1964,7 @@ class Twist(object):
             controlsColorData = {}
             controlsShapeData = {}
 
+            controlsHiddenAttrsData = {}
             controlNames = [twName+"_twist", twName+"_twist_1", twName+"_twist_2", twName+"_twist_3"]
             for cName in controlNames:
                 # name
@@ -1973,6 +1974,8 @@ class Twist(object):
                 for attr in utils.getVisibleAttrs(cName):
                     attrVar = cmds.getAttr(cName + "." + attr)
                     controlsAttrData[(control + "." + attr)] = attrVar
+                # спрятанные - при загрузке прячутся только они (utils.isHiddenInData)
+                controlsHiddenAttrsData[control] = utils.getHiddenAttrs(cName)
                 # visibility
                 shapes = cmds.listRelatives(cName, s=1)
                 if shapes:
@@ -1987,7 +1990,7 @@ class Twist(object):
                     # shape
                     controlsShapeData[control] = utils.curveShapeToCommand(cName)
 
-            return controlsAttrData, controlsNamesData, controlsVisData, controlsColorData, controlsShapeData
+            return controlsAttrData, controlsNamesData, controlsVisData, controlsColorData, controlsShapeData, controlsHiddenAttrsData
         
         controlsData = getControlsShapeData()
         twData['controlsAttrData'] = controlsData[0]	
@@ -1995,6 +1998,7 @@ class Twist(object):
         twData['controlsVisData'] = controlsData[2]
         twData['controlsColorData'] = controlsData[3]	
         twData['controlsShapeData'] = controlsData[4]	
+        twData['controlsHiddenAttrsData'] = controlsData[5]
         
         return twData
 
