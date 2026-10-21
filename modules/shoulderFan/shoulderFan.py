@@ -1,15 +1,54 @@
 import maya.cmds as cmds
 import os
+import importlib
 from functools import partial
 
 from ... import utils, module
 from ..shoulder.shoulder import Shoulder, LIMB_TYPES
+# В debug студия перезагружает этот файл, но не fan.py и scheme.py - без этого
+# после их правки здесь остались бы старые из памяти Maya. fan - до импорта
+# scheme: тот при импорте читает константы fan
 from . import fan
+if utils.isDebug():
+    importlib.reload(fan)
+from . import scheme
+if utils.isDebug():
+    importlib.reload(scheme)
 
 rootPath = os.path.normpath(os.path.dirname(__file__))
 
-LEGEND = (u"<b>Веер</b>: из центра (позер <b>fanCenter</b>, в глубине грудной клетки) идут кости к "
-          u"позерам <b>spoke_1..N</b> под кожей. Кость только поворачивается вокруг центра - кожа "
+def _weights_text(w):
+    """Веса по умолчанию одной строкой: только ненулевые."""
+    return u", ".join(u"%s %g" % (a, v) for a, v in zip(fan.WEIGHTS, w) if v)
+
+
+# Где ставить позеры (левая сторона, правая - зеркально). Ставить в позе покоя рига
+POSERS = (
+    u"Клик по точке на схеме выделяет позер, Shift+клик - добавляет к выделению, наведение "
+    u"подсказывает, где его ставить.<br><br>"
+    u"<b>Позеры</b> (левая сторона, правая - зеркально; ставить в позе покоя):<br>"
+    u"<b>root</b> - грудино-ключичный сустав: у верха грудины, где в неё упирается ключица.<br>"
+    u"<b>shoulder</b> - акромион, костяной верх плеча (не сам плечевой сустав, а над ним). "
+    u"За ним едет лопатка.<br>"
+    u"<b>scapulaTop</b> - верхний внутренний угол лопатки: сзади, у позвоночника, на уровне "
+    u"верха лопатки.<br>"
+    u"<b>ribcage</b> (каркасный эллипсоид) - грудная клетка. Двигайте, вращайте и масштабируйте так, "
+    u"чтобы он повторял спину под лопаткой - по нему скользит лопатка. Касаться самой лопатки он не обязан.<br>"
+    u"<b>fanCenter</b> - центр веера: в глубине грудной клетки, примерно посередине между грудиной и "
+    u"позвоночником, на высоте середины груди. Все кости веера поворачиваются вокруг него: чем "
+    u"глубже центр, тем ровнее кожа скользит по рёбрам; у самой кожи веер будет её мять.<br>"
+    u"<b>spoke_1..N</b> - концы костей веера, на 1-3 см под кожей, там, где кость держит кожу "
+    u"(скиновая кость стоит прямо в позере). Линия от fanCenter до позера - сама кость. "
+    u"По умолчанию:<br>"
+) + u"<br>".join(
+    u"&nbsp;&nbsp;<b>%d</b> - %s: %s <i>(%s)</i>" % (i + 1, name, where, _weights_text(fan.DEFAULT_SPOKES[i][1]))
+    for i, (name, where) in enumerate(fan.SPOKE_PLACES)
+) + (u"<br>Кости сверх %d встают посередине между соседними по номеру - переставьте их сами. "
+     u"Позеры костей стоит раскладывать равномерно: спереди, сверху и сзади, без пустых мест - "
+     u"кожа между костями держится только скином.<br><br>" % len(fan.SPOKE_PLACES))
+
+LEGEND = POSERS + (
+          u"<b>Веер</b>: кость только поворачивается вокруг центра, длина постоянна - кожа "
           u"скользит по рёбрам. Скинить - на <b>spoke_N_skinJoint</b> (конец кости); "
           u"spoke_N_hub_skinJoint у центра только рисует линию.<br><br>"
           u"<b>chest / clav / scapula / arm</b> на кости - насколько точку под кожей несут грудь, "
@@ -24,8 +63,7 @@ LEGEND = (u"<b>Веер</b>: из центра (позер <b>fanCenter</b>, в 
           u"(у вертикальной руки гаснет). Правая сторона берёт всё с левой.<br><br>"
           u"<b>scapula</b> - лопатка модуля: скользит по эллипсоиду <b>ribcage</b> за акромионом "
           u"(позер shoulder, scapulaFollow) и поворачивается от подъёма руки (scapulaUp/Down). "
-          u"Своей скиновой кости у неё нет - её ведут кости веера.<br><br>"
-          u"Кости по умолчанию: ") + u", ".join(u"%d - %s" % (i + 1, n) for i, n in enumerate(fan.SPOKE_NAMES)) + u"."
+          u"Своей скиновой кости у неё нет - её ведут кости веера.")
 
 
 class ShoulderFan(module.Module):
@@ -73,6 +111,7 @@ class ShoulderFan(module.Module):
 
     def updateOptionsPage(self, w):
         w.spokes_spinBox.setValue(self.getOptions()["spokes"])
+        w.scheme_layout.addWidget(scheme.FanScheme(self.name))
         w.legend_label.setText(LEGEND)
 
     def getOptions(self):

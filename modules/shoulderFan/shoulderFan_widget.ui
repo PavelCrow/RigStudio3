@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,1">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0,1">
    <property name="leftMargin">
     <number>0</number>
    </property>
@@ -97,6 +97,24 @@
      <property name="text">
       <string>Rebuild with new options</string>
      </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="scheme_holder" native="true">
+     <layout class="QVBoxLayout" name="scheme_layout">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>6</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+     </layout>
     </widget>
    </item>
    <item>

@@ -17,13 +17,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(HERE), "shoulder"))
 import generate_shoulder as gs
 import fan
 
-# Позеры в кадре mainPoser (грудино-ключичный сустав), левая сторона:
-# X - наружу, Y - вверх, Z - вперёд. Пропорции шаблона human (как в shoulder).
-POSERS = [
-    ("shoulder", (1.85, 0.65, -1.35), 0.25, 17),
-    ("scapulaTop", (0.40, -0.40, -2.90), 0.2, 13),
-    ("fanCenter", (-1.216, -2.70, -1.00), 0.3, 20),
-]
+POSERS = fan.BASE_POSERS          # имя, положение в кадре mainPoser, size, цвет
 SETTINGS = [  # на mainPoser: имя, значение по умолчанию, min, max
     ("scapulaFollow", 0.6, 0.0, 1.0),     # доля сдвига акромиона, на которую едет лопатка
     ("scapulaUp", 30.0, None, None),      # поворот лопатки, когда плечевая кость смотрит вверх
@@ -42,14 +36,14 @@ def build():
     # --- 1. позеры, настройки
     for name, t, size, color in POSERS:
         gs.poser(name, t, size, color)
-    rib = gs.poser("ribcage", gs.RIBCAGE["t"], 1.0, 20)
+    rib = gs.poser("ribcage", fan.RIBCAGE["t"], 1.0, 20)
     cmds.disconnectAttr("ribcage_size_multDoubleLinear.output", "ribcage_makeNurbSphere.radius")
     cmds.delete("ribcage_size_multDoubleLinear")
     cmds.deleteAttr(rib + ".size")
     cmds.setAttr("ribcage_makeNurbSphere.radius", 1)
     for a in ("rx", "ry", "rz", "sx", "sy", "sz"):
         cmds.setAttr(rib + "." + a, l=0, k=1)
-    cmds.setAttr(rib + ".s", *gs.RIBCAGE["s"])
+    cmds.setAttr(rib + ".s", *fan.RIBCAGE["s"])
     cmds.setAttr("ribcage_poserShape.overrideShading", 0)
     cmds.setAttr("ribcage_poserShape.dvu", 2)
     cmds.setAttr("ribcage_poserShape.dvv", 2)
