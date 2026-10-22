@@ -417,7 +417,7 @@ def getModuleTypeFromAttr(obj):
 
 	return moduleType
 
-def getModuleName(obj): #
+def getModuleName(obj, warn=True): #
 	if obj == None or obj == "" or not cmds.objExists(obj):
 		return None	
 	
@@ -439,7 +439,8 @@ def getModuleName(obj): #
 		moduleName = path[0].split("rig|modules|")[-1].split("_mod|")[0]
 	else:
 		moduleName = None
-		cmds.warning("utils|getModuleName - Missed "+j)
+		if warn:
+			cmds.warning("utils|getModuleName - Missed "+j)
 
 	return moduleName
 
@@ -1497,6 +1498,23 @@ def restoreSkinInfluences(snapshot, rebind=False):
 						 cmds.getAttr(node + ".worldInverseMatrix[0]"), type="matrix")
 		restored.append(name)
 	return restored, missing
+
+def rebindSkinJoints(joints):
+	"""Привязка (bindPreMatrix) костей во всех их skinCluster - по нынешнему положению,
+	как rebind в restoreSkinInfluences. Для костей, сдвинутых уже после него. Отдаёт
+	число обновлённых номеров."""
+	count = 0
+	for j in joints:
+		conns = cmds.listConnections(j + ".worldMatrix", source=False, destination=True,
+									 plugs=True, type="skinCluster") or []
+		for plug in conns:
+			skin, attr = plug.split(".", 1)
+			if not attr.startswith("matrix["):
+				continue
+			cmds.setAttr("%s.bindPreMatrix%s" % (skin, attr[len("matrix"):]),
+						 cmds.getAttr(j + ".worldInverseMatrix[0]"), type="matrix")
+			count += 1
+	return count
 
 def curveShapeToCommand(name): #
 	sel = cmds.ls(sl=1) or []

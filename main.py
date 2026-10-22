@@ -2793,12 +2793,11 @@ class MainWindow:
         names = [self.curModule.name]
         if self.curModule.symmetrical:
             names.append(utils.getOpposite(self.curModule.name))
-        module_joints = set()
-        for name in names:
-            if cmds.objExists(name + "_skinJointsSet"):
-                module_joints.update(cmds.sets(name + "_skinJointsSet", query=True) or [])
 
-        skins = sorted({skin for (skin, _), (joint, _) in skinInfluences.items() if joint in module_joints})
+        # в скинах стоят skinJoint, а в <модуль>_skinJointsSet - outJoint (и не все:
+        # кости, добавленные опциями, туда не попадают) - модуль кости по её outJoint
+        skins = sorted({skin for (skin, _), (joint, _) in skinInfluences.items()
+                        if utils.getModuleName(joint, warn=False) in names})
         if not skins:
             return "untouched"
 
