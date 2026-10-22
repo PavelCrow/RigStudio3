@@ -1401,6 +1401,65 @@ def restoreSelection(sel): #
 	else:
 		cmds.select(clear=1)
 
+def skinInfluencesSnapshot():
+	"""Какая кость на каком номере каждого skinCluster сцены - для restoreSkinInfluences.
+
+	Кость, удалённую при пересборке модуля, skinCluster теряет вместе с номером
+	(matrix[i]), а bindPreMatrix[i] и веса по этому номеру - и в самом скине, и в слоях
+	ngSkinTools - остаются. Новую кость с тем же именем restoreSkinInfluences ставит
+	на прежний номер, и скин оживает как был, без переноса весов.
+
+	{(skinCluster, номер): (имя кости, [(атрибут кости, атрибут скина), ...])}
+	"""
+	snapshot = {}
+	for skin in cmds.ls(type="skinCluster"):
+		for index in cmds.getAttr(skin + ".matrix", multiIndices=True) or []:
+			src = cmds.listConnections("%s.matrix[%d]" % (skin, index), source=True, destination=False)
+			if not src:
+				continue
+			# Все связи кости с этим номером: matrix, lockWeights, influenceColor.
+			suffix = "[%d]" % index
+			conns = cmds.listConnections(src[0], source=False, destination=True, plugs=True,
+										 connections=True, type="skinCluster") or []
+			pairs = [(s.split(".", 1)[1], d.split(".", 1)[1]) for s, d in zip(conns[::2], conns[1::2])
+					 if d.split(".", 1)[0] == skin and d.endswith(suffix)]
+			snapshot[(skin, index)] = (src[0], pairs)
+	return snapshot
+
+def restoreSkinInfluences(snapshot, rebind=False):
+	"""Кости из снимка, которых skinCluster лишился, а в сцене они снова есть под тем же
+	именем, - обратно на их номера. Отдаёт (восстановленные, не найденные) имена.
+
+	rebind: привязка (bindPreMatrix) по текущему положению кости, а не прежняя - кость
+	с тем же именем после смены опций может стоять в другом месте цепочки, и меш со
+	старой привязкой съезжает. Верно, только если риг стоит в дефолтной позе.
+	"""
+	restored, missing = [], []
+	for (skin, index), (name, pairs) in sorted(snapshot.items()):
+		if not cmds.objExists(skin):
+			continue
+		if cmds.listConnections("%s.matrix[%d]" % (skin, index), source=True, destination=False):
+			continue  # эту кость не удаляли
+		nodes = cmds.ls(name)
+		if len(nodes) != 1:
+			missing.append(name)
+			continue
+		node = nodes[0]
+		if skin in (cmds.listConnections(node + ".worldMatrix", source=False, destination=True, type="skinCluster") or []):
+			missing.append(name)  # уже стоит в этом скине на другом номере
+			continue
+		for src_attr, dst_attr in pairs:
+			# lockInfluenceWeights skinCluster добавляет кости сам при бинде - новой его не хватает
+			if src_attr == "lockInfluenceWeights" and not cmds.attributeQuery(src_attr, node=node, exists=True):
+				cmds.addAttr(node, longName="lockInfluenceWeights", shortName="liw", attributeType="bool")
+			if cmds.attributeQuery(src_attr.split("[")[0], node=node, exists=True):
+				cmds.connectAttr(node + "." + src_attr, skin + "." + dst_attr, force=True)
+		if rebind:
+			cmds.setAttr("%s.bindPreMatrix[%d]" % (skin, index),
+						 cmds.getAttr(node + ".worldInverseMatrix[0]"), type="matrix")
+		restored.append(name)
+	return restored, missing
+
 def curveShapeToCommand(name): #
 	sel = cmds.ls(sl=1) or []
 

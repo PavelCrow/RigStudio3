@@ -2785,8 +2785,47 @@ class MainWindow:
         self.twistClass.rename(oldControlName, newControlName)
         self.ibtwClass.rename(oldControlName, newControlName)
 
+    def askSkinJointsOnRebuild(self, skinInfluences):
+        """Кости пересобираемого модуля (и его зеркала) стоят в скинах - спросить, что с
+        ними делать после сборки: "keep" - вернуть на прежние номера с привязкой по новому
+        положению, "drop" - оставить вне скина, None - отменить пересборку. Если в скинах
+        их нет, вопроса нет - "untouched"."""
+        names = [self.curModule.name]
+        if self.curModule.symmetrical:
+            names.append(utils.getOpposite(self.curModule.name))
+        module_joints = set()
+        for name in names:
+            if cmds.objExists(name + "_skinJointsSet"):
+                module_joints.update(cmds.sets(name + "_skinJointsSet", query=True) or [])
+
+        skins = sorted({skin for (skin, _), (joint, _) in skinInfluences.items() if joint in module_joints})
+        if not skins:
+            return "untouched"
+
+        box = QtWidgets.QMessageBox(self.win)
+        box.setIcon(QtWidgets.QMessageBox.Question)
+        box.setWindowTitle("Rebuild module")
+        box.setText("Joints of '%s' are bound to: %s" % (", ".join(names), ", ".join(skins)))
+        box.setInformativeText(
+            "Keep in skin: after the rebuild the joints return to their skin slots, weights "
+            "(ngSkinTools layers too) stay; the bind is reset to the joints' new positions, "
+            "so put the rig in the default pose first.\n\n"
+            "Drop from skin: the joints leave the skin, their weights stay without a joint.")
+        keep = box.addButton("Keep in skin", QtWidgets.QMessageBox.AcceptRole)
+        drop = box.addButton("Drop from skin", QtWidgets.QMessageBox.DestructiveRole)
+        box.addButton(QtWidgets.QMessageBox.Cancel)
+        box.setDefaultButton(keep)
+        box.exec_()
+        return {keep: "keep", drop: "drop"}.get(box.clickedButton())
+
     def rebuildModule(self, options={}, moduleType="", new_target=None):
         sel = cmds.ls(sl=1)
+
+        # кости модуля удаляются и создаются заново - запомнить их номера в скинах
+        skinInfluences = utils.skinInfluencesSnapshot()
+        skinMode = self.askSkinJointsOnRebuild(skinInfluences)
+        if skinMode is None:
+            return
 
         # get children
         children = {}
@@ -2869,6 +2908,16 @@ class MainWindow:
         # twists
         # for twData in curModuleData['twistsData']:
         #     twist.Twist(self.win).twists_add(twData, self.curModule.name)
+
+        # кости, вернувшиеся под теми же именами, - на прежние номера в скинах;
+        # без вопроса (костей модуля в скинах не было) привязка не трогается
+        if skinMode != "drop":
+            restored, missing = utils.restoreSkinInfluences(skinInfluences, rebind=skinMode == "keep")
+            if restored:
+                print("rebuildModule: в скин возвращено костей: %d" % len(restored))
+            if missing:
+                cmds.warning("rebuildModule: после пересборки нет костей, их веса остались в скине без кости: "
+                             + ", ".join(missing))
 
         # set to old seleted mudule and update ui
         self.curModule = self.rig.modules[self.curModule.name]
