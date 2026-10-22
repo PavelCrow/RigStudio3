@@ -14,6 +14,70 @@ rootPath = os.path.normpath(os.path.dirname(__file__))
     ##print "ADDED path"
 #mel.eval("source pk_makeControls")
 
+
+# Локальный скелет. У модуля с атрибутом localSkeleton на <модуль>_mod корень
+# скиновых костей стоит в статичной группе <модуль>_localSkeleton под skeleton -
+# там, где он стоит в дефолтной позе родителя (initLoc его outJoint). Остальные
+# скиновые кости копируют локальные значения outJoint-ов и от тела не двигаются:
+# лицо можно скинить на статичную копию головы и отдавать в тело blendShape-ом.
+# Корни дочерних модулей под таким скелетом считаются от outJoint родителя
+# (outJoint * parentOut^-1 * parentSkin), а не от мира - иначе ехали бы с телом.
+LOCAL_SKELETON_SUFFIX = "_localSkeleton"
+
+
+def underLocalSkeleton(joint):
+    """joint стоит в чьей-то статичной группе локального скелета."""
+    path = (cmds.ls(joint, long=True) or [""])[0]
+    return any(p.endswith(LOCAL_SKELETON_SUFFIX) for p in path.split("|")[:-1])
+
+
+def setMatrixInputs(multMat, plugs):
+    """Входы multMatrix заново: plugs по порядку, лишние номера убираются."""
+    for i in cmds.getAttr(multMat + ".matrixIn", multiIndices=True) or []:
+        plug = "%s.matrixIn[%d]" % (multMat, i)
+        src = cmds.listConnections(plug, source=True, destination=False, plugs=True)
+        if src:
+            cmds.disconnectAttr(src[0], plug)
+        cmds.removeMultiInstance(plug, b=True)
+    for i, p in enumerate(plugs):
+        cmds.connectAttr(p, "%s.matrixIn[%d]" % (multMat, i))
+
+
+def wireRootSkinJoint(root_j, relative_to_parent):
+    """Корень скиновых костей модуля: от мира (outJoint * pim) или от outJoint
+    кости-родителя (outJoint * parentOut^-1 * parentSkin * pim)."""
+    out = root_j.replace("skinJoint", "outJoint")
+    mm = root_j + "_multMat"
+    if not cmds.objExists(mm) or not cmds.objExists(out):
+        return
+    plugs = [out + ".worldMatrix[0]"]
+    if relative_to_parent:
+        parent_skin = (cmds.listRelatives(root_j, parent=True) or [None])[0]
+        parent_out = parent_skin.replace("skinJoint", "outJoint") if parent_skin else None
+        if parent_out and parent_out != parent_skin and cmds.objExists(parent_out):
+            plugs += [parent_out + ".worldInverseMatrix[0]", parent_skin + ".worldMatrix[0]"]
+        else:
+            cmds.warning("%s: нет outJoint у кости-родителя %s - корень считается от мира" % (root_j, parent_skin))
+    setMatrixInputs(mm, plugs + [root_j + ".parentInverseMatrix[0]"])
+
+
+def rootSkinJoints(m_name):
+    """Верхние скиновые кости модуля - те, что connect ставит под кость родителя
+    (у глаз их три: root, l_base, r_base)."""
+    return [j.replace("outJoint", "skinJoint") for j in cmds.listRelatives(m_name + "_outJoints", type="joint") or []
+            if cmds.objExists(j.replace("outJoint", "skinJoint"))]
+
+
+def wireChildSkinRoots(joint):
+    """Корни дочерних модулей ниже joint - кости, чей родитель из другого
+    модуля, - под локальным скелетом или нет."""
+    for j in cmds.listRelatives(joint, allDescendents=True, type="joint", fullPath=True) or []:
+        short = j.split("|")[-1]
+        parent = j.split("|")[-2]
+        if utils.getModuleName(short, warn=False) != utils.getModuleName(parent, warn=False):
+            wireRootSkinJoint(short, underLocalSkeleton(short))
+
+
 class Module(object):
     def __init__(self): #
         self.main = None
@@ -443,7 +507,10 @@ class Module(object):
             cmds.parent(root_j, target_joint)
             utils.removeTransformParentJoint(root_j)
             utils.resetJointOrient(root_j)
-        
+        # свой локальный скелет или родитель в чужом - корни считаются иначе
+        if self.isLocalSkeleton() or any(underLocalSkeleton(j) for j in rootSkinJoints(self.name)):
+            self.wireSkinRoot()
+
         if opposite:
             self.opposite = True
             opp_name = utils.getOpposite(self.name)
@@ -511,12 +578,20 @@ class Module(object):
         # None, the same as getParent() returns for an unparented module
         self.parent = None
 
-        # reroot skin joints
-        jointsRoot = self.name+'_root_skinJoint'
-        if cmds.objExists(jointsRoot):
-            utils.parentTo(jointsRoot, 'skeleton')	
+        # reroot skin joints - все верхние, как их ставит connect: оставшиеся под
+        # костью родителя удалялись вместе с ним при его пересборке (у глаз
+        # l_base/r_base под ртом)
+        rewire = self.isLocalSkeleton()
+        for jointsRoot in rootSkinJoints(self.name):
+            utils.parentTo(jointsRoot, 'skeleton')
             utils.removeTransformParentJoint(jointsRoot)
             utils.resetJointOrient(jointsRoot)
+            # корень, считавшийся от родителя (локальный скелет), - снова от мира
+            mm = jointsRoot + "_multMat"
+            if cmds.objExists(mm) and len(cmds.getAttr(mm + ".matrixIn", multiIndices=True) or []) > 2:
+                rewire = True
+        if rewire:
+            self.wireSkinRoot()
 
     def setControlAttrs(self, data):
         for attr in data['controlsAttrData']:
@@ -913,6 +988,58 @@ class Module(object):
 
     def setMirroredNames():
         pass
+
+    def isLocalSkeleton(self):
+        attr = self.name + "_mod.localSkeleton"
+        return cmds.objExists(attr) and bool(cmds.getAttr(attr))
+
+    def setLocalSkeleton(self, state):
+        """Локальный скелет модуля (см. LOCAL_SKELETON_SUFFIX) - вкл/выкл без
+        пересборки. Скиновые кости те же, в дефолтной позе на тех же местах."""
+        mod = self.name + "_mod"
+        if not cmds.objExists(mod + ".localSkeleton"):
+            if not state:
+                return
+            cmds.addAttr(mod, longName="localSkeleton", attributeType="bool")
+        cmds.setAttr(mod + ".localSkeleton", bool(state))
+        self.wireSkinRoot()
+
+    def wireSkinRoot(self):
+        """Корень скиновых костей по нынешнему режиму: в статичной группе
+        (локальный скелет), под костью родителя от его outJoint (родитель в
+        локальном скелете) или как обычно - от мира. Потом - дочерние модули."""
+        roots = [j for j in rootSkinJoints(self.name) if cmds.objExists(j + "_multMat")]
+        if not roots:
+            return
+        group = self.name + LOCAL_SKELETON_SUFFIX
+        parent_out = self.getParent()
+        local = self.isLocalSkeleton()
+        if local and not cmds.objExists(group):
+            cmds.group(empty=True, name=group, parent="skeleton")
+            utils.addToModuleSet(group, self.name)
+        for root_j in roots:
+            current = (cmds.listRelatives(root_j, parent=True) or [None])[0]
+            if local:
+                if current != group:
+                    cmds.parent(root_j, group, relative=True)
+                    utils.removeTransformParentJoint(root_j)
+                    utils.resetJointOrient(root_j)
+                plugs = [root_j.replace("skinJoint", "outJoint") + ".worldMatrix[0]"]
+                init_loc = parent_out.replace("outJoint", "initLoc") if parent_out else None
+                if init_loc and cmds.objExists(init_loc):
+                    # корень относительно родителя - на родителе в дефолтной позе
+                    plugs += [parent_out + ".worldInverseMatrix[0]", init_loc + ".worldMatrix[0]"]
+                setMatrixInputs(root_j + "_multMat", plugs + [root_j + ".parentInverseMatrix[0]"])
+            else:
+                if current == group:
+                    parent_skin = parent_out.replace("outJoint", "skinJoint") if parent_out else "skeleton"
+                    cmds.parent(root_j, parent_skin if cmds.objExists(parent_skin) else "skeleton", relative=True)
+                    utils.removeTransformParentJoint(root_j)
+                    utils.resetJointOrient(root_j)
+                wireRootSkinJoint(root_j, underLocalSkeleton(root_j))
+            wireChildSkinRoots(root_j)
+        if not local and cmds.objExists(group) and not cmds.listRelatives(group, children=True):
+            cmds.delete(group)
 
     def getParent(self): #
         if not cmds.objExists(self.name+'_root_connector'):
