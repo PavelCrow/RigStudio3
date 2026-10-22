@@ -361,7 +361,14 @@ class Module(object):
         self.seamless = self.isSeamless()
 
     def connect(self, target, opposite=False, makeSeamless=False):
-        # print ("Connect to", target)    
+        # print ("Connect to", target)
+        # родитель может сам решить, к чему именно подключать (squashChain: позер mid -
+        # ближайшая к дочернему модулю кость). Без load(): хуку нужны класс и имя, а
+        # load() у некоторых модулей ещё и чинит связи (head)
+        parent_type = utils.getModuleName(target) + "_mod.moduleType"
+        if cmds.objExists(parent_type):
+            parent_class = utils.importModuleClass(cmds.getAttr(parent_type))
+            target = parent_class(utils.getModuleName(target)).connectTarget(self, target)
         connector = self.name+"_root_connector"
         # root = self.name + "_root_poserOrient"
         root_poser = self.name + "_root_poser"
@@ -528,6 +535,11 @@ class Module(object):
     def childConnected(self, child):
         """К модулю подключили дочерний модуль child (вызывает child.connect)."""
         pass
+
+    def connectTarget(self, child, target):
+        """К чему подключить дочерний модуль child, выбравший целью target (позер или кость
+        этого модуля). По умолчанию - к самой цели; модуль может подменить её своей."""
+        return target
 
     def childDisconnected(self, child):
         """Дочерний модуль child отключается; его связи ещё на месте."""
