@@ -1374,6 +1374,44 @@ def create_space_group(ctrl=None, sources=[], names=[]):
 	cmds.select(ctrl)
 	cmds.setAttr(ctrl+'.parent', 0)	
 
+NODES_PLUGIN = "rigStudio"
+
+def loadNodesPlugin(nodeType=None, probeAttr=None): #
+	"""Загружает rigStudio.mll - все ноды rigStudio (pk_ibtw, pk_twist,
+	pk_limbIk, pk_wing, pk_chainDynamics, pk_jiggle), собранный под текущую Maya.
+	Берётся из plugins/plug-ins/<версия>, иначе - по имени с MAYA_PLUG_IN_PATH.
+
+	С nodeType и probeAttr проверяется ещё и сам тип. Плагин может сказать, что
+	загружен, а тип быть пустой заглушкой: выгрузка плагина при живых нодах
+	оставляет его без атрибутов, и createNode отдаёт ноду без единого атрибута
+	вместо ошибки. Если же раньше загрузилась старая полная сборка pk_rigNodes /
+	pk_dynamics (старая копия в студийной папке), тип остаётся за ней - Maya не
+	отдаёт его второму плагину, - и это не ошибка: нода та же."""
+	if not cmds.pluginInfo(NODES_PLUGIN, q=1, loaded=1):
+		version = cmds.about(v=True).split(" ")[0]
+		path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "plugins", "plug-ins",
+							version, NODES_PLUGIN + ".mll")
+		try:
+			cmds.loadPlugin(path if os.path.isfile(path) else NODES_PLUGIN, quiet=True)
+		except RuntimeError:
+			pass
+		if not cmds.pluginInfo(NODES_PLUGIN, q=1, loaded=1):
+			cmds.warning("%s.mll is not built for Maya %s - %s" %(NODES_PLUGIN, version, path))
+			return False
+
+	if nodeType and probeAttr:
+		try:
+			healthy = cmds.attributeQuery(probeAttr, type=nodeType, exists=True)
+		except RuntimeError:
+			# заглушку не всегда можно и спросить
+			healthy = False
+		if not healthy:
+			cmds.warning(" %s is registered without its attributes - restart Maya. "
+						 "The plugin was unloaded while its nodes were still in the scene." %nodeType)
+			return False
+
+	return True
+
 def create_default_sets():
 	if not cmds.objExists('sets'):
 		cmds.sets(n='sets')

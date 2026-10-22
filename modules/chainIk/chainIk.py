@@ -12,11 +12,11 @@ rootPath = os.path.normpath(os.path.dirname(__file__))
 # rootPath = os.path.abspath(imp.find_module(fileName)[1])
 
 # Динамика цепочки (опция dynamics): none, nucleus - follicle + hairSystem + свой
-# nucleus, как было всегда, pkDynamic - нода pk_chainDynamics из плагина pk_dynamics.
+# nucleus, как было всегда, pkDynamic - нода pk_chainDynamics из плагина rigStudio.mll.
 # Обе дают кривую <name>_dynamicCrv, дальше всё общее: blendShape с dynamicWeight,
 # растяжение, сплайн-IK. Старые шаблоны несут useDynamic: True - это nucleus.
 DYNAMICS = ("none", "nucleus", "pkDynamic")
-PK_PLUGIN = "pk_dynamics"
+PK_PLUGIN = utils.NODES_PLUGIN
 # атрибут на контроле -> атрибут pk_chainDynamics, умолчание, min, max (как в pk_dynamics.py)
 PK_SETTINGS = [
 	("stiffness", "stiffness", 0.15, 0.0, 1.0),
@@ -28,15 +28,7 @@ PK_SETTINGS = [
 
 
 def loadPkPlugin():
-	if cmds.pluginInfo(PK_PLUGIN, q=True, loaded=True):
-		return True
-	path = os.path.join(os.path.dirname(os.path.dirname(rootPath)), "plugins", "plug-ins",
-						cmds.about(version=True), PK_PLUGIN + ".mll")
-	try:
-		cmds.loadPlugin(path if os.path.exists(path) else PK_PLUGIN, quiet=True)
-	except RuntimeError:
-		return False
-	return bool(cmds.pluginInfo(PK_PLUGIN, q=True, loaded=True))
+	return utils.loadNodesPlugin("pk_chainDynamics", "stiffness")
 
 
 def dynamicsFromOptions(options):

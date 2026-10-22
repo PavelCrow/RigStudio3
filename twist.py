@@ -637,33 +637,8 @@ class Twist(object):
     # ------------------------------------------------------------- pk_twist
 
     def loadRigNodesPlugin(self): #
-        """Загружает pk_rigNodes.mll, собранный под текущую версию Maya."""
-        if "pk_rigNodes" not in (cmds.pluginInfo(q=1, listPlugins=1) or []):
-            mayaVersion = cmds.about(v=True).split(" ")[0]
-            path = os.path.join(rootPath, "plugins", "plug-ins", mayaVersion, "pk_rigNodes.mll")
-
-            if not os.path.isfile(path):
-                cmds.warning("pk_rigNodes.mll is not built for Maya %s - %s" %(mayaVersion, path))
-                return False
-
-            cmds.loadPlugin(path)
-            if "pk_rigNodes" not in (cmds.pluginInfo(q=1, listPlugins=1) or []):
-                return False
-
-        # та же ловушка, что и у pk_ibtw: выгрузка плагина при живых
-        # нодах оставляет тип пустой заглушкой, и createNode отдаёт ноду без
-        # единого атрибута вместо ошибки
-        try:
-            healthy = cmds.attributeQuery("ctrlTranslate", type="pk_twist", exists=True)
-        except RuntimeError:
-            healthy = False
-
-        if not healthy:
-            cmds.warning(" pk_twist is registered without its attributes - restart Maya. "
-                         "The plugin was unloaded while its nodes were still in the scene.")
-            return False
-
-        return True
+        """Загружает rigStudio.mll и проверяет, что pk_twist пришёл с атрибутами."""
+        return utils.loadNodesPlugin("pk_twist", "ctrlTranslate")
 
     def getMllEndJoint(self, start_j): #
         """Дочерний джоинт, до которого тянется цепочка."""

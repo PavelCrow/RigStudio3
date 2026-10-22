@@ -1620,3 +1620,12 @@ docs: спека плагина рта (docs/pk_mouth_spec.md) - ноды pk_mou
 ---Version 3.33.7
 squashChain: подключение модуля к позеру mid - модуль садится на кость цепочки, ближайшую к нему самому (к его root_poser); tip_poser и root_poser как раньше - последняя кость и низ; пометка на странице опций
 module: хук connectTarget - перед подключением родительский модуль может подменить цель своей; по умолчанию цель как есть, остальные модули не меняются
+
+---Version 3.33.8
+mouth: из папки модуля убраны старые сцены (mouth2-7.ma, mouth_.ma, mouth__.ma, mouth_orig.ma, temp.ma, «mouth — копия.ma», ~23 МБ) и неиспользуемые mouth_widget_add.ui, inbetweenJointPos_widget.ui; из mouth.py - мёртвые slider_update и sliderValue_update. Модуль собирается как прежде, совпадение до нуля
+
+---Version 3.33.9
+plugins: все ноды rigStudio (pk_ibtw, pk_twist, pk_limbIk, pk_wing, pk_chainDynamics, pk_jiggle) собраны в один плагин rigStudio.mll; имена и ID нод прежние
+plugins: pk_rigNodes.mll, pk_wings.mll, pk_dynamics.mll - теперь заглушки без нод: грузят rigStudio.mll из своей папки, чтобы сцены, сохранённые со старыми плагинами, открывались как раньше; проверено на медведе и Маше с анимацией всех контролов - кости совпадают со старыми плагинами до нуля
+utils: loadNodesPlugin - одна загрузка плагина нод вместо семи похожих (корректы, твисты, limbMll, chainIk, squashChain, окно динамики, обмен IK) с прежней проверкой, что тип пришёл со всеми атрибутами
+плагин выложен на P: под 2026; прежние pk_rigNodes и pk_dynamics - в _old/2026-10-22

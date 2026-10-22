@@ -487,7 +487,7 @@ class Inbetweens(object):
 		return not self.isMll(name) and not cmds.objExists(name+"_ibtw_joints_group")
 
 	def isMll(self, name): #
-		"""The variant built on the pk_ibtw node of pk_rigNodes.mll."""
+		"""The variant built on the pk_ibtw node of rigStudio.mll."""
 		return cmds.objExists(name+"_ibtw_solver")
 		
 	def getOffsetLocators(self, name): #
@@ -861,35 +861,8 @@ class Inbetweens(object):
 	# ---------------------------------------------------------------- pk_ibtw
 
 	def loadRigNodesPlugin(self): #
-		"""Load pk_rigNodes.mll built for the running Maya version."""
-		if "pk_rigNodes" not in (cmds.pluginInfo(q=1, listPlugins=1) or []):
-			mayaVersion = cmds.about(v=True).split(" ")[0]
-			path = os.path.join(rootPath, "plugins", "plug-ins", mayaVersion, "pk_rigNodes.mll")
-
-			if not os.path.isfile(path):
-				cmds.warning("pk_rigNodes.mll is not built for Maya %s - %s" %(mayaVersion, path))
-				return False
-
-			cmds.loadPlugin(path)
-			if "pk_rigNodes" not in (cmds.pluginInfo(q=1, listPlugins=1) or []):
-				return False
-
-		# the plugin says it is loaded, but that is not enough: unloading it
-		# while pk_ibtw nodes were in the scene leaves the type registered as an
-		# empty stub, and loading the plugin again does not replace it. createNode
-		# then gives a node without a single attribute instead of failing.
-		try:
-			healthy = cmds.attributeQuery("driverRotate", type="pk_ibtw", exists=True)
-		except RuntimeError:
-			# the stub is not always a queryable type either
-			healthy = False
-
-		if not healthy:
-			cmds.warning(" pk_ibtw is registered without its attributes - restart Maya. "
-						 "The plugin was unloaded while its nodes were still in the scene.")
-			return False
-
-		return True
+		"""Load rigStudio.mll and check that pk_ibtw came with its attributes."""
+		return utils.loadNodesPlugin("pk_ibtw", "driverRotate")
 
 	def jointSuffix(self, joint): #
 		"""Suffix of the driver joint - the correctives get the same one."""
