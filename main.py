@@ -58,6 +58,18 @@ from rigStudio3.animTools import setMirrorAttrs
 #     check = utils.import_pyc("check")
     
 
+# колонка точки видимости в дереве модулей: узкая, у правого края
+MODULE_VIS_WIDTH = 13
+
+
+class ModuleVisDelegate(QtWidgets.QStyledItemDelegate):
+    """Точка видимости модуля размером с саму точку: iconSize дерева (40x20)
+    нужен иконкам модулей, с ним точка заняла бы колонку в 40 точек."""
+    def initStyleOption(self, option, index):
+        super(ModuleVisDelegate, self).initStyleOption(option, index)
+        option.decorationSize = QtCore.QSize(7, 7)
+
+
 def get_maya_window():
     ptr = OpenMayaUI.MQtUtil.mainWindow()
     if ptr is not None:
@@ -415,17 +427,14 @@ class MainWindow:
             self.win.os_splitter.setStretchFactor(1, 1)
             self.win.temp_btn.setVisible(False)
 
-            # modules tree widget hide icons column
-            self.win.modules_treeWidget.setColumnWidth(0, 200)
-            self.win.modules_treeWidget.setColumnWidth(1, 30)
-            
-            # modules tree widget stretch first column
-            header = self.win.modules_treeWidget.header()
-            try:
-                header.setStretchLastSection(False)
-                header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
-            except:
-                pass
+            # modules tree widget: names stretch, visibility dot - narrow column at the right edge
+            tree = self.win.modules_treeWidget
+            self.moduleVisDelegate = ModuleVisDelegate(tree)
+            tree.setItemDelegateForColumn(1, self.moduleVisDelegate)
+            header = tree.header()
+            header.setStretchLastSection(False)
+            header.setMinimumSectionSize(MODULE_VIS_WIDTH)
+            header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
 
             # remove tabs
             for page_name in ["map",
@@ -2006,6 +2015,11 @@ class MainWindow:
         # clear old data
         self.win.modules_treeWidget.clear()
         self.win.modules_treeWidget.setColumnCount(2)
+        header = self.win.modules_treeWidget.header()
+        header.setSectionResizeMode(1, QtWidgets.QHeaderView.Fixed)
+        header.resizeSection(1, MODULE_VIS_WIDTH)
+        # из иконки 30x20 - только точка (5x5 в середине)
+        visIcon = QtGui.QIcon(QtGui.QPixmap(self.rootPath + '/ui/icons/module_item_selected2.png').copy(11, 7, 7, 7))
         
         if self.rig.modules:
             # create modules items
@@ -2022,12 +2036,12 @@ class MainWindow:
                 
                 if not m.parent:
                     if cmds.getAttr(m.name + "_mod.v"):
-                        item.setIcon(1, QtGui.QIcon(self.rootPath + '/ui/icons/module_item_selected2.png'))
+                        item.setIcon(1, visIcon)
                     self.win.modules_treeWidget.addTopLevelItem(items[name])
                 else:
                     parentModuleName = utils.getModuleName(m.parent)
                     if cmds.getAttr(m.name + "_mod.v"):
-                        item.setIcon(1, QtGui.QIcon(self.rootPath + '/ui/icons/module_item_selected2.png'))
+                        item.setIcon(1, visIcon)
                     parent = items[parentModuleName]
                     parent.addChild(items[name])
 
