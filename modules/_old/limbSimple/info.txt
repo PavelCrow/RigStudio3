@@ -1,4 +1,0 @@
-ver=1.0=
-description=Simple and fast ik-fk limb rig. Using for arms and legs.Stretchable.
-section=Base
-advanced=False

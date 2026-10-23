@@ -1767,3 +1767,6 @@ main: Controls - в модуле с обеими сторонами (брови)
 
 ---Version 3.33.40
 publish.py: выкладка на GitHub без закрытого - коммиты master повторяются в ветке public, пути из publish_exclude.txt остаются такими, какими уже лежат на GitHub; коммиты, где из открытого изменился только versions.txt, пропускаются; на GitHub не выкладываются mouthLocal, squashChain и plugins, оттуда убраны plugins и limbMll, рот там остаётся прежним (на Bifrost)
+
+---Version 3.33.41
+publish.py: с GitHub убраны _old, modules/_old, external и .claude
