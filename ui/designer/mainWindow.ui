@@ -2025,7 +2025,7 @@
                      </property>
                      <layout class="QVBoxLayout" name="verticalLayout_26">
                       <property name="spacing">
-                       <number>0</number>
+                       <number>2</number>
                       </property>
                       <property name="leftMargin">
                        <number>0</number>
@@ -2073,6 +2073,22 @@
                           <string>Internal Name</string>
                          </property>
                         </column>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="controlsSearchReplace_btn">
+                        <property name="minimumSize">
+                         <size>
+                          <width>0</width>
+                          <height>24</height>
+                         </size>
+                        </property>
+                        <property name="toolTip">
+                         <string>Rename all module controls with Search and Replace</string>
+                        </property>
+                        <property name="text">
+                         <string>Search and Replace...</string>
+                        </property>
                        </widget>
                       </item>
                      </layout>

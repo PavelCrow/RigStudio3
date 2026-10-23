@@ -33,7 +33,7 @@ import maya.mel as mel
 import maya.OpenMaya as om
 import pymel.core as pm
 import maya.OpenMayaUI as OpenMayaUI
-import os, sys, json, shutil
+import os, sys, json, shutil, re
 
 version = int(cmds.about(v=True).split(" ")[0])
 if version <= 2024:
@@ -789,6 +789,7 @@ class MainWindow:
         self.win.makeSymmetryModule_btn.clicked.connect(self.makeSymmetryModule)
         self.win.controls_tableWidget.currentItemChanged.connect(self.controls_selectItem)
         self.win.controls_tableWidget.itemChanged.connect(self.controls_changeName)
+        self.win.controlsSearchReplace_btn.clicked.connect(self.controls_searchReplace)
 
         self.win.selectPoser_but.clicked.connect(self.rig.selectCurModMainPoser)
         self.win.module_axises_but.clicked.connect(self.moduleToggleLRA)
@@ -2090,6 +2091,8 @@ class MainWindow:
 
         # mirror
         self.win.center_frame.setEnabled(not m.opposite)
+        # контролы зеркала переименовываются вместе с исходным модулем
+        self.win.controlsSearchReplace_btn.setEnabled(not m.opposite)
 
         self.win.makeSymmetryModule_btn.setEnabled(not m.symmetrical)
 
@@ -2121,6 +2124,8 @@ class MainWindow:
         if len(dup) > 0:
             QtWidgets.QMessageBox.information(self.win, "Warning", "Duplicates in controls: %s" % dup)
             return
+
+        controls = self.controls_getListed(m)
 
         for i in range(len(controls)):
             # set item not editable
@@ -3695,7 +3700,7 @@ class MainWindow:
             btn.setText('On')
             item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsEditable)
 
-        if self.curModule.symmetrical:
+        if self.controls_hasOpposite(ctrl):
             ctrl = utils.getOpposite(ctrl)
             control = utils.getControlInstance(ctrl)
             control.toggleVisible(manual=True, value=vis)
@@ -3709,63 +3714,219 @@ class MainWindow:
         except:
             self.curControlItemName = None
 
+    def controls_getListed(self, m):
+        """Контролы модуля для таблицы. r_ контрол, у которого в том же модуле
+        есть l_, не показывается - он меняется вместе с l_, как у симметричного
+        модуля (там r_ контролы и вовсе лежат в зеркальном модуле). Так в одном
+        модуле с обеими сторонами, например в бровях."""
+        controls = sorted(c.split("|")[-1] for c in m.getControls())
+        return [c for c in controls if not (c.split('_')[0] == 'r' and utils.getOpposite(c) in controls)]
+
+    def controls_hasOpposite(self, ctrlName):
+        """Меняется ли у контрола текущего модуля вместе с ним r_ контрол: у
+        симметричного модуля - всегда, у прочих - если в модуле есть пара l_/r_."""
+        if self.curModule.symmetrical:
+            return True
+        if ctrlName.split('_')[0] != 'l':
+            return False
+        controls = [c.split("|")[-1] for c in self.curModule.getControls()]
+        return utils.getOpposite(ctrlName) in controls
+
+    def controls_checkNewName(self, oldCtrlName, newCtrlName):
+        """Имя, под которым встанет контрол текущего модуля, и причина отказа
+        (None - можно переименовывать). Пробелы становятся _, у симметричного
+        модуля и у пары l_/r_ имя начинается с l_ - противоположный будет r_."""
+        newCtrlName = newCtrlName.replace(" ", "_")
+        hasOpposite = self.controls_hasOpposite(oldCtrlName)
+
+        if hasOpposite and newCtrlName.split('_')[0] != 'l':
+            newCtrlName = 'l_' + newCtrlName
+
+        if newCtrlName == oldCtrlName:
+            return newCtrlName, None
+
+        if not re.match(r"^[A-Za-z_][A-Za-z0-9_]*$", newCtrlName):
+            return newCtrlName, "Wrong name"
+
+        if cmds.objExists(newCtrlName):
+            return newCtrlName, "Object with this name is exists"
+
+        if hasOpposite and cmds.objExists(utils.getOpposite(newCtrlName)):
+            return newCtrlName, "Opposite object with this name is exists"
+
+        return newCtrlName, None
+
+    def controls_renameControl(self, oldCtrlName, newCtrlName):
+        """Переименовать контрол текущего модуля вместе с противоположным. Имя
+        уже проверено controls_checkNewName; списки страниц не обновляются."""
+        if cmds.getAttr(oldCtrlName + ".type") == "additionalControl":
+            c = utils.getAdditionalControlInstance(oldCtrlName)
+            sym = c.isSymmetry()
+            c.rename(newCtrlName)
+            self.renameControlDependents(oldCtrlName, newCtrlName)
+            if sym:  # rename переименовал и противоположный контрол
+                self.renameControlDependents(utils.getOpposite(oldCtrlName), utils.getOpposite(newCtrlName))
+        else:
+            hasOpposite = self.controls_hasOpposite(oldCtrlName)
+            utils.renameControl(oldCtrlName, newCtrlName)
+
+            # rename mirrored moudule control
+            if hasOpposite:
+                utils.renameControl(utils.getOpposite(oldCtrlName), utils.getOpposite(newCtrlName))
+
+    def controls_updateDependentPages(self):
+        self.twistClass.updateList()
+        self.addControls_updateTree()
+        # self.curParents.updateList()
+        self.curParents.page_update()
+
     def controls_changeName(self, item):
         if self.modulePageUpdated:
             self.modulePageUpdated = False
 
-            newCtrlName = item.text()
             oldCtrlName = self.curControlItemName
+            newCtrlName, error = self.controls_checkNewName(oldCtrlName, item.text())
+
+            if error:
+                cmds.warning(error)
+                item.setText(oldCtrlName)
+                self.modulePageUpdated = True
+                return
 
             if oldCtrlName == newCtrlName:
-                self.modulePageUpdated = True
-                return
-
-            # correct input name if needed
-            if self.curModule.symmetrical and newCtrlName.split('_')[0] != 'l':
-                newCtrlName = 'l_' + newCtrlName
-
-            # exit if name is not unique
-            if cmds.objExists(newCtrlName):
-                cmds.warning("Object with this name is exists")
                 item.setText(oldCtrlName)
                 self.modulePageUpdated = True
                 return
 
-            newCtrlName = newCtrlName.replace(" ", "_")
-
-            if newCtrlName[0].isdigit():
-                cmds.warning("Wrong name")
-                item.setText(oldCtrlName)
-                self.modulePageUpdated = True
-                return
-
-            # rename 
-            # print "REN", oldCtrlName, newCtrlName
-            if cmds.getAttr(oldCtrlName + ".type") == "additionalControl":
-                c = utils.getAdditionalControlInstance(oldCtrlName)
-                sym = c.isSymmetry()
-                c.rename(newCtrlName)
-                self.renameControlDependents(oldCtrlName, newCtrlName)
-                if sym:  # rename переименовал и противоположный контрол
-                    self.renameControlDependents(utils.getOpposite(oldCtrlName), utils.getOpposite(newCtrlName))
-            else:
-                utils.renameControl(oldCtrlName, newCtrlName)
-
-            # rename mirrored moudule control
-            if self.curModule.symmetrical:
-                utils.renameControl(utils.getOpposite(oldCtrlName), utils.getOpposite(newCtrlName))
+            self.controls_renameControl(oldCtrlName, newCtrlName)
 
             # update current name in table
             item.setText(newCtrlName)
             self.curControlItemName = newCtrlName
 
-            self.twistClass.updateList()
-            self.addControls_updateTree()
-            # self.curParents.updateList()
-            self.curParents.page_update()
+            self.controls_updateDependentPages()
 
             self.modulePageUpdated = True
-    
+
+    def controls_getRenamePlan(self, search, replace):
+        """[(контрол, новое имя или "", статус)] для Search and Replace по всем
+        контролам текущего модуля. Выключенные (Off) пропускаются - в таблице
+        их имя тоже не правится. Новое имя пустое - контрол не меняется."""
+        controls = self.controls_getListed(self.curModule)
+
+        plan = []
+        for c in controls:
+            if not search or search not in c:
+                plan.append((c, "", ""))
+                continue
+            if not utils.getControlVis(c):
+                plan.append((c, "", "Off - skipped"))
+                continue
+
+            new, error = self.controls_checkNewName(c, c.replace(search, replace))
+            if new == c:
+                plan.append((c, "", ""))
+            else:
+                plan.append((c, new, error or ""))
+
+        # два контрола не могут получить одно имя
+        new_names = [new for c, new, status in plan if new]
+        for i, (c, new, status) in enumerate(plan):
+            if new and not status and new_names.count(new) > 1:
+                plan[i] = (c, new, "Duplicate new name")
+
+        return plan
+
+    def controls_searchReplace(self):
+        """Переименовать контролы текущего модуля разом: подстрока Search в
+        имени меняется на Replace. Таблица показывает, что во что превратится;
+        пока хоть одно новое имя не годится, переименовать нельзя."""
+        if not self.curModule:
+            return
+
+        dlg = QtWidgets.QDialog(self.win)
+        dlg.setWindowTitle("Search and Replace - " + self.curModule.name)
+        dlg.resize(560, 420)
+        lay = QtWidgets.QVBoxLayout(dlg)
+
+        form = QtWidgets.QFormLayout()
+        search_lineEdit = QtWidgets.QLineEdit(dlg)
+        replace_lineEdit = QtWidgets.QLineEdit(dlg)
+        form.addRow("Search", search_lineEdit)
+        form.addRow("Replace", replace_lineEdit)
+        lay.addLayout(form)
+
+        table = QtWidgets.QTableWidget(0, 3, dlg)
+        table.setHorizontalHeaderLabels(["Name", "New Name", "Status"])
+        table.verticalHeader().setVisible(False)
+        table.verticalHeader().setDefaultSectionSize(20)
+        table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        table.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
+        header = table.horizontalHeader()
+        header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
+        lay.addWidget(table)
+
+        buttons = QtWidgets.QDialogButtonBox(QtWidgets.QDialogButtonBox.Ok | QtWidgets.QDialogButtonBox.Cancel, parent=dlg)
+        rename_btn = buttons.button(QtWidgets.QDialogButtonBox.Ok)
+        rename_btn.setText("Rename")
+        buttons.accepted.connect(dlg.accept)
+        buttons.rejected.connect(dlg.reject)
+        lay.addWidget(buttons)
+
+        error_color = QtGui.QColor(230, 90, 90)
+        skip_color = QtGui.QColor(130, 130, 130)
+        state = {"plan": []}
+
+        def updatePreview():
+            plan = self.controls_getRenamePlan(search_lineEdit.text(), replace_lineEdit.text())
+            state["plan"] = plan
+
+            table.setRowCount(len(plan))
+            for row, (c, new, status) in enumerate(plan):
+                for col, text in enumerate([c, new, status]):
+                    item = QtWidgets.QTableWidgetItem(text)
+                    if status == "Off - skipped" or (not new and not status):
+                        item.setForeground(skip_color)
+                    elif status:
+                        item.setForeground(error_color)
+                    table.setItem(row, col, item)
+
+            renames = [p for p in plan if p[1]]
+            has_errors = any(status for c, new, status in renames)
+            rename_btn.setEnabled(bool(renames) and not has_errors)
+            if renames:
+                rename_btn.setText("Rename (%d)" % len(renames))
+            else:
+                rename_btn.setText("Rename")
+
+        search_lineEdit.textChanged.connect(updatePreview)
+        replace_lineEdit.textChanged.connect(updatePreview)
+        updatePreview()
+
+        if not dlg.exec_():
+            return
+
+        renames = [(c, new) for c, new, status in state["plan"] if new and not status]
+        if not renames:
+            return
+
+        self.modulePageUpdated = False
+        renamed = 0
+        try:
+            for c, new in renames:
+                self.controls_renameControl(c, new)
+                renamed += 1
+        except Exception as e:
+            QtWidgets.QMessageBox.warning(self.win, "Search and Replace",
+                                          "Renamed %d of %d controls.\nFailed on '%s': %s" % (renamed, len(renames), c, e))
+        finally:
+            self.controls_updateDependentPages()
+            self.updateModulePage(self.curModule.name)
+
+        print("Search and Replace: renamed %d controls in %s" % (renamed, self.curModule.name))
+
 
 
 
