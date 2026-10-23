@@ -339,6 +339,17 @@ class Rig:
                 cmds.hide(m_name + '_posers')
             else:
                 cmds.showHidden(m_name + '_posers')
+
+        # позеры спрятаны - модули, которым это важно (mouthLocal: покой слоёв),
+        # обновляются
+        if not state:
+            for m_name in self.modules:
+                hook = getattr(self.modules[m_name], 'posersHidden', None)
+                if hook:
+                    try:
+                        hook()
+                    except Exception as e:
+                        cmds.warning("%s: %s" % (m_name, e))
         
         cmds.setAttr(self.root + ".posersVis", state)
                 
