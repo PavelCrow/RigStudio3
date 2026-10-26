@@ -268,8 +268,25 @@ def importModuleClass(m_type): #
 	during development); in normal use the cached import is reused, which is
 	much faster when opening a window over an existing rig.
 	"""
-	mod = importlib.import_module('rigStudio3.modules.%s.%s' % (m_type, m_type))
+	name = 'rigStudio3.modules.%s.%s' % (m_type, m_type)
+	mod = importlib.import_module(name)
 	if isDebug():
+		# вспомогательные файлы модуля (mouthLocal/states.py и т.п.) - раньше
+		# самого модуля: его `from . import x` берёт x из кэша
+		package = 'rigStudio3.modules.%s.' % m_type
+		for sub in [n for n in list(sys.modules) if n.startswith(package) and n != name]:
+			if sys.modules[sub] is None:
+				continue
+			try:
+				importlib.reload(sys.modules[sub])
+			except ModuleNotFoundError:
+				# файл убрали из модуля (mouthLocal2/states.py) - и из памяти
+				del sys.modules[sub]
+		# модули других модулей, от которых этот наследует (mouthLocal2 -> mouth),
+		# - тоже раньше: иначе класс-наследник строится на старом родителе
+		for dep in [v for v in list(vars(mod).values()) if isinstance(v, type(sys))]:
+			if dep.__name__.startswith('rigStudio3.modules.') and not dep.__name__.startswith(package):
+				importlib.reload(dep)
 		importlib.reload(mod)
 	return getattr(mod, capitalizeName(m_type))
 
