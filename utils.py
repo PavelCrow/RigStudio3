@@ -261,6 +261,10 @@ def setDebug(value):
 	global _module_debug
 	_module_debug = bool(value)
 
+# Переименованные типы модулей: старое имя в сцене или шаблоне рига -> нынешнее
+# (mouthLocal2 стал mouthLocal 26.10.2026, прежний mouthLocal удалён).
+MODULE_TYPE_RENAMES = {"mouthLocal2": "mouthLocal"}
+
 def importModuleClass(m_type): #
 	"""Import a module package and return its class.
 
@@ -268,6 +272,7 @@ def importModuleClass(m_type): #
 	during development); in normal use the cached import is reused, which is
 	much faster when opening a window over an existing rig.
 	"""
+	m_type = MODULE_TYPE_RENAMES.get(m_type, m_type)
 	name = 'rigStudio3.modules.%s.%s' % (m_type, m_type)
 	mod = importlib.import_module(name)
 	if isDebug():
@@ -280,9 +285,9 @@ def importModuleClass(m_type): #
 			try:
 				importlib.reload(sys.modules[sub])
 			except ModuleNotFoundError:
-				# файл убрали из модуля (mouthLocal2/states.py) - и из памяти
+				# файл убрали из модуля (было: mouthLocal2/states.py) - и из памяти
 				del sys.modules[sub]
-		# модули других модулей, от которых этот наследует (mouthLocal2 -> mouth),
+		# модули других модулей, от которых этот наследует (mouthLocal -> mouth),
 		# - тоже раньше: иначе класс-наследник строится на старом родителе
 		for dep in [v for v in list(vars(mod).values()) if isinstance(v, type(sys))]:
 			if dep.__name__.startswith('rigStudio3.modules.') and not dep.__name__.startswith(package):
@@ -292,6 +297,10 @@ def importModuleClass(m_type): #
 
 def getModuleInstance(moduleName): #
 	m_type = cmds.getAttr(moduleName+"_mod.moduleType")
+	if m_type in MODULE_TYPE_RENAMES:
+		# модуль собран под старым именем типа - в сцене на нынешнее
+		m_type = MODULE_TYPE_RENAMES[m_type]
+		setUserAttr(moduleName+"_mod", "moduleType", m_type)
 
 	if not os.path.isdir(os.path.join(modulePath, "modules", m_type)):
 		cmds.warning("Module folder is not exist "+m_type)
